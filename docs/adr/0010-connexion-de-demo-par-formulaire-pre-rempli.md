@@ -1,6 +1,6 @@
 # ADR-0010 — Connexion de démo par formulaire pré-rempli
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte

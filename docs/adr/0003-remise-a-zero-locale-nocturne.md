@@ -1,6 +1,6 @@
 # ADR-0003 — Remise à zéro nocturne exécutée dans le conteneur web
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte

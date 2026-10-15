@@ -1,6 +1,6 @@
 # ADR-0008 — Sécurité de la démo publique
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte

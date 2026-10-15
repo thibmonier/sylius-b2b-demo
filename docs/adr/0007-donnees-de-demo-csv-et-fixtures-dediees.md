@@ -1,6 +1,6 @@
 # ADR-0007 — Données de démo depuis des CSV et une suite de fixtures dédiée
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte

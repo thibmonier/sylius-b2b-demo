@@ -1,6 +1,6 @@
 # ADR-0001 — Socle Sylius-Standard 2.3 et plugins installés depuis Packagist
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte

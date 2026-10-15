@@ -1,6 +1,6 @@
 # ADR-0002 — FrankenPHP (Caddy) et supercronic dans un seul conteneur
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte

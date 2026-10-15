@@ -1,0 +1,65 @@
+# Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
+project: sylius-b2b-demo
+current_sprint: 1
+sprints:
+  sprint-1:
+    name: sprint-1-walking-skeleton
+    status: in-progress
+    stories:
+      - {id: US-001, title: "Projet Sylius 2.3 avec les 21 plugins", points: 8, status: ready-for-dev}
+      - {id: US-002, title: "Image Docker FrankenPHP multi-stage", points: 5, status: ready-for-dev}
+      - {id: US-003, title: "Environnement local docker compose", points: 3, status: ready-for-dev}
+      - {id: US-004, title: "Tâches planifiées dans le conteneur", points: 3, status: ready-for-dev}
+      - {id: US-005, title: "CI GitHub Actions et tests de fumée", points: 3, status: ready-for-dev}
+      - {id: US-007, title: "Canaux B2B et B2C, FR/EN", points: 3, status: ready-for-dev}
+      - {id: US-031, title: "Correctifs des plugins publiés", points: 1, status: ready-for-dev}
+  sprint-2:
+    name: sprint-2-donnees-b2b
+    status: planned
+    stories:
+      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: backlog}
+      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: backlog}
+      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: backlog}
+      - {id: US-012, title: "Commande de remise à zéro", points: 5, status: backlog}
+  sprint-3:
+    name: sprint-3-nouveaux-plugins
+    status: planned
+    stories:
+      - {id: US-019, title: "Mode d'accès par canal", points: 5, status: backlog}
+      - {id: US-020, title: "Inscription validée par l'admin", points: 5, status: backlog}
+      - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: backlog}
+      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: backlog}
+      - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: backlog}
+      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: backlog}
+  sprint-4:
+    name: sprint-4-theme-b2b
+    status: planned
+    stories:
+      - {id: US-013, title: "Thème B2B du shop", points: 8, status: backlog}
+      - {id: US-014, title: "Page d'accueil B2B et page Plugins", points: 5, status: backlog}
+      - {id: US-015, title: "Bandeau de démo et connexion en un clic", points: 3, status: backlog}
+      - {id: US-016, title: "Badges de plugin dans le shop", points: 5, status: backlog}
+      - {id: US-017, title: "Badges de plugin dans l'admin", points: 3, status: backlog}
+      - {id: US-018, title: "Mentions légales et page À propos", points: 2, status: backlog}
+  sprint-5:
+    name: sprint-5-listes-et-scenarios
+    status: planned
+    stories:
+      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: backlog}
+      - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: backlog}
+      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 5, status: backlog}
+      - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: backlog}
+      - {id: US-028, title: "Boîte Mailpit publique", points: 2, status: backlog}
+  sprint-6:
+    name: sprint-6-railway-securite
+    status: planned
+    stories:
+      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}
+      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}
+      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: backlog}
+      - {id: US-032, title: "Déploiement Railway", points: 5, status: backlog}
+      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 3, status: backlog}
+      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: backlog}
+      - {id: US-035, title: "Admin de démo restreint", points: 5, status: backlog}
+      - {id: US-036, title: "Durcissement de la démo publique", points: 3, status: backlog}
+      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: backlog}

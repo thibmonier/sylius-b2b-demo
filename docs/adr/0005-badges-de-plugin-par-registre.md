@@ -1,6 +1,6 @@
 # ADR-0005 — Badges de plugin générés à partir d'un registre
 
-- **Statut** : Proposé (2026-10-15)
+- **Statut** : Accepté (2026-10-15)
 - **Contexte projet** : sylius-b2b-demo, phase Conception
 
 ## Contexte
