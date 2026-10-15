@@ -16,3 +16,11 @@ vendor/
 project-management/
 docs/
 tests/
+# Local-only artifacts that must never enter the image.
+# NB: .env and .env.prod are kept — they provide Symfony's runtime defaults in prod.
+.claude/
+.bmad/
+config/jwt/*.pem
+.env.dev
+.env.test
+.env.test_cached
