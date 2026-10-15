@@ -20,3 +20,6 @@ Un contexte de canal de la démo (`DemoChannelContext`, priorité 200) lit le co
 
 - Un seul domaine, et un changement de canal en un clic depuis le bandeau de démo.
 - Le panier est propre au canal. Changer de canal en cours de commande repart d'un autre panier.
+- **Le cookie n'est ni signé ni un contrôle d'accès.** N'importe quel visiteur peut choisir B2B ou B2C, en un clic ou en modifiant le cookie. C'est voulu : le canal est un choix de présentation de la démo. Les valeurs sont normalisées par `DemoChannelContext::codeFrom()`, et toute valeur inconnue retombe sur B2B. Le catalogue fermé et les prix réservés aux comptes B2B devront reposer sur l'authentification et les entreprises, jamais sur ce cookie.
+- Le cookie est `HttpOnly` et `SameSite=Lax`. Son attribut `Secure` n'est pas forcé : Symfony le pose dès que la requête est en HTTPS. Derrière le proxy TLS de Railway, il faudra configurer `TRUSTED_PROXIES` et les en-têtes `X-Forwarded-*` pour que la requête soit vue comme HTTPS (sprint de déploiement).
+- Hors requête HTTP (console, Messenger), aucun cookie n'existe : le contexte retombe sur B2B. Un traitement asynchrone qui dépend du canal doit le recevoir explicitement dans son message.
