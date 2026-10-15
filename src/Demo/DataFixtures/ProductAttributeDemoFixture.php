@@ -75,6 +75,8 @@ final class ProductAttributeDemoFixture extends AbstractFixture
             $attribute = $this->attributeFactory->createNew();
             $attribute->setCode($code);
             $attribute->setType('text');
+            // storage_type is NOT NULL in the schema; a text attribute stores as 'text'.
+            $attribute->setStorageType('text');
         }
 
         $attribute->setCurrentLocale('fr_FR');

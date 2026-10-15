@@ -42,7 +42,7 @@ final class CsvProductReader
      */
     private function parseHandle($handle, string $filePath): array
     {
-        $headerRaw = \fgetcsv($handle);
+        $headerRaw = \fgetcsv($handle, null, ',', '"', '');
         if ($headerRaw === false) {
             throw new \RuntimeException(\sprintf('CSV file "%s" is empty.', $filePath));
         }
@@ -64,7 +64,7 @@ final class CsvProductReader
         $rows = [];
         $lineNumber = 1; // line 1 = header
 
-        while (($rawRow = \fgetcsv($handle)) !== false) {
+        while (($rawRow = \fgetcsv($handle, null, ',', '"', '')) !== false) {
             ++$lineNumber;
 
             // Skip blank lines: fgetcsv returns a single-element array with null or empty string

@@ -135,12 +135,16 @@ sylius_fixtures:
                                 first_name: 'Sophie'
                                 last_name: 'Martin'
 
-                # Sprint 2 — US-008: Catalogue industriel (CSV)
+                # Sprint 2 — US-008: Catalogue industriel (CSV).
+                # La PriorityQueue de SyliusFixturesBundle trie en SORT_DESC (priorité
+                # haute = exécutée en premier) ; les fixtures de base (canaux, locales…)
+                # sont à 0. Priorités négatives pour charger APRÈS elles, dans l'ordre
+                # taxons → attributs → produits (les produits ont besoin des trois).
                 demo_taxons:
-                    priority: 10
+                    priority: -10
 
                 demo_product_attributes:
-                    priority: 20
+                    priority: -20
 
                 demo_products_csv:
-                    priority: 30
+                    priority: -30
