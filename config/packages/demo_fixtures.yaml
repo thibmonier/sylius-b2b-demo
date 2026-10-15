@@ -1,0 +1,136 @@
+# Demo data suite (ADR-0007). Sprint 1: channels, locales, geography, taxes, shipping and payment
+# (US-007). The catalogue, companies and plugin data come with sprint 2.
+sylius_fixtures:
+    suites:
+        demo:
+            listeners:
+                orm_purger: ~
+                logger: ~
+
+            fixtures:
+                locale:
+                    options:
+                        locales: ['fr_FR', 'en_US']
+
+                currency:
+                    options:
+                        currencies: ['EUR']
+
+                geographical:
+                    options:
+                        countries: ['FR', 'BE', 'LU', 'DE', 'ES', 'IT', 'NL', 'CH']
+                        zones:
+                            FR:
+                                name: 'France'
+                                countries: ['FR']
+                            EU:
+                                name: 'Europe'
+                                countries: ['FR', 'BE', 'LU', 'DE', 'ES', 'IT', 'NL']
+
+                channel:
+                    options:
+                        custom:
+                            b2b:
+                                name: 'Fournitures Pro — B2B'
+                                code: 'B2B'
+                                hostname: ~
+                                color: '#1f3a5f'
+                                enabled: true
+                                locales: ['fr_FR', 'en_US']
+                                default_locale: 'fr_FR'
+                                currencies: ['EUR']
+                                base_currency: 'EUR'
+                                default_tax_zone: 'FR'
+                                account_verification_required: false
+                                contact_email: 'contact@fournitures-pro.example'
+                                shop_billing_data:
+                                    company: 'Fournitures Pro SAS (fictive)'
+                                    tax_id: 'FR00123456789'
+                                    country_code: 'FR'
+                                    street: '1 rue de la Démo'
+                                    city: 'Lyon'
+                                    postcode: '69001'
+                            b2c:
+                                name: 'Fournitures Pro — Particuliers'
+                                code: 'B2C'
+                                hostname: ~
+                                color: '#2e7d5b'
+                                enabled: true
+                                locales: ['fr_FR', 'en_US']
+                                default_locale: 'fr_FR'
+                                currencies: ['EUR']
+                                base_currency: 'EUR'
+                                default_tax_zone: 'FR'
+                                account_verification_required: false
+                                contact_email: 'contact@fournitures-pro.example'
+
+                tax_category:
+                    options:
+                        custom:
+                            standard:
+                                code: 'standard'
+                                name: 'TVA normale'
+
+                tax_rate:
+                    options:
+                        custom:
+                            fr_standard:
+                                code: 'fr_standard'
+                                name: 'TVA 20 %'
+                                zone: 'FR'
+                                category: 'standard'
+                                amount: 0.2
+                                included_in_price: false
+
+                shipping_method:
+                    options:
+                        custom:
+                            carrier:
+                                code: 'carrier'
+                                name: 'Messagerie (48 h)'
+                                description: 'Livraison par messagerie sous 48 h ouvrées'
+                                zone: 'EU'
+                                enabled: true
+                                channels: ['B2B', 'B2C']
+                                calculator:
+                                    type: 'flat_rate'
+                                    configuration:
+                                        B2B: { amount: 1500 }
+                                        B2C: { amount: 690 }
+                            pickup:
+                                code: 'pickup'
+                                name: 'Retrait au dépôt de Lyon'
+                                description: 'Retrait gratuit au dépôt, sous 24 h'
+                                zone: 'FR'
+                                enabled: true
+                                channels: ['B2B', 'B2C']
+                                calculator:
+                                    type: 'flat_rate'
+                                    configuration:
+                                        B2B: { amount: 0 }
+                                        B2C: { amount: 0 }
+
+                payment_method:
+                    options:
+                        custom:
+                            bank_transfer:
+                                code: 'bank_transfer'
+                                name: 'Virement bancaire'
+                                description: 'Paiement par virement à réception de facture'
+                                instructions: 'Démo : aucun paiement réel.'
+                                gatewayName: 'offline'
+                                gatewayFactory: 'offline'
+                                enabled: true
+                                channels: ['B2B', 'B2C']
+
+                admin_user:
+                    options:
+                        custom:
+                            -
+                                email: 'sophie@fournitures-pro.example'
+                                username: 'sophie'
+                                password: 'demo-sophie'
+                                enabled: true
+                                locale_code: 'fr_FR'
+                                first_name: 'Sophie'
+                                last_name: 'Martin'
