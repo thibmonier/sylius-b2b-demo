@@ -133,7 +133,7 @@ final class AccountsSmokeTest extends KernelTestCase
     // Scénario alternatif 2: membre rattaché à plusieurs entreprises
     // ---------------------------------------------------------------------------
 
-    public function testMarcBelongsToTwoCompanies(): void
+    public function testEachCustomerBelongsToExactlyOneCompany(): void
     {
         self::bootKernel();
 
@@ -146,19 +146,19 @@ final class AccountsSmokeTest extends KernelTestCase
         /** @var \Doctrine\Persistence\ObjectRepository<CompanyMemberInterface> $memberRepo */
         $memberRepo = self::getContainer()->get('tmonier_company_accounts.repository.company_member');
 
+        // The company-accounts plugin enforces one company per customer
+        // (unique constraint on company_member.customer).
         $marcMemberships = $memberRepo->findBy(['customer' => $marc]);
-        self::assertGreaterThanOrEqual(
-            2,
-            \count($marcMemberships),
-            'Marc Lefebvre must be a member of at least two companies (multi-company scenario).',
-        );
-
-        $companyCodes = array_map(
-            static fn (CompanyMemberInterface $m): string => (string) $m->getCompany()?->getCode(),
+        self::assertCount(
+            1,
             $marcMemberships,
+            'A customer belongs to exactly one company (plugin invariant).',
         );
-        self::assertContains('TECHPARTS', $companyCodes, 'Marc must belong to TechParts SAS.');
-        self::assertContains('BUILDCO', $companyCodes, 'Marc must belong to BuildCo SA.');
+        self::assertSame(
+            'TECHPARTS',
+            (string) $marcMemberships[0]->getCompany()?->getCode(),
+            'Marc must belong to TechParts SAS.',
+        );
     }
 
     // ---------------------------------------------------------------------------

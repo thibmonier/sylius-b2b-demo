@@ -113,6 +113,10 @@ security:
             security: false
 
     access_control:
+        # Public demo pages (e.g. /demo/accounts). Must precede the shop "/account"
+        # rule: shop_regex treats the first path segment as a locale, so "/demo/accounts"
+        # would otherwise match "%shop_regex%/account" (ROLE_USER) and redirect to login.
+        - { path: "^/([a-z]{2}_[A-Z]{2}/)?demo(/|$)", role: PUBLIC_ACCESS }
         - { path: "%sylius.security.admin_regex%/forgotten-password", role: PUBLIC_ACCESS }
         - { path: "%sylius.security.admin_regex%/login", role: PUBLIC_ACCESS }
         - { path: "%sylius.security.shop_regex%/login", role: PUBLIC_ACCESS }

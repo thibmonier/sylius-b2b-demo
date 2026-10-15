@@ -19,8 +19,8 @@ use Tmonier\SyliusCompanyAccountsPlugin\Factory\CompanyMemberFactoryInterface;
  *
  * Companies:
  *   - Acme Industries      (claire, paul, isabelle)
- *   - TechParts SAS        (marc, nathalie) — marc is also in BuildCo (multi-company scenario)
- *   - BuildCo SA           (thomas[disabled], antoine, + marc from TechParts)
+ *   - TechParts SAS        (marc, nathalie)
+ *   - BuildCo SA           (thomas[disabled], antoine)
  *   - GlobalMaint SA       (henri, celine)
  *   - IndusPro SARL        (yves, martine)
  *
@@ -67,7 +67,6 @@ final class CompanyDemoFixture extends AbstractFixture
         // --- Company 2: TechParts SAS ---
         $techparts = $this->createCompany('TECHPARTS', 'TechParts SAS', 'FR81987654321', '987 654 321');
 
-        // marc is shared with BuildCo (multi-company scenario)
         $marc = $this->createCustomer('marc@techparts.example', 'Marc', 'Lefebvre');
         $nathalie = $this->createCustomer('nathalie@techparts.example', 'Nathalie', 'Girard');
 
@@ -85,8 +84,6 @@ final class CompanyDemoFixture extends AbstractFixture
 
         $buildco->addMember($this->memberFactory->createForCustomer($buildco, $thomas, CompanyMemberInterface::ROLE_BUYER));
         $buildco->addMember($this->memberFactory->createForCustomer($buildco, $antoine, CompanyMemberInterface::ROLE_APPROVER));
-        // marc from TechParts also belongs to BuildCo as approver (multi-company scenario US-009)
-        $buildco->addMember($this->memberFactory->createForCustomer($buildco, $marc, CompanyMemberInterface::ROLE_APPROVER));
 
         $this->entityManager->flush();
 

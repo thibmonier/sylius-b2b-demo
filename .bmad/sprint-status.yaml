@@ -27,8 +27,8 @@ sprints:
     capacity_points: 26
     goal: "Données B2B cohérentes : catalogue industriel importé de CSV, entreprises/membres/comptes de démo, données inter-plugins cohérentes, commande de remise à zéro"
     stories:
-      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: ready-for-dev}
-      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: ready-for-dev}
+      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: review}  # CI verte (a0e9b7c) ; 210 produits, 420 prix
+      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: review}  # 5 entreprises, 11 membres, /demo/accounts 200
       - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: ready-for-dev}
       - {id: US-012, title: "Commande de remise à zéro", points: 5, status: ready-for-dev}
   sprint-3:
