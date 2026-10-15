@@ -170,11 +170,14 @@ final class ProductCsvFixture extends AbstractFixture
     {
         $sku = \trim($row['sku']);
 
-        // Try to find an existing variant by code
-        /** @var ProductVariantInterface|null $variant */
+        // Try to find an existing variant by code.
+        // $product->getVariants() yields the base ProductVariantInterface from the
+        // Product component; the actual runtime type is always the Core variant,
+        // so assert to narrow PHPStan's view to the Core interface (no @var workaround).
         $variant = null;
         foreach ($product->getVariants() as $v) {
             if ($v->getCode() === $sku) {
+                \assert($v instanceof ProductVariantInterface);
                 $variant = $v;
 
                 break;
@@ -182,7 +185,6 @@ final class ProductCsvFixture extends AbstractFixture
         }
 
         if ($variant === null) {
-            /** @var ProductVariantInterface $variant */
             $variant = $this->productVariantFactory->createNew();
             $variant->setCode($sku);
             $product->addVariant($variant);
@@ -232,7 +234,7 @@ final class ProductCsvFixture extends AbstractFixture
                 continue;
             }
 
-            $existingPricing = $variant->getChannelPricingForChannel($channelCode);
+            $existingPricing = $variant->getChannelPricingForChannel($channel);
             if ($existingPricing !== null) {
                 $existingPricing->setPrice($priceInCents);
             } else {

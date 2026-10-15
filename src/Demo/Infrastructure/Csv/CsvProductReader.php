@@ -42,11 +42,15 @@ final class CsvProductReader
      */
     private function parseHandle($handle, string $filePath): array
     {
-        /** @var list<string>|false $header */
-        $header = \fgetcsv($handle);
-        if ($header === false) {
+        $headerRaw = \fgetcsv($handle);
+        if ($headerRaw === false) {
             throw new \RuntimeException(\sprintf('CSV file "%s" is empty.', $filePath));
         }
+
+        // Null cells (e.g. trailing commas in the header row) are normalised to
+        // empty string so that $header is list<string> and safe as array_combine keys.
+        // Required-column validation below catches any genuinely missing columns.
+        $header = \array_map(static fn (string|null $h): string => $h ?? '', $headerRaw);
 
         foreach (self::REQUIRED_COLUMNS as $column) {
             if (!\in_array($column, $header, true)) {
@@ -60,12 +64,11 @@ final class CsvProductReader
         $rows = [];
         $lineNumber = 1; // line 1 = header
 
-        /** @var list<string>|null|false $rawRow */
         while (($rawRow = \fgetcsv($handle)) !== false) {
             ++$lineNumber;
 
-            // fgetcsv returns [0 => null] for blank lines
-            if ($rawRow === [null]) {
+            // Skip blank lines: fgetcsv returns a single-element array with null or empty string
+            if (\count($rawRow) === 1 && ($rawRow[0] === null || $rawRow[0] === '')) {
                 continue;
             }
 

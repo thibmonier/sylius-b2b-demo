@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Repository\ProductRepositoryInterface;
+use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -21,7 +23,7 @@ final class CatalogSmokeTest extends KernelTestCase
     {
         self::bootKernel();
 
-        /** @var ProductRepositoryInterface $productRepo */
+        /** @var ProductRepositoryInterface<ProductInterface> $productRepo */
         $productRepo = self::getContainer()->get('sylius.repository.product');
 
         $count = \count($productRepo->findAll());
@@ -42,7 +44,7 @@ final class CatalogSmokeTest extends KernelTestCase
     {
         self::bootKernel();
 
-        /** @var ProductRepositoryInterface $productRepo */
+        /** @var ProductRepositoryInterface<ProductInterface> $productRepo */
         $productRepo = self::getContainer()->get('sylius.repository.product');
 
         $products = $productRepo->findAll();
@@ -75,7 +77,7 @@ final class CatalogSmokeTest extends KernelTestCase
     {
         self::bootKernel();
 
-        /** @var ProductRepositoryInterface $productRepo */
+        /** @var ProductRepositoryInterface<ProductInterface> $productRepo */
         $productRepo = self::getContainer()->get('sylius.repository.product');
 
         $products = $productRepo->findAll();
@@ -109,7 +111,7 @@ final class CatalogSmokeTest extends KernelTestCase
     {
         self::bootKernel();
 
-        /** @var TaxonRepositoryInterface $taxonRepo */
+        /** @var TaxonRepositoryInterface<TaxonInterface> $taxonRepo */
         $taxonRepo = self::getContainer()->get('sylius.repository.taxon');
 
         $expectedCodes = [

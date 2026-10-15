@@ -138,12 +138,9 @@ sylius_fixtures:
                 # Sprint 2 — US-008: Catalogue industriel (CSV)
                 demo_taxons:
                     priority: 10
-                    options: {}
 
                 demo_product_attributes:
                     priority: 20
-                    options: {}
 
                 demo_products_csv:
                     priority: 30
-                    options: {}

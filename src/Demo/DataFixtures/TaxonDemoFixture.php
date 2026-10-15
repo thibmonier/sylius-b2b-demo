@@ -6,8 +6,8 @@ namespace App\Demo\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
-use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
+use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
