@@ -1,0 +1,40 @@
+tmonier_company_accounts:
+    resource: "@TmonierSyliusCompanyAccountsPlugin/config/routes.yaml"
+tmonier_admin_order_creation:
+    resource: "@TmonierSyliusAdminOrderCreationPlugin/config/routes.yaml"
+tmonier_agentic_feeds:
+    resource: "@TmonierSyliusAgenticFeedsPlugin/config/routes.yaml"
+tmonier_ai_catalog_copilot:
+    resource: "@TmonierSyliusAiCatalogCopilotPlugin/config/routes.yaml"
+tmonier_audit_log:
+    resource: "@TmonierSyliusAuditLogPlugin/config/routes.yaml"
+tmonier_b2b_mcp:
+    resource: "@TmonierSyliusB2bMcpPlugin/config/routes.yaml"
+tmonier_bulk_actions:
+    resource: "@TmonierSyliusBulkActionsPlugin/config/routes.yaml"
+tmonier_command_palette:
+    resource: "@TmonierSyliusCommandPalettePlugin/config/routes.yaml"
+tmonier_container_fill:
+    resource: "@TmonierSyliusContainerFillPlugin/config/routes.yaml"
+tmonier_factur_x:
+    resource: "@TmonierSyliusFacturXPlugin/config/routes.yaml"
+tmonier_gpsr:
+    resource: "@TmonierSyliusGpsrPlugin/config/routes.yaml"
+tmonier_punchout_cxml:
+    resource: "@TmonierSyliusPunchoutCxmlPlugin/config/routes.yaml"
+tmonier_purchase_approval:
+    resource: "@TmonierSyliusPurchaseApprovalPlugin/config/routes.yaml"
+tmonier_quick_order:
+    resource: "@TmonierSyliusQuickOrderPlugin/config/routes.yaml"
+tmonier_quote_request:
+    resource: "@TmonierSyliusQuoteRequestPlugin/config/routes.yaml"
+tmonier_tier_pricing:
+    resource: "@TmonierSyliusTierPricingPlugin/config/routes.yaml"
+tmonier_timeline:
+    resource: "@TmonierSyliusTimelinePlugin/config/routes.yaml"
+tmonier_trade_credit:
+    resource: "@TmonierSyliusTradeCreditPlugin/config/routes.yaml"
+tmonier_webhook_outbox:
+    resource: "@TmonierSyliusWebhookOutboxPlugin/config/routes.yaml"
+tmonier_withdrawal:
+    resource: "@TmonierSyliusWithdrawalPlugin/config/routes.yaml"

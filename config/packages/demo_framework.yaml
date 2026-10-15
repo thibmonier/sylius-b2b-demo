@@ -1,0 +1,8 @@
+parameters:
+    env(DEFAULT_URI): 'http://localhost:8080'
+    # Railway terminates TLS in front of the container (ADR-0002): trust its proxy headers.
+    env(TRUSTED_PROXIES): '127.0.0.1,REMOTE_ADDR'
+
+framework:
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']

@@ -1,0 +1,11 @@
+controllers:
+    resource: ../../src/Controller/
+    type: attribute
+
+demo_controllers:
+    resource: ../../src/Demo/Controller/
+    type: attribute
+
+demo_channel:
+    resource: ../../src/Demo/Channel/
+    type: attribute

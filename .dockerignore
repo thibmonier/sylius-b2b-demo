@@ -1,0 +1,26 @@
+**/.DS_Store
+**/.git/
+**/.github
+**/.idea
+.env.local
+.env.*.local
+.env.local.php
+compose*.yaml
+node_modules/
+public/build/
+public/bundles/
+public/media/
+private/
+var/
+vendor/
+project-management/
+docs/
+tests/
+# Local-only artifacts that must never enter the image.
+# NB: .env and .env.prod are kept — they provide Symfony's runtime defaults in prod.
+.claude/
+.bmad/
+config/jwt/*.pem
+.env.dev
+.env.test
+.env.test_cached

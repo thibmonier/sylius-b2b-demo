@@ -12,3 +12,4 @@
 | [0008](0008-securite-de-la-demo-publique.md) | Sécurité de la démo publique | Accepté |
 | [0009](0009-canal-b2c-secondaire.md) | Canal B2C secondaire | Accepté |
 | [0010](0010-connexion-de-demo-par-formulaire-pre-rempli.md) | Connexion de démo par formulaire pré-rempli | Accepté |
+| [0011](0011-canal-de-demo-par-cookie.md) | Canal de la démo choisi par cookie | Accepté |

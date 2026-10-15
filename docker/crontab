@@ -1,0 +1,26 @@
+# Scheduled tasks of the demo (US-004), run by supercronic inside the web container (ADR-0002).
+# Times are Europe/Paris (TZ of the image). The nightly reset (03:00) is added with US-012 / US-033.
+
+# Outgoing webhooks (webhook-outbox): every minute, bounded
+* * * * * php /app/bin/console tmonier:webhook:dispatch --time-limit=55 --quiet
+
+# Product feeds for AI assistants (agentic-feeds)
+*/15 * * * * php /app/bin/console tmonier:feeds:generate --stale --quiet
+30 4 * * * php /app/bin/console tmonier:feeds:generate --quiet
+
+# Expirations, reminders and recalculations
+15 4 * * * php /app/bin/console tmonier:approval:expire --no-interaction
+20 4 * * * php /app/bin/console tmonier:quote-request:expire --no-interaction
+25 4 * * * php /app/bin/console tmonier:trade-credit:send-reminders --no-interaction
+35 4 * * * php /app/bin/console tmonier:trade-credit:recalculate --apply --no-interaction
+
+# Purges
+40 4 * * * php /app/bin/console tmonier:punchout:purge --no-interaction
+42 4 * * * php /app/bin/console tmonier:webhook:purge --no-interaction
+44 4 * * * php /app/bin/console tmonier:audit-log:purge --no-interaction
+46 4 * * * php /app/bin/console tmonier:b2b-mcp:purge --no-interaction
+48 4 * * * php /app/bin/console tmonier:admin-order:purge-drafts --no-interaction
+
+# Sylius core
+50 4 * * * php /app/bin/console sylius:remove-expired-carts --no-interaction
+55 4 * * * php /app/bin/console sylius:cancel-unpaid-orders --no-interaction

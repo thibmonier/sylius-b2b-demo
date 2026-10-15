@@ -1,0 +1,2 @@
+import '@vendor/sylius/refund-plugin/assets/entrypoint';
+import './bootstrap.js';

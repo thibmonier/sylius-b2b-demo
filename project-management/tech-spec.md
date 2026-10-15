@@ -1,7 +1,8 @@
 # Spécification technique — Démo B2B Sylius
 
 > Phase 3 (Conception), workflow claude-craft Enterprise, 2026-10-15. Statut : **brouillon à valider**.
-> Entrées : `prd.md`, `personas.md`, `backlog/`, `analysis/*`. Décisions : `docs/adr/0001` à `0010`. Architecture : `architecture/`.
+> Entrées : `prd.md`, `personas.md`, `backlog/`, `analysis/*`. Décisions : `docs/adr/0001` à `0011`.
+> Écarts constatés au sprint 1 : canal choisi par cookie (ADR-0011) ; Caddy en HTTP local (TLS seulement chez Railway) ; wkhtmltox obligatoire (invoicing-plugin 2.3 appelle KnpSnappy directement, l'adaptateur dompdf de Sylius ne s'applique pas aux factures). Architecture : `architecture/`.
 
 ## 1. Vue d'ensemble
 

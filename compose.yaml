@@ -1,0 +1,43 @@
+# Local environment (US-003). Production runs the same image on Railway (ADR-0002).
+services:
+    web:
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: "0"
+            DATABASE_URL: mysql://root@mysql:3306/sylius_b2b_demo?serverVersion=8.4&charset=utf8mb4
+            MAILER_DSN: smtp://mailpit:1025
+            DEFAULT_URI: ${DEFAULT_URI:-http://localhost:8080}
+        ports:
+            - "${WEB_PORT:-8080}:8080"
+        depends_on:
+            mysql:
+                condition: service_healthy
+            mailpit:
+                condition: service_started
+
+    mysql:
+        image: mysql:8.4
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # local only, never published
+            MYSQL_DATABASE: sylius_b2b_demo
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+            interval: 5s
+            retries: 20
+        volumes:
+            - mysql-data:/var/lib/mysql
+        ports:
+            # Bind to loopback only: passwordless MySQL must not be reachable from the LAN.
+            - "127.0.0.1:${MYSQL_PORT:-3340}:3306"
+
+    mailpit:
+        image: axllent/mailpit:v1.27
+        ports:
+            - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
+            - "127.0.0.1:${MAILPIT_SMTP_PORT:-1026}:1025"
+
+volumes:
+    mysql-data:
