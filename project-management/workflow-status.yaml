@@ -45,13 +45,14 @@ phases:
       agentic_feeds_not_on_packagist: true
       punchout_readme_env_mismatch: true
   planning:
-    status: in_progress
-    artifacts: {prd: pending, personas: pending, backlog: pending}
+    status: done                     # en attente de validation utilisateur (porte de planification)
+    artifacts: {prd: done, personas: done, backlog: done}   # 9 epics, 37 stories, 156 points, 6 sprints
+    open_questions: [Q1 domaine, Q2 publication des nouveaux plugins, Q3 iframe PunchOut]
   design:
     status: pending
     artifacts: {tech_spec: pending, architecture: pending, adr: pending}
   implementation:
     status: pending
 
-next_action: "Validation de l'analyse par l'utilisateur, puis planification (PRD, personas, backlog)"
-next_command: "/workflow:plan"
+next_action: "Validation du PRD et du backlog par l'utilisateur, puis conception"
+next_command: "/workflow:design"
