@@ -2,7 +2,7 @@
 project: sylius-b2b-demo
 track: enterprise            # forcé (/workflow:init --enterprise), score de complexité 17/18
 initialized_at: 2026-10-15T00:00:00+02:00
-current_phase: analysis
+current_phase: analysis   # porte de validation
 
 scope:
   goal: "Démo B2B Sylius 2.3 publique (non promue sur les canaux Sylius) réunissant les 21 plugins tmonier"
@@ -28,12 +28,16 @@ complexity:
 
 phases:
   analysis:
-    status: in_progress
+    status: done                     # en attente de validation utilisateur (porte d'analyse)
     artifacts:
-      research_summary: pending      # inventaire et compatibilité des 21 plugins, démo Sylius Plus, thème B2B
-      constraints: pending           # Railway Hobby (ressources, crons, volumes), Sylius 2.3, Symfony
-      risks_opportunities: pending
-      technical_options: pending     # thème (fork vs surcharge twig-hooks), reset (cron Railway), stockage
+      research_summary: done         # analysis/research-summary.md (+ raw/A,B,C,D)
+      constraints: done
+      risks_opportunities: done
+      technical_options: done
+    findings:
+      composer_resolution: "OK — Sylius 2.3.1 + 21 plugins + invoicing 2.3 + mcp-server 0.2 + ai-bundle 0.14 (Symfony 7.4 et 8.0)"
+      agentic_feeds_not_on_packagist: true
+      punchout_readme_env_mismatch: true
   planning:
     status: pending
     artifacts: {prd: pending, personas: pending, backlog: pending}
@@ -43,5 +47,5 @@ phases:
   implementation:
     status: pending
 
-next_action: "Phase d'analyse : compatibilité des plugins, contraintes Railway Hobby, options thème et reset"
-next_command: "/workflow:analyze"
+next_action: "Validation de l'analyse par l'utilisateur, puis planification (PRD, personas, backlog)"
+next_command: "/workflow:plan"
