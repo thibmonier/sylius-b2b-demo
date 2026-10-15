@@ -49,10 +49,21 @@ phases:
     artifacts: {prd: done, personas: done, backlog: done}   # 9 epics, 37 stories, 156 points, 6 sprints
     answers: {Q1: "domaine Railway par défaut", Q2: "nouveaux plugins open source MIT sur Packagist", Q3: "PunchOut en fenêtre, pas d'iframe (pas de SameSite=None)"}
   design:
-    status: in_progress
-    artifacts: {tech_spec: pending, architecture: pending, adr: pending}
+    status: done                     # en attente de validation utilisateur (porte de conception)
+    artifacts: {tech_spec: done, architecture: done, adr: done}   # tech-spec.md, architecture/{c4-*,erd,api,security}.md, docs/adr/0001-0010
+    gate_checklist:
+      prd_covered: true              # tech-spec §12 (FR-1..27, NFR-1..8)
+      nfr_supported: true
+      data_model: true               # 7 nouvelles tables (plugins) + 1 table démo
+      api: true
+      security: true                 # architecture/security.md (OWASP 2025, modèle de menace)
+      test_strategy: true            # tech-spec §11
+      deployment: true               # tech-spec §10, ADR-0002/0003
+    design_findings:
+      - "Sylius-Standard 2.3 embarque Stripe/Adyen/Mollie/PayPal (retirés) et refund-plugin (conservé si compatible)"
+      - "invoicing et refund exigent knp-snappy : wkhtmltox 0.12.6.1 (patched qt) dans l'image bookworm"
   implementation:
     status: pending
 
-next_action: "Validation du PRD et du backlog par l'utilisateur, puis conception"
-next_command: "/workflow:design"
+next_action: "Validation de la conception par l'utilisateur, puis sprint 1 (walking skeleton)"
+next_command: "/workflow:implement"
