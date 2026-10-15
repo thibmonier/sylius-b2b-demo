@@ -1,0 +1,47 @@
+# Workflow claude-craft — démo B2B Sylius
+project: sylius-b2b-demo
+track: enterprise            # forcé (/workflow:init --enterprise), score de complexité 17/18
+initialized_at: 2026-10-15T00:00:00+02:00
+current_phase: analysis
+
+scope:
+  goal: "Démo B2B Sylius 2.3 publique (non promue sur les canaux Sylius) réunissant les 21 plugins tmonier"
+  deliverables:
+    - "Application Sylius 2.3 avec les 21 plugins tmonier (+ plugins communautaires si nécessaires)"
+    - "Thème dérivé du thème officiel, orienté B2B : mire de login obligatoire configurable, présentation produits B2B"
+    - "Badges/icônes signalant la fonctionnalité de chaque plugin (à la manière de la démo Sylius Plus)"
+    - "Jeu de données B2B (catalogue, entreprises, membres, crédits, paliers de prix…)"
+    - "Plugins manquants créés si l'environnement n'est pas cohérent"
+    - "Environnement Docker (dev et prod)"
+    - "Déploiement Railway (plan Hobby) avec remise à zéro des données chaque nuit"
+  decisions:
+    sylius_plus: "Démo publique, non promue sur Slack/canaux Sylius (politique du 2026-10-14) ; tous les plugins inclus"
+    location: "sylius_plugins/sylius-b2b-demo, futur dépôt GitHub thibmonier/sylius-b2b-demo"
+
+complexity:
+  files: enterprise          # 50+ (application, thème, fixtures, Docker, CI/CD)
+  entities: enterprise       # données B2B multi-plugins, éventuels nouveaux plugins
+  integrations: enterprise   # 21 plugins, plugins communautaires, Railway, cron
+  stories: enterprise        # 15+
+  teams: standard
+  security: enterprise       # démo publique, comptes de démo, secrets Railway, reset nocturne
+
+phases:
+  analysis:
+    status: in_progress
+    artifacts:
+      research_summary: pending      # inventaire et compatibilité des 21 plugins, démo Sylius Plus, thème B2B
+      constraints: pending           # Railway Hobby (ressources, crons, volumes), Sylius 2.3, Symfony
+      risks_opportunities: pending
+      technical_options: pending     # thème (fork vs surcharge twig-hooks), reset (cron Railway), stockage
+  planning:
+    status: pending
+    artifacts: {prd: pending, personas: pending, backlog: pending}
+  design:
+    status: pending
+    artifacts: {tech_spec: pending, architecture: pending, adr: pending}
+  implementation:
+    status: pending
+
+next_action: "Phase d'analyse : compatibilité des plugins, contraintes Railway Hobby, options thème et reset"
+next_command: "/workflow:analyze"
