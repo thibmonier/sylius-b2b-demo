@@ -1,0 +1,29 @@
+# Configuration of the tmonier plugins (ADR-0001). The community plugins come with their Flex recipes
+# (sylius_invoicing.yaml, sylius_mcp_server.yaml, ai.yaml).
+# One import per plugin; demo options live in config/packages/tmonier/*.yaml.
+imports:
+    - { resource: "@TmonierSyliusCompanyAccountsPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusAdminOrderCreationPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusAgenticFeedsPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusAiCatalogCopilotPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusAuditLogPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusB2bMcpPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusBulkActionsPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusCommandPalettePlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusContainerFillPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusFacturXPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusGpsrPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusPunchoutCxmlPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusPurchaseApprovalPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusQuickOrderPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusQuoteRequestPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusTierPricingPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusTimelinePlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusTradeCreditPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusWebhookOutboxPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusWithdrawalPlugin/config/config.yaml" }
+
+parameters:
+    # Demo defaults of the environment variables read by the plugins (overridden on Railway).
+    env(PUNCHOUT_SUPPLIER_DOMAIN): 'NetworkId'
+    env(PUNCHOUT_SUPPLIER_IDENTITY): 'sylius-b2b-demo'
