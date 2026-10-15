@@ -1,31 +1,36 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 1
+current_sprint: 2
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
-    status: in-progress
+    status: done  # PR #1 mergée (squash) le 2026-10-15, commit 45f6cb1
     sprint_id: "sprint-1"
     start_date: "2026-10-15"
     end_date: "2026-10-28"
     capacity_points: 26
     goal: "Walking skeleton : Sylius 2.3 + 21 plugins dans l'image FrankenPHP, environnement local, tâches planifiées, CI, canaux B2B/B2C, correctifs des plugins publiés"
     stories:
-      - {id: US-001, title: "Projet Sylius 2.3 avec les 21 plugins", points: 8, status: review}
-      - {id: US-002, title: "Image Docker FrankenPHP multi-stage", points: 5, status: review}
-      - {id: US-003, title: "Environnement local docker compose", points: 3, status: review}
-      - {id: US-004, title: "Tâches planifiées dans le conteneur", points: 3, status: review}
-      - {id: US-005, title: "CI GitHub Actions et tests de fumée", points: 3, status: review}
-      - {id: US-007, title: "Canaux B2B et B2C, FR/EN", points: 3, status: review}
-      - {id: US-031, title: "Correctifs des plugins publiés", points: 1, status: blocked}  # correctifs poussés ; en attente : agentic-feeds sur Packagist (utilisateur), releases punchout 1.1.1 et command-palette 1.0.1 (accord)
+      - {id: US-001, title: "Projet Sylius 2.3 avec les 21 plugins", points: 8, status: done}
+      - {id: US-002, title: "Image Docker FrankenPHP multi-stage", points: 5, status: done}
+      - {id: US-003, title: "Environnement local docker compose", points: 3, status: done}
+      - {id: US-004, title: "Tâches planifiées dans le conteneur", points: 3, status: done}
+      - {id: US-005, title: "CI GitHub Actions et tests de fumée", points: 3, status: done}
+      - {id: US-007, title: "Canaux B2B et B2C, FR/EN", points: 3, status: done}
+      - {id: US-031, title: "Correctifs des plugins publiés", points: 1, status: blocked}  # reportée : agentic-feeds pas sur Packagist (action utilisateur). Correctifs poussés, punchout 1.1.1 et command-palette 1.0.1 publiés
   sprint-2:
     name: sprint-2-donnees-b2b
-    status: planned
+    status: in-progress
+    sprint_id: "sprint-2"
+    start_date: "2026-10-15"
+    end_date: "2026-10-29"
+    capacity_points: 26
+    goal: "Données B2B cohérentes : catalogue industriel importé de CSV, entreprises/membres/comptes de démo, données inter-plugins cohérentes, commande de remise à zéro"
     stories:
-      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: backlog}
-      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: backlog}
-      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: backlog}
-      - {id: US-012, title: "Commande de remise à zéro", points: 5, status: backlog}
+      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: ready-for-dev}
+      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: ready-for-dev}
+      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: ready-for-dev}
+      - {id: US-012, title: "Commande de remise à zéro", points: 5, status: ready-for-dev}
   sprint-3:
     name: sprint-3-nouveaux-plugins
     status: planned
