@@ -148,3 +148,13 @@ sylius_fixtures:
 
                 demo_products_csv:
                     priority: -30
+
+                # Sprint 2 — US-009: Entreprises B2B et membres.
+                # Priorités négatives pour charger après la base (canaux, locales…).
+                # -15 : après les taxons (-10) mais avant les produits (-30).
+                # demo_companies et demo_customers sont indépendants des produits.
+                demo_companies:
+                    priority: -15
+
+                demo_customers:
+                    priority: -15

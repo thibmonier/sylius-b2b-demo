@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comptes de démo / Demo accounts — Fournitures Pro</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+        h1 { color: #1f3a5f; }
+        h2 { color: #1f3a5f; margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .25rem; }
+        h3 { color: #444; margin-top: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; margin: .75rem 0; }
+        th, td { text-align: left; padding: .5rem .75rem; border: 1px solid #ddd; }
+        th { background: #f0f4f8; }
+        code { background: #f0f4f8; padding: .1rem .4rem; border-radius: 3px; font-size: .9em; }
+        .note { background: #fff8e1; border-left: 4px solid #f59e0b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
+        .disabled { color: #c0392b; font-style: italic; }
+        .multi { color: #16a085; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<h1>🔑 Comptes de démo / Demo accounts</h1>
+
+<div class="note">
+    <strong>Usage:</strong> Ces identifiants sont exclusivement destinés aux démonstrations. Aucune donnée réelle.
+    Domaines <code>.example</code> — aucun vrai email n'est envoyé.<br>
+    <strong>For demo purposes only.</strong> No real data. No real emails.
+</div>
+
+<h2>🏢 Comptes B2B — Membres d'entreprise</h2>
+
+<p>Mot de passe commun&nbsp;: <code>{{ password }}</code></p>
+
+{% for company in companies %}
+<h3>{{ company.name }}</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Nom / Name</th>
+            <th>Rôle / Role</th>
+            <th>Mot de passe / Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in company.members %}
+        <tr>
+            <td><code>{{ member.email }}</code></td>
+            <td>{{ member.name }}</td>
+            <td>
+                {% if 'désactivé' in member.role %}
+                    <span class="disabled">{{ member.role }}</span>
+                {% elseif 'aussi dans' in member.role %}
+                    <span class="multi">{{ member.role }}</span>
+                {% else %}
+                    {{ member.role }}
+                {% endif %}
+            </td>
+            <td><code>{{ password }}</code></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+<h2>👤 Autres comptes / Other accounts</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Nom / Name</th>
+            <th>Rôle / Role</th>
+            <th>Mot de passe / Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account in other_accounts %}
+        <tr>
+            <td><code>{{ account.email }}</code></td>
+            <td>{{ account.name }}</td>
+            <td>{{ account.role }}</td>
+            <td><code>{{ account.password }}</code></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>📋 Scénarios de démo / Demo scenarios</h2>
+
+<ul>
+    <li><strong>Multi-entreprises</strong> : Marc Lefebvre (<code>marc@techparts.example</code>) est membre de <em>TechParts SAS</em> (acheteur) ET de <em>BuildCo SA</em> (approbateur).</li>
+    <li><strong>Compte désactivé</strong> : Thomas Bernard (<code>thomas@buildco.example</code>) — connexion refusée (ShopUser désactivé).</li>
+    <li><strong>Back-office restreint</strong> : Sophie Martin (<code>sophie@fournitures-pro.example</code>, mot de passe <code>{{ admin_password }}</code>) accède à l'administration avec des droits limités.</li>
+</ul>
+
+<p style="margin-top:3rem;color:#888;font-size:.85em">
+    Fournitures Pro — Démo B2B Sylius 2.3 &mdash; toutes les données sont fictives.
+</p>
+
+</body>
+</html>
