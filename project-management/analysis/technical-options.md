@@ -30,7 +30,7 @@ Chaque option est notée ✅ (recommandée), 🔶 (possible) ou ❌ (écartée).
 - 🔶 Carnet d'adresses de l'entreprise : évolution de company-accounts (v1.2), à prioriser en planification.
 
 ## T6. Conteneurisation
-- ✅ **FrankenPHP (base `dunglas/symfony-docker`)** : un seul processus HTTP, image plus simple, worker mode possible ; supercronic intégré pour les tâches planifiées.
+- ✅ **Décidé — FrankenPHP (Caddy), base `dunglas/symfony-docker`** : un seul processus HTTP, HTTP/2 et HTTP/3, compression, worker mode pour les performances (à valider avec Sylius : état partagé entre requêtes) ; supercronic intégré pour les tâches planifiées.
 - 🔶 nginx + php-fpm (template Railway Sylius) : éprouvé, mais deux processus (supervisord).
 - Build multi-stage : Composer, puis Node (Encore), puis image finale (PHP, wkhtmltopdf, cache préchauffé).
 
@@ -63,7 +63,7 @@ Chaque option est notée ✅ (recommandée), 🔶 (possible) ou ❌ (écartée).
 - ✅ Page « Outil d'achat (simulateur) » dans la démo, inspirée du simulateur de la TestApplication du plugin : envoi d'un setup cXML ou d'une entrée OCI et réception du panier. Opportunité O3.
 
 ## T12. Canal B2C secondaire
-- 🔶 Un petit canal B2C pour withdrawal, GPSR et agentic-feeds (rétractation, sécurité des produits, flux IA), qui visent le grand public. Sinon, withdrawal désactivé sur le canal B2B. **À décider** en planification.
+- ✅ **Décidé** : petit canal B2C secondaire pour withdrawal, GPSR et agentic-feeds ; withdrawal désactivé (ou non affiché) sur le canal B2B.
 
 ## T13. CI/CD
 - ✅ GitHub Actions : build de l'image, tests fonctionnels de la démo (pages clés, scénarios), push. Railway déploie depuis GitHub (branche main), migrations en pre-deploy.

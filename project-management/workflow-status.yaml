@@ -2,7 +2,7 @@
 project: sylius-b2b-demo
 track: enterprise            # forcé (/workflow:init --enterprise), score de complexité 17/18
 initialized_at: 2026-10-15T00:00:00+02:00
-current_phase: analysis   # porte de validation
+current_phase: planning
 
 scope:
   goal: "Démo B2B Sylius 2.3 publique (non promue sur les canaux Sylius) réunissant les 21 plugins tmonier"
@@ -17,6 +17,12 @@ scope:
   decisions:
     sylius_plus: "Démo publique, non promue sur Slack/canaux Sylius (politique du 2026-10-14) ; tous les plugins inclus"
     location: "sylius_plugins/sylius-b2b-demo, futur dépôt GitHub thibmonier/sylius-b2b-demo"
+    # Porte d'analyse validée le 2026-10-15
+    budget: "Railway jusqu'à 25 $/mois, démo toujours allumée, Mailpit inclus, limite d'usage posée"
+    new_plugins: "accès B2B / catalogue fermé, référence de commande (PO), listes d'achat partagées (spike wishlist officielle d'abord), adresses d'entreprise (évolution company-accounts)"
+    b2c_channel: "petit canal B2C secondaire (withdrawal, GPSR, agentic-feeds)"
+    languages: "français + anglais"
+    docker_image: "FrankenPHP (Caddy) — demandé par l'utilisateur"
 
 complexity:
   files: enterprise          # 50+ (application, thème, fixtures, Docker, CI/CD)
@@ -28,7 +34,7 @@ complexity:
 
 phases:
   analysis:
-    status: done                     # en attente de validation utilisateur (porte d'analyse)
+    status: done                     # porte validée le 2026-10-15
     artifacts:
       research_summary: done         # analysis/research-summary.md (+ raw/A,B,C,D)
       constraints: done
@@ -39,7 +45,7 @@ phases:
       agentic_feeds_not_on_packagist: true
       punchout_readme_env_mismatch: true
   planning:
-    status: pending
+    status: in_progress
     artifacts: {prd: pending, personas: pending, backlog: pending}
   design:
     status: pending
