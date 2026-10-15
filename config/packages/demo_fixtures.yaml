@@ -158,3 +158,36 @@ sylius_fixtures:
 
                 demo_customers:
                     priority: -15
+
+                # Sprint 2 — US-010: Plugin data (trade-credit, tier-pricing, purchase-approval).
+                # Depend on products (-30) AND companies (-15) → priority -40 (runs after both).
+                demo_trade_credit:
+                    priority: -40
+
+                demo_tier_pricing:
+                    priority: -40
+
+                demo_purchase_approval:
+                    priority: -40
+
+                # Sprint 2 — US-010: Plugin data (quotes, GPSR, punchout).
+                # Depend on products (-30), companies (-15), and some on group-1 fixtures (-40).
+                # Priority -50 guarantees correct order.
+                demo_quotes:
+                    priority: -50
+
+                demo_gpsr:
+                    priority: -50
+
+                demo_punchout:
+                    priority: -50
+
+                # Agentic feeds: creates feed configurations per channel.
+                # Uses built-in plugin fixture; no extra options needed.
+                tmonier_agentic_feeds:
+                    priority: -50
+
+                # Quick-order demo catalog: adds a minimal catalog for quick-order tests.
+                # Uses built-in plugin fixture.
+                tmonier_quick_order_demo_catalog:
+                    priority: -50
