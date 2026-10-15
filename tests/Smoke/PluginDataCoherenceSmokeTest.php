@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface;
+use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyMemberInterface;
 use Tmonier\SyliusCompanyAccountsPlugin\Repository\CompanyRepositoryInterface;
 use Tmonier\SyliusGpsrPlugin\Entity\ProductSafetyInterface;
+use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\Buyer;
 use Tmonier\SyliusPurchaseApprovalPlugin\Entity\MemberLimitInterface;
 use Tmonier\SyliusPurchaseApprovalPlugin\Repository\MemberLimitRepositoryInterface;
 use Tmonier\SyliusQuoteRequestPlugin\Entity\QuoteRequestInterface;
 use Tmonier\SyliusTierPricingPlugin\Entity\TierPriceRuleInterface;
 use Tmonier\SyliusTradeCreditPlugin\Entity\TradeCreditAccountInterface;
-use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\Buyer;
 
 /**
  * Smoke test: verifies that all US-010 plugin data was loaded coherently.
@@ -27,10 +32,14 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
+
+        /** @var CompanyRepositoryInterface $companyRepo */
         $companyRepo = $container->get('tmonier_company_accounts.repository.company');
+        /** @var CompanyInterface|null $acme */
         $acme = $companyRepo->findOneBy(['code' => 'ACME_IND']);
         self::assertNotNull($acme, 'Acme Industries must exist.');
 
+        /** @var ObjectRepository<TradeCreditAccountInterface> $accountRepo */
         $accountRepo = $container->get('tmonier_trade_credit.repository.account');
         $accounts = $accountRepo->findBy([
             'ownerType' => 'company',
@@ -53,6 +62,8 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
+
+        /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
         $rules = $em->getRepository(TierPriceRuleInterface::class)->findAll();
 
@@ -69,6 +80,8 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
+
+        /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
         $quotes = $em->getRepository(QuoteRequestInterface::class)->findAll();
 
@@ -84,6 +97,8 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
+
+        /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
         $safetyRecords = $em->getRepository(ProductSafetyInterface::class)->findAll();
 
@@ -99,6 +114,8 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
+
+        /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
         $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => \App\Demo\DataFixtures\PunchoutDemoFixture::BUYER_CODE]);
 
@@ -114,10 +131,13 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
         self::bootKernel();
 
         $container = self::getContainer();
+
+        /** @var ObjectRepository<CustomerInterface> $customerRepo */
         $customerRepo = $container->get('sylius.repository.customer');
         $claire = $customerRepo->findOneBy(['emailCanonical' => 'claire@acme.example']);
         self::assertNotNull($claire, 'Claire must exist.');
 
+        /** @var ObjectRepository<CompanyMemberInterface> $memberRepo */
         $memberRepo = $container->get('tmonier_company_accounts.repository.company_member');
         $membership = $memberRepo->findOneBy(['customer' => $claire]);
         self::assertNotNull($membership, 'Claire must have a company membership.');

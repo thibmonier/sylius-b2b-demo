@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use Doctrine\Persistence\ObjectRepository;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface;
 use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyMemberInterface;
 use Tmonier\SyliusCompanyAccountsPlugin\Repository\CompanyRepositoryInterface;
 use Tmonier\SyliusPurchaseApprovalPlugin\Entity\MemberLimitInterface;
@@ -28,10 +31,12 @@ final class ApprovalWorkflowSmokeTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
+        /** @var ObjectRepository<CustomerInterface> $customerRepo */
         $customerRepo = $container->get('sylius.repository.customer');
         $claire = $customerRepo->findOneBy(['emailCanonical' => 'claire@acme.example']);
         self::assertNotNull($claire, 'Claire (claire@acme.example) must exist.');
 
+        /** @var ObjectRepository<CompanyMemberInterface> $memberRepo */
         $memberRepo = $container->get('tmonier_company_accounts.repository.company_member');
         $membership = $memberRepo->findOneBy(['customer' => $claire]);
         self::assertNotNull($membership, 'Claire must be a company member.');
@@ -46,8 +51,6 @@ final class ApprovalWorkflowSmokeTest extends KernelTestCase
 
         // Orders ≤ 500 € → auto-validated (orderLimit = 50000 cents)
         self::assertSame(50_000, $limit->getOrderLimit(), 'Claire\'s order limit must be 500 € = 50 000 cents.');
-        // approvalLimit null means unlimited for approval (she is not an approver; this field is for approvers)
-        // Paul as approver should have unlimited approval capacity (null)
     }
 
     public function testPaulIsConfiguredAsApproverForAcme(): void
@@ -55,10 +58,12 @@ final class ApprovalWorkflowSmokeTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
+        /** @var ObjectRepository<CustomerInterface> $customerRepo */
         $customerRepo = $container->get('sylius.repository.customer');
         $paul = $customerRepo->findOneBy(['emailCanonical' => 'paul@acme.example']);
         self::assertNotNull($paul, 'Paul (paul@acme.example) must exist.');
 
+        /** @var ObjectRepository<CompanyMemberInterface> $memberRepo */
         $memberRepo = $container->get('tmonier_company_accounts.repository.company_member');
         $membership = $memberRepo->findOneBy(['customer' => $paul]);
         self::assertNotNull($membership, 'Paul must be a company member.');
@@ -78,6 +83,7 @@ final class ApprovalWorkflowSmokeTest extends KernelTestCase
 
         /** @var CompanyRepositoryInterface $companyRepo */
         $companyRepo = $container->get('tmonier_company_accounts.repository.company');
+        /** @var CompanyInterface|null $acme */
         $acme = $companyRepo->findOneBy(['code' => 'ACME_IND']);
         self::assertNotNull($acme, 'Acme Industries must exist.');
 
@@ -103,10 +109,12 @@ final class ApprovalWorkflowSmokeTest extends KernelTestCase
 
         // Verify the threshold is exactly 500 € = 50 000 cents
         // (calibrated to be reachable with the tier-pricing products)
+        /** @var ObjectRepository<CustomerInterface> $customerRepo */
         $customerRepo = $container->get('sylius.repository.customer');
         $claire = $customerRepo->findOneBy(['emailCanonical' => 'claire@acme.example']);
         self::assertNotNull($claire);
 
+        /** @var ObjectRepository<CompanyMemberInterface> $memberRepo */
         $memberRepo = $container->get('tmonier_company_accounts.repository.company_member');
         $membership = $memberRepo->findOneBy(['customer' => $claire]);
         self::assertNotNull($membership);
