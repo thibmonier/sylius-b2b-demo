@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Demo\DataFixtures;
 
 use App\Demo\Infrastructure\Csv\CsvProductReader;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
@@ -44,7 +44,7 @@ final class ProductCsvFixture extends AbstractFixture
      */
     public function __construct(
         private readonly CsvProductReader $csvProductReader,
-        private readonly ObjectManager $objectManager,
+        private readonly EntityManagerInterface $objectManager,
         #[Autowire(param: 'kernel.project_dir')]
         private readonly string $projectDir,
         #[Autowire(service: 'sylius.factory.product')]

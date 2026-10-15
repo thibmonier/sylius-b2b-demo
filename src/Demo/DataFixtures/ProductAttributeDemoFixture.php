@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Product\Model\ProductAttributeInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
@@ -31,7 +31,7 @@ final class ProductAttributeDemoFixture extends AbstractFixture
         private readonly FactoryInterface $attributeFactory,
         #[Autowire(service: 'sylius.repository.product_attribute')]
         private readonly RepositoryInterface $attributeRepository,
-        private readonly ObjectManager $objectManager,
+        private readonly EntityManagerInterface $objectManager,
     ) {
     }
 

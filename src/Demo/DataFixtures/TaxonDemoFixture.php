@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Taxonomy\Factory\TaxonFactoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
@@ -40,7 +40,7 @@ final class TaxonDemoFixture extends AbstractFixture
         private readonly TaxonFactoryInterface $taxonFactory,
         #[Autowire(service: 'sylius.repository.taxon')]
         private readonly TaxonRepositoryInterface $taxonRepository,
-        private readonly ObjectManager $objectManager,
+        private readonly EntityManagerInterface $objectManager,
     ) {
     }
 
