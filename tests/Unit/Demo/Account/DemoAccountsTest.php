@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Yaml\Yaml;
 use Twig\Environment;
 
 /**
@@ -88,6 +89,61 @@ final class DemoAccountsTest extends KernelTestCase
         $controller();
     }
 
+    public function testTheMailpitLinkIsShownOnlyWhenAnUrlIsConfigured(): void
+    {
+        $with = $this->renderWithSession('demo/banner.html.twig');
+        self::assertStringContainsString('href="http://localhost:8025"', $with);
+
+        $without = $this->withEnv(['DEMO_MAILPIT_URL' => null], fn (): string => $this->renderWithSession('demo/banner.html.twig'));
+        self::assertStringContainsString('data-demo-banner', $without);
+        self::assertStringNotContainsString('Mailpit', $without);
+    }
+
+    public function testNothingIsRenderedAndTheAccountsPageIs404WhenTheDemoModeIsOff(): void
+    {
+        $this->withEnv(['DEMO_MODE' => '0'], function (): void {
+            $twig = $this->twig();
+            $this->renderWithSession('demo/banner.html.twig');
+            self::assertSame('', trim($this->renderWithSession('demo/banner.html.twig')));
+            self::assertSame('', trim($this->renderWithSession('demo/login_accounts_shop.html.twig')));
+            self::assertSame('', trim($this->renderWithSession('demo/login_accounts_admin.html.twig')));
+            self::assertSame('', trim($twig->createTemplate('{% if demo_mode() %}on{% endif %}')->render()));
+
+            $this->expectException(NotFoundHttpException::class);
+            $controller = self::getContainer()->get(DemoAccountsController::class);
+            self::assertInstanceOf(DemoAccountsController::class, $controller);
+            $controller();
+        });
+    }
+
+    public function testDemoModeIsOffByDefault(): void
+    {
+        $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/accounts.yaml');
+        self::assertIsArray($config);
+        self::assertSame('0', $config['parameters']['env(DEMO_MODE)']);
+        self::assertSame('', $config['parameters']['env(DEMO_MAILPIT_URL)']);
+    }
+
+    public function testADuplicatedEmailIsRejectedByName(): void
+    {
+        $member = ['email' => 'dup@acme.example', 'first_name' => 'A', 'last_name' => 'B', 'role' => 'buyer'];
+        $company = ['code' => 'C', 'name' => 'C', 'members' => [$member, $member]];
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('dup@acme.example');
+        new DemoAccountCatalog('pw', [$company], [], []);
+    }
+
+    public function testAConsumerOrAdminReusingACompanyEmailIsRejected(): void
+    {
+        $member = ['email' => 'dup@acme.example', 'first_name' => 'A', 'last_name' => 'B', 'role' => 'buyer'];
+        $admin = ['email' => 'dup@acme.example', 'password' => 'x', 'first_name' => 'A', 'last_name' => 'B'];
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('dup@acme.example');
+        new DemoAccountCatalog('pw', [['code' => 'C', 'name' => 'C', 'members' => [$member]]], [], [$admin]);
+    }
+
     public function testNoDemoCredentialIsDuplicatedInFixturesOrControllers(): void
     {
         $root = \dirname(__DIR__, 4);
@@ -95,6 +151,52 @@ final class DemoAccountsTest extends KernelTestCase
             self::assertDoesNotMatchRegularExpression('/@[a-z-]+\.example|Demo1234|demo-sophie/', (string) file_get_contents($root . '/' . $file), $file);
         }
         self::assertStringContainsString("'%demo.admin_users%'", (string) file_get_contents($root . '/config/packages/demo_fixtures.yaml'));
+    }
+
+    /**
+     * Boots a fresh kernel with the given env vars, then restores the previous state.
+     *
+     * @template T
+     *
+     * @param array<string, string|null> $vars     (null unsets the variable)
+     * @param callable(): T              $callback
+     *
+     * @return T
+     */
+    private function withEnv(array $vars, callable $callback): mixed
+    {
+        $previous = [];
+        foreach ($vars as $name => $value) {
+            $previous[$name] = [$_SERVER[$name] ?? null, $_ENV[$name] ?? null, getenv($name)];
+            self::restore($_SERVER, $name, $value);
+            self::restore($_ENV, $name, $value);
+            putenv(null === $value ? $name : $name . '=' . $value);
+        }
+        self::ensureKernelShutdown();
+
+        try {
+            self::bootKernel();
+
+            return $callback();
+        } finally {
+            foreach ($previous as $name => [$server, $env, $getenv]) {
+                self::restore($_SERVER, $name, $server);
+                self::restore($_ENV, $name, $env);
+                putenv(false === $getenv ? $name : $name . '=' . $getenv);
+            }
+            self::ensureKernelShutdown();
+        }
+    }
+
+    /** @param array<string, mixed> $bag */
+    private static function restore(array &$bag, string $name, mixed $value): void
+    {
+        if (null === $value) {
+            unset($bag[$name]);
+
+            return;
+        }
+        $bag[$name] = $value;
     }
 
     private function catalog(): DemoAccountCatalog

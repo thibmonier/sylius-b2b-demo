@@ -4,8 +4,9 @@
 # Demo credentials only: no real secret, ".example" domains.
 parameters:
     demo.mode: '%env(bool:DEMO_MODE)%'
-    env(DEMO_MODE): '1'
-    demo.mailpit_url: 'http://localhost:8025'
+    env(DEMO_MODE): '0'
+    demo.mailpit_url: '%env(DEMO_MAILPIT_URL)%'
+    env(DEMO_MAILPIT_URL): ''
     demo.password: 'Demo1234!'
 
     # A customer belongs to exactly one company (US-009).

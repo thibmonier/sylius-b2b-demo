@@ -99,6 +99,7 @@ jobs:
                   docker run -d --name web --network demo -p 8080:8080 \
                     -e DATABASE_URL="mysql://root@mysql:3306/demo?serverVersion=8.4&charset=utf8mb4" \
                     -e MAILER_DSN="null://null" -e DEFAULT_URI="http://localhost:8080" \
+                    -e DEMO_MODE=1 \
                     sylius-b2b-demo:ci
                   for i in $(seq 1 100); do
                     curl -fsS http://localhost:8080/healthz >/dev/null 2>&1 && break

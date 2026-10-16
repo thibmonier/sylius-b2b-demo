@@ -27,6 +27,7 @@ final class DemoAccountCatalog
         #[Autowire(param: 'demo.admin_users')]
         private readonly array $adminUsers,
     ) {
+        $this->assertUniqueEmails();
     }
 
     public function password(): string
@@ -74,6 +75,18 @@ final class DemoAccountCatalog
         }
 
         return [...$accounts, ...$this->consumers()];
+    }
+
+    private function assertUniqueEmails(): void
+    {
+        $seen = [];
+        $accounts = [...$this->shopAccounts(), ...$this->adminUsers()];
+        foreach ($accounts as $account) {
+            if (isset($seen[$account->email])) {
+                throw new \InvalidArgumentException(\sprintf('Demo account e-mail "%s" is defined more than once.', $account->email));
+            }
+            $seen[$account->email] = true;
+        }
     }
 
     /**

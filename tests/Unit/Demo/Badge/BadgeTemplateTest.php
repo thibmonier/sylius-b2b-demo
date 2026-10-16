@@ -47,6 +47,6 @@ final class BadgeTemplateTest extends KernelTestCase
         $request->setLocale('en_US');
         $stack->push($request);
 
-        return $twig->render('demo/plugin_badge.html.twig', ['hookable_configuration' => ['plugin' => $slug]]);
+        return $twig->render('demo/plugin_badge.html.twig', ['hookable_metadata' => ['configuration' => ['plugin' => $slug]]]);
     }
 }

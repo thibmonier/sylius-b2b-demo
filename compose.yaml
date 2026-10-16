@@ -10,6 +10,8 @@ services:
             DATABASE_URL: mysql://root@mysql:3306/sylius_b2b_demo?serverVersion=8.4&charset=utf8mb4
             MAILER_DSN: smtp://mailpit:1025
             DEFAULT_URI: ${DEFAULT_URI:-http://localhost:8080}
+            DEMO_MODE: "1"
+            DEMO_MAILPIT_URL: "http://localhost:8025"
         ports:
             - "${WEB_PORT:-8080}:8080"
         depends_on:

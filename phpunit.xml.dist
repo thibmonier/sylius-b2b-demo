@@ -17,6 +17,8 @@
         <!-- ###+ symfony/framework-bundle ### -->
         <env name="APP_DEBUG" value="0"/>
         <env name="APP_ENV" value="test"/>
+        <env name="DEMO_MODE" value="1" force="true"/>
+        <env name="DEMO_MAILPIT_URL" value="http://localhost:8025" force="true"/>
         <server name="SHELL_VERBOSITY" value="-1" />
         <!-- ###- symfony/framework-bundle ### -->
 
