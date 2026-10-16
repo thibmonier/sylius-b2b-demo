@@ -45,7 +45,7 @@ sprints:
       - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: review}  # repro : colonnes OK, B2B PO requis, conteneur healthy
       - {id: US-022, title: "Reprise de la référence partout", points: 5, status: review}  # admin grille+fiche, e-mail, Factur-X BT-10 (décorateur CiiXmlWriter), PunchOut (subscriber, via notes : fragile)
       - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: review}  # ADR-0012 : étendre le plugin officiel sous réserve POC 2.3, sinon plugin maison
-      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: ready-for-dev}
+      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: review}  # mapping punchout OK (resolve_target_entities), I1 test, I2 blocker devis, I3 on_account
   sprint-4:
     name: sprint-4-theme-b2b
     status: planned
