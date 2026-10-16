@@ -67,6 +67,7 @@
         "sylius/sylius-rector": "^3.9",
         "symfony/browser-kit": "^7.4.8 || ^8.0.14",
         "symfony/contracts": "^3.7.3",
+        "symfony/css-selector": "^7.4.8 || ^8.0.14",
         "symfony/debug-bundle": "^7.4.8 || ^8.0.8",
         "symfony/http-client": "^7.4.13 || ^8.0.16",
         "symfony/intl": "^7.4.8 || ^8.0.14",
