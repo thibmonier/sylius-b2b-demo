@@ -16,12 +16,12 @@ En tant que Isabelle, je veux un historique de commandes et de factures Factur-X
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-011-01 | [BE] | Inventaire des fixtures existantes et des états de commande/paiement cibles | 1h | — | 🔲 |
-| T-011-02 | [BE] | Fixture de commandes historiques par entreprise (états variés, dates étalées) | 3h | T-011-01 | 🔲 |
-| T-011-03 | [BE] | Factures Factur-X et entrées de timeline/audit pour ces commandes | 2.5h | T-011-02 | 🔲 |
-| T-011-04 | [BE] | Idempotence et temps de chargement (app:demo:reset, app:fixtures:load) | 1h | T-011-02 | 🔲 |
-| T-011-05 | [TEST] | Tests : historique par entreprise, états, Factur-X valide, idempotence, entreprise vide, XML invalide | 2h | T-011-03, T-011-04 | 🔲 |
-| T-011-06 | [DOC] | Documentation : contenu de l'historique de démo | 0.5h | T-011-05 | 🔲 |
+| T-011-01 | [BE] | Inventaire des fixtures existantes et des états de commande/paiement cibles | 1h | — | ✅ |
+| T-011-02 | [BE] | Fixture de commandes historiques par entreprise (états variés, dates étalées) | 3h | T-011-01 | ✅ |
+| T-011-03 | [BE] | Factures Factur-X et entrées de timeline/audit pour ces commandes | 2.5h | T-011-02 | ✅ |
+| T-011-04 | [BE] | Idempotence et temps de chargement (app:demo:reset, app:fixtures:load) | 1h | T-011-02 | ✅ |
+| T-011-05 | [TEST] | Tests : historique par entreprise, états, Factur-X valide, idempotence, entreprise vide, XML invalide | 2h | T-011-03, T-011-04 | ✅ |
+| T-011-06 | [DOC] | Documentation : contenu de l'historique de démo | 0.5h | T-011-05 | ✅ |
 
 **Total estimé : 10h**
 

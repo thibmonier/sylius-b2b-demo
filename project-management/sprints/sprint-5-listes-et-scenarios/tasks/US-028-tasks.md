@@ -16,12 +16,12 @@ En tant que Hugo, je veux lire les e-mails envoyés par la démo, afin de voir l
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-028-01 | [BE] | Client HTTP Mailpit côté serveur + variables (DEMO_MAILPIT_URL = lien public du bandeau, DEMO_MAILPIT_API_URL = API interne) | 1.5h | — | 🔲 |
-| T-028-02 | [BE] | Filtre des e-mails sensibles (réinitialisation de mot de passe, vérification de compte, tout e-mail contenant un jeton) | 2h | T-028-01 | 🔲 |
-| T-028-03 | [BE] | Contrôleur lecture seule (GET uniquement) : liste et détail ; mode démo | 1.5h | T-028-02 | 🔲 |
-| T-028-04 | [FE-WEB] | Page de la boîte de démo et lien depuis le bandeau (FR/EN, message Mailpit indisponible) | 1.5h | T-028-03 | 🔲 |
-| T-028-05 | [TEST] | Tests : lecture, exclusion des e-mails sensibles, Mailpit indisponible, aucune action d'envoi, hors démo | 2.5h | T-028-04 | 🔲 |
-| T-028-06 | [DOC] | Documentation : boîte de démo et variables d'environnement | 0.5h | T-028-05 | 🔲 |
+| T-028-01 | [BE] | Client HTTP Mailpit côté serveur + variables (DEMO_MAILPIT_URL = lien public du bandeau, DEMO_MAILPIT_API_URL = API interne) | 1.5h | — | ✅ |
+| T-028-02 | [BE] | Filtre des e-mails sensibles (réinitialisation de mot de passe, vérification de compte, tout e-mail contenant un jeton) | 2h | T-028-01 | ✅ |
+| T-028-03 | [BE] | Contrôleur lecture seule (GET uniquement) : liste et détail ; mode démo | 1.5h | T-028-02 | ✅ |
+| T-028-04 | [FE-WEB] | Page de la boîte de démo et lien depuis le bandeau (FR/EN, message Mailpit indisponible) | 1.5h | T-028-03 | ✅ |
+| T-028-05 | [TEST] | Tests : lecture, exclusion des e-mails sensibles, Mailpit indisponible, aucune action d'envoi, hors démo | 2.5h | T-028-04 | ✅ |
+| T-028-06 | [DOC] | Documentation : boîte de démo et variables d'environnement | 0.5h | T-028-05 | ✅ |
 
 **Total estimé : 9.5h**
 

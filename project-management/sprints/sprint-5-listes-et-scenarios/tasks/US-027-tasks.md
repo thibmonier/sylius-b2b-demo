@@ -16,13 +16,13 @@ En tant que Hugo, je veux simuler Ariba ou SAP depuis la démo, afin de voir le 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-027-01 | [BE] | Reprise du simulateur de la TestApplication du plugin punchout (cXML : setup, retour du panier) | 2.5h | — | 🔲 |
-| T-027-02 | [BE] | Parcours OCI (HOOK_URL, retour du panier) | 2h | T-027-01 | 🔲 |
-| T-027-03 | [BE] | Affichage du panier transféré et envoi de l'OrderRequest | 2h | T-027-01 | 🔲 |
-| T-027-04 | [FE-WEB] | Interface du simulateur (choix Ariba/SAP, panier reçu, bouton envoyer) FR/EN | 2h | T-027-03 | 🔲 |
-| T-027-05 | [BE] | Garde mode démo : 404 hors démo, aucun envoi vers l'extérieur | 1h | T-027-01 | 🔲 |
-| T-027-06 | [TEST] | Tests : aller-retour cXML, OCI, OrderRequest, hors démo, session invalide, panier vide | 3h | T-027-02, T-027-04, T-027-05 | 🔲 |
-| T-027-07 | [DOC] | Documentation du simulateur | 0.5h | T-027-06 | 🔲 |
+| T-027-01 | [BE] | Reprise du simulateur de la TestApplication du plugin punchout (cXML : setup, retour du panier) | 2.5h | — | ✅ |
+| T-027-02 | [BE] | Parcours OCI (HOOK_URL, retour du panier) | 2h | T-027-01 | ➖ reporté : OCI non simulé, documenté (README) |
+| T-027-03 | [BE] | Affichage du panier transféré et envoi de l'OrderRequest | 2h | T-027-01 | ✅ |
+| T-027-04 | [FE-WEB] | Interface du simulateur (choix Ariba/SAP, panier reçu, bouton envoyer) FR/EN | 2h | T-027-03 | ✅ |
+| T-027-05 | [BE] | Garde mode démo : 404 hors démo, aucun envoi vers l'extérieur | 1h | T-027-01 | ✅ |
+| T-027-06 | [TEST] | Tests : aller-retour cXML, OCI, OrderRequest, hors démo, session invalide, panier vide | 3h | T-027-02, T-027-04, T-027-05 | ✅ |
+| T-027-07 | [DOC] | Documentation du simulateur | 0.5h | T-027-06 | ✅ |
 
 **Total estimé : 13h**
 
