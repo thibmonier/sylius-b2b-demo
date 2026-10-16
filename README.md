@@ -72,7 +72,7 @@ Limites :
 
 - Le retour du panier exige une URL **HTTPS** dont l'hôte est un domaine de retour du buyer. La fixture ajoute l'hôte de `DEFAULT_URI` quand il est en HTTPS ; en local (`http://localhost:8080`), la session est refusée avec un message qui nomme l'hôte.
 - **OCI n'est pas simulé** : le plugin le prend en charge, mais la démo n'a pas de buyer OCI ; le simulateur ne joue que cXML.
-- Contournement temporaire `App\PunchOut\AuthorizedPunchOutOrderFactory` : le plugin punchout-cxml crée ses paniers comme des commandes d'invité, ce qui empêchait le paiement sur compte. À retirer avec les correctifs du plugin (sprint 7).
+- Un panier ouvert par une session PunchOut ne peut pas être finalisé par le checkout de la boutique : il se transfère à l'outil d'achat (guard du plugin punchout-cxml 1.2).
 
 ## Boîte e-mail de démo / Demo mailbox
 

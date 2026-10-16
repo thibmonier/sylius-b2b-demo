@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00beaa9531d184836844ef6d74fbded9",
+    "content-hash": "6ff97eb444603c02b9839a7066cba441",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17600,16 +17600,16 @@
         },
         {
             "name": "tmonier/sylius-punchout-cxml-plugin",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-punchout-cxml-plugin.git",
-                "reference": "4d2b2017ec72670a28889697bffdbb8333ba2cb4"
+                "reference": "d6c5bb2560cefab7028e8d53c39b6816a91fc0d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-punchout-cxml-plugin/zipball/4d2b2017ec72670a28889697bffdbb8333ba2cb4",
-                "reference": "4d2b2017ec72670a28889697bffdbb8333ba2cb4",
+                "url": "https://api.github.com/repos/thibmonier/sylius-punchout-cxml-plugin/zipball/d6c5bb2560cefab7028e8d53c39b6816a91fc0d2",
+                "reference": "d6c5bb2560cefab7028e8d53c39b6816a91fc0d2",
                 "shasum": ""
             },
             "require": {
@@ -17682,9 +17682,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/tree/v1.1.1"
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/tree/v1.2.0"
             },
-            "time": "2026-10-15T15:58:23+00:00"
+            "time": "2026-10-16T14:05:09+00:00"
         },
         {
             "name": "tmonier/sylius-purchase-approval-plugin",
