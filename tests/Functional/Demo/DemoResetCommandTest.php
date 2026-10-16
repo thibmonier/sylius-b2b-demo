@@ -26,6 +26,8 @@ final class DemoResetCommandTest extends KernelTestCase
 
     protected function tearDown(): void
     {
+        // A failed reset leaves a marker that turns /healthz to 503 (US-033): never leak it to the next tests.
+        @unlink(self::resetFailedMarker());
         $this->setDemoMode('1');
         parent::tearDown();
     }
@@ -72,6 +74,7 @@ final class DemoResetCommandTest extends KernelTestCase
         self::assertStringNotContainsString('DEMO_RESET_OK', $tester->getDisplay());
         self::assertSame($before, $this->counts(), 'Products, customers and orders of before the reset must still be there.');
         self::assertSame(self::MARKER, $this->channelName(), 'The reload ran then failed: it must have been rolled back entirely.');
+        self::assertFileExists(self::resetFailedMarker(), 'The failure stays visible to /healthz until a reset succeeds.');
     }
 
     public function testTheResetRemovesTheSimulatorOrdersOfAcmeAndRestoresTheCredit(): void
@@ -103,6 +106,14 @@ final class DemoResetCommandTest extends KernelTestCase
         );
 
         return $tester;
+    }
+
+    private static function resetFailedMarker(): string
+    {
+        $projectDir = self::getContainer()->getParameter('kernel.project_dir');
+        \assert(\is_string($projectDir));
+
+        return $projectDir . '/var/demo-reset-failed';
     }
 
     /** @return array<string, int> */

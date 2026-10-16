@@ -29,13 +29,14 @@ Un échec de la dernière étape (cache) survient après la validation : les don
 
 ## Alerte
 
-Décision du 2026-10-16 : pas d'URL d'alerte sortante (le conteneur n'émet aucun trafic vers un hôte externe). L'alerte repose sur :
+Railway n'envoie pas d'e-mail pour une tâche planifiée en échec : ses e-mails ne couvrent que les déploiements en échec et les conteneurs « Crashed » (après épuisement des redémarrages), et il n'a pas d'alerte sur une ligne de journal ([guide des alertes](https://docs.railway.com/guides/alerts-crashes-failed-deploys)). Décision utilisateur du 2026-10-16 : l'alerte passe par `/healthz`.
 
-- le journal Railway (`DEMO_RESET_FAILED`, niveau erreur) ;
-- les notifications e-mail Railway sur échec de déploiement / crash (réglage du projet, T-033-09) ;
-- le code de sortie non nul visible dans le journal de supercronic, si l'e-mail n'arrive pas.
+- Un reset en échec écrit `DEMO_RESET_FAILED` (stderr, journal Railway) et pose le marqueur `var/demo-reset-failed` (`App\Demo\Command\ResetStatus`).
+- Tant que ce marqueur existe, `/healthz` et `/health` répondent **503 `reset failed`** ; la démo continue de servir ses données précédentes (reset atomique). Le prochain reset réussi efface le marqueur ; un nouveau déploiement repart sans marqueur.
+- Un **moniteur externe** (UptimeRobot, Better Stack…, compte de l'exploitant) interroge `https://<domaine>/healthz` toutes les 5 minutes et envoie un e-mail sur toute réponse différente de 200 : il couvre à la fois une démo en panne et un reset en échec. `/healthz` est hors de la porte privée, aucun identifiant n'est nécessaire.
+- Les e-mails natifs de Railway (déploiement en échec, conteneur « Crashed ») restent actifs (réglage du compte, *Account Settings > Notifications*).
 
-Recommandation d'exploitation : chercher `DEMO_RESET_` dans les journaux chaque matin tant qu'aucune alerte active n'existe.
+La démo n'émet aucun trafic sortant pour alerter : c'est le moniteur qui vient la lire.
 
 ## Relance manuelle
 

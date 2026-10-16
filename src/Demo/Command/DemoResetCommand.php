@@ -55,6 +55,7 @@ final class DemoResetCommand extends Command
         private readonly Connection $connection,
         #[Autowire(param: 'demo.mode')]
         private readonly bool $demoMode,
+        private readonly ResetStatus $resetStatus,
     ) {
         parent::__construct();
     }
@@ -106,6 +107,9 @@ final class DemoResetCommand extends Command
                 \json_encode($e->getMessage(), \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
                 $this->elapsedSince($startedAt),
             ));
+            if (!$dryRun) {
+                $this->resetStatus->markFailed();
+            }
 
             return Command::FAILURE;
         }
@@ -113,6 +117,9 @@ final class DemoResetCommand extends Command
         $elapsed = $this->elapsedSince($startedAt);
         $this->logger->info('app:demo:reset finished', ['elapsed_seconds' => $elapsed]);
         $output->writeln(\sprintf('DEMO_RESET_OK duration=%ss', $elapsed));
+        if (!$dryRun) {
+            $this->resetStatus->markSucceeded();
+        }
 
         return Command::SUCCESS;
     }

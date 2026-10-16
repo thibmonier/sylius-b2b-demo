@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\Http;
 
+use App\Demo\Command\ResetStatus;
 use App\Demo\Controller\HealthController;
 use App\Demo\Http\BasicAuthGate;
 use App\Demo\Http\DemoConfigurationGuard;
@@ -65,7 +66,25 @@ final class HealthControllerTest extends TestCase
         self::assertSame('misconfigured', $response->getContent());
     }
 
-    private function controller(?Connection $connection = null, int $pending = 0, bool $migrationsFail = false, ?DemoConfigurationGuard $guard = null): HealthController
+    public function testAFailedNightlyResetAnswers503UntilTheNextSuccess(): void
+    {
+        $file = sys_get_temp_dir() . '/demo-reset-status-' . bin2hex(random_bytes(4));
+        $status = new ResetStatus($file);
+        $status->markFailed();
+
+        try {
+            $response = $this->controller(resetStatus: $status)();
+            self::assertSame(503, $response->getStatusCode(), 'An uptime monitor on /healthz alerts on a failed reset (US-033).');
+            self::assertSame('reset failed', $response->getContent());
+
+            $status->markSucceeded();
+            self::assertSame(200, $this->controller(resetStatus: $status)()->getStatusCode());
+        } finally {
+            @unlink($file);
+        }
+    }
+
+    private function controller(?Connection $connection = null, int $pending = 0, bool $migrationsFail = false, ?DemoConfigurationGuard $guard = null, ?ResetStatus $resetStatus = null): HealthController
     {
         $connection ??= $this->createStub(Connection::class);
         $calculator = $this->createStub(MigrationStatusCalculator::class);
@@ -77,7 +96,12 @@ final class HealthControllerTest extends TestCase
         $factory = $this->createStub(DependencyFactory::class);
         $factory->method('getMigrationStatusCalculator')->willReturn($calculator);
 
-        return new HealthController($connection, $factory, $guard ?? new DemoConfigurationGuard(new BasicAuthGate(false, false, '', ''), false, 'null://null', ''));
+        return new HealthController(
+            $connection,
+            $factory,
+            $guard ?? new DemoConfigurationGuard(new BasicAuthGate(false, false, '', ''), false, 'null://null', ''),
+            $resetStatus ?? new ResetStatus(sys_get_temp_dir() . '/demo-reset-status-absent-' . bin2hex(random_bytes(4))),
+        );
     }
 
     /** @return list<AvailableMigration> */

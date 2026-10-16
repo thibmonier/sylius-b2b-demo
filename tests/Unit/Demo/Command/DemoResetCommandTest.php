@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Demo\Command;
 
 use App\Demo\Command\DemoResetCommand;
+use App\Demo\Command\ResetStatus;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -44,8 +45,11 @@ final class DemoResetCommandTest extends TestCase
 
     private DemoResetCommand $command;
 
+    private string $statusFile;
+
     protected function setUp(): void
     {
+        $this->statusFile = sys_get_temp_dir() . '/demo-reset-status-' . bin2hex(random_bytes(4));
         $this->suiteRegistry = $this->createMock(SuiteRegistryInterface::class);
         $this->suiteLoader = $this->createMock(SuiteLoaderInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
@@ -57,7 +61,12 @@ final class DemoResetCommandTest extends TestCase
 
     private function command(bool $demoMode): DemoResetCommand
     {
-        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode);
+        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode, new ResetStatus($this->statusFile));
+    }
+
+    protected function tearDown(): void
+    {
+        @unlink($this->statusFile);
     }
 
     // -------------------------------------------------------------------------
@@ -162,6 +171,7 @@ final class DemoResetCommandTest extends TestCase
         self::assertSame(Command::FAILURE, $exitCode, 'A fixture failure must return a non-zero exit code.');
         self::assertStringContainsString('DEMO_RESET_FAILED', $tester->getDisplay());
         self::assertStringContainsString('Simulated fixture failure.', $tester->getDisplay());
+        self::assertTrue(new ResetStatus($this->statusFile)->hasFailed(), 'The failure stays visible to /healthz (US-033).');
     }
 
     // -------------------------------------------------------------------------

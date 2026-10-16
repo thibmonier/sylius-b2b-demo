@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Controller;
 
+use App\Demo\Command\ResetStatus;
 use App\Demo\Http\DemoConfigurationGuard;
 use Doctrine\DBAL\Connection;
 use Doctrine\Migrations\DependencyFactory;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * Healthcheck of the Railway service and of the image (US-002, US-032): 200 when the database answers,
- * every migration is applied and the demo is configured safely; 503 otherwise, with a body that never
+ * every migration is applied, the demo is configured safely and the last nightly reset did not fail; 503 otherwise, with a body that never
  * names a host, a table or a trace. Never cached, no session, outside the private gate. Served on
  * /health (Railway) and /healthz (image, maintenance mode).
  */
@@ -24,6 +25,7 @@ final readonly class HealthController
         #[Autowire(service: 'doctrine.migrations.dependency_factory')]
         private DependencyFactory $migrations,
         private DemoConfigurationGuard $guard,
+        private ResetStatus $resetStatus,
     ) {
     }
 
@@ -41,6 +43,10 @@ final readonly class HealthController
         }
         if ([] !== $this->guard->violations()) {
             return $this->plain('misconfigured', Response::HTTP_SERVICE_UNAVAILABLE);
+        }
+        // The demo still serves its previous data, but the alert must reach the uptime monitor (US-033).
+        if ($this->resetStatus->hasFailed()) {
+            return $this->plain('reset failed', Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
         return $this->plain('ok', Response::HTTP_OK);
