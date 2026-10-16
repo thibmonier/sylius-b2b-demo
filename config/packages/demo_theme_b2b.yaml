@@ -54,3 +54,20 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/product_reference.html.twig'
                 priority: 490
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        # US-014: B2B homepage. The core banner stays on B2C; the other core homepage blocks are kept.
+        'sylius_shop.homepage.index':
+            banner:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_hero:
+                template: 'shop/theme_b2b/home_hero.html.twig'
+                priority: 400
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_quick_access:
+                template: 'shop/theme_b2b/home_quick_access.html.twig'
+                priority: 350
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_journeys:
+                template: 'shop/theme_b2b/home_journeys.html.twig'
+                priority: 320
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"

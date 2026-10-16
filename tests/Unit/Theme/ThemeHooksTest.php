@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class ThemeHooksTest extends TestCase
 {
-    private const CORE_HOOKABLES_WITH_CONDITION_ONLY = ['logo'];
+    private const CORE_HOOKABLES_WITH_CONDITION_ONLY = ['logo', 'banner'];
 
     public function testThemeOnlyAddsHookablesOrConditionsACoreOne(): void
     {

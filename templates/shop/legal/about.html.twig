@@ -18,9 +18,10 @@
         <p>{{ 'about.plugins_intro'|trans({}, 'legal') }}</p>
         <ul data-plugin-list>
             {% for plugin in plugins %}
-                <li><a href="https://github.com/thibmonier/{{ plugin }}" rel="noopener" target="_blank">{{ plugin }}</a></li>
+                <li><a href="{{ plugin.githubUrl }}" rel="noopener" target="_blank">{{ plugin.slug }}</a></li>
             {% endfor %}
         </ul>
+        <p><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}">{{ 'app.plugins.title'|trans }}</a></p>
 
         <h2>{{ 'about.credits'|trans({}, 'legal') }}</h2>
         <p>{{ 'about.credits_text'|trans({}, 'legal') }}</p>

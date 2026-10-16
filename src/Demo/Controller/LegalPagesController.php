@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Controller;
 
+use App\Demo\Plugin\DemoPluginCatalog;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,17 +13,13 @@ use Twig\Environment;
 /** Read-only public pages: legal notice and about (US-018). */
 final readonly class LegalPagesController
 {
-    /**
-     * @param list<string> $plugins
-     */
     public function __construct(
         private Environment $twig,
         #[Autowire(param: 'demo.legal.publisher')]
         private string $publisher,
         #[Autowire(param: 'demo.legal.host')]
         private string $host,
-        #[Autowire(param: 'demo.plugins')]
-        private array $plugins,
+        private DemoPluginCatalog $plugins,
     ) {
     }
 
@@ -39,7 +36,7 @@ final readonly class LegalPagesController
     public function about(): Response
     {
         return new Response($this->twig->render('shop/legal/about.html.twig', [
-            'plugins' => $this->plugins,
+            'plugins' => $this->plugins->all(),
         ]));
     }
 }

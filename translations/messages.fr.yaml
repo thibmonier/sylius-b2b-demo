@@ -1,4 +1,50 @@
 app:
+    plugins:
+        title: 'Plugins'
+        intro: "Les 21 plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo."
+        github: 'GitHub'
+        see_in_demo: 'Voir dans la démo'
+        no_demo_page: "Visible dans l'administration ou au checkout"
+        category:
+            purchasing: 'Achats B2B'
+            billing: 'Facturation et paiement'
+            catalog: 'Catalogue et prix'
+            integration: 'Intégrations'
+            compliance: 'Conformité'
+            admin: 'Administration'
+    home_b2b:
+        hero:
+            title: 'Fournitures Pro, la démo B2B de Sylius'
+            subtitle: "Devis, commande rapide, validation des achats, PunchOut : parcourez les plugins B2B open source sur une boutique d'équipements professionnels."
+            cta: 'Se connecter avec un compte de démo'
+        quick_access:
+            title: 'Accès rapide'
+            accounts: 'Comptes de démo'
+            accounts_text: 'Connexion en un clic avec les comptes acheteur, approbateur et administrateur.'
+            accounts_link: 'Ouvrir les comptes de démo'
+            catalogue: 'Catalogue'
+            category:
+                epi: 'EPI'
+                quincaillerie: 'Quincaillerie'
+                fournitures-industrielles: 'Fournitures industrielles'
+            plugins: 'Plugins'
+            plugins_text: 'Les 21 plugins et où les voir dans la démo.'
+            plugins_link: 'Voir les plugins'
+        journeys:
+            title: 'Parcours B2B à essayer'
+            try: 'Essayer'
+            quote:
+                title: 'Demander un devis'
+                text: 'Demandez un prix négocié, puis acceptez-le dans un checkout classique.'
+            quick_order:
+                title: 'Commande rapide'
+                text: 'Collez des lignes SKU;quantité ou importez un CSV.'
+            approval:
+                title: 'Validation des achats'
+                text: "Un approbateur valide les commandes au-dessus du plafond d'un acheteur."
+            punchout:
+                title: 'PunchOut'
+                text: "Simulez l'ouverture de la boutique depuis un système d'achat (cXML/OCI)."
     theme_b2b:
         logo_aria: 'Fournitures Pro, accueil'
         top_bar: 'Fournitures professionnelles · Prix HT · Interlocuteur dédié'

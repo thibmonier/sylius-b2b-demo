@@ -1,0 +1,29 @@
+<section class="container mb-5" data-b2b-home="quick-access">
+    <h2 class="h4 mb-3">{{ 'app.home_b2b.quick_access.title'|trans }}</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+        <div class="col">
+            <div class="card h-100"><div class="card-body">
+                <h3 class="h6">{{ 'app.home_b2b.quick_access.accounts'|trans }}</h3>
+                <p class="card-text">{{ 'app.home_b2b.quick_access.accounts_text'|trans }}</p>
+                <a href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.quick_access.accounts_link'|trans }}</a>
+            </div></div>
+        </div>
+        <div class="col">
+            <div class="card h-100"><div class="card-body">
+                <h3 class="h6">{{ 'app.home_b2b.quick_access.catalogue'|trans }}</h3>
+                <ul class="list-unstyled mb-0">
+                    {% for slug in ['epi', 'quincaillerie', 'fournitures-industrielles'] %}
+                        <li><a href="{{ path('sylius_shop_product_index', {slug: slug, _locale: app.request.locale}) }}">{{ ('app.home_b2b.quick_access.category.' ~ slug)|trans }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div></div>
+        </div>
+        <div class="col">
+            <div class="card h-100"><div class="card-body">
+                <h3 class="h6">{{ 'app.home_b2b.quick_access.plugins'|trans }}</h3>
+                <p class="card-text">{{ 'app.home_b2b.quick_access.plugins_text'|trans }}</p>
+                <a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}">{{ 'app.home_b2b.quick_access.plugins_link'|trans }}</a>
+            </div></div>
+        </div>
+    </div>
+</section>

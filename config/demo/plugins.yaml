@@ -1,0 +1,155 @@
+# Single source of truth for the 21 showcased plugins (US-014). Consumed by the Plugins page, the
+# About page and (later) the plugin badges through App\Demo\Plugin\DemoPluginCatalog.
+# slug = GitHub repository name = Packagist package "tmonier/<slug>"; descriptions come from each
+# plugin's composer.json. demo_route = name of a real shop route showing the plugin (null when the
+# plugin is only visible in the admin panel, the API or at checkout). Categories: purchasing,
+# billing, catalog, integration, compliance, admin.
+parameters:
+    demo.plugin_catalog:
+        - slug: sylius-admin-order-creation-plugin
+          name: 'Admin Order Creation'
+          category: admin
+          description:
+              fr: "Créez des commandes pour le compte des clients (commandes téléphone et back-office) depuis l'administration Sylius 2."
+              en: 'Create orders on behalf of customers (phone and back-office orders) from the Sylius 2 admin panel.'
+          demo_route: null
+        - slug: sylius-agentic-feeds-plugin
+          name: 'Agentic Feeds'
+          category: integration
+          description:
+              fr: "Flux produits pour assistants d'achat IA et comparateurs : Google Merchant Center, OpenAI, Stripe Agentic Commerce, par canal, locale et devise, avec rapports de validation."
+              en: 'Product feeds for AI shopping assistants and comparison engines: Google Merchant Center, OpenAI, Stripe Agentic Commerce, per channel, locale and currency, with validation reports.'
+          demo_route: null
+        - slug: sylius-ai-catalog-copilot-plugin
+          name: 'AI Catalog Copilot'
+          category: catalog
+          description:
+              fr: "Copilote IA du catalogue dans l'administration : suggestions de descriptions, méta et traductions produit à relire, via Symfony AI."
+              en: 'AI catalog copilot for the admin: reviewable product description, meta and translation suggestions through Symfony AI.'
+          demo_route: null
+        - slug: sylius-audit-log-plugin
+          name: 'Audit Log'
+          category: admin
+          description:
+              fr: "Journal d'audit des modifications de l'administration : qui a changé quoi, et quand."
+              en: 'Audit log of admin changes: who changed what, and when.'
+          demo_route: null
+        - slug: sylius-b2b-mcp-plugin
+          name: 'B2B MCP'
+          category: integration
+          description:
+              fr: "Outils B2B pour le serveur MCP officiel de Sylius : les acheteurs connectés utilisent Claude ou ChatGPT pour lister et recommander leurs commandes, commander par SKU, demander des devis et lire leur relevé de crédit (OAuth 2.1 avec PKCE)."
+              en: 'B2B tools for the official Sylius MCP server: signed-in buyers use Claude or ChatGPT to list and reorder their orders, quick order by SKU, request quotes and read their trade credit statement (OAuth 2.1 with PKCE).'
+          demo_route: tmonier_b2b_mcp_shop_connections
+        - slug: sylius-bulk-actions-plugin
+          name: 'Bulk Actions'
+          category: admin
+          description:
+              fr: "Actions groupées sur les grilles de l'administration : activer/désactiver, taxons et canaux des produits, annuler des commandes, marquer des paiements comme payés, expédier, groupes de clients."
+              en: 'Bulk actions for the admin grids: enable/disable, taxons and channels for products, cancel orders, mark payments as paid, ship shipments, customer groups.'
+          demo_route: null
+        - slug: sylius-command-palette-plugin
+          name: 'Command Palette'
+          category: admin
+          description:
+              fr: "Palette de commandes (Ctrl+K / Cmd+K) pour l'administration : recherche globale des commandes, clients, produits, promotions et pages d'administration."
+              en: 'Command palette (Ctrl+K / Cmd+K global search) for the admin: orders, customers, products, promotions and admin pages.'
+          demo_route: null
+        - slug: sylius-company-accounts-plugin
+          name: 'Company Accounts'
+          category: purchasing
+          description:
+              fr: "Comptes entreprise B2B : sociétés avec membres et rôles (admin, acheteur, approbateur), espace société dans le compte client (membres, commandes de la société), CRUD admin, API boutique et admin."
+              en: 'B2B company accounts: companies with members and roles (admin, buyer, approver), company area in the customer account (members, company orders), admin CRUD, shop and admin API.'
+          demo_route: tmonier_company_accounts_shop_company_show
+        - slug: sylius-container-fill-plugin
+          name: 'Container Fill'
+          category: purchasing
+          description:
+              fr: "Pallet & Truckload Builder : types de conteneurs, données logistiques par variante, planificateur de chargement avec jauge de remplissage dans le panier, règles B2B appliquées au checkout, expédition par conteneur."
+              en: 'Pallet & Truckload Builder: container types, logistics data per variant, a load planner with a fill gauge in the cart, B2B fill rules enforced at checkout, per-container shipping.'
+          demo_route: null
+        - slug: sylius-facturx-plugin
+          name: 'Factur-X'
+          category: billing
+          description:
+              fr: "Factures électroniques Factur-X / ZUGFeRD (EN 16931) pour le plugin Invoicing de Sylius 2 : PDF/A-3 avec XML CII embarqué."
+              en: 'Factur-X / ZUGFeRD (EN 16931) electronic invoices for the Sylius 2 Invoicing Plugin: PDF/A-3 with embedded CII XML.'
+          demo_route: null
+        - slug: sylius-gpsr-plugin
+          name: 'GPSR'
+          category: compliance
+          description:
+              fr: "Informations de sécurité des produits du règlement européen GPSR (règlement (UE) 2023/988, art. 19)."
+              en: 'EU General Product Safety Regulation (GPSR, Regulation (EU) 2023/988, Art. 19) product safety information.'
+          demo_route: null
+        - slug: sylius-order-hold-plugin
+          name: 'Order Hold'
+          category: billing
+          description:
+              fr: "Noyau partagé de mise en attente des commandes : exclut les commandes retenues de l'annulation des impayés, filtre les moyens de paiement partout (boutique, API) et bloque la saisie du paiement."
+              en: 'Shared order-hold kernel: keeps held orders out of the unpaid-orders cancellation, filters payment methods everywhere (shop, API) and blocks payment entry.'
+          demo_route: null
+        - slug: sylius-punchout-cxml-plugin
+          name: 'PunchOut cXML'
+          category: integration
+          description:
+              fr: "Connecteur PunchOut cXML/OCI B2B : votre boutique devient fournisseur PunchOut pour les systèmes d'achat (Ariba, SAP, Coupa…)."
+              en: 'B2B PunchOut cXML/OCI connector: lets your shop act as a PunchOut supplier for procurement systems (Ariba, SAP, Coupa…).'
+          demo_route: tmonier_punchout_inspect
+        - slug: sylius-purchase-approval-plugin
+          name: 'Purchase Approval'
+          category: purchasing
+          description:
+              fr: "Validation des achats pour les comptes entreprise : plafonds de commande et d'approbation par membre, commandes en attente jusqu'à l'accord d'un approbateur (ni paiement, ni expédition, ni facture avant), e-mail d'accusé, expiration."
+              en: 'Purchase approval for company accounts: order and approval limits per member, pending orders held until a company approver approves them (no payment, shipment or invoice before), acknowledgement e-mail, expiry.'
+          demo_route: tmonier_purchase_approval_shop_approvals
+        - slug: sylius-quick-order-plugin
+          name: 'Quick Order'
+          category: purchasing
+          description:
+              fr: "Commande rapide B2B : collez des lignes SKU;quantité ou importez un CSV, prévisualisez, ajoutez des centaines de lignes au panier en une fois, recommandez d'anciennes commandes."
+              en: 'B2B quick order: paste SKU;quantity lines or upload a CSV, preview, add up to hundreds of lines to the cart in one pass, reorder past orders.'
+          demo_route: tmonier_quick_order_shop_index
+        - slug: sylius-quote-request-plugin
+          name: 'Quote Request'
+          category: purchasing
+          description:
+              fr: "Demande de devis B2B : depuis le panier ou une fiche produit, négociation en administration (prix, remise, validité), propositions par e-mail, acceptation vers un checkout classique aux prix négociés verrouillés."
+              en: 'B2B request for quote: quote requests from the cart or a product page, admin negotiation (prices, discount, validity), proposals by e-mail, acceptance into a regular checkout with locked negotiated prices.'
+          demo_route: tmonier_quote_request_shop_new
+        - slug: sylius-tier-pricing-plugin
+          name: 'Tier Pricing'
+          category: catalog
+          description:
+              fr: "Tarification dégressive : paliers de prix par quantité, par canal, groupe de clients, produit ou variante, appliqués au panier et affichés sur les fiches produit, import/export CSV et API."
+              en: 'Volume (tier) pricing: quantity price breaks per channel, customer group, product or variant, applied in the cart and shown on product pages, CSV import/export and API.'
+          demo_route: null
+        - slug: sylius-timeline-plugin
+          name: 'Timeline'
+          category: admin
+          description:
+              fr: "Chronologie des commandes et des clients avec notes internes du personnel dans l'administration."
+              en: 'Order and customer timeline with internal staff notes in the admin panel.'
+          demo_route: null
+        - slug: sylius-trade-credit-plugin
+          name: 'Trade Credit'
+          category: billing
+          description:
+              fr: "Paiement sur compte B2B : comptes de crédit avec plafonds, conditions net et fin de mois, réservations atomiques, relevés, encours en administration et conditions de paiement Factur-X."
+              en: 'B2B trade credit (payment on account): credit accounts with limits, net terms and end-of-month terms, atomic reservations, statements, admin open items and Factur-X payment terms.'
+          demo_route: null
+        - slug: sylius-webhook-outbox-plugin
+          name: 'Webhook Outbox'
+          category: integration
+          description:
+              fr: "Outbox transactionnelle pour les webhooks sortants : capture atomique des événements, signatures Standard Webhooks, relances, files d'échec et rejeu depuis l'administration."
+              en: 'Transactional outbox for outgoing webhooks: atomic event capture, Standard Webhooks signatures, retries, dead letters and replay from the admin panel.'
+          demo_route: null
+        - slug: sylius-withdrawal-plugin
+          name: 'Withdrawal'
+          category: compliance
+          description:
+              fr: "Bouton de rétractation européen (directive (UE) 2023/2673, art. 11 bis de la directive droits des consommateurs). Visible sur le canal B2C."
+              en: 'EU withdrawal button (Directive (EU) 2023/2673, Art. 11a Consumer Rights Directive). Visible on the B2C channel.'
+          demo_route: tmonier_withdrawal_shop_form

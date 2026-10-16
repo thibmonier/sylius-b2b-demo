@@ -21,7 +21,7 @@ final class TaxonListingSmokeTest extends WebTestCase
         /** @var Connection $connection */
         $connection = self::getContainer()->get('doctrine.dbal.default_connection');
 
-        $unassigned = (int) $connection->fetchOne(
+        $unassigned = $connection->fetchOne(
             'SELECT COUNT(*) FROM sylius_product p
              WHERE p.main_taxon_id IS NOT NULL
                AND NOT EXISTS (
@@ -30,7 +30,8 @@ final class TaxonListingSmokeTest extends WebTestCase
                )',
         );
 
-        self::assertSame(0, $unassigned, 'Each product must be listed under its main taxon.');
+        self::assertIsNumeric($unassigned);
+        self::assertSame(0, (int) $unassigned, 'Each product must be listed under its main taxon.');
     }
 
     public function testACategoryPageListsItsProducts(): void
