@@ -5,18 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use Doctrine\DBAL\Connection as Dbal;
-use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mime\Email;
-use Tmonier\SyliusB2bMcpPlugin\Entity\Connection;
-use Tmonier\SyliusB2bMcpPlugin\Entity\OAuthClient;
-use Tmonier\SyliusB2bMcpPlugin\Entity\OAuthToken;
-use Tmonier\SyliusB2bMcpPlugin\OAuth\ScopeCatalog;
-use Tmonier\SyliusB2bMcpPlugin\OAuth\TokenStore;
 
 /**
  * US-020 — A registration on the B2B channel waits for Sophie (restricted back-office account); she approves or
@@ -25,6 +18,8 @@ use Tmonier\SyliusB2bMcpPlugin\OAuth\TokenStore;
  */
 final class RegistrationApprovalDemoTest extends DemoAdminWebTestCase
 {
+    use McpAccess;
+
     private const PRICE = '/\d[,.]\d\d(?:\s|&nbsp;|\x{00A0}|\x{202F})*(?:€|&euro;|EUR)/u';
 
     private const PASSWORD = 'Demo1234!x';
@@ -226,41 +221,6 @@ final class RegistrationApprovalDemoTest extends DemoAdminWebTestCase
         self::assertResponseRedirects('/admin/registration-approvals');
 
         return $mails;
-    }
-
-    /** An access token of an AI assistant connected to the account of the customer (the OAuth tables are rolled back). */
-    private function mcpAccessToken(string $email): string
-    {
-        $container = self::getContainer();
-        $em = $container->get('doctrine.orm.entity_manager');
-        self::assertInstanceOf(EntityManagerInterface::class, $em);
-        $tokens = $container->get('tmonier_b2b_mcp.oauth.token_store');
-        self::assertInstanceOf(TokenStore::class, $tokens);
-        $scopes = $container->get('tmonier_b2b_mcp.oauth.scope_catalog');
-        self::assertInstanceOf(ScopeCatalog::class, $scopes);
-        $customer = $em->getRepository(CustomerInterface::class)->findOneBy(['email' => $email]);
-        self::assertInstanceOf(CustomerInterface::class, $customer);
-
-        $oauthClient = new OAuthClient('test-assistant-' . bin2hex(random_bytes(4)), 'Test assistant', ['https://assistant.example/callback']);
-        $em->persist($oauthClient);
-        $connection = new Connection();
-        $connection->setClient($oauthClient);
-        $connection->setCustomer($customer);
-        $connection->setChannelCode('B2B');
-        $connection->setScopes($scopes->supported());
-        $em->persist($connection);
-        $em->flush();
-
-        $identifier = bin2hex(random_bytes(24));
-        $tokens->store(OAuthToken::TYPE_ACCESS, $identifier, $connection, $scopes->supported(), new \DateTimeImmutable('+1 hour'));
-        $em->clear();
-
-        return $identifier;
-    }
-
-    private function mcpCall(KernelBrowser $client, string $token): void
-    {
-        $client->request('POST', '/_mcp', server: ['HTTP_AUTHORIZATION' => 'Bearer ' . $token, 'CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json, text/event-stream'], content: (string) json_encode(['jsonrpc' => '2.0', 'id' => 1, 'method' => 'ping']));
     }
 
     private function signInAs(KernelBrowser $client, string $email): void
