@@ -1,0 +1,72 @@
+# US-017: plugin badges of the admin panel. Same registry mechanism and same `demo/plugin_badge.html.twig`
+# as the shop badges (config/packages/demo_plugin_badges.yaml). A badge sits just ABOVE the card the
+# plugin registers on the hook (higher priority); native Sylius blocks get none.
+sylius_twig_hooks:
+    hooks:
+        # Admin
+        'sylius_admin.order.show.content.sections#left':
+            demo_badge_timeline:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-timeline-plugin
+                priority: -99
+            demo_badge_audit_log:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-audit-log-plugin
+                priority: -999
+            demo_badge_container_fill:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-container-fill-plugin
+                priority: 51
+        'sylius_admin.order.show.content.sections#right':
+            demo_badge_purchase_approval:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-purchase-approval-plugin
+                priority: 151
+        'sylius_admin.customer.show.content.sections':
+            demo_badge_timeline:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-timeline-plugin
+                priority: -99
+            demo_badge_facturx:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-facturx-plugin
+                priority: -49
+            demo_badge_trade_credit:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-trade-credit-plugin
+                priority: -39
+            demo_badge_audit_log:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-audit-log-plugin
+                priority: -999
+        'sylius_admin.customer.show.content.sections.general':
+            demo_badge_company_accounts:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-company-accounts-plugin
+                priority: 451
+        'sylius_admin.product.update.content':
+            demo_badge_audit_log:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-audit-log-plugin
+                priority: -49
+            demo_badge_ai_catalog_copilot:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-ai-catalog-copilot-plugin
+                priority: -39
+
+        # Badges switch of the admin panel (the shop one lives in the demo banner).
+        'sylius_admin.common.component.navbar.menu':
+            demo_badges_toggle:
+                template: 'demo/badges_toggle_admin.html.twig'
+                priority: -50

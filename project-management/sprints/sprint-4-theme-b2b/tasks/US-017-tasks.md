@@ -16,14 +16,17 @@ En tant que Hugo, je veux les mêmes badges dans l'admin, afin d'identifier les 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-017-01 | [BE] | Entrées admin du registre (timeline, audit, approbation, Factur-X…) | 1.5h | T-016-01 | 🔲 |
-| T-017-02 | [FE-WEB] | Badges sur fiches commande, client et produit de l'admin | 1.5h | T-017-01, T-016-03 | 🔲 |
-| T-017-03 | [TEST] | Tests : fiches admin, clavier, cohérence shop/admin, bloc natif, plugin non activé | 1.5h | T-017-02 | 🔲 |
-| T-017-04 | [DOC] | Documentation badges admin | 0.5h | T-017-03 | 🔲 |
+| T-017-01 | [BE] | Entrées admin du registre (timeline, audit, approbation, Factur-X…) | 1.5h | T-016-01 | ✅ |
+| T-017-02 | [FE-WEB] | Badges sur fiches commande, client et produit de l'admin | 1.5h | T-017-01, T-016-03 | ✅ |
+| T-017-03 | [TEST] | Tests : fiches admin, clavier, cohérence shop/admin, bloc natif, plugin non activé | 1.5h | T-017-02 | ✅ |
+| T-017-04 | [DOC] | Documentation badges admin | 0.5h | T-017-03 | ✅ |
 
 **Total estimé : 5h**
 
 ---
+
+
+> **Réalisation** : mêmes mécanisme et gabarit que le shop (`demo/plugin_badge.html.twig`), entrées dans `config/packages/demo_plugin_badges_admin.yaml`, sur des hooks admin que le plugin enregistre lui-même (fiches commande `sylius_admin.order.show.content.sections#left|#right`, client `sylius_admin.customer.show.content.sections[.general]`, produit `sylius_admin.product.update.content`). Le badge est placé juste au-dessus de la carte du plugin ; les blocs natifs n'en reçoivent pas. La bascule est dans la barre de navigation (`sylius_admin.common.component.navbar.menu`), même cookie que le shop. `BadgeRegistryTest` vérifie slug existant et hook réellement utilisé par le plugin.
 
 ## Détail des tâches
 

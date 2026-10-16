@@ -37,17 +37,22 @@ final class BadgeRegistryTest extends KernelTestCase
         }
     }
 
-    public function testShopBadgesCoverTheMainPlugins(): void
+    public function testShopAndAdminBadgesCoverTheMainPlugins(): void
     {
-        $shop = [];
+        $shop = $admin = [];
         foreach (self::entries() as $badge) {
-            if (!str_starts_with($badge['hook'], 'sylius_admin.')) {
+            if (str_starts_with($badge['hook'], 'sylius_admin.')) {
+                $admin[] = $badge['plugin'];
+            } else {
                 $shop[] = $badge['plugin'];
             }
         }
 
         foreach (['sylius-quote-request-plugin', 'sylius-quick-order-plugin', 'sylius-tier-pricing-plugin', 'sylius-gpsr-plugin', 'sylius-withdrawal-plugin', 'sylius-purchase-approval-plugin'] as $slug) {
             self::assertContains($slug, $shop);
+        }
+        foreach (['sylius-timeline-plugin', 'sylius-audit-log-plugin', 'sylius-purchase-approval-plugin', 'sylius-facturx-plugin'] as $slug) {
+            self::assertContains($slug, $admin);
         }
     }
 
