@@ -58,3 +58,12 @@ services:
     App\Demo\Channel\ConsumerChannelVoter:
         arguments:
             $channelContext: '@sylius.context.channel'
+
+    # US-022: Factur-X BT-10 BuyerReference from the order PO reference (decorates the plugin XML writer).
+    App\Invoice\PoReferenceCiiXmlWriter:
+        decorates: 'tmonier_facturx.xml.writer'
+        decoration_on_invalid: ignore
+        arguments:
+            $inner: '@.inner'
+            $orderRepository: '@sylius.repository.order'
+            $logger: '@logger'

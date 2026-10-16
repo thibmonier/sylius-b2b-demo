@@ -1,0 +1,15 @@
+{# US-021: PO reference and cost center block at checkout complete step.
+   sylius.channel is always our App\Entity\Channel\Channel at runtime. #}
+{% set form = hookable_metadata.context.form %}
+
+<div class="ui segment" data-testid="po-reference-block">
+    <h4 class="ui dividing header">{{ 'app.checkout.po_reference.section_title' | trans }}</h4>
+
+    {{ form_row(form.poReference, {
+        attr: { 'data-testid': 'po-reference-input' }
+    }) }}
+
+    {{ form_row(form.costCenter, {
+        attr: { 'data-testid': 'cost-center-input' }
+    }) }}
+</div>

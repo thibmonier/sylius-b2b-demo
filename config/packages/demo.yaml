@@ -11,3 +11,30 @@ sylius_twig_hooks:
                 template: '@TmonierSyliusWithdrawalPlugin/shop/account_order/withdrawal_button.html.twig'
                 priority: -100
                 condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+        # US-021: PO reference and cost center block at checkout complete step.
+        'sylius_shop.checkout.complete.content.form':
+            po_reference:
+                template: 'checkout/po_reference_block.html.twig'
+                priority: 150
+        # US-022: PO reference and cost center on the admin order page (summary card rows).
+        'sylius_admin.order.show.content.sections.summary':
+            po_reference:
+                template: 'admin/order/po_reference_summary.html.twig'
+                priority: 400
+
+# US-022: PO reference column and filter in the admin order grid.
+sylius_grid:
+    grids:
+        sylius_admin_order:
+            fields:
+                poReference:
+                    type: string
+                    label: app.ui.po_reference
+                    sortable: ~
+                    position: 25
+            filters:
+                poReference:
+                    type: string
+                    label: app.ui.po_reference
+                    form_options:
+                        type: contains

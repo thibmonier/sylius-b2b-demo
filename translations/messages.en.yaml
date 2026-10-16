@@ -1,0 +1,14 @@
+app:
+    checkout:
+        po_reference:
+            section_title: 'Order reference'
+    form:
+        checkout:
+            po_reference: 'PO reference'
+            po_reference_required: 'PO reference *'
+            cost_center: 'Cost center'
+    ui:
+        po_reference: 'PO reference'
+        cost_center: 'Cost center'
+    email:
+        po_reference: 'PO reference:'
