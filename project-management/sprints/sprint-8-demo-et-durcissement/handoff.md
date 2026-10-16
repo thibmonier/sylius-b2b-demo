@@ -8,7 +8,9 @@
   (`1f3888e`), README corrigé (`d554cb4`), relevé de coût écrit (`b239763`). Rétro : `retrospective.md`.
 - **Reste à faire** : GO de merge de l'utilisateur. Ensuite, squash merge, repointer le service web Railway sur `main`
   (`railway config apply`), redéployer, puis reset en `www-data`.
-- À valider avec l'utilisateur : M2, M5, M8, et la règle MCP par canal (R2).
+- **Décisions de l'utilisateur (2026-10-16)** : GO de merge (PR #11 mergée en squash, `282abcb`). M2, M5 et M8 validés.
+  R2 : on garde la règle actuelle, un client en attente est refusé par le MCP sur tous les canaux, sans évolution du
+  plugin.
 
 ## Rapport worker-demo
 

@@ -103,18 +103,18 @@ sprints:
       - {id: US-039, title: "Correctif du plugin container-fill", points: 3, status: done}  # ré-estimée 2→3 (9,5 h)
   sprint-8:
     name: sprint-8-demo-et-durcissement
-    status: in-progress
+    status: done
     sprint_id: "sprint-8"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
     capacity_points: 25  # ré-estimé après décomposition (126,5 h pour 23 pts) ; arbitrage utilisateur du 2026-10-16
     goal: "Démo et durcissement : reports sécurité et qualité du sprint 6, guide MCP, et deux améliorations de plugins (routes restreintes de channel-access, statut d'approbation dans b2b-mcp)"
     stories:
-      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: ready-for-dev}
-      - {id: US-040, title: "Durcissement complémentaire (reports sécurité du sprint 6)", points: 8, status: ready-for-dev}  # ré-estimée 5→8 (30 h)
-      - {id: US-041, title: "Qualité des données et du reset (reports du sprint 6)", points: 5, status: ready-for-dev}  # T-041-06..09 (S2-R7..R10) au sprint 9 ; relevé de coût partiel
-      - {id: US-042, title: "Routes restreintes configurables dans channel-access", points: 5, status: ready-for-dev}  # ré-estimée 3→5 (16,5 h)
-      - {id: US-043, title: "Statut d'approbation dans le plugin b2b-mcp", points: 5, status: ready-for-dev}  # ré-estimée 3→5 (20,5 h)
+      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: done}  # T-030-03 (vrai assistant) après ouverture publique
+      - {id: US-040, title: "Durcissement complémentaire (reports sécurité du sprint 6)", points: 8, status: done}  # ré-estimée 5→8 (30 h)
+      - {id: US-041, title: "Qualité des données et du reset (reports du sprint 6)", points: 5, status: done}  # T-041-06..09 (S2-R7..R10) au sprint 9 ; relevé de coût partiel
+      - {id: US-042, title: "Routes restreintes configurables dans channel-access", points: 5, status: done}  # ré-estimée 3→5 (16,5 h)
+      - {id: US-043, title: "Statut d'approbation dans le plugin b2b-mcp", points: 5, status: done}  # ré-estimée 3→5 (20,5 h)
   sprint-9:
     name: sprint-9-reports
     status: planned
