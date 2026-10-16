@@ -84,10 +84,15 @@ Limites :
 |----------|------|------------------------|----------------------|
 | `DEMO_MODE` | Active les pages `/demo/*`, le bandeau et le simulateur. Défaut `0` | `1` | `1` |
 | `DEFAULT_URI` | URL publique (liens absolus, e-mails) ; son hôte HTTPS devient un domaine de retour PunchOut | `http://localhost:8080` | `https://<hôte public>` |
-| `DEMO_MAILPIT_API_URL` | API HTTP **interne** de Mailpit, appelée côté serveur uniquement ; vide = boîte de démo désactivée | `http://mailpit:8025` | adresse sur le réseau privé, jamais publique (sprint 6) |
+| `DEMO_MAILPIT_API_URL` | API HTTP **interne** de Mailpit, appelée côté serveur uniquement ; vide = boîte de démo désactivée | `http://mailpit:8025` | `http://<mailpit privé>:8025` (réseau privé Railway) |
 | `DEMO_MAILPIT_URL` | Interface Mailpit pour le développeur local ; jamais affichée aux visiteurs | `http://localhost:8025` | vide |
-| `MAILER_DSN` | Envoi des e-mails (vers Mailpit) | `smtp://mailpit:1025` | à définir (sprint 6) |
+| `MAILER_DSN` | Envoi des e-mails (vers Mailpit) | `smtp://mailpit:1025` | `smtp://<mailpit privé>:1025` |
 | `DATABASE_URL` | Base MySQL 8.4 | service `mysql` | base Railway |
 | `WKHTMLTOPDF_BINARY` | Binaire des factures PDF | `/usr/local/bin/wkhtmltopdf` (image) | idem |
+| `DEMO_BASIC_AUTH` | Porte privée (auth HTTP basique) en mode démo. Défaut `1` | `0` | `1` jusqu'au GO d'ouverture |
 
-Ne pas ouvrir la démo au public avant le sprint 6 (back-office de démo à accès complet, données personnelles).
+Liste complète (plafonds de débit, hôtes sortants, secrets de la porte) : [`docs/durcissement-demo.md`](docs/durcissement-demo.md).
+
+## Déploiement / Deployment
+
+La démo est déployée sur Railway, **privée** (auth HTTP basique) tant que l'ouverture publique n'est pas validée. Runbook : [`docs/deploiement-railway.md`](docs/deploiement-railway.md) ; remise à zéro nocturne (03:00, heure de Paris) : [`docs/remise-a-zero-demo.md`](docs/remise-a-zero-demo.md) ; admin de démo restreint : [`docs/securite-admin-demo.md`](docs/securite-admin-demo.md).
