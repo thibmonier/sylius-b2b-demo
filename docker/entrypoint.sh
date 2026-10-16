@@ -26,5 +26,12 @@ if [ "$(php bin/console dbal:run-sql 'SELECT COUNT(*) AS n FROM sylius_channel' 
     php -d memory_limit=1G bin/console sylius:fixtures:load demo --no-interaction
 fi
 
+# Opt-in worker mode (ADR-0013, off by default): the kernel stays booted between requests. symfony/runtime
+# detects the worker thread by itself and loops on frankenphp_handle_request() in public/index.php.
+if [ "${FRANKENPHP_WORKER_MODE:-0}" = "1" ]; then
+    FRANKENPHP_WORKER_DIRECTIVE="worker /app/public/index.php ${FRANKENPHP_WORKERS:-4}"
+    export FRANKENPHP_WORKER_DIRECTIVE
+fi
+
 supercronic -split-logs /app/docker/crontab &
 exec "$@"

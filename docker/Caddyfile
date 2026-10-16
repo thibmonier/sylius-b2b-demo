@@ -2,7 +2,13 @@
 	# TLS is terminated by Railway (and plain HTTP locally).
 	auto_https off
 	admin off
-	frankenphp
+
+	# Bounded PHP threads (ADR-0013): without num_threads/max_threads FrankenPHP starts 2 x the CPU count of the
+	# host (16 on Railway) and may grow past it. max_threads caps the memory the PHP pool can take.
+	frankenphp {
+		num_threads {$FRANKENPHP_NUM_THREADS:8}
+		max_threads {$FRANKENPHP_MAX_THREADS:16}
+	}
 }
 
 :{$PORT:8080} {
@@ -25,5 +31,9 @@
 	@static path /build/* /bundles/* /media/*
 	header @static Cache-Control "public, max-age=604800"
 
-	php_server
+	# Worker mode (ADR-0013) is opt-in: entrypoint.sh fills FRANKENPHP_WORKER_DIRECTIVE when FRANKENPHP_WORKER_MODE=1,
+	# otherwise the line expands to nothing and the classic mode applies.
+	php_server {
+		{$FRANKENPHP_WORKER_DIRECTIVE:}
+	}
 }
