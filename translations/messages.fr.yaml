@@ -1,0 +1,9 @@
+app:
+    checkout:
+        po_reference:
+            section_title: 'Référence commande'
+    form:
+        checkout:
+            po_reference: 'Référence PO'
+            po_reference_required: 'Référence PO *'
+            cost_center: 'Centre de coût'

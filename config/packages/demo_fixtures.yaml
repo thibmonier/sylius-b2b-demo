@@ -186,3 +186,8 @@ sylius_fixtures:
                 # Uses built-in plugin fixture; no extra options needed.
                 tmonier_agentic_feeds:
                     priority: -50
+
+                # US-021: Configure B2B channel to require PO reference and enable cost center.
+                # Runs after channel fixture (priority 0) → priority -5.
+                demo_po_reference_channel:
+                    priority: -5

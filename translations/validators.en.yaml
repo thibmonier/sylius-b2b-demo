@@ -1,0 +1,6 @@
+app:
+    checkout:
+        po_reference:
+            required: 'PO reference is required to complete the order.'
+            max_length: 'PO reference must not exceed 64 characters.'
+            invalid_characters: 'PO reference may only contain letters, digits and hyphens.'
