@@ -1,0 +1,12 @@
+{# US-035: 403 page of a refused admin write; the message is already translated (translations/demo_admin.*). #}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'demo_admin.title'|trans({}, 'demo_admin') }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="py-6 text-center" data-demo-admin-refused>
+        <div class="h2">{{ 'demo_admin.title'|trans({}, 'demo_admin') }}</div>
+        <p class="text-secondary mb-4">{{ message }}</p>
+        <a href="{{ path('sylius_admin_dashboard') }}" class="link-primary">{{ 'sylius.ui.back_to_dashboard'|trans }}</a>
+    </div>
+{% endblock %}

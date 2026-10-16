@@ -139,6 +139,11 @@ sylius_fixtures:
                     options:
                         custom: '%demo.admin_users%'
 
+                # US-035: every back-office account of the catalogue becomes ROLE_DEMO_ADMIN (restricted writes).
+                # Runs right after admin_user (0).
+                demo_admin_role:
+                    priority: -1
+
                 # Sprint 2 — US-008: Catalogue industriel (CSV).
                 # La PriorityQueue de SyliusFixturesBundle trie en SORT_DESC (priorité
                 # haute = exécutée en premier) ; les fixtures de base (canaux, locales…)
