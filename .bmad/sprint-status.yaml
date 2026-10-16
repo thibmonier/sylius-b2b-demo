@@ -121,4 +121,5 @@ sprints:
     stories:
       - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}  # reportée du sprint 8 (capacité, décision utilisateur 2026-10-16)
       - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}  # reportée du sprint 8
+      - {id: US-044, title: "Données de remplissage des contenants (container-fill)", points: 5, status: backlog}  # demande utilisateur 2026-10-16 : presets du plugin + fixture de démo dérivée du catalogue
     notes: "Aussi au sprint 9 : T-041-06 à T-041-09 (S2-R7 à R10, requêtes du reset et vérifications latentes) et T-041-15 (relevé de coût complet à J+7, à partir du 2026-10-23)."
