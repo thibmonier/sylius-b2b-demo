@@ -97,10 +97,10 @@ sprints:
     capacity_points: 27  # ré-estimé après décomposition (210 h pour 34 pts) ; découpage décidé par l'utilisateur le 2026-10-16
     goal: "Plugins : nouveaux plugins publiés d'accès par canal et d'inscription validée, correctifs publiés de punchout-cxml (puis retrait du contournement de la démo) et de container-fill, intégrés dans la démo"
     stories:
-      - {id: US-019, title: "Mode d'accès par canal", points: 8, status: ready-for-dev}  # plugin autonome publié ; ré-estimée 5→8 (41,5 h)
-      - {id: US-020, title: "Inscription validée par l'admin", points: 8, status: ready-for-dev}  # plugin autonome, dépend d'US-019 ; ré-estimée 5→8 (40 h)
-      - {id: US-038, title: "Correctifs du plugin punchout-cxml", points: 8, status: ready-for-dev}  # ré-estimée 5→8 (30,5 h)
-      - {id: US-039, title: "Correctif du plugin container-fill", points: 3, status: ready-for-dev}  # ré-estimée 2→3 (9,5 h)
+      - {id: US-019, title: "Mode d'accès par canal", points: 8, status: review}  # plugin autonome publié ; ré-estimée 5→8 (41,5 h)
+      - {id: US-020, title: "Inscription validée par l'admin", points: 8, status: review}  # plugin autonome, dépend d'US-019 ; ré-estimée 5→8 (40 h)
+      - {id: US-038, title: "Correctifs du plugin punchout-cxml", points: 8, status: review}  # ré-estimée 5→8 (30,5 h)
+      - {id: US-039, title: "Correctif du plugin container-fill", points: 3, status: review}  # ré-estimée 2→3 (9,5 h)
   sprint-8:
     name: sprint-8-demo-et-durcissement
     status: planned

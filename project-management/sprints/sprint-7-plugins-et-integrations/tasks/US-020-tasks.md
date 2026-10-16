@@ -16,23 +16,23 @@ En tant que Sophie, je veux valider les inscriptions sur un canal B2B, afin de n
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-020-01 | [BE] | Créer le dépôt local `sylius-registration-approval-plugin` : squelette (modèle order-hold / company-accounts), dépendance au contrat d'US-019 | 2.5h | T-019-04, T-019-01 | 🔲 |
-| T-020-02 | [OPS] | CI multi-versions et doctrine:schema:validate | 1.5h | T-020-01 | 🔲 |
-| T-020-03 | [DB] | Statut d'approbation du client (en attente, approuvé, refusé) : trait, mapping et migration | 2.5h | T-020-01 | 🔲 |
-| T-020-04 | [BE] | Contrat public et service d'approbation (approve/reject, événements, historique) | 3h | T-020-03 | 🔲 |
-| T-020-05 | [BE] | Inscription en attente : compte créé sans accès au catalogue fermé, connexion limitée à une page d'attente | 3.5h | T-020-04, T-019-05 | 🔲 |
-| T-020-06 | [BE] | E-mails d'approbation et de refus (mailer Sylius, gabarits FR/EN) | 2.5h | T-020-04 | 🔲 |
-| T-020-07 | [FE-WEB] | Admin : liste « inscriptions en attente » (filtre), actions approuver/refuser protégées (CSRF, droits) | 4h | T-020-04 | 🔲 |
-| T-020-08 | [TEST] | Tests unitaires et fonctionnels : parcours inscription → attente → approbation/refus, e-mails, erreurs | 5h | T-020-05, T-020-06, T-020-07 | 🔲 |
-| T-020-09 | [DOC] | README, CHANGELOG, configuration (canaux concernés) | 1.5h | T-020-08 | 🔲 |
-| T-020-10 | [REV] | Revue de sécurité du plugin (énumération de comptes, contournement du statut, CSRF, élévation) | 3h | T-020-08, T-020-09 | 🔲 |
-| T-020-11 | [BE] | Corrections des constats de la revue (réserve) | 2h | T-020-10 | 🔲 |
-| T-020-12 | [OPS] | Préparer la version : CHANGELOG daté, notes, tag proposé v0.1.0 (sans tag) | 1h | T-020-11 | 🔲 |
-| T-020-13 | [OPS] | Créer le dépôt GitHub public `tmonier/sylius-registration-approval-plugin` et les topics | 1h | T-020-12 | ⏳ GO utilisateur |
-| T-020-14 | [OPS] | Tag v0.1.0, release GitHub et publication Packagist | 1.5h | T-020-13, T-019-15 | ⏳ GO utilisateur |
-| T-020-15 | [BE] | Intégration dans la démo : activation sur le canal B2B, inscription de démo soumise à validation | 2h | T-020-11, T-019-16 | 🔲 |
-| T-020-16 | [TEST] | Tests de démo : Sophie approuve/refuse, e-mail visible dans Mailpit, FR/EN | 2.5h | T-020-15 | 🔲 |
-| T-020-17 | [OPS] | Démo : passer à la version Packagist du plugin et relancer les tests | 1h | T-020-14, T-020-16 | ⏳ GO utilisateur |
+| T-020-01 | [BE] | Créer le dépôt local `sylius-registration-approval-plugin` : squelette (modèle order-hold / company-accounts), dépendance au contrat d'US-019 | 2.5h | T-019-04, T-019-01 | ✅ |
+| T-020-02 | [OPS] | CI multi-versions et doctrine:schema:validate | 1.5h | T-020-01 | ✅ |
+| T-020-03 | [DB] | Statut d'approbation du client (en attente, approuvé, refusé) : trait, mapping et migration | 2.5h | T-020-01 | ✅ |
+| T-020-04 | [BE] | Contrat public et service d'approbation (approve/reject, événements, historique) | 3h | T-020-03 | ✅ |
+| T-020-05 | [BE] | Inscription en attente : compte créé sans accès au catalogue fermé, connexion limitée à une page d'attente | 3.5h | T-020-04, T-019-05 | ✅ |
+| T-020-06 | [BE] | E-mails d'approbation et de refus (mailer Sylius, gabarits FR/EN) | 2.5h | T-020-04 | ✅ |
+| T-020-07 | [FE-WEB] | Admin : liste « inscriptions en attente » (filtre), actions approuver/refuser protégées (CSRF, droits) | 4h | T-020-04 | ✅ |
+| T-020-08 | [TEST] | Tests unitaires et fonctionnels : parcours inscription → attente → approbation/refus, e-mails, erreurs | 5h | T-020-05, T-020-06, T-020-07 | ✅ |
+| T-020-09 | [DOC] | README, CHANGELOG, configuration (canaux concernés) | 1.5h | T-020-08 | ✅ |
+| T-020-10 | [REV] | Revue de sécurité du plugin (énumération de comptes, contournement du statut, CSRF, élévation) | 3h | T-020-08, T-020-09 | ✅ |
+| T-020-11 | [BE] | Corrections des constats de la revue (réserve) | 2h | T-020-10 | ✅ |
+| T-020-12 | [OPS] | Préparer la version : CHANGELOG daté, notes, tag proposé v0.1.0 (sans tag) | 1h | T-020-11 | ✅ |
+| T-020-13 | [OPS] | Créer le dépôt GitHub public `tmonier/sylius-registration-approval-plugin` et les topics | 1h | T-020-12 | ✅ (GO donné) |
+| T-020-14 | [OPS] | Tag v0.1.0, release GitHub et publication Packagist | 1.5h | T-020-13, T-019-15 | ✅ (GO donné) |
+| T-020-15 | [BE] | Intégration dans la démo : activation sur le canal B2B, inscription de démo soumise à validation | 2h | T-020-11, T-019-16 | ✅ |
+| T-020-16 | [TEST] | Tests de démo : Sophie approuve/refuse, e-mail visible dans Mailpit, FR/EN | 2.5h | T-020-15 | ✅ |
+| T-020-17 | [OPS] | Démo : passer à la version Packagist du plugin et relancer les tests | 1h | T-020-14, T-020-16 | ✅ (GO donné) |
 
 **Total estimé : 40h**
 

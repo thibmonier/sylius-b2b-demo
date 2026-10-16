@@ -16,14 +16,14 @@ En tant que Thibaut, je veux que container-fill ignore les lignes de panier sans
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-039-01 | [TEST] | Branche dédiée du plugin et tests rouges : ligne sans données, panier sans aucune donnée, poids nul/négatif, panier complet inchangé | 2h | — | 🔲 |
-| T-039-02 | [BE] | Ignorer les lignes sans poids/volume ; pas de division par zéro ; poids ≤ 0 ignoré (comportement documenté) | 2.5h | T-039-01 | 🔲 |
-| T-039-03 | [OPS] | CI du plugin verte (matrice complète, ECS, PHPStan) | 0.5h | T-039-02 | 🔲 |
-| T-039-04 | [DOC] | CHANGELOG et README (comportement des lignes sans données) | 0.5h | T-039-02 | 🔲 |
-| T-039-05 | [REV] | Revue du correctif (régression du calcul, cas limites) | 1h | T-039-03, T-039-04 | 🔲 |
-| T-039-06 | [OPS] | Préparer la version (notes, tag proposé) sans tag | 0.5h | T-039-05 | 🔲 |
-| T-039-07 | [OPS] | Tag, release et Packagist du plugin container-fill | 1h | T-039-06 | ⏳ GO utilisateur |
-| T-039-08 | [BE] | Démo : monter la version et ajouter une fumée « panier mixte + règle tous produits » | 1.5h | T-039-07 | 🔲 |
+| T-039-01 | [TEST] | Branche dédiée du plugin et tests rouges : ligne sans données, panier sans aucune donnée, poids nul/négatif, panier complet inchangé | 2h | — | ✅ |
+| T-039-02 | [BE] | Ignorer les lignes sans poids/volume ; pas de division par zéro ; poids ≤ 0 ignoré (comportement documenté) | 2.5h | T-039-01 | ✅ |
+| T-039-03 | [OPS] | CI du plugin verte (matrice complète, ECS, PHPStan) | 0.5h | T-039-02 | ✅ |
+| T-039-04 | [DOC] | CHANGELOG et README (comportement des lignes sans données) | 0.5h | T-039-02 | ✅ |
+| T-039-05 | [REV] | Revue du correctif (régression du calcul, cas limites) | 1h | T-039-03, T-039-04 | ✅ |
+| T-039-06 | [OPS] | Préparer la version (notes, tag proposé) sans tag | 0.5h | T-039-05 | ✅ |
+| T-039-07 | [OPS] | Tag, release et Packagist du plugin container-fill | 1h | T-039-06 | ✅ (GO donné) |
+| T-039-08 | [BE] | Démo : monter la version et ajouter une fumée « panier mixte + règle tous produits » | 1.5h | T-039-07 | ✅ |
 
 **Total estimé : 9.5h**
 

@@ -16,24 +16,24 @@ En tant que Nadia, je veux régler un canal en ouvert, prix masqués ou fermé, 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-019-01 | [BE] | Créer le dépôt local `sylius-channel-access-plugin` : squelette copié du modèle sylius-order-hold-plugin (composer, ECS, PHPStan, Rector, Makefile, compose, TestApplication) | 3h | — | 🔲 |
-| T-019-02 | [OPS] | CI multi-versions (PHP 8.3/8.4 × Sylius 2.2/2.3, MySQL) avec doctrine:schema:validate | 2h | T-019-01 | 🔲 |
-| T-019-03 | [DB] | Champ « mode d'accès » sur le canal (trait + interface + mapping) et migration | 2.5h | T-019-01 | 🔲 |
-| T-019-04 | [BE] | Contrat public figé : enum `AccessMode` (open, prices_hidden, closed) et `AccessModeResolverInterface` | 1.5h | T-019-01 | 🔲 |
-| T-019-05 | [BE] | Canal fermé : redirection des anonymes vers la connexion, liste blanche de routes exemptées configurable | 4h | T-019-03, T-019-04 | 🔲 |
-| T-019-06 | [FE-WEB] | Prix masqués : extension Twig et gabarits remplaçant prix et bouton d'achat par « Connectez-vous pour voir vos prix » | 3h | T-019-04 | 🔲 |
-| T-019-07 | [BE] | Prix masqués côté serveur : refus d'ajout au panier anonyme et prix absents de l'API boutique | 2.5h | T-019-04 | 🔲 |
-| T-019-08 | [FE-WEB] | Admin : champ « mode d'accès » dans le formulaire de canal, traductions FR/EN | 2h | T-019-03 | 🔲 |
-| T-019-09 | [TEST] | Tests unitaires et fonctionnels du plugin : les 3 modes, routes exemptées, API, admin | 5h | T-019-05, T-019-06, T-019-07, T-019-08 | 🔲 |
-| T-019-10 | [DOC] | README, CHANGELOG, documentation de configuration et de la liste blanche | 1.5h | T-019-09 | 🔲 |
-| T-019-11 | [REV] | Revue de sécurité du plugin (agent de sécurité, contexte frais, OWASP 2025) | 3h | T-019-09, T-019-10 | 🔲 |
-| T-019-12 | [BE] | Corrections des constats de la revue (réserve) | 2h | T-019-11 | 🔲 |
-| T-019-13 | [OPS] | Préparer la version : CHANGELOG daté, notes de version, tag proposé v0.1.0 (sans tag) | 1h | T-019-12 | 🔲 |
-| T-019-14 | [OPS] | Créer le dépôt GitHub public `tmonier/sylius-channel-access-plugin` et les topics | 1h | T-019-13 | ⏳ GO utilisateur |
-| T-019-15 | [OPS] | Tag v0.1.0, release GitHub et publication Packagist | 1.5h | T-019-14 | ⏳ GO utilisateur |
-| T-019-16 | [BE] | Intégration dans la démo : dépôt `path` local, activation sur le canal B2B (fermé) et un canal en prix masqués | 2.5h | T-019-12 | 🔲 |
-| T-019-17 | [TEST] | Tests de démo : canal fermé, prix masqués, routes exemptées PunchOut/MCP/feeds, non-régression de la navigation | 2.5h | T-019-16 | 🔲 |
-| T-019-18 | [OPS] | Démo : passer du chemin local à la version Packagist (contrainte `^0.1`) et relancer les tests | 1h | T-019-15, T-019-17 | ⏳ GO utilisateur |
+| T-019-01 | [BE] | Créer le dépôt local `sylius-channel-access-plugin` : squelette copié du modèle sylius-order-hold-plugin (composer, ECS, PHPStan, Rector, Makefile, compose, TestApplication) | 3h | — | ✅ |
+| T-019-02 | [OPS] | CI multi-versions (PHP 8.3/8.4 × Sylius 2.2/2.3, MySQL) avec doctrine:schema:validate | 2h | T-019-01 | ✅ |
+| T-019-03 | [DB] | Champ « mode d'accès » sur le canal (trait + interface + mapping) et migration | 2.5h | T-019-01 | ✅ |
+| T-019-04 | [BE] | Contrat public figé : enum `AccessMode` (open, prices_hidden, closed) et `AccessModeResolverInterface` | 1.5h | T-019-01 | ✅ |
+| T-019-05 | [BE] | Canal fermé : redirection des anonymes vers la connexion, liste blanche de routes exemptées configurable | 4h | T-019-03, T-019-04 | ✅ |
+| T-019-06 | [FE-WEB] | Prix masqués : extension Twig et gabarits remplaçant prix et bouton d'achat par « Connectez-vous pour voir vos prix » | 3h | T-019-04 | ✅ |
+| T-019-07 | [BE] | Prix masqués côté serveur : refus d'ajout au panier anonyme et prix absents de l'API boutique | 2.5h | T-019-04 | ✅ |
+| T-019-08 | [FE-WEB] | Admin : champ « mode d'accès » dans le formulaire de canal, traductions FR/EN | 2h | T-019-03 | ✅ |
+| T-019-09 | [TEST] | Tests unitaires et fonctionnels du plugin : les 3 modes, routes exemptées, API, admin | 5h | T-019-05, T-019-06, T-019-07, T-019-08 | ✅ |
+| T-019-10 | [DOC] | README, CHANGELOG, documentation de configuration et de la liste blanche | 1.5h | T-019-09 | ✅ |
+| T-019-11 | [REV] | Revue de sécurité du plugin (agent de sécurité, contexte frais, OWASP 2025) | 3h | T-019-09, T-019-10 | ✅ |
+| T-019-12 | [BE] | Corrections des constats de la revue (réserve) | 2h | T-019-11 | ✅ |
+| T-019-13 | [OPS] | Préparer la version : CHANGELOG daté, notes de version, tag proposé v0.1.0 (sans tag) | 1h | T-019-12 | ✅ |
+| T-019-14 | [OPS] | Créer le dépôt GitHub public `tmonier/sylius-channel-access-plugin` et les topics | 1h | T-019-13 | ✅ (GO donné) |
+| T-019-15 | [OPS] | Tag v0.1.0, release GitHub et publication Packagist | 1.5h | T-019-14 | ✅ (GO donné) |
+| T-019-16 | [BE] | Intégration dans la démo : dépôt `path` local, activation sur le canal B2B (fermé) et un canal en prix masqués | 2.5h | T-019-12 | ✅ |
+| T-019-17 | [TEST] | Tests de démo : canal fermé, prix masqués, routes exemptées PunchOut/MCP/feeds, non-régression de la navigation | 2.5h | T-019-16 | ✅ |
+| T-019-18 | [OPS] | Démo : passer du chemin local à la version Packagist (contrainte `^0.1`) et relancer les tests | 1h | T-019-15, T-019-17 | ✅ (GO donné) |
 
 **Total estimé : 41.5h**
 

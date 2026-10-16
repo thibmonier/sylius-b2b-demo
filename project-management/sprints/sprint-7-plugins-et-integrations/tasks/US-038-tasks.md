@@ -16,22 +16,22 @@ En tant que Thibaut, je veux corriger le plugin punchout-cxml à la source, afin
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-038-01 | [TEST] | Branche dédiée du plugin et tests rouges : commande invitée refusée en trade-credit, événement absent, guard absent, mapping classes | 3h | — | 🔲 |
-| T-038-02 | [BE] | (a) `PunchoutCartFactory::create` : utiliser `setCustomerWithAuthorization` | 2h | T-038-01 | 🔲 |
-| T-038-03 | [BE] | (b) Cibler les interfaces Doctrine (OrderInterface, CustomerInterface, ChannelInterface) dans les mappings du plugin | 3h | T-038-01 | 🔲 |
-| T-038-04 | [OPS] | CI du plugin : `doctrine:schema:validate` ajouté, matrice conservée | 1h | T-038-03 | 🔲 |
-| T-038-05 | [BE] | (c) Événement de création de commande par OrderRequest (porte l'orderID, dispatché une fois) | 2.5h | T-038-01 | 🔲 |
-| T-038-06 | [BE] | (d) Guard de workflow sur la transition `complete` d'un panier PunchOut (y compris `PATCH /api/v2/shop/orders/{token}/complete`) | 3.5h | T-038-01 | 🔲 |
-| T-038-07 | [TEST] | Passer les tests au vert et compléter : API PATCH, boutique non PunchOut, événement unique, mapping | 3h | T-038-02, T-038-03, T-038-05, T-038-06 | 🔲 |
-| T-038-08 | [DOC] | CHANGELOG et README du plugin (correctifs, `resolve_target_entities`, événement) | 1h | T-038-07 | 🔲 |
-| T-038-09 | [REV] | Revue de sécurité du correctif (guard contournable, autorisation du client, événement) | 2h | T-038-07, T-038-08 | 🔲 |
-| T-038-10 | [OPS] | Préparer la version (CHANGELOG daté, notes, tag proposé) sans tag | 0.5h | T-038-09 | 🔲 |
-| T-038-11 | [OPS] | Tag, release et Packagist du plugin punchout-cxml | 1h | T-038-10 | ⏳ GO utilisateur |
-| T-038-12 | [BE] | Démo : monter la version du plugin et retirer `resolve_target_entities` des entités corrigées | 1.5h | T-038-11 | 🔲 |
-| T-038-13 | [BE] | Démo : retirer `App\PunchOut\AuthorizedPunchOutOrderFactory` et son câblage dans `config/services.yaml` (APRÈS publication) | 1.5h | T-038-11, T-038-12 | 🔲 |
-| T-038-14 | [BE] | Démo : remplacer la lecture des notes par l'événement de création (R6) | 1.5h | T-038-11 | 🔲 |
-| T-038-15 | [TEST] | Non-régression PunchOut de la démo : flux complet, paiement trade-credit, retour du simulateur, commande boutique normale | 2.5h | T-038-13, T-038-14 | 🔲 |
-| T-038-16 | [REV] | Contre-vérification finale (démo sans contournement) | 1h | T-038-15 | 🔲 |
+| T-038-01 | [TEST] | Branche dédiée du plugin et tests rouges : commande invitée refusée en trade-credit, événement absent, guard absent, mapping classes | 3h | — | ✅ |
+| T-038-02 | [BE] | (a) `PunchoutCartFactory::create` : utiliser `setCustomerWithAuthorization` | 2h | T-038-01 | ✅ |
+| T-038-03 | [BE] | (b) Cibler les interfaces Doctrine (OrderInterface, CustomerInterface, ChannelInterface) dans les mappings du plugin | 3h | T-038-01 | ✅ |
+| T-038-04 | [OPS] | CI du plugin : `doctrine:schema:validate` ajouté, matrice conservée | 1h | T-038-03 | ✅ |
+| T-038-05 | [BE] | (c) Événement de création de commande par OrderRequest (porte l'orderID, dispatché une fois) | 2.5h | T-038-01 | ✅ |
+| T-038-06 | [BE] | (d) Guard de workflow sur la transition `complete` d'un panier PunchOut (y compris `PATCH /api/v2/shop/orders/{token}/complete`) | 3.5h | T-038-01 | ✅ |
+| T-038-07 | [TEST] | Passer les tests au vert et compléter : API PATCH, boutique non PunchOut, événement unique, mapping | 3h | T-038-02, T-038-03, T-038-05, T-038-06 | ✅ |
+| T-038-08 | [DOC] | CHANGELOG et README du plugin (correctifs, `resolve_target_entities`, événement) | 1h | T-038-07 | ✅ |
+| T-038-09 | [REV] | Revue de sécurité du correctif (guard contournable, autorisation du client, événement) | 2h | T-038-07, T-038-08 | ✅ |
+| T-038-10 | [OPS] | Préparer la version (CHANGELOG daté, notes, tag proposé) sans tag | 0.5h | T-038-09 | ✅ |
+| T-038-11 | [OPS] | Tag, release et Packagist du plugin punchout-cxml | 1h | T-038-10 | ✅ (GO donné) |
+| T-038-12 | [BE] | Démo : monter la version du plugin et retirer `resolve_target_entities` des entités corrigées | 1.5h | T-038-11 | ✅ |
+| T-038-13 | [BE] | Démo : retirer `App\PunchOut\AuthorizedPunchOutOrderFactory` et son câblage dans `config/services.yaml` (APRÈS publication) | 1.5h | T-038-11, T-038-12 | ✅ |
+| T-038-14 | [BE] | Démo : remplacer la lecture des notes par l'événement de création (R6) | 1.5h | T-038-11 | ✅ |
+| T-038-15 | [TEST] | Non-régression PunchOut de la démo : flux complet, paiement trade-credit, retour du simulateur, commande boutique normale | 2.5h | T-038-13, T-038-14 | ✅ |
+| T-038-16 | [REV] | Contre-vérification finale (démo sans contournement) | 1h | T-038-15 | ✅ |
 
 **Total estimé : 30.5h**
 
