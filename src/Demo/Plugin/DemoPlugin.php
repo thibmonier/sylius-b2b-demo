@@ -14,6 +14,10 @@ final readonly class DemoPlugin
         public string $descriptionFr,
         public string $descriptionEn,
         public ?string $demoRoute,
+        public string $scenarioFr,
+        public string $scenarioEn,
+        public string $advisedAccount,
+        public bool $published = true,
     ) {
     }
 
@@ -21,6 +25,18 @@ final readonly class DemoPlugin
     public function description(string $locale): string
     {
         return str_starts_with($locale, 'fr') ? $this->descriptionFr : $this->descriptionEn;
+    }
+
+    /** Demo scenario in the given locale; English for any other language than French. */
+    public function scenario(string $locale): string
+    {
+        return str_starts_with($locale, 'fr') ? $this->scenarioFr : $this->scenarioEn;
+    }
+
+    /** Packagist page, or null while the package is not published (no broken link is ever shown). */
+    public function packagistUrl(): ?string
+    {
+        return $this->published ? 'https://packagist.org/packages/' . $this->composerName() : null;
     }
 
     public function githubUrl(): string

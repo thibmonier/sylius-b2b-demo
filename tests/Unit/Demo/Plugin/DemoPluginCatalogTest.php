@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\Plugin;
 
+use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Plugin\DemoPluginCatalog;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -71,7 +72,7 @@ final class DemoPluginCatalogTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('sylius-broken-plugin');
 
-        new DemoPluginCatalog([['slug' => 'sylius-broken-plugin', 'name' => 'Broken', 'category' => 'admin', 'description' => ['fr' => 'Seulement FR']]]);
+        new DemoPluginCatalog([['slug' => 'sylius-broken-plugin', 'name' => 'Broken', 'category' => 'admin', 'description' => ['fr' => 'Seulement FR']]], self::accounts());
     }
 
     public function testAnEntryWithoutNameNamesTheFaultyPlugin(): void
@@ -79,7 +80,81 @@ final class DemoPluginCatalogTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('sylius-nameless-plugin');
 
-        new DemoPluginCatalog([['slug' => 'sylius-nameless-plugin', 'category' => 'admin', 'description' => ['fr' => 'a', 'en' => 'b']]]);
+        new DemoPluginCatalog([['slug' => 'sylius-nameless-plugin', 'category' => 'admin', 'description' => ['fr' => 'a', 'en' => 'b']]], self::accounts());
+    }
+
+    public function testEveryAdvisedAccountExistsInTheAccountCatalog(): void
+    {
+        $accounts = self::accounts();
+        $emails = array_map(static fn ($account): string => $account->email, [...$accounts->shopAccounts(), ...$accounts->adminUsers()]);
+
+        foreach (self::catalog()->all() as $plugin) {
+            self::assertContains($plugin->advisedAccount, $emails, $plugin->slug);
+            self::assertNotSame($plugin->scenarioFr, $plugin->scenarioEn, $plugin->slug);
+        }
+    }
+
+    public function testAnUnknownAdvisedAccountNamesThePlugin(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('sylius-ghost-plugin');
+
+        new DemoPluginCatalog([self::entry('sylius-ghost-plugin', ['advised_account' => 'ghost@nowhere.example'])], self::accounts());
+    }
+
+    public function testAnEntryWithoutScenarioNamesTheFaultyPlugin(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('sylius-silent-plugin');
+
+        $entry = self::entry('sylius-silent-plugin');
+        unset($entry['scenario']);
+        new DemoPluginCatalog([$entry], self::accounts());
+    }
+
+    public function testAnUnpublishedPluginHasNoPackagistLink(): void
+    {
+        $catalog = self::catalog();
+        $unpublished = array_values(array_filter($catalog->all(), static fn ($plugin): bool => !$plugin->published));
+
+        self::assertSame(['sylius-agentic-feeds-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
+        self::assertNull($unpublished[0]->packagistUrl());
+    }
+
+    public function testPublishedPluginsLinkToPackagist(): void
+    {
+        $plugin = self::catalog()->get('sylius-quick-order-plugin');
+
+        self::assertNotNull($plugin);
+        self::assertSame('https://packagist.org/packages/tmonier/sylius-quick-order-plugin', $plugin->packagistUrl());
+        self::assertSame($plugin->scenarioFr, $plugin->scenario('fr_FR'));
+        self::assertSame($plugin->scenarioEn, $plugin->scenario('en_US'));
+    }
+
+    /**
+     * @param array<string, mixed> $override
+     *
+     * @return array<string, mixed>
+     */
+    private static function entry(string $slug, array $override = []): array
+    {
+        return $override + [
+            'slug' => $slug,
+            'name' => 'X',
+            'category' => 'admin',
+            'description' => ['fr' => 'a', 'en' => 'b'],
+            'scenario' => ['fr' => 'c', 'en' => 'd'],
+            'advised_account' => 'sophie@fournitures-pro.example',
+        ];
+    }
+
+    private static function accounts(): DemoAccountCatalog
+    {
+        $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/accounts.yaml');
+        self::assertIsArray($config);
+        $p = $config['parameters'];
+
+        return new DemoAccountCatalog($p['demo.password'], $p['demo.companies'], $p['demo.consumers'], $p['demo.admin_users']);
     }
 
     private static function catalog(): DemoPluginCatalog
@@ -87,6 +162,6 @@ final class DemoPluginCatalogTest extends TestCase
         $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/plugins.yaml');
         self::assertIsArray($config);
 
-        return new DemoPluginCatalog($config['parameters']['demo.plugin_catalog']);
+        return new DemoPluginCatalog($config['parameters']['demo.plugin_catalog'], self::accounts());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Plugin\DemoPluginCatalog;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -47,7 +48,16 @@ final class PluginsAndHomepageTest extends WebTestCase
             self::assertStringContainsString('data-plugin="' . $plugin->slug . '"', $content);
             self::assertStringContainsString($plugin->githubUrl(), $content);
             self::assertStringContainsString($plugin->descriptionEn, html_entity_decode($content, \ENT_QUOTES));
+            self::assertStringContainsString($plugin->scenarioEn, html_entity_decode($content, \ENT_QUOTES));
+            self::assertStringContainsString($plugin->advisedAccount, $content);
+            self::assertSame(
+                null !== $plugin->packagistUrl(),
+                str_contains($content, 'href="' . $plugin->packagistUrl() . '"'),
+                $plugin->slug,
+            );
         }
+        self::assertCount(1, $client->getCrawler()->filter('[data-plugin-unpublished]'));
+        self::assertCount(20, $client->getCrawler()->filter('[data-plugin-packagist]'));
     }
 
     public function testEveryDemoRouteOfTheCatalogExists(): void
@@ -93,6 +103,13 @@ final class PluginsAndHomepageTest extends WebTestCase
         $config = Yaml::parseFile(\dirname(__DIR__, 2) . '/config/demo/plugins.yaml');
         self::assertIsArray($config);
 
-        return new DemoPluginCatalog($config['parameters']['demo.plugin_catalog']);
+        $accounts = Yaml::parseFile(\dirname(__DIR__, 2) . '/config/demo/accounts.yaml');
+        self::assertIsArray($accounts);
+        $p = $accounts['parameters'];
+
+        return new DemoPluginCatalog(
+            $config['parameters']['demo.plugin_catalog'],
+            new DemoAccountCatalog($p['demo.password'], $p['demo.companies'], $p['demo.consumers'], $p['demo.admin_users']),
+        );
     }
 }

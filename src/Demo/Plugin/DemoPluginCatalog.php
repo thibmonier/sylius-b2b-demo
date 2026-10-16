@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Plugin;
 
+use App\Demo\Account\DemoAccountCatalog;
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -22,8 +23,13 @@ final class DemoPluginCatalog
     public function __construct(
         #[Autowire(param: 'demo.plugin_catalog')]
         array $entries,
+        DemoAccountCatalog $accounts,
     ) {
-        $this->plugins = array_map(self::plugin(...), $entries);
+        $emails = array_map(
+            static fn ($account): string => $account->email,
+            [...$accounts->shopAccounts(), ...$accounts->adminUsers()],
+        );
+        $this->plugins = array_map(static fn (array $entry): DemoPlugin => self::plugin($entry, $emails), $entries);
     }
 
     /** @return list<DemoPlugin> */
@@ -54,13 +60,26 @@ final class DemoPluginCatalog
         return $groups;
     }
 
-    /** @param array<string, mixed> $entry */
-    private static function plugin(array $entry): DemoPlugin
+    /**
+     * @param array<string, mixed> $entry
+     * @param list<string>         $accountEmails
+     */
+    private static function plugin(array $entry, array $accountEmails): DemoPlugin
     {
         $slug = self::string($entry, 'slug', '?');
         $description = $entry['description'] ?? null;
         if (!\is_array($description)) {
             throw new InvalidArgumentException(sprintf('Demo plugin "%s": "description" must define "fr" and "en".', $slug));
+        }
+
+        $scenario = $entry['scenario'] ?? null;
+        if (!\is_array($scenario)) {
+            throw new InvalidArgumentException(sprintf('Demo plugin "%s": "scenario" must define "fr" and "en".', $slug));
+        }
+
+        $account = self::string($entry, 'advised_account', $slug);
+        if (!\in_array($account, $accountEmails, true)) {
+            throw new InvalidArgumentException(sprintf('Demo plugin "%s": advised account "%s" is not a demo account.', $slug, $account));
         }
 
         $route = $entry['demo_route'] ?? null;
@@ -72,6 +91,10 @@ final class DemoPluginCatalog
             self::string($description, 'fr', $slug, 'description.fr'),
             self::string($description, 'en', $slug, 'description.en'),
             \is_string($route) && '' !== $route ? $route : null,
+            self::string($scenario, 'fr', $slug, 'scenario.fr'),
+            self::string($scenario, 'en', $slug, 'scenario.en'),
+            $account,
+            ($entry['published'] ?? true) !== false,
         );
     }
 

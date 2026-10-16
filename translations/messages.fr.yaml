@@ -3,6 +3,10 @@ app:
         title: 'Plugins'
         intro: "Les 21 plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo."
         github: 'GitHub'
+        packagist: 'Packagist'
+        unpublished: 'Non publié'
+        scenario: 'Scénario :'
+        advised_account: 'Compte conseillé :'
         see_in_demo: 'Voir dans la démo'
         no_demo_page: "Visible dans l'administration ou au checkout"
         category:
