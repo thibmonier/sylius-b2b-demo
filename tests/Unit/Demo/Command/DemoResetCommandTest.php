@@ -140,8 +140,8 @@ final class DemoResetCommandTest extends TestCase
     // -------------------------------------------------------------------------
 
     /**
-     * Builds a fake Symfony Application containing stub commands for every
-     * doctrine / cache sub-command that DemoResetCommand delegates to.
+     * Builds a fake Symfony Application containing stub commands for the
+     * cache sub-commands that DemoResetCommand delegates to.
      */
     private function buildFakeApplication(): Application
     {
@@ -150,9 +150,6 @@ final class DemoResetCommandTest extends TestCase
         $app->addCommand($this->command);
 
         foreach ([
-            'doctrine:database:drop',
-            'doctrine:database:create',
-            'doctrine:migrations:migrate',
             'cache:clear',
             'cache:warmup',
         ] as $commandName) {

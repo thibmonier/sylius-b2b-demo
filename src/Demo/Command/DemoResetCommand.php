@@ -20,11 +20,12 @@ use Throwable;
  * Resets the demo environment to its initial state (US-012).
  *
  * Steps:
- *   1. Drop + recreate the database, then run migrations (doctrine sub-commands).
- *   2. Reload the `demo` fixture suite (SuiteRegistry + SuiteLoader, identical to
+ *   1. Reload the `demo` fixture suite (SuiteRegistry + SuiteLoader, identical to
  *      `sylius:fixtures:load demo --no-interaction`, orm_purger listener included).
- *   3. Optionally purge the LiipImagine cache to force image regeneration on next hit.
- *   4. Clear and warm up the application cache.
+ *      The purger truncates the data, so no DDL is needed; running drop/create/migrate
+ *      as in-process sub-commands here would corrupt the shared connection (savepoints).
+ *   2. Optionally purge the LiipImagine cache to force image regeneration on next hit.
+ *   3. Clear and warm up the application cache.
  *
  * All steps are logged; any exception returns Command::FAILURE (exit code 1).
  *
@@ -65,7 +66,6 @@ final class DemoResetCommand extends Command
         $this->logger->info('app:demo:reset started', ['dry_run' => $dryRun]);
 
         try {
-            $this->stepDropCreateMigrate($io, $output, $dryRun);
             $this->stepLoadFixtures($io, $dryRun);
 
             if (!$noMedia) {
@@ -91,34 +91,12 @@ final class DemoResetCommand extends Command
     }
 
     // -------------------------------------------------------------------------
-    // Step 1 — Drop / create / migrate
-    // -------------------------------------------------------------------------
-
-    private function stepDropCreateMigrate(SymfonyStyle $io, OutputInterface $output, bool $dryRun): void
-    {
-        $io->section('Step 1 — Database: drop, create, migrate');
-        $this->logger->info('Step 1: database reset');
-
-        $subCommands = [
-            ['doctrine:database:drop', ['--force' => true, '--if-exists' => true, '--no-interaction' => true]],
-            ['doctrine:database:create', ['--no-interaction' => true]],
-            ['doctrine:migrations:migrate', ['--no-interaction' => true]],
-        ];
-
-        foreach ($subCommands as [$name, $args]) {
-            $this->runSubCommand($name, $args, $output, $dryRun);
-        }
-
-        $io->text('Database ready.');
-    }
-
-    // -------------------------------------------------------------------------
-    // Step 2 — Load fixtures
+    // Step 1 — Load fixtures (purge + reload)
     // -------------------------------------------------------------------------
 
     private function stepLoadFixtures(SymfonyStyle $io, bool $dryRun): void
     {
-        $io->section('Step 2 — Fixture suite "demo" (purge + reload)');
+        $io->section('Step 1 — Fixture suite "demo" (purge + reload)');
         $this->logger->info('Step 2: loading fixture suite demo');
 
         if ($dryRun) {
@@ -142,7 +120,7 @@ final class DemoResetCommand extends Command
 
     private function stepPurgeMediaCache(SymfonyStyle $io, OutputInterface $output, bool $dryRun): void
     {
-        $io->section('Step 3 — Media cache purge');
+        $io->section('Step 2 — Media cache purge');
         $this->logger->info('Step 3: media cache purge');
 
         $application = $this->getApplication();
@@ -163,7 +141,7 @@ final class DemoResetCommand extends Command
 
     private function stepClearWarmUpCache(SymfonyStyle $io, OutputInterface $output, bool $dryRun): void
     {
-        $io->section('Step 4 — Cache: clear and warm-up');
+        $io->section('Step 3 — Cache: clear and warm-up');
         $this->logger->info('Step 4: cache clear + warmup');
 
         $this->runSubCommand('cache:clear', ['--no-debug' => true, '--no-interaction' => true], $output, $dryRun);
