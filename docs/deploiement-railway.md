@@ -82,8 +82,9 @@ Ou, dans le tableau de bord Railway, *Deployments > Redeploy* sur une version pr
 
 1. Revue de sécurité US-037 sans constat critique ou majeur ouvert.
 2. GO explicite de l'utilisateur.
-3. `DEMO_BASIC_AUTH: "0"` dans `.railway/railway.ts`, commit, `railway config apply`.
-4. Revérifier : 200 sans identifiants, plafonds de débit actifs, `/demo/mails` limité aux comptes de démo.
+3. Fermer les voies par lesquelles un visiteur crée un client avec ses propres données (constat M2 du sprint 6, N2 du sprint 8). Mettre `DEMO_REGISTRATION_OPEN: "0"`. Vérifier aussi la commande invité B2C et la demande de devis invité (`allow_guests`), qui ne sont pas encore couvertes.
+4. `DEMO_BASIC_AUTH: "0"` dans `.railway/railway.ts`, commit, `railway config apply`.
+5. Revérifier : 200 sans identifiants, plafonds de débit actifs, `/demo/mails` limité aux comptes de démo, inscription refusée (403).
 
 ## Budget (US-034)
 
