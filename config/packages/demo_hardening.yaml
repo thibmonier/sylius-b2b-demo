@@ -46,6 +46,13 @@ parameters:
     demo.outbound.allowed_hosts: '%env(DEMO_OUTBOUND_ALLOWED_HOSTS)%'
 
 services:
+    # The scoped clients (MCP server API clients, US-040 M5) are built on http_client.transport, which the guard of
+    # http_client does not wrap: the transport gets the same guard.
+    demo.outbound_guard.transport:
+        class: App\Demo\Http\OutboundGuardHttpClient
+        decorates: http_client.transport
+        arguments: ['@.inner', '%demo.mode%', '%demo.outbound.allowed_hosts%']
+
     # The webhooks of the outbox plugin go through the same guard: no delivery to an external host.
     demo.outbound_guard.webhook:
         class: App\Demo\Http\OutboundGuardHttpClient

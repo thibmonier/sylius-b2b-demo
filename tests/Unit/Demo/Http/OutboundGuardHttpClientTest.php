@@ -72,6 +72,22 @@ final class OutboundGuardHttpClientTest extends TestCase
         $psr->sendRequest($psr->createRequest('GET', 'https://hub.sylius.com/check-for-updates'));
     }
 
+    public function testRedirectsAreNeverFollowedInTheDemoMode(): void
+    {
+        $client = $this->client(static function (string $method, string $url, array $options): MockResponse {
+            return new MockResponse((string) $options['max_redirects']);
+        });
+
+        self::assertSame('0', $client->request('GET', 'http://mailpit:8025/start', ['max_redirects' => 5])->getContent());
+    }
+
+    public function testRedirectsAreLeftAloneOutsideTheDemoMode(): void
+    {
+        $client = new OutboundGuardHttpClient(new MockHttpClient(static fn (string $method, string $url, array $options): MockResponse => new MockResponse((string) $options['max_redirects'])), false, '');
+
+        self::assertSame('5', $client->request('GET', 'https://example.com/', ['max_redirects' => 5])->getContent());
+    }
+
     private function client(callable $responses): OutboundGuardHttpClient
     {
         return new OutboundGuardHttpClient(new MockHttpClient($responses), true, 'mailpit,api.iconify.design');
