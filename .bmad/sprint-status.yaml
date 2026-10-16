@@ -40,8 +40,6 @@ sprints:
     capacity_points: 27
     goal: "Nouveaux plugins et fonctionnalités B2B : mode d'accès par canal, inscription validée par l'admin, référence PO et centre de coût au checkout et leur reprise, spike wishlist, correctifs d'interaction entre plugins"
     stories:
-      - {id: US-019, title: "Mode d'accès par canal", points: 5, status: blocked}  # → plugin autonome publié dédié, hors auto-sprint démo (décision utilisateur 2026-10-16)
-      - {id: US-020, title: "Inscription validée par l'admin", points: 5, status: blocked}  # → plugin autonome (dépend du plugin US-019)
       - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: done}
       - {id: US-022, title: "Reprise de la référence partout", points: 5, status: done}
       - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: done}
@@ -77,23 +75,38 @@ sprints:
       - {id: US-028, title: "Boîte Mailpit publique", points: 3, status: done}  # ré-estimée 2→3 (lecture filtrée)
   sprint-6:
     name: sprint-6-railway-securite
-    status: in-progress
+    status: done
     sprint_id: "sprint-6"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
     capacity_points: 29  # ré-estimé après décomposition (127,5 h), décision utilisateur 2026-10-16
     goal: "Mettre la démo en ligne sur Railway, privée et durcie : déploiement, remise à zéro nocturne supervisée, budget, admin restreint, durcissement et revue de sécurité (constats reportés des sprints 4 et 5 inclus)"
     stories:
-      - {id: US-032, title: "Déploiement Railway", points: 5, status: review}
-      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 5, status: review}  # ré-estimée 3→5
-      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: review}  # relevé à J+7 (T-034-02) au sprint 7
-      - {id: US-035, title: "Admin de démo restreint", points: 8, status: review}  # ré-estimée 5→8
-      - {id: US-036, title: "Durcissement de la démo publique", points: 8, status: review}  # ré-estimée 3→8 (constats reportés S2/S4/S5)
-      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: review}
+      - {id: US-032, title: "Déploiement Railway", points: 5, status: done}
+      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 5, status: done}  # ré-estimée 3→5
+      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: done}  # relevé à J+7 (T-034-02) au sprint 7
+      - {id: US-035, title: "Admin de démo restreint", points: 8, status: done}  # ré-estimée 5→8
+      - {id: US-036, title: "Durcissement de la démo publique", points: 8, status: done}  # ré-estimée 3→8 (constats reportés S2/S4/S5)
+      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: done}
   sprint-7:
     name: sprint-7-plugins-et-integrations
+    status: in-progress
+    sprint_id: "sprint-7"
+    start_date: "2026-10-16"
+    end_date: "2026-10-30"
+    capacity_points: 27  # ré-estimé après décomposition (210 h pour 34 pts) ; découpage décidé par l'utilisateur le 2026-10-16
+    goal: "Plugins : nouveaux plugins publiés d'accès par canal et d'inscription validée, correctifs publiés de punchout-cxml (puis retrait du contournement de la démo) et de container-fill, intégrés dans la démo"
+    stories:
+      - {id: US-019, title: "Mode d'accès par canal", points: 8, status: review}  # plugin autonome publié ; ré-estimée 5→8 (41,5 h)
+      - {id: US-020, title: "Inscription validée par l'admin", points: 8, status: review}  # plugin autonome, dépend d'US-019 ; ré-estimée 5→8 (40 h)
+      - {id: US-038, title: "Correctifs du plugin punchout-cxml", points: 8, status: review}  # ré-estimée 5→8 (30,5 h)
+      - {id: US-039, title: "Correctif du plugin container-fill", points: 3, status: review}  # ré-estimée 2→3 (9,5 h)
+  sprint-8:
+    name: sprint-8-demo-et-durcissement
     status: planned
     stories:
-      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}  # reportée du sprint 6 (capacité, décision utilisateur 2026-10-16)
-      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}  # reportée du sprint 6 (décision utilisateur 2026-10-16)
-      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: backlog}  # reportée du sprint 6 (décision utilisateur 2026-10-16)
+      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}  # reportée du sprint 7 (capacité, décision utilisateur 2026-10-16)
+      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}  # reportée du sprint 7
+      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: backlog}  # reportée du sprint 7
+      - {id: US-040, title: "Durcissement complémentaire (reports sécurité du sprint 6)", points: 5, status: backlog}  # reportée du sprint 7
+      - {id: US-041, title: "Qualité des données et du reset (reports du sprint 6)", points: 5, status: backlog}  # reportée du sprint 7

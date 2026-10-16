@@ -1,0 +1,28 @@
+# US-019: the channel access plugin. The B2B channel hides its prices (fixture demo_channel_access); if a channel is
+# set to "closed", anonymous visitors only reach the home page, the login, the registration (built in), the
+# administration (built in) and the routes below, which carry their own authentication or are public on purpose.
+tmonier_sylius_channel_access:
+    exempt_paths:
+        # PunchOut (cXML / OCI): authenticated by the buyer credentials.
+        - '/punchout/*'
+        # MCP server and its OAuth endpoints: authenticated by token.
+        - '/_mcp'
+        - '/mcp-oauth/*'
+        - '/.well-known/*'
+        # Product feeds (access token on the B2B feeds, see demo_hidden_prices_feeds).
+        - '/feeds/*'
+        # The demo itself: accounts, mailbox, channel and badge switches.
+        - '/demo/*'
+
+# Pieces of the other plugins that show prices on the product page: shown only to those who may see prices
+# (the channel access plugin disables the core price blocks the same way). The JSON-LD stays on the B2C channel.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.product.show':
+            # schema.org Product/Offer: "price" and "priceCurrency".
+            tmonier_agentic_feeds_json_ld:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
+        'sylius_shop.product.show.content.info.summary':
+            # Quantity matrix: price of every cell and estimate.
+            tmonier_quick_order_matrix:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"

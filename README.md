@@ -37,6 +37,25 @@ Page `/demo/accounts` liste tous les identifiants en temps réel.
 - **Compte désactivé** : Thomas Bernard — connexion refusée (ShopUser désactivé).
 - **Back-office restreint** : Sophie Martin accède à `/admin/` avec des droits limités.
 
+## Accès par canal / Channel access (US-019)
+
+Le canal **B2B** est en mode **prix masqués** (plugin [channel-access](https://github.com/thibmonier/sylius-channel-access-plugin)) : un visiteur non connecté voit le catalogue mais ni prix, ni promotion, ni bouton d'achat (un lien « Connectez-vous pour voir vos prix » les remplace), ni panier ; l'API boutique ne renvoie aucun prix et refuse la création de panier (401). Le canal **B2C** reste ouvert. Le mode est réglé par la fixture `demo_channel_access` (jamais par Sophie : l'édition des canaux est refusée à l'admin de démo).
+
+- **Masqué aussi** (hors pages du plugin) : le prix « dès » et la mention HT des cartes du thème B2B (elles sont dans le bloc prix du cœur, désactivé), le formulaire de devis et l'API des paliers de prix (`/api/v2/shop/product-variants/{code}/tier-prices`) — routes ajoutées par `App\DependencyInjection\Compiler\RestrictPriceRoutesPass` — les données structurées JSON-LD (`"price"`) et la matrice de quantités des fiches produit, les routes d'ajout de la commande rapide et de la matrice, le consentement des assistants IA (MCP), et les flux produits du canal B2B (jeton d'accès aléatoire à chaque chargement des fixtures, fixture `demo_hidden_prices_feeds`).
+- **Canal fermé** : si on passe un canal en « fermé », un anonyme n'atteint que l'accueil, la connexion, l'inscription, l'administration et la liste blanche `config/packages/demo_channel_access.yaml` (PunchOut, MCP, flux, pages `/demo/*`), sans produit ni menu du catalogue (testé par `ClosedChannelDemoTest`).
+- **Limites connues** : le tri par prix des listes reste possible (l'ordre est visible, pas les montants) ; les images et fichiers statiques (`/media`) ne sont pas protégés ; un accès par le serveur MCP ou PunchOut se fait par un compte authentifié, donc avec prix ; un client connecté mais non approuvé (US-020) n'a pas accès aux prix.
+
+## Inscription validée / Registration approval (US-020)
+
+Sur le canal **B2B**, une inscription (formulaire de la boutique, API boutique) crée un compte **en attente** (plugin [registration-approval](https://github.com/thibmonier/sylius-registration-approval-plugin)) : l'internaute est déconnecté, voit une page « inscription reçue », puis, une fois connecté, reste comme un visiteur anonyme (prix masqués, panier et devis refusés en 403 avec une page d'attente). **Sophie** (admin restreint) approuve ou refuse dans *Clients > Inscriptions* ; le client reçoit un e-mail (visible dans la boîte de démo, dans la langue par défaut du canal) et accède aux prix à sa requête suivante. Les comptes de démo existants sont **approuvés**.
+
+- Toute inscription en libre-service est « en attente », quel que soit le canal ; la restriction ne s'applique que sur les canaux listés dans `config/packages/demo_registration_approval.yaml` (B2B). `bin/console tmonier:registration-approval:check` signale un canal listé resté en mode « ouvert ».
+- Un client en attente ou refusé n'a pas non plus accès au serveur MCP (`App\Demo\Mcp\McpApprovalGuard`) ni au consentement des assistants IA ; les jetons obtenus avant sont refusés (403).
+- La boîte de démo `/demo/mails` masque l'adresse du destinataire (`c***@acme.example`).
+- Une inscription avec une adresse déjà utilisée donne la même réponse qu'une nouvelle (pas d'énumération de comptes), page et API.
+- Sophie n'a que la route de décision (`tmonier_registration_approval_admin_decide`, jeton CSRF vérifié) : voir `docs/securite-admin-demo.md`.
+- `decided_by` (identifiant de l'administrateur) est une donnée personnelle : à inclure dans le registre RGPD de l'hébergement de la démo.
+
 ## Historique de commandes / Order history
 
 Chaque réinitialisation recrée les mêmes 12 commandes (fixture `demo_orders`, plan dans `src/Demo/Order/DemoOrderPlan.php`), passées par les vrais services de Sylius et des plugins : même contenu, mêmes dates relatives (J-n à 10 h), chacune avec sa référence de commande d'achat. Les factures Factur-X (PDF/A-3) sont datées comme leur commande et se téléchargent depuis *Mon compte > Commandes*.
@@ -72,7 +91,7 @@ Limites :
 
 - Le retour du panier exige une URL **HTTPS** dont l'hôte est un domaine de retour du buyer. La fixture ajoute l'hôte de `DEFAULT_URI` quand il est en HTTPS ; en local (`http://localhost:8080`), la session est refusée avec un message qui nomme l'hôte.
 - **OCI n'est pas simulé** : le plugin le prend en charge, mais la démo n'a pas de buyer OCI ; le simulateur ne joue que cXML.
-- Contournement temporaire `App\PunchOut\AuthorizedPunchOutOrderFactory` : le plugin punchout-cxml crée ses paniers comme des commandes d'invité, ce qui empêchait le paiement sur compte. À retirer avec les correctifs du plugin (sprint 7).
+- Un panier ouvert par une session PunchOut ne peut pas être finalisé par le checkout de la boutique : il se transfère à l'outil d'achat (guard du plugin punchout-cxml 1.2).
 
 ## Boîte e-mail de démo / Demo mailbox
 

@@ -67,6 +67,9 @@ return [
     // tmonier plugins: order-hold and company-accounts first (purchase-approval, trade-credit, punchout rely on them)
     Tmonier\SyliusOrderHoldPlugin\TmonierSyliusOrderHoldPlugin::class => ['all' => true],
     Tmonier\SyliusCompanyAccountsPlugin\TmonierSyliusCompanyAccountsPlugin::class => ['all' => true],
+    // channel-access: access mode per channel (US-019); registration-approval (US-020) comes after it
+    Tmonier\SyliusChannelAccessPlugin\TmonierSyliusChannelAccessPlugin::class => ['all' => true],
+    Tmonier\SyliusRegistrationApprovalPlugin\TmonierSyliusRegistrationApprovalPlugin::class => ['all' => true],
     Tmonier\SyliusAdminOrderCreationPlugin\TmonierSyliusAdminOrderCreationPlugin::class => ['all' => true],
     Tmonier\SyliusAgenticFeedsPlugin\TmonierSyliusAgenticFeedsPlugin::class => ['all' => true],
     Tmonier\SyliusAiCatalogCopilotPlugin\TmonierSyliusAiCatalogCopilotPlugin::class => ['all' => true],

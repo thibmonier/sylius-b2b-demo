@@ -18,7 +18,7 @@
 <h1>{{ message.subject }}</h1>
 <dl>
     <dt>{{ 'from'|trans({}, 'mails') }}</dt><dd>{{ message.from }}</dd>
-    <dt>{{ 'to'|trans({}, 'mails') }}</dt><dd>{{ message.to }}</dd>
+    <dt>{{ 'to'|trans({}, 'mails') }}</dt><dd>{{ message.to|app_mask_email }}</dd>
     <dt>{{ 'date'|trans({}, 'mails') }}</dt><dd>{{ message.date ? message.date|date('Y-m-d H:i') : '' }}</dd>
 </dl>
 {# Text only, auto-escaped: the HTML part is never rendered. #}

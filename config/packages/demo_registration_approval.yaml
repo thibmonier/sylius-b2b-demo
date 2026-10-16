@@ -1,0 +1,6 @@
+# US-020: the registrations of the B2B channel are validated by an administrator (Sophie). Every self-service
+# registration is pending, the restriction only applies on the channels listed here (B2B hides its prices, US-019).
+# The existing demo accounts are approved (column default). `bin/console tmonier:registration-approval:check`
+# reports a listed channel that restricts nobody (access mode "open").
+tmonier_sylius_registration_approval:
+    channels: ['B2B']

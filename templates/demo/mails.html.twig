@@ -36,7 +36,7 @@
                 <tr>
                     <td>{{ message.date ? message.date|date('Y-m-d H:i') : '' }}</td>
                     <td>{{ message.from }}</td>
-                    <td>{{ message.to }}</td>
+                    <td>{{ message.to|app_mask_email }}</td>
                     <td><a href="{{ path('app_demo_mail', { id: message.id }) }}">{{ message.subject }}</a></td>
                 </tr>
             {% endfor %}

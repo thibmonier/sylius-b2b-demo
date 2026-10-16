@@ -29,7 +29,7 @@ final class DemoPluginCatalogTest extends TestCase
         $slugs = array_map(static fn ($plugin): string => $plugin->slug, self::catalog()->all());
         sort($slugs);
 
-        self::assertCount(21, $slugs);
+        self::assertCount(23, $slugs);
         self::assertSame($expected, $slugs);
     }
 
@@ -63,7 +63,7 @@ final class DemoPluginCatalogTest extends TestCase
     {
         $groups = self::catalog()->byCategory();
 
-        self::assertSame(21, array_sum(array_map('count', $groups)));
+        self::assertSame(23, array_sum(array_map('count', $groups)));
         self::assertArrayHasKey('purchasing', $groups);
     }
 

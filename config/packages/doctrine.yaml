@@ -10,13 +10,6 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_mapping: true
-        # Workaround (US-026): the PunchOut plugin targets the Sylius mapped superclasses
-        # (Buyer#customer and #channel, PunchoutSession#cart, ReceivedPurchaseOrder#order). Point them to the
-        # concrete demo entities. The real fix belongs in the plugin (target the interfaces).
-        resolve_target_entities:
-            Sylius\Component\Core\Model\Customer: App\Entity\Customer\Customer
-            Sylius\Component\Core\Model\Order: App\Entity\Order\Order
-            Sylius\Component\Core\Model\Channel: App\Entity\Channel\Channel
         mappings:
             App:
                 is_bundle: false
