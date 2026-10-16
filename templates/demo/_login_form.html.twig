@@ -1,17 +1,33 @@
-{# One-click login: a standard login form (same fields and CSRF token as the real one) posted to the firewall check path. No bypass. #}
+{# One-click login: a standard login form (same fields and CSRF token as the real one) posted to the firewall check path. No bypass.
+   menu = true: full-width row (first name on the left, role on the right) for the banner menu; Bootstrap utilities only,
+   the banner also shows on the B2C channel where the B2B stylesheet is not loaded. #}
+{% set menu = menu|default(false) %}
 {% if account.enabled %}
-    <form method="post" action="{{ path(check_route) }}" class="d-inline">
+    <form method="post" action="{{ path(check_route) }}" class="{{ menu ? 'd-block' : 'd-inline' }}">
         <input type="hidden" name="_username" value="{{ account.email }}">
         <input type="hidden" name="_password" value="{{ account.password }}">
         {% if sylius_csrf_protection_enabled() %}
             <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token(csrf_id) }}">
         {% endif %}
-        <button type="submit" class="btn btn-sm btn-outline-primary" data-demo-login="{{ account.email }}">
-            Se connecter en tant que {{ account.firstName }} / Log in as {{ account.firstName }}
-        </button>
+        {% if menu %}
+            <button type="submit" class="btn btn-sm btn-outline-primary w-100 d-flex justify-content-between align-items-center gap-3 text-start" data-demo-login="{{ account.email }}">
+                <span class="visually-hidden">Se connecter en tant que {{ account.firstName }} / Log in as {{ account.firstName }} —</span>
+                <span class="fw-semibold" aria-hidden="true">{{ account.firstName }}</span>
+                <span class="small text-nowrap">{{ account.roleLabel }}</span>
+            </button>
+        {% else %}
+            <button type="submit" class="btn btn-sm btn-outline-primary text-nowrap" data-demo-login="{{ account.email }}">
+                Se connecter en tant que {{ account.firstName }} / Log in as {{ account.firstName }}
+            </button>
+        {% endif %}
     </form>
 {% else %}
-    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
-        {{ account.firstName }} — compte désactivé / disabled account
+    <button type="button" class="btn btn-sm btn-outline-secondary{{ menu ? ' w-100 d-flex justify-content-between align-items-center gap-3 text-start' : ' text-nowrap' }}" disabled>
+        {% if menu %}
+            <span class="fw-semibold">{{ account.firstName }}</span>
+            <span class="small text-nowrap">compte désactivé / disabled</span>
+        {% else %}
+            {{ account.firstName }} — compte désactivé / disabled account
+        {% endif %}
     </button>
 {% endif %}

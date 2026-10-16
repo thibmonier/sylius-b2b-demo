@@ -13,17 +13,15 @@
             {% endif %}
             <details class="position-relative">
                 <summary>Se connecter en un clic / One-click login</summary>
-                <div class="position-absolute bg-white text-dark p-2 border rounded shadow" style="z-index: 1050; min-width: 22rem">
+                <div class="position-absolute bg-white text-dark p-2 border rounded shadow d-grid gap-1" style="z-index: 1050; min-width: 22rem">
                     {% for account in demo_shop_accounts() %}
-                        <div class="mb-1">
-                            {% include 'demo/_login_form.html.twig' with {
-                                account,
-                                check_route: 'sylius_shop_login_check',
-                                csrf_field: '_csrf_shop_security_token',
-                                csrf_id: 'shop_authenticate',
-                            } only %}
-                            <span class="small text-muted">{{ account.roleLabel }}</span>
-                        </div>
+                        {% include 'demo/_login_form.html.twig' with {
+                            account,
+                            check_route: 'sylius_shop_login_check',
+                            csrf_field: '_csrf_shop_security_token',
+                            csrf_id: 'shop_authenticate',
+                            menu: true,
+                        } only %}
                     {% endfor %}
                 </div>
             </details>

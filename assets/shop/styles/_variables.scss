@@ -1,7 +1,9 @@
 // B2B theme palette (US-013). Every text/background pair below is >= 4.5:1 (WCAG AA).
 $b2b-navy: #1f3a5f;       // on white 11.1:1, white on navy 11.1:1
 $b2b-navy-dark: #162a45;
-$b2b-accent: #9a3f00;     // on white 7.0:1 (amber, used for HT/price emphasis)
+$b2b-accent: #9a3f00;     // on white 7.0:1, white on accent 7.0:1 (brown of the logo: third colour, hovers, icons)
+$b2b-accent-dark: #7a3200; // white on it 9.5:1 (pressed state)
+$b2b-accent-subtle: #fbf1ea; // tinted background behind accent icons (accent on it 6.4:1)
 $b2b-surface: #f3f5f8;
 $b2b-border: #cfd6df;
 $b2b-muted: #4b5563;      // on white 7.6:1

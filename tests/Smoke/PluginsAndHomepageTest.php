@@ -58,6 +58,9 @@ final class PluginsAndHomepageTest extends WebTestCase
         }
         self::assertCount(1, $client->getCrawler()->filter('[data-plugin-unpublished]'));
         self::assertCount(20, $client->getCrawler()->filter('[data-plugin-packagist]'));
+        // Each external link carries the icon of its service (GitHub, Packagist).
+        self::assertCount(21, $client->getCrawler()->filter('[data-plugin] .card-footer a[href^="https://github.com/"] svg'));
+        self::assertCount(20, $client->getCrawler()->filter('[data-plugin-packagist] svg'));
     }
 
     public function testEveryDemoRouteOfTheCatalogExists(): void
@@ -86,6 +89,10 @@ final class PluginsAndHomepageTest extends WebTestCase
         self::assertCount(1, $crawler->filter('[data-b2b-home="quick-access"] a[href="/demo/accounts"]'));
         self::assertCount(1, $crawler->filter('[data-b2b-home="quick-access"] a[href="/fr_FR/plugins"]'));
         self::assertGreaterThanOrEqual(3, $crawler->filter('[data-b2b-journey]')->count());
+        // Real icons, not escaped markup; the logo has its own column so the account and cart stay on the right.
+        self::assertCount(7, $crawler->filter('[data-b2b-home] .b2b-tile__icon svg'));
+        self::assertStringNotContainsString('&lt;svg', (string) $client->getResponse()->getContent());
+        self::assertCount(1, $crawler->filter('.row > .col > a.b2b-logo'));
     }
 
     public function testTheB2cHomepageKeepsTheStockSyliusHome(): void
