@@ -30,6 +30,8 @@ final class PunchoutDemoFixture extends AbstractFixture
     /** Non-secret, displayed in the demo accounts page */
     public const DEMO_SECRET = 'demo-secret-acme';
 
+    public const ERP_DOMAIN = 'erp.acme.example';
+
     /**
      * @param RepositoryInterface<CustomerInterface> $customerRepository
      * @param RepositoryInterface<ChannelInterface>  $channelRepository
@@ -41,7 +43,26 @@ final class PunchoutDemoFixture extends AbstractFixture
         private readonly RepositoryInterface $customerRepository,
         #[Autowire(service: 'sylius.repository.channel')]
         private readonly RepositoryInterface $channelRepository,
+        #[Autowire(env: 'DEFAULT_URI')]
+        private readonly string $defaultUri,
     ) {
+    }
+
+    /**
+     * The simulator (US-027) receives the cart on the public host of the demo, so that host must be a return
+     * domain of the buyer. The plugin only accepts HTTPS return URLs: an HTTP DEFAULT_URI (local) adds nothing.
+     *
+     * @return list<string>
+     */
+    public static function returnDomains(string $defaultUri): array
+    {
+        $parts = parse_url($defaultUri);
+        $host = strtolower(is_array($parts) ? $parts['host'] ?? '' : '');
+        if (!is_array($parts) || 'https' !== ($parts['scheme'] ?? null) || '' === $host || self::ERP_DOMAIN === $host) {
+            return [self::ERP_DOMAIN];
+        }
+
+        return [self::ERP_DOMAIN, $host];
     }
 
     public function load(array $options): void
@@ -71,8 +92,9 @@ final class PunchoutDemoFixture extends AbstractFixture
         $buyer->setChannel($b2bChannel);
         $buyer->setCustomer($claire);
         $buyer->setCompanyId('ACME_IND');
-        // Strict allowlist of ERP return domains (no localhost: avoids an SSRF/open-redirect shape).
-        $buyer->setReturnDomains(['erp.acme.example']);
+        // Strict allowlist: the ERP domain and the public HTTPS host of the demo (no localhost: avoids an
+        // SSRF/open-redirect shape).
+        $buyer->setReturnDomains(self::returnDomains($this->defaultUri));
         $buyer->setLocale('fr_FR');
         // US-026 (I3): an OrderRequest is accepted only with a payment method, and the on-account one
         // makes the order reserve Acme's trade credit and go through purchase approval, as in the shop.

@@ -86,4 +86,5 @@ return [
     Tmonier\SyliusTradeCreditPlugin\TmonierSyliusTradeCreditPlugin::class => ['all' => true],
     Tmonier\SyliusWebhookOutboxPlugin\TmonierSyliusWebhookOutboxPlugin::class => ['all' => true],
     Tmonier\SyliusWithdrawalPlugin\TmonierSyliusWithdrawalPlugin::class => ['all' => true],
+    Sylius\WishlistPlugin\SyliusWishlistPlugin::class => ['all' => true],
 ];

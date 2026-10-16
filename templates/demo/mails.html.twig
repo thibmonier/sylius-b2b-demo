@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|default('fr')|slice(0, 2) }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ 'title'|trans({}, 'mails') }} — Fournitures Pro</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+        h1 { color: #1f3a5f; }
+        table { width: 100%; border-collapse: collapse; margin: .75rem 0; }
+        th, td { text-align: left; padding: .5rem .75rem; border: 1px solid #ddd; }
+        th { background: #f0f4f8; }
+        .note { background: #fff8e1; border-left: 4px solid #f59e0b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
+    </style>
+</head>
+<body>
+<h1>{{ 'title'|trans({}, 'mails') }}</h1>
+<div class="note">{{ 'intro'|trans({}, 'mails') }}</div>
+{% if unavailable %}
+    <p role="alert" data-demo-mails-unavailable>{{ 'unavailable'|trans({}, 'mails') }}</p>
+{% elseif messages is empty %}
+    <p data-demo-mails-empty>{{ 'empty'|trans({}, 'mails') }}</p>
+{% else %}
+    <table data-demo-mails>
+        <thead>
+            <tr>
+                <th>{{ 'date'|trans({}, 'mails') }}</th>
+                <th>{{ 'from'|trans({}, 'mails') }}</th>
+                <th>{{ 'to'|trans({}, 'mails') }}</th>
+                <th>{{ 'subject'|trans({}, 'mails') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in messages %}
+                <tr>
+                    <td>{{ message.date ? message.date|date('Y-m-d H:i') : '' }}</td>
+                    <td>{{ message.from }}</td>
+                    <td>{{ message.to }}</td>
+                    <td><a href="{{ path('app_demo_mail', { id: message.id }) }}">{{ message.subject }}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+</body>
+</html>

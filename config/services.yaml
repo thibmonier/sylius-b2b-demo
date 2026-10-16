@@ -66,6 +66,23 @@ services:
         arguments:
             $channelContext: '@sylius.context.channel'
 
+    # US-027 workaround (remove with the punchout-cxml fixes, sprint 7): PunchOut carts are not guest orders,
+    # so the on-account payment of an OrderRequest can reserve Acme's trade credit.
+    App\PunchOut\AuthorizedPunchOutOrderFactory:
+        arguments:
+            $orderFactory: '@sylius.factory.order'
+
+    Tmonier\SyliusPunchoutCxmlPlugin\Cart\PunchoutCartFactory:
+        arguments:
+            $orderFactory: '@App\PunchOut\AuthorizedPunchOutOrderFactory'
+
+    # US-011: Sylius' order example factory without its random lines/addresses (demo order history).
+    App\Demo\Order\DeterministicOrderFactory:
+        class: App\Demo\Order\DeterministicOrderFactory
+        parent: sylius.fixture.example_factory.order
+        calls:
+            - setVariantRepository: ['@sylius.repository.product_variant']
+
     # US-022: Factur-X BT-10 BuyerReference from the order PO reference (decorates the plugin XML writer).
     App\Invoice\PoReferenceCiiXmlWriter:
         decorates: 'tmonier_facturx.xml.writer'

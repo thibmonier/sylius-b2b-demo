@@ -149,7 +149,7 @@ Chaque plugin est un dépôt `thibmonier/sylius-<nom>-plugin` créé avec le squ
   - punchout : bloquer `/quotes/{token}/checkout` et les commandes passées par quick-order pendant une session (correctif dans punchout v1.1.x, liste de routes configurable) ;
   - OrderRequest : test de scénario (réservation trade-credit, approbation, garde quote).
 - **Simulateur PunchOut (US-027)** : contrôleur `src/Demo/Controller/PunchoutSimulator` adapté de la TestApplication de punchout. Formulaires cXML et OCI, page de réception (base64 décodé, affichage du panier), bouton « Envoyer l'OrderRequest ». Il appelle l'endpoint par sous-requête interne : aucun appel sortant.
-- **Mailpit (US-028)** : service séparé. L'interface est exposée en lecture seule par Caddy (reverse proxy `/mails/*`, méthodes GET seulement, API de suppression bloquée). L'application envoie par SMTP interne (réseau privé Railway).
+- **Mailpit (US-028)** : service séparé. Décision du 2026-10-16 : **Mailpit n'est jamais exposé** (ni interface, ni API, ni reverse proxy Caddy). Une page de la démo lit les e-mails via l'API HTTP de Mailpit côté serveur (réseau privé) et les affiche en lecture seule, en excluant les e-mails sensibles (réinitialisation de mot de passe, vérification de compte, tout e-mail contenant un jeton) ; l'accès direct par identifiant à un de ces e-mails est refusé. L'application envoie par SMTP interne (réseau privé Railway).
 - **Récepteur de webhooks (US-029)** : `POST /demo/webhooks/receive` (signature Standard Webhooks vérifiée), entité `app_demo_webhook_receipt` et page de consultation. Seul l'endpoint interne est autorisé (§9).
 - **MCP (US-030)** : page de guide. Le serveur MCP est servi par les plugins (HTTPS du domaine Railway).
 

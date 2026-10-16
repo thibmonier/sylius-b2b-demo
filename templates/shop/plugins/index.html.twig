@@ -6,6 +6,9 @@
     <div class="container my-5" data-page="plugins">
         <h1>{{ 'app.plugins.title'|trans }}</h1>
         <p class="lead">{{ 'app.plugins.intro'|trans }}</p>
+        {% if demo_mode() %}
+            <p><a href="{{ path('app_demo_punchout_simulator', {lang: app.request.locale|slice(0, 2)}) }}" data-punchout-simulator-link>{{ 'plugins_link'|trans({}, 'simulator') }}</a></p>
+        {% endif %}
 
         {% for category, plugins in groups %}
             <section class="mt-5" data-plugin-category="{{ category }}">

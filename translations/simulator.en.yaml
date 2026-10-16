@@ -1,0 +1,41 @@
+title: "Procurement tool simulator"
+switch_language: Français
+intro: "This page plays the role of Acme Industries' procurement tool (Ariba, SAP…): it sends a cXML PunchOut request to the shop, you arrive logged in as the buyer, then the transferred cart is shown here and can be ordered (OrderRequest)."
+start: "Start a PunchOut session (cXML)"
+oci_note: "The OCI flow is not simulated here."
+buyer:
+    info: "Simulated buyer: Acme Industries (fictitious identities). The shared secret stays on the server. Return domains allowed for this buyer: %domains%."
+errors:
+    legend: "Simulate an error"
+    wrong_secret: "Send a wrong shared secret"
+    foreign_domain: "Use a return domain that is not allowed"
+cart:
+    title: "Cart received from the shop"
+    part: Part number
+    description: Description
+    quantity: Quantity
+    unit_price: "Unit price (excl. tax)"
+    total: "Total (excl. tax)"
+order:
+    id_label: "Purchase order number (orderID)"
+    send: "Send the OrderRequest"
+sent:
+    title: "OrderRequest accepted: the order is created in the shop."
+    po: "Purchase order reference: %po%"
+error:
+    csrf: "Form expired, please try again."
+    buyer_missing: "The demo buyer is not loaded in the shop."
+    endpoint_status: "The shop PunchOut endpoint answered with an error."
+    endpoint_unreachable: "The shop PunchOut endpoint is unreachable."
+    invalid_response: "The shop answer is not a valid cXML document."
+    invalid_message: "The return message is not a valid PunchOutOrderMessage. No order was created."
+    session_expired: "This simulator session has expired or is invalid. Start a new session; no order was created."
+    empty_cart: "The returned cart is empty: nothing to order."
+    empty_cart_order: "The cart is empty: sending the OrderRequest is refused."
+    invalid_order_id: "The purchase order number must be 1 to 64 letters, digits or dashes."
+    status_400: "The shop refused the request (400)."
+    status_401: "Shared secret or identity refused by the shop (401)."
+    status_403: "Return domain refused (403): host %host% must be in the buyer's return domains."
+    status_429: "Too many requests, try again in a minute (429)."
+    status_other: "The shop refused the request."
+plugins_link: "Try the PunchOut procurement tool simulator"
