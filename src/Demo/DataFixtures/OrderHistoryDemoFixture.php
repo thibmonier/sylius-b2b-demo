@@ -95,6 +95,10 @@ final class OrderHistoryDemoFixture extends AbstractFixture
         if (null !== $this->orderRepository->findOneBy([])) {
             return;
         }
+        // An empty path would turn the pattern into "/*.pdf" (root of the filesystem).
+        if ('' === trim($this->invoiceDirectory, '/ ')) {
+            throw new \LogicException('The invoice directory (sylius_invoicing.invoice_save_path) must not be empty or "/".');
+        }
 
         foreach (glob(rtrim($this->invoiceDirectory, '/') . '/*.pdf') ?: [] as $file) {
             unlink($file);

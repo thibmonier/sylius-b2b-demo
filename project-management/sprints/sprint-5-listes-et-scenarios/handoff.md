@@ -24,8 +24,8 @@ Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-spr
 |-------|------|---------------|
 | US-011 Historique de commandes et factures | review (`b4455ca`) | Doc T-011-06 ; BuildCo et IndusPro sans commande (couverture « entreprise sans commande » partielle) ; facture de la commande approuvée datée du jour (plugin purchase-approval utilise `new DateTimeImmutable`) |
 | US-024 Listes d'achat partagées | review (`1f6990f`) | Rien de bloquant (vérifié en conteneur : Claire 200, Marc/TechParts 403, anonyme → login) |
-| US-025 Carnet d'adresses (company-accounts v1.2) | in-progress | **Plugin publié v1.2.0** (Packagist OK). Reste **l'intégration dans la démo** : `composer require tmonier/sylius-company-accounts-plugin:^1.2`, migration du plugin, fixture d'adresses Acme (« Usine de Lyon »…) via les services réels du plugin, smoke test (Isabelle crée, Claire choisit « Livrer ici » au checkout, Claire ne peut pas modifier) — tâches T-025-10 à T-025-12 |
-| US-027 Simulateur d'outil d'achat | in-progress (`0f46ac6`, partie 1) | (1) ajouter l'**hôte public de la démo** aux `returnDomains` du buyer PunchOut via une variable d'environnement (`PunchoutDemoFixture`, HTTPS exigé ; sans cela la session est refusée avec un message qui nomme l'hôte) ; (2) valider la **création de commande de bout en bout** par OrderRequest (stock/prix) ; (3) parcours OCI non simulé (aucun buyer OCI en fixture) — à décider : ajouter ou documenter |
+| US-025 Carnet d'adresses (company-accounts v1.2) | review (`1575e4f`) | Rien : démo sur v1.2.0, fixture `demo_company_addresses` (3 adresses Acme), smoke test (Claire « Livrer ici » → formulaire pré-rempli ; Claire 403 en écriture ; Isabelle gère ; Marc ne voit rien) |
+| US-027 Simulateur d'outil d'achat | review (`83dd39f`) | Rien : hôte HTTPS de `DEFAULT_URI` ajouté aux `returnDomains` ; commande de bout en bout testée. **Défaut punchout-cxml trouvé** : `PunchoutCartFactory` crée des commandes « invité » → paiement sur compte refusé (500). Contournement démo `App\PunchOut\AuthorizedPunchOutOrderFactory` (décision utilisateur), à retirer au sprint 7 avec le correctif du plugin. OCI non simulé : documenté (décision utilisateur), T-027-02 reporté |
 | US-028 Lecture filtrée des e-mails | review (`fb17461`) | Doc T-028-06 |
 | Tâche technique (audit action 1) | fait (`4565c6c`) | Vérifier dans la CI : résumé de couverture et `doctrine:schema:validate --skip-sync` |
 
@@ -59,9 +59,14 @@ Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-spr
 - Les 2 échecs (`OrderHistorySmokeTest`) venaient des paniers laissés par les autres smoke tests (PunchOut, liste vers panier) : `findAll()` les comptait. Le test ne compte plus que les commandes passées (`state != cart`). Corrigé dans `0beb10e` : **CI verte** (285 tests, 0 échec, 1 ignoré ; 3 checks OK).
 - Couverture mesurée : Classes 40,70 %, Methods 55,91 %, **Lines 53,51 %** (cible 80 %, non bloquante pour l'instant).
 
+## Mise à jour du 2026-10-16 (après-midi)
+
+- Toutes les stories en review ; docs T-011-06, T-027-07, T-028-06 dans le README (`c2df2d0`).
+- Tests locaux : suite complète 298 tests ; seuls échecs locaux attendus = absence de `wkhtmltopdf` sur le Mac (contourné par `WKHTMLTOPDF_BINARY=<faux binaire>`, qui fait alors échouer l'assertion Factur-X d'`OrderHistorySmokeTest`) et cache `prod` périmé (`APP_ENV=prod bin/console cache:clear`).
+- La base de test `sylius_b2b_demo_test` avait disparu : recréée (create, migrate, fixtures).
+- Constats pour la revue : `doctrine:schema:validate` sans `--skip-sync` signale 4 écarts préexistants (tables Sylius refund/payment) ; le README annonçait Marc approbateur chez BuildCo alors que `accounts.yaml` ne l'y met pas ; `demo_mailpit_url()` (Twig) n'est utilisée par aucun template.
+
 ## Reprise conseillée
 
 1. `git fetch && git switch feature/sprint-5-listes-et-scenarios && git pull` ; vérifier la CI de la PR #5.
-2. Terminer US-025 (intégration v1.2) puis US-027 (domaine de retour + commande de bout en bout).
-3. Docs T-011-06 et T-028-06.
-4. Phase 7 : revue indépendante (Symfony + sécurité) ; phase 8 : rétro ; pause pour le GO de merge.
+2. Phase 7 : revue indépendante (Symfony + sécurité) lancée, traiter les constats ; phase 8 : rétro ; pause pour le GO de merge.

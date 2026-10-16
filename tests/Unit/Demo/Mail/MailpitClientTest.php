@@ -43,6 +43,27 @@ final class MailpitClientTest extends TestCase
         self::assertSame(['GET http://mailpit:8025/api/v1/message/abc123'], $methods);
     }
 
+    /** All the bodies are requested before any is read: the list page waits about one timeout, not one per mail. */
+    public function testSeveralMessagesAreFetchedConcurrently(): void
+    {
+        $events = [];
+        $http = new MockHttpClient(static function (string $method, string $url) use (&$events): MockResponse {
+            $id = basename($url);
+            $events[] = 'request ' . $id;
+            $body = (static function () use (&$events, $id): \Generator {
+                $events[] = 'read ' . $id;
+                yield (string) json_encode(['Subject' => 'Mail ' . $id]);
+            })();
+
+            return '404' === $id ? new MockResponse('{}', ['http_code' => 404]) : new MockResponse($body);
+        });
+
+        $messages = (new MailpitClient($http, 'http://mailpit:8025'))->findMany(['a1', '../x', '404', 'b2']);
+
+        self::assertSame(['Mail a1', 'Mail b2'], array_map(static fn (MailpitMessage $m): string => $m->subject, $messages));
+        self::assertSame(['request a1', 'request 404', 'request b2'], \array_slice($events, 0, 3), 'Every request starts before any body is read.');
+    }
+
     public function testAMalformedIdNeverReachesMailpit(): void
     {
         $http = new MockHttpClient(static fn (): MockResponse => throw new \LogicException('No request expected.'));

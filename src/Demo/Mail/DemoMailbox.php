@@ -27,15 +27,10 @@ final readonly class DemoMailbox
      */
     public function list(): array
     {
-        $messages = [];
-        foreach ($this->client->latestIds(self::LIMIT) as $id) {
-            $message = $this->client->find($id);
-            if (null !== $message && !$this->filter->isSensitive($message)) {
-                $messages[] = $message;
-            }
-        }
-
-        return $messages;
+        return array_values(array_filter(
+            $this->client->findMany($this->client->latestIds(self::LIMIT)),
+            fn (MailpitMessage $message): bool => !$this->filter->isSensitive($message),
+        ));
     }
 
     /**

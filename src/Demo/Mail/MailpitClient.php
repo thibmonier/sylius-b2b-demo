@@ -7,6 +7,7 @@ namespace App\Demo\Mail;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * Read-only client of the Mailpit HTTP API, called server-side only (US-028).
@@ -57,15 +58,42 @@ final readonly class MailpitClient
      */
     public function find(string $id): ?MailpitMessage
     {
-        if (1 !== preg_match(self::ID_PATTERN, $id)) {
-            return null;
+        return $this->findMany([$id])[0] ?? null;
+    }
+
+    /**
+     * The messages that exist, in the order of the ids. Every request is sent before any response is read, so the
+     * calls run concurrently and the whole batch is bounded by about one max_duration.
+     *
+     * @param list<string> $ids
+     *
+     * @return list<MailpitMessage>
+     *
+     * @throws MailpitUnavailableException
+     */
+    public function findMany(array $ids): array
+    {
+        $responses = [];
+        foreach ($ids as $id) {
+            if (1 === preg_match(self::ID_PATTERN, $id)) {
+                $responses[$id] = $this->send('/api/v1/message/' . $id);
+            }
         }
 
-        $data = $this->get('/api/v1/message/' . $id, true);
-        if (null === $data) {
-            return null;
+        $messages = [];
+        foreach ($responses as $id => $response) {
+            $data = $this->decode($response, true);
+            if (null !== $data) {
+                $messages[] = self::message((string) $id, $data);
+            }
         }
 
+        return $messages;
+    }
+
+    /** @param array<string, mixed> $data */
+    private static function message(string $id, array $data): MailpitMessage
+    {
         return new MailpitMessage(
             $id,
             self::string($data['Subject'] ?? null),
@@ -82,12 +110,31 @@ final readonly class MailpitClient
      */
     private function get(string $path, bool $notFoundIsNull = false): ?array
     {
+        return $this->decode($this->send($path), $notFoundIsNull);
+    }
+
+    /** @throws MailpitUnavailableException */
+    private function send(string $path): ResponseInterface
+    {
         if (!$this->isConfigured()) {
             throw new MailpitUnavailableException('Mailpit API URL is not configured.');
         }
 
         try {
-            $response = $this->http->request('GET', rtrim($this->apiUrl, '/') . $path);
+            return $this->http->request('GET', rtrim($this->apiUrl, '/') . $path);
+        } catch (ExceptionInterface $e) {
+            throw new MailpitUnavailableException('Mailpit is unavailable.', 0, $e);
+        }
+    }
+
+    /**
+     * @return ($notFoundIsNull is true ? array<string, mixed>|null : array<string, mixed>)
+     *
+     * @throws MailpitUnavailableException
+     */
+    private function decode(ResponseInterface $response, bool $notFoundIsNull): ?array
+    {
+        try {
             if ($notFoundIsNull && 404 === $response->getStatusCode()) {
                 return null;
             }
