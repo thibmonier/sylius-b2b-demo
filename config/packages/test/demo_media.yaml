@@ -1,0 +1,4 @@
+# US-040 / M4: the tests that run the reset purge the uploads, so they get their own image directory: a test run never
+# deletes the images a development or demo database points to.
+parameters:
+    sylius_core.images_dir: '%kernel.project_dir%/var/media-test/image'

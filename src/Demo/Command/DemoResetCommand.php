@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Command;
 
+use App\Demo\Media\OrphanImagePurger;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
@@ -30,6 +31,8 @@ use Throwable;
  *      consumption left by the PunchOut simulator (US-027).
  *   2. Optionally purge the LiipImagine cache to force image regeneration on next hit.
  *   3. Clear and warm up the application cache.
+ *   4. Purge the uploaded images that no image row points to (US-040): after the commit, a failure is reported
+ *      (DEMO_RESET_FAILED, /healthz) and never rolls the data back.
  *
  * The reset is wanted in the `prod` environment of the demo and nowhere else: it only runs with DEMO_MODE=1.
  *
@@ -56,6 +59,7 @@ final class DemoResetCommand extends Command
         #[Autowire(param: 'demo.mode')]
         private readonly bool $demoMode,
         private readonly ResetStatus $resetStatus,
+        private readonly OrphanImagePurger $imagePurger,
     ) {
         parent::__construct();
     }
@@ -97,6 +101,8 @@ final class DemoResetCommand extends Command
             if (!$input->getOption('no-cache')) {
                 $this->stepClearWarmUpCache($io, $output, $dryRun);
             }
+
+            $this->stepPurgeOrphanImages($io, $dryRun);
         } catch (Throwable $e) {
             $this->logger->error('app:demo:reset failed', [
                 'exception' => $e->getMessage(),
@@ -204,6 +210,28 @@ final class DemoResetCommand extends Command
         $this->runSubCommand('cache:warmup', ['--no-debug' => true, '--no-interaction' => true], $output, $dryRun);
 
         $io->text('Cache refreshed.');
+    }
+
+    // -------------------------------------------------------------------------
+    // Step 4 — Orphan uploads
+    // -------------------------------------------------------------------------
+
+    private function stepPurgeOrphanImages(SymfonyStyle $io, bool $dryRun): void
+    {
+        $io->section('Step 4 — Orphan images');
+        $this->logger->info('Step 4: orphan image purge');
+
+        if ($dryRun) {
+            $io->text('[DRY-RUN] Would remove the images no row points to.');
+
+            return;
+        }
+
+        $report = $this->imagePurger->purge();
+        $io->text(\sprintf('%d orphan image(s) removed.', $report->deleted));
+        if ($report->hasFailures()) {
+            throw new \RuntimeException(\sprintf('%d orphan image(s) could not be removed (see the logs).', \count($report->failed)));
+        }
     }
 
     // -------------------------------------------------------------------------

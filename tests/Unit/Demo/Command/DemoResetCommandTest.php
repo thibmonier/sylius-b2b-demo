@@ -6,10 +6,13 @@ namespace App\Tests\Unit\Demo\Command;
 
 use App\Demo\Command\DemoResetCommand;
 use App\Demo\Command\ResetStatus;
+use App\Demo\Media\ImagePathSource;
+use App\Demo\Media\OrphanImagePurger;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
@@ -18,6 +21,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Unit tests for DemoResetCommand (US-012 / T-012-08, T-012-09).
@@ -61,7 +65,12 @@ final class DemoResetCommandTest extends TestCase
 
     private function command(bool $demoMode): DemoResetCommand
     {
-        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode, new ResetStatus($this->statusFile));
+        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode, new ResetStatus($this->statusFile), new OrphanImagePurger(new class implements ImagePathSource {
+            public function paths(): iterable
+            {
+                return [];
+            }
+        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))));
     }
 
     protected function tearDown(): void
