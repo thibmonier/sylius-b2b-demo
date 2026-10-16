@@ -74,6 +74,10 @@ final class PunchoutDemoFixture extends AbstractFixture
         // Strict allowlist of ERP return domains (no localhost: avoids an SSRF/open-redirect shape).
         $buyer->setReturnDomains(['erp.acme.example']);
         $buyer->setLocale('fr_FR');
+        // US-026 (I3): an OrderRequest is accepted only with a payment method, and the on-account one
+        // makes the order reserve Acme's trade credit and go through purchase approval, as in the shop.
+        $buyer->setOrderPaymentMethod(TradeCreditDemoFixture::ON_ACCOUNT_PAYMENT_METHOD);
+        $buyer->setOrderShippingMethod('carrier');
 
         // Identities (cXML From / Sender)
         foreach ([

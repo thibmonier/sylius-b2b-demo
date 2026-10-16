@@ -122,6 +122,17 @@ sylius_fixtures:
                                 gatewayFactory: 'offline'
                                 enabled: true
                                 channels: ['B2B', 'B2C']
+                            # US-026 (I3): payment on account (net 30), B2B only. The trade-credit policy
+                            # is attached by the demo_trade_credit fixture; the PunchOut buyer uses it.
+                            on_account:
+                                code: 'on_account'
+                                name: 'Paiement à 30 jours (sur compte)'
+                                description: 'Facturation à 30 jours, dans la limite du crédit de l’entreprise'
+                                instructions: 'Démo : aucun paiement réel.'
+                                gatewayName: 'offline'
+                                gatewayFactory: 'offline'
+                                enabled: true
+                                channels: ['B2B']
 
                 admin_user:
                     options:

@@ -7,12 +7,15 @@ namespace App\Demo\DataFixtures;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Tmonier\SyliusCompanyAccountsPlugin\Bridge\OrderHold\CompanyAccountOwnerResolver;
 use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface;
 use Tmonier\SyliusCompanyAccountsPlugin\Repository\CompanyRepositoryInterface;
+use Tmonier\SyliusTradeCreditPlugin\Entity\PaymentTermsPolicyInterface;
 use Tmonier\SyliusTradeCreditPlugin\Entity\TradeCreditAccountInterface;
+use Tmonier\SyliusTradeCreditPlugin\Repository\PaymentTermsPolicyRepositoryInterface;
 use Tmonier\SyliusTradeCreditPlugin\Repository\TradeCreditAccountRepositoryInterface;
 
 /**
@@ -23,6 +26,11 @@ use Tmonier\SyliusTradeCreditPlugin\Repository\TradeCreditAccountRepositoryInter
  */
 final class TradeCreditDemoFixture extends AbstractFixture
 {
+    /** Payment method of the demo_fixtures suite that is paid on account (US-026 I3). */
+    public const ON_ACCOUNT_PAYMENT_METHOD = 'on_account';
+
+    private const NET_DAYS = 30;
+
     /** @var array<string, int> companyCode => credit limit in EUR cents */
     private const LIMITS = [
         'ACME_IND' => 1_000_000,   // 10 000 €
@@ -32,6 +40,8 @@ final class TradeCreditDemoFixture extends AbstractFixture
 
     /**
      * @param FactoryInterface<TradeCreditAccountInterface>         $accountFactory
+     * @param FactoryInterface<PaymentTermsPolicyInterface>         $policyFactory
+     * @param \Sylius\Resource\Doctrine\Persistence\RepositoryInterface<PaymentMethodInterface> $paymentMethodRepository
      * @param \Sylius\Resource\Doctrine\Persistence\RepositoryInterface<ChannelInterface> $channelRepository
      */
     public function __construct(
@@ -44,6 +54,12 @@ final class TradeCreditDemoFixture extends AbstractFixture
         private readonly TradeCreditAccountRepositoryInterface $accountRepository,
         #[Autowire(service: 'sylius.repository.channel')]
         private readonly \Sylius\Resource\Doctrine\Persistence\RepositoryInterface $channelRepository,
+        #[Autowire(service: 'tmonier_trade_credit.factory.payment_terms_policy')]
+        private readonly FactoryInterface $policyFactory,
+        #[Autowire(service: 'tmonier_trade_credit.repository.payment_terms_policy')]
+        private readonly PaymentTermsPolicyRepositoryInterface $policyRepository,
+        #[Autowire(service: 'sylius.repository.payment_method')]
+        private readonly \Sylius\Resource\Doctrine\Persistence\RepositoryInterface $paymentMethodRepository,
     ) {
     }
 
@@ -85,7 +101,22 @@ final class TradeCreditDemoFixture extends AbstractFixture
             $this->entityManager->persist($account);
         }
 
+        $this->ensureOnAccountPolicy();
         $this->entityManager->flush();
+    }
+
+    /** Makes the "on account" payment method a trade-credit one: orders paid with it reserve the company credit. */
+    private function ensureOnAccountPolicy(): void
+    {
+        $method = $this->paymentMethodRepository->findOneBy(['code' => self::ON_ACCOUNT_PAYMENT_METHOD]);
+        if (!$method instanceof PaymentMethodInterface || null !== $this->policyRepository->findOneByPaymentMethod($method)) {
+            return;
+        }
+
+        $policy = $this->policyFactory->createNew();
+        $policy->setPaymentMethod($method);
+        $policy->setNetDays(self::NET_DAYS);
+        $this->entityManager->persist($policy);
     }
 
     public function getName(): string
