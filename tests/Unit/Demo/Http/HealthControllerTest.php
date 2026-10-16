@@ -16,6 +16,8 @@ use Doctrine\Migrations\Metadata\AvailableMigrationsList;
 use Doctrine\Migrations\Version\MigrationStatusCalculator;
 use Doctrine\Migrations\Version\Version;
 use PHPUnit\Framework\TestCase;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 /** US-032 / T-032-04: the healthcheck answers on the database and the migrations, and says nothing more. */
 final class HealthControllerTest extends TestCase
@@ -84,7 +86,35 @@ final class HealthControllerTest extends TestCase
         }
     }
 
-    private function controller(?Connection $connection = null, int $pending = 0, bool $migrationsFail = false, ?DemoConfigurationGuard $guard = null, ?ResetStatus $resetStatus = null): HealthController
+    public function testTheDatabaseIsNotQueriedAgainWithinTheCacheWindow(): void
+    {
+        $connection = $this->createMock(Connection::class);
+        $connection->expects(self::once())->method('executeQuery');
+        $cache = new ArrayAdapter();
+
+        $first = $this->controller(connection: $connection, cache: $cache)();
+        $second = $this->controller(connection: $connection, cache: $cache)();
+
+        self::assertSame(200, $first->getStatusCode());
+        self::assertSame(200, $second->getStatusCode());
+    }
+
+    public function testAFailedResetIsSeenAtOnceEvenWhenTheStorageVerdictIsCached(): void
+    {
+        $file = sys_get_temp_dir() . '/demo-reset-status-' . bin2hex(random_bytes(4));
+        $status = new ResetStatus($file);
+        $cache = new ArrayAdapter();
+
+        try {
+            self::assertSame(200, $this->controller(resetStatus: $status, cache: $cache)()->getStatusCode());
+            $status->markFailed();
+            self::assertSame(503, $this->controller(resetStatus: $status, cache: $cache)()->getStatusCode(), 'The reset marker is a file check, never cached.');
+        } finally {
+            @unlink($file);
+        }
+    }
+
+    private function controller(?Connection $connection = null, int $pending = 0, bool $migrationsFail = false, ?DemoConfigurationGuard $guard = null, ?ResetStatus $resetStatus = null, ?CacheItemPoolInterface $cache = null): HealthController
     {
         $connection ??= $this->createStub(Connection::class);
         $calculator = $this->createStub(MigrationStatusCalculator::class);
@@ -101,6 +131,7 @@ final class HealthControllerTest extends TestCase
             $factory,
             $guard ?? new DemoConfigurationGuard(new BasicAuthGate(false, false, '', ''), false, 'null://null', '', '', ''),
             $resetStatus ?? new ResetStatus(sys_get_temp_dir() . '/demo-reset-status-absent-' . bin2hex(random_bytes(4))),
+            $cache ?? new ArrayAdapter(),
         );
     }
 

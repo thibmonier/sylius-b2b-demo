@@ -23,6 +23,8 @@ parameters:
     env(DEMO_RATE_LIMIT_API_AUTH): '20'
     env(DEMO_RATE_LIMIT_API_WRITE): '30'
     env(DEMO_RATE_LIMIT_MCP): '300'
+    # /health and /healthz per minute: well above a monitor polling every 10 seconds (6 calls), far below a flood.
+    env(DEMO_RATE_LIMIT_HEALTH): '30'
 
     # 0 = the shop registration form and the shop API no longer create customers (US-040, M2): set it before the public opening.
     env(DEMO_REGISTRATION_OPEN): '1'
@@ -81,6 +83,11 @@ framework:
             policy: sliding_window
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_MCP)%'
+            interval: '1 minute'
+        demo_health:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_HEALTH)%'
             interval: '1 minute'
         demo_login:
             policy: sliding_window

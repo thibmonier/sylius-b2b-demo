@@ -13,7 +13,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 /**
  * Per-visitor rate limits of the public demo (US-036): login, demo pages, registration and public forms,
- * PunchOut simulator, API token and sign-up endpoints, MCP. The key is the visitor IP resolved through the trusted proxies, never the proxy.
+ * PunchOut simulator, API token and sign-up endpoints, MCP, health probes. The key is the visitor IP resolved through the trusted proxies, never the proxy.
  * A refused request answers 429 with Retry-After. Runs after the router (route name known) and before
  * the firewall (a login flood never reaches the authenticators).
  */
@@ -25,6 +25,8 @@ final readonly class RateLimitSubscriber
         'sylius_shop_login_check' => ['POST', 'login'],
         'sylius_shop_json_login_check' => ['POST', 'login'],
         'sylius_admin_login_check' => ['POST', 'login'],
+        'app_demo_health' => ['GET', 'health'],
+        'app_demo_healthz' => ['GET', 'health'],
         'app_demo_accounts' => [null, 'public'],
         'app_demo_mails' => [null, 'public'],
         'app_demo_mail' => [null, 'public'],
@@ -55,6 +57,7 @@ final readonly class RateLimitSubscriber
         private RateLimiterFactory $demoApiAuthLimiter,
         private RateLimiterFactory $demoApiWriteLimiter,
         private RateLimiterFactory $demoMcpLimiter,
+        private RateLimiterFactory $demoHealthLimiter,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {
@@ -91,6 +94,7 @@ final readonly class RateLimitSubscriber
             'api_auth' => $this->demoApiAuthLimiter,
             'api_write' => $this->demoApiWriteLimiter,
             'mcp' => $this->demoMcpLimiter,
+            'health' => $this->demoHealthLimiter,
             default => $this->demoPunchoutOrderLimiter,
         };
     }
