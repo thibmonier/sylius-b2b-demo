@@ -4,3 +4,7 @@ liip_imagine:
             web_path:
                 web_root: "%kernel.project_dir%/public"
                 cache_prefix: "media/cache"
+    # "lazy" serves imagine_filter through a Twig runtime. The default "legacy" mode logs a deprecation on every request,
+    # which floods the Railway logs (deprecations go to stderr in prod).
+    twig:
+        mode: lazy
