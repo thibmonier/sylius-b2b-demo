@@ -37,10 +37,16 @@ final readonly class BadgeToggleController
     {
         $referer = $request->headers->get('Referer');
         $parts = null === $referer ? false : parse_url($referer);
-        if (\is_array($parts) && ($parts['host'] ?? null) === $request->getHost() && isset($parts['path']) && str_starts_with($parts['path'], '/')) {
+        if (\is_array($parts) && ($parts['host'] ?? null) === $request->getHost() && isset($parts['path']) && self::isLocalPath($parts['path'])) {
             return $parts['path'] . (isset($parts['query']) ? '?' . $parts['query'] : '');
         }
 
         return $this->urlGenerator->generate('sylius_shop_homepage');
+    }
+
+    /** A single leading slash: "//host" is protocol-relative and a backslash may be read as a slash by browsers. */
+    private static function isLocalPath(string $path): bool
+    {
+        return str_starts_with($path, '/') && !str_starts_with($path, '//') && !str_contains($path, '\\');
     }
 }

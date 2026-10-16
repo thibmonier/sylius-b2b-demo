@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Badge;
 
 use App\Demo\Badge\BadgePreference;
 use App\Demo\Controller\BadgeToggleController;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -56,6 +57,29 @@ final class BadgePreferenceTest extends TestCase
 
         self::assertSame('/home', $response->getTargetUrl());
         self::assertSame('on', $response->headers->getCookies()[0]->getValue());
+    }
+
+    /** @return iterable<string, array{string}> */
+    public static function unsafeRefererPaths(): iterable
+    {
+        yield 'protocol-relative' => ['http://shop.test//evil.tld/x'];
+        yield 'backslash' => ['http://shop.test/\\evil.tld'];
+        yield 'backslash inside' => ['http://shop.test/fr_FR/\\evil.tld'];
+    }
+
+    #[DataProvider('unsafeRefererPaths')]
+    public function testTheSwitchRefusesAmbiguousRefererPaths(string $referer): void
+    {
+        $request = Request::create('http://shop.test/demo/badges/on', server: ['HTTP_REFERER' => $referer]);
+
+        self::assertSame('/home', self::controller()($request, 'on')->getTargetUrl());
+    }
+
+    public function testTheSwitchGoesHomeWithoutReferer(): void
+    {
+        $request = Request::create('http://shop.test/demo/badges/on');
+
+        self::assertSame('/home', self::controller()($request, 'on')->getTargetUrl());
     }
 
     private static function preference(Request $request, bool $demoMode): BadgePreference
