@@ -41,6 +41,7 @@
         "tmonier/sylius-audit-log-plugin": "^1.0",
         "tmonier/sylius-b2b-mcp-plugin": "^1.1",
         "tmonier/sylius-bulk-actions-plugin": "^1.0",
+        "tmonier/sylius-channel-access-plugin": "^0.1",
         "tmonier/sylius-command-palette-plugin": "^1.0.1",
         "tmonier/sylius-company-accounts-plugin": "^1.2",
         "tmonier/sylius-container-fill-plugin": "^1.1.1",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ff97eb444603c02b9839a7066cba441",
+    "content-hash": "0d025c379039d0e0b0f59fcfe4ae3998",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17110,6 +17110,83 @@
                 "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/tree/v1.0.0"
             },
             "time": "2026-10-11T07:28:58+00:00"
+        },
+        {
+            "name": "tmonier/sylius-channel-access-plugin",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-channel-access-plugin.git",
+                "reference": "0b78aa9c125b07d4cc1037fd48877cae94310f27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-channel-access-plugin/zipball/0b78aa9c125b07d4cc1037fd48877cae94310f27",
+                "reference": "0b78aa9c125b07d4cc1037fd48877cae94310f27",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "sylius/sylius": "^2.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
+                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
+                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
+                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
+                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusChannelAccessPlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Per-channel access mode for Sylius 2 (open, prices hidden, closed): anonymous visitors are redirected to the login on a closed channel, prices and purchase are hidden and refused server-side (storefront and shop API) when prices are hidden, with a configurable allow-list of exempt routes",
+            "keywords": [
+                "access-control",
+                "b2b",
+                "channel",
+                "hidden-prices",
+                "login-wall",
+                "sylius",
+                "sylius-plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-channel-access-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/tree/v0.1.0"
+            },
+            "time": "2026-10-16T14:37:35+00:00"
         },
         {
             "name": "tmonier/sylius-command-palette-plugin",
