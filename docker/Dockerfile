@@ -29,7 +29,10 @@ RUN install-php-extensions intl gd zip exif pdo_mysql opcache apcu bcmath \
  && echo "${SUPERCRONIC_SHA256}  /usr/local/bin/supercronic" | sha256sum -c - \
  && chmod +x /usr/local/bin/supercronic \
  && rm -rf /tmp/wkhtmltox.deb /var/lib/apt/lists/*
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Pinned (supply chain). Composer runs as root during the build only: without COMPOSER_ALLOW_SUPERUSER, recent
+# versions disable plugins in non-interactive sessions, so symfony/runtime never writes vendor/autoload_runtime.php.
+COPY --from=composer:2.10.3 /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY docker/php.ini /usr/local/etc/php/conf.d/zz-demo.ini
 
 FROM base AS vendor
