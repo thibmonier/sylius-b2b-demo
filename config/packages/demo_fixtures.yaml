@@ -218,3 +218,11 @@ sylius_fixtures:
                 # Runs after channel fixture (priority 0) → priority -5.
                 demo_po_reference_channel:
                     priority: -5
+
+                # US-019: the B2B channel hides its prices from visitors who are not signed in (B2C stays open).
+                demo_channel_access:
+                    priority: -6
+
+                # US-019: the feeds of the B2B channel carry prices: they get an access token (after the feeds, -50).
+                demo_hidden_prices_feeds:
+                    priority: -60
