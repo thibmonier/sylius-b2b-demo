@@ -24,6 +24,10 @@ parameters:
     env(DEMO_RATE_LIMIT_API_WRITE): '30'
     env(DEMO_RATE_LIMIT_MCP): '300'
 
+    # 0 = the shop registration form and the shop API no longer create customers (US-040, M2): set it before the public opening.
+    env(DEMO_REGISTRATION_OPEN): '1'
+    demo.registration_open: '%env(bool:DEMO_REGISTRATION_OPEN)%'
+
     # Anonymous Acme orders the PunchOut simulator may create per day.
     env(DEMO_PUNCHOUT_DAILY_ORDERS): '50'
     demo.punchout.daily_orders: '%env(int:DEMO_PUNCHOUT_DAILY_ORDERS)%'
