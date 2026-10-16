@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Demo\PunchOutSimulator;
 
 use App\Demo\Controller\PunchOutSimulatorController;
+use App\Demo\Http\InternalRequestToken;
+use App\Demo\Http\VisitorIpResolver;
 use App\Demo\PunchOutSimulator\BuyerCredentialsProvider;
 use App\Demo\PunchOutSimulator\EndpointClient;
 use App\Demo\PunchOutSimulator\OrderMessageParser;
@@ -12,8 +14,10 @@ use App\Demo\PunchOutSimulator\OrderRequestBuilder;
 use App\Demo\PunchOutSimulator\ResponseParser;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
+use App\Demo\PunchOutSimulator\SimulatorOrderGate;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpFoundation\Request;
@@ -138,8 +142,10 @@ final class PunchOutSimulatorControllerTest extends TestCase
             new OrderRequestBuilder($clock),
             new OrderMessageParser($loader),
             new ResponseParser($loader),
-            new EndpointClient(new MockHttpClient()),
+            new EndpointClient(new MockHttpClient(), new InternalRequestToken('secret')),
             $this->state(),
+            new SimulatorOrderGate(new ArrayAdapter(), $clock, 50),
+            new VisitorIpResolver(),
             $demoMode,
         );
     }

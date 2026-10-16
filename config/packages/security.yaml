@@ -31,6 +31,9 @@ security:
                 enable_csrf: true
                 csrf_parameter: _csrf_admin_security_token
                 csrf_token_id: admin_authenticate
+            # US-036: failed logins per user name and IP (the per-IP flood limit is App\Demo\Http\RateLimitSubscriber).
+            login_throttling:
+                max_attempts: 10
             remember_me:
                 secret: "%env(APP_SECRET)%"
                 path: "/%sylius_admin.path_name%"
@@ -94,6 +97,8 @@ security:
                 password_path: _password
                 success_handler: sylius.authentication.success_handler
                 failure_handler: sylius.authentication.failure_handler
+            login_throttling:
+                max_attempts: 10
             remember_me:
                 secret: "%env(APP_SECRET)%"
                 name: APP_SHOP_REMEMBER_ME

@@ -18,6 +18,16 @@
         <env name="APP_DEBUG" value="0"/>
         <env name="APP_ENV" value="test"/>
         <env name="DEMO_MODE" value="1" force="true"/>
+        <!-- The private gate and the PunchOut endpoint guard are exercised by their own tests (tests/Functional/Demo). -->
+        <env name="DEMO_BASIC_AUTH" value="0" force="true"/>
+        <env name="DEMO_PUNCHOUT_PUBLIC_ENDPOINT" value="1" force="true"/>
+        <!-- Rate limits out of the way of the suite; the hardening tests lower them (tests/Functional/Demo). -->
+        <env name="DEMO_RATE_LIMIT_GATE" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_LOGIN" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_PUBLIC" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_FORMS" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_PUNCHOUT_START" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_PUNCHOUT_ORDER" value="100000" force="true"/>
         <env name="DEMO_MAILPIT_URL" value="http://localhost:8025" force="true"/>
         <server name="SHELL_VERBOSITY" value="-1" />
         <!-- ###- symfony/framework-bundle ### -->

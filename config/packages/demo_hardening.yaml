@@ -1,0 +1,111 @@
+# US-032 / US-036: private gate and hardening of the public demo. Everything tunable comes from the
+# environment (defaults suit a local run; Railway values are listed in docs/deploiement-railway.md).
+parameters:
+    # Private gate (HTTP basic auth). Active when DEMO_MODE=1 unless DEMO_BASIC_AUTH=0.
+    env(DEMO_BASIC_AUTH): '1'
+    env(DEMO_BASIC_AUTH_USER): ''
+    # password_hash() output (Argon2id); never a clear password.
+    env(DEMO_BASIC_AUTH_PASSWORD_HASH): ''
+    demo.basic_auth.enabled: '%env(bool:DEMO_BASIC_AUTH)%'
+    demo.basic_auth.user: '%env(DEMO_BASIC_AUTH_USER)%'
+    demo.basic_auth.password_hash: '%env(DEMO_BASIC_AUTH_PASSWORD_HASH)%'
+
+    # Host header whitelist: one regular expression (without delimiters) matched against the host.
+    env(TRUSTED_HOSTS): '^.*$'
+
+    # Rate limits per visitor IP (see framework.rate_limiter below for the windows).
+    env(DEMO_RATE_LIMIT_LOGIN): '30'
+    env(DEMO_RATE_LIMIT_PUBLIC): '120'
+    env(DEMO_RATE_LIMIT_FORMS): '10'
+    env(DEMO_RATE_LIMIT_PUNCHOUT_START): '10'
+    env(DEMO_RATE_LIMIT_PUNCHOUT_ORDER): '10'
+    env(DEMO_RATE_LIMIT_GATE): '20'
+
+    # Anonymous Acme orders the PunchOut simulator may create per day.
+    env(DEMO_PUNCHOUT_DAILY_ORDERS): '50'
+    demo.punchout.daily_orders: '%env(int:DEMO_PUNCHOUT_DAILY_ORDERS)%'
+    # 1 = POST /punchout/cxml answers to any client (otherwise only to the simulator and, when the gate is on, to the authenticated owner).
+    env(DEMO_PUNCHOUT_PUBLIC_ENDPOINT): '0'
+    demo.punchout.public_endpoint: '%env(bool:DEMO_PUNCHOUT_PUBLIC_ENDPOINT)%'
+
+    # Outbound traffic: mail only to these SMTP hosts, HTTP only to these hosts (comma separated).
+    # "*.railway.internal" and loopback are always allowed.
+    env(DEMO_MAILER_ALLOWED_HOSTS): 'mailpit,localhost,127.0.0.1'
+    # api.iconify.design: Symfony UX Icons fetches an icon it has not cached yet (read-only GET, no user data).
+    env(DEMO_OUTBOUND_ALLOWED_HOSTS): 'mailpit,api.iconify.design'
+    demo.mailer.allowed_hosts: '%env(DEMO_MAILER_ALLOWED_HOSTS)%'
+    demo.outbound.allowed_hosts: '%env(DEMO_OUTBOUND_ALLOWED_HOSTS)%'
+
+services:
+    # The webhooks of the outbox plugin go through the same guard: no delivery to an external host.
+    demo.outbound_guard.webhook:
+        class: App\Demo\Http\OutboundGuardHttpClient
+        decorates: tmonier_webhook.http_client.transport
+        arguments: ['@.inner', '%demo.mode%', '%demo.outbound.allowed_hosts%']
+
+# No call to the Sylius hub (version / notifications) from the admin menu: nothing leaves the demo.
+sylius_admin:
+    notifications:
+        hub_enabled: false
+
+framework:
+    cache:
+        pools:
+            # Own pool for the demo limiters: the shared "cache.rate_limiter" is reset after each request in the
+            # test environment, which would hide the limits from the functional tests.
+            cache.demo_rate_limiter: ~
+    rate_limiter:
+        demo_gate:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_GATE)%'
+            interval: '10 minutes'
+        demo_login:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_LOGIN)%'
+            interval: '15 minutes'
+        demo_public:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_PUBLIC)%'
+            interval: '1 minute'
+        demo_forms:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_FORMS)%'
+            interval: '1 hour'
+        demo_punchout_start:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_PUNCHOUT_START)%'
+            interval: '10 minutes'
+        demo_punchout_order:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_PUNCHOUT_ORDER)%'
+            interval: '1 hour'
+
+# S4-R2: "no real data" notice on the registration, address and checkout pages.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.account.register.content.form':
+            demo_no_real_data:
+                template: 'demo/no_real_data_notice.html.twig'
+                priority: 500
+        'sylius_shop.account.address_book.create.content.main.form':
+            demo_no_real_data:
+                template: 'demo/no_real_data_notice.html.twig'
+                priority: 500
+        'sylius_shop.account.address_book.update.content.main.form':
+            demo_no_real_data:
+                template: 'demo/no_real_data_notice.html.twig'
+                priority: 500
+        'sylius_shop.checkout.address.content.form':
+            demo_no_real_data:
+                template: 'demo/no_real_data_notice.html.twig'
+                priority: 350
+        'sylius_shop.checkout.complete.content.form':
+            demo_no_real_data:
+                template: 'demo/no_real_data_notice.html.twig'
+                priority: 500

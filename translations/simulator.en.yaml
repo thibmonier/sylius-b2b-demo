@@ -29,6 +29,8 @@ error:
     endpoint_unreachable: "The shop PunchOut endpoint is unreachable."
     invalid_response: "The shop answer is not a valid cXML document."
     invalid_message: "The return message is not a valid PunchOutOrderMessage. No order was created."
+    already_sent: "This order was already sent: a simulator session can only create one order. Start a new session."
+    daily_cap: "The daily limit of simulator orders is reached on this public demo. No order was created; please try again tomorrow."
     session_expired: "This simulator session has expired or is invalid. Start a new session; no order was created."
     empty_cart: "The returned cart is empty: nothing to order."
     empty_cart_order: "The cart is empty: sending the OrderRequest is refused."

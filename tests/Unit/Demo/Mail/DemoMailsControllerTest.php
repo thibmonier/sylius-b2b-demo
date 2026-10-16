@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\Mail;
 
+use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Controller\DemoMailsController;
 use App\Demo\Mail\DemoMailbox;
 use App\Demo\Mail\MailpitClient;
@@ -43,6 +44,16 @@ final class DemoMailsControllerTest extends TestCase
         $controller->show('reset1');
     }
 
+    public function testAMailSentToAVisitorAddressIsNeitherListedNorReadableById(): void
+    {
+        $controller = $this->controller();
+
+        self::assertStringNotContainsString('Facture FA-2', (string) $controller->list()->getContent());
+
+        $this->expectException(NotFoundHttpException::class);
+        $controller->show('visitor1');
+    }
+
     public function testAHarmlessMailIsShownAsEscapedText(): void
     {
         $content = (string) $this->controller()->show('ok1')->getContent();
@@ -70,8 +81,9 @@ final class DemoMailsControllerTest extends TestCase
     private function controller(bool $demoMode = true, string $apiUrl = 'http://mailpit:8025', bool $down = false): DemoMailsController
     {
         $messages = [
-            'reset1' => ['Subject' => 'Reset your password', 'Text' => 'hi'],
-            'ok1' => ['Subject' => 'Facture FA-1', 'Text' => '<script>alert(1)</script>'],
+            'reset1' => ['Subject' => 'Reset your password', 'Text' => 'hi', 'To' => [['Name' => '', 'Address' => 'claire@acme.example']]],
+            'ok1' => ['Subject' => 'Facture FA-1', 'Text' => '<script>alert(1)</script>', 'To' => [['Name' => 'Claire', 'Address' => 'Claire@Acme.example']]],
+            'visitor1' => ['Subject' => 'Facture FA-2', 'Text' => 'hello', 'To' => [['Name' => '', 'Address' => 'visitor@real-company.test']]],
         ];
         $http = new MockHttpClient(static function (string $method, string $url) use ($messages, $down): MockResponse {
             if ($down) {
@@ -91,6 +103,16 @@ final class DemoMailsControllerTest extends TestCase
         ]), ['autoescape' => 'html']);
         $twig->addFunction(new TwigFunction('path', static fn (): string => '/x'));
 
-        return new DemoMailsController($twig, new DemoMailbox(new MailpitClient($http, $apiUrl), new SensitiveMailFilter()), $demoMode);
+        return new DemoMailsController($twig, new DemoMailbox(new MailpitClient($http, $apiUrl), new SensitiveMailFilter(), self::catalog()), $demoMode);
+    }
+
+    private static function catalog(): DemoAccountCatalog
+    {
+        return new DemoAccountCatalog(
+            'pw',
+            [['code' => 'ACME', 'name' => 'Acme', 'members' => [['email' => 'claire@acme.example', 'first_name' => 'Claire', 'last_name' => 'D', 'role' => 'buyer']]]],
+            [],
+            [],
+        );
     }
 }

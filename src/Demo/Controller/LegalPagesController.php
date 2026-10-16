@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Twig\Environment;
 
-/** Read-only public pages: legal notice and about (US-018). */
+/** Read-only public pages: legal notice and about (US-018). The locale restriction is {@see \App\Demo\Http\LegalPagesLocaleListener}. */
 final readonly class LegalPagesController
 {
     public function __construct(

@@ -1,0 +1,4 @@
+demo:
+    no_real_data:
+        title: "Public demo."
+        text: "Do not enter any real data (name, address, e-mail, phone): use made-up values. Data is wiped every night."

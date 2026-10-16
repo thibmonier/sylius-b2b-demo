@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Controller;
 
+use App\Demo\Http\VisitorIpResolver;
 use App\Demo\PunchOutSimulator\BuyerCredentialsProvider;
 use App\Demo\PunchOutSimulator\CxmlResponse;
 use App\Demo\PunchOutSimulator\EndpointClient;
@@ -15,6 +16,7 @@ use App\Demo\PunchOutSimulator\ResponseParser;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Demo\PunchOutSimulator\SimulatorException;
+use App\Demo\PunchOutSimulator\SimulatorOrderGate;
 use App\Order\OrderPoReferenceAwareInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,6 +53,8 @@ final readonly class PunchOutSimulatorController
         private ResponseParser $responseParser,
         private EndpointClient $endpoint,
         private SignedState $state,
+        private SimulatorOrderGate $orderGate,
+        private VisitorIpResolver $visitors,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {
@@ -121,17 +125,44 @@ final readonly class PunchOutSimulatorController
             return $this->page($request, ['error' => ['key' => $problem], 'cart' => $cart, 'state' => $request->request->getString('state'), 'orderId' => $orderId], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $nonce = $this->sessionNonce($cart);
+        $claim = null === $nonce ? null : $this->orderGate->claim($nonce);
+        if (SimulatorOrderGate::CLAIMED !== $claim) {
+            return $this->claimRefusal($request, $claim);
+        }
+
         try {
             $xml = $this->orderBuilder->build($this->credentials->provide(), $cart, $orderId);
             $response = $this->responseParser->parse($this->post($xml, $request));
         } catch (SimulatorException $exception) {
+            $this->orderGate->release((string) $nonce);
+
             return $this->page($request, ['error' => ['key' => $exception->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         if (!$response->isOk()) {
+            $this->orderGate->release((string) $nonce);
+
             return $this->page($request, ['error' => $this->refusal($response, $request), 'cart' => $cart, 'state' => $request->request->getString('state'), 'orderId' => $orderId], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return $this->page($request, ['sent' => ['orderId' => $orderId, 'message' => $response->message], 'cart' => $cart]);
+    }
+
+    /** The one-time identity of the session: the nonce inside the signed BuyerCookie the cart came back with. */
+    private function sessionNonce(ReceivedCart $cart): ?string
+    {
+        $nonce = $this->state->verify($cart->buyerCookie)['nonce'] ?? null;
+
+        return \is_string($nonce) && '' !== $nonce ? $nonce : null;
+    }
+
+    private function claimRefusal(Request $request, ?string $claim): Response
+    {
+        return match ($claim) {
+            SimulatorOrderGate::REPLAYED => $this->page($request, ['error' => ['key' => 'already_sent']], Response::HTTP_GONE),
+            SimulatorOrderGate::CAP_REACHED => $this->page($request, ['error' => ['key' => 'daily_cap']], Response::HTTP_TOO_MANY_REQUESTS),
+            default => $this->page($request, ['error' => ['key' => 'session_expired']], Response::HTTP_GONE),
+        };
     }
 
     private function setup(Request $request): CxmlResponse
@@ -152,7 +183,7 @@ final readonly class PunchOutSimulatorController
 
     private function post(string $xml, Request $request): string
     {
-        return $this->endpoint->post($xml, $request->getHttpHost(), $request->getScheme(), $request->server->getString('SERVER_PORT', '80'));
+        return $this->endpoint->post($xml, $request->getHttpHost(), $request->getScheme(), $request->server->getString('SERVER_PORT', '80'), $this->visitors->resolve($request));
     }
 
     /** @return array{key: string, status?: int, detail?: string} */

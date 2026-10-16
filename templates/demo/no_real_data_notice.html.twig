@@ -1,0 +1,7 @@
+{# S4-R2: public demo, visitors must not type real personal data. Hooked on the registration, address and checkout pages. #}
+{% if demo_mode() %}
+    <div class="alert alert-warning" role="note" data-demo-no-real-data>
+        <strong>{{ 'demo.no_real_data.title'|trans({}, 'demo_hardening') }}</strong>
+        {{ 'demo.no_real_data.text'|trans({}, 'demo_hardening') }}
+    </div>
+{% endif %}

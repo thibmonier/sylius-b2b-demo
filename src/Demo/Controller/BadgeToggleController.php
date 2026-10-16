@@ -26,6 +26,8 @@ final readonly class BadgeToggleController
             Cookie::create(BadgePreference::COOKIE, 'off' === $state ? BadgePreference::HIDDEN : 'on')
                 ->withSameSite(Cookie::SAMESITE_LAX)
                 ->withHttpOnly(true)
+                // Secure as soon as the effective request is HTTPS (proxy headers of trusted proxies only).
+                ->withSecure($request->isSecure())
                 ->withExpires(new \DateTimeImmutable('+30 days')),
         );
 
