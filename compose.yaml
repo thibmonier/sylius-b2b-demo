@@ -13,6 +13,8 @@ services:
             DEMO_MODE: "1"
             # Local run: no private gate (it stays on by default, for Railway).
             DEMO_BASIC_AUTH: "0"
+            # Only the local host name (the preflight refuses the open default "^.*$").
+            TRUSTED_HOSTS: "^localhost$"
             DEMO_MAILPIT_URL: "http://localhost:8025"
             DEMO_MAILPIT_API_URL: "http://mailpit:8025"
         ports:

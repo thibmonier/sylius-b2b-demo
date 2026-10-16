@@ -109,6 +109,72 @@ final class HardeningTest extends WebTestCase
         self::assertResponseIsSuccessful();
     }
 
+    // ---- API, sign-up and MCP endpoints are limited per visitor too
+
+    /** @dataProvider provideApiEndpoints */
+    public function testTheApiEndpointsAreLimitedPerVisitor(string $path, string $limitVariable): void
+    {
+        $this->setEnvironment([$limitVariable => '2']);
+        $client = self::createClient();
+        $visitor = self::visitorIp();
+        $post = static fn (string $ip) => $client->request('POST', $path, server: ['HTTP_X_FORWARDED_FOR' => $ip, 'CONTENT_TYPE' => 'application/json'], content: '{}');
+
+        $post($visitor);
+        self::assertNotSame(429, $client->getResponse()->getStatusCode(), 'First call is served.');
+        $post($visitor);
+        self::assertNotSame(429, $client->getResponse()->getStatusCode(), 'Second call is served.');
+        $post($visitor);
+        self::assertResponseStatusCodeSame(429);
+        self::assertGreaterThan(0, (int) $client->getResponse()->headers->get('Retry-After'));
+
+        $post(self::visitorIp());
+        self::assertNotSame(429, $client->getResponse()->getStatusCode(), 'Another visitor is not blocked.');
+    }
+
+    /** @return iterable<string, array{string, string}> */
+    public static function provideApiEndpoints(): iterable
+    {
+        yield 'shop token' => ['/api/v2/shop/customers/token', 'DEMO_RATE_LIMIT_API_AUTH'];
+        yield 'admin token' => ['/api/v2/admin/administrators/token', 'DEMO_RATE_LIMIT_API_AUTH'];
+        yield 'API sign-up' => ['/api/v2/shop/customers', 'DEMO_RATE_LIMIT_API_WRITE'];
+        yield 'API cart' => ['/api/v2/shop/orders', 'DEMO_RATE_LIMIT_API_WRITE'];
+        yield 'MCP OAuth registration' => ['/mcp-oauth/register', 'DEMO_RATE_LIMIT_API_WRITE'];
+        yield 'MCP' => ['/_mcp', 'DEMO_RATE_LIMIT_MCP'];
+    }
+
+    public function testReadingTheApiIsNotLimited(): void
+    {
+        $this->setEnvironment(['DEMO_RATE_LIMIT_API_WRITE' => '1']);
+        $client = self::createClient();
+        $visitor = ['HTTP_X_FORWARDED_FOR' => self::visitorIp()];
+
+        for ($call = 0; $call < 3; ++$call) {
+            $client->request('GET', '/api/v2/shop/orders/unknown-token', server: $visitor);
+            self::assertNotSame(429, $client->getResponse()->getStatusCode());
+        }
+    }
+
+    // ---- fail-closed settings (the demo refuses to serve with a weak secret or open hosts)
+
+    /** @dataProvider provideWeakSettings */
+    public function testAShortSecretOrOpenHostsMakeTheDemoRefuseToServe(string $name, string $value): void
+    {
+        $this->setEnvironment([$name => $value]);
+        $client = self::createClient();
+
+        $client->request('GET', '/health');
+
+        self::assertResponseStatusCodeSame(503);
+        self::assertSame('misconfigured', $client->getResponse()->getContent());
+    }
+
+    /** @return iterable<string, array{string, string}> */
+    public static function provideWeakSettings(): iterable
+    {
+        yield 'short secret' => ['APP_SECRET', 'too-short'];
+        yield 'open hosts' => ['TRUSTED_HOSTS', '^.*$'];
+    }
+
     // ---- S2-R1: nothing leaves the demo (T-036-06)
 
     /** @dataProvider provideExternalMailers */

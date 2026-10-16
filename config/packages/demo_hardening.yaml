@@ -20,6 +20,9 @@ parameters:
     env(DEMO_RATE_LIMIT_PUNCHOUT_START): '10'
     env(DEMO_RATE_LIMIT_PUNCHOUT_ORDER): '10'
     env(DEMO_RATE_LIMIT_GATE): '20'
+    env(DEMO_RATE_LIMIT_API_AUTH): '20'
+    env(DEMO_RATE_LIMIT_API_WRITE): '30'
+    env(DEMO_RATE_LIMIT_MCP): '300'
 
     # Anonymous Acme orders the PunchOut simulator may create per day.
     env(DEMO_PUNCHOUT_DAILY_ORDERS): '50'
@@ -60,6 +63,21 @@ framework:
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_GATE)%'
             interval: '10 minutes'
+        demo_api_auth:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_API_AUTH)%'
+            interval: '15 minutes'
+        demo_api_write:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_API_WRITE)%'
+            interval: '1 hour'
+        demo_mcp:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_MCP)%'
+            interval: '1 minute'
         demo_login:
             policy: sliding_window
             cache_pool: cache.demo_rate_limiter

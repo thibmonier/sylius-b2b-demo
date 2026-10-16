@@ -14,6 +14,11 @@ use Symfony\Component\Mailer\Transport\Dsn;
  */
 final readonly class DemoConfigurationGuard
 {
+    public const MIN_SECRET_LENGTH = 32;
+
+    /** Host patterns that accept any Host header. */
+    private const OPEN_HOSTS = ['', '^.*$', '.*', '^.*', '.*$', '^(.*)$', '(.*)'];
+
     private const SINK_SCHEMES = ['null', 'in-memory'];
 
     public function __construct(
@@ -25,6 +30,11 @@ final readonly class DemoConfigurationGuard
         private string $mailerDsn,
         #[Autowire(param: 'demo.mailer.allowed_hosts')]
         private string $allowedMailerHosts,
+        #[Autowire(env: 'APP_SECRET')]
+        #[\SensitiveParameter]
+        private string $appSecret,
+        #[Autowire(env: 'TRUSTED_HOSTS')]
+        private string $trustedHosts,
     ) {
     }
 
@@ -37,6 +47,12 @@ final readonly class DemoConfigurationGuard
         $violations = [];
         if ($this->gate->isMisconfigured()) {
             $violations[] = 'The private gate is enabled but DEMO_BASIC_AUTH_USER / DEMO_BASIC_AUTH_PASSWORD_HASH are missing or invalid.';
+        }
+        if (\strlen($this->appSecret) < self::MIN_SECRET_LENGTH) {
+            $violations[] = 'APP_SECRET must be at least 32 characters long in the demo mode.';
+        }
+        if (\in_array(trim($this->trustedHosts), self::OPEN_HOSTS, true)) {
+            $violations[] = 'TRUSTED_HOSTS must name the public host (a pattern accepting any host is refused in the demo mode).';
         }
         if (!$this->mailerIsInternal()) {
             $violations[] = 'MAILER_DSN must be the internal Mailpit (smtp://<allowed host>) or a null transport in the demo mode.';

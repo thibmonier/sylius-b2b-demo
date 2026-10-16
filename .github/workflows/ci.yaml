@@ -129,6 +129,7 @@ jobs:
                     -e DATABASE_URL="mysql://root@mysql:3306/demo?serverVersion=8.4&charset=utf8mb4" \
                     -e MAILER_DSN="null://null" -e DEFAULT_URI="http://localhost:8080" \
                     -e DEMO_MODE=1 -e DEMO_BASIC_AUTH=1 -e DEMO_BASIC_AUTH_USER=ci \
+                    -e TRUSTED_HOSTS='^localhost$' \
                     -e DEMO_BASIC_AUTH_PASSWORD_HASH="$GATE_HASH" \
                     sylius-b2b-demo:ci
                   for i in $(seq 1 100); do

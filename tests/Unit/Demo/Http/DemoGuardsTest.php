@@ -76,7 +76,7 @@ final class DemoGuardsTest extends TestCase
     #[DataProvider('provideMailers')]
     public function testTheMailerMustBeInternalInTheDemoMode(string $dsn, bool $accepted): void
     {
-        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, $dsn, 'mailpit,localhost');
+        $guard = $this->guard($this->gate(enabled: false), $dsn, 'mailpit,localhost');
 
         self::assertSame($accepted, [] === $guard->violations());
     }
@@ -98,19 +98,43 @@ final class DemoGuardsTest extends TestCase
 
     public function testNothingIsCheckedOutsideTheDemoMode(): void
     {
-        $guard = new DemoConfigurationGuard($this->gate(demoMode: false, user: '', hash: ''), false, 'smtp://smtp.gmail.com', '');
+        $guard = new DemoConfigurationGuard($this->gate(demoMode: false, user: '', hash: ''), false, 'smtp://smtp.gmail.com', '', '', '');
 
         self::assertSame([], $guard->violations());
     }
 
     public function testTheViolationsNameNeitherASecretNorAHost(): void
     {
-        $guard = new DemoConfigurationGuard($this->gate(user: '', hash: ''), true, 'smtp://user:pass@smtp.provider.example:587', '');
+        $guard = $this->guard($this->gate(user: '', hash: ''), 'smtp://user:pass@smtp.provider.example:587', '');
 
         $messages = implode(' ', $guard->violations());
         self::assertNotSame('', $messages);
         self::assertStringNotContainsString('provider', $messages);
         self::assertStringNotContainsString('pass', $messages);
+    }
+
+    #[DataProvider('provideWeakSettings')]
+    public function testAWeakSecretOrAnOpenHostWhitelistIsRefusedInTheDemoMode(string $secret, string $hosts, string $mention): void
+    {
+        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, 'null://null', '', $secret, $hosts);
+
+        self::assertStringContainsString($mention, implode(' ', $guard->violations()));
+    }
+
+    /** @return iterable<string, array{string, string, string}> */
+    public static function provideWeakSettings(): iterable
+    {
+        yield 'short secret' => ['short', '^demo\.example$', 'APP_SECRET'];
+        yield 'empty secret' => ['', '^demo\.example$', 'APP_SECRET'];
+        yield 'default hosts' => [str_repeat('s', 40), '^.*$', 'TRUSTED_HOSTS'];
+        yield 'empty hosts' => [str_repeat('s', 40), '', 'TRUSTED_HOSTS'];
+    }
+
+    public function testASolidSecretAndAHostWhitelistPass(): void
+    {
+        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, 'null://null', '', str_repeat('s', 32), '^demo\.example$');
+
+        self::assertSame([], $guard->violations());
     }
 
     public function testTheHostAllowListAcceptsLoopbackRailwayInternalAndConfiguredHostsOnly(): void
@@ -123,6 +147,11 @@ final class DemoGuardsTest extends TestCase
         foreach (['example.com', 'mailpit.example.com', 'railway.internal.evil.example', '169.254.169.254'] as $host) {
             self::assertFalse($list->allows($host), $host);
         }
+    }
+
+    private function guard(BasicAuthGate $gate, string $dsn, string $mailerHosts): DemoConfigurationGuard
+    {
+        return new DemoConfigurationGuard($gate, true, $dsn, $mailerHosts, str_repeat('s', 40), '^demo\.example$');
     }
 
     private function gate(bool $demoMode = true, bool $enabled = true, string $user = 'visitor', ?string $hash = null): BasicAuthGate

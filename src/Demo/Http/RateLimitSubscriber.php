@@ -13,7 +13,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 /**
  * Per-visitor rate limits of the public demo (US-036): login, demo pages, registration and public forms,
- * PunchOut simulator. The key is the visitor IP resolved through the trusted proxies, never the proxy.
+ * PunchOut simulator, API token and sign-up endpoints, MCP. The key is the visitor IP resolved through the trusted proxies, never the proxy.
  * A refused request answers 429 with Retry-After. Runs after the router (route name known) and before
  * the firewall (a login flood never reaches the authenticators).
  */
@@ -34,6 +34,13 @@ final readonly class RateLimitSubscriber
         'sylius_shop_user_request_verification_token' => ['POST', 'forms'],
         'sylius_shop_contact_request' => ['POST', 'forms'],
         'tmonier_quote_request_shop_new' => ['POST', 'forms'],
+        'sylius_api_shop_authentication_token' => ['POST', 'api_auth'],
+        'sylius_api_admin_authentication_token' => ['POST', 'api_auth'],
+        'tmonier_b2b_mcp_oauth_token' => ['POST', 'api_auth'],
+        'sylius_api_shop_customer_post' => ['POST', 'api_write'],
+        'sylius_api_shop_order_post' => ['POST', 'api_write'],
+        'tmonier_b2b_mcp_oauth_register' => ['POST', 'api_write'],
+        '_mcp_endpoint' => ['POST', 'mcp'],
         'app_demo_punchout_simulator_start' => ['POST', 'punchout_start'],
         'app_demo_punchout_simulator_order' => ['POST', 'punchout_order'],
     ];
@@ -45,6 +52,9 @@ final readonly class RateLimitSubscriber
         private RateLimiterFactory $demoFormsLimiter,
         private RateLimiterFactory $demoPunchoutStartLimiter,
         private RateLimiterFactory $demoPunchoutOrderLimiter,
+        private RateLimiterFactory $demoApiAuthLimiter,
+        private RateLimiterFactory $demoApiWriteLimiter,
+        private RateLimiterFactory $demoMcpLimiter,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {
@@ -78,6 +88,9 @@ final readonly class RateLimitSubscriber
             'public' => $this->demoPublicLimiter,
             'forms' => $this->demoFormsLimiter,
             'punchout_start' => $this->demoPunchoutStartLimiter,
+            'api_auth' => $this->demoApiAuthLimiter,
+            'api_write' => $this->demoApiWriteLimiter,
+            'mcp' => $this->demoMcpLimiter,
             default => $this->demoPunchoutOrderLimiter,
         };
     }

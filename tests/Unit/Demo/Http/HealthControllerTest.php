@@ -58,7 +58,7 @@ final class HealthControllerTest extends TestCase
 
     public function testAnUnsafeConfigurationAnswers503(): void
     {
-        $guard = new DemoConfigurationGuard(new BasicAuthGate(true, false, '', ''), true, 'smtp://smtp.provider.example', 'mailpit');
+        $guard = new DemoConfigurationGuard(new BasicAuthGate(true, false, '', ''), true, 'smtp://smtp.provider.example', 'mailpit', str_repeat('s', 40), '^demo\.example$');
 
         $response = $this->controller(guard: $guard)();
 
@@ -99,7 +99,7 @@ final class HealthControllerTest extends TestCase
         return new HealthController(
             $connection,
             $factory,
-            $guard ?? new DemoConfigurationGuard(new BasicAuthGate(false, false, '', ''), false, 'null://null', ''),
+            $guard ?? new DemoConfigurationGuard(new BasicAuthGate(false, false, '', ''), false, 'null://null', '', '', ''),
             $resetStatus ?? new ResetStatus(sys_get_temp_dir() . '/demo-reset-status-absent-' . bin2hex(random_bytes(4))),
         );
     }
