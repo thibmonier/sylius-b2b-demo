@@ -18,8 +18,7 @@ use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\CredentialHasher;
 /**
  * Creates a PunchOut cXML buyer configuration for Acme Industries.
  *
- * The shared secret is intentionally non-sensitive ("demo-secret-acme") and displayed
- * on the /demo/accounts page.
+ * The shared secret is intentionally non-sensitive ("demo-secret-acme") and stored hashed.
  *
  * Depends on: demo_companies (-15)
  * Priority: -50
@@ -72,7 +71,8 @@ final class PunchoutDemoFixture extends AbstractFixture
         $buyer->setChannel($b2bChannel);
         $buyer->setCustomer($claire);
         $buyer->setCompanyId('ACME_IND');
-        $buyer->setReturnDomains(['erp.acme.example', 'localhost']);
+        // Strict allowlist of ERP return domains (no localhost: avoids an SSRF/open-redirect shape).
+        $buyer->setReturnDomains(['erp.acme.example']);
         $buyer->setLocale('fr_FR');
 
         // Identities (cXML From / Sender)

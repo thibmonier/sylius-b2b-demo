@@ -215,13 +215,6 @@ final class ProductCsvFixture extends AbstractFixture
             $variant->setDepth($depth);
         }
 
-        // SKU / MPN / EAN stored in variant code + tracking fields
-        $mpn = \trim($row['mpn'] ?? '');
-        if ($mpn !== '') {
-            // Sylius does not have a native MPN field; we rely on code = SKU
-            // MPN is encoded in the variant name suffix for demo purposes
-        }
-
         // Channel pricing
         $priceHt = (float) ($row['price_eur_ht'] ?? 0);
         $priceInCents = (int) \round($priceHt * 100);

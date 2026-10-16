@@ -97,7 +97,7 @@ final class DemoResetCommand extends Command
     private function stepLoadFixtures(SymfonyStyle $io, bool $dryRun): void
     {
         $io->section('Step 1 — Fixture suite "demo" (purge + reload)');
-        $this->logger->info('Step 2: loading fixture suite demo');
+        $this->logger->info('Step 1: loading fixture suite demo');
 
         if ($dryRun) {
             $io->text('[DRY-RUN] Would load suite "demo" via SuiteLoader.');
@@ -110,18 +110,18 @@ final class DemoResetCommand extends Command
         $this->suiteLoader->load($suite);
         $elapsed = \round(\microtime(true) - $t, 1);
 
-        $this->logger->info('Step 2: fixtures loaded', ['elapsed_seconds' => $elapsed]);
+        $this->logger->info('Step 1: fixtures loaded', ['elapsed_seconds' => $elapsed]);
         $io->text(\sprintf('Fixtures loaded in %s s.', $elapsed));
     }
 
     // -------------------------------------------------------------------------
-    // Step 3 — Media cache purge (optional)
+    // Step 2 — Media cache purge (optional)
     // -------------------------------------------------------------------------
 
     private function stepPurgeMediaCache(SymfonyStyle $io, OutputInterface $output, bool $dryRun): void
     {
         $io->section('Step 2 — Media cache purge');
-        $this->logger->info('Step 3: media cache purge');
+        $this->logger->info('Step 2: media cache purge');
 
         $application = $this->getApplication();
 
@@ -131,18 +131,18 @@ final class DemoResetCommand extends Command
             $io->text('LiipImagine cache purged.');
         } else {
             $io->text('LiipImagine not available — media step skipped.');
-            $this->logger->info('Step 3: liip:imagine not available, skipped');
+            $this->logger->info('Step 2: liip:imagine not available, skipped');
         }
     }
 
     // -------------------------------------------------------------------------
-    // Step 4 — Cache clear + warm-up
+    // Step 3 — Cache clear + warm-up
     // -------------------------------------------------------------------------
 
     private function stepClearWarmUpCache(SymfonyStyle $io, OutputInterface $output, bool $dryRun): void
     {
         $io->section('Step 3 — Cache: clear and warm-up');
-        $this->logger->info('Step 4: cache clear + warmup');
+        $this->logger->info('Step 3: cache clear + warmup');
 
         $this->runSubCommand('cache:clear', ['--no-debug' => true, '--no-interaction' => true], $output, $dryRun);
         $this->runSubCommand('cache:warmup', ['--no-debug' => true, '--no-interaction' => true], $output, $dryRun);
