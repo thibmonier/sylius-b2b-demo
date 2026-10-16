@@ -72,7 +72,7 @@ sprints:
     stories:
       - {id: US-011, title: "Historique de commandes et factures", points: 5, status: review}
       - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: review}
-      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 8, status: in-progress}  # ré-estimée 5→8 (company-accounts v1.2)
+      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 8, status: review}  # ré-estimée 5→8 (company-accounts v1.2)
       - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: in-progress}
       - {id: US-028, title: "Boîte Mailpit publique", points: 3, status: review}  # ré-estimée 2→3 (lecture filtrée)
   sprint-6:

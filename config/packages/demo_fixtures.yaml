@@ -179,6 +179,10 @@ sylius_fixtures:
                 demo_company_wishlists:
                     priority: -40
 
+                # Sprint 5 — US-025: shared address book of Acme ("Usine de Lyon"…). Needs companies (-15).
+                demo_company_addresses:
+                    priority: -40
+
                 # Sprint 2 — US-010: Plugin data (quotes, GPSR, punchout).
                 # Depend on products (-30), companies (-15), and some on group-1 fixtures (-40).
                 # Priority -50 guarantees correct order.

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f38a1744429ecc1bd4ac17a0b73ae40",
+    "content-hash": "08510c32d7c2f4499685869e2a405896",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17193,16 +17193,16 @@
         },
         {
             "name": "tmonier/sylius-company-accounts-plugin",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-company-accounts-plugin.git",
-                "reference": "6a2c007cb5685266720dca3ef10e1d0ed067df2a"
+                "reference": "026b372c05c485c58c133f60e627c19cce503243"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-company-accounts-plugin/zipball/6a2c007cb5685266720dca3ef10e1d0ed067df2a",
-                "reference": "6a2c007cb5685266720dca3ef10e1d0ed067df2a",
+                "url": "https://api.github.com/repos/thibmonier/sylius-company-accounts-plugin/zipball/026b372c05c485c58c133f60e627c19cce503243",
+                "reference": "026b372c05c485c58c133f60e627c19cce503243",
                 "shasum": ""
             },
             "require": {
@@ -17214,6 +17214,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
@@ -17270,9 +17271,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-company-accounts-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/tree/v1.1.0"
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/tree/v1.2.0"
             },
-            "time": "2026-10-12T20:02:14+00:00"
+            "time": "2026-10-16T09:24:11+00:00"
         },
         {
             "name": "tmonier/sylius-container-fill-plugin",

@@ -16,19 +16,19 @@ En tant que Isabelle, je veux un carnet d'adresses partagé par les membres, afi
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-025-01 | [OPS] | [plugin] Fetch, vérifier si chore/quality-tooling est mergée, repartir de main à jour | 0.5h | — | 🔲 |
-| T-025-02 | [BE] | [plugin] Modèle d'adresses partagées de l'entreprise + migration additive | 2.5h | T-025-01 | 🔲 |
-| T-025-03 | [BE] | [plugin] Droits : seuls les administrateurs de l'entreprise modifient (voter) | 2h | T-025-02 | 🔲 |
-| T-025-04 | [FE-WEB] | [plugin] Gestion du carnet côté compte client (liste, ajout, édition, suppression) | 3h | T-025-03 | 🔲 |
-| T-025-05 | [FE-WEB] | [plugin] Sélection d'une adresse du carnet au checkout par les membres | 3h | T-025-03 | 🔲 |
-| T-025-06 | [TEST] | [plugin] Tests du plugin (unitaires, fonctionnels, CI du plugin verte) | 3h | T-025-04, T-025-05 | 🔲 |
-| T-025-07 | [DOC] | [plugin] CHANGELOG v1.2.0 et README | 1h | T-025-06 | 🔲 |
-| T-025-08 | [OPS] | [JALON] Obtenir l'ACCORD EXPLICITE de l'utilisateur pour publier v1.2 | 0.5h | T-025-07 | 🔲 |
-| T-025-09 | [OPS] | [plugin] Publication v1.2.0 (tag, release, Packagist) — après accord uniquement | 0.5h | T-025-08 | 🔲 |
-| T-025-10 | [OPS] | [démo] Montée de version de company-accounts dans la démo (composer, migrations) | 0.5h | T-025-09 | 🔲 |
-| T-025-10b | [OPS] | [démo] VARIANTE DE REPLI : intégrer company-accounts via la branche du dépôt VCS (repository vcs + `dev-<branche>` dans composer.json de la démo) tant que l'accord de publication v1.2 n'est pas donné | 0.5h | T-025-08 | 🔲 |
-| T-025-11 | [BE] | [démo] Fixtures d'adresses pour Acme (ex. « Usine de Lyon ») | 1h | T-025-10 ou T-025-10b | 🔲 |
-| T-025-12 | [TEST] | [démo] Test de fumée : Claire choisit « Usine de Lyon » au checkout | 1.5h | T-025-11 | 🔲 |
+| T-025-01 | [OPS] | [plugin] Fetch, vérifier si chore/quality-tooling est mergée, repartir de main à jour | 0.5h | — | ✅ |
+| T-025-02 | [BE] | [plugin] Modèle d'adresses partagées de l'entreprise + migration additive | 2.5h | T-025-01 | ✅ |
+| T-025-03 | [BE] | [plugin] Droits : seuls les administrateurs de l'entreprise modifient (voter) | 2h | T-025-02 | ✅ |
+| T-025-04 | [FE-WEB] | [plugin] Gestion du carnet côté compte client (liste, ajout, édition, suppression) | 3h | T-025-03 | ✅ |
+| T-025-05 | [FE-WEB] | [plugin] Sélection d'une adresse du carnet au checkout par les membres | 3h | T-025-03 | ✅ |
+| T-025-06 | [TEST] | [plugin] Tests du plugin (unitaires, fonctionnels, CI du plugin verte) | 3h | T-025-04, T-025-05 | ✅ |
+| T-025-07 | [DOC] | [plugin] CHANGELOG v1.2.0 et README | 1h | T-025-06 | ✅ |
+| T-025-08 | [OPS] | [JALON] Obtenir l'ACCORD EXPLICITE de l'utilisateur pour publier v1.2 | 0.5h | T-025-07 | ✅ |
+| T-025-09 | [OPS] | [plugin] Publication v1.2.0 (tag, release, Packagist) — après accord uniquement | 0.5h | T-025-08 | ✅ |
+| T-025-10 | [OPS] | [démo] Montée de version de company-accounts dans la démo (composer, migrations) | 0.5h | T-025-09 | ✅ |
+| T-025-10b | [OPS] | [démo] VARIANTE DE REPLI : intégrer company-accounts via la branche du dépôt VCS (repository vcs + `dev-<branche>` dans composer.json de la démo) tant que l'accord de publication v1.2 n'est pas donné | 0.5h | T-025-08 | ➖ sans objet (v1.2.0 publiée) |
+| T-025-11 | [BE] | [démo] Fixtures d'adresses pour Acme (ex. « Usine de Lyon ») | 1h | T-025-10 ou T-025-10b | ✅ |
+| T-025-12 | [TEST] | [démo] Test de fumée : Claire choisit « Usine de Lyon » au checkout | 1.5h | T-025-11 | ✅ |
 
 **Total estimé : 19h**
 
