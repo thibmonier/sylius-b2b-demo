@@ -10,6 +10,7 @@ use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ChannelPricingInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Product\Model\ProductAttributeInterface;
@@ -37,6 +38,7 @@ final class ProductCsvFixture extends AbstractFixture
      * @param FactoryInterface<ProductVariantInterface>     $productVariantFactory
      * @param FactoryInterface<ChannelPricingInterface>     $channelPricingFactory
      * @param FactoryInterface<ProductAttributeValueInterface> $attributeValueFactory
+     * @param FactoryInterface<ProductTaxonInterface>       $productTaxonFactory
      * @param RepositoryInterface<ProductInterface>         $productRepository
      * @param RepositoryInterface<TaxonInterface>           $taxonRepository
      * @param RepositoryInterface<ProductAttributeInterface> $attributeRepository
@@ -63,6 +65,8 @@ final class ProductCsvFixture extends AbstractFixture
         private readonly RepositoryInterface $attributeRepository,
         #[Autowire(service: 'sylius.repository.channel')]
         private readonly RepositoryInterface $channelRepository,
+        #[Autowire(service: 'sylius.factory.product_taxon')]
+        private readonly FactoryInterface $productTaxonFactory,
     ) {
     }
 
@@ -140,6 +144,13 @@ final class ProductCsvFixture extends AbstractFixture
         $taxon = $this->taxonRepository->findOneBy(['code' => $taxonCode]);
         if ($taxon !== null) {
             $product->setMainTaxon($taxon);
+            // Shop taxon listings query product_taxon, not the main taxon.
+            if (!$product->hasTaxon($taxon)) {
+                /** @var ProductTaxonInterface $productTaxon */
+                $productTaxon = $this->productTaxonFactory->createNew();
+                $productTaxon->setTaxon($taxon);
+                $product->addProductTaxon($productTaxon);
+            }
         }
 
         // Channels
