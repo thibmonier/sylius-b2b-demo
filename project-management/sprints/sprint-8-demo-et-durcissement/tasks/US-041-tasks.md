@@ -21,17 +21,18 @@ En tant que Thibaut, je veux fiabiliser le chargement des données de démo et f
 | T-041-03 | [BE] | S2-R5 — `attributes_json` invalide ou valeur non-chaîne : erreur explicite | 1.5h | — | 🔲 |
 | T-041-04 | [BE] | S2-R6 — BOM UTF-8, en-tête non trimé, encodage invalide | 2h | — | 🔲 |
 | T-041-05 | [TEST] | Tests R3 à R6 et non-régression : 210 produits identiques à avant | 3.5h | T-041-01, T-041-02, T-041-03, T-041-04 | 🔲 |
-| T-041-06 | [BE] | S2-R7 — Réduire les ≈ 420 requêtes du reset d'au moins 50 % (sacrifiable) | 4h | T-041-05 | 🔲 |
-| T-041-07 | [TEST] | S2-R8 à R10 — Vérifier source partagée des comptes, ordre des fixtures de même priorité, valeurs d'attribut non traduisibles ; acter par écrit (sacrifiable) | 3.5h | T-041-05 | 🔲 |
-| T-041-08 | [BE] | S4-R3 — Prix « dès » calculé en lot sur les listes | 4h | — | 🔲 |
-| T-041-09 | [TEST] | S4-R3 — Test : nombre de requêtes constant pour 5, 20 et 50 produits, valeurs inchangées | 2h | T-041-08 | 🔲 |
+| T-041-06 | [BE] | S2-R7 — Réduire les ≈ 420 requêtes du reset d'au moins 50 % (sacrifiable) | 4h | T-041-05 | ➡️ sprint 9 |
+| T-041-07 | [TEST] | S2-R8 à R10 — Vérifier source partagée des comptes, ordre des fixtures de même priorité, valeurs d'attribut non traduisibles ; acter par écrit (sacrifiable) | 3.5h | T-041-05 | ➡️ sprint 9 |
+| T-041-08 | [BE] | S4-R3 — Prix « dès » calculé en lot sur les listes | 4h | — | ➡️ sprint 9 |
+| T-041-09 | [TEST] | S4-R3 — Test : nombre de requêtes constant pour 5, 20 et 50 produits, valeurs inchangées | 2h | T-041-08 | ➡️ sprint 9 |
 | T-041-10 | [FE-WEB] | T-033-05 — Bandeau « prochaine remise à zéro » à 03:00 Europe/Paris, FR/EN | 2h | — | 🔲 |
 | T-041-11 | [TEST] | Test du bandeau : avant/après 03:00 et passage heure d'été/hiver (horloge injectée) | 1h | T-041-10 | 🔲 |
-| T-041-12 | [OPS] | T-034-02 — Relevé du coût Railway après une semaine d'exploitation | 0.5h | — | 📅 calendaire |
-| T-041-13 | [DOC] | Rapport de coût et mise à jour du suivi budget (US-034) | 1h | T-041-12 | 🔲 |
-| T-041-14 | [REV] | Revue : jeux de données, requêtes, bandeau | 1h | T-041-05, T-041-09, T-041-11 | 🔲 |
+| T-041-12 | [OPS] | T-034-02 — Relevé **partiel** du coût Railway (depuis le 2026-10-16) et projection mensuelle (`railway usage`, lecture seule, **GO utilisateur**) | 1h | — | 🔲 |
+| T-041-13 | [DOC] | Rapport de coût partiel, projection et hypothèses ; mise à jour du suivi budget (US-034) | 1h | T-041-12 | 🔲 |
+| T-041-14 | [REV] | Revue : jeux de données, bandeau | 1h | T-041-05, T-041-11 | 🔲 |
+| T-041-15 | [OPS] | Relevé **complet** du coût Railway à J+7 (à partir du 2026-10-23) ; reste ouvert si hors sprint | 0.5h | T-041-12 | ➡️ sprint 9 |
 
-**Total estimé : 30.5h**
+**Total estimé sprint 8 : 17.5h** (10 tâches ; T-041-06 à 09 et T-041-15 reportées au sprint 9 : 14h, [README](../../sprint-9-reports/tasks/README.md))
 
 ---
 
@@ -236,20 +237,21 @@ Voir critères de validation.
 
 ---
 
-### T-041-12 — T-034-02 — Relevé du coût Railway après une semaine d'exploitation
+### T-041-12 — T-034-02 — Relevé partiel du coût Railway et projection mensuelle
 
-- **Type** : [OPS] — **calendaire — à partir du 2026-10-23** (action externe, accès Railway de l'utilisateur)
-- **Estimation** : 0.5h
+- **Type** : [OPS] — action externe en lecture, **GO utilisateur** (accès Railway)
+- **Estimation** : 1h
 - **Dépend de** : —
 
 **Description** :
-Tâche **calendaire** : impossible avant le 2026-10-23 et nécessite l'accès Railway de l'utilisateur (action externe). Sans accès : reste ouverte avec la date prévue, jamais close sur une estimation.
+Décision utilisateur du 2026-10-16 : relevé **partiel**. Relever avec `railway usage` le coût cumulé depuis le déploiement du 2026-10-16, le ramener à un mois (projection linéaire, hypothèses et marge écrites). Lecture seule : aucune modification du projet Railway. Sans GO ou sans accès : tâche reste ouverte, jamais close sur une estimation non étiquetée.
 
 **Fichiers (indicatifs)** :
-- `Railway (externe)`
+- `Railway (externe, lecture)`
 
 **Critères de validation** :
-- [ ] Coût réel relevé à J+7 ou tâche reportée avec date
+- [ ] Coût à date relevé avec sa période (depuis le 2026-10-16)
+- [ ] Projection mensuelle comparée au plafond de 25 $/mois, hypothèses indiquées
 
 ---
 
@@ -267,15 +269,15 @@ Voir critères de validation.
 - `sprints/sprint-8-demo-et-durcissement/review-findings.md`
 
 **Critères de validation** :
-- [ ] Coût réel comparé au plafond de 25 $/mois
+- [ ] Coût partiel et projection comparés au plafond de 25 $/mois, marqués « partiel »
 
 ---
 
-### T-041-14 — Revue : jeux de données, requêtes, bandeau
+### T-041-14 — Revue : jeux de données, bandeau
 
 - **Type** : [REV]
 - **Estimation** : 1h
-- **Dépend de** : T-041-05, T-041-09, T-041-11
+- **Dépend de** : T-041-05, T-041-11
 
 **Description** :
 Voir critères de validation.
@@ -285,6 +287,18 @@ Voir critères de validation.
 
 **Critères de validation** :
 - [ ] Aucun constat bloquant
+
+### T-041-15 — Relevé complet du coût Railway à J+7
+
+- **Type** : [OPS] — **➡️ sprint 9** (calendaire, à partir du 2026-10-23 ; action externe, GO utilisateur)
+- **Estimation** : 0.5h
+- **Dépend de** : T-041-12
+
+**Description** :
+Reportée au sprint 9 (arbitrage utilisateur du 2026-10-16) : complète le relevé partiel après une semaine d'exploitation (déploiement du 2026-10-16 + 7 jours).
+
+**Critères de validation** :
+- [ ] Coût réel à J+7 relevé et rapport T-041-13 complété, ou report daté
 
 ---
 
@@ -303,20 +317,21 @@ graph TD
     T04109["T-041-09 [TEST] 2h"]
     T04110["T-041-10 [FE-WEB] 2h"]
     T04111["T-041-11 [TEST] 1h"]
-    T04112["T-041-12 [OPS] 0.5h"]
+    T04112["T-041-12 [OPS] 1h"]
     T04113["T-041-13 [DOC] 1h"]
     T04114["T-041-14 [REV] 1h"]
+    T04115["T-041-15 [OPS] 0.5h calendaire"]
     T04101 --> T04105
     T04102 --> T04105
     T04103 --> T04105
     T04104 --> T04105
-    T04105 --> T04106
-    T04105 --> T04107
-    T04108 --> T04109
+    T04105 -.->|sprint 9| T04106
+    T04105 -.->|sprint 9| T04107
+    T04108 -.->|sprint 9| T04109
     T04110 --> T04111
     T04112 --> T04113
+    T04112 -.->|sprint 9| T04115
     T04105 --> T04114
-    T04109 --> T04114
     T04111 --> T04114
 ```
 
@@ -324,10 +339,11 @@ graph TD
 
 | Couche | Nb tâches | Heures |
 |--------|-----------|--------|
-| [BE] | 6 | 16h |
-| [TEST] | 4 | 10h |
+| [BE] | 4 | 8h |
+| [TEST] | 2 | 4.5h |
 | [FE-WEB] | 1 | 2h |
-| [OPS] | 1 | 0.5h |
+| [OPS] | 1 | 1h |
 | [DOC] | 1 | 1h |
 | [REV] | 1 | 1h |
-| **TOTAL** | **14** | **30.5h** |
+| **TOTAL sprint 8** | **10** | **17.5h** |
+| Reporté au sprint 9 (T-041-06 à 09, T-041-15) | 5 | 14h |

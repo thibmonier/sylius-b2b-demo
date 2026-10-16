@@ -13,6 +13,7 @@ app:
         scenario: 'Scénario :'
         advised_account: 'Compte conseillé :'
         see_in_demo: 'Voir dans la démo'
+        mcp_guide: 'Guide de connexion de Claude'
         no_demo_page: "Visible dans l'administration ou au checkout"
         category:
             purchasing: 'Achats B2B'

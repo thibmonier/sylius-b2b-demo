@@ -31,6 +31,8 @@ error:
     invalid_message: "The return message is not a valid PunchOutOrderMessage. No order was created."
     already_sent: "This order was already sent: a simulator session can only create one order. Start a new session."
     daily_cap: "The daily limit of simulator orders is reached on this public demo. No order was created; please try again tomorrow."
+    forged_return: "This cart did not come from the shop: the return is refused. No order was created."
+    return_replayed: "This cart was already received: a return can only be used once. Start a new session; no order was created."
     session_expired: "This simulator session has expired or is invalid. Start a new session; no order was created."
     empty_cart: "The returned cart is empty: nothing to order."
     empty_cart_order: "The cart is empty: sending the OrderRequest is refused."

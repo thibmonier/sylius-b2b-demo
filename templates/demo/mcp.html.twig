@@ -1,0 +1,64 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% set account = 'claire@acme.example' %}
+
+{% block title %}{{ 'title'|trans({}, 'mcp_guide') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-page="mcp-guide">
+        <h1>{{ 'title'|trans({}, 'mcp_guide') }}</h1>
+        <p class="lead">{{ 'intro'|trans({}, 'mcp_guide') }}</p>
+
+        {% if private_demo %}
+            <div class="alert alert-warning" role="note" data-mcp-private-note>{{ 'private_note'|trans({}, 'mcp_guide') }}</div>
+        {% endif %}
+
+        <p>{{ 'server'|trans({}, 'mcp_guide') }} <code data-mcp-server-url>{{ server_url }}</code></p>
+
+        <ol class="mt-4 d-grid gap-3">
+            {% for step in 1..6 %}
+                <li data-mcp-step="{{ step }}">
+                    <strong>{{ ('step.' ~ step ~ '.title')|trans({}, 'mcp_guide') }}</strong>
+                    <div>{{ ('step.' ~ step ~ '.text')|trans({'%account%': account, '%url%': server_url}, 'mcp_guide') }}</div>
+                </li>
+            {% endfor %}
+        </ol>
+
+        <h2 class="h4 mt-5">{{ 'config.title'|trans({}, 'mcp_guide') }}</h2>
+        <p>{{ 'config.text'|trans({}, 'mcp_guide') }}</p>
+        <pre class="border rounded p-3 bg-light"><code id="mcp-config" data-mcp-config>{{ {
+            mcpServers: { 'fournitures-pro-demo': { command: 'npx', args: ['-y', 'mcp-remote', server_url] } },
+        }|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES')) }}</code></pre>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-mcp-copy="#mcp-config">{{ 'config.copy'|trans({}, 'mcp_guide') }}</button>
+
+        <h2 class="h4 mt-5">{{ 'limits.title'|trans({}, 'mcp_guide') }}</h2>
+        <ul>
+            <li data-mcp-unapproved>{{ 'limits.unapproved'|trans({}, 'mcp_guide') }}</li>
+            <li data-mcp-reconnect>{{ 'limits.reconnect'|trans({}, 'mcp_guide') }}</li>
+            <li>{{ 'limits.outbound'|trans({}, 'mcp_guide') }}</li>
+            <li>{{ 'limits.reset'|trans({}, 'mcp_guide') }}</li>
+            <li>{{ 'limits.no_payment'|trans({}, 'mcp_guide') }}</li>
+        </ul>
+
+        <h2 class="h4 mt-5">{{ 'links.title'|trans({}, 'mcp_guide') }}</h2>
+        <ul data-mcp-links>
+            <li><a href="{{ path('app_demo_accounts') }}">{{ 'links.accounts'|trans({}, 'mcp_guide') }}</a></li>
+            <li><a href="{{ path('tmonier_b2b_mcp_shop_connections', {_locale: app.request.locale}) }}">{{ 'links.connections'|trans({}, 'mcp_guide') }}</a></li>
+            <li><a href="{{ path('tmonier_b2b_mcp_oauth_authorization_server') }}">{{ 'links.metadata'|trans({}, 'mcp_guide') }}</a></li>
+            <li><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}">{{ 'links.plugins'|trans({}, 'mcp_guide') }}</a></li>
+            <li>{% include 'shared/_external_link.html.twig' with { url: 'https://github.com/thibmonier/sylius-b2b-mcp-plugin', label: 'links.plugin'|trans({}, 'mcp_guide') } only %}</li>
+            <li>{% include 'shared/_external_link.html.twig' with { url: 'https://support.claude.com/en/articles/11503834', label: 'links.claude'|trans({}, 'mcp_guide') } only %}</li>
+        </ul>
+    </div>
+
+    <script>
+        document.querySelectorAll('[data-mcp-copy]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var source = document.querySelector(button.dataset.mcpCopy);
+                if (source && navigator.clipboard) {
+                    navigator.clipboard.writeText(source.textContent.trim());
+                }
+            });
+        });
+    </script>
+{% endblock %}

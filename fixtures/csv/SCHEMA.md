@@ -81,3 +81,10 @@ php bin/generate-fixtures-images.php --force  # overwrite all
 ```
 
 Output: `public/media/fixtures/<SKU>.svg`
+
+## Validation at load
+
+The loader reads the three files upfront and stops, before any product is created, with the file and the line
+(`file.csv:12`) when: a row does not have as many cells as the header; `attributes_json` is not a JSON object of strings;
+a cell is not valid UTF-8; a SKU is used twice, in one file or in two. A UTF-8 BOM and spaces around the header names are
+ignored.

@@ -12,9 +12,11 @@ use App\Demo\PunchOutSimulator\EndpointClient;
 use App\Demo\PunchOutSimulator\OrderMessageParser;
 use App\Demo\PunchOutSimulator\OrderRequestBuilder;
 use App\Demo\PunchOutSimulator\ResponseParser;
+use App\Demo\PunchOutSimulator\ReturnAuthenticator;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Demo\PunchOutSimulator\SimulatorOrderGate;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -23,6 +25,8 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\Store\InMemoryStore;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Tmonier\SyliusPunchoutCxmlPlugin\Cxml\OrderMessageWriter;
@@ -132,6 +136,9 @@ final class PunchOutSimulatorControllerTest extends TestCase
         $csrf->method('getToken')->willReturn(new \Symfony\Component\Security\Csrf\CsrfToken('t', 'v'));
         $clock = new MockClock('2026-10-16 10:00:00');
         $loader = new SafeXmlLoader();
+        // The shop's journal knows every message (the authentication itself is tested on the HTTP answers).
+        $journal = $this->createStub(Connection::class);
+        $journal->method('fetchOne')->willReturn('2026-10-16 09:59:00');
 
         return new PunchOutSimulatorController(
             $twig,
@@ -144,7 +151,8 @@ final class PunchOutSimulatorControllerTest extends TestCase
             new ResponseParser($loader),
             new EndpointClient(new MockHttpClient(), new InternalRequestToken('secret')),
             $this->state(),
-            new SimulatorOrderGate(new ArrayAdapter(), $clock, 50),
+            new SimulatorOrderGate(new ArrayAdapter(), $clock, 50, new LockFactory(new InMemoryStore())),
+            new ReturnAuthenticator($journal, new ArrayAdapter(), $clock, 262144, new LockFactory(new InMemoryStore())),
             new VisitorIpResolver(),
             $demoMode,
         );

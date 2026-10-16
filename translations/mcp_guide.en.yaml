@@ -1,0 +1,42 @@
+title: "Connect Claude to the demo (MCP)"
+intro: "The B2B MCP plugin lets a buyer connect Claude or ChatGPT to their account: the assistant lists their orders, prepares a reorder cart, asks for a quote. It never places an order and never pays: the buyer finishes on the shop."
+private_note: "The demo is private (HTTP password): a hosted assistant such as Claude or ChatGPT cannot get through that gate. This guide applies once the demo is open to the public; until then the behaviour is checked by the tests."
+server: "MCP server address:"
+step:
+    1:
+        title: "Have an assistant that accepts custom connectors"
+        text: "Claude (web or desktop) with the \"custom connector\" feature, or ChatGPT in developer mode. Availability depends on the plan and the country: see the link at the bottom of the page."
+    2:
+        title: "Add the connector"
+        text: "In Claude: Settings > Connectors > Add custom connector. Name: Fournitures Pro (demo). URL: %url%. No client ID to type: the assistant registers itself."
+    3:
+        title: "Sign in as Claire"
+        text: "Click Connect: the shop opens. Sign in with the account %account% (\"One-click login\" button of the demo banner, or the Demo accounts page)."
+    4:
+        title: "Allow the assistant"
+        text: "On the consent page, check the host shown, then tick reading the orders (b2b:read) and preparing the cart (b2b:cart). Click Allow."
+    5:
+        title: "List Claire's orders"
+        text: "In a Claude conversation, ask: \"List my latest orders.\" The assistant calls the list_my_orders tool and shows Claire's orders (number, date, state, total), never another customer's."
+    6:
+        title: "Go further or disconnect"
+        text: "Ask it to reorder a past order: the assistant fills the cart and gives you a link to finish on the shop. To cut the access: My account > AI assistants, Disconnect button."
+config:
+    title: "Configuration to copy (local clients)"
+    text: "For a local MCP client (Claude Desktop, through mcp-remote), paste this block into the client's configuration file. Hosted connectors do not need it: the URL is enough."
+    copy: "Copy the configuration"
+limits:
+    title: "Limits of the demo"
+    unapproved: "An account whose registration is pending or rejected is refused (403 access_denied), at sign-in and on every call: Sophie has to approve it first."
+    reconnect: "Without a token, or with an expired or revoked one, the server answers 401 and returns no order. Claude renews its token by itself; otherwise remove the connector and add it again."
+    outbound: "The MCP server of the demo only talks to its own shop: any request to another host is refused."
+    reset: "The demo is reset every night at 03:00 (Paris time): the assistant connections are erased, connect again."
+    no_payment: "No order and no payment in the assistant, by design."
+links:
+    title: "Links"
+    accounts: "Demo accounts"
+    connections: "My AI assistants (account)"
+    metadata: "OAuth authorization server metadata"
+    plugins: "The plugins of the demo"
+    plugin: "B2B MCP plugin (GitHub)"
+    claude: "Claude documentation on custom connectors"

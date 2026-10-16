@@ -1,0 +1,42 @@
+title: "Connecter Claude à la démo (MCP)"
+intro: "Le plugin B2B MCP permet à un acheteur de connecter Claude ou ChatGPT à son compte : l'assistant liste ses commandes, prépare un panier de réassort, demande un devis. Il ne passe jamais commande et ne paie jamais : l'acheteur termine sur la boutique."
+private_note: "La démo est privée (mot de passe HTTP) : un assistant hébergé comme Claude ou ChatGPT ne peut pas franchir cette porte. Ce guide s'applique dès que la démo est ouverte au public ; en attendant, le comportement est vérifié par les tests."
+server: "Adresse du serveur MCP :"
+step:
+    1:
+        title: "Avoir un assistant qui accepte les connecteurs personnalisés"
+        text: "Claude (web ou bureau) avec la fonction « connecteur personnalisé », ou ChatGPT en mode développeur. L'offre et le pays déterminent la disponibilité : voir le lien en bas de page."
+    2:
+        title: "Ajouter le connecteur"
+        text: "Dans Claude : Paramètres > Connecteurs > Ajouter un connecteur personnalisé. Nom : Fournitures Pro (démo). URL : %url%. Aucun identifiant client à saisir : l'assistant s'enregistre lui-même."
+    3:
+        title: "Se connecter en tant que Claire"
+        text: "Cliquez sur Connecter : la boutique s'ouvre. Connectez-vous avec le compte %account% (bouton « Se connecter en un clic » du bandeau de démo, ou page Comptes de démo)."
+    4:
+        title: "Autoriser l'assistant"
+        text: "Sur la page de consentement, vérifiez l'hôte affiché puis cochez la lecture des commandes (b2b:read) et la préparation du panier (b2b:cart). Cliquez sur Autoriser."
+    5:
+        title: "Lister les commandes de Claire"
+        text: "Dans une conversation Claude, demandez : « Liste mes dernières commandes. » L'assistant appelle l'outil list_my_orders et affiche les commandes de Claire (numéro, date, état, total), jamais celles d'un autre client."
+    6:
+        title: "Aller plus loin ou se déconnecter"
+        text: "Demandez de recommander une commande passée : l'assistant remplit le panier et vous donne un lien pour finaliser sur la boutique. Pour couper l'accès : Mon compte > Assistants IA, bouton Déconnecter."
+config:
+    title: "Configuration à copier (clients locaux)"
+    text: "Pour un client MCP local (Claude Desktop, via mcp-remote), collez ce bloc dans le fichier de configuration du client. Les connecteurs hébergés n'en ont pas besoin : l'URL suffit."
+    copy: "Copier la configuration"
+limits:
+    title: "Limites de la démo"
+    unapproved: "Un compte dont l'inscription est en attente ou rejetée est refusé (403 access_denied), à la connexion comme à chaque appel : Sophie doit d'abord l'approuver."
+    reconnect: "Sans jeton, avec un jeton expiré ou révoqué, le serveur répond 401 et ne renvoie aucune commande. Claude renouvelle seul son jeton ; sinon, supprimez le connecteur et ajoutez-le de nouveau."
+    outbound: "Le serveur MCP de la démo ne parle qu'à sa propre boutique : toute requête vers un autre hôte est refusée."
+    reset: "La démo est remise à zéro chaque nuit à 03:00 (heure de Paris) : les connexions d'assistants sont effacées, reconnectez-vous."
+    no_payment: "Aucune commande ni aucun paiement dans l'assistant, par conception."
+links:
+    title: "Liens"
+    accounts: "Comptes de démo"
+    connections: "Mes assistants IA (compte)"
+    metadata: "Métadonnées OAuth du serveur d'autorisation"
+    plugins: "Les plugins de la démo"
+    plugin: "Plugin B2B MCP (GitHub)"
+    claude: "Documentation Claude sur les connecteurs personnalisés"

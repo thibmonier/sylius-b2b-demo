@@ -5,7 +5,7 @@
 - **Epic** : EPIC-01
 - **Persona** : Thibaut
 - **Story Points** : 2
-- **Sprint** : sprint-8-demo-et-durcissement
+- **Sprint** : sprint-9-reports
 - **Dépendances** : US-002
 
 ## Résumé

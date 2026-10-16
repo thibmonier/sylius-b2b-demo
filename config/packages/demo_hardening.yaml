@@ -23,6 +23,12 @@ parameters:
     env(DEMO_RATE_LIMIT_API_AUTH): '20'
     env(DEMO_RATE_LIMIT_API_WRITE): '30'
     env(DEMO_RATE_LIMIT_MCP): '300'
+    # /health and /healthz per minute: well above a monitor polling every 10 seconds (6 calls), far below a flood.
+    env(DEMO_RATE_LIMIT_HEALTH): '30'
+
+    # 0 = the shop registration form and the shop API no longer create customers (US-040, M2): set it before the public opening.
+    env(DEMO_REGISTRATION_OPEN): '1'
+    demo.registration_open: '%env(bool:DEMO_REGISTRATION_OPEN)%'
 
     # Anonymous Acme orders the PunchOut simulator may create per day.
     env(DEMO_PUNCHOUT_DAILY_ORDERS): '50'
@@ -40,6 +46,13 @@ parameters:
     demo.outbound.allowed_hosts: '%env(DEMO_OUTBOUND_ALLOWED_HOSTS)%'
 
 services:
+    # The scoped clients (MCP server API clients, US-040 M5) are built on http_client.transport, which the guard of
+    # http_client does not wrap: the transport gets the same guard.
+    demo.outbound_guard.transport:
+        class: App\Demo\Http\OutboundGuardHttpClient
+        decorates: http_client.transport
+        arguments: ['@.inner', '%demo.mode%', '%demo.outbound.allowed_hosts%']
+
     # The webhooks of the outbox plugin go through the same guard: no delivery to an external host.
     demo.outbound_guard.webhook:
         class: App\Demo\Http\OutboundGuardHttpClient
@@ -77,6 +90,11 @@ framework:
             policy: sliding_window
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_MCP)%'
+            interval: '1 minute'
+        demo_health:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_HEALTH)%'
             interval: '1 minute'
         demo_login:
             policy: sliding_window

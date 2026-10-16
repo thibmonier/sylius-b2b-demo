@@ -13,6 +13,7 @@ use App\Demo\PunchOutSimulator\OrderRequestBuilder;
 use App\Demo\PunchOutSimulator\ReceivedCart;
 use App\Demo\PunchOutSimulator\ReceivedLine;
 use App\Demo\PunchOutSimulator\ResponseParser;
+use App\Demo\PunchOutSimulator\ReturnAuthenticator;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Demo\PunchOutSimulator\SimulatorException;
@@ -54,6 +55,7 @@ final readonly class PunchOutSimulatorController
         private EndpointClient $endpoint,
         private SignedState $state,
         private SimulatorOrderGate $orderGate,
+        private ReturnAuthenticator $returns,
         private VisitorIpResolver $visitors,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
@@ -96,13 +98,19 @@ final readonly class PunchOutSimulatorController
     {
         $this->guard();
 
+        $encoded = $request->request->getString('cXML-base64');
+
         try {
-            $cart = $this->messageParser->parseBase64($request->request->getString('cXML-base64'));
+            $cart = $this->messageParser->parseBase64($encoded);
         } catch (SimulatorException $exception) {
             return $this->page($request, ['error' => ['key' => $exception->getMessage()]], Response::HTTP_BAD_REQUEST);
         }
         if (null === $this->state->verify($cart->buyerCookie)) {
             return $this->page($request, ['error' => ['key' => 'session_expired']], Response::HTTP_GONE);
+        }
+        $refusal = $this->returnRefusal($request, $this->returns->claim((string) base64_decode($encoded, true)));
+        if ($refusal instanceof Response) {
+            return $refusal;
         }
         if ($cart->isEmpty()) {
             return $this->page($request, ['error' => ['key' => 'empty_cart']]);
@@ -146,6 +154,16 @@ final readonly class PunchOutSimulatorController
         }
 
         return $this->page($request, ['sent' => ['orderId' => $orderId, 'message' => $response->message], 'cart' => $cart]);
+    }
+
+    private function returnRefusal(Request $request, string $verdict): ?Response
+    {
+        return match ($verdict) {
+            ReturnAuthenticator::FORGED => $this->page($request, ['error' => ['key' => 'forged_return']], Response::HTTP_FORBIDDEN),
+            ReturnAuthenticator::EXPIRED => $this->page($request, ['error' => ['key' => 'session_expired']], Response::HTTP_GONE),
+            ReturnAuthenticator::REPLAYED => $this->page($request, ['error' => ['key' => 'return_replayed']], Response::HTTP_GONE),
+            default => null,
+        };
     }
 
     /** The one-time identity of the session: the nonce inside the signed BuyerCookie the cart came back with. */

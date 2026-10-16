@@ -4,7 +4,7 @@
 
 - **Epic** : EPIC-09
 - **Persona** : Thibaut
-- **Story Points** : 5
+- **Story Points** : 8
 - **Sprint** : sprint-8-demo-et-durcissement
 - **Dépendances** : US-036, US-037
 
@@ -27,7 +27,7 @@ En tant que Thibaut, je veux clore les constats mineurs reportés de la revue de
 | T-040-09 | [TEST] | M6 — Test : rafale limitée, fréquence normale jamais bloquée, nombre de requêtes SQL | 2h | T-040-08 | 🔲 |
 | T-040-10 | [BE] | M8 — Retour du simulateur PunchOut : authentifier le panier signé (HMAC) et refuser le rejeu | 3.5h | T-040-01 | 🔲 |
 | T-040-11 | [TEST] | M8 — Test : retour légitime, rejeu, falsification, expiration ; aucune commande créée en cas de refus | 2h | T-040-10 | 🔲 |
-| T-040-12 | [TEST] | Non-régression globale `HardeningTest` (+ routes exemptées après intégration d'US-019) | 1.5h | T-040-03, T-040-05, T-040-07, T-040-09, T-040-11, T-019-16 | 🔲 |
+| T-040-12 | [TEST] | Non-régression globale `HardeningTest` (+ routes exemptées après intégration d'US-019) | 1.5h | T-040-03, T-040-05, T-040-07, T-040-09, T-040-11 (T-019-16 ✅ faite au sprint 7) | 🔲 |
 | T-040-13 | [DOC] | review-findings du sprint 8 : constats clos, acceptations écrites | 1h | T-040-12 | 🔲 |
 | T-040-14 | [REV] | Contre-vérification indépendante (contexte frais) | 1.5h | T-040-13 | 🔲 |
 
@@ -243,7 +243,7 @@ Voir critères de validation.
 
 - **Type** : [TEST]
 - **Estimation** : 1.5h
-- **Dépend de** : T-040-03, T-040-05, T-040-07, T-040-09, T-040-11, T-019-16
+- **Dépend de** : T-040-03, T-040-05, T-040-07, T-040-09, T-040-11 ; T-019-16 (intégration d'US-019 dans la démo, sprint 7) ✅ satisfaite
 
 **Description** :
 Voir critères de validation.

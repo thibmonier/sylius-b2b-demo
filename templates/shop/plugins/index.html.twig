@@ -35,6 +35,9 @@
                                     {% else %}
                                         <span class="text-muted">{{ 'app.plugins.no_demo_page'|trans }}</span>
                                     {% endif %}
+                                    {% if plugin.slug == 'sylius-b2b-mcp-plugin' %}
+                                        <a href="{{ path('app_demo_mcp_guide', {_locale: app.request.locale}) }}" data-plugin-guide-link>{{ 'app.plugins.mcp_guide'|trans }}</a>
+                                    {% endif %}
                                 </div>
                             </article>
                         </div>

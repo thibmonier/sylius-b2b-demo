@@ -82,12 +82,15 @@ Ou, dans le tableau de bord Railway, *Deployments > Redeploy* sur une version pr
 
 1. Revue de sécurité US-037 sans constat critique ou majeur ouvert.
 2. GO explicite de l'utilisateur.
-3. `DEMO_BASIC_AUTH: "0"` dans `.railway/railway.ts`, commit, `railway config apply`.
-4. Revérifier : 200 sans identifiants, plafonds de débit actifs, `/demo/mails` limité aux comptes de démo.
+3. Fermer les voies par lesquelles un visiteur crée un client avec ses propres données (constat M2 du sprint 6, N2 du sprint 8). Mettre `DEMO_REGISTRATION_OPEN: "0"`. Vérifier aussi la commande invité B2C et la demande de devis invité (`allow_guests`), qui ne sont pas encore couvertes.
+4. `DEMO_BASIC_AUTH: "0"` dans `.railway/railway.ts`, commit, `railway config apply`.
+5. Revérifier : 200 sans identifiants, plafonds de débit actifs, `/demo/mails` limité aux comptes de démo, inscription refusée (403).
 
 ## Budget (US-034)
 
 - Plafond visé : 25 $/mois pour la démo.
 - La limite Railway est **par workspace** (partagée avec les autres projets du compte) : alerte e-mail (*soft limit*) à **30 $** posée le 2026-10-16 (25 $ démo + ~5 $ des autres projets), **sans** limite dure (une limite dure arrêterait tous les services du workspace). Décision utilisateur.
-- `railway usage` et `railway usage projects` donnent le coût courant ; le relevé du coût réel après une semaine d'exploitation est planifié au sprint 7 (T-034-02).
+- `railway usage` et `railway usage projects` donnent le coût courant.
+- Relevé partiel du 2026-10-16 (T-041-12/13) : le projet `sylius-b2b-demo` a coûté 0,065 $ en ~5 h, une journée chargée en builds. La projection donne ≈ 9,5 $/mois, sans doute surestimée. Le workspace est estimé à 3,95 $ pour la période en cours. On reste sous le plafond de 25 $.
+- Relevé complet à J+7 (T-041-15, sprint 9) à partir du 2026-10-23 : coût réel d'une semaine sans builds intensifs.
 - Leviers si le coût dérive : réduire la mémoire allouée au service web, purger Mailpit (`MP_MAX_MESSAGES`), espacer les tâches planifiées toutes les minutes (`tmonier:webhook:dispatch`).

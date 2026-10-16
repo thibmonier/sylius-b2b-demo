@@ -31,6 +31,8 @@ error:
     invalid_message: "Le message de retour n'est pas un PunchOutOrderMessage valide. Aucune commande n'a été créée."
     already_sent: "Cette commande a déjà été envoyée : une session du simulateur ne peut créer qu'une seule commande. Relancez une session."
     daily_cap: "Le plafond quotidien de commandes du simulateur est atteint sur cette démo publique. Aucune commande n'a été créée ; réessayez demain."
+    forged_return: "Ce panier ne provient pas de la boutique : le retour est refusé. Aucune commande n'a été créée."
+    return_replayed: "Ce panier a déjà été reçu : un retour ne peut être utilisé qu'une fois. Relancez une session ; aucune commande n'a été créée."
     session_expired: "Cette session du simulateur est expirée ou invalide. Relancez une session ; aucune commande n'a été créée."
     empty_cart: "Le panier renvoyé est vide : il n'y a rien à commander."
     empty_cart_order: "Le panier est vide : l'envoi de l'OrderRequest est refusé."

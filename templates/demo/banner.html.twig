@@ -25,6 +25,7 @@
                     {% endfor %}
                 </div>
             </details>
+            {% include 'demo/_next_reset.html.twig' with { reset: demo_next_reset() } only %}
             <span class="ms-auto" data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' only %}</span>
         </div>
     </div>

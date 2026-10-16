@@ -15,7 +15,8 @@ use Symfony\Contracts\Service\ResetInterface;
 /**
  * No real outbound call from the public demo (US-036): in the demo mode an HTTP request to a host that is
  * not loopback, on the Railway private network or in DEMO_OUTBOUND_ALLOWED_HOSTS is refused before any
- * connection. Applied to the default HTTP client and to the webhook transport.
+ * connection, and redirects are not followed. Applied to the default HTTP client, to its transport (the scoped clients of the MCP server are built on it) and to the webhook
+ * transport.
  */
 #[AsDecorator('http_client')]
 final class OutboundGuardHttpClient implements HttpClientInterface, ResetInterface
@@ -35,6 +36,9 @@ final class OutboundGuardHttpClient implements HttpClientInterface, ResetInterfa
     {
         if ($this->demoMode) {
             $this->assertAllowed($url, $options);
+            // The guard only sees the first URL: a redirect would take the connection to a host nobody checked. The
+            // hosts of the demo (shop API, mail, webhooks, icons) never redirect, so a 3xx is returned as it is.
+            $options['max_redirects'] = 0;
         }
 
         return $this->client->request($method, $url, $options);

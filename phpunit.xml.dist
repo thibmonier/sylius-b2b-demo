@@ -26,6 +26,7 @@
         <env name="DEMO_RATE_LIMIT_API_AUTH" value="100000" force="true"/>
         <env name="DEMO_RATE_LIMIT_API_WRITE" value="100000" force="true"/>
         <env name="DEMO_RATE_LIMIT_MCP" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_HEALTH" value="100000" force="true"/>
         <!-- The fail-closed checks of the demo mode (app:demo:preflight) want a real secret and a host whitelist (any plain host name here, the tests use localhost and shop.test). -->
         <env name="APP_SECRET" value="test-secret-of-at-least-32-characters-long" force="true"/>
         <env name="TRUSTED_HOSTS" value="^[a-z0-9.-]+$" force="true"/>
