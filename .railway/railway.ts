@@ -6,7 +6,8 @@ import { defineRailway, github, image, mysql, preserve, project, service } from 
 const REGION = "europe-west4";
 
 export default defineRailway(() => {
-  const db = mysql("mysql");
+  // Pinned: the helper defaults to mysql:9; the demo (compose, CI, DATABASE_URL serverVersion) runs MySQL 8.4.
+  const db = mysql("mysql", { image: "mysql:8.4" });
 
   const mailpit = service("mailpit", {
     source: image("axllent/mailpit:v1.27"),
