@@ -1,0 +1,8 @@
+{
+  "name": "sylius-b2b-demo-railway",
+  "private": true,
+  "description": "Railway Infrastructure as Code SDK for .railway/railway.ts (not part of the application build).",
+  "devDependencies": {
+    "railway": "3.16.0"
+  }
+}
