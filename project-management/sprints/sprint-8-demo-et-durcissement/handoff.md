@@ -1,5 +1,31 @@
 # Reprise — sprint 8 (démo et durcissement), état au 2026-10-16 soir
 
+## Rapport worker-demo
+
+Branche `feature/sprint-8-demo-et-durcissement`, sans push. Suite : 593 tests, 1 échec attendu (Factur-X, `OrderHistorySmokeTest`), PHPStan 0, ECS 0.
+
+| Commit | Contenu |
+|--------|---------|
+| 5ca58f5 | M2 `DEMO_REGISTRATION_OPEN` (ouvert par défaut ; **mettre à 0 avant l'ouverture publique**) |
+| a33202a | M6 limiteur `/health(z)` + cache 5 s (`DEMO_RATE_LIMIT_HEALTH`) |
+| 2d45bba | M4 purge des images orphelines au reset (tests : `var/media-test`) |
+| e86a683 | M5 garde sortant sur `http_client.transport`, redirections non suivies |
+| 6885730 | M8 `ReturnAuthenticator` (journal du plugin PunchOut, usage unique) |
+| db98567 | `review-findings.md` du sprint 8 (M2, M4, M5, M6, M8) |
+| 53dce52 | US-041 CSV (S2-R3 à R6), 210 produits identiques |
+| 4da9d9a | US-041 bandeau « prochaine remise à zéro » |
+| e3f1597 | US-030 page `/{locale}/mcp` + `docs/mcp.md` |
+| 0eb746f | channel-access ^0.2 + registration-approval ^0.1.2, `RestrictPriceRoutesPass` supprimée |
+| c1ce20a | b2b-mcp ^1.2.1, `ApprovedRegistrationChecker` remplace `McpApprovalGuard` |
+
+Points ouverts :
+- Non faits (externes ou hors worker) : T-040-14, T-041-12/13/14, T-030-03 manuel (après ouverture publique), T-030-04 ; sprint 9 : T-041-06 à 09 et 15.
+- Le guide MCP n'est suivable de bout en bout qu'après l'ouverture publique (la porte basic auth bloque Claude/ChatGPT).
+- `ApprovedRegistrationChecker` ne reçoit que le client (contrat du plugin) : il refuse dès qu'un canal de la politique d'approbation existe, pas selon le canal propre de la connexion. À remonter si une règle par canal est voulue (évolution de l'interface).
+- Décisions à valider : M2 (risque accepté tant que privé), M5 (pas de redirection), M8 (retour à usage unique).
+- Les fixtures demo n'ont aucune image : « images conservées » n'est prouvé qu'en unitaire.
+- Disque faible (~3,9 Go libres).
+
 Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-sprint 008`.
 
 - Dépôt : `sylius-b2b-demo`, branche **`feature/sprint-8-demo-et-durcissement`** (non poussée, pas de PR encore).
