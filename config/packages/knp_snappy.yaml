@@ -1,0 +1,8 @@
+# US-011: Snappy refuses a binary that is not an absolute path ("is not executable"), so the default
+# "wkhtmltopdf" never renders an invoice. The image installs it in /usr/local/bin (docker/Dockerfile).
+parameters:
+    env(WKHTMLTOPDF_BINARY): /usr/local/bin/wkhtmltopdf
+
+knp_snappy:
+    pdf:
+        binary: '%env(WKHTMLTOPDF_BINARY)%'

@@ -70,7 +70,7 @@ sprints:
     capacity_points: 29
     goal: "Listes et scénarios B2B : historique de commandes et factures, listes d'achat partagées (POC wishlist d'abord), carnet d'adresses d'entreprise (company-accounts v1.2), simulateur d'outil d'achat, lecture filtrée des e-mails de démo ; plus la mesure de couverture en CI (audit)"
     stories:
-      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: in-progress}
+      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: review}
       - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: review}
       - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 8, status: in-progress}  # ré-estimée 5→8 (company-accounts v1.2)
       - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: in-progress}

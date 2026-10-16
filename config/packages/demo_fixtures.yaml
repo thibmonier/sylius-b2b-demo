@@ -188,6 +188,15 @@ sylius_fixtures:
                 demo_gpsr:
                     priority: -50
 
+                # Sprint 5 — US-011: Factur-X seller settings of the B2B channel, before the orders.
+                demo_facturx_settings:
+                    priority: -55
+
+                # Sprint 5 — US-011: order history with invoices. Needs products (-30), companies (-15),
+                # buyer limits (-40) and the PO reference channel setup (-5) → -60.
+                demo_orders:
+                    priority: -60
+
                 demo_punchout:
                     priority: -50
 
