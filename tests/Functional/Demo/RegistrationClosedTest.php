@@ -54,13 +54,11 @@ final class RegistrationClosedTest extends DemoAdminWebTestCase
         self::assertResponseStatusCodeSame(403);
         self::assertSame($customers, $this->intValue('SELECT COUNT(*) FROM sylius_customer'));
 
-        $sophie = self::getClient();
-        self::assertNotNull($sophie);
-        $sophie->loginUser($this->sophie(), 'admin');
-        $sophie->request('GET', '/admin/customers/?sorting[createdAt]=desc');
+        $client->loginUser($this->sophie(), 'admin');
+        $client->request('GET', '/admin/customers/?sorting[createdAt]=desc');
         self::assertResponseIsSuccessful();
-        self::assertStringNotContainsString(self::LAST_NAME, (string) $sophie->getResponse()->getContent());
-        self::assertStringNotContainsString($email, (string) $sophie->getResponse()->getContent());
+        self::assertStringNotContainsString(self::LAST_NAME, (string) $client->getResponse()->getContent());
+        self::assertStringNotContainsString($email, (string) $client->getResponse()->getContent());
     }
 
     public function testTheShopApiCannotCreateACustomerEither(): void

@@ -99,6 +99,7 @@ final readonly class PunchOutSimulatorController
         $this->guard();
 
         $encoded = $request->request->getString('cXML-base64');
+
         try {
             $cart = $this->messageParser->parseBase64($encoded);
         } catch (SimulatorException $exception) {

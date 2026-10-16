@@ -60,7 +60,7 @@ final class OrphanImagePurgerTest extends TestCase
     public function testAFileThatCannotBeRemovedIsLoggedAndReportedWithoutStoppingThePurge(): void
     {
         touch($this->directory . '/ab/cd/second-orphan.webp');
-        $logger = new class extends AbstractLogger {
+        $logger = new class() extends AbstractLogger {
             /** @var list<string> */
             public array $errors = [];
 
@@ -71,7 +71,8 @@ final class OrphanImagePurgerTest extends TestCase
                 }
             }
         };
-        $stubborn = new class extends Filesystem {
+        $stubborn = new class() extends Filesystem {
+            /** @param string|iterable<string> $files */
             public function remove(string|iterable $files): void
             {
                 if (\is_string($files) && str_ends_with($files, 'uploaded-by-sophie.webp')) {

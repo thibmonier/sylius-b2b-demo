@@ -65,7 +65,7 @@ final class DemoResetCommandTest extends TestCase
 
     private function command(bool $demoMode): DemoResetCommand
     {
-        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode, new ResetStatus($this->statusFile), new OrphanImagePurger(new class implements ImagePathSource {
+        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode, new ResetStatus($this->statusFile), new OrphanImagePurger(new class() implements ImagePathSource {
             public function paths(): iterable
             {
                 return [];
