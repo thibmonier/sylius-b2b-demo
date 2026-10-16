@@ -1,0 +1,115 @@
+{
+  "dimension": "security",
+  "score": 18,
+  "summary": "Aucun secret ni CVE PHP; un seul advisory JS haut (braces ReDoS, transitif build-only via sass/chokidar) et le defaut DEMO_MODE=0 est sain. Restent a traiter avant deploiement public : CSP/COOP/COEP/CORP absents, remember_me 1 an, pas de login throttling, images/actions non pinnees par digest/SHA, pas de SBOM/signature.",
+  "tool_outputs": {
+    "composer_audit": "composer audit : 0 advisory de securite. 2 paquets abandonnes (behat/transliterator, php-http/message-factory -> psr/http-factory), non bloquant.",
+    "js_audit": "yarn audit --groups dependencies : 1 vulnerabilite High (braces, ReDoS/stack-exhaustion sur motifs imbriques, advisory 1240992, pas de patch ; chemin @sylius-ui/admin > sass > chokidar > braces). 428 paquets audites. Dependance de build uniquement (non livree dans l'image finale : stage node separe)."
+  },
+  "findings": [
+    {
+      "severity": "high", "status": "warn", "owasp": "A06",
+      "file": "yarn.lock (@sylius-ui/admin > sass > chokidar > braces)",
+      "title": "CVE haute braces (ReDoS) sans patch, transitive de build",
+      "detail": "Seul advisory des deux audits. Execute uniquement au build webpack (stage 'assets' du Dockerfile), jamais au runtime, sur des globs maitrises : exploitabilite pratiquement nulle. Penalite de bareme appliquee (-5) mais risque reel faible.",
+      "recommendation": "Ajouter une resolution yarn 'braces' >= version corrigee quand disponible (ou suivre @sylius-ui/admin) ; documenter l'exception dans un fichier d'acceptation de risque.",
+      "effort": "faible", "acceptable_for_demo": true
+    },
+    {
+      "severity": "info", "status": "pass", "owasp": "A06",
+      "file": "composer.lock",
+      "title": "Aucune CVE PHP",
+      "detail": "composer audit : 0 advisory. Abandons mineurs signales.",
+      "recommendation": "Ajouter 'composer audit' et 'yarn audit' dans docker/CI (voir finding CI).",
+      "effort": "faible", "acceptable_for_demo": true
+    },
+    {
+      "severity": "info", "status": "pass", "owasp": "A02",
+      "file": ".env",
+      "title": "Aucun secret reel dans le code ni l'historique",
+      "detail": "Scan git log --all sur motifs secret/password/token/cle : seuls APP_SECRET (valeur courte de placeholder) et JWT_PASSPHRASE (vide) dans .env versionne, comptes fictifs (.example) et PunchoutDemoFixture::DEMO_SECRET. .gitignore exclut /config/jwt/*.pem (hors *-test.pem), .env.local ; config/jwt et config/encryption ne contiennent que .gitkeep (+ test.key de test). Entrypoint genere APP_SECRET aleatoire si absent et la paire JWT au demarrage. .dockerignore exclut config/jwt/*.pem, .env.dev/test, project-management, tests.",
+      "recommendation": "Verifier en prod Railway que APP_SECRET et JWT_PASSPHRASE sont bien definis (APP_SECRET aleatoire regenere a chaque redemarrage invalide sessions et remember_me ; JWT keypair dans le conteneur ephemere). Verifier que config/encryption/test.key n'est pas utilisee en prod.",
+      "effort": "faible", "acceptable_for_demo": true
+    },
+    {
+      "severity": "medium", "status": "fail", "owasp": "A02",
+      "file": "config/packages/security.yaml:19",
+      "title": "password_hashers 'auto' non explicite",
+      "detail": "'auto' resolve Argon2id si libsodium dispo (FrankenPHP/PHP 8.4 : ok) mais n'impose pas les parametres de la regle 11 (128 MiB, t=3-5, p=1) ; commentaire en place mais non garanti. Les mots de passe demo sont de toute facon publics.",
+      "recommendation": "Declarer algorithm: argon2id avec memory_cost: 131072, time_cost: 3 (hors env test) pour verrouiller le comportement ; garder plaintext en test.",
+      "effort": "faible", "acceptable_for_demo": true
+    },
+    {
+      "severity": "medium", "status": "fail", "owasp": "A07",
+      "file": "config/packages/security.yaml:34",
+      "title": "remember_me d'un an (admin et shop) et pas de login throttling",
+      "detail": "lifetime: 31536000 sur les firewalls admin (l.34) et shop, contre 15-30 min d'inactivite recommandees (regle 11). Aucun login_throttling ni rate_limiter configure (seule reference dans config/reference.php, genere) : brute force possible sur /admin/login, /login et les endpoints JWT /api/v2/*/token. Enable_csrf: true est bien actif sur les form_login (ok). logout shop avec invalidate_session: false.",
+      "recommendation": "Ajouter login_throttling: { max_attempts: 5 } sur admin, shop, api_admin, api_shop ; reduire remember_me a 1-7 jours (ou le desactiver pour admin) ; invalidate_session: true au logout.",
+      "effort": "faible", "acceptable_for_demo": false
+    },
+    {
+      "severity": "high", "status": "fail", "owasp": "A05",
+      "file": "docker/Caddyfile:9",
+      "title": "En-tetes HTTP : CSP, COOP, COEP, CORP absents",
+      "detail": "Presents : HSTS (sans preload), X-Content-Type-Options, X-Frame-Options DENY (corrige depuis Q2 sprint 1), Referrer-Policy, Permissions-Policy, -Server. Absents vs regle 11 : Content-Security-Policy, Cross-Origin-Opener-Policy, Cross-Origin-Embedder-Policy, Cross-Origin-Resource-Policy. COEP require-corp peut casser Sylius (CDN/images) et une CSP stricte est difficile avec Sylius UI (scripts inline) : a evaluer.",
+      "recommendation": "Ajouter au minimum CSP 'frame-ancestors none; base-uri self; object-src none; form-action self' (puis script-src avec nonce si faisable), COOP same-origin, CORP same-origin ; COEP seulement si compatible. Documenter l'ecart accepte dans un ADR sinon.",
+      "effort": "moyen", "acceptable_for_demo": true
+    },
+    {
+      "severity": "medium", "status": "warn", "owasp": "A01",
+      "file": "config/packages/security.yaml:117",
+      "title": "Page /demo/* PUBLIC_ACCESS : identifiants admin publics, garde par DEMO_MODE seulement",
+      "detail": "La regle PUBLIC_ACCESS est correctement placee avant /account. Le controleur (src/Demo/Controller/DemoAccountsController.php:32) renvoie 404 si DEMO_MODE est faux et le defaut est '0' (config/demo/accounts.yaml:7) : fail-closed OK. Mais compose.yaml:13 force DEMO_MODE=1 ; si la demo est deployee ainsi, un compte ROLE admin au mot de passe public 'Demo1234!' (accounts.yaml:10) est ouvert a Internet, avec possibilite d'actions destructrices (suppression produits, modification des identifiants admin, upload) et switch_user active sur les firewalls.",
+      "recommendation": "Documenter que le DEMO_MODE=1 public implique un reset periodique des donnees (cron de reload fixtures) ; envisager un admin en lecture seule/role restreint, desactiver switch_user en demo publique, et empecher le changement d'email/mot de passe des comptes demo. Ne jamais lancer DEMO_MODE=1 sur un environnement avec de vraies donnees.",
+      "effort": "moyen", "acceptable_for_demo": true
+    },
+    {
+      "severity": "low", "status": "pass", "owasp": "A05",
+      "file": "compose.yaml:26",
+      "title": "Mailpit et MySQL locaux lies a 127.0.0.1",
+      "detail": "MySQL sans mot de passe et Mailpit (8025/1026) sont bind loopback uniquement ; DEMO_MAILPIT_URL vide par defaut. En prod Railway, tout lien Mailpit public est desactive tant que la variable est vide. ports web 8080 expose (voulu).",
+      "recommendation": "En deploiement public, ne pas exposer Mailpit : un Mailpit ouvert divulgue les emails (reset password) de tous les visiteurs.",
+      "effort": "faible", "acceptable_for_demo": true
+    },
+    {
+      "severity": "medium", "status": "warn", "owasp": "A08",
+      "file": "docker/Dockerfile:4",
+      "title": "Images de base non pinnees par digest ; binaires partiellement verifies",
+      "detail": "Positif : USER www-data, HEALTHCHECK, SHA256 verifie pour supercronic et wkhtmltox, multi-stage (node absent de l'image finale), cache/composer --no-dev. Negatif : dunglas/frankenphp:1-php8.4-bookworm, node:22-bookworm-slim, composer:2 (COPY --from) et mysql:8.4 / axllent/mailpit:v1.27 en tags flottants (pas de @sha256). wkhtmltox SHA recopie au premier telechargement (pas de checksum editeur) ; wkhtmltopdf est archive/non maintenu (surface CVE connue, rendu PDF de contenu utilisateur = risque SSRF/lecture de fichiers local si HTML non fiable).",
+      "recommendation": "Pinner les FROM par digest (Renovate/Dependabot docker) ; epingler composer:2.x.y ; desactiver l'acces fichiers/reseau de wkhtmltopdf (--disable-local-file-access) et ne lui passer que du HTML genere par l'application.",
+      "effort": "moyen", "acceptable_for_demo": true
+    },
+    {
+      "severity": "medium", "status": "fail", "owasp": "A03",
+      "file": ".github/workflows/ci.yaml:31",
+      "title": "Actions GitHub pinnees par tag, pas par SHA ; pas de scan ni SBOM ni signature",
+      "detail": "actions/checkout@v4, shivammathur/setup-php@v2, actions/cache@v4, setup-node@v4, docker/setup-buildx-action@v3, build-push-action@v6 : tags mutables (setup-php@v2 est un tiers). Positif : permissions: contents read au niveau workflow. Aucun composer/yarn audit, Trivy/Grype, SBOM (CycloneDX/SPDX), cosign ni provenance SLSA dans la CI ; pas de Dependabot/Renovate (.github ne contient que workflows).",
+      "recommendation": "Pinner les actions sur SHA complet (commentaire de version), ajouter .github/dependabot.yml (composer, npm, docker, github-actions), une etape 'composer audit' + 'yarn audit' + Trivy image, et un SBOM CycloneDX ; cosign keyless si l'image est publiee.",
+      "effort": "moyen", "acceptable_for_demo": true
+    },
+    {
+      "severity": "medium", "status": "warn", "owasp": "A04",
+      "file": "config/packages/security.yaml:116",
+      "title": "Inscription / checkout publics sans anti-abus ni mentions RGPD verifiees",
+      "detail": "Routes /register, /verify et API shop (PUBLIC_ACCESS) sans rate limiting ni captcha : creation de comptes massive et emails sortants (spam/relais). Des donnees saisies par les visiteurs (identite, adresse, email) seront stockees dans une base partagee d'une demo publique ; config/demo/legal.yaml existe mais aucune politique de retention/purge n'est configuree pour les comptes/commandes de visiteurs.",
+      "recommendation": "Rate limiter sur register/contact/checkout ; banniere et mention explicite 'ne saisissez pas de donnees reelles' sur les pages formulaire ; purge programmee (cron supercronic) des comptes et commandes non issus des fixtures ; verifier que les logs applicatifs (monolog prod) ne tracent pas emails/mots de passe.",
+      "effort": "moyen", "acceptable_for_demo": true
+    },
+    {
+      "severity": "low", "status": "warn", "owasp": "A09",
+      "file": "docker/Caddyfile",
+      "title": "Observabilite securite minimale",
+      "detail": "Pas de journalisation des echecs d'authentification dediee ni d'alerting ; /healthz public (informations minimales, ok). Caddy sans access log structure configure.",
+      "recommendation": "Activer le log d'acces JSON de Caddy vers stdout et un canal monolog 'security' ; alerter sur 5+ echecs de login (quand le throttling sera en place).",
+      "effort": "faible", "acceptable_for_demo": true
+    },
+    {
+      "severity": "info", "status": "pass", "owasp": "A05",
+      "file": "docker/Caddyfile:1",
+      "title": "TLS delegue a Railway, APP_ENV=prod / APP_DEBUG=0 dans l'image",
+      "detail": "auto_https off et admin off : coherent derriere le proxy Railway ; HSTS emis par l'origine. Le Dockerfile fixe APP_ENV=prod APP_DEBUG=0 (pas de stack trace). Verifier que Symfony fait confiance aux X-Forwarded-* (trusted_proxies) pour que les cookies secure et les URL https soient corrects.",
+      "recommendation": "Verifier framework.trusted_proxies/headers en prod et cookie_secure: auto.",
+      "effort": "faible", "acceptable_for_demo": true
+    }
+  ]
+}

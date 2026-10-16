@@ -1,0 +1,94 @@
+{
+  "dimension": "testing",
+  "score": 15,
+  "summary": "107 unit tests (579 assertions, 3 vendor deprecations) pass in 2s and cover PO-reference, badge, theme and demo-account logic well, but no coverage driver exists locally or in CI so coverage is unmeasured (estimated ~45-55 % of non-entity code). Smoke tests (~47) are fixture-coupled and CI lacks coverage and schema validation.",
+  "metrics": {
+    "unit_tests": 107,
+    "smoke_tests": 47,
+    "coverage": "estimation ~45-55 % (no pcov/xdebug available; crossing 27 non-entity src classes with tests: ~14 exercised, ~13 logic classes with no test; 80+ entities/Sylius overrides excluded)",
+    "deprecations": 3
+  },
+  "findings": [
+    {
+      "severity": "high",
+      "status": "fail",
+      "file": ".github/workflows/ci.yaml:30",
+      "title": "Coverage never measured (no driver locally, coverage: none in CI)",
+      "detail": "php -m shows neither pcov nor xdebug; setup-php uses 'coverage: none' and no job runs --coverage-*. The 80 % target of the project rules cannot be verified. Estimate only.",
+      "recommendation": "Add pcov to the dev image and a CI step 'phpunit --coverage-clover' with a threshold on src/Demo, src/PunchOut, src/Invoice, src/Order (exclude src/Entity).",
+      "effort": "faible"
+    },
+    {
+      "severity": "medium",
+      "status": "fail",
+      "file": "src/Demo/Channel/ChannelSwitchController.php",
+      "title": "Logic classes with no test at all",
+      "detail": "No test references: ChannelSwitchController, ConsumerChannelVoter, DemoChannelContext, BadgeToggleController, HealthController, LegalPagesController (indirect smoke only), PluginsController, DemoTwigExtension, BadgeTwigExtension, PackagingUnitProvider/DoctrinePackagingUnitRows (partly via B2bThemeTest fakes), OrderPoReferenceTypeExtension (form constraints), and the 11 DataFixtures in src/Demo/DataFixtures (only indirectly through smoke). The channel voter and context carry B2B/B2C access rules.",
+      "recommendation": "Unit-test DemoChannelContext and ConsumerChannelVoter (cookie/user -> channel decision) and add a form test for OrderPoReferenceTypeExtension (max length, required-per-channel).",
+      "effort": "moyen"
+    },
+    {
+      "severity": "medium",
+      "status": "warn",
+      "file": "tests/Unit/Theme/ThemeHooksTest.php:25",
+      "title": "Configuration-only tests (hooks declared, never rendered)",
+      "detail": "ThemeHooksTest parses config/packages/demo_theme_b2b.yaml and asserts hookable names/keys: it proves hooks are declared, not rendered (the sprint 3-4 lesson). PluginBadgesSmokeTest / PluginDataCoherenceSmokeTest likewise assert seeded rows/config. B2bThemeTest and PoReferenceTemplatesTest do render Twig and are good.",
+      "recommendation": "Add one rendering smoke per theme hook (GET product list/page, assert b2b_* hookable markup) so a declared-but-unrendered hook fails; keep ThemeHooksTest as a guard only.",
+      "effort": "moyen"
+    },
+    {
+      "severity": "medium",
+      "status": "warn",
+      "file": "tests/Smoke/AccountsSmokeTest.php:34",
+      "title": "Smoke tests are non-hermetic and assert hard-coded fixture data",
+      "detail": "Smoke tests require 'sylius:fixtures:load --suite=demo' (headers of AccountsSmokeTest, CatalogSmokeTest, PunchOutOrderRequestSmokeTest, PluginDataCoherenceSmokeTest) and hard-code emails (claire@acme.example), limits (50_000), counts (testFiveCompaniesExist). No transaction rollback/DAMA; tests are read-only so no pollution, but any fixture edit breaks them. phpunit.xml.dist has a single testsuite, so plain 'vendor/bin/phpunit' fails without a DB.",
+      "recommendation": "Split phpunit.xml.dist into Unit and Smoke suites; derive expectations from DemoAccountCatalog instead of literals; use dama/doctrine-test-bundle if write tests are added.",
+      "effort": "moyen"
+    },
+    {
+      "severity": "low",
+      "status": "warn",
+      "file": "tests/Smoke/PagesTest.php:69",
+      "title": "Mixed @dataProvider docblock vs #[DataProvider] attribute",
+      "detail": "PagesTest.php:69 and :93 use '/** @dataProvider */' annotations, deprecated in PHPUnit 10 and removed in 12 (project rules target PHPUnit 12; composer pins ^10.5.66). All other files use attributes.",
+      "recommendation": "Convert the two annotations to #[DataProvider]; consider upgrading to PHPUnit 12.",
+      "effort": "faible"
+    },
+    {
+      "severity": "low",
+      "status": "warn",
+      "file": "tests/Unit/Demo/Account/DemoAccountsTest.php:38",
+      "title": "3 vendor deprecations during the unit run",
+      "detail": "Liip\\ImagineBundle FilterExtension and FilterTrait (deprecated 2.7, set liip_imagine.twig.mode=lazy) triggered by DemoAccountsTest; sylius.routing.loader.resource (sylius/resource-bundle 1.13) triggered by DemoPluginRoutesTest:14. All originate in vendor/config, none in src/.",
+      "recommendation": "Set liip_imagine.twig.mode: lazy in config/packages; track the Sylius resource deprecation upstream.",
+      "effort": "faible"
+    },
+    {
+      "severity": "medium",
+      "status": "warn",
+      "file": ".github/workflows/ci.yaml:42",
+      "title": "CI gaps: no doctrine:schema:validate, --no-scripts, PHP 8.4 vs 8.5, no coverage",
+      "detail": "CI runs ecs, phpstan, lint:container, migrations, fixtures load, then one vendor/bin/phpunit (Unit + Smoke). Missing: doctrine:schema:validate (mapping/migration drift undetected), coverage. 'composer install --no-scripts' skips cache warmup/assets (documented workaround). setup-php uses 8.4 while dev/runtime is PHP 8.5, so 8.5 deprecations are not caught. Unit tests are not a separate fast job.",
+      "recommendation": "Add 'doctrine:schema:validate' after migrate, a PHP 8.4/8.5 matrix, a separate Unit step before DB setup, and coverage output.",
+      "effort": "faible"
+    },
+    {
+      "severity": "info",
+      "status": "pass",
+      "file": "tests/Unit/Order/OrderPoReferenceTest.php:71",
+      "title": "Domain unit tests present and behavioural",
+      "detail": "Pyramid: 107 Unit (~70 %, 5 classes Kernel-based rendering/container tests) vs ~47 Smoke methods (~30 %: ~38 kernel/DB-level, ~9 HTTP in PagesTest/LegalPagesTest/PluginsAndHomepageTest/AccountsSmokeTest). PO reference, CII XML writer, PunchOut subscriber/blocker, badges, CSV reader, reset command and theme providers have solid tests including edge/error cases (corrupted value escaping, blank packaging). Suite runs in 2.2 s.",
+      "recommendation": "Keep; add equivalent tests for the untested classes listed above.",
+      "effort": "faible"
+    },
+    {
+      "severity": "medium",
+      "status": "warn",
+      "file": "project-management/backlog/user-stories/US-015.md:19",
+      "title": "Gherkin scenarios without matching test (sample of 4 stories)",
+      "detail": "US-015 (7 scenarios): covered = accounts list and false-mention fix (DemoAccountsTest), disabled account (AccountsSmokeTest:168); missing = one-click login actually authenticating, login pages on shop/admin showing accounts, 'production without demo mode'. US-021 (6): OrderPoReferenceTest covers length/char validation; no functional checkout test for required-per-channel, cost-center-only, optional channel. US-022 (5): PoReferenceTemplatesTest, CII writer, PunchOut subscriber cover admin/email/XML/corruption; missing = Factur-X bridge unavailable degradation, shop order page. US-013 (6): B2bThemeTest covers card, from-price, no packaging; missing = anonymous visitor on B2B channel, B2C channel not themed, theme asset unavailable (only config-level ThemeHooksTest).",
+      "recommendation": "Add WebTestCase scenarios for one-click login, B2C vs B2B rendering and checkout PO validation; tag tests with #[Group('US-021')] for traceability.",
+      "effort": "élevé"
+    }
+  ]
+}
