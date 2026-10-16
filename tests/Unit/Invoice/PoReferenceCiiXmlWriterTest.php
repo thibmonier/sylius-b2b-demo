@@ -59,6 +59,15 @@ final class PoReferenceCiiXmlWriterTest extends TestCase
         self::assertStringContainsString('&lt;script&gt;alert(1)&lt;/script&gt;', $xml);
     }
 
+    public function testHostileReferenceKeepsTheXmlWellFormedAndStripsControlCharacters(): void
+    {
+        $xml = $this->writer($this->orderWith("A<&\"'>\x01B"))->write($this->invoice('000000001'));
+
+        $document = new \DOMDocument();
+        self::assertTrue($document->loadXML($xml));
+        self::assertSame("A<&\"'>B", $this->agreement($xml)->firstElementChild?->textContent);
+    }
+
     public function testBridgeFailureDegradesGracefullyWithAWarning(): void
     {
         $logger = $this->createMock(LoggerInterface::class);

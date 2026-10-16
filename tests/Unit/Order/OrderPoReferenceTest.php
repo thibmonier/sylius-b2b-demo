@@ -7,12 +7,16 @@ namespace App\Tests\Unit\Order;
 use App\Entity\Channel\Channel;
 use App\Entity\Order\Order;
 use App\Form\Extension\OrderPoReferenceTypeExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validation;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -62,21 +66,45 @@ final class OrderPoReferenceTest extends TestCase
         self::assertSame('COST-FIN', $order->getCostCenter());
     }
 
-    // --- Scénario 4: error — PO too long (65 chars): constraint ensures max 64 ---
+    // --- Scénario 4: error — real validation, checkout "complete" groups ---
 
-    public function testPoReferenceMaxLengthConstraintIsDefinedOnFormExtension(): void
+    #[DataProvider('poReferenceProvider')]
+    public function testPoReferenceValidationRunsInTheCheckoutCompleteGroups(string $value, bool $valid): void
     {
-        /** @var ChannelContextInterface&MockObject $channelContext */
-        $channelContext = $this->createMock(ChannelContextInterface::class);
+        $violations = $this->validate('poReference', $value);
 
-        /** @var TranslatorInterface&MockObject $translator */
-        $translator = $this->createMock(TranslatorInterface::class);
+        self::assertSame($valid, 0 === \count($violations));
+    }
 
-        $extension = new OrderPoReferenceTypeExtension($channelContext, $translator);
-        $extendedTypes = iterator_to_array($extension::getExtendedTypes());
+    /** @return iterable<string, array{string, bool}> */
+    public static function poReferenceProvider(): iterable
+    {
+        yield 'valid' => ['PO-2026-001', true];
+        yield 'max length' => [str_repeat('A', 64), true];
+        yield 'too long' => [str_repeat('A', 65), false];
+        yield 'html' => ['<b>PO</b>', false];
+        yield 'control char' => ["PO\x01", false];
+        yield 'trailing newline' => ["PO-1\n", false];
+    }
 
-        self::assertCount(1, $extendedTypes);
-        self::assertStringContainsString('CompleteType', $extendedTypes[0]);
+    #[DataProvider('costCenterProvider')]
+    public function testCostCenterValidationRunsInTheCheckoutCompleteGroups(string $value, bool $valid): void
+    {
+        self::assertSame($valid, 0 === \count($this->validate('costCenter', $value)));
+    }
+
+    /** @return iterable<string, array{string, bool}> */
+    public static function costCenterProvider(): iterable
+    {
+        yield 'valid' => ['COST IT_1.2-b', true];
+        yield 'invalid chars' => ['<script>', false];
+        yield 'too long' => [str_repeat('A', 51), false];
+    }
+
+    public function testCostCenterFieldIsOnlyAddedWhenEnabledOnTheChannel(): void
+    {
+        self::assertSame(['poReference'], $this->addedFields(false));
+        self::assertSame(['poReference', 'costCenter'], $this->addedFields(true));
     }
 
     // --- Scénario 5: error — PO required on channel but missing → POST_SUBMIT error ---
@@ -131,6 +159,48 @@ final class OrderPoReferenceTest extends TestCase
 
         self::assertArrayHasKey(\Symfony\Component\Form\FormEvents::POST_SUBMIT, $listenerCaptures);
         $listenerCaptures[\Symfony\Component\Form\FormEvents::POST_SUBMIT]($formEvent);
+    }
+
+    /** @return list<string> */
+    private function addedFields(bool $costCenterEnabled): array
+    {
+        $channel = new Channel();
+        $channel->setCostCenterEnabled($costCenterEnabled);
+        $channelContext = $this->createStub(ChannelContextInterface::class);
+        $channelContext->method('getChannel')->willReturn($channel);
+
+        $fields = [];
+        $builder = $this->createStub(FormBuilderInterface::class);
+        $builder->method('add')->willReturnCallback(function (string $name) use (&$fields, $builder): FormBuilderInterface {
+            $fields[] = $name;
+
+            return $builder;
+        });
+        $builder->method('addEventListener')->willReturn($builder);
+
+        (new OrderPoReferenceTypeExtension($channelContext, $this->createStub(TranslatorInterface::class)))->buildForm($builder, []);
+
+        return $fields;
+    }
+
+    private function validate(string $field, string $value): ConstraintViolationListInterface
+    {
+        $fields = [];
+        $builder = $this->createStub(FormBuilderInterface::class);
+        $builder->method('add')->willReturnCallback(function (string $name, ?string $type = null, array $options = []) use (&$fields, $builder): FormBuilderInterface {
+            $fields[$name] = $options['constraints'];
+
+            return $builder;
+        });
+        $builder->method('addEventListener')->willReturn($builder);
+
+        $channel = new Channel();
+        $channel->setCostCenterEnabled(true);
+        $channelContext = $this->createStub(ChannelContextInterface::class);
+        $channelContext->method('getChannel')->willReturn($channel);
+        (new OrderPoReferenceTypeExtension($channelContext, $this->createStub(TranslatorInterface::class)))->buildForm($builder, []);
+
+        return Validation::createValidator()->validate($value, $fields[$field], ['sylius', 'sylius_checkout_complete']);
     }
 
     // --- Channel configuration tests ---

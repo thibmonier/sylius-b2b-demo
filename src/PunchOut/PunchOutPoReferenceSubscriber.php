@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\PunchOut;
 
 use App\Order\OrderPoReferenceAwareInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 
 /**
@@ -18,12 +20,24 @@ use Symfony\Component\Workflow\Event\CompletedEvent;
  * ("PunchOut purchase order <orderID>") before completing the checkout through the Sylius state
  * machine, and the order is persisted afterwards. The completion transition is the real hook.
  * A request without orderID is rejected by the plugin (no order); a note without id is ignored.
+ *
+ * Provenance is established server side: the subscriber only acts while the current request is the
+ * plugin cXML endpoint (route {@see self::ENDPOINT_ROUTE}), never on notes typed by a shop customer.
+ * The orderID must satisfy the same rules as the checkout form field, else no PO is set (and a
+ * warning is logged); it is never silently truncated.
  */
 final class PunchOutPoReferenceSubscriber implements EventSubscriberInterface
 {
     public const NOTES_PREFIX = 'PunchOut purchase order ';
 
-    private const MAX_LENGTH = 100;
+    /** Route of the plugin cXML endpoint, the only server-side proof the order comes from a PunchOut OrderRequest. */
+    public const ENDPOINT_ROUTE = 'tmonier_punchout_cxml_endpoint';
+
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly LoggerInterface $logger,
+    ) {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -41,11 +55,29 @@ final class PunchOutPoReferenceSubscriber implements EventSubscriberInterface
         if (null !== $order->getPoReference() && '' !== $order->getPoReference()) {
             return;
         }
+        if (self::ENDPOINT_ROUTE !== $this->requestStack->getMainRequest()?->attributes->get('_route')) {
+            return;
+        }
 
         $reference = $this->extractOrderId((string) $order->getNotes());
-        if (null !== $reference) {
-            $order->setPoReference($reference);
+        if (null === $reference) {
+            return;
         }
+        if (!$this->isValid($reference)) {
+            $this->logger->warning('PunchOut orderID rejected as PO reference (invalid characters or length)', [
+                'order' => $order->getNumber(),
+            ]);
+
+            return;
+        }
+
+        $order->setPoReference($reference);
+    }
+
+    private function isValid(string $reference): bool
+    {
+        return mb_strlen($reference) <= OrderPoReferenceAwareInterface::PO_REFERENCE_MAX_LENGTH &&
+            1 === preg_match(OrderPoReferenceAwareInterface::PO_REFERENCE_PATTERN, $reference);
     }
 
     private function extractOrderId(string $notes): ?string
@@ -57,6 +89,6 @@ final class PunchOutPoReferenceSubscriber implements EventSubscriberInterface
         $firstLine = explode("\n", substr($notes, \strlen(self::NOTES_PREFIX)), 2)[0];
         $orderId = trim($firstLine);
 
-        return '' === $orderId ? null : mb_substr($orderId, 0, self::MAX_LENGTH);
+        return '' === $orderId ? null : $orderId;
     }
 }

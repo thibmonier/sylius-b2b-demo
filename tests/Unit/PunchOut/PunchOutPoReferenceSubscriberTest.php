@@ -7,7 +7,10 @@ namespace App\Tests\Unit\PunchOut;
 use App\Entity\Order\Order;
 use App\PunchOut\PunchOutPoReferenceSubscriber;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Symfony\Component\Workflow\Marking;
 use Symfony\Component\Workflow\Transition;
@@ -22,6 +25,21 @@ final class PunchOutPoReferenceSubscriberTest extends TestCase
         $order = $this->complete("PunchOut purchase order ORD-PO-456\nBuyer comments: urgent");
 
         self::assertSame('ORD-PO-456', $order->getPoReference());
+    }
+
+    public function testShopOrderWithThePrefixInItsNotesGetsNoPoReference(): void
+    {
+        self::assertNull($this->complete('PunchOut purchase order SPOOFED-1', route: 'sylius_shop_checkout_complete')->getPoReference());
+        self::assertNull($this->complete('PunchOut purchase order SPOOFED-1', route: null)->getPoReference());
+    }
+
+    public function testInvalidOrderIdIsNotTruncatedAndLogsAWarning(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects(self::exactly(2))->method('warning');
+
+        self::assertNull($this->complete('PunchOut purchase order <b>x</b>', logger: $logger)->getPoReference());
+        self::assertNull($this->complete('PunchOut purchase order ' . str_repeat('A', 65), logger: $logger)->getPoReference());
     }
 
     public function testNoteWithoutOrderIdLeavesThePoReferenceEmpty(): void
@@ -48,8 +66,12 @@ final class PunchOutPoReferenceSubscriberTest extends TestCase
         );
     }
 
-    private function complete(?string $notes, ?string $existingPo = null): Order
-    {
+    private function complete(
+        ?string $notes,
+        ?string $existingPo = null,
+        ?string $route = PunchOutPoReferenceSubscriber::ENDPOINT_ROUTE,
+        ?LoggerInterface $logger = null,
+    ): Order {
         $order = new Order();
         $order->setNotes($notes);
         $order->setPoReference($existingPo);
@@ -61,7 +83,9 @@ final class PunchOutPoReferenceSubscriberTest extends TestCase
             new Transition(OrderCheckoutTransitions::TRANSITION_COMPLETE, 'payment_selected', 'completed'),
             $workflow,
         );
-        (new PunchOutPoReferenceSubscriber())->onOrderCompleted($event);
+        $requests = new RequestStack();
+        $requests->push(new Request(attributes: null === $route ? [] : ['_route' => $route]));
+        (new PunchOutPoReferenceSubscriber($requests, $logger ?? $this->createStub(LoggerInterface::class)))->onOrderCompleted($event);
 
         return $order;
     }

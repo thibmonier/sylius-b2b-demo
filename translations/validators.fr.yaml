@@ -4,3 +4,5 @@ app:
             required: 'La référence PO est requise pour finaliser la commande.'
             max_length: 'La référence PO ne doit pas dépasser 64 caractères.'
             invalid_characters: 'La référence PO ne peut contenir que des lettres, chiffres et tirets.'
+        cost_center:
+            invalid_characters: 'Le centre de coût ne peut contenir que des lettres, chiffres, espaces, points, tirets et underscores.'

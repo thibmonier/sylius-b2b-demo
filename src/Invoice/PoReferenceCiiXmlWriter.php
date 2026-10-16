@@ -57,7 +57,16 @@ final class PoReferenceCiiXmlWriter implements CiiXmlWriterInterface
             return null;
         }
 
-        $reference = trim((string) $order->getPoReference());
+        $reference = (string) $order->getPoReference();
+        if (!mb_check_encoding($reference, 'UTF-8')) {
+            throw new \UnexpectedValueException('PO reference is not valid UTF-8');
+        }
+        // Characters forbidden in XML 1.0 would make the whole CII document unparseable.
+        $reference = trim((string) preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $reference));
+
+        if (mb_strlen($reference) > OrderPoReferenceAwareInterface::PO_REFERENCE_MAX_LENGTH) {
+            throw new \LengthException('PO reference exceeds the maximum length');
+        }
 
         return '' === $reference ? null : $reference;
     }
@@ -70,7 +79,17 @@ final class PoReferenceCiiXmlWriter implements CiiXmlWriterInterface
 
         $document = new \DOMDocument();
         $document->preserveWhiteSpace = true;
-        $document->loadXML($xml, \LIBXML_NONET);
+        $previous = libxml_use_internal_errors(true);
+
+        try {
+            $loaded = $document->loadXML($xml, \LIBXML_NONET);
+        } finally {
+            libxml_clear_errors();
+            libxml_use_internal_errors($previous);
+        }
+        if (!$loaded) {
+            throw new \RuntimeException('Factur-X XML could not be parsed');
+        }
 
         $agreement = $document->getElementsByTagNameNS(self::RAM_NAMESPACE, 'ApplicableHeaderTradeAgreement')->item(0);
         if (!$agreement instanceof \DOMElement) {
