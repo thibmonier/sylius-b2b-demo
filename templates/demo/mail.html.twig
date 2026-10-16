@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|default('fr')|slice(0, 2) }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ message.subject }} — Fournitures Pro</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+        h1 { color: #1f3a5f; }
+        dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
+        dt { font-weight: 600; }
+        pre { white-space: pre-wrap; word-break: break-word; background: #f0f4f8; padding: 1rem; border-radius: 3px; }
+    </style>
+</head>
+<body>
+<p><a href="{{ path('app_demo_mails') }}">{{ 'back'|trans({}, 'mails') }}</a></p>
+<h1>{{ message.subject }}</h1>
+<dl>
+    <dt>{{ 'from'|trans({}, 'mails') }}</dt><dd>{{ message.from }}</dd>
+    <dt>{{ 'to'|trans({}, 'mails') }}</dt><dd>{{ message.to }}</dd>
+    <dt>{{ 'date'|trans({}, 'mails') }}</dt><dd>{{ message.date ? message.date|date('Y-m-d H:i') : '' }}</dd>
+</dl>
+{# Text only, auto-escaped: the HTML part is never rendered. #}
+<pre data-demo-mail-body>{{ message.displayText|default('no_content'|trans({}, 'mails')) }}</pre>
+</body>
+</html>

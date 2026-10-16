@@ -89,14 +89,16 @@ final class DemoAccountsTest extends KernelTestCase
         $controller();
     }
 
-    public function testTheMailpitLinkIsShownOnlyWhenAnUrlIsConfigured(): void
+    public function testTheMailsLinkPointsToTheDemoPageAndIsShownOnlyWhenTheApiIsConfigured(): void
     {
-        $with = $this->renderWithSession('demo/banner.html.twig');
-        self::assertStringContainsString('href="http://localhost:8025"', $with);
+        $with = $this->withEnv(['DEMO_MAILPIT_API_URL' => 'http://mailpit:8025'], fn (): string => $this->renderWithSession('demo/banner.html.twig'));
+        self::assertStringContainsString('href="/demo/mails"', $with);
+        self::assertStringNotContainsString('8025', $with, 'Neither the public nor the internal Mailpit URL is rendered.');
+        self::assertStringNotContainsString('mailpit', $with);
 
-        $without = $this->withEnv(['DEMO_MAILPIT_URL' => null], fn (): string => $this->renderWithSession('demo/banner.html.twig'));
+        $without = $this->withEnv(['DEMO_MAILPIT_API_URL' => null], fn (): string => $this->renderWithSession('demo/banner.html.twig'));
         self::assertStringContainsString('data-demo-banner', $without);
-        self::assertStringNotContainsString('Mailpit', $without);
+        self::assertStringNotContainsString('/demo/mails', $without);
     }
 
     public function testNothingIsRenderedAndTheAccountsPageIs404WhenTheDemoModeIsOff(): void
@@ -122,6 +124,7 @@ final class DemoAccountsTest extends KernelTestCase
         self::assertIsArray($config);
         self::assertSame('0', $config['parameters']['env(DEMO_MODE)']);
         self::assertSame('', $config['parameters']['env(DEMO_MAILPIT_URL)']);
+        self::assertSame('', $config['parameters']['env(DEMO_MAILPIT_API_URL)']);
     }
 
     public function testADuplicatedEmailIsRejectedByName(): void

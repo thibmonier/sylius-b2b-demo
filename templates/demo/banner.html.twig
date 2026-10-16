@@ -8,8 +8,8 @@
                 <a class="text-white" href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a> |
                 <a class="text-white" href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
             </span>
-            {% if demo_mailpit_url() is not empty %}
-                <a class="text-white" href="{{ demo_mailpit_url() }}" target="_blank" rel="noopener">Mailpit</a>
+            {% if demo_mails_enabled() %}
+                <a class="text-white" href="{{ path('app_demo_mails') }}">E-mails / Mails</a>
             {% endif %}
             <details class="position-relative">
                 <summary>Se connecter en un clic / One-click login</summary>

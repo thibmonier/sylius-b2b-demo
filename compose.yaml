@@ -12,6 +12,7 @@ services:
             DEFAULT_URI: ${DEFAULT_URI:-http://localhost:8080}
             DEMO_MODE: "1"
             DEMO_MAILPIT_URL: "http://localhost:8025"
+            DEMO_MAILPIT_API_URL: "http://mailpit:8025"
         ports:
             - "${WEB_PORT:-8080}:8080"
         depends_on:

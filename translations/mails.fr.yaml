@@ -1,0 +1,10 @@
+title: 'Boîte mail de la démo'
+intro: "E-mails envoyés par la démo depuis la dernière remise à zéro. Lecture seule : les e-mails contenant un lien d'action ou un jeton (réinitialisation de mot de passe, vérification de compte…) ne sont pas affichés."
+empty: "Aucun e-mail pour l'instant."
+unavailable: "La boîte mail de la démo est momentanément indisponible. Réessayez dans quelques instants."
+subject: 'Sujet'
+from: 'De'
+to: 'À'
+date: 'Date'
+back: '← Retour à la boîte mail'
+no_content: "(contenu vide)"

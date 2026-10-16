@@ -17,6 +17,8 @@ final class DemoTwigExtension extends AbstractExtension
         private readonly bool $demoMode,
         #[Autowire(param: 'demo.mailpit_url')]
         private readonly string $mailpitUrl,
+        #[Autowire(param: 'demo.mailpit_api_url')]
+        private readonly string $mailpitApiUrl,
     ) {
     }
 
@@ -25,6 +27,7 @@ final class DemoTwigExtension extends AbstractExtension
         return [
             new TwigFunction('demo_mode', fn (): bool => $this->demoMode),
             new TwigFunction('demo_mailpit_url', fn (): string => $this->mailpitUrl),
+            new TwigFunction('demo_mails_enabled', fn (): bool => '' !== trim($this->mailpitApiUrl)),
             new TwigFunction('demo_shop_accounts', $this->catalog->shopAccounts(...)),
             new TwigFunction('demo_admin_accounts', $this->catalog->adminUsers(...)),
         ];

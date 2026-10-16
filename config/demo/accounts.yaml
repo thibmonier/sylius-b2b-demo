@@ -7,6 +7,9 @@ parameters:
     env(DEMO_MODE): '0'
     demo.mailpit_url: '%env(DEMO_MAILPIT_URL)%'
     env(DEMO_MAILPIT_URL): ''
+    # Internal Mailpit HTTP API, called server-side only (US-028); never rendered. Empty = demo mailbox off.
+    demo.mailpit_api_url: '%env(DEMO_MAILPIT_API_URL)%'
+    env(DEMO_MAILPIT_API_URL): ''
     demo.password: 'Demo1234!'
 
     # A customer belongs to exactly one company (US-009).
