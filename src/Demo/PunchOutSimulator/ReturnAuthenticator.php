@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Lock\LockFactory;
 
 /**
  * Authenticates the cart that comes back to the simulator (US-040, M8). The browser carries it from the shop to the
@@ -33,6 +34,7 @@ final readonly class ReturnAuthenticator
         // The journal hashes at most this many bytes of a message.
         #[Autowire(param: 'tmonier_punchout.max_request_bytes')]
         private int $maxBytes,
+        private LockFactory $locks,
     ) {
     }
 
@@ -51,7 +53,22 @@ final readonly class ReturnAuthenticator
             return self::EXPIRED;
         }
 
-        $item = $this->cache->getItem('demo_punchout_return_' . hash('sha256', $xml));
+        $key = 'demo_punchout_return_' . hash('sha256', $xml);
+        // Check and mark under a lock: parallel posts of the same return would all pass otherwise (sprint 8 review).
+        $lock = $this->locks->createLock($key);
+        $lock->acquire(true);
+
+        try {
+            return $this->markUsed($key);
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /** @return self::AUTHENTIC|self::REPLAYED */
+    private function markUsed(string $key): string
+    {
+        $item = $this->cache->getItem($key);
         if ($item->isHit()) {
             return self::REPLAYED;
         }

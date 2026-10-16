@@ -25,6 +25,8 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\Store\InMemoryStore;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Tmonier\SyliusPunchoutCxmlPlugin\Cxml\OrderMessageWriter;
@@ -149,8 +151,8 @@ final class PunchOutSimulatorControllerTest extends TestCase
             new ResponseParser($loader),
             new EndpointClient(new MockHttpClient(), new InternalRequestToken('secret')),
             $this->state(),
-            new SimulatorOrderGate(new ArrayAdapter(), $clock, 50),
-            new ReturnAuthenticator($journal, new ArrayAdapter(), $clock, 262144),
+            new SimulatorOrderGate(new ArrayAdapter(), $clock, 50, new LockFactory(new InMemoryStore())),
+            new ReturnAuthenticator($journal, new ArrayAdapter(), $clock, 262144, new LockFactory(new InMemoryStore())),
             new VisitorIpResolver(),
             $demoMode,
         );
