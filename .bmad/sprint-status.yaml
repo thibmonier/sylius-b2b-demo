@@ -67,14 +67,14 @@ sprints:
     sprint_id: "sprint-5"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
-    capacity_points: 25
+    capacity_points: 29
     goal: "Listes et scénarios B2B : historique de commandes et factures, listes d'achat partagées (POC wishlist d'abord), carnet d'adresses d'entreprise (company-accounts v1.2), simulateur d'outil d'achat, lecture filtrée des e-mails de démo ; plus la mesure de couverture en CI (audit)"
     stories:
-      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: backlog}
-      - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: backlog}
-      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 5, status: backlog}
-      - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: backlog}
-      - {id: US-028, title: "Boîte Mailpit publique", points: 2, status: backlog}
+      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: ready-for-dev}
+      - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: in-progress}
+      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 8, status: in-progress}  # ré-estimée 5→8 (company-accounts v1.2)
+      - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: ready-for-dev}
+      - {id: US-028, title: "Boîte Mailpit publique", points: 3, status: ready-for-dev}  # ré-estimée 2→3 (lecture filtrée)
   sprint-6:
     name: sprint-6-railway-securite
     status: planned
