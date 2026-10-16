@@ -124,7 +124,8 @@ final class ApprovalWorkflowSmokeTest extends KernelTestCase
         $limit = $limitRepo->findOneByMember($membership);
         self::assertNotNull($limit);
 
-        $orderLimitEuros = ($limit->getOrderLimit() ?? 0) / 100;
+        // PHP returns int for an evenly divisible int division, so cast to keep assertSame strict.
+        $orderLimitEuros = (float) (($limit->getOrderLimit() ?? 0) / 100);
         self::assertSame(
             500.0,
             $orderLimitEuros,
