@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e4987458037c1e3380bbfaa92011155",
+    "content-hash": "8c5123e97326a8bb14dd0b44d2598a4a",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17113,16 +17113,16 @@
         },
         {
             "name": "tmonier/sylius-channel-access-plugin",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-channel-access-plugin.git",
-                "reference": "0b78aa9c125b07d4cc1037fd48877cae94310f27"
+                "reference": "e258adf52becad0b268f9349f42dfb56d59819d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-channel-access-plugin/zipball/0b78aa9c125b07d4cc1037fd48877cae94310f27",
-                "reference": "0b78aa9c125b07d4cc1037fd48877cae94310f27",
+                "url": "https://api.github.com/repos/thibmonier/sylius-channel-access-plugin/zipball/e258adf52becad0b268f9349f42dfb56d59819d4",
+                "reference": "e258adf52becad0b268f9349f42dfb56d59819d4",
                 "shasum": ""
             },
             "require": {
@@ -17184,9 +17184,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-channel-access-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/tree/v0.2.0"
             },
-            "time": "2026-10-16T14:37:35+00:00"
+            "time": "2026-10-16T17:03:09+00:00"
         },
         {
             "name": "tmonier/sylius-command-palette-plugin",
@@ -18015,22 +18015,22 @@
         },
         {
             "name": "tmonier/sylius-registration-approval-plugin",
-            "version": "v0.1.1",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-registration-approval-plugin.git",
-                "reference": "51276422832ae97064a45af4223a646b748a6e92"
+                "reference": "b01d090a844316e6c995fba9db46427834dec662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-registration-approval-plugin/zipball/51276422832ae97064a45af4223a646b748a6e92",
-                "reference": "51276422832ae97064a45af4223a646b748a6e92",
+                "url": "https://api.github.com/repos/thibmonier/sylius-registration-approval-plugin/zipball/b01d090a844316e6c995fba9db46427834dec662",
+                "reference": "b01d090a844316e6c995fba9db46427834dec662",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.3",
                 "sylius/sylius": "^2.3",
-                "tmonier/sylius-channel-access-plugin": "^0.1"
+                "tmonier/sylius-channel-access-plugin": "^0.1 || ^0.2"
             },
             "require-dev": {
                 "phpstan/phpstan": "^2.1",
@@ -18087,9 +18087,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-registration-approval-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/tree/v0.1.1"
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/tree/v0.1.2"
             },
-            "time": "2026-10-16T15:31:11+00:00"
+            "time": "2026-10-16T17:22:48+00:00"
         },
         {
             "name": "tmonier/sylius-tier-pricing-plugin",

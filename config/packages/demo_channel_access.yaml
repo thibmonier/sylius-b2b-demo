@@ -2,6 +2,22 @@
 # set to "closed", anonymous visitors only reach the home page, the login, the registration (built in), the
 # administration (built in) and the routes below, which carry their own authentication or are public on purpose.
 tmonier_sylius_channel_access:
+    # Routes of the other plugins that show or use prices (on top of the built-in cart, checkout and orders), refused to a
+    # visitor who may not see prices; a customer still waiting for approval (US-020) is turned away the same way.
+    restricted_routes:
+        # Quote request form: its lines show the catalogue price of the products.
+        - 'tmonier_quote_request_shop_new'
+        - 'tmonier_quote_request_shop_basket_add'
+        - 'tmonier_quote_request_shop_from_cart'
+        - 'tmonier_quote_request_shop_release_cart'
+        # Quick order and quantity matrix: the lines are added to the cart without the order modifier.
+        - 'tmonier_quick_order_shop_add'
+        - 'tmonier_quick_order_shop_matrix_add'
+        # AI assistants (MCP): the consent screen and the connections give an assistant the access of the customer.
+        - 'tmonier_b2b_mcp_shop_*'
+    restricted_paths:
+        # Volume prices of a variant (tmonier/sylius-tier-pricing-plugin): unit price per quantity break.
+        - '%sylius.security.api_shop_route%/product-variants/*/tier-prices'
     exempt_paths:
         # PunchOut (cXML / OCI): authenticated by the buyer credentials.
         - '/punchout/*'
