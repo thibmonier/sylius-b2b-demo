@@ -27,6 +27,8 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `DEMO_RATE_LIMIT_PUNCHOUT_START` | `10` (par 10 min) | `10` |
 | `DEMO_RATE_LIMIT_PUNCHOUT_ORDER` | `10` (par heure) | `10` |
 | `DEMO_RATE_LIMIT_GATE` | `20` (échecs par 10 min) | `20` |
+| `DEMO_RATE_LIMIT_HEALTH` | `30` (par minute) | `30` : `/health` et `/healthz`, par IP visiteur ; un moniteur toutes les 10 s fait 6 appels |
+| `DEMO_REGISTRATION_OPEN` | `1` | `1` tant que la démo est privée (inscriptions validées par Sophie), **`0` avant l'ouverture publique** |
 | `DEMO_PUNCHOUT_DAILY_ORDERS` | `50` | `50` |
 | `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0` | `0` |
 | `DEMO_MAILER_ALLOWED_HOSTS` | `mailpit,localhost,127.0.0.1` | nom d'hôte privé de Mailpit (`*.railway.internal` toujours accepté) |
@@ -45,7 +47,12 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | S5-R2 hôtes et proxys | Corrigé | `TRUSTED_HOSTS` (400 immédiat pour un hôte inconnu), `TRUSTED_PROXIES`. |
 | S5-R3 limiteur du plugin | Corrigé côté démo | Le simulateur transmet l'IP du visiteur (`X-Forwarded-For`, la boucle locale est un proxy de confiance). Le correctif du plugin lui-même reste au sprint 7. |
 | S5-R4 boîte de démo | Corrigé | Seuls les e-mails adressés aux comptes de démo sont listés ou lisibles ; les autres répondent 404. |
-| S2-R3 à R10, S4-R3 | Reportés au sprint 7 | Hors périmètre de ce lot (tâches marquées « sprint 7 »). |
+| S2-R3 à R10, S4-R3 | Reportés | S2-R3 à R6 : sprint 8 ; S2-R7 à R10 et S4-R3 : sprint 9. |
+| M2 clients saisis par les visiteurs (US-040) | Corrigé (interrupteur) | `DEMO_REGISTRATION_OPEN=0` : le formulaire d'inscription et `POST /api/v2/shop/customers` répondent 403 (`RegistrationGateListener`). Ouvert par défaut tant que la démo est privée. |
+| M4 images orphelines (US-040) | Corrigé | Étape 4 du reset (`OrphanImagePurger`) : tout fichier de `public/media/image` sans ligne d'image est supprimé ; un échec est journalisé et fait échouer le reset (`/healthz` 503 `reset failed`). |
+| M5 clients HTTP du serveur MCP (US-040) | Corrigé | Le garde sortant décore aussi `http_client.transport` ; les redirections ne sont plus suivies. |
+| M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
+| M8 retour du simulateur PunchOut (US-040) | Corrigé | Le panier n'est cru que s'il est, octet pour octet, un `PunchOutOrderMessage` du journal du plugin ; usage unique, dans l'heure (`ReturnAuthenticator`). |
 
 ## Risques acceptés
 
@@ -55,4 +62,6 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 - **Fichiers statiques hors de la porte** : les images et assets du thème sont servis par Caddy sans authentification.
 - **Compteur quotidien et jeton d'usage unique non atomiques** : deux envois simultanés d'une même session pourraient créer deux commandes ; le plafond quotidien reste le garde-fou.
 - **`api.iconify.design` autorisé en sortie** : Symfony UX Icons y récupère les icônes absentes du cache (requête GET sans donnée utilisateur). Réchauffer le cache à la construction de l'image supprime cette exception.
+- **Inscriptions ouvertes tant que la démo est privée** : leurs données sont lisibles par tout porteur du mot de passe de la porte (liste des clients de Sophie) ; l'encart « aucune donnée réelle » et la purge nocturne limitent l'exposition. `DEMO_REGISTRATION_OPEN=0` est à positionner avant l'ouverture publique.
+- **Retour du simulateur rejoué après actualisation** : un retour de panier ne sert qu'une fois ; actualiser la page de retour affiche « déjà reçu », sans commande (relancer une session).
 - **`/health` rouge pendant la remise à zéro** (base recréée, migrations en cours) : la sonde Railway ne s'exécute qu'au déploiement, le `HEALTHCHECK` Docker n'est qu'informatif.
