@@ -3,7 +3,7 @@
 Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-sprint 005`, après l'audit inter-sprint (`project-management/audits/2026-10-16-inter-sprint/audit-report.md`, 60/100).
 
 - Dépôt : `sylius-b2b-demo`, branche `feature/sprint-5-listes-et-scenarios`, **PR #5 en brouillon** (https://github.com/thibmonier/sylius-b2b-demo/pull/5).
-- Dernier commit poussé : `0f46ac6` (US-027 partie 1). Statut CI : voir la section « CI » en bas (à revérifier : `gh pr view 5 --json statusCheckRollup`).
+- Dernier commit poussé : `0beb10e` (correctif CI), après `0f46ac6` (US-027 partie 1). Statut CI : voir la section « CI » en bas (à revérifier : `gh pr view 5 --json statusCheckRollup`).
 - Suivi : `.bmad/sprint-status.yaml` (bloc sprint-5, capacité 29 pts) ; tâches dans `tasks/`, Kanban dans `task-board.md`.
 
 ## Phases de l'auto-sprint
@@ -56,7 +56,7 @@ Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-spr
 ## CI
 
 - Run du commit `0f46ac6` : **vert à tort**. PHPUnit affichait 285 tests, 2 échecs, mais `phpunit | tee` renvoyait le code de sortie de `tee`. Correction : `shell: bash` (donc `-eo pipefail`) sur l'étape PHPUnit.
-- Les 2 échecs (`OrderHistorySmokeTest`) venaient des paniers laissés par les autres smoke tests (PunchOut, liste vers panier) : `findAll()` les comptait. Le test ne compte plus que les commandes passées (`state != cart`). La correction est poussée et **la CI est à revérifier**.
+- Les 2 échecs (`OrderHistorySmokeTest`) venaient des paniers laissés par les autres smoke tests (PunchOut, liste vers panier) : `findAll()` les comptait. Le test ne compte plus que les commandes passées (`state != cart`). Corrigé dans `0beb10e` : **CI verte** (285 tests, 0 échec, 1 ignoré ; 3 checks OK).
 - Couverture mesurée : Classes 40,70 %, Methods 55,91 %, **Lines 53,51 %** (cible 80 %, non bloquante pour l'instant).
 
 ## Reprise conseillée
