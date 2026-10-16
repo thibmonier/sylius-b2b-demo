@@ -1,0 +1,17 @@
+{# One-click login: a standard login form (same fields and CSRF token as the real one) posted to the firewall check path. No bypass. #}
+{% if account.enabled %}
+    <form method="post" action="{{ path(check_route) }}" class="d-inline">
+        <input type="hidden" name="_username" value="{{ account.email }}">
+        <input type="hidden" name="_password" value="{{ account.password }}">
+        {% if sylius_csrf_protection_enabled() %}
+            <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token(csrf_id) }}">
+        {% endif %}
+        <button type="submit" class="btn btn-sm btn-outline-primary" data-demo-login="{{ account.email }}">
+            Se connecter en tant que {{ account.firstName }} / Log in as {{ account.firstName }}
+        </button>
+    </form>
+{% else %}
+    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+        {{ account.firstName }} — compte désactivé / disabled account
+    </button>
+{% endif %}

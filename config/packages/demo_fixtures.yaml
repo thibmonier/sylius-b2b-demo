@@ -134,17 +134,10 @@ sylius_fixtures:
                                 enabled: true
                                 channels: ['B2B']
 
+                # Back-office users come from config/demo/accounts.yaml (single source, US-015).
                 admin_user:
                     options:
-                        custom:
-                            -
-                                email: 'sophie@fournitures-pro.example'
-                                username: 'sophie'
-                                password: 'demo-sophie'
-                                enabled: true
-                                locale_code: 'fr_FR'
-                                first_name: 'Sophie'
-                                last_name: 'Martin'
+                        custom: '%demo.admin_users%'
 
                 # Sprint 2 — US-008: Catalogue industriel (CSV).
                 # La PriorityQueue de SyliusFixturesBundle trie en SORT_DESC (priorité

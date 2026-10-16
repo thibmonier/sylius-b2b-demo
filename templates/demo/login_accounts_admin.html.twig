@@ -1,0 +1,11 @@
+{% if demo_mode() %}
+    <div class="container" style="max-width: 32rem">
+        {% include 'demo/_accounts_list.html.twig' with {
+            scope: 'admin',
+            accounts: demo_admin_accounts(),
+            check_route: 'sylius_admin_login_check',
+            csrf_field: '_csrf_admin_security_token',
+            csrf_id: 'admin_authenticate',
+        } only %}
+    </div>
+{% endif %}

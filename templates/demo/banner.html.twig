@@ -1,0 +1,32 @@
+{% if demo_mode() %}
+    <div class="bg-dark text-white py-2 small" data-demo-banner>
+        <div class="container d-flex flex-wrap align-items-center gap-3">
+            <strong>Démo B2B / B2B demo</strong>
+            <a class="text-white" href="{{ path('app_demo_accounts') }}">Comptes de démo / Demo accounts</a>
+            <span>
+                Canal / Channel :
+                <a class="text-white" href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a> |
+                <a class="text-white" href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
+            </span>
+            <a class="text-white" href="{{ demo_mailpit_url() }}" target="_blank" rel="noopener">Mailpit</a>
+            <details class="position-relative">
+                <summary>Se connecter en un clic / One-click login</summary>
+                <div class="position-absolute bg-white text-dark p-2 border rounded shadow" style="z-index: 1050; min-width: 22rem">
+                    {% for account in demo_shop_accounts() %}
+                        <div class="mb-1">
+                            {% include 'demo/_login_form.html.twig' with {
+                                account,
+                                check_route: 'sylius_shop_login_check',
+                                csrf_field: '_csrf_shop_security_token',
+                                csrf_id: 'shop_authenticate',
+                            } only %}
+                            <span class="small text-muted">{{ account.roleLabel }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </details>
+            {# Slot for the badges toggle (US-016). #}
+            <span class="ms-auto" data-demo-badges-slot></span>
+        </div>
+    </div>
+{% endif %}

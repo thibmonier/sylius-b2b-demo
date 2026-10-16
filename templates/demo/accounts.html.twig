@@ -15,7 +15,6 @@
         code { background: #f0f4f8; padding: .1rem .4rem; border-radius: 3px; font-size: .9em; }
         .note { background: #fff8e1; border-left: 4px solid #f59e0b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
         .disabled { color: #c0392b; font-style: italic; }
-        .multi { color: #16a085; font-style: italic; }
     </style>
 </head>
 <body>
@@ -47,17 +46,15 @@
         {% for member in company.members %}
         <tr>
             <td><code>{{ member.email }}</code></td>
-            <td>{{ member.name }}</td>
+            <td>{{ member.fullName }}</td>
             <td>
-                {% if 'désactivé' in member.role %}
-                    <span class="disabled">{{ member.role }}</span>
-                {% elseif 'aussi dans' in member.role %}
-                    <span class="multi">{{ member.role }}</span>
+                {% if member.enabled %}
+                    {{ member.roleLabel }}
                 {% else %}
-                    {{ member.role }}
+                    <span class="disabled">{{ member.roleLabel }} — ⚠️ compte désactivé / disabled account</span>
                 {% endif %}
             </td>
-            <td><code>{{ password }}</code></td>
+            <td><code>{{ member.password }}</code></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -76,11 +73,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for account in other_accounts %}
+        {% for account in consumers|merge(admins) %}
         <tr>
             <td><code>{{ account.email }}</code></td>
-            <td>{{ account.name }}</td>
-            <td>{{ account.role }}</td>
+            <td>{{ account.fullName }}</td>
+            <td>{{ account.roleLabel }}</td>
             <td><code>{{ account.password }}</code></td>
         </tr>
         {% endfor %}
@@ -90,9 +87,9 @@
 <h2>📋 Scénarios de démo / Demo scenarios</h2>
 
 <ul>
-    <li><strong>Multi-entreprises</strong> : Marc Lefebvre (<code>marc@techparts.example</code>) est membre de <em>TechParts SAS</em> (acheteur) ET de <em>BuildCo SA</em> (approbateur).</li>
-    <li><strong>Compte désactivé</strong> : Thomas Bernard (<code>thomas@buildco.example</code>) — connexion refusée (ShopUser désactivé).</li>
-    <li><strong>Back-office restreint</strong> : Sophie Martin (<code>sophie@fournitures-pro.example</code>, mot de passe <code>{{ admin_password }}</code>) accède à l'administration avec des droits limités.</li>
+    <li><strong>Un client = une entreprise</strong> : chaque acheteur appartient à une seule entreprise (ex. Marc Lefebvre &rarr; TechParts SAS).</li>
+    <li><strong>Compte désactivé</strong> : les comptes marqués « désactivé » ne peuvent pas se connecter (ShopUser désactivé).</li>
+    <li><strong>Back-office restreint</strong> : le compte admin de démo accède à l'administration avec des droits limités.</li>
 </ul>
 
 <p style="margin-top:3rem;color:#888;font-size:.85em">

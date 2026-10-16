@@ -1,0 +1,62 @@
+# Single source of truth for every demo account (US-015).
+# Consumed by the fixtures (CompanyDemoFixture, CustomerDemoFixture, admin_user in
+# demo_fixtures.yaml), by /demo/accounts and by the demo login helpers.
+# Demo credentials only: no real secret, ".example" domains.
+parameters:
+    demo.mode: '%env(bool:DEMO_MODE)%'
+    env(DEMO_MODE): '1'
+    demo.mailpit_url: 'http://localhost:8025'
+    demo.password: 'Demo1234!'
+
+    # A customer belongs to exactly one company (US-009).
+    demo.companies:
+        - code: ACME_IND
+          name: 'Acme Industries'
+          vat_number: FR40123456824
+          registration_number: '123 456 824'
+          members:
+              - { email: claire@acme.example, first_name: Claire, last_name: Dupont, role: buyer }
+              - { email: paul@acme.example, first_name: Paul, last_name: Martin, role: approver }
+              - { email: isabelle@acme.example, first_name: Isabelle, last_name: Renard, role: admin }
+        - code: TECHPARTS
+          name: 'TechParts SAS'
+          vat_number: FR81987654321
+          registration_number: '987 654 321'
+          members:
+              - { email: marc@techparts.example, first_name: Marc, last_name: Lefebvre, role: buyer }
+              - { email: nathalie@techparts.example, first_name: Nathalie, last_name: Girard, role: admin }
+        - code: BUILDCO
+          name: 'BuildCo SA'
+          vat_number: FR22345678901
+          registration_number: '345 678 901'
+          members:
+              - { email: thomas@buildco.example, first_name: Thomas, last_name: Bernard, role: buyer, enabled: false }
+              - { email: antoine@buildco.example, first_name: Antoine, last_name: Moreau, role: approver }
+        - code: GLOBALMAINT
+          name: 'GlobalMaint SA'
+          vat_number: FR65432109876
+          registration_number: '432 109 876'
+          members:
+              - { email: henri@globalmaint.example, first_name: Henri, last_name: Dubois, role: buyer }
+              - { email: celine@globalmaint.example, first_name: Céline, last_name: Lambert, role: admin }
+        - code: INDUSPRO
+          name: 'IndusPro SARL'
+          vat_number: FR93210987654
+          registration_number: '210 987 654'
+          members:
+              - { email: yves@induspro.example, first_name: Yves, last_name: Fontaine, role: buyer }
+              - { email: martine@induspro.example, first_name: Martine, last_name: Rousseau, role: approver }
+
+    # B2C shoppers (no company).
+    demo.consumers:
+        - { email: lea@demo.example, first_name: Léa, last_name: Petit }
+
+    # Back-office users; keys are exactly those of the Sylius `admin_user` fixture.
+    demo.admin_users:
+        - email: sophie@fournitures-pro.example
+          username: sophie
+          password: demo-sophie
+          enabled: true
+          locale_code: fr_FR
+          first_name: Sophie
+          last_name: Martin
