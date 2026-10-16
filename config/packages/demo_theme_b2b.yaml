@@ -1,0 +1,48 @@
+# US-013: B2B shop theme, derived from the official Sylius theme (additive hooks + one extra stylesheet).
+# Everything is limited to the B2B channel; the B2C channel keeps the stock theme. Plugin hookables are untouched.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.base#stylesheets':
+            b2b_theme:
+                template: 'shop/theme_b2b/stylesheets.html.twig'
+                priority: -100
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        # Logo: the core hookable is kept for B2C, the B2B one replaces it on the B2B channel only.
+        'sylius_shop.base.header.content':
+            logo:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_logo:
+                template: 'shop/theme_b2b/logo.html.twig'
+                priority: 300
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.base.header.top_bar':
+            b2b_message:
+                template: 'shop/theme_b2b/top_bar.html.twig'
+                priority: 150
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        'sylius_shop.base.footer':
+            b2b_strip:
+                template: 'shop/theme_b2b/footer_strip.html.twig'
+                priority: 100
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        # Catalogue cards: SKU under the name, "excl. VAT" next to the price.
+        'sylius_shop.shared.product.card.details':
+            b2b_sku:
+                template: 'shop/theme_b2b/product_card_sku.html.twig'
+                priority: -10
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.shared.product.card.prices':
+            b2b_price_note:
+                template: 'shop/theme_b2b/product_card_price_note.html.twig'
+                priority: -10
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        # Product page: reference block under the title.
+        'sylius_shop.product.show.content.info.summary':
+            b2b_reference:
+                template: 'shop/theme_b2b/product_reference.html.twig'
+                priority: 490
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"

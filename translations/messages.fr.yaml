@@ -1,4 +1,15 @@
 app:
+    theme_b2b:
+        logo_aria: 'Fournitures Pro, accueil'
+        top_bar: 'Fournitures professionnelles · Prix HT · Interlocuteur dédié'
+        sku: 'Réf.'
+        excl_vat: 'HT'
+        reference: 'Référence'
+        prices_excl_vat: 'Prix affichés hors taxes'
+        footer:
+            invoice: 'Facturation mensuelle'
+            terms: 'Paiement à terme sur compte'
+            support: 'Support pro du lundi au vendredi, 8h-18h'
     checkout:
         po_reference:
             section_title: 'Référence commande'

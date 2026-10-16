@@ -1,4 +1,15 @@
 app:
+    theme_b2b:
+        logo_aria: 'Fournitures Pro, home'
+        top_bar: 'Professional supplies · Prices excl. VAT · Dedicated account manager'
+        sku: 'SKU'
+        excl_vat: 'Excl. VAT'
+        reference: 'Reference'
+        prices_excl_vat: 'Prices shown excl. VAT'
+        footer:
+            invoice: 'Monthly invoicing'
+            terms: 'Payment terms on account'
+            support: 'Trade support Mon-Fri 8am-6pm'
     checkout:
         po_reference:
             section_title: 'Order reference'

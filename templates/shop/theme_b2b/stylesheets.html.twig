@@ -1,0 +1,4 @@
+{# B2B channel only. When the build lacks the entry the page keeps the default Sylius style (no error). #}
+{% if encore_entry_exists('app-shop-b2b-entry', 'app.shop') %}
+    {{ encore_entry_link_tags('app-shop-b2b-entry', null, 'app.shop') }}
+{% endif %}
