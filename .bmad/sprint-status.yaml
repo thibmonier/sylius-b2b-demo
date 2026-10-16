@@ -90,23 +90,35 @@ sprints:
       - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: done}
   sprint-7:
     name: sprint-7-plugins-et-integrations
-    status: in-progress
+    status: done
     sprint_id: "sprint-7"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
     capacity_points: 27  # ré-estimé après décomposition (210 h pour 34 pts) ; découpage décidé par l'utilisateur le 2026-10-16
     goal: "Plugins : nouveaux plugins publiés d'accès par canal et d'inscription validée, correctifs publiés de punchout-cxml (puis retrait du contournement de la démo) et de container-fill, intégrés dans la démo"
     stories:
-      - {id: US-019, title: "Mode d'accès par canal", points: 8, status: review}  # plugin autonome publié ; ré-estimée 5→8 (41,5 h)
-      - {id: US-020, title: "Inscription validée par l'admin", points: 8, status: review}  # plugin autonome, dépend d'US-019 ; ré-estimée 5→8 (40 h)
-      - {id: US-038, title: "Correctifs du plugin punchout-cxml", points: 8, status: review}  # ré-estimée 5→8 (30,5 h)
-      - {id: US-039, title: "Correctif du plugin container-fill", points: 3, status: review}  # ré-estimée 2→3 (9,5 h)
+      - {id: US-019, title: "Mode d'accès par canal", points: 8, status: done}  # plugin autonome publié ; ré-estimée 5→8 (41,5 h)
+      - {id: US-020, title: "Inscription validée par l'admin", points: 8, status: done}  # plugin autonome, dépend d'US-019 ; ré-estimée 5→8 (40 h)
+      - {id: US-038, title: "Correctifs du plugin punchout-cxml", points: 8, status: done}  # ré-estimée 5→8 (30,5 h)
+      - {id: US-039, title: "Correctif du plugin container-fill", points: 3, status: done}  # ré-estimée 2→3 (9,5 h)
   sprint-8:
     name: sprint-8-demo-et-durcissement
+    status: in-progress
+    sprint_id: "sprint-8"
+    start_date: "2026-10-16"
+    end_date: "2026-10-30"
+    capacity_points: 25  # ré-estimé après décomposition (126,5 h pour 23 pts) ; arbitrage utilisateur du 2026-10-16
+    goal: "Démo et durcissement : reports sécurité et qualité du sprint 6, guide MCP, et deux améliorations de plugins (routes restreintes de channel-access, statut d'approbation dans b2b-mcp)"
+    stories:
+      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: ready-for-dev}
+      - {id: US-040, title: "Durcissement complémentaire (reports sécurité du sprint 6)", points: 8, status: ready-for-dev}  # ré-estimée 5→8 (30 h)
+      - {id: US-041, title: "Qualité des données et du reset (reports du sprint 6)", points: 5, status: ready-for-dev}  # T-041-06..09 (S2-R7..R10) au sprint 9 ; relevé de coût partiel
+      - {id: US-042, title: "Routes restreintes configurables dans channel-access", points: 5, status: ready-for-dev}  # ré-estimée 3→5 (16,5 h)
+      - {id: US-043, title: "Statut d'approbation dans le plugin b2b-mcp", points: 5, status: ready-for-dev}  # ré-estimée 3→5 (20,5 h)
+  sprint-9:
+    name: sprint-9-reports
     status: planned
     stories:
-      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}  # reportée du sprint 7 (capacité, décision utilisateur 2026-10-16)
-      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}  # reportée du sprint 7
-      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: backlog}  # reportée du sprint 7
-      - {id: US-040, title: "Durcissement complémentaire (reports sécurité du sprint 6)", points: 5, status: backlog}  # reportée du sprint 7
-      - {id: US-041, title: "Qualité des données et du reset (reports du sprint 6)", points: 5, status: backlog}  # reportée du sprint 7
+      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}  # reportée du sprint 8 (capacité, décision utilisateur 2026-10-16)
+      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}  # reportée du sprint 8
+    notes: "Aussi au sprint 9 : T-041-06 à T-041-09 (S2-R7 à R10, requêtes du reset et vérifications latentes) et T-041-15 (relevé de coût complet à J+7, à partir du 2026-10-23)."

@@ -5,7 +5,7 @@
 - **Epic** : EPIC-07
 - **Persona** : Sophie
 - **Story Points** : 3
-- **Sprint** : sprint-8-demo-et-durcissement
+- **Sprint** : sprint-9-reports
 - **Dépendances** : US-004
 
 ## Résumé
