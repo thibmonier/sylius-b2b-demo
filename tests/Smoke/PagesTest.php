@@ -61,7 +61,6 @@ final class PagesTest extends WebTestCase
     {
         yield 'login' => ['/fr_FR/login'];
         yield 'register' => ['/fr_FR/register'];
-        yield 'cart' => ['/fr_FR/cart/'];
         yield 'quick order' => ['/fr_FR/quick-order'];
         yield 'english home' => ['/en_US/'];
     }
@@ -73,6 +72,15 @@ final class PagesTest extends WebTestCase
         $client->request('GET', $path);
 
         self::assertResponseIsSuccessful();
+    }
+
+    /** US-019: the B2B channel hides prices and purchase from anonymous visitors, the cart included. */
+    public function testTheCartAsksAnAnonymousB2bVisitorToSignIn(): void
+    {
+        $client = self::createClient();
+        $client->request('GET', '/fr_FR/cart/');
+
+        self::assertResponseRedirects('/fr_FR/login');
     }
 
     /** @return iterable<string, array{string}> */
