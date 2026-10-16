@@ -13,3 +13,16 @@ tmonier_sylius_channel_access:
         - '/feeds/*'
         # The demo itself: accounts, mailbox, channel and badge switches.
         - '/demo/*'
+
+# Pieces of the other plugins that show prices on the product page: shown only to those who may see prices
+# (the channel access plugin disables the core price blocks the same way). The JSON-LD stays on the B2C channel.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.product.show':
+            # schema.org Product/Offer: "price" and "priceCurrency".
+            tmonier_agentic_feeds_json_ld:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
+        'sylius_shop.product.show.content.info.summary':
+            # Quantity matrix: price of every cell and estimate.
+            tmonier_quick_order_matrix:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
