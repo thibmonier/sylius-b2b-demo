@@ -15,7 +15,7 @@ Le compte back-office `sophie@fournitures-pro.example` est public (identifiants 
 | Famille (routes) | POST/PUT/PATCH | DELETE / bulk-delete | Décision |
 |---|---|---|---|
 | Administrateurs, profil, avatar (`sylius_admin_admin_user_*`) | refusé | refusé | **Refus** : mot de passe, e-mail et locale de Sophie inchangés |
-| Canaux (`sylius_admin_channel_*`), Factur-X du canal | refusé | refusé | **Refus** |
+| Canaux (`sylius_admin_channel_*`), Factur-X du canal, mode d'accès du canal (US-019) | refusé | refusé | **Refus** : Sophie ne peut pas ouvrir le canal B2B (prix masqués) |
 | Moyens de paiement / passerelles (`sylius_admin_payment_method_*`) | refusé | refusé | **Refus** |
 | URL de webhooks, secrets, rejeu (`tmonier_webhook_admin_*`) | refusé | refusé | **Refus** (pas d'URL sortante saisie par le public) |
 | PunchOut : acheteurs, secrets (`tmonier_punchout_admin_*`) | refusé | refusé | **Refus** |
@@ -26,6 +26,7 @@ Le compte back-office `sophie@fournitures-pro.example` est public (identifiants 
 | Catalogue : produits, variantes, attributs, options, associations, avis, taxons (`sylius_admin_product_*`, `sylius_admin_taxon_*`, `sylius_admin_ajax_product_*`) | autorisé | refusé | **Édition autorisée** |
 | Commandes et workflow : édition, annulation, paiement, expédition, remboursement (`sylius_admin_order_*`, `sylius_admin_payment_complete`, `sylius_admin_shipment_ship`, `sylius_refund_*`, `tmonier_admin_order_*`) | autorisé | refusé | **Autorisé** |
 | Notes, devis, rétractations, validation d'achat, suggestions IA de démo | autorisé | refusé | **Autorisé** |
+| Inscriptions à valider (`tmonier_registration_approval_admin_decide`, US-020) | autorisé (approuver / refuser) | refusé | **Autorisé** : seule cette route du plugin est classée ; le jeton CSRF et le rôle d'administration restent contrôlés par le plugin, le reste du plugin est refusé par défaut |
 | Actions de masse (`tmonier_bulk_actions_admin_*`) | codes `order_*`, `payment_*`, `shipment_*` seulement | n/a | Autorisé pour les commandes ; refus pour clients, produits-canaux |
 | Composants live, autocomplétion, tableau de bord, usurpation boutique | autorisé | n/a | Autorisé (aucune persistance sensible) |
 | API admin (`/api/v2/admin/*`) | refusé pour `ROLE_DEMO_ADMIN` | refusé | Défense en profondeur : Sophie n'a de toute façon pas `ROLE_API_ACCESS` |

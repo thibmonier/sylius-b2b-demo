@@ -27,6 +27,7 @@ final class DemoAdminWritePolicyTest extends TestCase
         yield 'order cancellation' => ['sylius_admin_order_cancel', 'PUT'];
         yield 'payment completion' => ['sylius_admin_payment_complete', 'PUT'];
         yield 'shipment shipping' => ['sylius_admin_shipment_ship', 'PUT'];
+        yield 'registration approval decision' => ['tmonier_registration_approval_admin_decide', 'POST'];
         yield 'order timeline note' => ['tmonier_timeline_admin_order_note_add', 'POST'];
         yield 'live component re-render' => ['sylius_admin_live_component', 'POST'];
         yield 'bulk action on orders' => ['tmonier_bulk_actions_admin_execute', 'POST', 'order_cancel'];
@@ -50,6 +51,8 @@ final class DemoAdminWritePolicyTest extends TestCase
         yield 'webhook secret' => ['tmonier_webhook_admin_webhook_endpoint_regenerate_secret', 'POST'];
         yield 'punchout secret' => ['tmonier_punchout_admin_buyer_set_secret', 'POST'];
         yield 'customer edit (password field)' => ['sylius_admin_customer_update', 'PUT'];
+        yield 'registration approval route that is not the decision' => ['tmonier_registration_approval_admin_settings_update', 'POST'];
+        yield 'registration approval decision cannot delete' => ['tmonier_registration_approval_admin_decide', 'DELETE'];
         yield 'route that does not exist yet' => ['some_future_plugin_admin_settings_update', 'POST'];
         yield 'deletion of a product' => ['sylius_admin_product_delete', 'DELETE'];
         yield 'bulk deletion of products' => ['sylius_admin_product_bulk_delete', 'DELETE'];

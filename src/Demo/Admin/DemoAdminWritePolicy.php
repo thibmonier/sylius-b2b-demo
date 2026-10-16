@@ -36,6 +36,8 @@ final class DemoAdminWritePolicy
         'sylius_admin_entity_autocomplete',
         'sylius_admin_live_component',
         'sylius_admin_impersonate_user',
+        // US-020: approve or reject a pending registration (POST, CSRF token and administration role checked by the plugin).
+        'tmonier_registration_approval_admin_decide',
         'tmonier_bulk_actions_admin_ship_with_tracking_codes',
     ];
 
