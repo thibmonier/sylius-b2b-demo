@@ -30,6 +30,7 @@
         "sylius/mcp-server-plugin": "^0.2",
         "sylius/refund-plugin": "^2.2.1",
         "sylius/sylius": "^2.3.1",
+        "sylius/wishlist-plugin": "^1.3",
         "symfony/ai-bundle": "^0.14.1",
         "symfony/dotenv": "^7.4.11 || ^8.0.15",
         "symfony/flex": "^2.11",

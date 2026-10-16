@@ -349,6 +349,19 @@
             "ref": "42a2dc11276d447efefa639b95f9c7a4edd7031a"
         }
     },
+    "sylius/wishlist-plugin": {
+        "version": "1.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "3971d84f4e83dbdf714806c5bf60d2471151eeab"
+        },
+        "files": [
+            "config/packages/sylius_wishlist.yaml",
+            "config/routes/sylius_wishlist.yaml"
+        ]
+    },
     "symfony/ai-bundle": {
         "version": "0.14",
         "recipe": {

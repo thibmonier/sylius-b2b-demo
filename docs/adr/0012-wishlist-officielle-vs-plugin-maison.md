@@ -1,6 +1,6 @@
 # ADR-0012 — Wishlist officielle vs plugin maison pour les listes d'achat partagées
 
-- **Statut** : Proposé (2026-10-16)
+- **Statut** : Accepté (2026-10-16) — option (b), après POC GO (voir « Résultat du POC »)
 - **Contexte projet** : sylius-b2b-demo, sprint 3 (US-023, spike) — prépare la décision de US-024 (« listes d'achat partagées par l'entreprise »)
 
 ## Contexte
@@ -37,10 +37,24 @@ Constats de l'évaluation :
 
 **Critère de bascule vers (c)** : si la couche entreprise impose de réécrire plus de la moitié du modèle/CRUD du plugin, ou si la dépendance `sylius/telemetry` ne peut pas être neutralisée proprement pour une démo publique, alors partir sur un plugin maison dédié.
 
+## Résultat du POC (US-024, 2026-10-16) : GO
+
+Détail : `project-management/sprints/sprint-5-listes-et-scenarios/poc-us-024-wishlist.md`.
+
+| Critère de bascule | Résultat |
+|---|---|
+| Installation sur Sylius 2.3 | OK : `sylius/wishlist-plugin` v1.3.0 sur Sylius 2.3.1, PHP 8.5, 0 conflit, `composer audit` propre, migrations du plugin appliquées |
+| Télémétrie neutralisable | OK : `sylius_core.telemetry.enabled: false` ne suffit pas (le pass `sylius/telemetry` des plugins recharge les services) ; `App\DependencyInjection\Compiler\RemoveTelemetryServicesPass`, enregistré par le Kernel, retire `sylius.telemetry.*` (et, hors dev/test, `sylius.listener.telemetry_index_schema`). Test : `TelemetryAbsentInProdTest` |
+| Réécriture < 50 % | OK : ~10-15 % estimé ; en pratique **aucune ligne du plugin n'est modifiée ni surchargée** |
+
+Mise en œuvre retenue : le modèle du plugin reste inchangé (propriétaire = ShopUser, listes personnelles intactes). Une entité de liaison `App\Entity\Wishlist\CompanyWishlist` (table `app_company_wishlist`, migration `Version20261016200000`, id UUID) rattache une `Wishlist` du plugin à une `Company` de company-accounts et à son créateur. Lecture : tout membre actif de l'entreprise ; édition : créateur ou administrateur de l'entreprise (`CompanyWishlistVoter`) ; autre entreprise, visiteur ou membre désactivé : refusé. Pages et ajout (tout ou sélection) au panier : contrôleur dédié sous `/account/company-wishlists`, car les actions du plugin vérifient `shopUser` (pas de partage possible) et ne contrôlent pas l'accès à une liste par identifiant : elles ne sont donc pas exposées pour les listes d'entreprise.
+
+Réserve assumée : neutraliser la télémétrie contourne la clause « l'usage des plugins officiels vaut accord de télémétrie » du README de `sylius/telemetry` ; choix de la démo publique, qui couvre aussi refund et invoicing.
+
 ## Conséquences
 
 - **US-024 commence par un POC d'installation** du plugin officiel sur Sylius 2.3 (go/no-go) avant tout développement.
 - La couche « liste appartenant à une entreprise + visibilité par membre/rôle » se branche sur `tmonier/sylius-company-accounts-plugin`.
 - La télémétrie (`sylius/telemetry`) devra être désactivée/neutralisée pour la démo publique.
-- Décision à confirmer (statut Proposé → Accepté) à l'ouverture de US-024, après le POC 2.3.
-- Aucune dépendance ni code ajoutés par ce spike : seule cette ADR est produite.
+- Décision acceptée après le POC 2.3 (GO).
+- Le spike (US-023) n'avait ajouté ni dépendance ni code ; le POC et l'intégration sont faits en US-024.

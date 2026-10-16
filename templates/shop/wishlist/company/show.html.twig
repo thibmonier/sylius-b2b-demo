@@ -1,0 +1,62 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% set items = list.wishlist.wishlistProducts %}
+{% set csrf = csrf_token('app_company_wishlist_' ~ list.id.toRfc4122) %}
+
+{% block title %}{{ list.name }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-test-company-wishlist>
+        <a href="{{ path('app_shop_company_wishlist_index') }}">&larr; {{ 'app.company_wishlist.back'|trans({}, 'wishlist') }}</a>
+        <h1 class="h2 mt-2">{{ list.name }}</h1>
+        {% if list.createdBy %}<p class="text-muted">{{ 'app.company_wishlist.created_by'|trans({'%name%': list.createdBy.fullName}, 'wishlist') }}</p>{% endif %}
+
+        {% if not can_edit %}
+            <div class="alert alert-secondary" data-test-read-only>{{ 'app.company_wishlist.read_only'|trans({}, 'wishlist') }}</div>
+        {% endif %}
+
+        {% if items is empty %}
+            <div class="alert alert-info">{{ 'app.company_wishlist.empty_list'|trans({}, 'wishlist') }}</div>
+        {% else %}
+            <form id="company-wishlist-cart" method="post" action="{{ path('app_shop_company_wishlist_add_to_cart', {id: list.id}) }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf }}">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col"><span class="visually-hidden">{{ 'app.company_wishlist.column.select'|trans({}, 'wishlist') }}</span></th>
+                            <th scope="col">{{ 'app.company_wishlist.column.product'|trans({}, 'wishlist') }}</th>
+                            <th scope="col">{{ 'app.company_wishlist.column.code'|trans({}, 'wishlist') }}</th>
+                            <th scope="col" class="text-end">{{ 'app.company_wishlist.column.quantity'|trans({}, 'wishlist') }}</th>
+                            {% if can_edit %}<th scope="col">{{ 'app.company_wishlist.column.actions'|trans({}, 'wishlist') }}</th>{% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                            <tr data-test-company-wishlist-item>
+                                <td><input type="checkbox" name="items[]" value="{{ item.id }}" class="form-check-input" aria-label="{{ item.product.name }}"></td>
+                                <td>{{ item.product.name }}</td>
+                                <td>{{ item.variant.code }}</td>
+                                <td class="text-end" data-test-quantity>{{ max(item.quantity, 1) }}</td>
+                                {% if can_edit %}
+                                    <td>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" form="remove-{{ item.id }}">{{ 'app.company_wishlist.remove'|trans({}, 'wishlist') }}</button>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" name="all" value="1" class="btn btn-primary" data-test-add-all>{{ 'app.company_wishlist.add_all'|trans({}, 'wishlist') }}</button>
+                <button type="submit" class="btn btn-outline-primary" data-test-add-selected>{{ 'app.company_wishlist.add_selected'|trans({}, 'wishlist') }}</button>
+            </form>
+
+            {% if can_edit %}
+                {% for item in items %}
+                    <form id="remove-{{ item.id }}" method="post" action="{{ path('app_shop_company_wishlist_remove_item', {id: list.id, itemId: item.id}) }}">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf }}">
+                    </form>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
