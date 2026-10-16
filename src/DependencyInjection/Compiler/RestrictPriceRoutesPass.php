@@ -23,6 +23,11 @@ final class RestrictPriceRoutesPass implements CompilerPassInterface
         'tmonier_quote_request_shop_basket_add',
         'tmonier_quote_request_shop_from_cart',
         'tmonier_quote_request_shop_release_cart',
+        // Quick order and quantity matrix: the lines are added to the cart without the order modifier.
+        'tmonier_quick_order_shop_add',
+        'tmonier_quick_order_shop_matrix_add',
+        // AI assistants (MCP): the consent screen and the connections give an assistant the access of the customer.
+        'tmonier_b2b_mcp_shop_*',
     ];
 
     /** @var list<string> */
