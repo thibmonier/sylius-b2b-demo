@@ -1,0 +1,15 @@
+{# US-022: PO reference and cost center rows; absent when empty. Twig autoescape stays on (no |raw). #}
+{% set order = hookable_metadata.context.resource %}
+
+{% if order.poReference is not empty %}
+    <tr data-testid="admin-order-po-reference">
+        <td><strong>{{ 'app.ui.po_reference'|trans }}:</strong></td>
+        <td class="text-end">{{ order.poReference }}</td>
+    </tr>
+{% endif %}
+{% if order.costCenter is not empty %}
+    <tr data-testid="admin-order-cost-center">
+        <td><strong>{{ 'app.ui.cost_center'|trans }}:</strong></td>
+        <td class="text-end">{{ order.costCenter }}</td>
+    </tr>
+{% endif %}

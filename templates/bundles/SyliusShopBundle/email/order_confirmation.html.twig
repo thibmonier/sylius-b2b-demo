@@ -1,0 +1,7 @@
+{# US-022: order confirmation e-mail with the PO reference when the order has one. #}
+{% extends '@SyliusCore/Email/orderConfirmation.html.twig' %}
+
+{% block content %}
+    {{ parent() }}
+    {% include 'email/_po_reference.html.twig' %}
+{% endblock %}

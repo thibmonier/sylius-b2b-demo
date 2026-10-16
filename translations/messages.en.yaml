@@ -7,3 +7,8 @@ app:
             po_reference: 'PO reference'
             po_reference_required: 'PO reference *'
             cost_center: 'Cost center'
+    ui:
+        po_reference: 'PO reference'
+        cost_center: 'Cost center'
+    email:
+        po_reference: 'PO reference:'

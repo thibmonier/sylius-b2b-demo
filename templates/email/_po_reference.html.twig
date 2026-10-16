@@ -1,0 +1,6 @@
+{# US-022: PO reference line of the order confirmation e-mail; nothing when the order has none. #}
+{% if order.poReference is not empty %}
+    <div style="text-align: center; margin-top: 20px;" data-testid="email-po-reference">
+        {{ 'app.email.po_reference'|trans({}, null, localeCode) }} {{ order.poReference }}
+    </div>
+{% endif %}
