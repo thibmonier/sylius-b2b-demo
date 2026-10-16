@@ -18,7 +18,7 @@ Issues de l'audit (action n°1) : mesurer la couverture en CI et valider le sch�
 Dans le workflow CI, activer `coverage: pcov` (setup-php) et lancer PHPUnit avec `--coverage-text`.
 
 **Critères** :
-- [ ] Rapport de couverture texte dans le journal CI
+- [x] Rapport de couverture texte dans le journal CI
 
 ---
 
@@ -32,7 +32,7 @@ Dans le workflow CI, activer `coverage: pcov` (setup-php) et lancer PHPUnit avec
 Afficher le pourcentage mesuré face au seuil cible (≥ 80 %) dans le résumé du job ; bloquant seulement après décision explicite.
 
 **Critères** :
-- [ ] Pourcentage et seuil visibles dans le résumé du job
+- [x] Pourcentage et seuil visibles dans le résumé du job
 
 ---
 
@@ -46,7 +46,7 @@ Afficher le pourcentage mesuré face au seuil cible (≥ 80 %) dans le résumé 
 Ajouter l'étape CI (mapping seul, sans comparer la base).
 
 **Critères** :
-- [ ] Étape verte en CI ; échec si mapping invalide
+- [x] Étape verte en CI ; échec si mapping invalide (validé en local, CI au push)
 
 ---
 

@@ -35,7 +35,7 @@ jobs:
                   php-version: "8.4"
                   extensions: intl, gd, zip, exif, pdo_mysql, bcmath
                   tools: composer:v2
-                  coverage: none
+                  coverage: pcov
 
             - name: Composer cache
               uses: actions/cache@v4
@@ -64,9 +64,20 @@ jobs:
                   php bin/console lint:container
                   php bin/console doctrine:database:create --if-not-exists
                   php bin/console doctrine:migrations:migrate --no-interaction
+                  php bin/console doctrine:schema:validate --skip-sync
                   php bin/console sylius:fixtures:load demo --no-interaction
 
-            - run: vendor/bin/phpunit
+            # Coverage is measured and displayed only (no threshold yet: target >= 80 %, decision pending)
+            - name: PHPUnit with coverage
+              run: |
+                  mkdir -p build
+                  vendor/bin/phpunit --coverage-text --coverage-clover build/coverage.xml | tee build/coverage.txt
+                  {
+                    echo '### Code coverage (target >= 80 %, non-blocking)'
+                    echo '```'
+                    grep -E '^ *(Classes|Methods|Lines):' build/coverage.txt
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
 
     image:
         name: Docker image
