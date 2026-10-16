@@ -21,6 +21,9 @@
 46 4 * * * php /app/bin/console tmonier:b2b-mcp:purge --no-interaction
 48 4 * * * php /app/bin/console tmonier:admin-order:purge-drafts --no-interaction
 
+# Nightly demo reset (US-012) — full purge + fixture reload + cache warm-up at 03:00 UTC
+0 3 * * * php /app/bin/console app:demo:reset --no-interaction >> /var/log/demo-reset.log 2>&1
+
 # Sylius core
 50 4 * * * php /app/bin/console sylius:remove-expired-carts --no-interaction
 55 4 * * * php /app/bin/console sylius:cancel-unpaid-orders --no-interaction

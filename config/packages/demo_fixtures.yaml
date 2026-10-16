@@ -134,3 +134,55 @@ sylius_fixtures:
                                 locale_code: 'fr_FR'
                                 first_name: 'Sophie'
                                 last_name: 'Martin'
+
+                # Sprint 2 — US-008: Catalogue industriel (CSV).
+                # La PriorityQueue de SyliusFixturesBundle trie en SORT_DESC (priorité
+                # haute = exécutée en premier) ; les fixtures de base (canaux, locales…)
+                # sont à 0. Priorités négatives pour charger APRÈS elles, dans l'ordre
+                # taxons → attributs → produits (les produits ont besoin des trois).
+                demo_taxons:
+                    priority: -10
+
+                demo_product_attributes:
+                    priority: -20
+
+                demo_products_csv:
+                    priority: -30
+
+                # Sprint 2 — US-009: Entreprises B2B et membres.
+                # Priorités négatives pour charger après la base (canaux, locales…).
+                # -15 : après les taxons (-10) mais avant les produits (-30).
+                # demo_companies et demo_customers sont indépendants des produits.
+                demo_companies:
+                    priority: -15
+
+                demo_customers:
+                    priority: -15
+
+                # Sprint 2 — US-010: Plugin data (trade-credit, tier-pricing, purchase-approval).
+                # Depend on products (-30) AND companies (-15) → priority -40 (runs after both).
+                demo_trade_credit:
+                    priority: -40
+
+                demo_tier_pricing:
+                    priority: -40
+
+                demo_purchase_approval:
+                    priority: -40
+
+                # Sprint 2 — US-010: Plugin data (quotes, GPSR, punchout).
+                # Depend on products (-30), companies (-15), and some on group-1 fixtures (-40).
+                # Priority -50 guarantees correct order.
+                demo_quotes:
+                    priority: -50
+
+                demo_gpsr:
+                    priority: -50
+
+                demo_punchout:
+                    priority: -50
+
+                # Agentic feeds: creates feed configurations per channel.
+                # Uses built-in plugin fixture; no extra options needed.
+                tmonier_agentic_feeds:
+                    priority: -50
