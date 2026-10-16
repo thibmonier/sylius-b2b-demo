@@ -18,7 +18,7 @@
         <p>{{ 'about.plugins_intro'|trans({}, 'legal') }}</p>
         <ul data-plugin-list>
             {% for plugin in plugins %}
-                <li><a href="{{ plugin.githubUrl }}" rel="noopener" target="_blank">{{ plugin.slug }}</a></li>
+                <li>{% include 'shared/_external_link.html.twig' with { url: plugin.githubUrl, label: plugin.slug } only %}</li>
             {% endfor %}
         </ul>
         <p><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}">{{ 'app.plugins.title'|trans }}</a></p>

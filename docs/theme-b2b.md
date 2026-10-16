@@ -13,6 +13,16 @@ Règle : on **ajoute** des hookables, on ne remplace jamais ceux des plugins (le
 | Données (conditionnement, prix « dès ») | `src/Demo/Theme/` (fonctions Twig `app_b2b_packaging_unit`, `app_b2b_tier_from_price`) |
 | Libellés FR/EN | `translations/messages.{fr,en}.yaml`, clés `app.theme_b2b.*` |
 
+## Couleurs et composants
+
+- **Palette** (`assets/shop/styles/_variables.scss`, toutes les paires ≥ 4,5:1) : marine `#1f3a5f` (couleur principale), **brun du logo** `#9a3f00` en 3e couleur (survols, liens au survol, icônes et filets des tuiles, barre des titres de section, mention HT), gris `#4b5563` pour le texte secondaire.
+- **Boutons** : le thème officiel dessine des boutons menthe à texte noir ; le thème B2B redéfinit toutes les couleurs de texte (texte blanc). Survol du bouton plein : fond brun ; survol du bouton contour : fond marine.
+- **Header** : le logo B2B est dans sa propre colonne (`.col`), comme le logo officiel, pour que connexion, liste d'envies et panier restent alignés à droite.
+- **Tuiles de l'accueil** (`.b2b-tile`) : icône Tabler dans une pastille brune, titre marine, filet brun, lien d'action avec flèche ; la tuile entière est cliquable quand elle n'a qu'un lien.
+- **Liens externes** : `templates/shared/_external_link.html.twig` ajoute l'icône du service (GitHub, Packagist, LinkedIn, X, sinon « lien externe ») ; à utiliser pour tout lien sortant.
+- **Icônes** : importées dans `assets/icons/tabler/` (`bin/console ux:icons:import tabler:<nom>`), servies sans téléchargement à l'exécution. Importer toute nouvelle icône.
+- Le bandeau de démo, la connexion en un clic et la page Plugins existent aussi sur le canal B2C, où la feuille B2B n'est pas chargée : ils n'utilisent que des utilitaires Bootstrap.
+
 ## Cartes produit (liste)
 
 SKU, conditionnement (attribut `packaging_unit`), disponibilité (variantes suivies : « En stock » / « Sur commande »), mention HT, et prix « dès » = prix unitaire le plus bas des paliers du plugin tier-pricing (`TierPriceCalculatorInterface::table()`, dernière ligne). Sans palier, sans attribut ou sans variante : la zone est omise (aucun libellé vide).

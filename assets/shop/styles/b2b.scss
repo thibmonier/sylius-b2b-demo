@@ -8,19 +8,27 @@
     --bs-primary-text-emphasis: #{$b2b-navy};
     --bs-link-color: #{$b2b-navy};
     --bs-link-color-rgb: 31, 58, 95;
-    --bs-link-hover-color: #{$b2b-navy-dark};
-    --bs-link-hover-color-rgb: 22, 42, 69;
+    // Links turn to the brown of the logo on hover: a visible change of colour, not only of shade.
+    --bs-link-hover-color: #{$b2b-accent};
+    --bs-link-hover-color-rgb: 154, 63, 0;
     --bs-font-sans-serif: 'InterVariable', 'Segoe UI', Arial, sans-serif;
     --bs-border-radius: .25rem;
 }
 
+// The official theme draws mint buttons with black text (--bs-btn-*-color: #000): every text colour is set here,
+// otherwise the text turns black on navy on hover. Hover = brown of the logo, white text (7:1).
 .btn-primary {
+    --bs-btn-color: #fff;
     --bs-btn-bg: #{$b2b-navy};
     --bs-btn-border-color: #{$b2b-navy};
-    --bs-btn-hover-bg: #{$b2b-navy-dark};
-    --bs-btn-hover-border-color: #{$b2b-navy-dark};
-    --bs-btn-active-bg: #{$b2b-navy-dark};
-    --bs-btn-active-border-color: #{$b2b-navy-dark};
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #{$b2b-accent};
+    --bs-btn-hover-border-color: #{$b2b-accent};
+    --bs-btn-focus-shadow-rgb: 154, 63, 0;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #{$b2b-accent-dark};
+    --bs-btn-active-border-color: #{$b2b-accent-dark};
+    --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: #{$b2b-navy};
     --bs-btn-disabled-border-color: #{$b2b-navy};
 }
@@ -28,9 +36,13 @@
 .btn-outline-primary {
     --bs-btn-color: #{$b2b-navy};
     --bs-btn-border-color: #{$b2b-navy};
+    --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #{$b2b-navy};
     --bs-btn-hover-border-color: #{$b2b-navy};
-    --bs-btn-active-bg: #{$b2b-navy};
+    --bs-btn-focus-shadow-rgb: 31, 58, 95;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #{$b2b-navy-dark};
+    --bs-btn-active-border-color: #{$b2b-navy-dark};
 }
 
 .text-primary,
@@ -129,6 +141,71 @@
         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 }
+
+// Section titles: a short brown bar before the text.
+.b2b-section-title {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    color: $b2b-navy;
+    font-weight: 700;
+
+    &::before {
+        content: '';
+        flex: none;
+        width: .3rem;
+        height: 1.2em;
+        border-radius: .15rem;
+        background: $b2b-accent;
+    }
+}
+
+// Home tiles (quick access, B2B journeys): icon, strong title, call to action; the whole tile is clickable.
+.b2b-tile {
+    position: relative;
+    border-top: .2rem solid $b2b-accent;
+    transition: box-shadow .15s ease-in-out, transform .15s ease-in-out;
+
+    &:hover,
+    &:focus-within {
+        box-shadow: 0 .4rem 1rem rgba(31, 58, 95, .12);
+        transform: translateY(-.1rem);
+    }
+
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        margin-bottom: .75rem;
+        border-radius: 50%;
+        background: $b2b-accent-subtle;
+        color: $b2b-accent;
+        font-size: 1.4rem;
+    }
+
+    &__title {
+        color: $b2b-navy;
+        font-size: 1.15rem;
+        font-weight: 700;
+    }
+
+    &__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    &__links a {
+        font-weight: 600;
+    }
+}
+
+// The banner, the one-click login and the Plugins page also exist on the B2C channel, where this stylesheet is
+// not loaded: they use Bootstrap utilities only.
 
 // Footer: business assurances strip.
 .b2b-footer-strip {

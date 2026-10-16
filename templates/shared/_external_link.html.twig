@@ -1,0 +1,20 @@
+{#
+    External link with the icon of its service (GitHub, Packagist, LinkedIn, X…), opened in a new tab.
+    Usage: {% include 'shared/_external_link.html.twig' with { url, label, data_attribute: 'data-plugin-packagist' } only %}
+    The icons are bundled in assets/icons/tabler/ (bin/console ux:icons:import): no runtime download.
+#}
+{% set host = url|split('/')[2]|default('')|lower %}
+<a href="{{ url }}" rel="noopener" target="_blank" class="d-inline-flex align-items-center gap-1"{% if data_attribute is defined %} {{ data_attribute }}{% endif %}>
+    {%- if host ends with 'github.com' -%}
+        {{ ux_icon('tabler:brand-github', { class: 'icon flex-none', 'aria-hidden': 'true' }) }}
+    {%- elseif host ends with 'packagist.org' -%}
+        {{ ux_icon('tabler:package', { class: 'icon flex-none', 'aria-hidden': 'true' }) }}
+    {%- elseif host ends with 'linkedin.com' -%}
+        {{ ux_icon('tabler:brand-linkedin', { class: 'icon flex-none', 'aria-hidden': 'true' }) }}
+    {%- elseif host == 'x.com' or host ends with 'twitter.com' -%}
+        {{ ux_icon('tabler:brand-x', { class: 'icon flex-none', 'aria-hidden': 'true' }) }}
+    {%- else -%}
+        {{ ux_icon('tabler:external-link', { class: 'icon flex-none', 'aria-hidden': 'true' }) }}
+    {%- endif -%}
+    <span>{{ label }}</span>
+</a>
