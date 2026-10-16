@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Command;
 
+use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
@@ -12,26 +13,34 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Throwable;
 
 /**
- * Resets the demo environment to its initial state (US-012).
+ * Resets the demo environment to its initial state (US-012, US-033).
  *
  * Steps:
  *   1. Reload the `demo` fixture suite (SuiteRegistry + SuiteLoader, identical to
- *      `sylius:fixtures:load demo --no-interaction`, orm_purger listener included).
- *      The purger truncates the data, so no DDL is needed; running drop/create/migrate
- *      as in-process sub-commands here would corrupt the shared connection (savepoints).
+ *      `sylius:fixtures:load demo --no-interaction`, orm_purger listener included), inside ONE database
+ *      transaction: the purger deletes rows (no DDL), so a failure anywhere rolls the whole reload back and the
+ *      demo keeps the data it had (ADR-0003). The same purge removes the orders and the trade-credit
+ *      consumption left by the PunchOut simulator (US-027).
  *   2. Optionally purge the LiipImagine cache to force image regeneration on next hit.
  *   3. Clear and warm up the application cache.
  *
- * All steps are logged; any exception returns Command::FAILURE (exit code 1).
+ * The reset is wanted in the `prod` environment of the demo and nowhere else: it only runs with DEMO_MODE=1.
+ *
+ * Outcome, for the logs of the platform (supercronic forwards both streams): `DEMO_RESET_OK duration=…` on stdout,
+ * `DEMO_RESET_FAILED cause=… duration=…` or `DEMO_RESET_REFUSED …` on stderr with a non-zero exit code.
  *
  * Options:
- *   --dry-run   Log what would happen but execute nothing.
- *   --no-media  Skip the media-cache purge step.
+ *   --dry-run           Log what would happen but execute nothing.
+ *   --no-media          Skip the media-cache purge step.
+ *   --no-cache          Skip the cache clear and warm-up step.
+ *   --simulate-failure  Fail after the reload, before the commit (operator check of the alert and of the rollback).
  */
 #[AsCommand(
     name: 'app:demo:reset',
@@ -43,6 +52,9 @@ final class DemoResetCommand extends Command
         private readonly SuiteRegistryInterface $suiteRegistry,
         private readonly SuiteLoaderInterface $suiteLoader,
         private readonly LoggerInterface $logger,
+        private readonly Connection $connection,
+        #[Autowire(param: 'demo.mode')]
+        private readonly bool $demoMode,
     ) {
         parent::__construct();
     }
@@ -52,49 +64,69 @@ final class DemoResetCommand extends Command
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Log steps without executing anything.')
             ->addOption('no-media', null, InputOption::VALUE_NONE, 'Skip the LiipImagine media-cache purge step.')
+            ->addOption('no-cache', null, InputOption::VALUE_NONE, 'Skip the cache clear and warm-up step.')
+            ->addOption('simulate-failure', null, InputOption::VALUE_NONE, 'Fail after the reload and before the commit, to check the rollback and the alert.')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $errors = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
         $dryRun = (bool) $input->getOption('dry-run');
-        $noMedia = (bool) $input->getOption('no-media');
         $startedAt = \microtime(true);
+
+        if (!$this->demoMode) {
+            $this->logger->error('app:demo:reset refused: DEMO_MODE is not enabled');
+            $errors->writeln('DEMO_RESET_REFUSED cause="DEMO_MODE=1 is required: this command wipes the whole database"');
+
+            return Command::FAILURE;
+        }
 
         $io->title($dryRun ? '[DRY-RUN] Demo reset' : 'Demo reset');
         $this->logger->info('app:demo:reset started', ['dry_run' => $dryRun]);
 
         try {
-            $this->stepLoadFixtures($io, $dryRun);
+            $this->stepLoadFixtures($io, $dryRun, (bool) $input->getOption('simulate-failure'));
 
-            if (!$noMedia) {
+            if (!$input->getOption('no-media')) {
                 $this->stepPurgeMediaCache($io, $output, $dryRun);
             }
 
-            $this->stepClearWarmUpCache($io, $output, $dryRun);
+            if (!$input->getOption('no-cache')) {
+                $this->stepClearWarmUpCache($io, $output, $dryRun);
+            }
         } catch (Throwable $e) {
             $this->logger->error('app:demo:reset failed', [
                 'exception' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
-            $io->error(\sprintf('Demo reset failed: %s', $e->getMessage()));
+            $errors->writeln(\sprintf(
+                'DEMO_RESET_FAILED cause=%s duration=%ss',
+                \json_encode($e->getMessage(), \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
+                $this->elapsedSince($startedAt),
+            ));
 
             return Command::FAILURE;
         }
 
-        $elapsed = \round(\microtime(true) - $startedAt, 1);
+        $elapsed = $this->elapsedSince($startedAt);
         $this->logger->info('app:demo:reset finished', ['elapsed_seconds' => $elapsed]);
-        $io->success(\sprintf('Demo reset completed in %s s.', $elapsed));
+        $output->writeln(\sprintf('DEMO_RESET_OK duration=%ss', $elapsed));
 
         return Command::SUCCESS;
+    }
+
+    private function elapsedSince(float $startedAt): float
+    {
+        return \round(\microtime(true) - $startedAt, 1);
     }
 
     // -------------------------------------------------------------------------
     // Step 1 — Load fixtures (purge + reload)
     // -------------------------------------------------------------------------
 
-    private function stepLoadFixtures(SymfonyStyle $io, bool $dryRun): void
+    private function stepLoadFixtures(SymfonyStyle $io, bool $dryRun, bool $simulateFailure): void
     {
         $io->section('Step 1 — Fixture suite "demo" (purge + reload)');
         $this->logger->info('Step 1: loading fixture suite demo');
@@ -106,9 +138,26 @@ final class DemoResetCommand extends Command
         }
 
         $t = \microtime(true);
-        $suite = $this->suiteRegistry->getSuite('demo');
-        $this->suiteLoader->load($suite);
-        $elapsed = \round(\microtime(true) - $t, 1);
+        $this->connection->beginTransaction();
+
+        try {
+            $this->suiteLoader->load($this->suiteRegistry->getSuite('demo'));
+
+            if ($simulateFailure) {
+                throw new \RuntimeException('Simulated failure requested with --simulate-failure.');
+            }
+
+            $this->connection->commit();
+        } catch (Throwable $e) {
+            if ($this->connection->isTransactionActive()) {
+                $this->connection->rollBack();
+            }
+            $io->text('Reload failed: the previous data is kept (rollback).');
+
+            throw $e;
+        }
+
+        $elapsed = $this->elapsedSince($t);
 
         $this->logger->info('Step 1: fixtures loaded', ['elapsed_seconds' => $elapsed]);
         $io->text(\sprintf('Fixtures loaded in %s s.', $elapsed));
@@ -182,7 +231,7 @@ final class DemoResetCommand extends Command
 
         $t = \microtime(true);
         $returnCode = $command->run($input, $output);
-        $elapsed = \round(\microtime(true) - $t, 1);
+        $elapsed = $this->elapsedSince($t);
 
         $this->logger->info(\sprintf('Sub-command "%s" finished', $name), [
             'return_code' => $returnCode,

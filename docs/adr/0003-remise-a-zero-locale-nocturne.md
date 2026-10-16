@@ -18,3 +18,10 @@ Service cron Railway lançant les fixtures : médias écrits hors du web. Servic
 ## Conséquences
 
 Coupure de quelques minutes à 03:00. Échec alerté (seule sortie autorisée). Le FS éphémère est cohérent avec la remise à zéro.
+
+## Amendement (2026-10-16, US-033)
+
+- **Garde** : `app:demo:reset` s'exécute si `DEMO_MODE=1` (y compris en `APP_ENV=prod`) et est refusée sinon ; aucune garde sur `APP_ENV`.
+- **Atomicité** : le rechargement de la suite `demo` se fait dans **une transaction de base de données unique** (la purge `orm_purger` est en mode `delete`, donc transactionnelle) ; l'échec la rétracte et la démo garde ses données précédentes. Choix retenu contre la base tampon (bascule de schéma, plus de pièces) et la sauvegarde/restauration (plus lente) ; limite : verrous de ligne pendant la minute du rechargement. Le mode maintenance et la recréation de la base décrits plus haut ne sont pas retenus.
+- **Fuseau** : `CRON_TZ=Europe/Paris` dans `docker/crontab` (supercronic 0.2.33), 03:00 heure de Paris, heure d'été comprise.
+- **Alerte** : voir ADR-0008 (journal Railway + e-mails Railway, code de sortie non nul).

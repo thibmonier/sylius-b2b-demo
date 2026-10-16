@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Demo\Command;
 
 use App\Demo\Command\DemoResetCommand;
+use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -39,6 +40,8 @@ final class DemoResetCommandTest extends TestCase
     /** @var LoggerInterface&MockObject */
     private LoggerInterface $logger;
 
+    private Connection&MockObject $connection;
+
     private DemoResetCommand $command;
 
     protected function setUp(): void
@@ -47,11 +50,14 @@ final class DemoResetCommandTest extends TestCase
         $this->suiteLoader = $this->createMock(SuiteLoaderInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->command = new DemoResetCommand(
-            $this->suiteRegistry,
-            $this->suiteLoader,
-            $this->logger,
-        );
+        $this->connection = $this->createMock(Connection::class);
+
+        $this->command = $this->command(true);
+    }
+
+    private function command(bool $demoMode): DemoResetCommand
+    {
+        return new DemoResetCommand($this->suiteRegistry, $this->suiteLoader, $this->logger, $this->connection, $demoMode);
     }
 
     // -------------------------------------------------------------------------
@@ -82,6 +88,28 @@ final class DemoResetCommandTest extends TestCase
     // -------------------------------------------------------------------------
     // Happy path — dry-run (no real DB / no sub-commands needed)
     // -------------------------------------------------------------------------
+
+    public function testCommandHasCacheAndFailureSimulationOptions(): void
+    {
+        $definition = $this->command->getDefinition();
+
+        self::assertFalse($definition->getOption('no-cache')->acceptValue());
+        self::assertFalse($definition->getOption('simulate-failure')->acceptValue());
+    }
+
+    public function testWithoutDemoModeTheResetIsRefusedBeforeTouchingAnything(): void
+    {
+        $this->suiteRegistry->expects(self::never())->method('getSuite');
+        $this->suiteLoader->expects(self::never())->method('load');
+        $this->connection->expects(self::never())->method('beginTransaction');
+
+        $tester = new CommandTester($this->command(false));
+        $exitCode = $tester->execute([], ['capture_stderr_separately' => true]);
+
+        self::assertSame(Command::FAILURE, $exitCode);
+        self::assertStringContainsString('DEMO_RESET_REFUSED', $tester->getErrorOutput());
+        self::assertSame('', $tester->getDisplay());
+    }
 
     public function testDryRunReturnsSuccessWithoutExecutingSubCommands(): void
     {
@@ -132,6 +160,7 @@ final class DemoResetCommandTest extends TestCase
 
         // Assert
         self::assertSame(Command::FAILURE, $exitCode, 'A fixture failure must return a non-zero exit code.');
+        self::assertStringContainsString('DEMO_RESET_FAILED', $tester->getDisplay());
         self::assertStringContainsString('Simulated fixture failure.', $tester->getDisplay());
     }
 
