@@ -49,7 +49,7 @@ final class OrderHistorySmokeTest extends WebTestCase
             $order = $em->getRepository(OrderInterface::class)->findOneBy(['poReference' => $spec->poReference]);
             self::assertInstanceOf(OrderInterface::class, $order, sprintf('Demo order %s is missing.', $spec->poReference));
         }
-        self::assertCount(count(DemoOrderPlan::all()), $em->getRepository(OrderInterface::class)->findAll());
+        self::assertCount(count(DemoOrderPlan::all()), $this->placedOrders($em));
     }
 
     public function testEveryOrderHasItsInvoiceExceptTheOneWaitingForAnApproval(): void
@@ -58,7 +58,7 @@ final class OrderHistorySmokeTest extends WebTestCase
         $em = $this->entityManager();
 
         $without = [];
-        foreach ($em->getRepository(OrderInterface::class)->findAll() as $order) {
+        foreach ($this->placedOrders($em) as $order) {
             if (null === $this->invoiceOf($em, $order) && $order instanceof OrderPoReferenceAwareInterface) {
                 $without[] = (string) $order->getPoReference();
             }
@@ -140,6 +140,19 @@ final class OrderHistorySmokeTest extends WebTestCase
         $em = $container->get('doctrine.orm.entity_manager');
 
         return $em;
+    }
+
+    /**
+     * Other smoke tests leave carts behind (PunchOut sessions, wishlist to cart): only placed orders make the history.
+     *
+     * @return list<OrderInterface>
+     */
+    private function placedOrders(EntityManagerInterface $em): array
+    {
+        return array_values(array_filter(
+            $em->getRepository(OrderInterface::class)->findAll(),
+            static fn (OrderInterface $order): bool => OrderInterface::STATE_CART !== $order->getState(),
+        ));
     }
 
     /** @return list<OrderInterface> */

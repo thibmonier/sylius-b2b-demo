@@ -82,7 +82,9 @@ jobs:
                   php bin/console sylius:fixtures:load demo --no-interaction
 
             # Coverage is measured and displayed only (no threshold yet: target >= 80 %, decision pending)
+            # bash -eo pipefail: without it, `phpunit | tee` exits with tee's status and hides failures
             - name: PHPUnit with coverage
+              shell: bash
               run: |
                   mkdir -p build
                   vendor/bin/phpunit --coverage-text --coverage-clover build/coverage.xml | tee build/coverage.txt
