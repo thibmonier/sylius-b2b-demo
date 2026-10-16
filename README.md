@@ -45,6 +45,15 @@ Le canal **B2B** est en mode **prix masqués** (plugin [channel-access](https://
 - **Canal fermé** : si on passe un canal en « fermé », un anonyme n'atteint que l'accueil, la connexion, l'inscription, l'administration et la liste blanche `config/packages/demo_channel_access.yaml` (PunchOut, MCP, flux, pages `/demo/*`), sans produit ni menu du catalogue (testé par `ClosedChannelDemoTest`).
 - **Limites connues** : le tri par prix des listes reste possible (l'ordre est visible, pas les montants) ; les images et fichiers statiques (`/media`) ne sont pas protégés ; un accès par le serveur MCP ou PunchOut se fait par un compte authentifié, donc avec prix ; un client connecté mais non approuvé (US-020) n'a pas accès aux prix.
 
+## Inscription validée / Registration approval (US-020)
+
+Sur le canal **B2B**, une inscription (formulaire de la boutique, API boutique) crée un compte **en attente** (plugin [registration-approval](https://github.com/thibmonier/sylius-registration-approval-plugin)) : l'internaute est déconnecté, voit une page « inscription reçue », puis, une fois connecté, reste comme un visiteur anonyme (prix masqués, panier et devis refusés en 403 avec une page d'attente). **Sophie** (admin restreint) approuve ou refuse dans *Clients > Inscriptions* ; le client reçoit un e-mail (visible dans la boîte de démo, dans la langue par défaut du canal) et accède aux prix à sa requête suivante. Les comptes de démo existants sont **approuvés**.
+
+- Toute inscription en libre-service est « en attente », quel que soit le canal ; la restriction ne s'applique que sur les canaux listés dans `config/packages/demo_registration_approval.yaml` (B2B). `bin/console tmonier:registration-approval:check` signale un canal listé resté en mode « ouvert ».
+- Une inscription avec une adresse déjà utilisée donne la même réponse qu'une nouvelle (pas d'énumération de comptes), page et API.
+- Sophie n'a que la route de décision (`tmonier_registration_approval_admin_decide`, jeton CSRF vérifié) : voir `docs/securite-admin-demo.md`.
+- `decided_by` (identifiant de l'administrateur) est une donnée personnelle : à inclure dans le registre RGPD de l'hébergement de la démo.
+
 ## Historique de commandes / Order history
 
 Chaque réinitialisation recrée les mêmes 12 commandes (fixture `demo_orders`, plan dans `src/Demo/Order/DemoOrderPlan.php`), passées par les vrais services de Sylius et des plugins : même contenu, mêmes dates relatives (J-n à 10 h), chacune avec sa référence de commande d'achat. Les factures Factur-X (PDF/A-3) sont datées comme leur commande et se téléchargent depuis *Mon compte > Commandes*.
