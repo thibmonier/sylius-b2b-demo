@@ -28,6 +28,8 @@ tmonier_quick_order:
     resource: "@TmonierSyliusQuickOrderPlugin/config/routes.yaml"
 tmonier_quote_request:
     resource: "@TmonierSyliusQuoteRequestPlugin/config/routes.yaml"
+tmonier_registration_approval:
+    resource: "@TmonierSyliusRegistrationApprovalPlugin/config/routes.yaml"
 tmonier_tier_pricing:
     resource: "@TmonierSyliusTierPricingPlugin/config/routes.yaml"
 tmonier_timeline:
