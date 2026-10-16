@@ -18,8 +18,11 @@ use Symfony\Component\BrowserKit\Cookie;
  */
 final class ChannelAccessSmokeTest extends WebTestCase
 {
-    /** A price as rendered by the shop in French or English ("12,50 €", "€12.50", "12.50 EUR"). */
-    private const PRICE = '/\d[,.]\d\d(?:\s|&nbsp;|\x{00A0}|\x{202F})*(?:€|&euro;|EUR)|(?:€|&euro;)(?:\s|&nbsp;|\x{00A0})*\d/u';
+    /**
+     * A price as rendered by the shop in French or English ("12,50 €", "€12.50", "12.50 EUR") or in the structured data
+     * of the page (schema.org JSON-LD: "price":"18.90").
+     */
+    private const PRICE = '/\d[,.]\d\d(?:\s|&nbsp;|\x{00A0}|\x{202F})*(?:€|&euro;|EUR)|(?:€|&euro;)(?:\s|&nbsp;|\x{00A0})*\d|"(?:price|lowPrice|highPrice)"\s*:\s*"?\d/u';
 
     private const BUY_BUTTON = 'add_to_cart_form';
 
@@ -41,6 +44,40 @@ final class ChannelAccessSmokeTest extends WebTestCase
             self::assertResponseIsSuccessful($page);
             self::assertDoesNotMatchRegularExpression(self::PRICE, $html, $page);
             self::assertStringNotContainsString(self::BUY_BUTTON, $html, $page);
+        }
+    }
+
+    public function testTheStructuredDataOfAProductPageCarriesThePriceOnlyForThoseWhoMaySeeIt(): void
+    {
+        $slug = '/fr_FR/products/' . $this->products(self::createClient())[0]['slug'];
+
+        $anonymous = $this->freshClient();
+        $anonymous->request('GET', $slug);
+        self::assertStringNotContainsString('"price"', $this->jsonLd($anonymous), 'B2B, anonymous');
+
+        $signedIn = $this->freshClient();
+        $this->login($signedIn, 'claire@acme.example');
+        $signedIn->request('GET', $slug);
+        self::assertStringContainsString('"price"', $this->jsonLd($signedIn), 'B2B, signed in');
+
+        $consumer = $this->freshClient();
+        $consumer->getCookieJar()->set(new Cookie(DemoChannelContext::COOKIE, DemoChannelContext::B2C));
+        $consumer->request('GET', $slug);
+        self::assertStringContainsString('"price"', $this->jsonLd($consumer), 'B2C, anonymous');
+    }
+
+    public function testTheQuickOrderAndMatrixAddsAskAnAnonymousVisitorToSignIn(): void
+    {
+        $client = self::createClient();
+        $connection = $client->getContainer()->get('doctrine.dbal.default_connection');
+        self::assertInstanceOf(Connection::class, $connection);
+        $id = $connection->fetchOne('SELECT id FROM sylius_product WHERE enabled = 1 ORDER BY id LIMIT 1');
+        self::assertIsNumeric($id);
+
+        foreach (['/fr_FR/quick-order/add', '/fr_FR/quick-order/products/' . $id . '/matrix'] as $path) {
+            $client->request('POST', $path);
+
+            self::assertResponseRedirects('/fr_FR/login', null, $path);
         }
     }
 
@@ -179,6 +216,21 @@ final class ChannelAccessSmokeTest extends WebTestCase
         self::assertNotEmpty($rows);
 
         return $rows;
+    }
+
+    private function freshClient(): KernelBrowser
+    {
+        self::ensureKernelShutdown();
+
+        return self::createClient();
+    }
+
+    /** The content of the JSON-LD scripts of the last page. */
+    private function jsonLd(KernelBrowser $client): string
+    {
+        preg_match_all('#<script[^>]*application/ld\+json[^>]*>(.*?)</script>#s', (string) $client->getResponse()->getContent(), $scripts);
+
+        return implode("\n", $scripts[1]);
     }
 
     private function login(KernelBrowser $client, string $email): void
