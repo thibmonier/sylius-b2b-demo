@@ -79,6 +79,22 @@
 }
 
 // Catalogue: dense cards with a SKU line and an explicit "excl. VAT" mention.
+.b2b-meta,
+.b2b-from-price {
+    display: block;
+    color: $b2b-muted;
+}
+
+.b2b-stock--in {
+    color: #146c43;
+    font-weight: 600;
+}
+
+.b2b-stock--out {
+    color: #8a4b00;
+    font-weight: 600;
+}
+
 .b2b-sku {
     display: block;
     color: $b2b-muted;

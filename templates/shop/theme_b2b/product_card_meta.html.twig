@@ -1,0 +1,19 @@
+{# Packaging unit and availability under the SKU. Each zone is omitted when its data is missing. #}
+{% set product = hookable_metadata.context.product %}
+{% set packaging = app_b2b_packaging_unit(product) %}
+{% set variants = product.enabledVariants %}
+{% set variant = variants.count > 0 ? variants.first : null %}
+{% if packaging is not null or variant is not null %}
+    <span class="b2b-meta d-flex flex-wrap gap-2 fs-7">
+        {% if packaging is not null %}
+            <span class="b2b-packaging" {{ sylius_test_html_attribute('b2b-product-packaging') }}>{{ 'app.theme_b2b.packaging'|trans }} : {{ packaging }}</span>
+        {% endif %}
+        {% if variant is not null and variant.tracked %}
+            {% if variant.inStock %}
+                <span class="b2b-stock b2b-stock--in" {{ sylius_test_html_attribute('b2b-product-stock') }}>{{ 'app.theme_b2b.in_stock'|trans }}</span>
+            {% else %}
+                <span class="b2b-stock b2b-stock--out" {{ sylius_test_html_attribute('b2b-product-stock') }}>{{ 'app.theme_b2b.on_order'|trans }}</span>
+            {% endif %}
+        {% endif %}
+    </span>
+{% endif %}

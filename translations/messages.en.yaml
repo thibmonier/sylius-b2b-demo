@@ -6,6 +6,10 @@ app:
         excl_vat: 'Excl. VAT'
         reference: 'Reference'
         prices_excl_vat: 'Prices shown excl. VAT'
+        packaging: 'Packaging'
+        in_stock: 'In stock'
+        on_order: 'On order'
+        from_price: 'from %price% excl. VAT with volume tiers'
         footer:
             invoice: 'Monthly invoicing'
             terms: 'Payment terms on account'

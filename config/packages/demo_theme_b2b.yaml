@@ -34,7 +34,15 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/product_card_sku.html.twig'
                 priority: -10
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_meta:
+                template: 'shop/theme_b2b/product_card_meta.html.twig'
+                priority: -20
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.shared.product.card.prices':
+            b2b_from_price:
+                template: 'shop/theme_b2b/product_card_from_price.html.twig'
+                priority: -20
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
             b2b_price_note:
                 template: 'shop/theme_b2b/product_card_price_note.html.twig'
                 priority: -10

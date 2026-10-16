@@ -6,6 +6,10 @@ app:
         excl_vat: 'HT'
         reference: 'Référence'
         prices_excl_vat: 'Prix affichés hors taxes'
+        packaging: 'Conditionnement'
+        in_stock: 'En stock'
+        on_order: 'Sur commande'
+        from_price: 'dès %price% HT par palier'
         footer:
             invoice: 'Facturation mensuelle'
             terms: 'Paiement à terme sur compte'

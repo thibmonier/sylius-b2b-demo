@@ -1,0 +1,6 @@
+{# "From X excl. VAT" computed from the real volume tiers; nothing when the product has no tier. #}
+{% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+{% set from_price = app_b2b_tier_from_price(hookable_metadata.context.product) %}
+{% if from_price is not null %}
+    <span class="b2b-from-price fs-7" {{ sylius_test_html_attribute('b2b-product-from-price') }}>{{ 'app.theme_b2b.from_price'|trans({'%price%': money.convertAndFormat(from_price)}) }}</span>
+{% endif %}
