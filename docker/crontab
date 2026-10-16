@@ -1,5 +1,7 @@
 # Scheduled tasks of the demo (US-004), run by supercronic inside the web container (ADR-0002).
-# Times are Europe/Paris (TZ of the image). The nightly reset (03:00) is added with US-012 / US-033.
+# Times are Europe/Paris, daylight saving time included: CRON_TZ is read by supercronic itself (the image
+# sets TZ=Europe/Paris too, the explicit line keeps a run outside the image on Paris time).
+CRON_TZ=Europe/Paris
 
 # Outgoing webhooks (webhook-outbox): every minute, bounded
 * * * * * php /app/bin/console tmonier:webhook:dispatch --time-limit=55 --quiet
@@ -21,8 +23,11 @@
 46 4 * * * php /app/bin/console tmonier:b2b-mcp:purge --no-interaction
 48 4 * * * php /app/bin/console tmonier:admin-order:purge-drafts --no-interaction
 
-# Nightly demo reset (US-012) — full purge + fixture reload + cache warm-up at 03:00 UTC
-0 3 * * * php /app/bin/console app:demo:reset --no-interaction >> /var/log/demo-reset.log 2>&1
+# Nightly demo reset (US-012, US-033) at 03:00 Paris time — full purge + fixture reload (one transaction) + cache
+# warm-up. No redirection: supercronic forwards the stdout (DEMO_RESET_OK) and the stderr (DEMO_RESET_FAILED) of the
+# job to the container logs, where Railway shows them, and logs the non-zero exit code. It ends well before the
+# 04:xx tasks and the 03:xx slot is empty.
+0 3 * * * php /app/bin/console app:demo:reset --no-interaction
 
 # Sylius core
 50 4 * * * php /app/bin/console sylius:remove-expired-carts --no-interaction

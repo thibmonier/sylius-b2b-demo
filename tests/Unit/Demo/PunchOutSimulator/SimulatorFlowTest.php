@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\PunchOutSimulator;
 
+use App\Demo\Http\InternalRequestToken;
 use App\Demo\PunchOutSimulator\BuyerCredentials;
 use App\Demo\PunchOutSimulator\EndpointClient;
 use App\Demo\PunchOutSimulator\OrderMessageParser;
@@ -157,21 +158,24 @@ final class SimulatorFlowTest extends TestCase
             $captured = [$method, $url, $options['headers']];
 
             return new MockResponse('<cXML/>');
-        }));
+        }), new InternalRequestToken('secret'));
 
-        self::assertSame('<cXML/>', $client->post('<x/>', 'demo.example', 'https', '8080'));
+        self::assertSame('<cXML/>', $client->post('<x/>', 'demo.example', 'https', '8080', '203.0.113.7'));
         self::assertSame(['POST', 'http://127.0.0.1:8080/punchout/cxml'], [$captured[0], $captured[1]]);
         self::assertContains('Host: demo.example', $captured[2]);
+        // S5-R3: the plugin sees the visitor, never the shared loopback address.
+        self::assertContains('X-Forwarded-For: 203.0.113.7', $captured[2]);
+        self::assertContains('X-Demo-Internal: ' . (new InternalRequestToken('secret'))->value(), $captured[2]);
     }
 
     public function testTheEndpointClientReportsAnUnavailableEndpoint(): void
     {
-        $client = new EndpointClient(new MockHttpClient(new MockResponse('', ['http_code' => 429])));
+        $client = new EndpointClient(new MockHttpClient(new MockResponse('', ['http_code' => 429])), new InternalRequestToken('secret'));
 
         $this->expectException(SimulatorException::class);
         $this->expectExceptionMessage('endpoint_status');
 
-        $client->post('<x/>', 'demo.example', 'https', '80');
+        $client->post('<x/>', 'demo.example', 'https', '80', '203.0.113.7');
     }
 
     private function credentials(): BuyerCredentials

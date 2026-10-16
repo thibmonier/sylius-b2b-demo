@@ -1,0 +1,4 @@
+demo:
+    no_real_data:
+        title: "Démonstration publique."
+        text: "N'indiquez aucune donnée réelle (nom, adresse, e-mail, téléphone) : utilisez des valeurs fictives. Les données sont effacées chaque nuit."

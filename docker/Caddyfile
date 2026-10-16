@@ -9,8 +9,12 @@
 	root * /app/public
 	encode zstd br gzip
 
+	# HSTS only when the visitor really is on HTTPS (Railway terminates TLS and says so); the application sets
+	# the same headers on its own responses, Caddy covers the static files it serves directly.
+	@https header X-Forwarded-Proto https
+	header @https Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
 	header {
-		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		X-Content-Type-Options "nosniff"
 		X-Frame-Options "DENY"
 		Referrer-Policy "strict-origin-when-cross-origin"

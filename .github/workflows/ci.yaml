@@ -123,10 +123,14 @@ jobs:
                     sleep 3
                   done
                   [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" = healthy ] || { docker logs mysql | tail -30; exit 1; }
+                  # Private gate on, as on Railway (US-032): throwaway CI credentials, hash made by the image's PHP.
+                  GATE_HASH="$(docker run --rm --entrypoint php sylius-b2b-demo:ci -r 'echo password_hash("ci-gate-password", PASSWORD_ARGON2ID);')"
                   docker run -d --name web --network demo -p 8080:8080 \
                     -e DATABASE_URL="mysql://root@mysql:3306/demo?serverVersion=8.4&charset=utf8mb4" \
                     -e MAILER_DSN="null://null" -e DEFAULT_URI="http://localhost:8080" \
-                    -e DEMO_MODE=1 \
+                    -e DEMO_MODE=1 -e DEMO_BASIC_AUTH=1 -e DEMO_BASIC_AUTH_USER=ci \
+                    -e TRUSTED_HOSTS='^localhost$' \
+                    -e DEMO_BASIC_AUTH_PASSWORD_HASH="$GATE_HASH" \
                     sylius-b2b-demo:ci
                   for i in $(seq 1 100); do
                     curl -fsS http://localhost:8080/healthz >/dev/null 2>&1 && break
@@ -135,10 +139,16 @@ jobs:
                   docker logs web | tail -30
                   curl -fsS -o /dev/null http://localhost:8080/healthz || { echo "The demo did not become healthy" >&2; exit 1; }
 
+            - name: The private gate refuses visitors without credentials
+              run: |
+                  test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/fr_FR/)" = 401
+                  test "$(curl -s -o /dev/null -w '%{http_code}' -u ci:wrong http://localhost:8080/admin/login)" = 401
+                  curl -sI http://localhost:8080/fr_FR/ | grep -qi '^www-authenticate: basic'
+
             - name: Key pages answer on the right channel
               run: |
-                  curl -fsS -o /dev/null http://localhost:8080/admin/login
-                  curl -fsS http://localhost:8080/fr_FR/ | grep -q 'Fournitures Pro — B2B'
-                  curl -fsS -b demo_channel=B2C http://localhost:8080/fr_FR/ > b2c.html
+                  curl -fsS -o /dev/null -u ci:ci-gate-password http://localhost:8080/admin/login
+                  curl -fsS -u ci:ci-gate-password http://localhost:8080/fr_FR/ | grep -q 'Fournitures Pro — B2B'
+                  curl -fsS -u ci:ci-gate-password -b demo_channel=B2C http://localhost:8080/fr_FR/ > b2c.html
                   grep -q 'Fournitures Pro — Particuliers' b2c.html
                   grep -q '/withdrawal' b2c.html

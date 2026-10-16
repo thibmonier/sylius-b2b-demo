@@ -56,6 +56,8 @@ parameters:
         - { email: lea@demo.example, first_name: Léa, last_name: Petit }
 
     # Back-office users; keys are exactly those of the Sylius `admin_user` fixture.
+    # US-035: each of them is a public account, so the demo_admin_role fixture gives it ROLE_DEMO_ADMIN
+    # (App\Demo\Admin\DemoAdminRole): sensitive writes are refused server-side by DemoAdminWriteGuard.
     demo.admin_users:
         - email: sophie@fournitures-pro.example
           username: sophie

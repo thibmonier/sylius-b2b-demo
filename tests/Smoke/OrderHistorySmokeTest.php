@@ -151,7 +151,9 @@ final class OrderHistorySmokeTest extends WebTestCase
     {
         return array_values(array_filter(
             $em->getRepository(OrderInterface::class)->findAll(),
-            static fn (OrderInterface $order): bool => OrderInterface::STATE_CART !== $order->getState(),
+            // Other smoke tests leave carts and PunchOut orders (PunchOutSimulatorSmokeTest end to end) behind.
+            static fn (OrderInterface $order): bool => OrderInterface::STATE_CART !== $order->getState() &&
+                !str_starts_with((string) $order->getNotes(), 'PunchOut purchase order '),
         ));
     }
 

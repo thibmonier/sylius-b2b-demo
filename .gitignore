@@ -70,3 +70,6 @@ phpstan.neon
 ###> invoices (US-011) ###
 /private/
 ###< invoices (US-011) ###
+
+# Railway IaC SDK (installed in .railway/, see .railway/package.json)
+/.railway/node_modules/

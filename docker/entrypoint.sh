@@ -12,6 +12,9 @@ if [ -z "${APP_SECRET:-}" ]; then
 fi
 php bin/console lexik:jwt:generate-keypair --skip-if-exists --no-interaction >/dev/null
 
+# Fail closed (US-032 / US-036): no start with the private gate on but without credentials, or with a real mailer.
+php bin/console app:demo:preflight --no-interaction
+
 until php bin/console dbal:run-sql "SELECT 1" >/dev/null 2>&1; do
     echo "Waiting for the database..."
     sleep 3
@@ -23,5 +26,5 @@ if [ "$(php bin/console dbal:run-sql 'SELECT COUNT(*) AS n FROM sylius_channel' 
     php -d memory_limit=1G bin/console sylius:fixtures:load demo --no-interaction
 fi
 
-supercronic /app/docker/crontab &
+supercronic -split-logs /app/docker/crontab &
 exec "$@"

@@ -63,28 +63,37 @@ sprints:
       - {id: US-018, title: "Mentions légales et page À propos", points: 2, status: done}
   sprint-5:
     name: sprint-5-listes-et-scenarios
-    status: in-progress
+    status: done
     sprint_id: "sprint-5"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
     capacity_points: 29
     goal: "Listes et scénarios B2B : historique de commandes et factures, listes d'achat partagées (POC wishlist d'abord), carnet d'adresses d'entreprise (company-accounts v1.2), simulateur d'outil d'achat, lecture filtrée des e-mails de démo ; plus la mesure de couverture en CI (audit)"
     stories:
-      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: review}
-      - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: review}
-      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 8, status: review}  # ré-estimée 5→8 (company-accounts v1.2)
-      - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: review}
-      - {id: US-028, title: "Boîte Mailpit publique", points: 3, status: review}  # ré-estimée 2→3 (lecture filtrée)
+      - {id: US-011, title: "Historique de commandes et factures", points: 5, status: done}
+      - {id: US-024, title: "Listes d'achat partagées par l'entreprise", points: 8, status: done}
+      - {id: US-025, title: "Carnet d'adresses de l'entreprise", points: 8, status: done}  # ré-estimée 5→8 (company-accounts v1.2)
+      - {id: US-027, title: "Simulateur d'outil d'achat", points: 5, status: done}
+      - {id: US-028, title: "Boîte Mailpit publique", points: 3, status: done}  # ré-estimée 2→3 (lecture filtrée)
   sprint-6:
     name: sprint-6-railway-securite
+    status: in-progress
+    sprint_id: "sprint-6"
+    start_date: "2026-10-16"
+    end_date: "2026-10-30"
+    capacity_points: 29  # ré-estimé après décomposition (127,5 h), décision utilisateur 2026-10-16
+    goal: "Mettre la démo en ligne sur Railway, privée et durcie : déploiement, remise à zéro nocturne supervisée, budget, admin restreint, durcissement et revue de sécurité (constats reportés des sprints 4 et 5 inclus)"
+    stories:
+      - {id: US-032, title: "Déploiement Railway", points: 5, status: review}
+      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 5, status: review}  # ré-estimée 3→5
+      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: review}  # relevé à J+7 (T-034-02) au sprint 7
+      - {id: US-035, title: "Admin de démo restreint", points: 8, status: review}  # ré-estimée 5→8
+      - {id: US-036, title: "Durcissement de la démo publique", points: 8, status: review}  # ré-estimée 3→8 (constats reportés S2/S4/S5)
+      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: review}
+  sprint-7:
+    name: sprint-7-plugins-et-integrations
     status: planned
     stories:
-      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}
-      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}
-      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: backlog}
-      - {id: US-032, title: "Déploiement Railway", points: 5, status: backlog}
-      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 3, status: backlog}
-      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: backlog}
-      - {id: US-035, title: "Admin de démo restreint", points: 5, status: backlog}
-      - {id: US-036, title: "Durcissement de la démo publique", points: 3, status: backlog}
-      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: backlog}
+      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: backlog}  # reportée du sprint 6 (capacité, décision utilisateur 2026-10-16)
+      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: backlog}  # reportée du sprint 6 (décision utilisateur 2026-10-16)
+      - {id: US-030, title: "Guide de connexion MCP", points: 2, status: backlog}  # reportée du sprint 6 (décision utilisateur 2026-10-16)

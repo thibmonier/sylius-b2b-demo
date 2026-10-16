@@ -1,0 +1,3 @@
+demo_admin:
+    title: 'Action désactivée dans la démo'
+    refused: 'Cette action est désactivée dans la démo publique. Le reste du back-office reste utilisable ; la démo est remise à zéro chaque nuit à 03:00 (heure de Paris).'
