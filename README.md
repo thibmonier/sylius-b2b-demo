@@ -37,6 +37,14 @@ Page `/demo/accounts` liste tous les identifiants en temps réel.
 - **Compte désactivé** : Thomas Bernard — connexion refusée (ShopUser désactivé).
 - **Back-office restreint** : Sophie Martin accède à `/admin/` avec des droits limités.
 
+## Accès par canal / Channel access (US-019)
+
+Le canal **B2B** est en mode **prix masqués** (plugin [channel-access](https://github.com/thibmonier/sylius-channel-access-plugin)) : un visiteur non connecté voit le catalogue mais ni prix, ni promotion, ni bouton d'achat (un lien « Connectez-vous pour voir vos prix » les remplace), ni panier ; l'API boutique ne renvoie aucun prix et refuse la création de panier (401). Le canal **B2C** reste ouvert. Le mode est réglé par la fixture `demo_channel_access` (jamais par Sophie : l'édition des canaux est refusée à l'admin de démo).
+
+- **Masqué aussi** (hors pages du plugin) : le prix « dès » et la mention HT des cartes du thème B2B (elles sont dans le bloc prix du cœur, désactivé), le formulaire de devis et l'API des paliers de prix (`/api/v2/shop/product-variants/{code}/tier-prices`) — routes ajoutées par `App\DependencyInjection\Compiler\RestrictPriceRoutesPass` — et les flux produits du canal B2B (jeton d'accès aléatoire à chaque chargement des fixtures, fixture `demo_hidden_prices_feeds`).
+- **Canal fermé** : si on passe un canal en « fermé », un anonyme n'atteint que l'accueil, la connexion, l'inscription, l'administration et la liste blanche `config/packages/demo_channel_access.yaml` (PunchOut, MCP, flux, pages `/demo/*`), sans produit ni menu du catalogue (testé par `ClosedChannelDemoTest`).
+- **Limites connues** : le tri par prix des listes reste possible (l'ordre est visible, pas les montants) ; les images et fichiers statiques (`/media`) ne sont pas protégés ; un accès par le serveur MCP ou PunchOut se fait par un compte authentifié, donc avec prix ; un client connecté mais non approuvé (US-020) n'a pas accès aux prix.
+
 ## Historique de commandes / Order history
 
 Chaque réinitialisation recrée les mêmes 12 commandes (fixture `demo_orders`, plan dans `src/Demo/Order/DemoOrderPlan.php`), passées par les vrais services de Sylius et des plugins : même contenu, mêmes dates relatives (J-n à 10 h), chacune avec sa référence de commande d'achat. Les factures Factur-X (PDF/A-3) sont datées comme leur commande et se téléchargent depuis *Mon compte > Commandes*.
