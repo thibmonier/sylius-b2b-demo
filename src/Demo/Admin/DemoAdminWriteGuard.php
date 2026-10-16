@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
+ * Fails closed: it applies whatever DEMO_MODE says, because the account is public as soon as its password is in the repository.
  * Refuses, on the server side, the sensitive writes of the public back-office account (US-035).
  *
  * Runs right after the firewall (priority 8), so the user is known and nothing has reached a controller:
@@ -33,8 +34,6 @@ final class DemoAdminWriteGuard
         private readonly Security $security,
         private readonly DemoAdminWritePolicy $policy,
         private readonly DemoAdminRefusal $refusal,
-        #[Autowire(param: 'demo.mode')]
-        private readonly bool $demoMode,
         #[Autowire('/%sylius_admin.path_name%')]
         private readonly string $adminPath,
         #[Autowire('%sylius.security.api_admin_route%')]
@@ -45,7 +44,7 @@ final class DemoAdminWriteGuard
     public function __invoke(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        if (!$this->demoMode || !$event->isMainRequest() || !$this->isAdminArea($request)) {
+        if (!$event->isMainRequest() || !$this->isAdminArea($request)) {
             return;
         }
 

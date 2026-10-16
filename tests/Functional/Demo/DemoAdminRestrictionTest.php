@@ -75,6 +75,27 @@ final class DemoAdminRestrictionTest extends DemoAdminWebTestCase
         self::assertSame($before, $this->snapshot(...$tables), 'A refused write must not change anything.');
     }
 
+    public function testTheRestrictionDoesNotDependOnDemoMode(): void
+    {
+        $_SERVER['DEMO_MODE'] = $_ENV['DEMO_MODE'] = '0';
+        putenv('DEMO_MODE=0');
+
+        try {
+            $client = $this->sophieClient();
+            $before = $this->snapshot('sylius_channel');
+            $page = $this->editForm($client, $this->resolve('/admin/channels/{channel}/edit'));
+            $this->setValue($page['values'], 'sylius_admin_channel.name', 'Hacked channel');
+
+            $client->request($page['method'], $page['uri'], $page['values']);
+
+            $this->assertDemoRefusal($client, self::MESSAGE_FR);
+            self::assertSame($before, $this->snapshot('sylius_channel'));
+        } finally {
+            $_SERVER['DEMO_MODE'] = $_ENV['DEMO_MODE'] = '1';
+            putenv('DEMO_MODE=1');
+        }
+    }
+
     public function testAWebhookEndpointCannotBeCreatedAndNoUrlIsStored(): void
     {
         $client = $this->sophieClient();
