@@ -1,5 +1,15 @@
 # Reprise — sprint 8 (démo et durcissement), état au 2026-10-16 soir
 
+## État final (orchestrateur)
+
+- Branche poussée, **PR #11** (brouillon). CI verte : run 38944652436, lancé à la main parce que l'événement
+  `pull_request` ne s'est pas déclenché. GitGuardian vert.
+- Contre-vérification et revue faites : voir `review-findings.md` (section finale). Course du simulateur corrigée
+  (`1f3888e`), README corrigé (`d554cb4`), relevé de coût écrit (`b239763`). Rétro : `retrospective.md`.
+- **Reste à faire** : GO de merge de l'utilisateur. Ensuite, squash merge, repointer le service web Railway sur `main`
+  (`railway config apply`), redéployer, puis reset en `www-data`.
+- À valider avec l'utilisateur : M2, M5, M8, et la règle MCP par canal (R2).
+
 ## Rapport worker-demo
 
 Branche `feature/sprint-8-demo-et-durcissement`, sans push. Suite : 593 tests, 1 échec attendu (Factur-X, `OrderHistorySmokeTest`), PHPStan 0, ECS 0.
