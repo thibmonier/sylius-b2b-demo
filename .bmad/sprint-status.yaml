@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 2
+current_sprint: 3
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -20,27 +20,32 @@ sprints:
       - {id: US-031, title: "Correctifs des plugins publiés", points: 1, status: blocked}  # reportée : agentic-feeds pas sur Packagist (action utilisateur). Correctifs poussés, punchout 1.1.1 et command-palette 1.0.1 publiés
   sprint-2:
     name: sprint-2-donnees-b2b
-    status: in-progress
+    status: done  # PR #2 mergée (squash) le 2026-10-16, commit 3ae99ed
     sprint_id: "sprint-2"
     start_date: "2026-10-15"
     end_date: "2026-10-29"
     capacity_points: 26
     goal: "Données B2B cohérentes : catalogue industriel importé de CSV, entreprises/membres/comptes de démo, données inter-plugins cohérentes, commande de remise à zéro"
     stories:
-      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: review}  # CI verte (a0e9b7c) ; 210 produits, 420 prix
-      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: review}  # 5 entreprises, 11 membres, /demo/accounts 200
-      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: review}  # CI verte (c9091f0) ; tier 24, gpsr 5, quotes 2, crédit 3, limites 2, punchout 1 — vérifié
-      - {id: US-012, title: "Commande de remise à zéro", points: 5, status: review}  # app:demo:reset exit 0 en ~21s, données restaurées — vérifié
+      - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: done}
+      - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: done}
+      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: done}
+      - {id: US-012, title: "Commande de remise à zéro", points: 5, status: done}
   sprint-3:
     name: sprint-3-nouveaux-plugins
-    status: planned
+    status: in-progress
+    sprint_id: "sprint-3"
+    start_date: "2026-10-16"
+    end_date: "2026-10-30"
+    capacity_points: 27
+    goal: "Nouveaux plugins et fonctionnalités B2B : mode d'accès par canal, inscription validée par l'admin, référence PO et centre de coût au checkout et leur reprise, spike wishlist, correctifs d'interaction entre plugins"
     stories:
-      - {id: US-019, title: "Mode d'accès par canal", points: 5, status: backlog}
-      - {id: US-020, title: "Inscription validée par l'admin", points: 5, status: backlog}
-      - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: backlog}
-      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: backlog}
-      - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: backlog}
-      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: backlog}
+      - {id: US-019, title: "Mode d'accès par canal", points: 5, status: blocked}  # → plugin autonome publié dédié, hors auto-sprint démo (décision utilisateur 2026-10-16)
+      - {id: US-020, title: "Inscription validée par l'admin", points: 5, status: blocked}  # → plugin autonome (dépend du plugin US-019)
+      - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: review}  # repro : colonnes OK, B2B PO requis, conteneur healthy
+      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: ready-for-dev}
+      - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: review}  # ADR-0012 : étendre le plugin officiel sous réserve POC 2.3, sinon plugin maison
+      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: ready-for-dev}
   sprint-4:
     name: sprint-4-theme-b2b
     status: planned
