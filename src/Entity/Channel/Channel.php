@@ -6,11 +6,15 @@ namespace App\Entity\Channel;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\Channel as BaseChannel;
+use Tmonier\SyliusChannelAccessPlugin\Entity\Channel\AccessModeAwareInterface;
+use Tmonier\SyliusChannelAccessPlugin\Entity\Channel\AccessModeTrait;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_channel')]
-class Channel extends BaseChannel
+class Channel extends BaseChannel implements AccessModeAwareInterface
 {
+    use AccessModeTrait;
+
     #[ORM\Column(name: 'po_reference_required', type: 'boolean', options: ['default' => false])]
     private bool $poReferenceRequired = false;
 
