@@ -132,3 +132,8 @@ sprints:
     status: planned
     stories:
       - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: ready-for-dev}  # reportée du sprint 9 (arbitrage utilisateur 2026-10-16 : 68 h pour ~52 h) ; tâches dans sprint-9-reports/tasks/US-029-tasks.md
+# Stories prêtes pour un sprint futur (demandes utilisateur du 2026-10-16), à planifier.
+backlog:
+  - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: backlog}
+  - {id: US-046, title: "Encart Sylius Plus sur la page Plugins", points: 2, status: backlog}  # texte validé par l'utilisateur (communication publique)
+  - {id: US-047, title: "Images des produits de démo", points: 5, status: backlog}  # récupération unique, images versionnées, licences tracées
