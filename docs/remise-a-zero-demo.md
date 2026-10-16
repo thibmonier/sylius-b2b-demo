@@ -40,7 +40,15 @@ La démo n'émet aucun trafic sortant pour alerter : c'est le moniteur qui vient
 
 ## Relance manuelle
 
-Dans le conteneur web (shell Railway ou `docker compose exec web`) :
+Dans le conteneur web, **en `www-data`** (le serveur et le cron tournent sous cet utilisateur) :
+
+```bash
+railway ssh --service web -- su -s /bin/sh www-data -c 'php bin/console app:demo:reset --no-interaction'
+```
+
+`railway ssh` ouvre une session root : lancée en root, la commande reconstruit `var/cache/prod` avec des fichiers que le serveur web ne peut plus écrire, et toutes les pages répondent 500. Si c'est arrivé : `railway ssh --service web -- chown -R www-data:www-data /app/var`.
+
+Options, depuis un shell `www-data` du conteneur :
 
 ```bash
 php bin/console app:demo:reset --no-interaction                 # reset complet
