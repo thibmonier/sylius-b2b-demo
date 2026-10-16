@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08510c32d7c2f4499685869e2a405896",
+    "content-hash": "00beaa9531d184836844ef6d74fbded9",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17277,16 +17277,16 @@
         },
         {
             "name": "tmonier/sylius-container-fill-plugin",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-container-fill-plugin.git",
-                "reference": "303430f601016974e3e987afa15f16a0fafdf8c4"
+                "reference": "0d38585fa43d64001ebff4c799aa637e65fe678e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-container-fill-plugin/zipball/303430f601016974e3e987afa15f16a0fafdf8c4",
-                "reference": "303430f601016974e3e987afa15f16a0fafdf8c4",
+                "url": "https://api.github.com/repos/thibmonier/sylius-container-fill-plugin/zipball/0d38585fa43d64001ebff4c799aa637e65fe678e",
+                "reference": "0d38585fa43d64001ebff4c799aa637e65fe678e",
                 "shasum": ""
             },
             "require": {
@@ -17299,6 +17299,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
@@ -17354,9 +17355,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-container-fill-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/tree/v1.1.0"
+                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/tree/v1.1.1"
             },
-            "time": "2026-10-13T05:46:12+00:00"
+            "time": "2026-10-16T13:41:41+00:00"
         },
         {
             "name": "tmonier/sylius-facturx-plugin",
