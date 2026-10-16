@@ -1,0 +1,102 @@
+{% trans_default_domain 'simulator' %}
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ 'title'|trans({}, 'simulator', locale) }} — Fournitures Pro</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+        h1, h2 { color: #1f3a5f; }
+        table { width: 100%; border-collapse: collapse; margin: .75rem 0; }
+        th, td { text-align: left; padding: .5rem .75rem; border: 1px solid #ddd; }
+        th { background: #f0f4f8; }
+        code { background: #f0f4f8; padding: .1rem .4rem; border-radius: 3px; font-size: .9em; }
+        .note { background: #fff8e1; border-left: 4px solid #f59e0b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
+        .error { background: #fdecea; border-left: 4px solid #c0392b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
+        .success { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
+        fieldset { border: 1px solid #ddd; margin: 1rem 0; }
+        label { display: block; margin: .4rem 0; }
+        button { background: #1f3a5f; color: #fff; border: 0; padding: .6rem 1.2rem; border-radius: 4px; font-size: 1rem; cursor: pointer; }
+        button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+        .num { text-align: right; }
+    </style>
+</head>
+<body>
+<main>
+<p><a href="{{ path('app_demo_punchout_simulator', {lang: locale == 'fr' ? 'en' : 'fr'}) }}" lang="{{ locale == 'fr' ? 'en' : 'fr' }}">{{ 'switch_language'|trans({}, 'simulator', locale) }}</a></p>
+
+<h1>{{ 'title'|trans({}, 'simulator', locale) }}</h1>
+<p>{{ 'intro'|trans({}, 'simulator', locale) }}</p>
+
+{% if error is defined %}
+    <div class="error" role="alert">
+        <strong>{{ ('error.' ~ error.key)|trans({'%host%': host}, 'simulator', locale) }}</strong>
+        {% if error.detail is defined and error.detail != '' %}<br><code>{{ error.status }} — {{ error.detail }}</code>{% endif %}
+    </div>
+{% endif %}
+
+{% if sent is defined %}
+    <div class="success" role="status">
+        <strong>{{ 'sent.title'|trans({}, 'simulator', locale) }}</strong><br>
+        {{ 'sent.po'|trans({'%po%': sent.orderId}, 'simulator', locale) }}<br>
+        <code>{{ sent.message }}</code>
+    </div>
+{% endif %}
+
+{% if cart is defined %}
+    <h2>{{ 'cart.title'|trans({}, 'simulator', locale) }}</h2>
+    <table>
+        <caption class="sr-only" style="position:absolute;left:-9999px">{{ 'cart.title'|trans({}, 'simulator', locale) }}</caption>
+        <thead>
+            <tr>
+                <th scope="col">{{ 'cart.part'|trans({}, 'simulator', locale) }}</th>
+                <th scope="col">{{ 'cart.description'|trans({}, 'simulator', locale) }}</th>
+                <th scope="col" class="num">{{ 'cart.quantity'|trans({}, 'simulator', locale) }}</th>
+                <th scope="col" class="num">{{ 'cart.unit_price'|trans({}, 'simulator', locale) }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for line in cart.lines %}
+            <tr>
+                <td><code>{{ line.supplierPartId }}</code></td>
+                <td>{{ line.description }}</td>
+                <td class="num">{{ line.quantity }} {{ line.unitOfMeasure }}</td>
+                <td class="num">{{ line.unitPrice }} {{ line.currency }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr><th scope="row" colspan="3">{{ 'cart.total'|trans({}, 'simulator', locale) }}</th><td class="num">{{ cart.total }} {{ cart.currency }}</td></tr>
+        </tfoot>
+    </table>
+
+    {% if state is defined and sent is not defined %}
+        <form method="post" action="{{ path('app_demo_punchout_simulator_order', {lang: locale}) }}">
+            <input type="hidden" name="state" value="{{ state }}">
+            <label for="orderId">{{ 'order.id_label'|trans({}, 'simulator', locale) }}</label>
+            <input id="orderId" name="orderId" value="{{ orderId|default('') }}" maxlength="64" pattern="[A-Za-z0-9\-]+" required>
+            <p><button type="submit">{{ 'order.send'|trans({}, 'simulator', locale) }}</button></p>
+        </form>
+    {% endif %}
+{% endif %}
+
+{% if cart is not defined %}
+    <div class="note">
+        {{ 'buyer.info'|trans({'%domains%': domains|join(', ')}, 'simulator', locale) }}
+    </div>
+    <form method="post" action="{{ path('app_demo_punchout_simulator_start', {lang: locale}) }}">
+        <input type="hidden" name="_token" value="{{ csrf }}">
+        <fieldset>
+            <legend>{{ 'errors.legend'|trans({}, 'simulator', locale) }}</legend>
+            <label><input type="checkbox" name="wrong_secret" value="1"> {{ 'errors.wrong_secret'|trans({}, 'simulator', locale) }}</label>
+            <label><input type="checkbox" name="foreign_domain" value="1"> {{ 'errors.foreign_domain'|trans({}, 'simulator', locale) }}</label>
+        </fieldset>
+        <button type="submit">{{ 'start'|trans({}, 'simulator', locale) }}</button>
+    </form>
+    <p>{{ 'oci_note'|trans({}, 'simulator', locale) }}</p>
+{% endif %}
+</main>
+</body>
+</html>

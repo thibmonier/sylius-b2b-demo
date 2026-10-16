@@ -1,0 +1,41 @@
+title: "Simulateur d'outil d'achat"
+switch_language: English
+intro: "Cette page joue le rôle de l'outil d'achat (Ariba, SAP…) d'Acme Industries : elle envoie une demande PunchOut cXML à la boutique, vous y arrivez connecté comme l'acheteur, puis le panier transféré s'affiche ici et peut être commandé (OrderRequest)."
+start: "Lancer une session PunchOut (cXML)"
+oci_note: "Le parcours OCI n'est pas simulé ici."
+buyer:
+    info: "Acheteur simulé : Acme Industries (identifiants fictifs). Le secret partagé reste côté serveur. Domaines de retour autorisés pour cet acheteur : %domains%."
+errors:
+    legend: "Simuler une erreur"
+    wrong_secret: "Envoyer un secret partagé erroné"
+    foreign_domain: "Utiliser un domaine de retour non autorisé"
+cart:
+    title: "Panier reçu de la boutique"
+    part: Référence
+    description: Désignation
+    quantity: Quantité
+    unit_price: "Prix unitaire HT"
+    total: "Total HT"
+order:
+    id_label: "Numéro de commande d'achat (orderID)"
+    send: "Envoyer l'OrderRequest"
+sent:
+    title: "OrderRequest accepté : la commande est créée côté boutique."
+    po: "Référence de commande d'achat : %po%"
+error:
+    csrf: "Formulaire expiré, veuillez réessayer."
+    buyer_missing: "L'acheteur de démonstration n'est pas chargé dans la boutique."
+    endpoint_status: "L'endpoint PunchOut de la boutique a répondu par une erreur."
+    endpoint_unreachable: "L'endpoint PunchOut de la boutique est injoignable."
+    invalid_response: "La réponse de la boutique n'est pas un document cXML valide."
+    invalid_message: "Le message de retour n'est pas un PunchOutOrderMessage valide. Aucune commande n'a été créée."
+    session_expired: "Cette session du simulateur est expirée ou invalide. Relancez une session ; aucune commande n'a été créée."
+    empty_cart: "Le panier renvoyé est vide : il n'y a rien à commander."
+    empty_cart_order: "Le panier est vide : l'envoi de l'OrderRequest est refusé."
+    invalid_order_id: "Le numéro de commande d'achat doit comporter 1 à 64 lettres, chiffres ou tirets."
+    status_400: "La boutique a refusé la demande (400)."
+    status_401: "Secret partagé ou identité refusés par la boutique (401)."
+    status_403: "Domaine de retour refusé (403) : l'hôte %host% doit figurer dans les domaines de retour de l'acheteur."
+    status_429: "Trop de requêtes, réessayez dans une minute (429)."
+    status_other: "La boutique a refusé la demande."
+plugins_link: "Essayer le simulateur d'outil d'achat PunchOut"
