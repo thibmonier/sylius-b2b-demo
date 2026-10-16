@@ -753,6 +753,9 @@
     "tmonier/sylius-quote-request-plugin": {
         "version": "v1.0.0"
     },
+    "tmonier/sylius-registration-approval-plugin": {
+        "version": "v0.1.0"
+    },
     "tmonier/sylius-tier-pricing-plugin": {
         "version": "v1.1.0"
     },

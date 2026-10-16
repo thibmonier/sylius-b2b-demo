@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d025c379039d0e0b0f59fcfe4ae3998",
+    "content-hash": "3e4987458037c1e3380bbfaa92011155",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18012,6 +18012,84 @@
                 "source": "https://github.com/thibmonier/sylius-quote-request-plugin/tree/v1.0.0"
             },
             "time": "2026-10-12T01:26:56+00:00"
+        },
+        {
+            "name": "tmonier/sylius-registration-approval-plugin",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-registration-approval-plugin.git",
+                "reference": "51276422832ae97064a45af4223a646b748a6e92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-registration-approval-plugin/zipball/51276422832ae97064a45af4223a646b748a6e92",
+                "reference": "51276422832ae97064a45af4223a646b748a6e92",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "sylius/sylius": "^2.3",
+                "tmonier/sylius-channel-access-plugin": "^0.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
+                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
+                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
+                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
+                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusRegistrationApprovalPlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Registration approval for Sylius 2: accounts registered on a channel stay pending until an administrator approves or rejects them; pending and rejected customers are treated as anonymous by the channel access plugin; approval and rejection e-mails; no account enumeration",
+            "keywords": [
+                "access-control",
+                "approval",
+                "b2b",
+                "customer-account",
+                "registration",
+                "sylius",
+                "sylius-plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-registration-approval-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/tree/v0.1.1"
+            },
+            "time": "2026-10-16T15:31:11+00:00"
         },
         {
             "name": "tmonier/sylius-tier-pricing-plugin",

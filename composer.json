@@ -52,6 +52,7 @@
         "tmonier/sylius-purchase-approval-plugin": "^1.1",
         "tmonier/sylius-quick-order-plugin": "^1.1",
         "tmonier/sylius-quote-request-plugin": "^1.0",
+        "tmonier/sylius-registration-approval-plugin": "^0.1.1",
         "tmonier/sylius-tier-pricing-plugin": "^1.1",
         "tmonier/sylius-timeline-plugin": "^1.0",
         "tmonier/sylius-trade-credit-plugin": "^1.1",
