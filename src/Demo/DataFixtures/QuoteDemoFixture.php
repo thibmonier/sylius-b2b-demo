@@ -69,7 +69,7 @@ final class QuoteDemoFixture extends AbstractFixture
         // Q-2024-002: TechParts SAS / Marc — status = new (brouillon)
         $marc = $this->findCustomerByEmail('marc@techparts.example');
         if (null !== $marc && null === $this->findQuoteByNumber('Q-2024-002')) {
-            $hardwareVariants = $this->findVariantsByPrefix('VIS-', 5, $b2bChannel);
+            $hardwareVariants = $this->findVariantsByPrefix('VISS-', 5, $b2bChannel);
             if ([] !== $hardwareVariants) {
                 $quote = $this->createQuote($b2bChannel, $localeCode, $marc, 'Q-2024-002', 'TechParts SAS', QuoteRequestStatuses::NEW);
                 foreach ($hardwareVariants as $qty => $variant) {

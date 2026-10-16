@@ -29,7 +29,7 @@ sprints:
     stories:
       - {id: US-008, title: "Catalogue industriel depuis des CSV", points: 8, status: review}  # CI verte (a0e9b7c) ; 210 produits, 420 prix
       - {id: US-009, title: "Entreprises, membres et comptes de démo", points: 5, status: review}  # 5 entreprises, 11 membres, /demo/accounts 200
-      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: ready-for-dev}
+      - {id: US-010, title: "Données des plugins cohérentes", points: 8, status: review}  # tier 24, gpsr 5, quotes 2, crédit 3, limites 2, punchout 1 — vérifié
       - {id: US-012, title: "Commande de remise à zéro", points: 5, status: ready-for-dev}
   sprint-3:
     name: sprint-3-nouveaux-plugins

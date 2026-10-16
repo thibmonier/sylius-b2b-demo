@@ -27,18 +27,18 @@ final class TierPricingDemoFixture extends AbstractFixture
 {
     /** Product codes from the CSV catalogue that will receive tier pricing */
     private const PRODUCT_CODES = [
-        'EPI-CASQUE-001',
-        'EPI-GANTS-001',
-        'EPI-CHAUSSURES-001',
-        'EPI-GILET-001',
-        'EPI-LUNETTES-001',
-        'VIS-M6-001',
-        'VIS-M8-001',
-        'ECROU-M6-001',
-        'RONDELLE-M6-001',
-        'TOURNEVIS-001',
-        'CLE-MOLETTE-001',
-        'PERCEUSE-001',
+        'EPI-CASK-001',
+        'EPI-GANT-001',
+        'EPI-CHAU-001',
+        'EPI-VEST-001',
+        'VISS-001',
+        'VISS-002',
+        'OUTI-001',
+        'OUTI-002',
+        'FIXA-001',
+        'EMBA-001',
+        'SIGN-001',
+        'PAPE-001',
     ];
 
     /** @var array<int, array{minQty: int, pct: int}> */

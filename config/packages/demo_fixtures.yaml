@@ -186,8 +186,3 @@ sylius_fixtures:
                 # Uses built-in plugin fixture; no extra options needed.
                 tmonier_agentic_feeds:
                     priority: -50
-
-                # Quick-order demo catalog: adds a minimal catalog for quick-order tests.
-                # Uses built-in plugin fixture.
-                tmonier_quick_order_demo_catalog:
-                    priority: -50

@@ -24,11 +24,11 @@ use Tmonier\SyliusGpsrPlugin\Entity\ResponsiblePersonInterface;
 final class GpsrDemoFixture extends AbstractFixture
 {
     private const PRODUCT_CODES = [
-        'EPI-CASQUE-001',
-        'EPI-GANTS-001',
-        'EPI-CHAUSSURES-001',
-        'EPI-GILET-001',
-        'EPI-LUNETTES-001',
+        'EPI-CASK-001',
+        'EPI-CASK-002',
+        'EPI-GANT-001',
+        'EPI-CHAU-001',
+        'EPI-VEST-001',
     ];
 
     /**
