@@ -1,4 +1,4 @@
-# Single source of truth for the 22 showcased plugins (US-014). Consumed by the Plugins page, the
+# Single source of truth for the 23 showcased plugins (US-014). Consumed by the Plugins page, the
 # About page and (later) the plugin badges through App\Demo\Plugin\DemoPluginCatalog.
 # slug = GitHub repository name = Packagist package "tmonier/<slug>"; descriptions come from each
 # plugin's composer.json. demo_route = name of a real shop route showing the plugin (null when the
@@ -194,6 +194,17 @@ parameters:
               fr: "Depuis votre panier, demandez un devis, puis acceptez la proposition négociée et commandez au prix verrouillé."
               en: "From your cart, request a quote, then accept the negotiated proposal and order at the locked price."
           advised_account: claire@acme.example
+        - slug: sylius-registration-approval-plugin
+          name: 'Registration Approval'
+          category: admin
+          description:
+              fr: "Inscription validée par l'administrateur : un compte créé sur un canal B2B reste en attente, sans accès au catalogue fermé ni aux prix, jusqu'à son approbation ou son refus depuis l'admin, avec e-mails et sans énumération de comptes."
+              en: 'Registration approval: an account registered on a B2B channel stays pending, without access to the closed catalogue or the prices, until an administrator approves or rejects it from the admin panel, with e-mails and no account enumeration.'
+          demo_route: sylius_shop_register
+          scenario:
+              fr: "Inscrivez-vous sur le canal B2B : votre compte reste en attente (page d'attente, prix masqués). Connectez-vous ensuite en tant que Sophie, approuvez-le dans Clients > Inscriptions, puis retrouvez l'e-mail dans la boîte de démo."
+              en: "Register on the B2B channel: your account stays pending (waiting page, prices hidden). Then sign in as Sophie, approve it in Customers > Registrations, and find the e-mail in the demo mailbox."
+          advised_account: sophie@fournitures-pro.example
         - slug: sylius-tier-pricing-plugin
           name: 'Tier Pricing'
           category: catalog

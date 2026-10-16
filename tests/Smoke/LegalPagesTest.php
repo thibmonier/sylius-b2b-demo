@@ -33,7 +33,7 @@ final class LegalPagesTest extends WebTestCase
         }
     }
 
-    public function testAboutListsTheTwentyOnePlugins(): void
+    public function testAboutListsTheShowcasedPlugins(): void
     {
         $client = self::createClient();
         $client->request('GET', '/en_US/a-propos');
@@ -43,7 +43,7 @@ final class LegalPagesTest extends WebTestCase
         $composer = json_decode((string) file_get_contents(__DIR__ . '/../../composer.json'), true, 512, \JSON_THROW_ON_ERROR);
         $plugins = array_filter(array_keys($composer['require']), static fn (string $p): bool => str_starts_with($p, 'tmonier/'));
 
-        self::assertCount(22, $plugins);
+        self::assertCount(23, $plugins);
         foreach ($plugins as $package) {
             self::assertStringContainsString('https://github.com/thibmonier/' . substr($package, 8), $content);
         }

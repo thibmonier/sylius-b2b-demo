@@ -17,7 +17,7 @@ about:
     fictional_reset: 'La démo est remise à zéro régulièrement : toute donnée saisie peut disparaître.'
     fictional_mail: 'Aucun e-mail réel n’est envoyé ; les messages sont capturés dans une boîte de test.'
     plugins: 'Plugins présentés'
-    plugins_intro: 'Les 22 plugins ci-dessous sont open source (dépôts GitHub) :'
+    plugins_intro: 'Les 23 plugins ci-dessous sont open source (dépôts GitHub) :'
     credits: 'Crédits'
     credits_text: 'Construit avec Sylius (licence MIT) et Symfony.'
     trademarks: 'Sylius et les autres marques citées appartiennent à leurs propriétaires respectifs ; cette démo n’est ni affiliée ni approuvée par eux.'
