@@ -12,9 +12,11 @@ use App\Demo\PunchOutSimulator\EndpointClient;
 use App\Demo\PunchOutSimulator\OrderMessageParser;
 use App\Demo\PunchOutSimulator\OrderRequestBuilder;
 use App\Demo\PunchOutSimulator\ResponseParser;
+use App\Demo\PunchOutSimulator\ReturnAuthenticator;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Demo\PunchOutSimulator\SimulatorOrderGate;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -132,6 +134,9 @@ final class PunchOutSimulatorControllerTest extends TestCase
         $csrf->method('getToken')->willReturn(new \Symfony\Component\Security\Csrf\CsrfToken('t', 'v'));
         $clock = new MockClock('2026-10-16 10:00:00');
         $loader = new SafeXmlLoader();
+        // The shop's journal knows every message (the authentication itself is tested on the HTTP answers).
+        $journal = $this->createStub(Connection::class);
+        $journal->method('fetchOne')->willReturn('2026-10-16 09:59:00');
 
         return new PunchOutSimulatorController(
             $twig,
@@ -145,6 +150,7 @@ final class PunchOutSimulatorControllerTest extends TestCase
             new EndpointClient(new MockHttpClient(), new InternalRequestToken('secret')),
             $this->state(),
             new SimulatorOrderGate(new ArrayAdapter(), $clock, 50),
+            new ReturnAuthenticator($journal, new ArrayAdapter(), $clock, 262144),
             new VisitorIpResolver(),
             $demoMode,
         );

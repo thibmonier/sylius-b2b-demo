@@ -22,6 +22,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Clock\NativeClock;
 use Tmonier\SyliusPunchoutCxmlPlugin\Cxml\OrderMessageWriter;
 use Tmonier\SyliusPunchoutCxmlPlugin\Cxml\SafeXmlLoader;
+use Tmonier\SyliusPunchoutCxmlPlugin\Log\MessageLog;
+use Tmonier\SyliusPunchoutCxmlPlugin\Log\MessageLogger;
 use Tmonier\SyliusPunchoutCxmlPlugin\Transfer\TransferLine;
 
 /**
@@ -73,7 +75,11 @@ final class PunchOutSimulatorSmokeTest extends WebTestCase
     {
         $client = self::createClient();
         $cookie = self::state()->sign(['nonce' => 'n']);
-        $xml = (new OrderMessageWriter())->write([new TransferLine('SKU-1', 'v1:SKU-1', 'Gants nitrile', 2, '12.50', 'EUR')], '25.00', 'EUR', $cookie, 'p@x', 'create');
+        $xml = (new OrderMessageWriter())->write([new TransferLine('SKU-1', 'v1:SKU-1', 'Gants nitrile', 2, '12.50', 'EUR')], '25.00', 'EUR', $cookie, 'smoke-' . bin2hex(random_bytes(6)) . '@x', 'create');
+        // The shop journals the messages it sends; the simulator only believes a cart it finds there (US-040, M8).
+        $logger = self::getContainer()->get(MessageLogger::class);
+        self::assertInstanceOf(MessageLogger::class, $logger);
+        $logger->log(MessageLog::DIRECTION_OUT, 'PunchOutOrderMessage', 'smoke-' . bin2hex(random_bytes(4)), 200, $xml);
 
         $client->request('POST', '/demo/punchout-simulator/return', ['cXML-base64' => base64_encode($xml)]);
 
@@ -127,6 +133,11 @@ final class PunchOutSimulatorSmokeTest extends WebTestCase
         self::assertCount(1, $transfer, 'The PunchOut banner offers the transfer.');
         $crawler = $client->submit($transfer->form());
         self::assertResponseIsSuccessful();
+        // What the real plugin posts back is accepted by the simulator (the message is in the journal of the shop).
+        $posted = (string) $crawler->filter('input[name="cXML-base64"]')->attr('value');
+        $client->request('POST', '/demo/punchout-simulator/return', ['cXML-base64' => $posted]);
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('form[action*="/demo/punchout-simulator/order"] input[name="orderId"]');
         $parser = self::getContainer()->get(OrderMessageParser::class);
         self::assertInstanceOf(OrderMessageParser::class, $parser);
         $cart = $parser->parseBase64((string) $crawler->filter('input[name="cXML-base64"]')->attr('value'));
