@@ -1,0 +1,142 @@
+// B2B theme: loaded on top of the official Sylius shop stylesheet (only the B2B channel), it overrides
+// Bootstrap 5 CSS variables and a few components; nothing of the official theme is rewritten.
+@use 'variables' as *;
+
+:root {
+    --bs-primary: #{$b2b-navy};
+    --bs-primary-rgb: 31, 58, 95;
+    --bs-primary-text-emphasis: #{$b2b-navy};
+    --bs-link-color: #{$b2b-navy};
+    --bs-link-color-rgb: 31, 58, 95;
+    --bs-link-hover-color: #{$b2b-navy-dark};
+    --bs-link-hover-color-rgb: 22, 42, 69;
+    --bs-font-sans-serif: 'InterVariable', 'Segoe UI', Arial, sans-serif;
+    --bs-border-radius: .25rem;
+}
+
+.btn-primary {
+    --bs-btn-bg: #{$b2b-navy};
+    --bs-btn-border-color: #{$b2b-navy};
+    --bs-btn-hover-bg: #{$b2b-navy-dark};
+    --bs-btn-hover-border-color: #{$b2b-navy-dark};
+    --bs-btn-active-bg: #{$b2b-navy-dark};
+    --bs-btn-active-border-color: #{$b2b-navy-dark};
+    --bs-btn-disabled-bg: #{$b2b-navy};
+    --bs-btn-disabled-border-color: #{$b2b-navy};
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #{$b2b-navy};
+    --bs-btn-border-color: #{$b2b-navy};
+    --bs-btn-hover-bg: #{$b2b-navy};
+    --bs-btn-hover-border-color: #{$b2b-navy};
+    --bs-btn-active-bg: #{$b2b-navy};
+}
+
+.text-primary,
+.text-primary-emphasis {
+    color: $b2b-navy !important; // Bootstrap utilities are themselves !important
+}
+
+:focus-visible {
+    outline: .15rem solid $b2b-accent;
+    outline-offset: .1rem;
+}
+
+// Header: navy top bar, compact corporate logo.
+.b2b-topbar-item {
+    color: #fff;
+}
+
+.bg-black:has(> .container .b2b-topbar-item) {
+    background-color: $b2b-navy !important;
+}
+
+.b2b-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    color: $b2b-navy;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    text-decoration: none;
+
+    svg {
+        flex: none;
+        width: 2rem;
+        height: 2rem;
+    }
+
+    &__name {
+        font-size: 1.15rem;
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    &__pro {
+        color: $b2b-accent;
+    }
+}
+
+// Catalogue: dense cards with a SKU line and an explicit "excl. VAT" mention.
+.b2b-meta,
+.b2b-from-price {
+    display: block;
+    color: $b2b-muted;
+}
+
+.b2b-stock--in {
+    color: #146c43;
+    font-weight: 600;
+}
+
+.b2b-stock--out {
+    color: #8a4b00;
+    font-weight: 600;
+}
+
+.b2b-sku {
+    display: block;
+    color: $b2b-muted;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .8125rem;
+}
+
+.b2b-price-note {
+    display: inline-block;
+    margin-top: .15rem;
+    padding: .05rem .4rem;
+    border-radius: .2rem;
+    background: $b2b-surface;
+    border: 1px solid $b2b-border;
+    color: $b2b-accent;
+    font-size: .75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+
+.b2b-reference {
+    margin-bottom: .75rem;
+    padding: .5rem .75rem;
+    border-left: .25rem solid $b2b-navy;
+    background: $b2b-surface;
+    color: $b2b-muted;
+    font-size: .9rem;
+
+    strong {
+        color: $b2b-navy;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+}
+
+// Footer: business assurances strip.
+.b2b-footer-strip {
+    background: $b2b-surface;
+    border-top: 1px solid $b2b-border;
+    color: $b2b-muted;
+
+    li + li {
+        margin-left: 1.5rem;
+    }
+}

@@ -1,0 +1,9 @@
+{% set product = hookable_metadata.context.product %}
+{% set packaging = app_b2b_packaging_unit(product) %}
+{% if product.code is not empty %}
+    <p class="b2b-reference" {{ sylius_test_html_attribute('b2b-product-reference') }}>
+        {{ 'app.theme_b2b.reference'|trans }} <strong>{{ product.code }}</strong>
+        {%- if packaging is not null %} · <span {{ sylius_test_html_attribute('b2b-product-packaging') }}>{{ 'app.theme_b2b.packaging'|trans }} : {{ packaging }}</span>{% endif %}
+        · {{ 'app.theme_b2b.prices_excl_vat'|trans }}
+    </p>
+{% endif %}

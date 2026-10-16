@@ -1,0 +1,9 @@
+{% if demo_mode() %}
+    {% include 'demo/_accounts_list.html.twig' with {
+        scope: 'shop',
+        accounts: demo_shop_accounts(),
+        check_route: 'sylius_shop_login_check',
+        csrf_field: '_csrf_shop_security_token',
+        csrf_id: 'shop_authenticate',
+    } only %}
+{% endif %}

@@ -27,6 +27,7 @@ export default async () => {
       pattern: /\.(png|jpe?g|gif|svg|webp)$/
     })
     .addEntry('app-shop-entry', './assets/shop/entrypoint.js')
+    .addStyleEntry('app-shop-b2b-entry', './assets/shop/styles/b2b.scss')
     .addAliases({
       '@vendor': path.resolve(__dirname, 'vendor'),
     })

@@ -1,0 +1,7 @@
+# US-018: legal / about links in the shop footer, on both channels.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.base.footer':
+            demo_legal_links:
+                template: 'shop/legal/footer_links.html.twig'
+                priority: 90

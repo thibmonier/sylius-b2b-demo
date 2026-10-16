@@ -1,0 +1,5 @@
+{% if demo_mode() %}
+    <div class="nav-item d-flex align-items-center">
+        {% include 'demo/_badges_toggle.html.twig' with { link_class: 'nav-link' } only %}
+    </div>
+{% endif %}

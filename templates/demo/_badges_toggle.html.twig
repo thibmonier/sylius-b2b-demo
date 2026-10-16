@@ -1,0 +1,5 @@
+{# Badges on/off switch: a plain link (cookie set server side), same wording on the shop banner and in the admin. #}
+{% set visible = demo_badges_visible() %}
+<a class="{{ link_class|default('text-white') }}" href="{{ path('app_demo_badges_toggle', {state: visible ? 'off' : 'on'}) }}" data-demo-badges-toggle aria-pressed="{{ visible ? 'true' : 'false' }}">
+    {{ (visible ? 'app.badges.hide' : 'app.badges.show')|trans }}
+</a>

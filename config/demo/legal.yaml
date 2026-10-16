@@ -1,0 +1,8 @@
+# US-018: legal notice and about page of the public demo.
+# The publisher / host are deliberately NOT invented: set them through the environment
+# (DEMO_LEGAL_PUBLISHER, DEMO_LEGAL_HOST) before any public deployment. Empty = "to be completed" marker.
+parameters:
+    env(DEMO_LEGAL_PUBLISHER): ''
+    env(DEMO_LEGAL_HOST): ''
+    demo.legal.publisher: '%env(DEMO_LEGAL_PUBLISHER)%'
+    demo.legal.host: '%env(DEMO_LEGAL_HOST)%'

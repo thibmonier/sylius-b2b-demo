@@ -1,4 +1,74 @@
 app:
+    badges:
+        tooltip: 'Plugin %plugin%'
+        powered_by: 'powered by %plugin%'
+        hide: 'Hide plugin badges'
+        show: 'Show plugin badges'
+    plugins:
+        title: 'Plugins'
+        intro: 'The 21 open source plugins showcased by this demo, by theme. Each card links to the GitHub repository and, when the plugin is visible in the shop, to its demo page.'
+        github: 'GitHub'
+        packagist: 'Packagist'
+        unpublished: 'Not published'
+        scenario: 'Scenario:'
+        advised_account: 'Advised account:'
+        see_in_demo: 'See it in the demo'
+        no_demo_page: 'Visible in the admin panel or at checkout'
+        category:
+            purchasing: 'B2B purchasing'
+            billing: 'Billing and payment'
+            catalog: 'Catalogue and pricing'
+            integration: 'Integrations'
+            compliance: 'Compliance'
+            admin: 'Administration'
+    home_b2b:
+        hero:
+            title: 'Fournitures Pro, the Sylius B2B demo'
+            subtitle: 'Quotes, quick order, purchase approval, PunchOut: try the open source B2B plugins on a professional equipment store.'
+            cta: 'Sign in with a demo account'
+        quick_access:
+            title: 'Quick access'
+            accounts: 'Demo accounts'
+            accounts_text: 'One-click sign-in with buyer, approver and administrator accounts.'
+            accounts_link: 'Open the demo accounts'
+            catalogue: 'Catalogue'
+            category:
+                epi: 'PPE'
+                quincaillerie: 'Hardware'
+                fournitures-industrielles: 'Industrial supplies'
+            plugins: 'Plugins'
+            plugins_text: 'The 21 plugins and where to see them in the demo.'
+            plugins_link: 'Browse the plugins'
+        journeys:
+            title: 'B2B journeys to try'
+            try: 'Try it'
+            quote:
+                title: 'Request a quote'
+                text: 'Ask for a negotiated price, then accept it in a regular checkout.'
+            quick_order:
+                title: 'Quick order'
+                text: 'Paste SKU;quantity lines or upload a CSV.'
+            approval:
+                title: 'Purchase approval'
+                text: "An approver validates orders above a buyer's limit."
+            punchout:
+                title: 'PunchOut'
+                text: 'Simulate opening the shop from a procurement system (cXML/OCI).'
+    theme_b2b:
+        logo_aria: 'Fournitures Pro, home'
+        top_bar: 'Professional supplies · Prices excl. VAT · Dedicated account manager'
+        sku: 'SKU'
+        excl_vat: 'Excl. VAT'
+        reference: 'Reference'
+        prices_excl_vat: 'Prices shown excl. VAT'
+        packaging: 'Packaging'
+        in_stock: 'In stock'
+        on_order: 'On order'
+        from_price: 'from %price% excl. VAT with volume tiers'
+        footer:
+            invoice: 'Monthly invoicing'
+            terms: 'Payment terms on account'
+            support: 'Trade support Mon-Fri 8am-6pm'
     checkout:
         po_reference:
             section_title: 'Order reference'

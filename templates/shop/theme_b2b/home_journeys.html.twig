@@ -1,0 +1,14 @@
+<section class="container mb-5" data-b2b-home="journeys">
+    <h2 class="h4 mb-3">{{ 'app.home_b2b.journeys.title'|trans }}</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+        {% for journey, route in {quote: 'tmonier_quote_request_shop_new', quick_order: 'tmonier_quick_order_shop_index', approval: 'tmonier_purchase_approval_shop_approvals', punchout: 'tmonier_punchout_inspect'} %}
+            <div class="col">
+                <div class="card h-100"><div class="card-body">
+                    <h3 class="h6">{{ ('app.home_b2b.journeys.' ~ journey ~ '.title')|trans }}</h3>
+                    <p class="card-text">{{ ('app.home_b2b.journeys.' ~ journey ~ '.text')|trans }}</p>
+                    <a href="{{ path(route, {_locale: app.request.locale}) }}" data-b2b-journey="{{ journey }}">{{ 'app.home_b2b.journeys.try'|trans }}</a>
+                </div></div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

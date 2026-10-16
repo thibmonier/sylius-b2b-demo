@@ -1,0 +1,4 @@
+{% set product = hookable_metadata.context.product %}
+{% if product.code is not empty %}
+    <span class="b2b-sku" {{ sylius_test_html_attribute('b2b-product-sku') }}>{{ 'app.theme_b2b.sku'|trans }} {{ product.code }}</span>
+{% endif %}

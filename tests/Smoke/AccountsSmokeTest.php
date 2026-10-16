@@ -21,7 +21,7 @@ use Tmonier\SyliusCompanyAccountsPlugin\Repository\CompanyRepositoryInterface;
  * Scenarios covered (Gherkin → test):
  *   - Nominal   : 5 companies, main members exist with correct roles
  *   - Alt 1     : Sophie admin user exists (back-office restricted)
- *   - Alt 2     : Marc Lefebvre belongs to two companies
+ *   - Alt 2     : Marc Lefebvre belongs to exactly one company (TechParts SAS)
  *   - Error 1   : Wrong password is refused (not a fixture test — login logic)
  *   - Error 2   : Thomas Bernard has a disabled ShopUser
  */
@@ -130,7 +130,7 @@ final class AccountsSmokeTest extends KernelTestCase
     }
 
     // ---------------------------------------------------------------------------
-    // Scénario alternatif 2: membre rattaché à plusieurs entreprises
+    // Scénario alternatif 2: un client appartient à une seule entreprise
     // ---------------------------------------------------------------------------
 
     public function testEachCustomerBelongsToExactlyOneCompany(): void

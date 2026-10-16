@@ -1,0 +1,43 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'app.plugins.title'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-page="plugins">
+        <h1>{{ 'app.plugins.title'|trans }}</h1>
+        <p class="lead">{{ 'app.plugins.intro'|trans }}</p>
+
+        {% for category, plugins in groups %}
+            <section class="mt-5" data-plugin-category="{{ category }}">
+                <h2 class="h4 border-bottom pb-2">{{ ('app.plugins.category.' ~ category)|trans }}</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-1">
+                    {% for plugin in plugins %}
+                        <div class="col">
+                            <article class="card h-100" id="plugin-{{ plugin.slug }}" data-plugin="{{ plugin.slug }}">
+                                <div class="card-body">
+                                    <h3 class="h5 card-title">{{ plugin.name }}</h3>
+                                    <p class="card-text">{{ plugin.description(app.request.locale) }}</p>
+                                    <p class="card-text small" data-plugin-scenario><strong>{{ 'app.plugins.scenario'|trans }}</strong> {{ plugin.scenario(app.request.locale) }}</p>
+                                    <p class="card-text small" data-plugin-account><strong>{{ 'app.plugins.advised_account'|trans }}</strong> <code>{{ plugin.advisedAccount }}</code></p>
+                                </div>
+                                <div class="card-footer d-flex flex-wrap gap-3 bg-transparent">
+                                    <a href="{{ plugin.githubUrl }}" rel="noopener" target="_blank">{{ 'app.plugins.github'|trans }}</a>
+                                    {% if plugin.packagistUrl is not null %}
+                                        <a href="{{ plugin.packagistUrl }}" rel="noopener" target="_blank" data-plugin-packagist>{{ 'app.plugins.packagist'|trans }}</a>
+                                    {% else %}
+                                        <span class="badge text-bg-secondary align-self-center" data-plugin-unpublished>{{ 'app.plugins.unpublished'|trans }}</span>
+                                    {% endif %}
+                                    {% if plugin.demoRoute is not null %}
+                                        <a href="{{ path(plugin.demoRoute, {_locale: app.request.locale}) }}" data-plugin-demo-link>{{ 'app.plugins.see_in_demo'|trans }}</a>
+                                    {% else %}
+                                        <span class="text-muted">{{ 'app.plugins.no_demo_page'|trans }}</span>
+                                    {% endif %}
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+    </div>
+{% endblock %}

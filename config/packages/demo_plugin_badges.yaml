@@ -1,0 +1,67 @@
+# US-016 / US-017: registry of the plugin badges ("powered by <plugin>"), one entry per hookable.
+# Each entry is a hookable added next to the one the plugin itself registers on the SAME hook (it only
+# adds, it never replaces or alters a plugin hookable). `configuration.plugin` = slug of the Plugins
+# page (config/demo/plugins.yaml). Priorities sit just below the plugin's own hookable (above it in the
+# admin, where a badge introduces its card). Tests check that every slug exists in the catalogue and that
+# the plugin really registers a hookable on that hook. To badge a new plugin feature: add an entry here.
+sylius_twig_hooks:
+    hooks:
+        # Shop
+        'sylius_shop.product.show.content.info.summary':
+            demo_badge_quote_request:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-quote-request-plugin
+                priority: 45
+        'sylius_shop.product.show.content.info.summary.add_to_cart':
+            demo_badge_tier_pricing:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-tier-pricing-plugin
+                priority: 45
+            demo_badge_container_fill:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-container-fill-plugin
+                priority: 40
+        'sylius_shop.product.show.content.info.overview':
+            demo_badge_gpsr:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-gpsr-plugin
+                priority: -110
+        'sylius_shop.cart.index.content':
+            demo_badge_quick_order:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-quick-order-plugin
+                priority: 45
+            demo_badge_quote_request:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-quote-request-plugin
+                priority: 44
+        'sylius_shop.cart.index.content.form.sections.general#right':
+            demo_badge_container_fill:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-container-fill-plugin
+                priority: 40
+        'sylius_shop.account.dashboard.index.content.main':
+            demo_badge_company_accounts:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-company-accounts-plugin
+                priority: -60
+        'sylius_shop.account.order.show.content.main.header':
+            demo_badge_purchase_approval:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-purchase-approval-plugin
+                priority: -20
+        'tmonier_withdrawal.shop.withdrawal.form':
+            demo_badge_withdrawal:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-withdrawal-plugin
+                priority: -10
