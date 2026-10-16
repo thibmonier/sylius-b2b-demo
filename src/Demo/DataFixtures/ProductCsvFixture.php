@@ -25,9 +25,9 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  * The fixture is idempotent: running it a second time updates existing products
  * instead of creating duplicates. Products are looked up by their code (= SKU).
  *
- * Validation is performed upfront for ALL files before any product is persisted:
- *   - Every required CSV column must be present.
- *   - No two rows in the same file may share the same SKU.
+ * Validation is performed upfront for ALL files before any product is persisted (see CsvProductReader):
+ *   - Every required CSV column must be present, every row complete, the text UTF-8, `attributes_json` valid.
+ *   - No two rows, in the same file or in two files, may share the same SKU.
  */
 final class ProductCsvFixture extends AbstractFixture
 {
@@ -76,10 +76,7 @@ final class ProductCsvFixture extends AbstractFixture
 
         // Phase 1: Validate all CSV files upfront — no product is touched yet.
         /** @var array<string, list<array<string, string>>> $allRows */
-        $allRows = [];
-        foreach (self::CSV_FILES as $fileName) {
-            $allRows[$fileName] = $this->csvProductReader->read($csvDir . $fileName);
-        }
+        $allRows = $this->csvProductReader->readAll(\array_map(static fn (string $fileName): string => $csvDir . $fileName, self::CSV_FILES));
 
         // Phase 2: Import all validated rows.
         $i = 0;

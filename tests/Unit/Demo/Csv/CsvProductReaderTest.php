@@ -125,16 +125,171 @@ final class CsvProductReaderTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
+    // US-041 — S2-R3: a malformed row stops the import, it is never skipped
+    // -------------------------------------------------------------------------
+
+    public function testARowWithTooFewColumnsFailsWithTheFileAndTheLine(): void
+    {
+        $csvPath = $this->writeCsv([
+            self::HEADER,
+            'EPI-CASK-001,MSA-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'EPI-CASK-002,MSA-002,3701000000027,Casque jaune,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18',
+        ]);
+
+        $message = $this->failureOf(fn () => $this->reader->read($csvPath));
+
+        self::assertStringContainsString($csvPath . ':3', $message);
+        self::assertStringContainsString('13', $message);
+        self::assertStringContainsString('14', $message);
+        self::assertStringContainsString('Import aborted', $message);
+    }
+
+    public function testARowWithTooManyColumnsFails(): void
+    {
+        $csvPath = $this->writeCsv([self::HEADER, 'EPI-CASK-001,MSA-001,3701000000010,Casque,Helmet,D,D,protection-tete,"{}",0.45,22,16,18,19.90,surplus']);
+
+        self::assertStringContainsString($csvPath . ':2', $this->failureOf(fn () => $this->reader->read($csvPath)));
+    }
+
+    // -------------------------------------------------------------------------
+    // US-041 — S2-R4: the same SKU in two files
+    // -------------------------------------------------------------------------
+
+    public function testAnSkuInTwoFilesFailsAndNamesBothFiles(): void
+    {
+        $first = $this->writeCsv([self::HEADER, self::row('EPI-CASK-001')]);
+        $second = $this->writeCsv([self::HEADER, self::row('QUI-VIS-001'), self::row('EPI-CASK-001')]);
+
+        $message = $this->failureOf(fn () => $this->reader->readAll([$first, $second]));
+
+        self::assertStringContainsString('EPI-CASK-001', $message);
+        self::assertStringContainsString($first . ':2', $message);
+        self::assertStringContainsString($second . ':3', $message);
+    }
+
+    public function testDistinctSkusInSeveralFilesAreReadInOrder(): void
+    {
+        $first = $this->writeCsv([self::HEADER, self::row('EPI-CASK-001')]);
+        $second = $this->writeCsv([self::HEADER, self::row('QUI-VIS-001'), self::row('QUI-VIS-002')]);
+
+        $all = $this->reader->readAll([$first, $second]);
+
+        self::assertSame([$first, $second], \array_keys($all));
+        self::assertCount(1, $all[$first]);
+        self::assertSame('QUI-VIS-002', $all[$second][1]['sku']);
+    }
+
+    // -------------------------------------------------------------------------
+    // US-041 — S2-R5: attributes_json
+    // -------------------------------------------------------------------------
+
+    /** @return iterable<string, array{string}> */
+    public static function invalidAttributes(): iterable
+    {
+        yield 'broken JSON' => ['{"epi_norm":"EN 397"'];
+        yield 'not an object' => ['"EN 397"'];
+        yield 'a list' => ['["EN 397"]'];
+        yield 'number value' => ['{"packaging_unit":12}'];
+        yield 'nested value' => ['{"material":{"name":"HDPE"}}'];
+        yield 'null value' => ['{"material":null}'];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidAttributes')]
+    public function testInvalidAttributesFailWithTheFileAndTheLine(string $json): void
+    {
+        $csvPath = $this->writeCsv([self::HEADER, self::row('EPI-CASK-001'), self::row('EPI-CASK-002', \str_replace('"', '""', $json))]);
+
+        $message = $this->failureOf(fn () => $this->reader->read($csvPath));
+
+        self::assertStringContainsString($csvPath . ':3', $message);
+        self::assertStringContainsString('attributes_json', $message);
+    }
+
+    public function testEmptyAndValidAttributesAreAccepted(): void
+    {
+        $csvPath = $this->writeCsv([self::HEADER, self::row('A-1', ''), self::row('A-2', '{}'), self::row('A-3', '{""epi_norm"":""EN 397"",""material"":""HDPE""}')]);
+
+        self::assertCount(3, $this->reader->read($csvPath));
+    }
+
+    // -------------------------------------------------------------------------
+    // US-041 — S2-R6: BOM, header, encoding
+    // -------------------------------------------------------------------------
+
+    public function testAUtf8BomIsIgnored(): void
+    {
+        $csvPath = $this->writeCsv([self::HEADER, self::row('EPI-CASK-001')], "\xEF\xBB\xBF");
+
+        $rows = $this->reader->read($csvPath);
+
+        self::assertSame('EPI-CASK-001', $rows[0]['sku']);
+    }
+
+    public function testSpacesAroundTheHeaderNamesAreIgnored(): void
+    {
+        $header = ' sku , name_fr,name_en ,taxon, price_eur_ht ';
+        $csvPath = $this->writeCsv([$header, 'EPI-1,Casque,Helmet,protection-tete,19.90']);
+
+        $rows = $this->reader->read($csvPath);
+
+        self::assertSame(['sku', 'name_fr', 'name_en', 'taxon', 'price_eur_ht'], \array_keys($rows[0]));
+    }
+
+    public function testAnInvalidEncodingIsRejectedWithTheLine(): void
+    {
+        // "Casque é" encoded in ISO-8859-1.
+        $csvPath = $this->writeCsv([self::HEADER, self::row('EPI-CASK-001'), \mb_convert_encoding(self::row('EPI-CASK-002', '', 'Casque é'), 'ISO-8859-1', 'UTF-8')]);
+
+        $message = $this->failureOf(fn () => $this->reader->read($csvPath));
+
+        self::assertStringContainsString($csvPath . ':3', $message);
+        self::assertStringContainsString('UTF-8', $message);
+    }
+
+    // -------------------------------------------------------------------------
+    // US-041 — non-regression: the three real files
+    // -------------------------------------------------------------------------
+
+    public function testTheThreeDemoFilesGive210DistinctProducts(): void
+    {
+        $directory = \dirname(__DIR__, 4) . '/fixtures/csv/';
+
+        $all = $this->reader->readAll([$directory . 'epi.csv', $directory . 'quincaillerie.csv', $directory . 'fournitures.csv']);
+
+        $skus = \array_merge(...\array_values(\array_map(static fn (array $rows): array => \array_column($rows, 'sku'), $all)));
+        self::assertCount(210, $skus);
+        self::assertSame($skus, \array_unique($skus));
+    }
+
+    // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+    private const HEADER = 'sku,mpn,ean,name_fr,name_en,description_fr,description_en,taxon,attributes_json,weight_kg,width_cm,height_cm,depth_cm,price_eur_ht';
+
+    /** @param string $attributes already escaped for a quoted CSV cell */
+    private static function row(string $sku, string $attributes = '', string $name = 'Casque'): string
+    {
+        return $sku . ',MPN,3701000000010,' . $name . ',Helmet,Desc FR,Desc EN,protection-tete,"' . $attributes . '",0.45,22,16,18,19.90';
+    }
+
+    private function failureOf(callable $read): string
+    {
+        try {
+            $read();
+        } catch (CsvImportException $e) {
+            return $e->getMessage();
+        }
+        self::fail('Expected CsvImportException was not thrown.');
+    }
 
     /**
      * @param list<string> $lines
      */
-    private function writeCsv(array $lines): string
+    private function writeCsv(array $lines, string $prefix = ''): string
     {
         $path = $this->tmpDir . '/test_' . \uniqid('', true) . '.csv';
-        \file_put_contents($path, \implode("\n", $lines) . "\n");
+        \file_put_contents($path, $prefix . \implode("\n", $lines) . "\n");
 
         return $path;
     }
