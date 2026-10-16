@@ -1,4 +1,9 @@
 app:
+    badges:
+        tooltip: 'Plugin %plugin%'
+        powered_by: 'powered by %plugin%'
+        hide: 'Hide plugin badges'
+        show: 'Show plugin badges'
     plugins:
         title: 'Plugins'
         intro: 'The 21 open source plugins showcased by this demo, by theme. Each card links to the GitHub repository and, when the plugin is visible in the shop, to its demo page.'

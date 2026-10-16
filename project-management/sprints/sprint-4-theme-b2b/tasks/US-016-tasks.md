@@ -16,20 +16,23 @@ En tant que Hugo, je veux voir quelle fonctionnalité vient de quel plugin, afin
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-016-01 | [BE] | Registre YAML hook → plugin (`config/demo/plugin_badges.yaml`) et validation | 1.5h | — | 🔲 |
-| T-016-02 | [BE] | Rendu des badges autour des hookables de plugin (sans les remplacer) | 2h | T-016-01, T-013-03 | 🔲 |
-| T-016-03 | [FE-WEB] | Composant badge accessible (icône, infobulle « Plugin tmonier/… », lien, focus clavier) | 1.5h | T-016-02 | 🔲 |
-| T-016-04 | [FE-WEB] | Bascule d'affichage des badges depuis le bandeau (persistance) | 1h | T-016-03, T-015-06 | 🔲 |
-| T-016-05 | [TEST] | Tests : badge, accessibilité clavier, désactivation, persistance, registre complet/invalide | 2h | T-016-04 | 🔲 |
-| T-016-06 | [DOC] | Documentation du registre de badges | 0.5h | T-016-05 | 🔲 |
+| T-016-01 | [BE] | Registre YAML hook → plugin (`config/packages/demo_plugin_badges.yaml`) et validation | 1.5h | — | ✅ |
+| T-016-02 | [BE] | Rendu des badges autour des hookables de plugin (sans les remplacer) | 2h | T-016-01, T-013-03 | ✅ |
+| T-016-03 | [FE-WEB] | Composant badge accessible (icône, infobulle « Plugin tmonier/… », lien, focus clavier) | 1.5h | T-016-02 | ✅ |
+| T-016-04 | [FE-WEB] | Bascule d'affichage des badges depuis le bandeau (persistance) | 1h | T-016-03, T-015-06 | ✅ |
+| T-016-05 | [TEST] | Tests : badge, accessibilité clavier, désactivation, persistance, registre complet/invalide | 2h | T-016-04 | ✅ |
+| T-016-06 | [DOC] | Documentation du registre de badges | 0.5h | T-016-05 | ✅ |
 
 **Total estimé : 8.5h**
 
 ---
 
+
+> **Réalisation** : le registre est la configuration `sylius_twig_hooks` elle-même (`config/packages/demo_plugin_badges.yaml`) : une entrée = un hookable `demo/plugin_badge.html.twig` ajouté sur le même hook que celui du plugin (`configuration.plugin` = slug de la page Plugins). Aucun décorateur : les hookables des plugins ne sont pas touchés. `BadgeRegistryTest` vérifie que chaque slug existe dans `DemoPluginCatalog` et que le plugin enregistre bien un hookable sur ce hook. La bascule est un lien (`/demo/badges/{on|off}`, cookie `demo_badges`, sans JavaScript) placé dans `data-demo-badges-slot`. Pour badger une nouvelle fonctionnalité : ajouter une entrée dans ce fichier.
+
 ## Détail des tâches
 
-### T-016-01 — Registre YAML hook → plugin (`config/demo/plugin_badges.yaml`) et validation
+### T-016-01 — Registre YAML hook → plugin (`config/packages/demo_plugin_badges.yaml`) et validation
 
 - **Type** : [BE]
 - **Estimation** : 1.5h

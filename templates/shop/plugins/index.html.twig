@@ -13,7 +13,7 @@
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-1">
                     {% for plugin in plugins %}
                         <div class="col">
-                            <article class="card h-100" data-plugin="{{ plugin.slug }}">
+                            <article class="card h-100" id="plugin-{{ plugin.slug }}" data-plugin="{{ plugin.slug }}">
                                 <div class="card-body">
                                     <h3 class="h5 card-title">{{ plugin.name }}</h3>
                                     <p class="card-text">{{ plugin.description(app.request.locale) }}</p>

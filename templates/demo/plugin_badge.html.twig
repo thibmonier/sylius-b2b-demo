@@ -1,0 +1,13 @@
+{# Badge "powered by <plugin>" (US-016/US-017). Hookable configuration: { plugin: <slug of the Plugins page> }. Unknown slug or badges off: nothing. #}
+{% set plugin = demo_plugin(hookable_configuration.plugin|default(null)) %}
+{% if plugin is not null and demo_badges_visible() %}
+    <div class="demo-plugin-badge my-2" data-demo-plugin-badge="{{ plugin.slug }}">
+        <a class="badge text-bg-light border text-decoration-none fw-normal"
+           href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}#plugin-{{ plugin.slug }}"
+           title="{{ 'app.badges.tooltip'|trans({'%plugin%': plugin.composerName}) }}"
+           aria-label="{{ 'app.badges.tooltip'|trans({'%plugin%': plugin.composerName}) }}">
+            <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" class="me-1"><path d="M6 2h4v3h3v4h-3v3H6V9H3V5h3z"/></svg>
+            {{ 'app.badges.powered_by'|trans({'%plugin%': plugin.name}) }}
+        </a>
+    </div>
+{% endif %}

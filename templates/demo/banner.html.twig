@@ -25,8 +25,7 @@
                     {% endfor %}
                 </div>
             </details>
-            {# Slot for the badges toggle (US-016). #}
-            <span class="ms-auto" data-demo-badges-slot></span>
+            <span class="ms-auto" data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' only %}</span>
         </div>
     </div>
 {% endif %}
