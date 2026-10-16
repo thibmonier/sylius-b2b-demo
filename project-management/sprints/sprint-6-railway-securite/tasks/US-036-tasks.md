@@ -16,23 +16,23 @@ En tant que Thibaut, je veux limiter les abus, afin que la démo publique reste 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-036-01 | [BE] | Infrastructure de limitation de débit : limiteurs par IP visiteur réelle (derrière le proxy) | 3h | T-032-02 | 🔲 |
-| T-036-02 | [BE] | Limiter login admin et boutique, /demo/accounts, inscription et formulaires publics | 2.5h | T-036-01 | 🔲 |
-| T-036-03 | [BE] | Simulateur PunchOut public : état signé à usage unique, limiteur par IP, plafond de commandes Acme anonymes | 4h | T-036-01 | 🔲 |
-| T-036-04 | [BE] | Limiteur de setup du plugin : le simulateur transmet l'IP visiteur (plus de 127.0.0.1 partagé) | 2.5h | T-036-01 | 🔲 |
-| T-036-05 | [BE] | Boîte de démo : e-mails visibles uniquement pour les destinataires des comptes de démo | 2h | — | 🔲 |
-| T-036-06 | [BE] | Aucun appel ni e-mail sortant réel : transport forcé vers Mailpit, client HTTP et webhooks sortants bornés | 3h | T-032-05 | 🔲 |
-| T-036-07 | [BE] | En-têtes de sécurité (CSP compatible assets/Stimulus, nosniff, frame, referrer, permissions, HSTS en HTTPS) | 2.5h | T-032-02 | 🔲 |
-| T-036-08 | [FE-WEB] | Avertissement « aucune donnée réelle » sur inscription, adresses et checkout (FR/EN) | 1.5h | — | 🔲 |
+| T-036-01 | [BE] | Infrastructure de limitation de débit : limiteurs par IP visiteur réelle (derrière le proxy) | 3h | T-032-02 | ✅ |
+| T-036-02 | [BE] | Limiter login admin et boutique, /demo/accounts, inscription et formulaires publics | 2.5h | T-036-01 | ✅ |
+| T-036-03 | [BE] | Simulateur PunchOut public : état signé à usage unique, limiteur par IP, plafond de commandes Acme anonymes | 4h | T-036-01 | ✅ |
+| T-036-04 | [BE] | Limiteur de setup du plugin : le simulateur transmet l'IP visiteur (plus de 127.0.0.1 partagé) | 2.5h | T-036-01 | ✅ |
+| T-036-05 | [BE] | Boîte de démo : e-mails visibles uniquement pour les destinataires des comptes de démo | 2h | — | ✅ |
+| T-036-06 | [BE] | Aucun appel ni e-mail sortant réel : transport forcé vers Mailpit, client HTTP et webhooks sortants bornés | 3h | T-032-05 | ✅ |
+| T-036-07 | [BE] | En-têtes de sécurité (CSP compatible assets/Stimulus, nosniff, frame, referrer, permissions, HSTS en HTTPS) | 2.5h | T-032-02 | ✅ |
+| T-036-08 | [FE-WEB] | Avertissement « aucune donnée réelle » sur inscription, adresses et checkout (FR/EN) | 1.5h | — | ✅ |
 | T-036-09 | [BE] | Prix « dès » calculé en lot sur les listes (glissable) | 3h | — | ➡️ sprint 7 |
-| T-036-10 | [BE] | Bandeau sans session anonyme : jeton CSRF sans état et en-tête Vary: Cookie | 2h | — | 🔲 |
-| T-036-11 | [BE] | Pages légales : locales restreintes à celles du canal | 1h | — | 🔲 |
+| T-036-10 | [BE] | Bandeau sans session anonyme : jeton CSRF sans état et en-tête Vary: Cookie | 2h | — | ✅ |
+| T-036-11 | [BE] | Pages légales : locales restreintes à celles du canal | 1h | — | ✅ |
 | T-036-12 | [BE] | CsvProductReader : colonnes erronées, doublons de SKU inter-fichiers, attributes_json invalide, BOM/trim/encodage (glissable) | 4h | — | ➡️ sprint 7 |
 | T-036-13 | [BE] | Réduire les ≈ 420 requêtes du reset (canaux, taxons et attributs préchargés) (glissable) | 2h | — | ➡️ sprint 7 |
 | T-036-14 | [BE] | Vérifications latentes : source unique des comptes, ordre des fixtures, valeurs d'attribut traduites (glissable) | 1.5h | — | ➡️ sprint 7 |
-| T-036-15 | [TEST] | Tests de comportement rendu : 429 par IP, rejeu simulateur, boîte filtrée, sortie bloquée, en-têtes, session, locale | 5h | T-036-02, T-036-03, T-036-04, T-036-05, T-036-06, T-036-07, T-036-08, T-036-10, T-036-11 | 🔲 |
-| T-036-16 | [DOC] | Documenter le durcissement et les risques acceptés | 1h | T-036-15 | 🔲 |
-| T-036-17 | [REV] | Revue du durcissement | 1.5h | T-036-15, T-036-16 | 🔲 |
+| T-036-15 | [TEST] | Tests de comportement rendu : 429 par IP, rejeu simulateur, boîte filtrée, sortie bloquée, en-têtes, session, locale | 5h | T-036-02, T-036-03, T-036-04, T-036-05, T-036-06, T-036-07, T-036-08, T-036-10, T-036-11 | ✅ |
+| T-036-16 | [DOC] | Documenter le durcissement et les risques acceptés | 1h | T-036-15 | ✅ |
+| T-036-17 | [REV] | Revue du durcissement | 1.5h | T-036-15, T-036-16 | ✅ |
 
 **Total estimé : 42h**
 

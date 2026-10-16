@@ -16,13 +16,13 @@ En tant que Thibaut, je veux une revue de sécurité indépendante, afin d'ouvri
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-037-01 | [REV] | Matrice constats → preuves (S2, S4, S5) et périmètre de la revue | 2h | T-032-12, T-033-11, T-034-03, T-035-10, T-036-17 | 🔲 |
-| T-037-02 | [REV] | Revue indépendante du code (agent de sécurité, contexte frais, OWASP 2025) | 4h | T-037-01 | 🔲 |
-| T-037-03 | [TEST] | Vérification dynamique sur la démo privée déployée : 401, en-têtes, cookies Secure, 429, hôtes, Mailpit (externe) | 3h | T-037-01, T-032-11 | 🔲 |
-| T-037-04 | [BE] | Correction des constats critiques et majeurs (réserve) | 4h | T-037-02, T-037-03 | 🔲 |
-| T-037-05 | [DOC] | review-findings.md du sprint 6 et recommandation GO / NO-GO | 1.5h | T-037-04 | 🔲 |
-| T-037-06 | [REV] | Contre-vérification des corrections et clôture | 1.5h | T-037-04, T-037-05 | 🔲 |
-| T-037-07 | [OPS] | Présentation du GO à l'utilisateur ; la démo reste privée tant que le GO n'est pas donné | 0.5h | T-037-06 | 🔲 |
+| T-037-01 | [REV] | Matrice constats → preuves (S2, S4, S5) et périmètre de la revue | 2h | T-032-12, T-033-11, T-034-03, T-035-10, T-036-17 | ✅ |
+| T-037-02 | [REV] | Revue indépendante du code (agent de sécurité, contexte frais, OWASP 2025) | 4h | T-037-01 | ✅ |
+| T-037-03 | [TEST] | Vérification dynamique sur la démo privée déployée : 401, en-têtes, cookies Secure, 429, hôtes, Mailpit (externe) | 3h | T-037-01, T-032-11 | ✅ |
+| T-037-04 | [BE] | Correction des constats critiques et majeurs (réserve) | 4h | T-037-02, T-037-03 | ✅ |
+| T-037-05 | [DOC] | review-findings.md du sprint 6 et recommandation GO / NO-GO | 1.5h | T-037-04 | ✅ |
+| T-037-06 | [REV] | Contre-vérification des corrections et clôture | 1.5h | T-037-04, T-037-05 | ✅ |
+| T-037-07 | [OPS] | Présentation du GO à l'utilisateur ; la démo reste privée tant que le GO n'est pas donné | 0.5h | T-037-06 | ⏳ GO utilisateur |
 
 **Total estimé : 16.5h**
 

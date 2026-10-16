@@ -84,12 +84,12 @@ sprints:
     capacity_points: 29  # ré-estimé après décomposition (127,5 h), décision utilisateur 2026-10-16
     goal: "Mettre la démo en ligne sur Railway, privée et durcie : déploiement, remise à zéro nocturne supervisée, budget, admin restreint, durcissement et revue de sécurité (constats reportés des sprints 4 et 5 inclus)"
     stories:
-      - {id: US-032, title: "Déploiement Railway", points: 5, status: ready-for-dev}
-      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 5, status: ready-for-dev}  # ré-estimée 3→5
-      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: ready-for-dev}  # relevé à J+7 (T-034-02) au sprint 7
-      - {id: US-035, title: "Admin de démo restreint", points: 8, status: ready-for-dev}  # ré-estimée 5→8
-      - {id: US-036, title: "Durcissement de la démo publique", points: 8, status: ready-for-dev}  # ré-estimée 3→8 (constats reportés S2/S4/S5)
-      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: ready-for-dev}
+      - {id: US-032, title: "Déploiement Railway", points: 5, status: review}
+      - {id: US-033, title: "Remise à zéro nocturne supervisée", points: 5, status: review}  # ré-estimée 3→5
+      - {id: US-034, title: "Budget et mesure du coût", points: 1, status: review}  # relevé à J+7 (T-034-02) au sprint 7
+      - {id: US-035, title: "Admin de démo restreint", points: 8, status: review}  # ré-estimée 5→8
+      - {id: US-036, title: "Durcissement de la démo publique", points: 8, status: review}  # ré-estimée 3→8 (constats reportés S2/S4/S5)
+      - {id: US-037, title: "Revue de sécurité avant ouverture", points: 2, status: review}
   sprint-7:
     name: sprint-7-plugins-et-integrations
     status: planned

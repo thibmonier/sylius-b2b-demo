@@ -16,17 +16,17 @@ En tant que Thibaut, je veux que la démo se remette à zéro chaque nuit et me 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-033-01 | [BE] | Garde « démo-aware » de app:demo:reset (autorisé si DEMO_MODE=1, refusé sinon) | 1.5h | — | 🔲 |
-| T-033-02 | [BE] | Atomicité du reset : un échec laisse la démo dans l'état précédent | 3.5h | T-033-01 | 🔲 |
-| T-033-03 | [BE] | Le reset purge les commandes Acme anonymes et réinitialise le crédit du simulateur | 1.5h | T-033-01 | 🔲 |
-| T-033-04 | [BE] | Journal explicite et alerte d'échec : message identifiable, code de sortie non nul, sortie sur stderr | 1.5h | T-033-02 | 🔲 |
+| T-033-01 | [BE] | Garde « démo-aware » de app:demo:reset (autorisé si DEMO_MODE=1, refusé sinon) | 1.5h | — | ✅ |
+| T-033-02 | [BE] | Atomicité du reset : un échec laisse la démo dans l'état précédent | 3.5h | T-033-01 | ✅ |
+| T-033-03 | [BE] | Le reset purge les commandes Acme anonymes et réinitialise le crédit du simulateur | 1.5h | T-033-01 | ✅ |
+| T-033-04 | [BE] | Journal explicite et alerte d'échec : message identifiable, code de sortie non nul, sortie sur stderr | 1.5h | T-033-02 | ✅ |
 | T-033-05 | [FE-WEB] | « Prochaine remise à zéro » du bandeau calculée à 03:00 Europe/Paris (heure d'été comprise) | 2h | T-033-06 | ➡️ sprint 7 |
-| T-033-06 | [OPS] | Planification à 03:00 Europe/Paris dans le conteneur web (supercronic, TZ) | 1h | T-033-04 | 🔲 |
-| T-033-07 | [TEST] | Tests : garde, atomicité, alerte, Acme purgé, échéance du bandeau | 3h | T-033-02, T-033-03, T-033-04, T-033-05 | 🔲 |
-| T-033-08 | [DOC] | Runbook d'exploitation du reset (lecture du journal, relance manuelle, alerte) | 1h | T-033-07 | 🔲 |
-| T-033-09 | [OPS] | Notifications e-mail Railway activées (échec de déploiement / crash) (externe) | 1h | T-032-11 | 🔲 |
-| T-033-10 | [OPS] | Reset manuel sur Railway : durée < 10 min, démo de nouveau opérationnelle, échec simulé visible dans le journal (externe) | 2h | T-033-06, T-033-09, T-032-11, T-033-07 | 🔲 |
-| T-033-11 | [REV] | Revue du reset (garde, atomicité, fuseau, alerte) | 1h | T-033-08, T-033-10 | 🔲 |
+| T-033-06 | [OPS] | Planification à 03:00 Europe/Paris dans le conteneur web (supercronic, TZ) | 1h | T-033-04 | ✅ |
+| T-033-07 | [TEST] | Tests : garde, atomicité, alerte, Acme purgé, échéance du bandeau | 3h | T-033-02, T-033-03, T-033-04, T-033-05 | ✅ |
+| T-033-08 | [DOC] | Runbook d'exploitation du reset (lecture du journal, relance manuelle, alerte) | 1h | T-033-07 | ✅ |
+| T-033-09 | [OPS] | Notifications e-mail Railway activées (échec de déploiement / crash) (externe) | 1h | T-032-11 | ⏳ vérification utilisateur |
+| T-033-10 | [OPS] | Reset manuel sur Railway : durée < 10 min, démo de nouveau opérationnelle, échec simulé visible dans le journal (externe) | 2h | T-033-06, T-033-09, T-032-11, T-033-07 | ✅ |
+| T-033-11 | [REV] | Revue du reset (garde, atomicité, fuseau, alerte) | 1h | T-033-08, T-033-10 | ✅ |
 
 **Total estimé : 19h**
 

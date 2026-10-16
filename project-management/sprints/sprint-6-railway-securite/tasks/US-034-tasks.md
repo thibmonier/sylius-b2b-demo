@@ -16,9 +16,9 @@ En tant que Thibaut, je veux plafonner et suivre le coût, afin de rester sous 2
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-034-01 | [OPS] | Limite d'usage Railway ≤ 25 $/mois et alerte de seuil (externe) | 0.5h | T-032-09 | 🔲 |
+| T-034-01 | [OPS] | Limite d'usage Railway ≤ 25 $/mois et alerte de seuil (externe) | 0.5h | T-032-09 | ✅ |
 | T-034-02 | [OPS] | Relevé du coût réel après une semaine d'exploitation (externe) | 0.5h | T-032-11, T-034-01 | ➡️ sprint 7 |
-| T-034-03 | [DOC] | Documenter le plafond, le coût relevé et les leviers (mise en veille, taille des services) | 1h | T-034-02 | 🔲 |
+| T-034-03 | [DOC] | Documenter le plafond, le coût relevé et les leviers (mise en veille, taille des services) | 1h | T-034-02 | ✅ |
 
 **Total estimé : 2h**
 

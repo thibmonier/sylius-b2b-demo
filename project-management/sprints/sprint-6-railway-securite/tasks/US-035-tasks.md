@@ -16,16 +16,16 @@ En tant que Sophie, je veux un compte back-office public qui ne peut pas casser 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-035-01 | [BE] | Inventaire des routes et ressources admin sensibles (matrice route × méthode × décision) | 2h | — | 🔲 |
-| T-035-02 | [BE] | Source unique du rôle restreint : Sophie reçoit ROLE_DEMO_ADMIN depuis le catalogue de comptes | 1.5h | T-035-01 | 🔲 |
-| T-035-03 | [BE] | Garde des écritures sensibles (POST/PUT/PATCH/DELETE, actions de masse, surcharge `_method`) | 4h | T-035-02 | 🔲 |
-| T-035-04 | [BE] | Profil de Sophie et jetons : changement de mot de passe, e-mail, locale et création de jeton API refusés | 1.5h | T-035-03 | 🔲 |
-| T-035-05 | [FE-WEB] | Message de démo FR/EN sur refus (flash et page 403 explicite) | 1.5h | T-035-03 | 🔲 |
-| T-035-06 | [BE] | Contenu édité par Sophie rendu sur le shop : échappement ou nettoyage (XSS stocké, défiguration) | 2h | T-035-03 | 🔲 |
-| T-035-07 | [TEST] | Tests fonctionnels par ressource : refus avec message, lecture et reste de l'admin utilisables | 3h | T-035-03, T-035-04, T-035-05 | 🔲 |
-| T-035-08 | [TEST] | Tests de non-contournement : POST direct avec CSRF valide, `_method`, action de masse, XSS stocké | 2h | T-035-04, T-035-06, T-035-07 | 🔲 |
-| T-035-09 | [DOC] | Documenter la politique d'admin de démo et les risques acceptés | 0.5h | T-035-08 | 🔲 |
-| T-035-10 | [REV] | Revue de l'admin restreint | 1h | T-035-08, T-035-09 | 🔲 |
+| T-035-01 | [BE] | Inventaire des routes et ressources admin sensibles (matrice route × méthode × décision) | 2h | — | ✅ |
+| T-035-02 | [BE] | Source unique du rôle restreint : Sophie reçoit ROLE_DEMO_ADMIN depuis le catalogue de comptes | 1.5h | T-035-01 | ✅ |
+| T-035-03 | [BE] | Garde des écritures sensibles (POST/PUT/PATCH/DELETE, actions de masse, surcharge `_method`) | 4h | T-035-02 | ✅ |
+| T-035-04 | [BE] | Profil de Sophie et jetons : changement de mot de passe, e-mail, locale et création de jeton API refusés | 1.5h | T-035-03 | ✅ |
+| T-035-05 | [FE-WEB] | Message de démo FR/EN sur refus (flash et page 403 explicite) | 1.5h | T-035-03 | ✅ |
+| T-035-06 | [BE] | Contenu édité par Sophie rendu sur le shop : échappement ou nettoyage (XSS stocké, défiguration) | 2h | T-035-03 | ✅ |
+| T-035-07 | [TEST] | Tests fonctionnels par ressource : refus avec message, lecture et reste de l'admin utilisables | 3h | T-035-03, T-035-04, T-035-05 | ✅ |
+| T-035-08 | [TEST] | Tests de non-contournement : POST direct avec CSRF valide, `_method`, action de masse, XSS stocké | 2h | T-035-04, T-035-06, T-035-07 | ✅ |
+| T-035-09 | [DOC] | Documenter la politique d'admin de démo et les risques acceptés | 0.5h | T-035-08 | ✅ |
+| T-035-10 | [REV] | Revue de l'admin restreint | 1h | T-035-08, T-035-09 | ✅ |
 
 **Total estimé : 19h**
 

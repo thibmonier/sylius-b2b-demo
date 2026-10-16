@@ -16,18 +16,18 @@ En tant que Thibaut, je veux déployer la démo sur Railway depuis GitHub, afin 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-032-01 | [BE] | Authentification HTTP basique par variable d'environnement (démo privée par défaut) | 2.5h | — | 🔲 |
-| T-032-02 | [BE] | Hôtes et proxys de confiance par variables ; cookie `demo_badges` Secure | 3h | — | 🔲 |
-| T-032-03 | [OPS] | Configuration Railway du dépôt : Dockerfile, railway.json, pre-deploy (migrations), healthcheck, DEMO_MODE=1 | 3h | T-032-01, T-032-04 | 🔲 |
-| T-032-04 | [BE] | Healthcheck /health : vérifie base de données et migrations appliquées, hors authentification basique | 1h | — | 🔲 |
-| T-032-05 | [OPS] | Mailpit interne : service et DSN réseau privé, aucun port ni domaine public | 1.5h | — | 🔲 |
-| T-032-06 | [TEST] | Tests fonctionnels de la porte démo : 401/200, /health, hôtes, proxys, cookie Secure | 2h | T-032-01, T-032-02, T-032-04 | 🔲 |
-| T-032-07 | [TEST] | Test de fumée du conteneur en CI : image construite en CI, 401 sans identifiants, migrations OK | 1.5h | T-032-03, T-032-06 | 🔲 |
-| T-032-08 | [DOC] | Runbook de déploiement Railway (variables, domaines, rollback, ouverture publique) | 2h | T-032-11 | 🔲 |
-| T-032-09 | [OPS] | Création du projet Railway, des services (web, MySQL, Mailpit) et connexion GitHub (externe) | 1.5h | T-032-03, T-032-05 | 🔲 |
-| T-032-10 | [OPS] | Variables d'environnement, secrets et domaine HTTPS généré (externe) | 1h | T-032-09 | 🔲 |
-| T-032-11 | [OPS] | Premier déploiement et vérifications : 401 sans identifiants, migrations, bascule après healthcheck, Mailpit injoignable (externe) | 1.5h | T-032-10, T-032-07 | 🔲 |
-| T-032-12 | [REV] | Revue du déploiement (configuration, secrets, fail-closed) | 1.5h | T-032-08, T-032-11 | 🔲 |
+| T-032-01 | [BE] | Authentification HTTP basique par variable d'environnement (démo privée par défaut) | 2.5h | — | ✅ |
+| T-032-02 | [BE] | Hôtes et proxys de confiance par variables ; cookie `demo_badges` Secure | 3h | — | ✅ |
+| T-032-03 | [OPS] | Configuration Railway du dépôt : Dockerfile, railway.json, pre-deploy (migrations), healthcheck, DEMO_MODE=1 | 3h | T-032-01, T-032-04 | ✅ |
+| T-032-04 | [BE] | Healthcheck /health : vérifie base de données et migrations appliquées, hors authentification basique | 1h | — | ✅ |
+| T-032-05 | [OPS] | Mailpit interne : service et DSN réseau privé, aucun port ni domaine public | 1.5h | — | ✅ |
+| T-032-06 | [TEST] | Tests fonctionnels de la porte démo : 401/200, /health, hôtes, proxys, cookie Secure | 2h | T-032-01, T-032-02, T-032-04 | ✅ |
+| T-032-07 | [TEST] | Test de fumée du conteneur en CI : image construite en CI, 401 sans identifiants, migrations OK | 1.5h | T-032-03, T-032-06 | ✅ |
+| T-032-08 | [DOC] | Runbook de déploiement Railway (variables, domaines, rollback, ouverture publique) | 2h | T-032-11 | ✅ |
+| T-032-09 | [OPS] | Création du projet Railway, des services (web, MySQL, Mailpit) et connexion GitHub (externe) | 1.5h | T-032-03, T-032-05 | ✅ |
+| T-032-10 | [OPS] | Variables d'environnement, secrets et domaine HTTPS généré (externe) | 1h | T-032-09 | ✅ |
+| T-032-11 | [OPS] | Premier déploiement et vérifications : 401 sans identifiants, migrations, bascule après healthcheck, Mailpit injoignable (externe) | 1.5h | T-032-10, T-032-07 | ✅ |
+| T-032-12 | [REV] | Revue du déploiement (configuration, secrets, fail-closed) | 1.5h | T-032-08, T-032-11 | ✅ |
 
 **Total estimé : 22h**
 
