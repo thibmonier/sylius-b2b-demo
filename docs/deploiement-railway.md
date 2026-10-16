@@ -61,9 +61,11 @@ Vérifiées le 2026-10-16 sur le domaine généré :
 | `app:demo:reset --simulate-failure` | sortie 1, `DEMO_RESET_FAILED cause=…`, données précédentes conservées |
 
 ```bash
-railway ssh --service web -- php bin/console app:demo:reset --no-interaction   # relance manuelle
+railway ssh --service web -- su -s /bin/sh www-data -c 'php bin/console app:demo:reset --no-interaction'   # relance manuelle
 railway logs --service web                                                      # journal (DEMO_RESET_OK / DEMO_RESET_FAILED)
 ```
+
+**Toujours en `www-data`** : `railway ssh` ouvre une session root ; une commande qui reconstruit le cache (reset, `cache:clear`) lancée en root rend `var/cache/prod` inaccessible au serveur web (erreur 500 sur toutes les pages, constaté le 2026-10-16). Réparation : `railway ssh --service web -- chown -R www-data:www-data /app/var`.
 
 Exploitation du reset nocturne : [`remise-a-zero-demo.md`](remise-a-zero-demo.md).
 
