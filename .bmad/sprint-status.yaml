@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 3
+current_sprint: 4
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -33,7 +33,7 @@ sprints:
       - {id: US-012, title: "Commande de remise à zéro", points: 5, status: done}
   sprint-3:
     name: sprint-3-nouveaux-plugins
-    status: in-progress
+    status: done  # PR #3 mergée (squash) le 2026-10-16, commit 334262c
     sprint_id: "sprint-3"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
@@ -42,20 +42,25 @@ sprints:
     stories:
       - {id: US-019, title: "Mode d'accès par canal", points: 5, status: blocked}  # → plugin autonome publié dédié, hors auto-sprint démo (décision utilisateur 2026-10-16)
       - {id: US-020, title: "Inscription validée par l'admin", points: 5, status: blocked}  # → plugin autonome (dépend du plugin US-019)
-      - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: review}  # repro : colonnes OK, B2B PO requis, conteneur healthy
-      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: review}  # admin grille+fiche, e-mail, Factur-X BT-10 (décorateur CiiXmlWriter), PunchOut (subscriber, via notes : fragile)
-      - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: review}  # ADR-0012 : étendre le plugin officiel sous réserve POC 2.3, sinon plugin maison
-      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: review}  # mapping punchout OK (resolve_target_entities), I1 test, I2 blocker devis, I3 on_account
+      - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: done}
+      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: done}
+      - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: done}
+      - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: done}
   sprint-4:
     name: sprint-4-theme-b2b
-    status: planned
+    status: in-progress
+    sprint_id: "sprint-4"
+    start_date: "2026-10-16"
+    end_date: "2026-10-30"
+    capacity_points: 28
+    goal: "Thème B2B de la démo : thème du shop, page d'accueil B2B et page Plugins, bandeau de démo et connexion en un clic, badges de plugin dans le shop et l'admin, mentions légales et page À propos"
     stories:
-      - {id: US-013, title: "Thème B2B du shop", points: 8, status: backlog}
-      - {id: US-014, title: "Page d'accueil B2B et page Plugins", points: 5, status: backlog}
-      - {id: US-015, title: "Bandeau de démo et connexion en un clic", points: 3, status: backlog}
-      - {id: US-016, title: "Badges de plugin dans le shop", points: 5, status: backlog}
-      - {id: US-017, title: "Badges de plugin dans l'admin", points: 3, status: backlog}
-      - {id: US-018, title: "Mentions légales et page À propos", points: 2, status: backlog}
+      - {id: US-013, title: "Thème B2B du shop", points: 8, status: ready-for-dev}
+      - {id: US-014, title: "Page d'accueil B2B et page Plugins", points: 5, status: ready-for-dev}
+      - {id: US-015, title: "Bandeau de démo et connexion en un clic", points: 5, status: ready-for-dev}  # ré-estimée 3→5 : comptes sur login shop/admin, source unique, correctif /demo/accounts
+      - {id: US-016, title: "Badges de plugin dans le shop", points: 5, status: ready-for-dev}
+      - {id: US-017, title: "Badges de plugin dans l'admin", points: 3, status: ready-for-dev}
+      - {id: US-018, title: "Mentions légales et page À propos", points: 2, status: ready-for-dev}
   sprint-5:
     name: sprint-5-listes-et-scenarios
     status: planned
