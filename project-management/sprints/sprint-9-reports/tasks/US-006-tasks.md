@@ -16,11 +16,11 @@ En tant que Thibaut, je veux savoir si le mode worker FrankenPHP est sûr avec S
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-006-01 | [BE] | Activer le mode worker en local (Caddyfile, variables FrankenPHP) derrière un drapeau, avec threads bornés (`num_threads`, `max_threads`, nombre de workers) | 2h | — | 🔲 |
-| T-006-02 | [TEST] | Test de fuite d'état en mode worker : requêtes alternées entre comptes, canaux, locales et badges | 2.5h | T-006-01 | 🔲 |
-| T-006-03 | [BE] | Mesurer le gain : latence p50/p95 sur 5 pages types, classique contre worker | 1.5h | T-006-01 | 🔲 |
-| T-006-06 | [TEST] | Mémoire sous charge : RSS du conteneur (FrankenPHP borné + processus de supercronic) en classique et en worker | 1.5h | T-006-01 | 🔲 |
-| T-006-04 | [DOC] | ADR-0013 : mode retenu (worker ou classique), bornage des threads et inventaire des services à état | 1h | T-006-02, T-006-03, T-006-06 | 🔲 |
+| T-006-01 | [BE] | Activer le mode worker en local (Caddyfile, variables FrankenPHP) derrière un drapeau, avec threads bornés (`num_threads`, `max_threads`, nombre de workers) | 2h | — | ✅ |
+| T-006-02 | [TEST] | Test de fuite d'état en mode worker : requêtes alternées entre comptes, canaux, locales et badges | 2.5h | T-006-01 | ✅ |
+| T-006-03 | [BE] | Mesurer le gain : latence p50/p95 sur 5 pages types, classique contre worker | 1.5h | T-006-01 | ✅ |
+| T-006-06 | [TEST] | Mémoire sous charge : RSS du conteneur (FrankenPHP borné + processus de supercronic) en classique et en worker | 1.5h | T-006-01 | ✅ |
+| T-006-04 | [DOC] | ADR-0013 : mode retenu (worker ou classique), bornage des threads et inventaire des services à état | 1h | T-006-02, T-006-03, T-006-06 | ✅ |
 | T-006-05 | [REV] | Revue du spike (méthode de mesure, couverture du test de fuite) | 0.5h | T-006-04 | 🔲 |
 
 **Total estimé : 9h** (6 tâches ; 7h au sprint 8, +0.5h bornage des threads, +1.5h mémoire avec le cron)
