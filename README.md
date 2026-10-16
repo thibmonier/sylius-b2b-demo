@@ -15,7 +15,7 @@ Page `/demo/accounts` liste tous les identifiants en temps réel.
 | `claire@acme.example` | Claire Dupont | Acheteuse / Buyer | Acme Industries |
 | `paul@acme.example` | Paul Martin | Approbateur / Approver | Acme Industries |
 | `isabelle@acme.example` | Isabelle Renard | Administratrice / Admin | Acme Industries |
-| `marc@techparts.example` | Marc Lefebvre | Acheteur (TechParts) + Approbateur (BuildCo) | TechParts SAS + BuildCo SA |
+| `marc@techparts.example` | Marc Lefebvre | Acheteur / Buyer | TechParts SAS |
 | `nathalie@techparts.example` | Nathalie Girard | Administratrice / Admin | TechParts SAS |
 | `thomas@buildco.example` | Thomas Bernard | Acheteur — ⚠️ compte **désactivé** | BuildCo SA |
 | `antoine@buildco.example` | Antoine Moreau | Approbateur / Approver | BuildCo SA |
@@ -33,7 +33,7 @@ Page `/demo/accounts` liste tous les identifiants en temps réel.
 
 ### Scénarios de démo
 
-- **Multi-entreprises** : Marc Lefebvre est membre de TechParts SAS (acheteur) **et** BuildCo SA (approbateur).
+- **Cloisonnement des entreprises** : un client appartient à une seule entreprise ; Marc (TechParts) ne voit ni les listes, ni les adresses, ni les commandes d'Acme.
 - **Compte désactivé** : Thomas Bernard — connexion refusée (ShopUser désactivé).
 - **Back-office restreint** : Sophie Martin accède à `/admin/` avec des droits limités.
 

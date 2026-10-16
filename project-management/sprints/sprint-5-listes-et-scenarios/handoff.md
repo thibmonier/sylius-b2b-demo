@@ -16,7 +16,9 @@ Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-spr
 | 4 Implémentation | 🔄 voir tableau des stories |
 | 5 PR | ✅ brouillon #5 |
 | 6 CI | 🔄 à confirmer après le dernier push |
-| 7 Revue, 8 Rétro, 9 Merge | ⏳ (merge seulement sur GO de l'utilisateur) |
+| 7 Revue | ✅ GO (`review-findings.md`) |
+| 8 Rétro | ✅ (`retrospective.md`) |
+| 9 Merge | ⏳ seulement sur GO de l'utilisateur |
 
 ## Stories
 
@@ -65,6 +67,15 @@ Document de reprise après nettoyage du contexte. Lancé par `/workflow:auto-spr
 - Tests locaux : suite complète 298 tests ; seuls échecs locaux attendus = absence de `wkhtmltopdf` sur le Mac (contourné par `WKHTMLTOPDF_BINARY=<faux binaire>`, qui fait alors échouer l'assertion Factur-X d'`OrderHistorySmokeTest`) et cache `prod` périmé (`APP_ENV=prod bin/console cache:clear`).
 - La base de test `sylius_b2b_demo_test` avait disparu : recréée (create, migrate, fixtures).
 - Constats pour la revue : `doctrine:schema:validate` sans `--skip-sync` signale 4 écarts préexistants (tables Sylius refund/payment) ; le README annonçait Marc approbateur chez BuildCo alors que `accounts.yaml` ne l'y met pas ; `demo_mailpit_url()` (Twig) n'est utilisée par aucun template.
+
+## Phase 7 — revue (2026-10-16)
+
+- Revue Symfony : corrigés dans `a1a5cd5` (boîte de démo : appels Mailpit en parallèle, page bornée à ~4 s ; garde du dossier de factures vide). Écartés : « BuyerCredentialsProvider absent » (faux, fichier présent dans HEAD) ; rejeu de l'état signé avec le même n° (dédupliqué par le plugin).
+- Sécurité : GO pour le merge (démo non publique). **À traiter au sprint 6, avant l'ouverture publique** :
+  1. Simulateur PunchOut public = commandes Acme anonymes à volonté (état signé rejouable 1 h avec un autre n° de commande ; le secret de démo permet de toute façon de poster sur `/punchout/cxml`). Accès restreint à `/demo/*` ou nonce à usage unique + rate limiter par IP, et reset régulier d'Acme (crédit, commandes).
+  2. `framework.trusted_hosts` absent et `TRUSTED_PROXIES` = `REMOTE_ADDR` : restreindre aux plages du proxy Railway.
+  3. Le rate limiter de setup du plugin voit toutes les requêtes du simulateur en 127.0.0.1 : un visiteur peut bloquer les autres (429). Limiter par IP visiteur côté simulateur.
+  4. Boîte de démo : affiche tous les e-mails quel que soit le destinataire (RGPD si inscription/commande avec une vraie adresse) → n'afficher que les destinataires des comptes de démo (liste blanche).
 
 ## Reprise conseillée
 
