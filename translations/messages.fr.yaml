@@ -6,7 +6,7 @@ app:
         show: 'Afficher les badges plugin'
     plugins:
         title: 'Plugins'
-        intro: "Les 21 plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo."
+        intro: "Les 22 plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo."
         github: 'GitHub'
         packagist: 'Packagist'
         unpublished: 'Non publié'
@@ -37,7 +37,7 @@ app:
                 quincaillerie: 'Quincaillerie'
                 fournitures-industrielles: 'Fournitures industrielles'
             plugins: 'Plugins'
-            plugins_text: 'Les 21 plugins et où les voir dans la démo.'
+            plugins_text: 'Les 22 plugins et où les voir dans la démo.'
             plugins_link: 'Voir les plugins'
         journeys:
             title: 'Parcours B2B à essayer'

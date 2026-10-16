@@ -1,4 +1,4 @@
-# Single source of truth for the 21 showcased plugins (US-014). Consumed by the Plugins page, the
+# Single source of truth for the 22 showcased plugins (US-014). Consumed by the Plugins page, the
 # About page and (later) the plugin badges through App\Demo\Plugin\DemoPluginCatalog.
 # slug = GitHub repository name = Packagist package "tmonier/<slug>"; descriptions come from each
 # plugin's composer.json. demo_route = name of a real shop route showing the plugin (null when the
@@ -73,6 +73,17 @@ parameters:
               fr: "Dans la liste des produits, sélectionnez plusieurs lignes et désactivez-les, ou changez leurs taxons, en une seule action."
               en: "In the product list, select several rows and disable them, or change their taxons, in a single action."
           advised_account: sophie@fournitures-pro.example
+        - slug: sylius-channel-access-plugin
+          name: 'Channel Access'
+          category: catalog
+          description:
+              fr: "Mode d'accès par canal (ouvert, prix masqués, fermé) : le catalogue, les prix et l'achat sont réservés aux clients connectés, côté pages comme côté API boutique, avec une liste blanche de routes exemptées."
+              en: 'Per-channel access mode (open, prices hidden, closed): the catalogue, prices and purchase are reserved for signed-in customers, on the pages as well as in the shop API, with an allow-list of exempt routes.'
+          demo_route: null
+          scenario:
+              fr: "Ouvrez une fiche produit du canal B2B sans être connecté : aucun prix ni bouton d'achat, un lien invite à se connecter. Connectez-vous : les prix et l'achat apparaissent. Le canal Particuliers reste ouvert."
+              en: "Open a B2B product page without signing in: no price and no buy button, a link invites you to sign in. Sign in: prices and purchase appear. The consumer channel stays open."
+          advised_account: claire@acme.example
         - slug: sylius-command-palette-plugin
           name: 'Command Palette'
           category: admin
