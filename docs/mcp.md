@@ -21,7 +21,7 @@ Application d'US-030. Les étapes pour l'utilisateur sont sur la page **`/{local
 | Requête du serveur MCP vers un hôte hors liste | refusée avant toute connexion (garde sortant sur `http_client.transport`, US-040) |
 | Reset nocturne (03:00 Paris) | connexions d'assistants effacées : se reconnecter |
 
-Le refus des comptes non approuvés est aujourd'hui porté par `McpApprovalGuard` (démo). Le guide décrit ce comportement, quelle que soit son implémentation (US-043 le déplace dans le plugin).
+Le refus des comptes non approuvés passe par le point d'extension du plugin (`AccountUsabilityCheckerInterface`, b2b-mcp ≥ 1.2.1) : `src/Demo/Mcp/ApprovedRegistrationChecker.php` lit le statut d'approbation du client (registration-approval) quand un canal valide les inscriptions. Le plugin l'interroge à la page de consentement et à chaque appel `/_mcp`. Le vérificateur ne reçoit que le client : la règle s'applique dès qu'un canal de la politique d'approbation existe (B2B), pas au canal propre de la connexion.
 
 ## Démo privée : limite importante
 
