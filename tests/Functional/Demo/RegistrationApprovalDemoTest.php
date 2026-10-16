@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Connection as Dbal;
+use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mime\Email;
+use Tmonier\SyliusB2bMcpPlugin\Entity\Connection;
+use Tmonier\SyliusB2bMcpPlugin\Entity\OAuthClient;
+use Tmonier\SyliusB2bMcpPlugin\Entity\OAuthToken;
+use Tmonier\SyliusB2bMcpPlugin\OAuth\ScopeCatalog;
+use Tmonier\SyliusB2bMcpPlugin\OAuth\TokenStore;
 
 /**
  * US-020 — A registration on the B2B channel waits for Sophie (restricted back-office account); she approves or
@@ -22,11 +29,11 @@ final class RegistrationApprovalDemoTest extends DemoAdminWebTestCase
 
     private const PASSWORD = 'Demo1234!x';
 
-    private ?Connection $transactional = null;
+    private ?Dbal $transactional = null;
 
     protected function tearDown(): void
     {
-        if ($this->transactional instanceof Connection && $this->transactional->isTransactionActive()) {
+        if ($this->transactional instanceof Dbal && $this->transactional->isTransactionActive()) {
             $this->transactional->rollBack();
         }
         parent::tearDown();
@@ -127,6 +134,37 @@ final class RegistrationApprovalDemoTest extends DemoAdminWebTestCase
         self::assertStringNotContainsStringIgnoringCase('already used', (string) $client->getResponse()->getContent());
     }
 
+    public function testAPendingCustomerCannotGiveAnAiAssistantTheirAccessNorUseOne(): void
+    {
+        $client = $this->clientInTransaction();
+        $pending = $this->register($client);
+        $token = $this->mcpAccessToken($pending);
+
+        $this->signInAs($client, $pending);
+        $client->request('GET', '/fr_FR/account/ai-assistants/authorize');
+        self::assertResponseStatusCodeSame(403, 'the consent screen');
+        $client->request('GET', '/fr_FR/account/ai-assistants');
+        self::assertResponseStatusCodeSame(403, 'the connections');
+        $this->mcpCall($client, $token);
+        self::assertResponseStatusCodeSame(403, 'an access token the customer got before: the assistant has the access of the customer');
+        self::assertStringNotContainsString('result', (string) $client->getResponse()->getContent());
+
+        // Once approved, the same token works.
+        $this->decide($client, $pending, 'approve');
+        $this->mcpCall($client, $token);
+        self::assertNotContains($client->getResponse()->getStatusCode(), [401, 403]);
+    }
+
+    public function testAnApprovedDemoCustomerKeepsHisAiAssistants(): void
+    {
+        $client = $this->clientInTransaction();
+        $token = $this->mcpAccessToken('claire@acme.example');
+
+        $this->mcpCall($client, $token);
+
+        self::assertNotContains($client->getResponse()->getStatusCode(), [401, 403]);
+    }
+
     public function testSophieCannotDoAnythingElseWithThePlugin(): void
     {
         $client = $this->clientInTransaction();
@@ -188,6 +226,41 @@ final class RegistrationApprovalDemoTest extends DemoAdminWebTestCase
         self::assertResponseRedirects('/admin/registration-approvals');
 
         return $mails;
+    }
+
+    /** An access token of an AI assistant connected to the account of the customer (the OAuth tables are rolled back). */
+    private function mcpAccessToken(string $email): string
+    {
+        $container = self::getContainer();
+        $em = $container->get('doctrine.orm.entity_manager');
+        self::assertInstanceOf(EntityManagerInterface::class, $em);
+        $tokens = $container->get('tmonier_b2b_mcp.oauth.token_store');
+        self::assertInstanceOf(TokenStore::class, $tokens);
+        $scopes = $container->get('tmonier_b2b_mcp.oauth.scope_catalog');
+        self::assertInstanceOf(ScopeCatalog::class, $scopes);
+        $customer = $em->getRepository(CustomerInterface::class)->findOneBy(['email' => $email]);
+        self::assertInstanceOf(CustomerInterface::class, $customer);
+
+        $oauthClient = new OAuthClient('test-assistant-' . bin2hex(random_bytes(4)), 'Test assistant', ['https://assistant.example/callback']);
+        $em->persist($oauthClient);
+        $connection = new Connection();
+        $connection->setClient($oauthClient);
+        $connection->setCustomer($customer);
+        $connection->setChannelCode('B2B');
+        $connection->setScopes($scopes->supported());
+        $em->persist($connection);
+        $em->flush();
+
+        $identifier = bin2hex(random_bytes(24));
+        $tokens->store(OAuthToken::TYPE_ACCESS, $identifier, $connection, $scopes->supported(), new \DateTimeImmutable('+1 hour'));
+        $em->clear();
+
+        return $identifier;
+    }
+
+    private function mcpCall(KernelBrowser $client, string $token): void
+    {
+        $client->request('POST', '/_mcp', server: ['HTTP_AUTHORIZATION' => 'Bearer ' . $token, 'CONTENT_TYPE' => 'application/json', 'HTTP_ACCEPT' => 'application/json, text/event-stream'], content: (string) json_encode(['jsonrpc' => '2.0', 'id' => 1, 'method' => 'ping']));
     }
 
     private function signInAs(KernelBrowser $client, string $email): void
