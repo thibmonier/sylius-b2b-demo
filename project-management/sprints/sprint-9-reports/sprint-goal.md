@@ -10,7 +10,7 @@
 | Début | 2026-10-16 |
 | Fin | 2026-10-30 |
 | Durée | 11 jours ouvrés |
-| Capacité | 14 points (prévision) |
+| Capacité | 11 points, environ 52 h (après arbitrage) |
 | Branche | `feature/sprint-9-reports` |
 
 ## Sprint Goal
@@ -27,7 +27,7 @@
 | US-041 (reports) | T-041-06 à T-041-09 (S2-R7 à R10, S4-R3) | 4 h + 3,5 h + 4 h + 2 h | à faire |
 | US-041 (daté) | T-041-15 relevé de coût Railway à J+7 | 0,5 h | **pas avant le 2026-10-23**, hors chemin critique, GO utilisateur |
 
-Total stories : 10 points. Tâches décomposées : 35 h (US-006, US-029, reports). US-044 : décomposition à faire au Planning Part 2.
+Engagement : 7 points de stories (US-006 et US-044) plus les reports d'US-041, soit 52,5 h pour 24 tâches. Détail : US-044 29,5 h, US-006 9 h, reports 14 h. US-029 (15,5 h) est reportée au sprint 10.
 
 ## Dépendances
 

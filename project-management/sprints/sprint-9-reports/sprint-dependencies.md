@@ -1,6 +1,6 @@
 # Dépendances — Sprint 009 (Reports)
 
-> **Arbitrage du 2026-10-16** : US-029 (récepteur de webhooks, 15,5 h) est reportée au sprint 10. Ses tâches restent ci-dessous pour mémoire, hors engagement du sprint 9.
+> **Arbitrage du 2026-10-16** : US-029 (récepteur de webhooks, 15,5 h) est reportée au sprint 10 et retirée de ces graphes. Ses dépendances sont dans `tasks/US-029-tasks.md` : US-004, le garde sortant M5 du sprint 8, et un thread FrankenPHP libre (T-006-01).
 
 ## Entre stories et avec les sprints précédents
 
@@ -11,15 +11,11 @@ graph TD
     US004["US-004 (livrée)"]
     US008["US-008, US-010, US-039 (livrées)"]
     US006["US-006 Spike worker (9h)"]
-    US029["US-029 Récepteur webhooks (15.5h)"]
     US044["US-044 container-fill (29.5h)"]
     US041["US-041 reports (14h)"]
     US002 --> US006
-    US004 --> US029
     US008 --> US044
-    S8 --> US029
     S8 --> US041
-    US006 -.->|"threads libres pour le récepteur"| US029
     US044 -.->|"mesurer le reset avec la fixture"| US041
 ```
 
@@ -34,13 +30,6 @@ graph TD
     T00603 --> T00604
     T00606 --> T00604
     T00604 --> T00605["T-006-05 revue"]
-    T02901["T-029-01"] --> T02902["T-029-02"]
-    T02901 --> T02904["T-029-04"]
-    T02902 --> T02905["T-029-05"]
-    T02903["T-029-03"] --> T02905
-    T02904 --> T02905
-    T02905 --> T02907["T-029-07 revue"]
-    T00601 -.->|"un thread libre"| T02902
     T04401["T-044-01"] --> T04402["T-044-02"] --> T04405["T-044-05"]
     T04403["T-044-03"] --> T04404["T-044-04"] --> T04405
     T04405 --> T04406["T-044-06"] --> T04407["T-044-07"]
