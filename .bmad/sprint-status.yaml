@@ -43,7 +43,7 @@ sprints:
       - {id: US-019, title: "Mode d'accès par canal", points: 5, status: blocked}  # → plugin autonome publié dédié, hors auto-sprint démo (décision utilisateur 2026-10-16)
       - {id: US-020, title: "Inscription validée par l'admin", points: 5, status: blocked}  # → plugin autonome (dépend du plugin US-019)
       - {id: US-021, title: "Référence PO et centre de coût au checkout", points: 5, status: review}  # repro : colonnes OK, B2B PO requis, conteneur healthy
-      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: ready-for-dev}
+      - {id: US-022, title: "Reprise de la référence partout", points: 5, status: review}  # admin grille+fiche, e-mail, Factur-X BT-10 (décorateur CiiXmlWriter), PunchOut (subscriber, via notes : fragile)
       - {id: US-023, title: "Spike : wishlist officielle sur Sylius 2.3", points: 2, status: review}  # ADR-0012 : étendre le plugin officiel sous réserve POC 2.3, sinon plugin maison
       - {id: US-026, title: "Correctifs d'interaction entre plugins", points: 5, status: ready-for-dev}
   sprint-4:
