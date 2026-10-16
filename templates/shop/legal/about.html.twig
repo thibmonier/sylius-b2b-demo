@@ -1,0 +1,29 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'about.title'|trans({}, 'legal') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-legal-page="about">
+        <h1>{{ 'about.title'|trans({}, 'legal') }}</h1>
+        <p class="lead">{{ 'about.intro'|trans({}, 'legal') }}</p>
+
+        <h2>{{ 'about.fictional'|trans({}, 'legal') }}</h2>
+        <ul>
+            <li>{{ 'about.fictional_data'|trans({}, 'legal') }}</li>
+            <li>{{ 'about.fictional_reset'|trans({}, 'legal') }}</li>
+            <li>{{ 'about.fictional_mail'|trans({}, 'legal') }}</li>
+        </ul>
+
+        <h2>{{ 'about.plugins'|trans({}, 'legal') }}</h2>
+        <p>{{ 'about.plugins_intro'|trans({}, 'legal') }}</p>
+        <ul data-plugin-list>
+            {% for plugin in plugins %}
+                <li><a href="https://github.com/thibmonier/{{ plugin }}" rel="noopener" target="_blank">{{ plugin }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2>{{ 'about.credits'|trans({}, 'legal') }}</h2>
+        <p>{{ 'about.credits_text'|trans({}, 'legal') }}</p>
+        <p>{{ 'about.trademarks'|trans({}, 'legal') }}</p>
+    </div>
+{% endblock %}

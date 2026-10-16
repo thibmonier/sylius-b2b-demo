@@ -1,0 +1,5 @@
+<nav class="container py-2 text-center fs-7" aria-label="{{ 'footer_nav'|trans({}, 'legal') }}">
+    <a href="{{ path('app_demo_legal_notice', {_locale: app.request.locale}) }}">{{ 'legal_notice.title'|trans({}, 'legal') }}</a>
+    ·
+    <a href="{{ path('app_demo_about', {_locale: app.request.locale}) }}">{{ 'about.title'|trans({}, 'legal') }}</a>
+</nav>

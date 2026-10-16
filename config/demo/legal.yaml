@@ -1,0 +1,32 @@
+# US-018: legal notice and about page of the public demo.
+# The publisher / host are deliberately NOT invented: set them through the environment
+# (DEMO_LEGAL_PUBLISHER, DEMO_LEGAL_HOST) before any public deployment. Empty = "to be completed" marker.
+parameters:
+    env(DEMO_LEGAL_PUBLISHER): ''
+    env(DEMO_LEGAL_HOST): ''
+    demo.legal.publisher: '%env(DEMO_LEGAL_PUBLISHER)%'
+    demo.legal.host: '%env(DEMO_LEGAL_HOST)%'
+
+    # Packagist package name of each plugin = GitHub repository name (github.com/thibmonier/<slug>).
+    demo.plugins:
+        - sylius-admin-order-creation-plugin
+        - sylius-agentic-feeds-plugin
+        - sylius-ai-catalog-copilot-plugin
+        - sylius-audit-log-plugin
+        - sylius-b2b-mcp-plugin
+        - sylius-bulk-actions-plugin
+        - sylius-command-palette-plugin
+        - sylius-company-accounts-plugin
+        - sylius-container-fill-plugin
+        - sylius-facturx-plugin
+        - sylius-gpsr-plugin
+        - sylius-order-hold-plugin
+        - sylius-punchout-cxml-plugin
+        - sylius-purchase-approval-plugin
+        - sylius-quick-order-plugin
+        - sylius-quote-request-plugin
+        - sylius-tier-pricing-plugin
+        - sylius-timeline-plugin
+        - sylius-trade-credit-plugin
+        - sylius-webhook-outbox-plugin
+        - sylius-withdrawal-plugin

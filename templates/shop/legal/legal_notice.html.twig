@@ -1,0 +1,22 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'legal_notice.title'|trans({}, 'legal') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-legal-page="legal-notice">
+        <h1>{{ 'legal_notice.title'|trans({}, 'legal') }}</h1>
+        <p class="lead">{{ 'legal_notice.demo'|trans({}, 'legal') }}</p>
+
+        <h2>{{ 'legal_notice.publisher'|trans({}, 'legal') }}</h2>
+        <p>{% if publisher %}{{ publisher }}{% else %}<strong data-placeholder>{{ 'to_complete'|trans({}, 'legal') }}</strong>{% endif %}</p>
+
+        <h2>{{ 'legal_notice.host'|trans({}, 'legal') }}</h2>
+        <p>{% if host %}{{ host }}{% else %}<strong data-placeholder>{{ 'to_complete'|trans({}, 'legal') }}</strong>{% endif %}</p>
+
+        <h2>{{ 'legal_notice.data'|trans({}, 'legal') }}</h2>
+        <p>{{ 'legal_notice.data_text'|trans({}, 'legal') }}</p>
+
+        <h2>{{ 'legal_notice.ip'|trans({}, 'legal') }}</h2>
+        <p>{{ 'legal_notice.ip_text'|trans({}, 'legal') }}</p>
+    </div>
+{% endblock %}
