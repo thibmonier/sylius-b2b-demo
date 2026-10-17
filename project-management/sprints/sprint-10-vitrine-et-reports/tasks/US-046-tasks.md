@@ -27,7 +27,7 @@ En tant que Nadia, je veux qu'un encart de la page Plugins rappelle l'existence 
 | T-046-01 | [DOC] | Relire la documentation officielle de Sylius Plus et rédiger le texte FR/EN (proposition) | 1.5h | — | ✅ |
 | T-046-02 | [FE-WEB] | Encart sur la page Plugins : gabarit, traductions FR/EN, lien externe sûr | 1.5h | T-046-01 | ✅ |
 | T-046-03 | [TEST] | Test fonctionnel : encart FR/EN, lien `noopener noreferrer`, CSP, termes interdits absents | 1.5h | T-046-02 | ✅ |
-| T-046-04 | [REV] | **Validation du texte par l'utilisateur (bloquante avant merge)** | 0.5h | T-046-02 | 🚫 |
+| T-046-04 | [REV] | **Validation du texte par l'utilisateur (bloquante avant merge)** | 0.5h | T-046-02 | ✅ Done (validé tel quel par l’utilisateur le 2026-10-17) |
 | T-046-05 | [REV] | Revue technique et conformité à la politique de communication | 0.5h | T-046-03 | ✅ |
 
 **Total estimé : 5.5h** (5 tâches)

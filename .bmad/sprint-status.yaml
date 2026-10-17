@@ -136,10 +136,10 @@ sprints:
     capacity_points: 13  # 3+2+5+3 pts ; 62,5 h décomposées (dont 2 h calendaires) pour ≈ 50 h : ordre de sacrifice dans sprint-10-vitrine-et-reports/tasks/README.md
     goal: "Soigner la vitrine de la démo (images des produits, encart Sylius Plus, récepteur de webhooks) et solder les reports techniques du sprint 9"
     stories:
-      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: ready-for-dev}  # reportée du sprint 9 (arbitrage utilisateur 2026-10-16) ; tâches reprises dans sprint-10-vitrine-et-reports/tasks/US-029-tasks.md
-      - {id: US-046, title: "Encart Sylius Plus sur la page Plugins", points: 2, status: ready-for-dev}  # texte validé par l'utilisateur avant merge (T-046-04 bloquante), aucune promesse de compatibilité
-      - {id: US-047, title: "Images des produits de démo", points: 5, status: ready-for-dev}  # Openverse CC0, script manuel lancé une fois, images versionnées, jamais d'appel au runtime
-      - {id: US-048, title: "Reports techniques du sprint 9", points: 3, status: ready-for-dev}  # rétro S9 actions 1 à 5 + points ouverts de la revue ; tâches sacrifiables
+      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: review}  # reportée du sprint 9 (arbitrage utilisateur 2026-10-16) ; tâches reprises dans sprint-10-vitrine-et-reports/tasks/US-029-tasks.md
+      - {id: US-046, title: "Encart Sylius Plus sur la page Plugins", points: 2, status: review}  # texte validé par l'utilisateur avant merge (T-046-04 bloquante), aucune promesse de compatibilité
+      - {id: US-047, title: "Images des produits de démo", points: 5, status: in-progress}  # Openverse CC0, script manuel lancé une fois, images versionnées, jamais d'appel au runtime
+      - {id: US-048, title: "Reports techniques du sprint 9", points: 3, status: in-progress}  # rétro S9 actions 1 à 5 + points ouverts de la revue ; tâches sacrifiables
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: review}  # faite hors sprint le 2026-10-17 (demande utilisateur)
