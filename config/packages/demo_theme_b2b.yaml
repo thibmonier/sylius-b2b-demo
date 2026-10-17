@@ -61,7 +61,8 @@ sylius_twig_hooks:
                 priority: 490
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
-        # US-014: B2B homepage. The core banner stays on B2C; the other core homepage blocks are kept.
+        # US-014: B2B homepage. The core banner stays on B2C; the other core homepage blocks are kept
+        # ("New collection" is B2C only too, see tmonier_plugins_overrides.yaml: US-045).
         'sylius_shop.homepage.index':
             banner:
                 condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"

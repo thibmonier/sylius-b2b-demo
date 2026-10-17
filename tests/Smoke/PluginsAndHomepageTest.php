@@ -95,6 +95,27 @@ final class PluginsAndHomepageTest extends WebTestCase
         self::assertCount(1, $crawler->filter('.row > .col > a.b2b-logo'));
     }
 
+    /** US-045: the core fashion block "New collection" is a B2C visual; the other B2B home blocks stay. */
+    #[DataProvider('locales')]
+    public function testTheB2bHomepageHasNoNewCollectionBlock(string $locale): void
+    {
+        $client = self::createClient();
+        $client->request('GET', '/demo/channel/B2B');
+        $crawler = $client->request('GET', '/' . $locale . '/');
+
+        self::assertResponseIsSuccessful();
+        self::assertCount(0, $crawler->filter('[aria-labelledby="new-collection"]'));
+        self::assertCount(1, $crawler->filter('[data-b2b-home="hero"]'));
+        self::assertCount(1, $crawler->filter('[data-b2b-home="quick-access"]'));
+    }
+
+    /** @return iterable<string, array{string}> */
+    public static function locales(): iterable
+    {
+        yield 'French' => ['fr_FR'];
+        yield 'English' => ['en_US'];
+    }
+
     public function testTheB2cHomepageKeepsTheStockSyliusHome(): void
     {
         $client = self::createClient();
@@ -103,6 +124,7 @@ final class PluginsAndHomepageTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(0, $crawler->filter('[data-b2b-home]'));
+        self::assertCount(1, $crawler->filter('[aria-labelledby="new-collection"]'));
     }
 
     private static function catalog(): DemoPluginCatalog
