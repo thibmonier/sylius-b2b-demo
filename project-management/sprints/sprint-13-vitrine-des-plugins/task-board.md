@@ -43,8 +43,8 @@
 
 | ID | US | Tâche | Estimation | Condition |
 |----|-----|-------|------------|-----------|
-| T-067-05 | US-067 | [OPS] Ouverture des 24 PR et merge (par Claude) | 1.5h | GO explicite, un pour l'ouverture, un pour le merge |
-| T-066-05 | US-066 | [OPS] CNAME et domaine personnalisé Railway (par l'utilisateur) | 0.5h | Nom du sous-domaine fourni |
+| T-067-05 | US-067 | [OPS] Ouverture des 24 PR et merge (par Claude) | 1.5h | GO unique de merge (une PR par dépôt) |
+| T-066-05 | US-066 | [OPS] CNAME et domaine personnalisé Railway (par l'utilisateur) | 0.5h | Domaine du site fourni (préfixe `sylius-b2b` fixé) |
 | T-066-06 | US-066 | [OPS] Vérification du certificat | 0.5h | Après T-066-05 |
 | T-052-03 à T-052-07 | US-052 | [OPS] Moniteur, bascule, `X-Real-IP`, MCP, coût Railway (reportées) | — | GO et comptes de l'utilisateur |
 

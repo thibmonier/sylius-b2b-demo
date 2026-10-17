@@ -7,7 +7,7 @@
 | Numéro | 13 |
 | Début | 2026-12-11 |
 | Fin | 2026-12-25 |
-| Durée | 10 jours ouvrés (le 2026-12-25 est férié : la revue a lieu le 2026-12-24) |
+| Durée | 10 jours ouvrés (le 2026-12-25 est férié : revue et rétrospective ont lieu le 2026-12-24) |
 | Capacité | 15 points, environ 30-35 h (37,5 h décomposées, dont 2,5 h calendaires ; 2,5 h sacrifiables, plus une coupe franche de 2 h) |
 | Branche | `feature/sprint-13-vitrine-des-plugins` |
 
@@ -34,20 +34,25 @@ Engagement : 15 points, 34 tâches, 37,5 h décomposées (35 h de charge hors ca
 - **D1** : on publie sans le site. Première passe (ce sprint) : README FR, images, référence à la démo. Les liens vers le site et la page contact sont une seconde passe (US-068, backlog), quand l'URL est connue. La page Plugins de la démo renvoie vers le site plus tard (US-069, backlog).
 - **D2** : Sylius Plus. Tout est listé, ton neutre. Les plugins qui recoupent Plus sont présentés sobrement : pas de comparaison avec Plus, pas de « alternative gratuite ». Rien n'est publié sur les canaux Sylius. Il faut d'abord classer chaque plugin (concurrent, complémentaire, hors périmètre) à partir de la documentation officielle et des pages publiques de Plus (US-063).
 - **D3** : images = vraies captures (boutique et admin) prises depuis la démo locale (`docker compose`), placées dans `docs/images/` de chaque dépôt ; depuis l'application de test pour un plugin absent de la démo. Plugins purement techniques sans image, liste justifiée.
-- **D4** : sous-domaine. L'utilisateur crée le CNAME et le domaine personnalisé dans Railway ; Claude prépare `TRUSTED_HOSTS`, le runbook et les références, puis vérifie le certificat. Nom du sous-domaine : question ouverte.
+- **D4** : sous-domaine. L'utilisateur crée le CNAME et le domaine personnalisé dans Railway ; Claude prépare `TRUSTED_HOSTS`, le runbook et les références, puis vérifie le certificat. Préfixe du sous-domaine : `sylius-b2b` (voir D5).
 - **Lien vers la démo tant qu'elle est privée** : dépôt public `https://github.com/thibmonier/sylius-b2b-demo`. L'URL en ligne est ajoutée à la bascule.
 
-## Choix du Tech Lead à valider
+- **D5** : sous-domaine de la démo. Le préfixe est `sylius-b2b` (`sylius-b2b.<domaine du site>`). Le domaine du site est encore inconnu : l'URL complète arrivera avec lui, en story de backlog US-068. US-066 prépare tout avec ce préfixe.
+- **D6** : livraison des dépôts. Une PR par dépôt de plugin (option A). Claude vérifie le rendu GitHub et la CI, puis présente le lot. Un GO unique de l'utilisateur merge les 24 PR.
+- **D7** : `order-hold` est le seul plugin purement technique, sans image : c'est un noyau sans entité, route ni écran. C'est vérifié.
+- **D8** : la revue et la rétrospective ont lieu le 2026-12-24, le 25 étant férié.
+
+## Choix du Tech Lead
 
 - **Découpe** : l'ex-US-064 (README FR de 24 dépôts, plus de 8 points) est scindée en US-064 (bloc, outil, lot A) et US-067 (lot B, livraison).
-- **Livraison des dépôts** : option A recommandée, une PR par dépôt (règle 09) et un seul GO de merge pour le lot ; option B, commit direct sur `main` pour des fichiers `*.md` seuls, exception à la règle 09 sur accord explicite. La CI de beaucoup de plugins ignore les `*.md` : un contrôle exigé par la protection de branche resterait « en attente » (voir US-064).
-- **Plugin purement technique** : `order-hold` seul (noyau sans entité, route ni écran). `punchout-cxml`, `channel-access` et `registration-approval` ont un écran (admin, boutique, simulateur) et sont photographiés.
+- **Livraison des dépôts** : option A retenue (D6), une PR par dépôt (règle 09) et un seul GO de merge pour le lot ; l'option B (commit direct sur `main`) est écartée. La CI de beaucoup de plugins ignore les `*.md` : un contrôle exigé par la protection de branche resterait « en attente » (voir US-064).
+- **Plugin purement technique** : `order-hold` seul, vérifié (D7) (noyau sans entité, route ni écran). `punchout-cxml`, `channel-access` et `registration-approval` ont un écran (admin, boutique, simulateur) et sont photographiés.
 
 ## Dépendances
 
 - US-064 et US-065 dépendent d'US-063 (charte de ton, liste des plugins sans image).
 - US-067 dépend d'US-064 (bloc, outil) ; l'insertion des images (T-065-06) travaille sur les branches d'US-067.
-- US-066 est indépendante des plugins ; ses tâches [OPS] attendent le nom du sous-domaine (question ouverte).
+- US-066 est indépendante des plugins ; ses tâches [OPS] attendent le domaine du site (préfixe `sylius-b2b` fixé, D5).
 - US-052 (reportée) : GO et comptes de l'utilisateur ; la bascule doit précéder l'ajout de l'URL en ligne aux README.
 
 ## Risques
@@ -83,8 +88,8 @@ Aucune action externe sans GO : pas de push, de PR, de merge ni de tag sans conf
 | Sprint Planning Part 2 (Comment, confirmation de la décomposition) | 2026-12-11 | 1 h |
 | Daily Scrum | Chaque jour | 15 min |
 | Affinage Backlog | 2026-12-18 | 1 h |
-| Sprint Review | 2026-12-24 (matin) | 1 h |
-| Rétrospective | 2026-12-24 (après-midi) | 1 h 30 |
+| Sprint Review | 2026-12-24 (matin ; le 25 est férié) | 1 h |
+| Rétrospective | 2026-12-24 (après-midi ; le 25 est férié) | 1 h 30 |
 
 ## Directive Fondamentale de la Rétrospective
 

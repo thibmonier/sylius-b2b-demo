@@ -74,4 +74,4 @@ US-063 → US-064 → US-067 : T-063-01 → T-063-03 → T-063-04 → T-064-02 �
 - `compose.yaml` et la démo locale : US-065 (T-065-03, T-065-04) ; pas d'autre usage simultané des ports.
 - `.railway/railway.ts`, `docs/ouverture-publique.md`, `docs/deploiement-railway.md`, `docs/mcp.md` : US-066 seulement ; ne pas modifier pendant la bascule d'US-052.
 - `.bmad/sprint-status.yaml` : orchestrateur seulement (écrivain unique).
-- Comptes, GO et nom du sous-domaine de l'utilisateur : T-067-05, T-066-05, T-052-03 à T-052-07.
+- Comptes, GO et domaine du site de l'utilisateur : T-067-05, T-066-05, T-052-03 à T-052-07.

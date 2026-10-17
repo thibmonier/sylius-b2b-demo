@@ -6,7 +6,7 @@
 - **Persona** : Thibaut
 - **Story Points** : 4
 - **Sprint** : sprint-13-vitrine-des-plugins
-- **Dépendances** : US-063 (liste des plugins purement techniques) ; démo locale (`compose.yaml`)
+- **Dépendances** : US-063 (liste des plugins purement techniques : `order-hold` seul, décision du 2026-10-17) ; démo locale (`compose.yaml`)
 
 ## Règles
 

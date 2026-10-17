@@ -17,9 +17,9 @@
 
 ## Décisions et accords à confirmer
 
-- [x] D1 à D4 (2026-10-17), voir [sprint-goal.md](./sprint-goal.md)
-- [ ] **Option de livraison des dépôts** : PR par dépôt (recommandée) ou commit direct sur `main` pour les `*.md`
-- [ ] **Nom du sous-domaine** de la démo (question ouverte)
+- [x] D1 à D8 (2026-10-17), voir [sprint-goal.md](./sprint-goal.md)
+- [x] **Livraison des dépôts** : une PR par dépôt, un GO unique de merge (2026-10-17)
+- [x] **Préfixe du sous-domaine** : `sylius-b2b` (2026-10-17) ; le domaine du site reste inconnu (US-068)
 - [ ] URL du site et de la page « me contacter » : inconnues, attendues pour US-068 et US-069
 - [ ] Sacrifices n° 1 à 4 acceptés
 
