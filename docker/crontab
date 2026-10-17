@@ -27,7 +27,7 @@ CRON_TZ=Europe/Paris
 # warm-up. No redirection: supercronic forwards the stdout (DEMO_RESET_OK) and the stderr (DEMO_RESET_FAILED) of the
 # job to the container logs, where Railway shows them, and logs the non-zero exit code. It ends well before the
 # 04:xx tasks and the 03:xx slot is empty.
-0 3 * * * php /app/bin/console app:demo:reset --no-interaction
+0 3 * * * php -d memory_limit=1G /app/bin/console app:demo:reset --no-interaction
 
 # Sylius core
 50 4 * * * php /app/bin/console sylius:remove-expired-carts --no-interaction

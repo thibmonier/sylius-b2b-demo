@@ -61,7 +61,7 @@ Vérifiées le 2026-10-16 sur le domaine généré :
 | `app:demo:reset --simulate-failure` | sortie 1, `DEMO_RESET_FAILED cause=…`, données précédentes conservées |
 
 ```bash
-railway ssh --service web -- su -s /bin/sh www-data -c 'php bin/console app:demo:reset --no-interaction'   # relance manuelle
+railway ssh --service web -- su -s /bin/sh www-data -c 'php -d memory_limit=1G bin/console app:demo:reset --no-interaction'   # relance manuelle
 railway logs --service web                                                      # journal (DEMO_RESET_OK / DEMO_RESET_FAILED)
 ```
 
