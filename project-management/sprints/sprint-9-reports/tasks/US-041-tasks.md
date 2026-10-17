@@ -20,8 +20,8 @@ En tant que Thibaut, je veux fiabiliser le chargement des données de démo et f
 |----|------|-------|------------|-----------|--------|
 | T-041-06 | [BE] | S2-R7 — Réduire les ≈ 420 requêtes du reset d'au moins 50 % (sacrifiable) | 4h | T-041-05 (sprint 8) | 🔲 |
 | T-041-07 | [TEST] | S2-R8 à R10 — Vérifier source partagée des comptes, ordre des fixtures de même priorité, valeurs d'attribut non traduisibles ; acter par écrit (sacrifiable) | 3.5h | T-041-05 (sprint 8) | 🔲 |
-| T-041-08 | [BE] | S4-R3 — Prix « dès » calculé en lot sur les listes | 4h | — | 🔲 |
-| T-041-09 | [TEST] | S4-R3 — Test : nombre de requêtes constant pour 5, 20 et 50 produits, valeurs inchangées | 2h | T-041-08 | 🔲 |
+| T-041-08 | [BE] | S4-R3 — Prix « dès » calculé en lot sur les listes | 4h | — | ✅ Done |
+| T-041-09 | [TEST] | S4-R3 — Test : nombre de requêtes constant pour 5, 20 et 50 produits, valeurs inchangées | 2h | T-041-08 | ✅ Done |
 | T-041-15 | [OPS] | Relevé **complet** du coût Railway à J+7 (**pas avant le 2026-10-23**, GO utilisateur) ; reste ouvert si hors sprint | 0.5h | T-041-12 (sprint 8) | 📅 |
 
 **Total estimé : 14h** (5 tâches ; T-041-06 et T-041-07 sacrifiables : 7.5h)
@@ -82,8 +82,10 @@ Une requête par page (indépendante du nombre de produits) ; mêmes valeurs qu'
 - `src/Repository/ProductPriceRepository.php`
 
 **Critères de validation** :
-- [ ] Valeurs identiques
-- [ ] Requêtes constantes
+- [x] Valeurs identiques (HTML des cartes identique avant/après sur 50 produits, 11 prix « dès »)
+- [x] Requêtes constantes (client connecté, hors recherche de listes de souhaits du plugin tiers : 25 / 25 / 25 pour 5 / 20 / 50 produits ; avant : 59 / 164 / 213 au total)
+
+**Résultat** : `ProductListPreloader` (2 requêtes : variantes + valeurs d'option + prix par canal + promotions, puis images) appelé par un hookable `b2b_preload` sur la liste ; `PreloadedVariantResolver` lit la première variante activée en mémoire quand les variantes sont chargées (le résolveur du cœur faisait une requête par carte). Reste hors périmètre : une requête par carte du plugin Sylius Wishlist (`findAllByShopUserAndToken`), non comptée dans le test.
 
 ---
 
@@ -100,7 +102,7 @@ Compter les requêtes SQL du rendu de liste pour 5, 20 et 50 produits ; valeurs 
 - `tests/Functional/ProductListQueryCountTest.php`
 
 **Critères de validation** :
-- [ ] Même nombre de requêtes quelle que soit la taille de la liste
+- [x] Même nombre de requêtes quelle que soit la taille de la liste
 
 ---
 

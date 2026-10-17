@@ -1,0 +1,2 @@
+{# Renders nothing: warms the Doctrine identity map for the cards of the list (see ProductListPreloader). #}
+{% do app_b2b_preload_product_list(hookable_metadata.context.resources.data) %}

@@ -15,6 +15,7 @@ final class B2bThemeExtension extends AbstractExtension
     public function __construct(
         private readonly PackagingUnitProvider $packagingUnits,
         private readonly TierFromPriceProvider $fromPrices,
+        private readonly ProductListPreloader $listPreloader,
     ) {
     }
 
@@ -23,7 +24,16 @@ final class B2bThemeExtension extends AbstractExtension
         return [
             new TwigFunction('app_b2b_packaging_unit', fn (?ProductInterface $product): ?string => $this->packagingUnits->forProductId($product?->getId())),
             new TwigFunction('app_b2b_tier_from_price', fn (?ProductInterface $product): ?int => $this->fromPrices->fromPrice($this->firstVariant($product))),
+            new TwigFunction('app_b2b_preload_product_list', fn (iterable $products): string => $this->preload($products)),
         ];
+    }
+
+    /** @param iterable<mixed> $products */
+    private function preload(iterable $products): string
+    {
+        $this->listPreloader->preload($products);
+
+        return '';
     }
 
     private function firstVariant(?ProductInterface $product): ?ProductVariantInterface
