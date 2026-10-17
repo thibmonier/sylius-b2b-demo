@@ -33,9 +33,9 @@ En tant que Thibaut, je veux solder les reports techniques du sprint 9, afin que
 | T-048-08 | [BE] | 5 | ⚠️ `VariantLogisticsSeeder` : supprimer la capacité périmée quand la quantité est < 1 | 1h | — | ✅ |
 | T-048-09 | [BE] | 5 | ⚠️ `PackagingUnitParser` : normalisation NFC | 0.5h | — | ✅ |
 | T-048-10 | [BE] | 5 | ⚠️ Entrypoint : recharger les fixtures après un premier chargement interrompu | 1.5h | — | ✅ |
-| T-048-11 | [OPS] | 3 | 📅 Relevé complet du coût Railway (T-041-15), GO utilisateur | 0.5h | — | 📅 |
-| T-048-12 | [OPS] | 3 | 📅 Vérifier `/api/v2/shop/*` (404 en local) sur Railway | 0.5h | — | 📅 |
-| T-048-13 | [OPS] | 3 | 📅 Pic mémoire du reset (≈ 1,08 Go) contre la limite du service Railway | 1h | T-048-04 | 📅 |
+| T-048-11 | [OPS] | 3 | 📅 Relevé complet du coût Railway (T-041-15), GO utilisateur | 0.5h | — | 📅 Relevé partiel du 2026-10-17 consigné (4,75 $ estimés), relevé complet après le 2026-10-23 |
+| T-048-12 | [OPS] | 3 | 📅 Vérifier `/api/v2/shop/*` (404 en local) sur Railway | 0.5h | — | ✅ Done : 404 confirmé sur Railway, cause = API désactivée hors dev (sylius_api.yaml), maintenue désactivée (décision utilisateur 2026-10-17) |
+| T-048-13 | [OPS] | 3 | 📅 Pic mémoire du reset (≈ 1,08 Go) contre la limite du service Railway | 1h | T-048-04 | 📅 Après le déploiement du sprint 10 (choix utilisateur) |
 | T-048-14 | [REV] | — | Revue | 1h | T-048-03, T-048-04 | 🔲 |
 
 **Total estimé : 19h** (14 tâches), dont 2h calendaires (T-048-11 à T-048-13) hors charge continue et 11h sacrifiables (T-048-05 à T-048-10).
