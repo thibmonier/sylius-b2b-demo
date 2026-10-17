@@ -98,7 +98,7 @@ final class DemoGuardsTest extends TestCase
 
     public function testNothingIsCheckedOutsideTheDemoMode(): void
     {
-        $guard = new DemoConfigurationGuard($this->gate(demoMode: false, user: '', hash: ''), false, 'smtp://smtp.gmail.com', '', '', '');
+        $guard = new DemoConfigurationGuard($this->gate(demoMode: false, user: '', hash: ''), false, 'smtp://smtp.gmail.com', '', '', '', false, false);
 
         self::assertSame([], $guard->violations());
     }
@@ -116,7 +116,7 @@ final class DemoGuardsTest extends TestCase
     #[DataProvider('provideWeakSettings')]
     public function testAWeakSecretOrAnOpenHostWhitelistIsRefusedInTheDemoMode(string $secret, string $hosts, string $mention): void
     {
-        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, 'null://null', '', $secret, $hosts);
+        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, 'null://null', '', $secret, $hosts, false, false);
 
         self::assertStringContainsString($mention, implode(' ', $guard->violations()));
     }
@@ -132,9 +132,35 @@ final class DemoGuardsTest extends TestCase
 
     public function testASolidSecretAndAHostWhitelistPass(): void
     {
-        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, 'null://null', '', str_repeat('s', 32), '^demo\.example$');
+        $guard = new DemoConfigurationGuard($this->gate(enabled: false), true, 'null://null', '', str_repeat('s', 32), '^demo\.example$', false, false);
 
         self::assertSame([], $guard->violations());
+    }
+
+    #[DataProvider('providePublicExposures')]
+    public function testTheOpenGateRefusesWhatLetsAVisitorLeaveDataOrReachTheEndpoint(bool $gateOn, bool $registrationOpen, bool $punchOutPublic, string $mention): void
+    {
+        $guard = new DemoConfigurationGuard($this->gate(enabled: $gateOn), true, 'null://null', '', str_repeat('s', 40), '^demo\.example$', $registrationOpen, $punchOutPublic);
+
+        $messages = implode(' ', $guard->publicModeViolations());
+
+        '' === $mention ? self::assertSame('', $messages) : self::assertStringContainsString($mention, $messages);
+    }
+
+    /** @return iterable<string, array{bool, bool, bool, string}> */
+    public static function providePublicExposures(): iterable
+    {
+        yield 'private demo, everything open' => [true, true, true, ''];
+        yield 'public demo, closed' => [false, false, false, ''];
+        yield 'public demo, registrations open' => [false, true, false, 'DEMO_REGISTRATION_OPEN'];
+        yield 'public demo, public PunchOut endpoint' => [false, false, true, 'DEMO_PUNCHOUT_PUBLIC_ENDPOINT'];
+    }
+
+    public function testThePublicModeRulesAreNotCheckedOutsideTheDemoMode(): void
+    {
+        $guard = new DemoConfigurationGuard($this->gate(demoMode: false, enabled: false), false, 'null://null', '', '', '', true, true);
+
+        self::assertSame([], $guard->publicModeViolations());
     }
 
     public function testTheHostAllowListAcceptsLoopbackRailwayInternalAndConfiguredHostsOnly(): void
@@ -151,7 +177,7 @@ final class DemoGuardsTest extends TestCase
 
     private function guard(BasicAuthGate $gate, string $dsn, string $mailerHosts): DemoConfigurationGuard
     {
-        return new DemoConfigurationGuard($gate, true, $dsn, $mailerHosts, str_repeat('s', 40), '^demo\.example$');
+        return new DemoConfigurationGuard($gate, true, $dsn, $mailerHosts, str_repeat('s', 40), '^demo\.example$', false, false);
     }
 
     private function gate(bool $demoMode = true, bool $enabled = true, string $user = 'visitor', ?string $hash = null): BasicAuthGate

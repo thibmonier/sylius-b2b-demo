@@ -80,11 +80,7 @@ Ou, dans le tableau de bord Railway, *Deployments > Redeploy* sur une version pr
 
 ## Ouverture publique (après le GO de l'utilisateur uniquement)
 
-1. Revue de sécurité US-037 sans constat critique ou majeur ouvert.
-2. GO explicite de l'utilisateur.
-3. Fermer les voies par lesquelles un visiteur crée un client avec ses propres données (constat M2 du sprint 6, N2 du sprint 8). Mettre `DEMO_REGISTRATION_OPEN: "0"`. Vérifier aussi la commande invité B2C et la demande de devis invité (`allow_guests`), qui ne sont pas encore couvertes.
-4. `DEMO_BASIC_AUTH: "0"` dans `.railway/railway.ts`, commit, `railway config apply`.
-5. Revérifier : 200 sans identifiants, plafonds de débit actifs, `/demo/mails` limité aux comptes de démo, inscription refusée (403).
+Pas-à-pas, vérifications et retour arrière : [ouverture-publique.md](ouverture-publique.md). En résumé : revue de sécurité sans constat critique ou majeur, moniteur `/healthz`, GO explicite, puis `OPEN_TO_PUBLIC = true` dans `.railway/railway.ts` (`DEMO_BASIC_AUTH=0` et `DEMO_REGISTRATION_OPEN=0`, qui ferme aussi la commande invité et le devis invité) et `railway config apply`. Le preflight du conteneur refuse une démo publique à inscriptions ouvertes.
 
 ## Budget (US-034)
 

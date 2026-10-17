@@ -158,3 +158,8 @@ sylius_twig_hooks:
             demo_no_real_data:
                 template: 'demo/no_real_data_notice.html.twig'
                 priority: 500
+
+# US-050: the quote request plugin lets a visitor without an account send a quote request (name and e-mail, kept in Sophie's
+# list). It follows the registrations: closed with DEMO_REGISTRATION_OPEN=0, so a closed demo takes no personal data.
+tmonier_sylius_quote_request:
+    allow_guests: '%demo.registration_open%'

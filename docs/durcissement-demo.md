@@ -1,6 +1,6 @@
 # Durcissement de la démo publique
 
-Application des US-032 (porte privée) et US-036 (durcissement). Le code est dans `src/Demo/Http`, la configuration dans `config/packages/demo_hardening.yaml` et `config/packages/demo_framework.yaml`. Contexte et décision : [ADR-0008](adr/0008-securite-de-la-demo-publique.md).
+Application des US-032 (porte privée) et US-036 (durcissement). Le code est dans `src/Demo/Http`, la configuration dans `config/packages/demo_hardening.yaml` et `config/packages/demo_framework.yaml`. Contexte et décision : [ADR-0008](adr/0008-securite-de-la-demo-publique.md). Passage en mode public : [ouverture-publique.md](ouverture-publique.md).
 
 ## Porte privée (authentification HTTP basique)
 
@@ -8,7 +8,9 @@ Application des US-032 (porte privée) et US-036 (durcissement). Le code est dan
 - Exemptés : `/health` et `/healthz`. Les fichiers statiques servis directement par Caddy (`/build`, `/bundles`, `/media`) ne passent pas par PHP et restent accessibles.
 - Les échecs de mot de passe sont comptés par IP visiteur : au-delà de `DEMO_RATE_LIMIT_GATE` échecs par 10 minutes, `429`.
 - Le simulateur PunchOut appelle la boutique en boucle locale : il prouve son origine avec l'en-tête `X-Demo-Internal` (HMAC de `APP_SECRET`), accepté par la porte et par l'endpoint PunchOut.
-- Fail-closed : porte active sans `DEMO_BASIC_AUTH_USER` / `DEMO_BASIC_AUTH_PASSWORD_HASH` valides (le hash est celui de `password_hash`, jamais un mot de passe en clair) : toutes les pages répondent `503` et `/health` aussi. `php bin/console app:demo:preflight` fait la même vérification pour l'entrypoint du conteneur.
+- Fail-closed : porte active sans `DEMO_BASIC_AUTH_USER` / `DEMO_BASIC_AUTH_PASSWORD_HASH` valides (le hash est celui de `password_hash`, jamais un mot de passe en clair) : toutes les pages répondent `503` et `/health` aussi. `php bin/console app:demo:preflight` fait la même vérification pour l'entrypoint du conteneur, et, porte ouverte, refuse aussi des inscriptions ouvertes ou un endpoint PunchOut public (US-050).
+- Tout ce qui dépend de la porte lit le même paramètre `demo.basic_auth.enabled` (`BasicAuthGate::isActive()`) : porte, avertissement du guide MCP, preflight.
+- `robots.txt` (`Disallow: /`) et `X-Robots-Tag: noindex, nofollow` en mode démo, dans les deux modes ; `public/robots.txt` supprimé au profit de `RobotsController` (US-050).
 
 Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON2ID), PHP_EOL;'`. Dans un fichier `.env`, entourer la valeur de guillemets simples (le `$` y est interprété).
 
@@ -28,9 +30,9 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `DEMO_RATE_LIMIT_PUNCHOUT_ORDER` | `10` (par heure) | `10` |
 | `DEMO_RATE_LIMIT_GATE` | `20` (échecs par 10 min) | `20` |
 | `DEMO_RATE_LIMIT_HEALTH` | `30` (par minute) | `30` : `/health` et `/healthz`, par IP visiteur ; un moniteur toutes les 10 s fait 6 appels |
-| `DEMO_REGISTRATION_OPEN` | `1` | `1` tant que la démo est privée (inscriptions validées par Sophie), **`0` avant l'ouverture publique** |
+| `DEMO_REGISTRATION_OPEN` | `1` | `1` tant que la démo est privée (inscriptions validées par Sophie), **`0` avant l'ouverture publique** ; ferme aussi la commande invité (étape adresse) et le devis invité (`allow_guests`). Le preflight refuse de démarrer porte ouverte avec `1` |
 | `DEMO_PUNCHOUT_DAILY_ORDERS` | `50` | `50` |
-| `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0` | `0` |
+| `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0` | `0` (le preflight refuse `1` porte ouverte) |
 | `DEMO_MAILER_ALLOWED_HOSTS` | `mailpit,localhost,127.0.0.1` | nom d'hôte privé de Mailpit (`*.railway.internal` toujours accepté) |
 | `DEMO_OUTBOUND_ALLOWED_HOSTS` | `mailpit,api.iconify.design` | inchangé |
 

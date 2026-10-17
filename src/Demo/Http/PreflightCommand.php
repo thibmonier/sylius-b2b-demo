@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /** Container entrypoint check: exits non-zero when the demo would not be safe to serve (fail closed). */
-#[AsCommand(name: 'app:demo:preflight', description: 'Check that the demo is configured safely (private gate credentials, internal mailer)')]
+#[AsCommand(name: 'app:demo:preflight', description: 'Check that the demo is configured safely (private gate credentials or, with the gate off, closed registrations; internal mailer)')]
 final class PreflightCommand extends Command
 {
     public function __construct(private readonly DemoConfigurationGuard $guard)
@@ -20,7 +20,7 @@ final class PreflightCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $violations = $this->guard->violations();
+        $violations = [...$this->guard->violations(), ...$this->guard->publicModeViolations()];
         foreach ($violations as $violation) {
             $output->writeln('<error>' . $violation . '</error>');
         }

@@ -26,12 +26,12 @@ En tant que Thibaut, je veux préparer, vérifier et documenter l'ouverture publ
 |----|------|-------|------------|-----------|--------|
 | T-050-01 | [REV] | Revue de sécurité finale par un agent indépendant (OWASP, admin Sophie, inscriptions, limites de débit, en-têtes, MCP/OAuth, webhooks, Mailpit non exposé), mode public activé | 4h | T-050-04, T-050-05 | 🔲 |
 | T-050-02 | [BE] | Correction des constats bloquants de T-050-01 (budget provisoire ; le reste tracé et reporté) | 4h | T-050-01 | 🔲 |
-| T-050-03 | [TEST] | Tests rouges des deux modes : privé (401, avertissement MCP, preflight porte) et public (200, 403 inscriptions, pas d'avertissement, preflight sans porte) | 3h | — | 🔲 |
-| T-050-04 | [BE] | Bascule des dépendances de la porte : bandeaux, guide MCP « démo privée », `app:demo:preflight` | 3h | T-050-03 | 🔲 |
-| T-050-05 | [BE] | Mode public et inscriptions : décision `DEMO_REGISTRATION_OPEN=0` (refus, avertissement ou autorisation documentée) ; commande invité B2C et devis invité (`allow_guests`) | 2h | T-050-04 | 🔲 |
-| T-050-06 | [BE] | ⚠️ `robots.txt` / noindex selon le mode (démo non promue) | 2h | T-050-04 | 🔲 |
-| T-050-07 | [DOC] | Runbook `docs/ouverture-publique.md` : variables Railway, `railway.ts`, vérifications après bascule, retour arrière, moniteur `/healthz`, robots/noindex | 3h | T-050-02, T-050-05 | 🔲 |
-| T-050-08 | [OPS] | ⚠️ `.railway/railway.ts` préparé pour le mode public (variables, sans appliquer) | 1.5h | T-050-05 | 🔲 |
+| T-050-03 | [TEST] | Tests rouges des deux modes : privé (401, avertissement MCP, preflight porte) et public (200, 403 inscriptions, pas d'avertissement, preflight sans porte) | 3h | — | ✅ |
+| T-050-04 | [BE] | Bascule des dépendances de la porte : bandeaux, guide MCP « démo privée », `app:demo:preflight` | 3h | T-050-03 | ✅ |
+| T-050-05 | [BE] | Mode public et inscriptions : décision `DEMO_REGISTRATION_OPEN=0` (refus, avertissement ou autorisation documentée) ; commande invité B2C et devis invité (`allow_guests`) | 2h | T-050-04 | ✅ |
+| T-050-06 | [BE] | ⚠️ `robots.txt` / noindex selon le mode (démo non promue) | 2h | T-050-04 | ✅ |
+| T-050-07 | [DOC] | Runbook `docs/ouverture-publique.md` : variables Railway, `railway.ts`, vérifications après bascule, retour arrière, moniteur `/healthz`, robots/noindex | 3h | T-050-02, T-050-05 | ✅ |
+| T-050-08 | [OPS] | ⚠️ `.railway/railway.ts` préparé pour le mode public (variables, sans appliquer) | 1.5h | T-050-05 | ✅ |
 | T-050-09 | [OPS] | 📅 Création du moniteur externe sur `/healthz` (UptimeRobot ou Better Stack, compte de l'utilisateur) | 0.5h | US-049 | 📅 |
 | T-050-10 | [OPS] | 📅 Bascule le jour J, GO explicite (éventuellement hors sprint), vérifications du runbook | 1h | T-050-07, T-050-09 | 📅 |
 | T-050-11 | [OPS] | 📅 Parcours MCP de bout en bout avec un vrai assistant après ouverture (T-030-03 de `docs/mcp.md`) | 1h | T-050-10 | 📅 |

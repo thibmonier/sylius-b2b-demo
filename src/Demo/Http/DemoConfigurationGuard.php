@@ -35,6 +35,10 @@ final readonly class DemoConfigurationGuard
         private string $appSecret,
         #[Autowire(env: 'TRUSTED_HOSTS')]
         private string $trustedHosts,
+        #[Autowire(param: 'demo.registration_open')]
+        private bool $registrationOpen = false,
+        #[Autowire(param: 'demo.punchout.public_endpoint')]
+        private bool $punchOutPublicEndpoint = false,
     ) {
     }
 
@@ -56,6 +60,28 @@ final readonly class DemoConfigurationGuard
         }
         if (!$this->mailerIsInternal()) {
             $violations[] = 'MAILER_DSN must be the internal Mailpit (smtp://<allowed host>) or a null transport in the demo mode.';
+        }
+
+        return $violations;
+    }
+
+    /**
+     * US-050: what must not be true once the private gate is off. Checked by `app:demo:preflight` only (the container
+     * refuses to start), never per request: a local run or the test suite legitimately runs without the gate.
+     *
+     * @return list<string>
+     */
+    public function publicModeViolations(): array
+    {
+        if (!$this->demoMode || $this->gate->isActive()) {
+            return [];
+        }
+        $violations = [];
+        if ($this->registrationOpen) {
+            $violations[] = 'The private gate is off but DEMO_REGISTRATION_OPEN is not 0: a visitor could enter personal data (registration, guest checkout, guest quote).';
+        }
+        if ($this->punchOutPublicEndpoint) {
+            $violations[] = 'The private gate is off but DEMO_PUNCHOUT_PUBLIC_ENDPOINT is 1: the PunchOut endpoint would answer to any client.';
         }
 
         return $violations;

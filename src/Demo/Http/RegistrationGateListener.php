@@ -6,7 +6,6 @@ namespace App\Demo\Http;
 
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -41,10 +40,6 @@ final readonly class RegistrationGateListener
             return;
         }
 
-        $event->setResponse(new Response(
-            'Registrations are closed on this demo. / Les inscriptions sont fermées sur cette démo.',
-            Response::HTTP_FORBIDDEN,
-            ['Content-Type' => 'text/plain; charset=UTF-8', 'Cache-Control' => 'no-store'],
-        ));
+        $event->setResponse(RegistrationClosedResponse::create());
     }
 }
