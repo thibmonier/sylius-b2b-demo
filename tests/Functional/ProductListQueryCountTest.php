@@ -28,8 +28,8 @@ final class ProductListQueryCountTest extends WebTestCase
             QueryCounter::reset();
             $client->request('GET', $this->url($limit));
             self::assertResponseIsSuccessful();
-            // The official wishlist plugin looks the wishlists up once per card (third-party Twig function): not counted.
-            $counts[$limit] = QueryCounter::count(['sylius_wishlist']);
+            // US-048 / T-048-07: the wishlist lookups of the cards are counted too (they were the one N+1 left).
+            $counts[$limit] = QueryCounter::count();
             self::ensureKernelShutdown();
         }
 
