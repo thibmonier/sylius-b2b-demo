@@ -77,6 +77,16 @@ final class VariantLogisticsSeederTest extends KernelTestCase
         }
     }
 
+    public function testAVariantWithoutWeightOrSizeGetsAnEmptyCaseWeightAndNoCapacity(): void
+    {
+        [$variant, $type] = $this->prepare();
+        $this->seed($variant, $type, [0, 0, 0, 0], 'boîte de 100');
+
+        $id = (int) $variant->getId();
+        self::assertSame(1, $this->intValue('SELECT case_weight IS NULL FROM tmonier_container_variant_logistics WHERE variant_id = ?', [$id]), 'An unknown weight stays unknown.');
+        self::assertSame(0, $this->capacities($variant, $type), 'A variant without dimensions fits nowhere.');
+    }
+
     /** @return array{ProductVariantInterface, ContainerTypeInterface} */
     private function prepare(): array
     {
