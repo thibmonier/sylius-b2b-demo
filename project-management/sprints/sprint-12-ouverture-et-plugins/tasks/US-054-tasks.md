@@ -26,14 +26,14 @@ En tant que Thibaut, je veux cadrer le plugin OSS `tmonier/sylius-customer-asset
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-054-01 | [DOC] | Mini-spec `SPEC.md` : cibles (industrie, bâtiment), vocabulaire, modèle d'équipement ↔ variantes compatibles, parc du client, filtre, hors périmètre | 2h | — | 🔲 |
-| T-054-02 | [DOC] | ADR-0001 : modèle de données (modèle d'équipement, équipement du client), compatibilité par variante, stratégie de filtre du catalogue | 1.5h | T-054-01 | 🔲 |
-| T-054-03 | [REV] | Vérification de chevauchement avec Sylius Plus (documentation et notes de version Plus) ; verdict et sources dans `docs/plus-overlap.md` | 1.5h | T-054-01 | 🔲 |
+| T-054-01 | [DOC] | Mini-spec `SPEC.md` : cibles (industrie, bâtiment), vocabulaire, modèle d'équipement ↔ variantes compatibles, parc du client, filtre, hors périmètre | 2h | — | ✅ |
+| T-054-02 | [DOC] | ADR-0001 : modèle de données (modèle d'équipement, équipement du client), compatibilité par variante, stratégie de filtre du catalogue | 1.5h | T-054-01 | ✅ |
+| T-054-03 | [REV] | Vérification de chevauchement avec Sylius Plus (documentation et notes de version Plus) ; verdict et sources dans `docs/plus-overlap.md` | 1.5h | T-054-01 | ✅ |
 | T-054-04 | [OPS] | 📅 Création du dépôt GitHub public (sujets : ecommerce, sylius, sylius-plugin, symfony, b2b), par Claude, confirmation explicite | 0.5h | T-054-03, T-054-06 | 📅 |
-| T-054-05 | [BE] | Skeleton SyliusLabs du plugin dans le dépôt local : `composer.json`, bundle, extension DI, application de test, `Makefile`, licence MIT | 3h | T-054-02 | 🔲 |
-| T-054-06 | [BE] | Socle qualité : `ecs.php`, `phpstan.neon` (max), `rector.php`, `phpunit.xml.dist`, CI multi-versions (`.github/workflows/build.yaml`) | 2.5h | T-054-05 | 🔲 |
-| T-054-07 | [TEST] | ⚠️ Test de fumée : le noyau démarre avec le bundle et le conteneur compile | 1h | T-054-06 | 🔲 |
-| T-054-08 | [DOC] | ⚠️ `README.md`, `CHANGELOG.md`, `CLAUDE.md` du plugin | 1h | T-054-06 | 🔲 |
+| T-054-05 | [BE] | Skeleton SyliusLabs du plugin dans le dépôt local : `composer.json`, bundle, extension DI, application de test, `Makefile`, licence MIT | 3h | T-054-02 | ✅ |
+| T-054-06 | [BE] | Socle qualité : `ecs.php`, `phpstan.neon` (max), `rector.php`, `phpunit.xml.dist`, CI multi-versions (`.github/workflows/build.yaml`) | 2.5h | T-054-05 | ✅ |
+| T-054-07 | [TEST] | ⚠️ Test de fumée : le noyau démarre avec le bundle et le conteneur compile | 1h | T-054-06 | ✅ |
+| T-054-08 | [DOC] | ⚠️ `README.md`, `CHANGELOG.md`, `CLAUDE.md` du plugin | 1h | T-054-06 | ✅ |
 | T-054-09 | [REV] | Revue | 1h | T-054-07, T-054-08 | 🔲 |
 
 **Total estimé : 14h** (9 tâches), dont 0.5h calendaire (T-054-04) et 2h sacrifiables (T-054-07, T-054-08) ; coupe franche de 6.5h.
