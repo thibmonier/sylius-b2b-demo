@@ -24,16 +24,16 @@ En tant que Nadia, je veux que les 210 produits de démo aient une image qui les
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-047-01 | [BE] | Spike court : Openverse CC0 sur des requêtes de produits industriels, conditions de l'API, budget de taille | 1.5h | — | 🔲 |
-| T-047-02 | [BE] | Script manuel de récupération : limite de débit, User-Agent, filtre CC0, reprise, redimensionnement/compression, manifeste | 4.5h | T-047-01 | 🔲 |
-| T-047-03 | [TEST] | Tests unitaires du script avec client HTTP simulé : licence refusée, reprise sans doublon, manifeste complet | 2h | T-047-02 | 🔲 |
-| T-047-04 | [OPS] | Lancement unique du script sur les 210 produits et contrôle visuel (pertinence, pas de personne ni de marque) | 3h | T-047-02 | 🔲 |
-| T-047-05 | [TEST] | Garde de budget : taille totale et par image, licences du manifeste toutes CC0, une image par SKU ou famille | 1h | T-047-04 | 🔲 |
-| T-047-06 | [BE] | Association image-produit dans l'importeur CSV (par SKU via le manifeste), idempotente | 3h | T-047-04 | 🔲 |
-| T-047-07 | [BE] | Purge M4 qui conserve les images des fixtures ; régénération du cache LiipImagine après le reset | 2h | T-047-06 | 🔲 |
-| T-047-08 | [TEST] | Catalogue illustré après `app:demo:reset`, aucune requête réseau vers la banque, purge sur de vraies images | 2.5h | T-047-06, T-047-07 | 🔲 |
+| T-047-01 | [BE] | Spike court : Openverse CC0 sur des requêtes de produits industriels, conditions de l'API, budget de taille | 1.5h | — | ✅ |
+| T-047-02 | [BE] | Script manuel de récupération : limite de débit, User-Agent, filtre CC0, reprise, redimensionnement/compression, manifeste | 4.5h | T-047-01 | ✅ |
+| T-047-03 | [TEST] | Tests unitaires du script avec client HTTP simulé : licence refusée, reprise sans doublon, manifeste complet | 2h | T-047-02 | ✅ |
+| T-047-04 | [OPS] | Lancement unique du script sur les 210 produits et contrôle visuel (pertinence, pas de personne ni de marque) | 3h | T-047-02 | ✅ |
+| T-047-05 | [TEST] | Garde de budget : taille totale et par image, licences du manifeste toutes CC0, une image par SKU ou famille | 1h | T-047-04 | ✅ |
+| T-047-06 | [BE] | Association image-produit dans l'importeur CSV (par SKU via le manifeste), idempotente | 3h | T-047-04 | ✅ |
+| T-047-07 | [BE] | Purge M4 qui conserve les images des fixtures ; régénération du cache LiipImagine après le reset | 2h | T-047-06 | 🔄 |
+| T-047-08 | [TEST] | Catalogue illustré après `app:demo:reset`, aucune requête réseau vers la banque, purge sur de vraies images | 2.5h | T-047-06, T-047-07 | ✅ |
 | T-047-09 | [FE-WEB] | Section de crédits des images (source, auteur, licence) dans la page À propos (sacrifiable) | 1h | T-047-04 | 🔲 |
-| T-047-10 | [DOC] | Documentation : relancer le script, ajouter une image, budget de taille, interdiction d'appel au runtime | 1h | T-047-08 | 🔲 |
+| T-047-10 | [DOC] | Documentation : relancer le script, ajouter une image, budget de taille, interdiction d'appel au runtime | 1h | T-047-08 | ✅ |
 | T-047-11 | [REV] | Revue (licences, absence d'appel réseau, taille du dépôt, secrets) | 1h | T-047-08 | 🔲 |
 
 **Total estimé : 22.5h** (11 tâches)

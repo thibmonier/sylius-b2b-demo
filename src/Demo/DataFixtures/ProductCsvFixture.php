@@ -83,6 +83,7 @@ final class ProductCsvFixture extends AbstractFixture
         private readonly RepositoryInterface $channelRepository,
         #[Autowire(service: 'sylius.factory.product_taxon')]
         private readonly FactoryInterface $productTaxonFactory,
+        private readonly ProductImageAttacher $imageAttacher,
     ) {
     }
 
@@ -183,6 +184,8 @@ final class ProductCsvFixture extends AbstractFixture
 
         // Attributes
         $this->assignAttributes($product, $row);
+
+        $this->imageAttacher->attach($product);
 
         $this->objectManager->persist($product);
     }
