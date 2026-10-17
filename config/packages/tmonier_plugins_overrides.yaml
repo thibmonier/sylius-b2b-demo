@@ -6,3 +6,9 @@ sylius_twig_hooks:
         'sylius_shop.cart.index.content.form.sections.general#right':
             checkout:
                 template: 'shop/container_fill/cart_checkout.html.twig'
+
+        # US-045: the fashion "New collection" block stays on B2C only. channel-access sets its own condition on this
+        # block (catalogue visibility); a condition is replaced, not combined, by the merge, so both are kept here.
+        'sylius_shop.homepage.index':
+            new_collection:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_CATALOG') and is_granted('DEMO_CONSUMER_CHANNEL')"
