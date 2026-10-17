@@ -19,12 +19,12 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-064-01 | [DOC] | Livraison par PR par dépôt (retenue le 2026-10-17) : relevé des 24 workflows (`paths-ignore`), de la protection de branche et de la branche courante de chaque dépôt (lecture seule) ; blocages éventuels de la CI | 1h | — | 🔲 |
-| T-064-02 | [DOC] | Bloc standard EN et FR (démo, dépôt public, mention « non présent dans la démo »), en-tête de liens croisés ; ton selon la charte | 1h | T-063-04, T-064-01 | 🔲 |
-| T-064-03 | [TEST] | Tests rouges de `bin/vitrine-readme` : bloc présent, idempotence, lien croisé en tête, structure identique, blocs de code intacts, aucun lien de site, termes interdits | 1.5h | T-064-02 | 🔲 |
-| T-064-04 | [BE] | `bin/vitrine-readme` (application idempotente sur un dépôt, `--check` en lecture seule sur les 24) | 2h | T-064-03 | 🔲 |
-| T-064-05 | [DOC] | `README.fr.md` du lot A (12 plugins, `admin-order-creation` à `facturx`) ; blocs de code et identifiants intacts | 3h | T-064-04 | 🔲 |
-| T-064-06 | [TEST] | ⚠️ Contrôle structurel du lot A (titres, tableaux, liens) rejoué sur les 12 dépôts | 0.5h | T-064-05 | 🔲 |
+| T-064-01 | [DOC] | Livraison par PR par dépôt (retenue le 2026-10-17) : relevé des 24 workflows (`paths-ignore`), de la protection de branche et de la branche courante de chaque dépôt (lecture seule) ; blocages éventuels de la CI | 1h | — | ✅ |
+| T-064-02 | [DOC] | Bloc standard EN et FR (démo, dépôt public, mention « non présent dans la démo »), en-tête de liens croisés ; ton selon la charte | 1h | T-063-04, T-064-01 | ✅ |
+| T-064-03 | [TEST] | Tests rouges de `bin/vitrine-readme` : bloc présent, idempotence, lien croisé en tête, structure identique, blocs de code intacts, aucun lien de site, termes interdits | 1.5h | T-064-02 | ✅ |
+| T-064-04 | [BE] | `bin/vitrine-readme` (application idempotente sur un dépôt, `--check` en lecture seule sur les 24) | 2h | T-064-03 | ✅ |
+| T-064-05 | [DOC] | `README.fr.md` du lot A (12 plugins, `admin-order-creation` à `facturx`) ; blocs de code et identifiants intacts | 3h | T-064-04 | ✅ |
+| T-064-06 | [TEST] | ⚠️ Contrôle structurel du lot A (titres, tableaux, liens) rejoué sur les 12 dépôts | 0.5h | T-064-05 | ✅ |
 | T-064-07 | [REV] | Revue | 0.5h | T-064-06 | 🔲 |
 
 **Total estimé : 9.5h** (7 tâches), dont 0.5h sacrifiable (T-064-06).

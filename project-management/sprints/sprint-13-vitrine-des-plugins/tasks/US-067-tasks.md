@@ -19,10 +19,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-067-01 | [DOC] | `README.fr.md` du lot B (12 plugins, `gpsr` à `withdrawal`) | 3h | T-064-04 | 🔲 |
-| T-067-02 | [TEST] | `bin/vitrine-readme --check` sur les 24 dépôts ; écarts corrigés | 1h | T-067-01, T-064-05 | 🔲 |
-| T-067-03 | [OPS] | Branche locale `docs/readme-fr-demo` et commit conventionnel dans chacun des 24 dépôts (après `git fetch` et vérification de la branche) | 1.5h | T-067-02 | 🔲 |
-| T-067-04 | [DOC] | ⚠️ Note de GO : 24 branches, état de la CI attendu et blocages éventuels, ordre de merge | 0.5h | T-067-03 | 🔲 |
+| T-067-01 | [DOC] | `README.fr.md` du lot B (12 plugins, `gpsr` à `withdrawal`) | 3h | T-064-04 | ✅ |
+| T-067-02 | [TEST] | `bin/vitrine-readme --check` sur les 24 dépôts ; écarts corrigés | 1h | T-067-01, T-064-05 | ✅ |
+| T-067-03 | [OPS] | Branche locale `docs/readme-fr-demo` et commit conventionnel dans chacun des 24 dépôts (après `git fetch` et vérification de la branche) | 1.5h | T-067-02 | ✅ |
+| T-067-04 | [DOC] | ⚠️ Note de GO : 24 branches, état de la CI attendu et blocages éventuels, ordre de merge | 0.5h | T-067-03 | ✅ |
 | T-067-05 | [OPS] | 📅 Ouverture des 24 PR, vérification du rendu GitHub et de la CI, présentation du lot, puis merge squash sur le GO unique de l'utilisateur | 1.5h | T-067-04 | 📅 |
 | T-067-06 | [REV] | Revue | 0.5h | T-067-03 | 🔲 |
 
