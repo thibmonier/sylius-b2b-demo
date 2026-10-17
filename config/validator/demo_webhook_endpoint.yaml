@@ -1,0 +1,6 @@
+# US-029: in the demo mode, the URL of a webhook endpoint is the demo receiver (the plugin form validates the "sylius" group).
+Tmonier\SyliusWebhookOutboxPlugin\Entity\WebhookEndpoint:
+    properties:
+        url:
+            - App\Demo\Webhook\DemoEndpointUrl:
+                groups: [sylius]

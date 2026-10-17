@@ -16,13 +16,13 @@ En tant que Sophie, je veux voir les webhooks émis par l'outbox, afin de compre
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-029-01 | [DB] | Entité `ReceivedWebhook` (date, type, charge utile tronquée, signature vérifiée) et migration | 2h | — | 🔲 |
-| T-029-02 | [BE] | Endpoint récepteur interne joignable par le garde sortant : hors barrière de démo, sans redirection, hôte approuvé, vérification de la signature, limite de débit, taille maximale, stockage | 4h | T-029-01 | 🔲 |
-| T-029-03 | [BE] | Abonnement de démo prérempli (URL de boucle locale du récepteur) et refus de toute autre URL (validateur, protection SSRF) | 2.5h | — | 🔲 |
-| T-029-04 | [FE-WEB] | Page « Webhooks reçus » (liste, détail, indicateur signature vérifiée) FR/EN | 2.5h | T-029-01 | 🔲 |
-| T-029-05 | [TEST] | Test fonctionnel : commande passée → webhook signé livré via le transport gardé et visible ; URL externe refusée ; redirection non suivie ; signature invalide rejetée | 3h | T-029-02, T-029-03, T-029-04 | 🔲 |
-| T-029-06 | [DOC] | Documentation de la page et du fonctionnement de l'outbox | 0.5h | T-029-05 | 🔲 |
-| T-029-07 | [REV] | Revue (SSRF, signature, rétention) | 1h | T-029-05 | 🔲 |
+| T-029-01 | [DB] | Entité `ReceivedWebhook` (date, type, charge utile tronquée, signature vérifiée) et migration | 2h | — | ✅ |
+| T-029-02 | [BE] | Endpoint récepteur interne joignable par le garde sortant : hors barrière de démo, sans redirection, hôte approuvé, vérification de la signature, limite de débit, taille maximale, stockage | 4h | T-029-01 | ✅ |
+| T-029-03 | [BE] | Abonnement de démo prérempli (URL de boucle locale du récepteur) et refus de toute autre URL (validateur, protection SSRF) | 2.5h | — | ✅ |
+| T-029-04 | [FE-WEB] | Page « Webhooks reçus » (liste, détail, indicateur signature vérifiée) FR/EN | 2.5h | T-029-01 | ✅ |
+| T-029-05 | [TEST] | Test fonctionnel : commande passée → webhook signé livré via le transport gardé et visible ; URL externe refusée ; redirection non suivie ; signature invalide rejetée | 3h | T-029-02, T-029-03, T-029-04 | ✅ |
+| T-029-06 | [DOC] | Documentation de la page et du fonctionnement de l'outbox | 0.5h | T-029-05 | ✅ |
+| T-029-07 | [REV] | Revue (SSRF, signature, rétention) | 1h | T-029-05 | ✅ |
 
 **Total estimé : 15.5h** (7 tâches ; 14h au sprint 8, +1.5h pour la compatibilité avec le garde sortant ; reprises à l’identique au sprint 10)
 
@@ -51,8 +51,8 @@ Rétention bornée ; purgée au reset.
 - `migrations/`
 
 **Critères de validation** :
-- [ ] Migration réversible
-- [ ] Mapping valide
+- [x] Migration réversible
+- [x] Mapping valide
 
 ---
 
@@ -71,11 +71,11 @@ Rejet des signatures invalides (aucun stockage), idempotence sur l'identifiant d
 - `src/Demo/Http/DemoGateListener.php` (exemption du chemin)
 
 **Critères de validation** :
-- [ ] Signature valide stockée
-- [ ] Signature invalide : 401, rien de stocké
-- [ ] Rejeu dédupliqué
-- [ ] Appel anonyme depuis `127.0.0.1` accepté malgré la barrière de démo active
-- [ ] Réponse sans redirection
+- [x] Signature valide stockée
+- [x] Signature invalide : 401, rien de stocké
+- [x] Rejeu dédupliqué
+- [x] Appel anonyme depuis `127.0.0.1` accepté malgré la barrière de démo active
+- [x] Réponse sans redirection
 
 ---
 
@@ -94,9 +94,9 @@ Seul l'endpoint local est acceptable ; échec de validation côté admin et côt
 - `src/DataFixtures/`
 
 **Critères de validation** :
-- [ ] URL externe, redirection ou IP interne refusées
-- [ ] Endpoint local accepté
-- [ ] Compatible avec `OutboundGuardHttpClient` en mode démo
+- [x] URL externe, redirection ou IP interne refusées
+- [x] Endpoint local accepté
+- [x] Compatible avec `OutboundGuardHttpClient` en mode démo
 
 ---
 
@@ -115,8 +115,8 @@ Accessible aux comptes de démo concernés ; charge utile échappée.
 - `translations/`
 
 **Critères de validation** :
-- [ ] Contenu échappé (XSS)
-- [ ] Libellés FR/EN
+- [x] Contenu échappé (XSS)
+- [x] Libellés FR/EN
 
 ---
 
@@ -133,8 +133,8 @@ Livraison réelle par le transport gardé (méthode de `tests/Functional/Demo/Mc
 - `tests/Functional/WebhookReceiverTest.php`
 
 **Critères de validation** :
-- [ ] Scénario Gherkin d'US-029 vert
-- [ ] Hôte externe refusé, redirection non suivie, signature invalide 401
+- [x] Scénario Gherkin d'US-029 vert
+- [x] Hôte externe refusé, redirection non suivie, signature invalide 401
 
 ---
 
@@ -151,7 +151,7 @@ Voir critères de validation.
 - `docs/`
 
 **Critères de validation** :
-- [ ] Page documentée
+- [x] Page documentée
 
 ---
 
@@ -168,7 +168,7 @@ Revue SSRF (validateur et garde), signature, rétention, exemption de la barriè
 - sans objet
 
 **Critères de validation** :
-- [ ] Aucun constat bloquant
+- [x] Aucun constat bloquant
 
 ---
 

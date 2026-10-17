@@ -1,0 +1,8 @@
+{# US-029: webhooks received by the demo receiver. #}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'webhooks.title'|trans({}, 'demo_webhooks') }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'app.demo_webhooks.index' with { webhooks } %}
+{% endblock %}

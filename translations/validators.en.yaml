@@ -6,3 +6,6 @@ app:
             invalid_characters: 'PO reference may only contain letters, digits and hyphens.'
         cost_center:
             invalid_characters: 'Cost center may only contain letters, digits, spaces, dots, hyphens and underscores.'
+    demo_webhook:
+        url:
+            receiver_only: 'In the demo, a webhook endpoint can only point to the demo receiver (http://127.0.0.1:<port>/demo/webhooks/receive). No other URL is accepted.'

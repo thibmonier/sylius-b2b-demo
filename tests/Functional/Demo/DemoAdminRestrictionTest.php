@@ -106,7 +106,8 @@ final class DemoAdminRestrictionTest extends DemoAdminWebTestCase
         $client->request($page['method'], $page['uri'], $page['values']);
 
         $this->assertDemoRefusal($client, self::MESSAGE_FR);
-        self::assertSame(0, $this->intValue('SELECT COUNT(*) FROM tmonier_webhook_endpoint'));
+        // The only endpoint is the one of the demo fixtures (US-029), pointing to the receiver of the container.
+        self::assertSame(0, $this->intValue('SELECT COUNT(*) FROM tmonier_webhook_endpoint WHERE url <> ? OR name = ?', ['http://127.0.0.1:8080/demo/webhooks/receive', 'exfiltration']));
     }
 
     public function testTheRefusalMessageIsInEnglishForAnEnglishBackOffice(): void
