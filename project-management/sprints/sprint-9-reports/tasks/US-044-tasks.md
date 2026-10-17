@@ -18,25 +18,25 @@ En tant que Nadia, je veux voir dans la démo comment une commande remplit des c
 - Unités du plugin : **millimètres et grammes** (`setInnerLength`, `setMaxPayload`, `ProductVariantLogistics::caseWeight`, en grammes). Les CSV sont en **centimètres et kilogrammes** (`weight_kg`, `width_cm`, `height_cm`, `depth_cm`) : conversion ×10 (cm→mm) et ×1000 (kg→g), arrondie à l'entier.
 - Entités : `ProductVariantLogistics` (unitsPerCase, caseWeight, stackable, layerHeight, ownPallet, caseMultipleRequired), `VariantContainerCapacity` (variante, type de contenant, quantité, unitsPerLayer), `ContainerRule` (canal, portée all/taxon/product, types de contenants, mode, seuil), `ContainerType` (`layerMode`, `maxLayers`).
 - Modes de règle (`ContainerRuleInterface`) : `min_fill_percent`, `full_only`, `multiple_of`, `max_containers`.
-- Suite `demo` (`config/packages/demo_fixtures.yaml`) : priorités **négatives** (taxons -10, attributs -20, produits `demo_products_csv` -30, entreprises/clients -15, plugins -40/-50). `demo_container_fill` doit passer après les produits : **-40** (aucune dépendance sur -40/-50, mais après les entreprises si une règle cible un groupe de clients). Injecter `EntityManagerInterface` (pas de `ObjectManager` générique).
+- Suite `demo` (`config/packages/demo_fixtures.yaml`) : priorités **négatives** (taxons -10, attributs -20, produits `demo_products_csv` -30, entreprises/clients -15, plugins -40/-50). `demo_container_fill` doit passer après les produits : **-40** (réalisé à **-70**, après `demo_orders` : voir `docs/remplissage-contenants.md`) (aucune dépendance sur -40/-50, mais après les entreprises si une règle cible un groupe de clients). Injecter `EntityManagerInterface` (pas de `ObjectManager` générique).
 - Colonne `attributes_json` des CSV : `packaging_unit` (« boîte de 100 », « lot de 25 »…), source des unités par colis.
 
 ## Vue d'ensemble des tâches
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-044-01 | [OPS] | Charger la fixture des presets du plugin dans la suite `demo` (priorité négative, après canaux et locales) | 1h | — | 🔲 |
-| T-044-02 | [BE] | Squelette de la fixture `demo_container_fill` : priorité -40, `EntityManagerInterface`, lecture des CSV partagée avec `demo_products_csv`, upsert par variante | 2.5h | T-044-01 | 🔲 |
-| T-044-03 | [BE] | `ContainerCapacityCalculator` : conversion cm/kg → mm/g, volume utile × rendement du preset borné par la charge utile | 2.5h | — | 🔲 |
-| T-044-04 | [TEST] | Tests unitaires du calculateur et validation à la main sur 3 produits | 1.5h | T-044-03 | 🔲 |
-| T-044-05 | [BE] | Données logistiques par variante : poids du colis, unités par colis (depuis `packaging_unit`), vente par colis entiers pour visserie et emballage | 3.5h | T-044-02, T-044-04 | 🔲 |
-| T-044-06 | [BE] | Capacités pour la palette EUR et les cartons S/M/L ; mode « couches » sur la palette EUR pour au moins une famille | 3h | T-044-05 | 🔲 |
-| T-044-07 | [BE] | Règles sur le canal B2B seul : une règle bloquante (`full_only`, famille lourde) et une règle `min_fill_percent` (jauge sans tout bloquer) | 2h | T-044-06 | 🔲 |
-| T-044-08 | [TEST] | Idempotence et reset : `app:demo:reset` deux fois, mêmes nombres (types, données logistiques, capacités, règles) ; durée du reset mesurée | 2.5h | T-044-07 | 🔲 |
-| T-044-09 | [TEST] | Rendu réel : jauge accessible et commande bloquée pour Claire (B2B), « compléter la palette », colis de 100 refusé à 150, commande aboutie + plan dans l'admin, B2C sans jauge | 4h | T-044-07 | 🔲 |
-| T-044-10 | [TEST] | Non-régression : PunchOut, devis, approbation d'achat, commande rapide, historique, `demo_orders` ; dérogation non accordée à l'admin restreint | 3h | T-044-07 | 🔲 |
-| T-044-11 | [FE-WEB] | Catalogue des plugins (`config/demo/plugins.yaml`, page `/{locale}/plugins`) : parcours de démo FR/EN (compte, produits, résultat attendu) | 1.5h | T-044-09 | 🔲 |
-| T-044-12 | [DOC] | Formule de capacité, conversions d'unités, jeu de règles et parcours de démo | 1h | T-044-09, T-044-10 | 🔲 |
+| T-044-01 | [OPS] | Charger la fixture des presets du plugin dans la suite `demo` (priorité négative, après canaux et locales) | 1h | — | ✅ |
+| T-044-02 | [BE] | Squelette de la fixture `demo_container_fill` : priorité -40, `EntityManagerInterface`, lecture des CSV partagée avec `demo_products_csv`, upsert par variante | 2.5h | T-044-01 | ✅ |
+| T-044-03 | [BE] | `ContainerCapacityCalculator` : conversion cm/kg → mm/g, volume utile × rendement du preset borné par la charge utile | 2.5h | — | ✅ |
+| T-044-04 | [TEST] | Tests unitaires du calculateur et validation à la main sur 3 produits | 1.5h | T-044-03 | ✅ |
+| T-044-05 | [BE] | Données logistiques par variante : poids du colis, unités par colis (depuis `packaging_unit`), vente par colis entiers pour visserie et emballage | 3.5h | T-044-02, T-044-04 | ✅ |
+| T-044-06 | [BE] | Capacités pour la palette EUR et les cartons S/M/L ; mode « couches » sur la palette EUR pour au moins une famille | 3h | T-044-05 | ✅ |
+| T-044-07 | [BE] | Règles sur le canal B2B seul : une règle bloquante (`full_only`, famille lourde) et une règle `min_fill_percent` (jauge sans tout bloquer) | 2h | T-044-06 | ✅ |
+| T-044-08 | [TEST] | Idempotence et reset : `app:demo:reset` deux fois, mêmes nombres (types, données logistiques, capacités, règles) ; durée du reset mesurée | 2.5h | T-044-07 | ✅ |
+| T-044-09 | [TEST] | Rendu réel : jauge accessible et commande bloquée pour Claire (B2B), « compléter la palette », colis de 100 refusé à 150, commande aboutie + plan dans l'admin, B2C sans jauge | 4h | T-044-07 | ✅ |
+| T-044-10 | [TEST] | Non-régression : PunchOut, devis, approbation d'achat, commande rapide, historique, `demo_orders` ; dérogation non accordée à l'admin restreint | 3h | T-044-07 | ✅ |
+| T-044-11 | [FE-WEB] | Catalogue des plugins (`config/demo/plugins.yaml`, page `/{locale}/plugins`) : parcours de démo FR/EN (compte, produits, résultat attendu) | 1.5h | T-044-09 | ✅ |
+| T-044-12 | [DOC] | Formule de capacité, conversions d'unités, jeu de règles et parcours de démo | 1h | T-044-09, T-044-10 | ✅ |
 | T-044-13 | [REV] | Revue : calculs, règles sans effet sur les scénarios, aucun secret, idempotence | 1.5h | T-044-08, T-044-10, T-044-11, T-044-12 | 🔲 |
 
 **Total estimé : 29.5h** (13 tâches)

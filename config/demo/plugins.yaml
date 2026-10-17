@@ -114,9 +114,9 @@ parameters:
               en: 'Pallet & Truckload Builder: container types, logistics data per variant, a load planner with a fill gauge in the cart, B2B fill rules enforced at checkout, per-container shipping.'
           demo_route: null
           scenario:
-              fr: "Ajoutez des palettes de produits à votre panier et suivez la jauge de remplissage du conteneur jusqu'au seuil minimal du checkout."
-              en: "Add pallets of products to your cart and follow the container fill gauge up to the checkout minimum."
-          advised_account: marc@techparts.example
+              fr: "Sur le canal B2B, ajoutez 10 cartons « Carton simple cannelure A4 » (EMBA-001, famille Emballage) : la jauge de la palette EUR indique 8 %, la commande est désactivée avec la raison et un bouton arrondit à la couche. À 117 cartons (13 couches de 9), la palette est complète et la commande passe. Les vis VISS-001 se commandent par cartons complets de 100 (150 est refusé). Le canal B2C n'a aucune règle."
+              en: "On the B2B channel, add 10 'Single-wall cardboard box A4' (EMBA-001, Packaging family): the EUR pallet gauge shows 8 %, checkout is disabled with the reason and a button rounds up to the layer. At 117 cartons (13 layers of 9) the pallet is full and the order goes through. Hex bolts VISS-001 are sold by whole cases of 100 (150 is refused). The B2C channel has no rule."
+          advised_account: claire@acme.example
         - slug: sylius-facturx-plugin
           name: 'Factur-X'
           category: billing
