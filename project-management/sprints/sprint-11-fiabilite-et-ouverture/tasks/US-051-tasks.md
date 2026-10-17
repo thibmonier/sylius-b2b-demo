@@ -26,7 +26,7 @@ En tant que Thibaut, je veux que « boîte de N » et « lot de N » soient l'un
 | T-051-03 | [BE] | Quantités en boîtes : liste d'achat, commandes de démo ; vérifier devis et paliers | 1h | T-051-02 | ✅ |
 | T-051-04 | [TEST] | Mise à jour de `ContainerFillDemoTest`, `CompanyWishlistSmokeTest`, catalogue des plugins (`config/demo/plugins.yaml`) | 1h | T-051-02 | ✅ |
 | T-051-05 | [DOC] | `docs/remplissage-contenants.md` : règle de l'unité de vente, quantités avant/après, plan de Claire | 0.5h | T-051-03 | ✅ |
-| T-051-06 | [REV] | Passe ECS, PHPStan, tests ciblés sur base de test (dès que Docker est disponible) | 1h | T-051-04 | 🔲 |
+| T-051-06 | [REV] | Passe ECS, PHPStan, tests ciblés sur base de test (dès que Docker est disponible) | 1h | T-051-04 | ✅ |
 
 **Total : 6h.**
 

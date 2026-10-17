@@ -146,11 +146,13 @@ sprints:
     sprint_id: "sprint-11"
     start_date: "2026-11-13"
     end_date: "2026-11-27"
-    capacity_points: 8  # 38 h décomposées (3 h calendaires) pour ≈ 30-35 h : ordre de sacrifice dans sprint-11-fiabilite-et-ouverture/tasks/README.md
+    capacity_points: 10  # US-051 ajoutée le 2026-10-17 (décision utilisateur, +2 pts, ≈ 6 h) ; 38 h décomposées (3 h calendaires) pour ≈ 30-35 h : ordre de sacrifice dans sprint-11-fiabilite-et-ouverture/tasks/README.md
     goal: "Rendre la remise à zéro nocturne fiable (toute erreur fatale vue par /healthz) et préparer l'ouverture publique de la démo : revue de sécurité finale, mode public testé, runbook et retour arrière"
     stories:
-      - {id: US-049, title: "Fiabilité de la remise à zéro", points: 3, status: ready-for-dev}  # marqueur sur erreur fatale, cache en sous-processus, plafond Caddy, T-048-11 calendaire, limite demo_orders actée
-      - {id: US-050, title: "Préparer l'ouverture publique de la démo", points: 5, status: ready-for-dev}  # revue de sécurité indépendante, mode public, runbook ; bascule et parcours MCP = tâches OPS de l'utilisateur (GO explicite)
+      - {id: US-049, title: "Fiabilité de la remise à zéro", points: 3, status: review}  # marqueur sur erreur fatale, cache en sous-processus, plafond Caddy, T-048-11 calendaire, limite demo_orders actée
+      - {id: US-050, title: "Préparer l'ouverture publique de la démo", points: 5, status: review}  # revue de sécurité indépendante, mode public, runbook ; bascule et parcours MCP = tâches OPS de l'utilisateur (GO explicite)
+      - {id: US-051, title: "Données container-fill : la boîte est l’unité de vente", points: 2, status: review}  # défaut d’US-044 signalé par l’utilisateur le 2026-10-17 : poids, volume et prix d’une boîte de 100 lus comme ceux d’une pièce
+
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
