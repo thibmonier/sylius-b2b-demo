@@ -1,0 +1,12 @@
+# The counters of the demo limiters live in a directory that tests/bootstrap.php empties at the start of each run: a run never
+# inherits the counters of the previous one (the tests lower a limit and count requests of a random visitor IP).
+framework:
+    cache:
+        pools:
+            cache.demo_rate_limiter:
+                adapter: demo.rate_limiter.storage
+
+services:
+    demo.rate_limiter.storage:
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments: ['demo_limiter', 0, '%kernel.project_dir%/var/demo-limiter-test']
