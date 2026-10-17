@@ -34,7 +34,7 @@ En tant que Thibaut, je veux appliquer les actions des rétrospectives (disque, 
 | T-055-04 | [DOC] | ⚠️ `docs/tests-locaux.md` : `bin/run-tests`, cache isolé, seuil disque | 0.5h | T-055-03 | ✅ |
 | T-055-05 | [DOC] | Consigne d'orchestration des relecteurs (12 tours minimum, rapport exigé) : vérifiée dans `tasks/README.md` et reportée dans le modèle de consigne | 0.5h | — | ✅ |
 | T-055-06 | [REV] | Action 4 du sprint 10 : mineurs au backlog (US-061, US-062), suivi consigné dans la rétro du sprint 12 | 1h | — | ✅ |
-| T-055-07 | [BE] | US-031 : retirer le dépôt VCS d'agentic-feeds de `composer.json`, résolution depuis Packagist (`composer update` ciblé dans Docker), README punchout vérifié, US-031 `done` | 1.5h | — | 🚫 |
+| T-055-07 | [BE] | US-031 : retirer le dépôt VCS d'agentic-feeds de `composer.json`, résolution depuis Packagist (`composer update` ciblé dans Docker), README punchout vérifié, US-031 `done` | 1.5h | — | ✅ |
 | T-055-08 | [REV] | Revue | 0.5h | T-055-03, T-055-07 | 🔲 |
 
 **Total estimé : 8.5h** (8 tâches), dont 0.5h sacrifiable (T-055-04).

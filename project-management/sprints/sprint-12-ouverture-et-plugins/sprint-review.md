@@ -46,7 +46,7 @@ Justification : trois stories sur quatre sont en review et vérifiées sur base 
 | Vérifier `X-Real-IP` | Non fait | Dépend de la bascule | Contrôle du runbook, après la bascule |
 | Parcours MCP réel | Non fait | Dépend de la bascule | Après la bascule |
 | Relevé de coût Railway | Non fait | Pas avant le 2026-10-23 | Après le 2026-10-23 |
-| US-031 (agentic-feeds) | Bloquée | Absent de Packagist (404) | Soumission par l'utilisateur |
+| US-031 (agentic-feeds) | Faite le 2026-10-17 | Publié sur Packagist par l'utilisateur pendant la revue | Dépôt VCS retiré de `composer.json`, lock limité à ce paquet, 117 tests de fumée verts |
 
 ## Détail par story
 
@@ -118,7 +118,7 @@ Then toutes les vérifications passent sans écrire
 1. La check-list de GO suffit-elle pour décider la bascule ? Quelle date ?
 2. Le partage de l'équipement avec l'entreprise (ADR-0001) répond-il au besoin ?
 3. Ordre des stories US-056 à US-062 pour le sprint 13.
-4. Quand soumettre agentic-feeds à Packagist pour débloquer US-031 ?
+4. (Réglé pendant la revue : agentic-feeds publié sur Packagist, US-031 faite.)
 
 ## Notes de session
 
@@ -137,7 +137,7 @@ Décisions prises :
 |--------|---------|-------------|
 | Ajoutées | US-056 à US-060 | Suites du plugin de parc d'équipements |
 | Ajoutées | US-061, US-062 | Mineurs du sprint 10 (action 4 non faite) |
-| Bloquée | US-031 | agentic-feeds absent de Packagist |
+| Faite | US-031 | agentic-feeds résolu depuis Packagist |
 | Reportées | Tâches OPS d'US-052 | À l'utilisateur |
 
 ## Prochaines étapes

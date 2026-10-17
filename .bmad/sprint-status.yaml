@@ -17,7 +17,7 @@ sprints:
       - {id: US-004, title: "Tâches planifiées dans le conteneur", points: 3, status: done}
       - {id: US-005, title: "CI GitHub Actions et tests de fumée", points: 3, status: done}
       - {id: US-007, title: "Canaux B2B et B2C, FR/EN", points: 3, status: done}
-      - {id: US-031, title: "Correctifs des plugins publiés", points: 1, status: blocked}  # US-055 : agentic-feeds toujours absent de Packagist (404 le 2026-10-17), soumission par l’utilisateur (sprint 12) : agentic-feeds v1.0.0 sur Packagist depuis 2026-10-13, blocage levé (vérifié le 2026-10-17). Correctifs poussés, punchout 1.1.1 et command-palette 1.0.1 publiés
+      - {id: US-031, title: "Correctifs des plugins publiés", points: 1, status: done}  # sprint 12 (US-055) : agentic-feeds publié sur Packagist par l’utilisateur le 2026-10-17, dépôt VCS retiré de composer.json
   sprint-2:
     name: sprint-2-donnees-b2b
     status: done  # PR #2 mergée (squash) le 2026-10-16, commit 3ae99ed
