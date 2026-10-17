@@ -30,7 +30,7 @@ use Throwable;
  *      demo keeps the data it had (ADR-0003). The same purge removes the orders and the trade-credit
  *      consumption left by the PunchOut simulator (US-027).
  *   2. Optionally purge the LiipImagine cache to force image regeneration on next hit.
- *   3. Clear and warm up the application cache.
+ *   3. Clear and warm up the application cache, each in a PHP process of its own (fresh memory, US-049).
  *   4. Purge the uploaded images that no image row points to (US-040): after the commit, a failure is reported
  *      (DEMO_RESET_FAILED, /healthz) and never rolls the data back.
  *
@@ -60,6 +60,8 @@ final class DemoResetCommand extends Command
         private readonly bool $demoMode,
         private readonly ResetStatus $resetStatus,
         private readonly OrphanImagePurger $imagePurger,
+        private readonly ConsoleSubprocess $subprocess,
+        private readonly ResetLock $lock,
     ) {
         parent::__construct();
     }
@@ -88,7 +90,27 @@ final class DemoResetCommand extends Command
             return Command::FAILURE;
         }
 
+        if (!$dryRun && !$this->lock->acquire()) {
+            $this->logger->error('app:demo:reset refused: another reset is running');
+            $errors->writeln('DEMO_RESET_REFUSED cause="another reset is already running (cron or manual): nothing was touched"');
+
+            return Command::FAILURE;
+        }
+
+        try {
+            return $this->reset($io, $output, $errors, $input, $dryRun, $startedAt);
+        } finally {
+            $this->lock->release();
+        }
+    }
+
+    private function reset(SymfonyStyle $io, OutputInterface $output, OutputInterface $errors, InputInterface $input, bool $dryRun, float $startedAt): int
+    {
         $io->title($dryRun ? '[DRY-RUN] Demo reset' : 'Demo reset');
+        if (!$dryRun) {
+            // Written before anything can go wrong: only a reset that ends well removes it (US-049).
+            $this->resetStatus->markStarted();
+        }
         $this->logger->info('app:demo:reset started', ['dry_run' => $dryRun]);
 
         try {
@@ -206,8 +228,8 @@ final class DemoResetCommand extends Command
         $io->section('Step 3 — Cache: clear and warm-up');
         $this->logger->info('Step 3: cache clear + warmup');
 
-        $this->runSubCommand('cache:clear', ['--no-debug' => true, '--no-interaction' => true], $output, $dryRun);
-        $this->runSubCommand('cache:warmup', ['--no-debug' => true, '--no-interaction' => true], $output, $dryRun);
+        $this->runInSubprocess('cache:clear', $output, $dryRun);
+        $this->runInSubprocess('cache:warmup', $output, $dryRun);
 
         $io->text('Cache refreshed.');
     }
@@ -237,6 +259,28 @@ final class DemoResetCommand extends Command
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+    private function runInSubprocess(string $name, OutputInterface $output, bool $dryRun): void
+    {
+        $this->logger->info(\sprintf('Sub-process: %s', $name), ['dry_run' => $dryRun]);
+
+        if ($dryRun) {
+            $output->writeln(\sprintf('[DRY-RUN] Would run: %s', $name));
+
+            return;
+        }
+
+        $t = \microtime(true);
+        $returnCode = $this->subprocess->run($name, ['--no-debug'], $output);
+        $this->logger->info(\sprintf('Sub-process "%s" finished', $name), [
+            'return_code' => $returnCode,
+            'elapsed_seconds' => $this->elapsedSince($t),
+        ]);
+
+        if ($returnCode !== Command::SUCCESS) {
+            throw new \RuntimeException(\sprintf('Sub-process "%s" failed with return code %d.', $name, $returnCode));
+        }
+    }
 
     /**
      * @param array<string, bool|string|null> $args

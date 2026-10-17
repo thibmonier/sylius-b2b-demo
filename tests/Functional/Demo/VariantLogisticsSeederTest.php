@@ -62,6 +62,31 @@ final class VariantLogisticsSeederTest extends KernelTestCase
         self::assertSame(1, $this->capacities($variant, $type));
     }
 
+    public function testABoxOrALotIsTheSoldUnitNotAPieceInACase(): void
+    {
+        foreach (['boîte de 100', 'lot de 25', 'rouleau de 500', 'unité'] as $packaging) {
+            [$variant, $type] = $this->prepare();
+            $this->seed($variant, $type, [80, 50, 50, 350], $packaging);
+
+            $id = (int) $variant->getId();
+            $column = static fn (string $name): string => 'SELECT ' . $name . ' FROM tmonier_container_variant_logistics WHERE variant_id = ?';
+            self::assertSame(1, $this->intValue($column('units_per_case'), [$id]), $packaging . ': the CSV row describes one sold unit.');
+            self::assertSame(350, $this->intValue($column('case_weight'), [$id]), $packaging . ': the case weighs what the sold unit weighs.');
+            self::assertSame(0, $this->intValue($column('case_multiple_required'), [$id]), $packaging . ': no whole-case purchase.');
+            $this->db()->rollBack();
+        }
+    }
+
+    public function testAVariantWithoutWeightOrSizeGetsAnEmptyCaseWeightAndNoCapacity(): void
+    {
+        [$variant, $type] = $this->prepare();
+        $this->seed($variant, $type, [0, 0, 0, 0], 'boîte de 100');
+
+        $id = (int) $variant->getId();
+        self::assertSame(1, $this->intValue('SELECT case_weight IS NULL FROM tmonier_container_variant_logistics WHERE variant_id = ?', [$id]), 'An unknown weight stays unknown.');
+        self::assertSame(0, $this->capacities($variant, $type), 'A variant without dimensions fits nowhere.');
+    }
+
     /** @return array{ProductVariantInterface, ContainerTypeInterface} */
     private function prepare(): array
     {
@@ -87,12 +112,12 @@ final class VariantLogisticsSeederTest extends KernelTestCase
     }
 
     /** @param array{int, int, int, int} $dimensions width, height, depth (mm) and weight (g) */
-    private function seed(ProductVariantInterface $variant, ContainerTypeInterface $type, array $dimensions): void
+    private function seed(ProductVariantInterface $variant, ContainerTypeInterface $type, array $dimensions, string $packaging = 'unité'): void
     {
         $seeder = self::getContainer()->get(VariantLogisticsSeeder::class);
         self::assertInstanceOf(VariantLogisticsSeeder::class, $seeder);
 
-        $row = new ContainerFillRow((string) $variant->getCode(), 'visserie', 'unité', new LogisticUnit(...$dimensions));
+        $row = new ContainerFillRow((string) $variant->getCode(), 'visserie', $packaging, new LogisticUnit(...$dimensions));
         $seeder->seed($variant, $row, ['CARTON_L' => $type], false);
         $seeder->flush();
     }

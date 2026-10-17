@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\Command;
 
+use App\Demo\Command\ConsoleSubprocess;
 use App\Demo\Command\DemoResetCommand;
+use App\Demo\Command\ResetLock;
 use App\Demo\Command\ResetStatus;
 use App\Demo\Media\ImagePathSource;
 use App\Demo\Media\OrphanImagePurger;
@@ -51,9 +53,14 @@ final class DemoResetCommandTest extends TestCase
 
     private string $statusFile;
 
+    private string $projectDir;
+
     protected function setUp(): void
     {
         $this->statusFile = sys_get_temp_dir() . '/demo-reset-status-' . bin2hex(random_bytes(4));
+        $this->projectDir = sys_get_temp_dir() . '/demo-reset-project-' . bin2hex(random_bytes(4));
+        mkdir($this->projectDir . '/bin', 0o777, true);
+        $this->consoleStub('exit(0);');
         $this->suiteRegistry = $this->createMock(SuiteRegistryInterface::class);
         $this->suiteLoader = $this->createMock(SuiteLoaderInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
@@ -70,12 +77,19 @@ final class DemoResetCommandTest extends TestCase
             {
                 return [];
             }
-        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))));
+        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))), new ConsoleSubprocess($this->projectDir, 'test'), new ResetLock($this->statusFile . '.lock'));
     }
 
     protected function tearDown(): void
     {
         @unlink($this->statusFile);
+        @unlink($this->statusFile . '.lock');
+        new Filesystem()->remove($this->projectDir);
+    }
+
+    private function consoleStub(string $body): void
+    {
+        file_put_contents($this->projectDir . '/bin/console', "<?php\n" . $body . "\n");
     }
 
     // -------------------------------------------------------------------------
@@ -181,6 +195,85 @@ final class DemoResetCommandTest extends TestCase
         self::assertStringContainsString('DEMO_RESET_FAILED', $tester->getDisplay());
         self::assertStringContainsString('Simulated fixture failure.', $tester->getDisplay());
         self::assertTrue(new ResetStatus($this->statusFile)->hasFailed(), 'The failure stays visible to /healthz (US-033).');
+    }
+
+    // -------------------------------------------------------------------------
+    // US-049 — cache clear and warm-up in a sub-process
+    // -------------------------------------------------------------------------
+
+    public function testTheCacheStepRunsClearThenWarmupInSubProcesses(): void
+    {
+        $log = $this->projectDir . '/calls.log';
+        $this->consoleStub('file_put_contents(' . var_export($log, true) . ', $argv[1] . " " . getmypid() . "\n", FILE_APPEND);');
+        $this->loadFixtures();
+
+        $exitCode = new CommandTester($this->command)->execute(['--no-media' => true]);
+
+        self::assertSame(Command::SUCCESS, $exitCode);
+        $calls = array_map(static fn (string $line): array => explode(' ', $line), array_filter(explode("\n", (string) file_get_contents($log))));
+        self::assertSame(['cache:clear', 'cache:warmup'], array_column($calls, 0));
+        self::assertNotContains((string) getmypid(), array_column($calls, 1), 'Not in the process of the fixtures.');
+        self::assertFileDoesNotExist($this->statusFile, 'A reset that succeeds leaves no marker.');
+    }
+
+    public function testAWarmupThatExitsNonZeroFailsTheResetAndRaisesTheMarker(): void
+    {
+        $this->consoleStub('exit($argv[1] === "cache:warmup" ? 255 : 0);');
+        $this->loadFixtures();
+        $tester = new CommandTester($this->command);
+
+        $exitCode = $tester->execute(['--no-media' => true], ['capture_stderr_separately' => true]);
+
+        self::assertSame(Command::FAILURE, $exitCode);
+        self::assertStringContainsString('DEMO_RESET_FAILED', $tester->getErrorOutput());
+        self::assertStringContainsString('cache:warmup', $tester->getErrorOutput());
+        self::assertTrue(new ResetStatus($this->statusFile)->hasFailed(), '/healthz answers 503.');
+    }
+
+    public function testAFailedResetThenASuccessfulOneClearsTheMarker(): void
+    {
+        $this->consoleStub('exit(1);');
+        $this->loadFixtures();
+        new CommandTester($this->command)->execute(['--no-media' => true]);
+        self::assertTrue(new ResetStatus($this->statusFile)->hasFailed());
+
+        $this->consoleStub('exit(0);');
+        $exitCode = new CommandTester($this->command)->execute(['--no-media' => true]);
+
+        self::assertSame(Command::SUCCESS, $exitCode);
+        self::assertFalse(new ResetStatus($this->statusFile)->hasFailed());
+    }
+
+    public function testADryRunNeverTouchesTheMarkerNorTheSubProcess(): void
+    {
+        $this->consoleStub('exit(9);');
+
+        $exitCode = new CommandTester($this->command)->execute(['--dry-run' => true]);
+
+        self::assertSame(Command::SUCCESS, $exitCode);
+        self::assertFileDoesNotExist($this->statusFile);
+    }
+
+    public function testASecondResetStartedWhileAnotherRunsIsRefusedAndTouchesNothing(): void
+    {
+        $running = new ResetLock($this->statusFile . '.lock');
+        self::assertTrue($running->acquire());
+        $this->suiteRegistry->expects(self::never())->method('getSuite');
+        $this->connection->expects(self::never())->method('beginTransaction');
+        $tester = new CommandTester($this->command);
+
+        $exitCode = $tester->execute([], ['capture_stderr_separately' => true]);
+
+        self::assertSame(Command::FAILURE, $exitCode);
+        self::assertStringContainsString('DEMO_RESET_REFUSED', $tester->getErrorOutput());
+        self::assertStringContainsString('already running', $tester->getErrorOutput());
+        self::assertFileDoesNotExist($this->statusFile, 'The marker of the first reset is not touched.');
+        $running->release();
+    }
+
+    private function loadFixtures(): void
+    {
+        $this->suiteRegistry->method('getSuite')->willReturn($this->createMock(SuiteInterface::class));
     }
 
     // -------------------------------------------------------------------------

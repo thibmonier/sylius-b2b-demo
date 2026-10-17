@@ -41,7 +41,7 @@ final class CompanyWishlistSmokeTest extends WebTestCase
         self::assertCount(5, $crawler->filter('[data-test-company-wishlist-item]'));
         $quantities = $crawler->filter('[data-test-quantity]')->each(static fn ($node): string => trim($node->text()));
         sort($quantities, \SORT_NUMERIC);
-        self::assertSame(['6', '10', '24', '100', '200'], $quantities, 'The quantities of the list are shown.');
+        self::assertSame(['2', '5', '6', '10', '24'], $quantities, 'The quantities of the list are shown.');
         self::assertCount(1, $crawler->filter('[data-test-read-only]'), 'Paul (approver) only reads the list.');
     }
 

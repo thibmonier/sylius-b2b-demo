@@ -113,6 +113,12 @@ jobs:
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
 
+            # The Caddyfile of the image is valid and cuts the body of the public webhook receiver (US-049).
+            - name: Caddyfile is valid and limits the webhook receiver body
+              run: |
+                  docker run --rm --entrypoint frankenphp sylius-b2b-demo:ci validate --config /etc/frankenphp/Caddyfile --adapter caddyfile
+                  CHECK_PORT=8099 sh bin/check-caddy-body-limit sylius-b2b-demo:ci
+
             - name: Start the demo (first start installs the database)
               run: |
                   docker network create demo

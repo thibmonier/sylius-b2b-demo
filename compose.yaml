@@ -13,6 +13,8 @@ services:
             DEMO_MODE: "1"
             # Local run: no private gate (it stays on by default, for Railway).
             DEMO_BASIC_AUTH: "0"
+            # No gate means the public-mode rules of app:demo:preflight (US-050): registrations closed, unless the run keeps the gate.
+            DEMO_REGISTRATION_OPEN: "${DEMO_REGISTRATION_OPEN:-0}"
             # Only the local host name (the preflight refuses the open default "^.*$").
             TRUSTED_HOSTS: "^localhost$"
             DEMO_MAILPIT_URL: "http://localhost:8025"

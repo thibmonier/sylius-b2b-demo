@@ -5,6 +5,11 @@ import { defineRailway, github, image, mysql, preserve, project, service } from 
 
 const REGION = "europe-west4";
 
+// US-050: the one switch between the private demo (HTTP gate on, registrations open) and the public demo (gate off,
+// registrations closed, search engines asked to stay away). Stays false until the explicit GO of the owner; the steps
+// are in docs/ouverture-publique.md. The preflight of the container refuses a public demo with open registrations.
+const OPEN_TO_PUBLIC = false;
+
 export default defineRailway(() => {
   // Pinned: the helper defaults to mysql:9; the demo (compose, CI, DATABASE_URL serverVersion) runs MySQL 8.4.
   const db = mysql("mysql", { image: "mysql:8.4" });
@@ -34,7 +39,9 @@ export default defineRailway(() => {
       DEFAULT_URI: "https://${{RAILWAY_PUBLIC_DOMAIN}}",
       DEMO_MODE: "1",
       // Private gate until the user's GO (US-032): credentials are Railway secrets, the hash is Argon2id.
-      DEMO_BASIC_AUTH: "1",
+      DEMO_BASIC_AUTH: OPEN_TO_PUBLIC ? "0" : "1",
+      DEMO_REGISTRATION_OPEN: OPEN_TO_PUBLIC ? "0" : "1",
+      DEMO_PUNCHOUT_PUBLIC_ENDPOINT: "0",
       DEMO_BASIC_AUTH_USER: preserve(),
       DEMO_BASIC_AUTH_PASSWORD_HASH: preserve(),
       // The Railway healthcheck calls with Host healthcheck.railway.app.

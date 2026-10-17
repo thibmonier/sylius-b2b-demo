@@ -25,7 +25,7 @@ Le refus des comptes non approuvés passe par le point d'extension du plugin (`A
 
 ## Démo privée : limite importante
 
-Tant que la porte HTTP (`DEMO_BASIC_AUTH=1`) est active, un assistant hébergé (Claude, ChatGPT) ne peut pas atteindre `/_mcp` ni le flux OAuth : seuls `/health` et `/healthz` sont exemptés. Le guide l'affiche (bandeau d'avertissement) tant que la porte est active. Le guide se suit donc de bout en bout à partir de l'ouverture publique (GO utilisateur distinct) ; d'ici là, le comportement est couvert par `McpGuideTest`.
+Tant que la porte HTTP (`DEMO_BASIC_AUTH=1`) est active, un assistant hébergé (Claude, ChatGPT) ne peut pas atteindre `/_mcp` ni le flux OAuth : seuls `/health` et `/healthz` sont exemptés. Le guide l'affiche (bandeau d'avertissement) tant que la porte est active. Le guide se suit donc de bout en bout à partir de l'ouverture publique (GO utilisateur distinct, [ouverture-publique.md](ouverture-publique.md) ; l'avertissement disparaît dès `DEMO_BASIC_AUTH=0`, vérifié par `PublicOpeningTest`) ; d'ici là, le comportement est couvert par `McpGuideTest`.
 
 Le jeton `Authorization: Bearer` du MCP et l'authentification HTTP basique partagent le même en-tête : on ne peut pas franchir la porte et s'authentifier en même temps avec un client hébergé.
 

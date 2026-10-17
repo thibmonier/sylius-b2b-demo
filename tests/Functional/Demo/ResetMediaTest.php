@@ -91,9 +91,9 @@ final class ResetMediaTest extends KernelTestCase
 
     private static function marker(): string
     {
-        $projectDir = self::getContainer()->getParameter('kernel.project_dir');
-        \assert(\is_string($projectDir));
+        $marker = self::getContainer()->getParameter('demo.reset_marker_file');
+        \assert(\is_string($marker));
 
-        return $projectDir . '/var/demo-reset-failed';
+        return $marker;
     }
 }

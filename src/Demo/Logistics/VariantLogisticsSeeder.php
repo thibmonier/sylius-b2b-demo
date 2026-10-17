@@ -16,8 +16,9 @@ use Tmonier\SyliusContainerFillPlugin\Entity\VariantContainerCapacityInterface;
 /**
  * Writes the container-fill data of one catalogue variant (upsert: running it twice changes nothing).
  *
- * - Logistics: the case holds the units stated by `packaging_unit`; selling by whole cases is required
- *   for boxes and lots of 50 to 100 units only, so the small packs stay buyable one by one.
+ * - Logistics: the CSV row (weight, size, price) describes the sold unit, a "boîte de 100" being one box and not a piece
+ *   sold by cartons of 100. Nothing in the catalogue says how many sold units go in a shipping case, so a case holds one
+ *   (one box = one case, weighing what the box weighs) and nothing is sold by whole cases.
  * - Capacities: one row per container type that can hold the product (see {@see ContainerCapacityCalculator}).
  * - Layers: families of the layer list get a layer height and the units per layer on the pallet.
  *
@@ -28,9 +29,8 @@ use Tmonier\SyliusContainerFillPlugin\Entity\VariantContainerCapacityInterface;
  */
 final class VariantLogisticsSeeder
 {
-    private const MIN_REQUIRED_CASE = 50;
-
-    private const MAX_REQUIRED_CASE = 100;
+    /** Sold units in one shipping case: the catalogue does not describe the case, the sold unit is the box, lot or roll itself. */
+    private const UNITS_PER_CASE = 1;
 
     /** Variants per IN() list, and rows per multi-row INSERT (7 columns at most: well under the 65 535 parameter limit). */
     private const CHUNK = 250;
@@ -61,7 +61,6 @@ final class VariantLogisticsSeeder
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly ContainerCapacityCalculator $calculator,
-        private readonly PackagingUnitParser $packagingParser,
         #[Autowire(service: 'tmonier_container_fill.repository.variant_logistics')]
         private readonly RepositoryInterface $logisticsRepository,
         #[Autowire(service: 'tmonier_container_fill.factory.variant_logistics')]
@@ -138,19 +137,11 @@ final class VariantLogisticsSeeder
             $this->newLogistics[(int) $variant->getId()] = $logistics;
         }
 
-        $unitsPerCase = $this->packagingParser->unitsPerCase($row->packagingUnit);
-        $logistics->setUnitsPerCase($unitsPerCase);
-        $logistics->setCaseWeight($row->unit->isUsable() ? $row->unit->weightG * $unitsPerCase : null);
-        $logistics->setCaseMultipleRequired($this->isSoldByWholeCases($row->packagingUnit, $unitsPerCase));
+        $logistics->setUnitsPerCase(self::UNITS_PER_CASE);
+        $logistics->setCaseWeight($row->unit->isUsable() ? $row->unit->weightG * self::UNITS_PER_CASE : null);
+        $logistics->setCaseMultipleRequired(false);
         $logistics->setStackable(true);
         $logistics->setLayerHeight($layers && $row->unit->isUsable() ? $row->unit->heightMm : null);
-    }
-
-    private function isSoldByWholeCases(?string $packagingUnit, int $unitsPerCase): bool
-    {
-        return PackagingUnitParser::KIND_OTHER !== $this->packagingParser->kind($packagingUnit) &&
-            $unitsPerCase >= self::MIN_REQUIRED_CASE &&
-            $unitsPerCase <= self::MAX_REQUIRED_CASE;
     }
 
     private function seedCapacity(ProductVariantInterface $variant, ContainerTypeInterface $type, int $quantity, ?int $unitsPerLayer): void

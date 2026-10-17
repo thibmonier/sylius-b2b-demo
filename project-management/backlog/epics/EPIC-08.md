@@ -1,6 +1,6 @@
 # EPIC-08 — Hébergement Railway et exploitation
 
-> Exigences : FR-24, FR-25, NFR-1, NFR-3 · 3 stories · 9 points
+> Exigences : FR-24, FR-25, NFR-1, NFR-3 · 5 stories · 12 points
 
 **Objectif** : Déploiement, remise à zéro nocturne supervisée, budget.
 
@@ -10,3 +10,4 @@
 | [US-033](../user-stories/US-033.md) | Remise à zéro nocturne supervisée | Must | 3 | 6 |
 | [US-034](../user-stories/US-034.md) | Budget et mesure du coût | Must | 1 | 6 |
 | [US-048](../user-stories/US-048.md) | Reports techniques du sprint 9 | Should | 3 | 10 |
+| [US-049](../user-stories/US-049.md) | Fiabilité de la remise à zéro | Must | 3 | 11 |

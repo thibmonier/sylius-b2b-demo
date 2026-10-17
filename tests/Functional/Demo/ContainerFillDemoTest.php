@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * carts and orders are created inside a transaction that is rolled back. Assertions are on the served HTML.
  *
  * Products: EMBA-001 (carton pack, 136 per EUR pallet, 117 by layers), EMBA-008 (24 kg, 9 per EUR pallet),
- * VISS-001 (box of 100, sold by whole cases of 100).
+ * VISS-001 (a box of 100 screws is the sold unit: 350 g, 8 x 5 x 5 cm, 28 per carton S, bought one box at a time).
  */
 final class ContainerFillDemoTest extends WebTestCase
 {
@@ -123,7 +123,7 @@ final class ContainerFillDemoTest extends WebTestCase
         self::assertStringNotContainsString('tmonier-container-fill-checkout-reason', $html);
     }
 
-    public function testTheProductPageShowsThePreviewAndTheCaseOfAWholeCaseVariant(): void
+    public function testTheProductPageOfABoxShowsThePreviewAndSellsTheBoxOneAtATime(): void
     {
         $client = $this->clientOf(self::CLAIRE);
 
@@ -131,25 +131,57 @@ final class ContainerFillDemoTest extends WebTestCase
 
         self::assertStringContainsString('data-test-tmonier-container-fill-preview=', $html);
         self::assertStringContainsString('data-test-tmonier-container-fill-preview-row', $html);
-        self::assertMatchesRegularExpression('/id="sylius_shop_add_to_cart_cartItem_quantity"[^>]*min="100"[^>]*step="100"/', $html);
-        self::assertStringContainsString('Vendu par cartons complets de 100', $html);
+        self::assertDoesNotMatchRegularExpression('/id="sylius_shop_add_to_cart_cartItem_quantity"[^>]*step="/', $html, 'A box is the sold unit: no quantity step.');
+        self::assertStringNotContainsString('Vendu par cartons complets', $html);
     }
 
-    public function testAQuantityOf150IsRefusedForACaseOf100AndNamesTheMultiple(): void
+    public function testAnyNumberOfBoxesIsAccepted(): void
     {
         $client = $this->clientOf(self::CLAIRE);
         $client->request('GET', '/fr_FR/');
         $variant = $this->variant('VISS-001');
         $cart = $this->cartOf(self::CLAIRE, [], 'B2B');
-        $item = $this->orderItem($variant, 150);
         $validator = self::getContainer()->get('validator');
         self::assertInstanceOf(ValidatorInterface::class, $validator);
 
-        $violations = $validator->validate(new AddToCartCommand($cart, $item), null, ['sylius']);
+        foreach ([1, 3, 150, 200] as $boxes) {
+            $violations = $validator->validate(new AddToCartCommand($cart, $this->orderItem($variant, $boxes)), null, ['sylius']);
+            self::assertSame(0, $violations->count(), $boxes . ' boxes of 100 screws are a valid quantity.');
+        }
+    }
 
-        self::assertGreaterThan(0, $violations->count(), '150 is not a multiple of 100.');
-        self::assertStringContainsString('100', (string) $violations->get(0)->getMessage());
-        self::assertSame(0, $validator->validate(new AddToCartCommand($cart, $this->orderItem($variant, 200)), null, ['sylius'])->count());
+    public function testABoxOfScrewsFitsACartonWithoutOverload(): void
+    {
+        $client = $this->clientOf(self::CLAIRE);
+        $this->cartOf(self::CLAIRE, ['VISS-001' => 2], 'B2B');
+
+        $html = $this->get($client, '/fr_FR/cart/');
+
+        self::assertStringContainsString('data-test-tmonier-container-fill-gauge', $html);
+        self::assertStringNotContainsString('surchargé', $html, 'Two boxes of 350 g are far below the 10 kg of a carton S.');
+    }
+
+    public function testClairesSharedListGivesAValidLoadPlanForTheFastenersRule(): void
+    {
+        $client = $this->clientOf(self::CLAIRE);
+        $this->cartOf(self::CLAIRE, ['VISS-001' => 5, 'VISS-002' => 2], 'B2B');
+
+        $html = $this->get($client, '/fr_FR/cart/');
+
+        self::assertStringContainsString('Visserie : cartons remplis à 20 %', $html);
+        self::assertStringNotContainsString('surchargé', $html);
+        self::assertStringNotContainsString('tmonier-container-fill-checkout-reason', $html, 'Seven boxes fill one carton beyond 20 %: the rule is met.');
+        self::assertDoesNotMatchRegularExpression('/<button[^>]*\bdisabled\b[^>]*data-test-cart-checkout-button/', $html);
+    }
+
+    public function testTheSharedListHoldsBoxesNotPieces(): void
+    {
+        $this->clientOf(self::CLAIRE);
+
+        $quantity = fn (string $sku): int => $this->intValue('SELECT wp.quantity FROM sylius_wishlist_product wp JOIN sylius_product_variant v ON v.id = wp.variant_id WHERE v.code = ?', [$sku]);
+
+        self::assertSame(5, $quantity('VISS-001'));
+        self::assertSame(2, $quantity('VISS-002'));
     }
 
     public function testTheB2cChannelHasNoRuleNoGaugeAndNoBlock(): void
@@ -219,7 +251,7 @@ final class ContainerFillDemoTest extends WebTestCase
     {
         $client = $this->clientOf(self::CLAIRE);
 
-        foreach (['fr_FR' => 'cartons complets de 100', 'en_US' => 'whole cases of 100'] as $locale => $sentence) {
+        foreach (['fr_FR' => 'se vendent à la boîte', 'en_US' => 'are sold by the box'] as $locale => $sentence) {
             $html = html_entity_decode($this->get($client, '/' . $locale . '/plugins'), \ENT_QUOTES);
 
             self::assertStringContainsString('EMBA-001', $html, $locale);

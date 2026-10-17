@@ -77,6 +77,18 @@ final class DemoAccountCatalog
         return [...$accounts, ...$this->consumers()];
     }
 
+    /** Whether the e-mail is one of the storefront logins published on /demo/accounts (shared by every visitor). */
+    public function isSharedShopAccount(string $email): bool
+    {
+        foreach ($this->shopAccounts() as $account) {
+            if (0 === strcasecmp($account->email, trim($email))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function assertUniqueEmails(): void
     {
         $seen = [];
