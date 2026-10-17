@@ -31,7 +31,7 @@ En tant que Thibaut, je veux que le simulateur PunchOut de la démo sache aussi 
 | T-053-05 | [BE] | Garde-fous OCI : limiteurs, usage unique du retour | 1.5h | T-053-04 | ✅ |
 | T-053-06 | [TEST] | Tests fonctionnels du parcours OCI (nominal, 2 alternatifs, 2 erreurs) | 2h | T-053-05 | ✅ |
 | T-053-07 | [DOC] | Documentation du simulateur : parcours OCI, garde-fous ; la mention « OCI non simulé » retirée | 1h | T-053-06 | ✅ |
-| T-053-08 | [REV] | Revue | 1h | T-053-07 | 🔲 |
+| T-053-08 | [REV] | Revue | 1h | T-053-07 | ✅ |
 
 **Total estimé : 12.5h** (8 tâches).
 
