@@ -43,7 +43,7 @@ La démo n'émet aucun trafic sortant pour alerter : c'est le moniteur qui vient
 Dans le conteneur web, **en `www-data`** (le serveur et le cron tournent sous cet utilisateur) :
 
 ```bash
-railway ssh --service web -- su -s /bin/sh www-data -c 'php bin/console app:demo:reset --no-interaction'
+railway ssh --service web -- su -s /bin/sh www-data -c 'php -d memory_limit=1G bin/console app:demo:reset --no-interaction'
 ```
 
 `railway ssh` ouvre une session root : lancée en root, la commande reconstruit `var/cache/prod` avec des fichiers que le serveur web ne peut plus écrire, et toutes les pages répondent 500. Si c'est arrivé : `railway ssh --service web -- chown -R www-data:www-data /app/var`.
@@ -145,13 +145,15 @@ Tests de non-régression (rouges avant, verts après) : `tests/Functional/Demo/C
 
 ### Pic mémoire sur Railway (T-048-13, utilisateur)
 
-Commande à lancer par l'exploitant (GO requis), qui n'estime rien : elle relève le pic réel d'un reset.
+L'image n'a pas `/usr/bin/time`. La commande lance le reset et relève le compteur mémoire du conteneur (cgroup v2) toutes les demi-secondes :
 
 ```bash
-railway ssh --service web -- su -s /bin/sh www-data -c '/usr/bin/time -v php bin/console app:demo:reset --no-interaction 2>&1 | grep -E "DEMO_RESET|Maximum resident"'
+railway ssh --service web -- sh -c 'su -s /bin/sh www-data -c "php -d memory_limit=1G bin/console app:demo:reset --no-interaction" >/tmp/reset.log 2>&1 & p=$!; m=0; while kill -0 $p 2>/dev/null; do c=$(cat /sys/fs/cgroup/memory.current); [ "$c" -gt "$m" ] && m=$c; sleep 0.5; done; wait $p; echo "reset exit=$? ; pic conteneur: $((m/1048576)) Mo"'
 ```
 
-À comparer à la limite mémoire du service (*Settings > Resource Limits*). Résultat à consigner ici (valeur en Go et limite).
+**Relevé du 2026-10-17** (déploiement du sprint 10, `a4cd868`) : pic du conteneur **≈ 1,05 Go**, pour une limite de réplique de **8 Go** (8 vCPU). La marge est large. Les fixtures se sont chargées en 16,1 s.
+
+Ce relevé a révélé un défaut. Le reset lance `cache:clear` puis `cache:warmup` dans le même processus que le chargement des fixtures. Avec la limite PHP de 512 Mo de `docker/php.ini`, le réchauffage s'est arrêté (« Allowed memory size of 536870912 bytes exhausted ») : le reset sortait en erreur alors que les données étaient rechargées. Le reset nocturne (`docker/crontab`) et les commandes manuelles passent donc `-d memory_limit=1G`, comme le chargement initial de l'entrypoint. Le pic du conteneur reste très en dessous de la limite.
 
 ## Tests
 
