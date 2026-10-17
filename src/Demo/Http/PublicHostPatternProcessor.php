@@ -16,7 +16,8 @@ final class PublicHostPatternProcessor implements EnvVarProcessorInterface
 
     public function getEnv(string $prefix, string $name, \Closure $getEnv): string
     {
-        $host = PublicHost::normalize((string) $getEnv($name));
+        $value = $getEnv($name);
+        $host = \is_string($value) ? PublicHost::normalize($value) : null;
 
         return null === $host ? self::MATCHES_NOTHING : '^' . preg_quote($host, '/') . '$';
     }
