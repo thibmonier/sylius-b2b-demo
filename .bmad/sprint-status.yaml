@@ -138,8 +138,8 @@ sprints:
     stories:
       - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: review}  # reportée du sprint 9 (arbitrage utilisateur 2026-10-16) ; tâches reprises dans sprint-10-vitrine-et-reports/tasks/US-029-tasks.md
       - {id: US-046, title: "Encart Sylius Plus sur la page Plugins", points: 2, status: review}  # texte validé par l'utilisateur avant merge (T-046-04 bloquante), aucune promesse de compatibilité
-      - {id: US-047, title: "Images des produits de démo", points: 5, status: in-progress}  # Openverse CC0, script manuel lancé une fois, images versionnées, jamais d'appel au runtime
-      - {id: US-048, title: "Reports techniques du sprint 9", points: 3, status: in-progress}  # rétro S9 actions 1 à 5 + points ouverts de la revue ; tâches sacrifiables
+      - {id: US-047, title: "Images des produits de démo", points: 5, status: review}  # Openverse CC0, script manuel lancé une fois, images versionnées, jamais d'appel au runtime
+      - {id: US-048, title: "Reports techniques du sprint 9", points: 3, status: review}  # rétro S9 actions 1 à 5 + points ouverts de la revue ; tâches sacrifiables
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: review}  # faite hors sprint le 2026-10-17 (demande utilisateur)
