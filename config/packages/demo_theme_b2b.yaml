@@ -48,6 +48,12 @@ sylius_twig_hooks:
                 priority: -10
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
+        # S4-R3: one batch for the cards of the page (variants, prices, images) instead of a few queries per card.
+        'sylius_shop.product.index.content.body.main':
+            b2b_preload:
+                template: 'shop/theme_b2b/product_list_preload.html.twig'
+                priority: 150
+
         # Product page: reference block under the title.
         'sylius_shop.product.show.content.info.summary':
             b2b_reference:

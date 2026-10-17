@@ -1,0 +1,6 @@
+{# US-044: the PunchOut plugin and the container-fill plugin both replace the "checkout" hookable of the cart. This template
+   merges them: outside a PunchOut session the container-fill button (disabled, with the reason, while the B2B fill rules
+   are not met); in a session the banner offers the transfer. #}
+{% if not is_granted('PUNCHOUT_SESSION') %}
+    {{ include('@TmonierSyliusContainerFillPlugin/shop/cart/checkout.html.twig') }}
+{% endif %}

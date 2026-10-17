@@ -7,7 +7,9 @@ namespace App\Tests\Unit\Theme;
 use App\Demo\Theme\B2bThemeExtension;
 use App\Demo\Theme\PackagingUnitProvider;
 use App\Demo\Theme\PackagingUnitRows;
+use App\Demo\Theme\ProductListPreloader;
 use App\Demo\Theme\TierFromPriceProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
@@ -211,6 +213,7 @@ final class B2bThemeTest extends TestCase
         $twig->addExtension(new B2bThemeExtension(
             new PackagingUnitProvider($this->rows($rows), $this->locale('fr_FR')),
             $this->fromPrice($table),
+            new ProductListPreloader($this->createStub(EntityManagerInterface::class)),
         ));
         $twig->addFilter(new TwigFilter('trans', static fn (string $id, array $params = []): string => match ($id) {
             'app.theme_b2b.from_price' => 'from ' . ($params['%price%'] ?? ''),

@@ -1,0 +1,4 @@
+# S4-R3 / T-041-09: counts the SQL statements of a request so that a test can assert the count does not grow with the list.
+services:
+    App\Tests\Support\QueryCounter:
+        tags: ['doctrine.middleware']

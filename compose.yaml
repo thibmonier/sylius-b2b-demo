@@ -17,6 +17,11 @@ services:
             TRUSTED_HOSTS: "^localhost$"
             DEMO_MAILPIT_URL: "http://localhost:8025"
             DEMO_MAILPIT_API_URL: "http://mailpit:8025"
+            # FrankenPHP (ADR-0013): bounded threads; worker mode is opt-in (FRANKENPHP_WORKER_MODE=1), off by default.
+            FRANKENPHP_NUM_THREADS: ${FRANKENPHP_NUM_THREADS:-8}
+            FRANKENPHP_MAX_THREADS: ${FRANKENPHP_MAX_THREADS:-16}
+            FRANKENPHP_WORKER_MODE: ${FRANKENPHP_WORKER_MODE:-0}
+            FRANKENPHP_WORKERS: ${FRANKENPHP_WORKERS:-4}
         ports:
             - "${WEB_PORT:-8080}:8080"
         depends_on:

@@ -54,3 +54,4 @@ Note : R3/R4/R5/R6 sont **latents** — la repro locale charge exactement 210 pr
 - **Vérifié en base (repro locale)** : tous les comptes de données corrects ; `app:demo:reset` fonctionnel ; sécurité des 4 points sensibles.
 - **Haute confiance** : règle `/demo` bien bornée (analyse regex + test comportemental 200), secret cXML haché.
 - **À confirmer au sprint 6** : R9 (ordre entre priorités égales), R10 (traduisibilité des attributs).
+- **Sprint 9 (US-041)** : R7 corrigé pour les SELECT de l'import produits (1666 → 308), R8, R9 et R10 vérifiés et clos par `tests/Functional/FixturesConsistencyTest.php` (détails dans `sprint-9-reports/tasks/US-041-tasks.md`).
