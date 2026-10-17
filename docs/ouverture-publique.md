@@ -30,7 +30,17 @@ Une seule variable commande tout ce par quoi un visiteur laisserait des données
 
 Le **preflight** (`app:demo:preflight`, lancé par l'entrypoint du conteneur) **refuse de démarrer** quand la porte est ouverte et que `DEMO_REGISTRATION_OPEN` n'est pas `0` ou que `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` vaut `1`. C'est un refus au démarrage, pas à chaque requête : un déploiement oublié échoue, Railway garde la version précédente en service. Le lancement local (`compose.yaml`) a la porte ouverte : il ferme donc aussi les inscriptions par défaut (`DEMO_REGISTRATION_OPEN=1` possible avec `DEMO_BASIC_AUTH=1` et des identifiants).
 
+Le même interrupteur ferme l'**avis produit anonyme** (`sylius_shop_product_review_create` : un visiteur non connecté y saisit e-mail et nom, ce qui crée un client invité) : `403` comme pour la commande invité, et le POST est limité par `DEMO_RATE_LIMIT_FORMS`.
+
 Les visiteurs sans compte peuvent donc toujours parcourir le catalogue, se connecter avec les comptes de démo (`/demo/accounts`), commander avec eux et essayer le simulateur PunchOut ; ils ne peuvent pas créer de client.
+
+## Comptes de démo partagés et risques acceptés
+
+- **Comptes clients de démo** (ceux de `/demo/accounts`, mot de passe public) : changement de mot de passe et d'e-mail refusés (flash « Compte de démo partagé »), `SharedDemoAccountGuardListener`. Adresses, membres et crédit restent modifiables, la remise à zéro de 03:00 les restaure.
+- **Défiguration par Sophie** : décision de l'utilisateur du 2026-10-17, Sophie garde ses droits d'écriture en mode public ; le risque de défiguration visible jusqu'au reset de 03:00 est **accepté** (démo non promue, données fictives). Détail : [securite-admin-demo.md](securite-admin-demo.md).
+- **Limiteur global** : `DEMO_RATE_LIMIT_SHOP` (300 requêtes PHP par minute et par IP, défaut) s'ajoute aux limiteurs par formulaire ; `/health`, `/healthz`, le récepteur de webhooks signés et le simulateur interne en sont exemptés.
+- **`DEMO_MODE` obligatoire sur Railway** : le preflight échoue si `RAILWAY_ENVIRONMENT` est défini et `DEMO_MODE` ne vaut pas `1` (sinon limiteurs, hôtes de confiance et garde sortant seraient désactivés sans bruit).
+- **Tous les limiteurs dépendent de `X-Real-IP`** posé par l'edge Railway (`RailwayClientIpListener`) : voir la vérification 11 ci-dessous.
 
 ## Prérequis
 
@@ -85,10 +95,18 @@ URL=https://<domaine>
 
 # 10. Plafonds de débit actifs : au-delà de DEMO_RATE_LIMIT_PUBLIC par minute, 429
 for i in $(seq 1 130); do /usr/bin/curl -s -o /dev/null -w '%{http_code}\n' "$URL/demo/accounts"; done | /usr/bin/sort | /usr/bin/uniq -c   # des 429 apparaissent
+
+# 11. Les limiteurs voient l'IP du visiteur et non celle du proxy : deux IP différentes ne partagent pas le compteur.
+#     Depuis une machine, 130 appels (vérification 10) donnent des 429 ; depuis une seconde connexion (autre IP, 4G par exemple), la page répond encore 200.
+#     Si les deux connexions sont limitées ensemble, X-Real-IP n'est pas lu : ne pas laisser ouvert, refermer la porte.
+
+# 12. Avis produit invité refusé (canal Particuliers, slug d'un produit du catalogue)
+/usr/bin/curl -s -o /dev/null -w '%{http_code}\n' -b 'demo_channel=B2C' "$URL/fr_FR/products/<slug>/reviews/new"   # 403
 ```
 
 À la main (navigateur) :
 
+- [ ] Connecté avec un compte client de démo, le changement de mot de passe et d'e-mail est refusé (flash « Compte de démo partagé »).
 - [ ] L'admin `/admin` se connecte avec le compte de Sophie et reste en lecture seule hors des zones autorisées ([durcissement-demo.md](durcissement-demo.md)).
 - [ ] `/demo/mails` ne liste que les e-mails des comptes de démo.
 - [ ] Mailpit n'a **aucun domaine public** (tableau de bord Railway, service `mailpit` : seul le domaine privé existe) ; son port 8025 est injoignable depuis l'extérieur.

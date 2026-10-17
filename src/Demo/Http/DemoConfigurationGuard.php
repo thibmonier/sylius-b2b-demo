@@ -39,6 +39,8 @@ final readonly class DemoConfigurationGuard
         private bool $registrationOpen = false,
         #[Autowire(param: 'demo.punchout.public_endpoint')]
         private bool $punchOutPublicEndpoint = false,
+        #[Autowire(env: 'default::RAILWAY_ENVIRONMENT')]
+        private ?string $railwayEnvironment = null,
     ) {
     }
 
@@ -46,7 +48,8 @@ final readonly class DemoConfigurationGuard
     public function violations(): array
     {
         if (!$this->demoMode) {
-            return [];
+            // On Railway the limiters, the host whitelist and the outbound guard all hang on the demo mode: never off there.
+            return null === $this->railwayEnvironment || '' === $this->railwayEnvironment ? [] : ['DEMO_MODE must be 1 on Railway: without it the rate limits, the host whitelist and the outbound guard are silently off.'];
         }
         $violations = [];
         if ($this->gate->isMisconfigured()) {

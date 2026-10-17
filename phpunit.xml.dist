@@ -32,6 +32,7 @@
         <env name="TRUSTED_HOSTS" value="^[a-z0-9.-]+$" force="true"/>
         <env name="DEMO_RATE_LIMIT_LOGIN" value="100000" force="true"/>
         <env name="DEMO_RATE_LIMIT_PUBLIC" value="100000" force="true"/>
+        <env name="DEMO_RATE_LIMIT_SHOP" value="100000" force="true"/>
         <env name="DEMO_RATE_LIMIT_FORMS" value="100000" force="true"/>
         <env name="DEMO_RATE_LIMIT_PUNCHOUT_START" value="100000" force="true"/>
         <env name="DEMO_RATE_LIMIT_PUNCHOUT_ORDER" value="100000" force="true"/>

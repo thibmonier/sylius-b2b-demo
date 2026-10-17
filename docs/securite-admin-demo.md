@@ -39,8 +39,8 @@ Les champs modifiables (nom, descriptions, taxons, attributs) sont rendus par Tw
 
 ## Risques acceptés
 
-- **Défiguration** : Sophie peut modifier produits, commandes et taxons (texte déformé, prix changés, produits désactivés, commandes annulées). La remise à zéro de 03:00 (Europe/Paris) répare tout, au plus tard le lendemain.
-- **Contenu choquant** saisi par un visiteur : même réparation nocturne ; la démo est derrière la porte d'accès privée (US-032).
+- **Défiguration** : Sophie peut modifier produits, commandes et taxons (texte déformé, prix changés, produits désactivés, commandes annulées). La remise à zéro de 03:00 (Europe/Paris) répare tout, au plus tard le lendemain. **Décision de l'utilisateur du 2026-10-17 : avec la démo publique, Sophie garde ses droits d'écriture actuels.** Le risque de défiguration visible de tous jusqu'au reset est accepté (démo non promue, données fictives, aucune donnée réelle).
+- **Contenu choquant** saisi par un visiteur : même réparation nocturne. Depuis l'ouverture publique, il n'y a plus la porte d'accès privée (US-032) : ce risque est celui de la décision ci-dessus, accepté de la même façon.
 - **Lecture des secrets affichés** par l'admin (secret de signature de webhook à la création, par exemple) : valeurs de démonstration, jamais de secret réel dans le dépôt.
 - **Verrouillage temporaire** : une action `PATCH` sur une ressource autorisée (ex. désactivation d'un produit) peut vider une page du catalogue jusqu'au reset.
 - **Composants live** (`sylius_admin_live_component`) : autorisés car ils ne font que re-rendre des formulaires ; une future action live qui écrirait serait à reclasser.

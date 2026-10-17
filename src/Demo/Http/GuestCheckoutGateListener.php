@@ -12,13 +12,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 /**
  * US-050: with the registrations closed (DEMO_REGISTRATION_OPEN=0) a guest cannot go through the address step of the
- * checkout either: that is where a visitor types a name, an e-mail and an address that become a customer in Sophie's
- * list. A signed-in customer is not concerned. Runs after the firewall (priority 8), which sets the token.
+ * checkout nor post a product review either: that is where a visitor types a name, an e-mail (and an address) that
+ * become a customer in Sophie's list. A signed-in customer is not concerned. Runs after the firewall (priority 8), which sets the token.
  */
 #[AsEventListener(event: KernelEvents::REQUEST, priority: 0)]
 final readonly class GuestCheckoutGateListener
 {
-    private const ROUTES = ['sylius_shop_checkout_address'];
+    /** The address step and the product review: both turn a typed name and e-mail into a guest customer. */
+    private const ROUTES = ['sylius_shop_checkout_address', 'sylius_shop_product_review_create'];
 
     public function __construct(
         private TokenStorageInterface $tokens,

@@ -36,6 +36,7 @@ final readonly class RateLimitSubscriber
         'sylius_shop_user_request_verification_token' => ['POST', 'forms'],
         'sylius_shop_contact_request' => ['POST', 'forms'],
         'tmonier_quote_request_shop_new' => ['POST', 'forms'],
+        'sylius_shop_product_review_create' => ['POST', 'forms'],
         'sylius_api_shop_authentication_token' => ['POST', 'api_auth'],
         'sylius_api_admin_authentication_token' => ['POST', 'api_auth'],
         'tmonier_b2b_mcp_oauth_token' => ['POST', 'api_auth'],

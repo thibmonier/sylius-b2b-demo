@@ -17,6 +17,8 @@ parameters:
     env(DEMO_RATE_LIMIT_LOGIN): '30'
     env(DEMO_RATE_LIMIT_PUBLIC): '120'
     env(DEMO_RATE_LIMIT_FORMS): '10'
+    # US-050: every PHP request of the shop (search, cart, image resize, CSV upload, PDF), per visitor IP and per minute; a human stays far below.
+    env(DEMO_RATE_LIMIT_SHOP): '300'
     env(DEMO_RATE_LIMIT_PUNCHOUT_START): '10'
     env(DEMO_RATE_LIMIT_PUNCHOUT_ORDER): '10'
     env(DEMO_RATE_LIMIT_GATE): '20'
@@ -113,6 +115,11 @@ framework:
             policy: sliding_window
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_PUBLIC)%'
+            interval: '1 minute'
+        demo_shop:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_SHOP)%'
             interval: '1 minute'
         demo_forms:
             policy: sliding_window

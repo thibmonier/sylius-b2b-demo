@@ -25,7 +25,8 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `TRUSTED_PROXIES` | `127.0.0.1,REMOTE_ADDR` | inchangé ; `127.0.0.1` doit rester dans la liste (simulateur) |
 | `DEMO_RATE_LIMIT_LOGIN` | `30` (par 15 min) | `30` |
 | `DEMO_RATE_LIMIT_PUBLIC` | `120` (par minute) | `120` |
-| `DEMO_RATE_LIMIT_FORMS` | `10` (par heure) | `10` |
+| `DEMO_RATE_LIMIT_FORMS` | `10` (par heure) | `10` (inclut l'avis produit invité) |
+| `DEMO_RATE_LIMIT_SHOP` | `300` (par minute) | `300` : toutes les requêtes PHP par IP visiteur, hors `/health`, `/healthz`, webhooks signés, simulateur interne |
 | `DEMO_RATE_LIMIT_PUNCHOUT_START` | `10` (par 10 min) | `10` |
 | `DEMO_RATE_LIMIT_PUNCHOUT_ORDER` | `10` (par heure) | `10` |
 | `DEMO_RATE_LIMIT_GATE` | `20` (échecs par 10 min) | `20` |
