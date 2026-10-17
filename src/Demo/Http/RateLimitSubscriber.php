@@ -46,6 +46,8 @@ final readonly class RateLimitSubscriber
         '_mcp_endpoint' => ['POST', 'mcp'],
         'app_demo_punchout_simulator_start' => ['POST', 'punchout_start'],
         'app_demo_punchout_simulator_order' => ['POST', 'punchout_order'],
+        'app_demo_punchout_simulator_oci_start' => ['POST', 'punchout_start'],
+        'app_demo_punchout_simulator_oci_return' => ['POST', 'punchout_oci_return'],
     ];
 
     public function __construct(
@@ -55,6 +57,7 @@ final readonly class RateLimitSubscriber
         private RateLimiterFactory $demoFormsLimiter,
         private RateLimiterFactory $demoPunchoutStartLimiter,
         private RateLimiterFactory $demoPunchoutOrderLimiter,
+        private RateLimiterFactory $demoPunchoutOciReturnLimiter,
         private RateLimiterFactory $demoApiAuthLimiter,
         private RateLimiterFactory $demoApiWriteLimiter,
         private RateLimiterFactory $demoMcpLimiter,
@@ -92,6 +95,7 @@ final readonly class RateLimitSubscriber
             'public' => $this->demoPublicLimiter,
             'forms' => $this->demoFormsLimiter,
             'punchout_start' => $this->demoPunchoutStartLimiter,
+            'punchout_oci_return' => $this->demoPunchoutOciReturnLimiter,
             'api_auth' => $this->demoApiAuthLimiter,
             'api_write' => $this->demoApiWriteLimiter,
             'mcp' => $this->demoMcpLimiter,

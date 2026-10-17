@@ -13,7 +13,8 @@ Politique : la démo est **publique mais non promue** (aucune annonce sur les ca
 | `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0` | `0` |
 | Visiteur anonyme | `401` (sauf `/health`, `/healthz`) | `200` |
 | Guide MCP `/{locale}/mcp` | avertissement « démo privée » | sans avertissement, un assistant hébergé peut se connecter |
-| Inscription, `POST /api/v2/shop/customers` | ouvertes | `403` |
+| Inscription (formulaire `/register`) | ouverte | `403` |
+| `POST /api/v2/shop/customers` | `404` (API désactivée en production) | `404` (idem, le `403` ne vaut que si l'API est activée) |
 | Commande invité (étape adresse du checkout) | ouverte (canal Particuliers) | `403` pour un visiteur non connecté |
 | Demande de devis invité | ouverte | redirigée vers la connexion |
 | `robots.txt` | derrière la porte (`Disallow: /` pour qui a le mot de passe) | `User-agent: *` / `Disallow: /` |
@@ -42,18 +43,32 @@ Les visiteurs sans compte peuvent donc toujours parcourir le catalogue, se conne
 - **`DEMO_MODE` obligatoire sur Railway** : le preflight échoue si `RAILWAY_ENVIRONMENT` est défini et `DEMO_MODE` ne vaut pas `1` (sinon limiteurs, hôtes de confiance et garde sortant seraient désactivés sans bruit).
 - **Tous les limiteurs dépendent de `X-Real-IP`** posé par l'edge Railway (`RailwayClientIpListener`) : voir la vérification 11 ci-dessous.
 
+## Check-list de GO
+
+À lire avant de répondre « GO ». Tout doit être coché ; un seul non suffit à ne pas basculer.
+
+- [ ] Revue de sécurité de l'US-050 close, sans constat critique ou majeur ouvert.
+- [ ] La branche `main` contient le mode public (PR #21 mergée) et le service `web` l'a déployée (le service suit `main`, `.railway/railway.ts`).
+- [ ] Mode privé sain : `bin/verify-public-mode --private https://<domaine>` répond « All checks OK. » (401 pour un anonyme, `/healthz` en 200).
+- [ ] Reset nocturne vert : `/healthz` répond `ok` (pas `reset failed`), voir [remise-a-zero-demo.md](remise-a-zero-demo.md).
+- [ ] Moniteur externe créé sur `/healthz` et actif (T-052-03).
+- [ ] `railway config plan` ne montre, pour `web`, que `DEMO_BASIC_AUTH` (1 vers 0) et `DEMO_REGISTRATION_OPEN` (1 vers 0) ; `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` reste `0`.
+- [ ] Les identifiants de la porte sont en place (`DEMO_BASIC_AUTH_USER`, `DEMO_BASIC_AUTH_PASSWORD_HASH`), pour le retour arrière.
+- [ ] Mailpit n'a aucun domaine public.
+- [ ] Tu sais refermer la porte (section [Retour arrière](#retour-arrière-en-un-geste--refermer-la-porte)) et tu es disponible pendant la demi-heure qui suit la bascule.
+- [ ] Rappel de non-promotion lu : lien partagé à la main uniquement.
+
+Réponse attendue : « GO » explicite. Sans elle, la démo reste privée et la tâche T-052-04 reste ouverte.
+
 ## Prérequis
 
-- [ ] Revue de sécurité de l'US-050 (T-050-01/02) sans constat critique ou majeur ouvert.
-- [ ] Moniteur externe créé sur `https://<domaine>/healthz` (UptimeRobot ou Better Stack, alerte vers la messagerie de l'utilisateur) : voir [Moniteur externe](#moniteur-externe).
-- [ ] Reset nocturne et `/healthz` verts (US-049, [remise-a-zero-demo.md](remise-a-zero-demo.md)).
-- [ ] **GO explicite** de l'utilisateur.
+La [check-list de GO](#check-list-de-go) ci-dessus fait foi.
 
 ## Bascule
 
 1. Dans `.railway/railway.ts`, passer `OPEN_TO_PUBLIC` à `true` (une seule ligne). Elle positionne `DEMO_BASIC_AUTH=0` et `DEMO_REGISTRATION_OPEN=0` ; `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` reste `0`.
 2. Relire le diff (`git diff .railway/railway.ts`), commit `chore(ops): open the demo to the public`.
-3. Appliquer : `railway config apply` (déploiement du service `web`). Le preflight du conteneur vérifie les variables ; le déploiement échoue sans effet si l'une manque.
+3. Appliquer : `railway config plan` (le diff ne doit montrer que les deux variables ci-dessus), puis `railway config apply` (déploiement du service `web`). Le preflight du conteneur vérifie les variables ; le déploiement échoue sans effet si l'une manque.
 4. Vérifier (section suivante).
 
 Rien d'autre à changer : `TRUSTED_HOSTS`, les limiteurs, le mailer en puits et les secrets restent ceux du mode privé. Les identifiants de la porte (`DEMO_BASIC_AUTH_USER`, `DEMO_BASIC_AUTH_PASSWORD_HASH`) peuvent rester en place, inutilisés : c'est ce qui permet le retour arrière.
@@ -61,6 +76,15 @@ Rien d'autre à changer : `TRUSTED_HOSTS`, les limiteurs, le mailer en puits et 
 ## Vérifications après bascule
 
 `URL` est l'adresse publique de la démo. Chaque commande doit donner le résultat indiqué.
+
+Les vérifications 1 à 9 et 12 sont aussi dans un script en lecture seule (GET uniquement, aucun identifiant, rien d'écrit), qui affiche une ligne OK/KO par vérification et sort en erreur au moindre écart :
+
+```bash
+bin/verify-public-mode "$URL" <slug-d-un-produit>     # mode public ; sans slug, la vérification 12 est ignorée
+bin/verify-public-mode --private "$URL"               # mode privé : 401 pour un anonyme, /healthz et /health en 200
+```
+
+Les vérifications 10 et 11 restent manuelles (elles saturent un limiteur et exigent deux connexions). Le script ne remplace pas la liste « À la main » plus bas.
 
 ```bash
 URL=https://<domaine>
@@ -116,7 +140,7 @@ for i in $(seq 1 130); do /usr/bin/curl -s -o /dev/null -w '%{http_code}\n' "$UR
 ## Retour arrière en un geste : refermer la porte
 
 1. Dans `.railway/railway.ts`, remettre `OPEN_TO_PUBLIC` à `false`, commit, `railway config apply`.
-2. Vérifier : `curl -s -o /dev/null -w '%{http_code}\n' "$URL/fr_FR/"` doit donner `401`, `/healthz` reste `200`.
+2. Vérifier : `bin/verify-public-mode --private "$URL"` (ou `curl -s -o /dev/null -w '%{http_code}\n' "$URL/fr_FR/"`, qui doit donner `401`) ; `/healthz` reste `200`.
 
 Les identifiants de la porte étant restés en place, la démo est de nouveau privée dès le déploiement terminé. Le preflight échouerait si les identifiants avaient été supprimés : les remettre d'abord ([deploiement-railway.md](deploiement-railway.md), section secrets).
 

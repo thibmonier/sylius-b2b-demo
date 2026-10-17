@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01b0b96459799f70e7123759ede3f242",
+    "content-hash": "33fbc1d38d52bb6ed8905b3ea09222a3",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -16700,43 +16700,20 @@
             },
             "type": "sylius-plugin",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "1.0-dev"
-                },
                 "symfony": {
                     "require": "^7.4"
                 },
-                "public-dir": "vendor/sylius/test-application/public"
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "1.0-dev"
+                }
             },
             "autoload": {
                 "psr-4": {
                     "Tmonier\\SyliusAgenticFeedsPlugin\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\Tmonier\\SyliusAgenticFeedsPlugin\\": [
-                        "tests/",
-                        "tests/TestApplication/src/"
-                    ]
-                }
-            },
-            "scripts": {
-                "database-reset": [
-                    "vendor/bin/console doctrine:database:drop --force --if-exists",
-                    "vendor/bin/console doctrine:database:create",
-                    "vendor/bin/console doctrine:migration:migrate -n",
-                    "vendor/bin/console sylius:fixtures:load -n"
-                ],
-                "frontend-clear": [
-                    "cd vendor/sylius/test-application && yarn install && yarn build",
-                    "vendor/bin/console assets:install"
-                ],
-                "test-app-init": [
-                    "@database-reset",
-                    "@frontend-clear"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -16747,10 +16724,10 @@
             ],
             "description": "Product feeds for AI shopping assistants and comparison engines in Sylius 2: Google Merchant Center (XML/TSV), OpenAI product feed (jsonl.gz), Stripe Agentic Commerce catalog (CSV), per channel, locale and currency, with validation reports, stock/price deltas and Product JSON-LD",
             "keywords": [
+                "ChatGpt",
+                "JSON-LD",
                 "agentic-commerce",
-                "chatgpt",
                 "google-merchant-center",
-                "json-ld",
                 "openai",
                 "product-feed",
                 "schema-org",
@@ -16759,8 +16736,8 @@
                 "sylius-plugin"
             ],
             "support": {
-                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/tree/v1.0.0",
-                "issues": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/issues"
+                "issues": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/tree/v1.0.0"
             },
             "time": "2026-10-13T05:40:21+00:00"
         },

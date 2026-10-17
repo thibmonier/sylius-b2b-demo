@@ -7,7 +7,7 @@ Application des US-032 (porte privée) et US-036 (durcissement). Le code est dan
 - Active quand `DEMO_MODE=1`, sauf `DEMO_BASIC_AUTH=0`. Toute requête sans identifiants valides reçoit `401` avec `WWW-Authenticate`.
 - Exemptés : `/health` et `/healthz`. Les fichiers statiques servis directement par Caddy (`/build`, `/bundles`, `/media`) ne passent pas par PHP et restent accessibles.
 - Les échecs de mot de passe sont comptés par IP visiteur : au-delà de `DEMO_RATE_LIMIT_GATE` échecs par 10 minutes, `429`.
-- Le simulateur PunchOut appelle la boutique en boucle locale : il prouve son origine avec l'en-tête `X-Demo-Internal` (HMAC de `APP_SECRET`), accepté par la porte et par l'endpoint PunchOut.
+- Le simulateur PunchOut appelle la boutique en boucle locale : il prouve son origine avec l'en-tête `X-Demo-Internal` (HMAC de `APP_SECRET`), accepté par la porte et par les entrées PunchOut (`POST /punchout/cxml` et, depuis US-053, `POST /punchout/oci/<code>`).
 - Fail-closed : porte active sans `DEMO_BASIC_AUTH_USER` / `DEMO_BASIC_AUTH_PASSWORD_HASH` valides (le hash est celui de `password_hash`, jamais un mot de passe en clair) : toutes les pages répondent `503` et `/health` aussi. `php bin/console app:demo:preflight` fait la même vérification pour l'entrypoint du conteneur, et, porte ouverte, refuse aussi des inscriptions ouvertes ou un endpoint PunchOut public (US-050).
 - Tout ce qui dépend de la porte lit le même paramètre `demo.basic_auth.enabled` (`BasicAuthGate::isActive()`) : porte, avertissement du guide MCP, preflight.
 - `robots.txt` (`Disallow: /`) et `X-Robots-Tag: noindex, nofollow` en mode démo, dans les deux modes ; `public/robots.txt` supprimé au profit de `RobotsController` (US-050).
@@ -27,7 +27,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `DEMO_RATE_LIMIT_PUBLIC` | `120` (par minute) | `120` |
 | `DEMO_RATE_LIMIT_FORMS` | `10` (par heure) | `10` (inclut l'avis produit invité) |
 | `DEMO_RATE_LIMIT_SHOP` | `300` (par minute) | `300` : toutes les requêtes PHP par IP visiteur, hors `/health`, `/healthz`, webhooks signés, simulateur interne |
-| `DEMO_RATE_LIMIT_PUNCHOUT_START` | `10` (par 10 min) | `10` |
+| `DEMO_RATE_LIMIT_PUNCHOUT_START` | `10` (par 10 min) | `10` : démarrage cXML et entrée OCI ; le retour OCI a le même plafond dans son propre seau (US-053) |
 | `DEMO_RATE_LIMIT_PUNCHOUT_ORDER` | `10` (par heure) | `10` |
 | `DEMO_RATE_LIMIT_GATE` | `20` (échecs par 10 min) | `20` |
 | `DEMO_RATE_LIMIT_HEALTH` | `30` (par minute) | `30` : `/health` et `/healthz`, par IP visiteur ; un moniteur toutes les 10 s fait 6 appels |
@@ -55,6 +55,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | M4 images orphelines (US-040) | Corrigé | Étape 4 du reset (`OrphanImagePurger`) : tout fichier de `public/media/image` sans ligne d'image est supprimé ; un échec est journalisé et fait échouer le reset (`/healthz` 503 `reset failed`). |
 | M5 clients HTTP du serveur MCP (US-040) | Corrigé | Le garde sortant décore aussi `http_client.transport` ; les redirections ne sont plus suivies. |
 | M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
+| US-053 simulateur OCI | Corrigé | Entrée OCI relayée par le serveur (mot de passe jamais dans une page ni une URL), `HOOK_URL` limitée aux domaines de retour de l'acheteur et vérifiée avant tout appel, `POST /punchout/oci/<code>` réservé au simulateur (`PunchOutEndpointGuard`), limiteurs par IP, retour à usage unique (`OciReturnGate`). Pas de plafond quotidien : un retour OCI ne crée pas de commande (décision du Tech Lead, 2026-10-17). |
 | M8 retour du simulateur PunchOut (US-040) | Corrigé | Le panier n'est cru que s'il est, octet pour octet, un `PunchOutOrderMessage` du journal du plugin ; usage unique, dans l'heure (`ReturnAuthenticator`). |
 
 ## API REST désactivée en production
@@ -70,5 +71,6 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 - **Compteur quotidien et jeton d'usage unique non atomiques** : deux envois simultanés d'une même session pourraient créer deux commandes ; le plafond quotidien reste le garde-fou.
 - **`api.iconify.design` autorisé en sortie** : Symfony UX Icons y récupère les icônes absentes du cache (requête GET sans donnée utilisateur). Réchauffer le cache à la construction de l'image supprime cette exception.
 - **Inscriptions ouvertes tant que la démo est privée** : leurs données sont lisibles par tout porteur du mot de passe de la porte (liste des clients de Sophie) ; l'encart « aucune donnée réelle » et la purge nocturne limitent l'exposition. `DEMO_REGISTRATION_OPEN=0` est à positionner avant l'ouverture publique.
+- **Retour OCI du simulateur (US-053)** : l'état signé (HMAC, une heure) n'est lié ni à la session ni à l'acheteur, et le marqueur « déjà reçu » vit dans `cache.app` : un vidage du cache (reset nocturne) rouvre un rejeu dans l'heure. Impact quasi nul : aucune commande n'est créée, le panier n'est affiché qu'à celui qui poste, et le limiteur `punchout_oci_return` borne les essais (revue du sprint 12).
 - **Retour du simulateur rejoué après actualisation** : un retour de panier ne sert qu'une fois ; actualiser la page de retour affiche « déjà reçu », sans commande (relancer une session).
 - **`/health` rouge pendant la remise à zéro** (base recréée, migrations en cours) : la sonde Railway ne s'exécute qu'au déploiement, le `HEALTHCHECK` Docker n'est qu'informatif.

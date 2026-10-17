@@ -161,11 +161,5 @@
         "symfony/polyfill-php82": "*",
         "symfony/polyfill-php83": "*"
     },
-    "minimum-stability": "beta",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/thibmonier/sylius-agentic-feeds-plugin"
-        }
-    ]
+    "minimum-stability": "beta"
 }

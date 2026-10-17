@@ -2,7 +2,17 @@ title: "Procurement tool simulator"
 switch_language: Français
 intro: "This page plays the role of Acme Industries' procurement tool (Ariba, SAP…): it sends a cXML PunchOut request to the shop, you arrive logged in as the buyer, then the transferred cart is shown here and can be ordered (OrderRequest)."
 start: "Start a PunchOut session (cXML)"
-oci_note: "The OCI flow is not simulated here."
+protocol:
+    label: "PunchOut protocol"
+    cxml: "cXML (Ariba, Coupa)"
+    oci: "SAP OCI"
+oci:
+    intro: "This page plays the role of an SAP buyer: it opens the shop catalog with an OCI call (USERNAME, PASSWORD, HOOK_URL), you arrive logged in as the buyer, then the transferred cart comes back here as NEW_ITEM-* fields. An OCI return creates no order."
+    hook_url: "HOOK_URL (cart return)"
+    hook_url_help: "Pre-filled with the return of this simulator. It must belong to the buyer's allowed return domains, over HTTPS: any other address is refused before the shop is called."
+    wrong_password: "Send a wrong password"
+    start: "Open the catalog (SAP OCI)"
+    received: "Cart received: NEW_ITEM-* fields read. An OCI return creates no order."
 buyer:
     info: "Simulated buyer: Acme Industries (fictitious identities). The shared secret stays on the server. Return domains allowed for this buyer: %domains%."
 errors:
@@ -16,6 +26,7 @@ cart:
     quantity: Quantity
     unit_price: "Unit price (excl. tax)"
     total: "Total (excl. tax)"
+    empty: "The cart received is empty (the buyer cancelled or added nothing)."
 order:
     id_label: "Purchase order number (orderID)"
     send: "Send the OrderRequest"
@@ -33,6 +44,8 @@ error:
     daily_cap: "The daily limit of simulator orders is reached on this public demo. No order was created; please try again tomorrow."
     forged_return: "This cart did not come from the shop: the return is refused. No order was created."
     return_replayed: "This cart was already received: a return can only be used once. Start a new session; no order was created."
+    hook_url_not_allowed: "This HOOK_URL is refused: it must use HTTPS and belong to the buyer's return domains. No call was made to the shop."
+    invalid_oci_return: "The NEW_ITEM-* fields received are invalid. Nothing is shown."
     session_expired: "This simulator session has expired or is invalid. Start a new session; no order was created."
     empty_cart: "The returned cart is empty: nothing to order."
     empty_cart_order: "The cart is empty: sending the OrderRequest is refused."

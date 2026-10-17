@@ -90,8 +90,17 @@ Les cas d'erreur sont démontrables depuis la page : mauvais secret (401), domai
 Limites :
 
 - Le retour du panier exige une URL **HTTPS** dont l'hôte est un domaine de retour du buyer. La fixture ajoute l'hôte de `DEFAULT_URI` quand il est en HTTPS ; en local (`http://localhost:8080`), la session est refusée avec un message qui nomme l'hôte.
-- **OCI n'est pas simulé** : le plugin le prend en charge, mais la démo n'a pas de buyer OCI ; le simulateur ne joue que cXML.
+- Le simulateur joue aussi **SAP OCI** (voir ci-dessous) ; le retour OCI ne crée aucune commande.
 - Un panier ouvert par une session PunchOut ne peut pas être finalisé par le checkout de la boutique : il se transfère à l'outil d'achat (guard du plugin punchout-cxml 1.2).
+
+### Parcours SAP OCI (US-053)
+
+`/demo/punchout-simulator/oci` (ou le lien *SAP OCI* de la page) joue un acheteur SAP contre l'entrée OCI du plugin (`POST /punchout/oci/<code>`, buyer `acme-punchout-oci`) :
+
+1. Le formulaire propose la `HOOK_URL`, pré-remplie avec le retour du simulateur. Elle doit être en HTTPS et appartenir aux domaines de retour de l'acheteur ; sinon elle est refusée (403) avant tout appel à la boutique. L'envoi fait un `POST` serveur du simulateur vers la boutique (`USERNAME`, `PASSWORD` et `HOOK_URL` dans le corps, jamais dans une URL ; `oci_allow_get` reste à `false`) et relaie au navigateur la session ouverte : le visiteur arrive connecté comme Claire.
+2. *Transférer* envoie les champs `NEW_ITEM-*` à la `HOOK_URL` ; le simulateur les lit (`NEW_ITEM-DESCRIPTION`, `-QUANTITY`, `-PRICE`, `-CURRENCY`, `-UNIT`, `-VENDORMAT`, `-EXT_PRODUCT_ID`) et affiche le panier reçu. Un panier vide s'affiche sans erreur.
+
+Garde-fous, identiques au cXML hors plafond quotidien : limiteurs par IP visiteur (entrée : `DEMO_RATE_LIMIT_PUNCHOUT_START`, retour : même plafond, seau séparé, 429 + `Retry-After`) ; `POST /punchout/oci/<code>` réservé au simulateur (en-tête `X-Demo-Internal`) tant que `DEMO_PUNCHOUT_PUBLIC_ENDPOINT=0` ; retour à usage unique (état signé avec nonce, valable une heure : un rejeu répond 410 et n'affiche rien). Pas de plafond quotidien : un retour OCI ne crée pas de commande. Le mot de passe (valeur de démo publiée) ne quitte jamais le serveur.
 
 ## Boîte e-mail de démo / Demo mailbox
 
