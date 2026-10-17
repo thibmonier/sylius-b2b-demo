@@ -10,7 +10,7 @@ Les 210 produits de démo ont une image, versionnée dans `fixtures/images/` (We
   (champ `license` et `license_url`). Quota anonyme : 20 requêtes/minute et 200/jour, d'où une recherche par type d'article
   (88 requêtes) et non par produit.
 - Format : WebP, 800 px au plus sur le grand côté, 80 Ko au plus par image, 15 Mo au plus au total.
-- Résultat de la récupération unique : 75 images (2,6 Mo) pour 210 produits : 25 produits ont une image propre, 185 partagent
+- Résultat de la récupération unique : 74 images (2,6 Mo) pour 210 produits : 23 produits ont une image propre, 187 partagent
   une image de leur famille (`scope = family`), aucun produit sans image.
 
 ## Pertinence : limite connue

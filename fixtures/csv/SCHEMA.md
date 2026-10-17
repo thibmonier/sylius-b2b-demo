@@ -77,8 +77,7 @@ an explicit error message and **no partial import**.
 
 Every product gets its image from `fixtures/images/` (WebP, CC0), linked by SKU through `fixtures/images/manifest.csv`
 (`ProductImageAttacher`, called by the fixture; local files only, never a network call). A new product needs a manifest
-row: see `docs/images-produits.md`. The old SVG placeholder generator (`bin/generate-fixtures-images.php`) is no longer
-used by the fixtures.
+row: see `docs/images-produits.md`.
 
 ## Validation at load
 

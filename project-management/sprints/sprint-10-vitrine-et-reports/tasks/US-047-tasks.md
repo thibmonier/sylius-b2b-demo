@@ -32,7 +32,7 @@ En tant que Nadia, je veux que les 210 produits de démo aient une image qui les
 | T-047-06 | [BE] | Association image-produit dans l'importeur CSV (par SKU via le manifeste), idempotente | 3h | T-047-04 | ✅ |
 | T-047-07 | [BE] | Purge M4 qui conserve les images des fixtures ; régénération du cache LiipImagine après le reset | 2h | T-047-06 | 🔄 |
 | T-047-08 | [TEST] | Catalogue illustré après `app:demo:reset`, aucune requête réseau vers la banque, purge sur de vraies images | 2.5h | T-047-06, T-047-07 | ✅ |
-| T-047-09 | [FE-WEB] | Section de crédits des images (source, auteur, licence) dans la page À propos (sacrifiable) | 1h | T-047-04 | 🔲 |
+| T-047-09 | [FE-WEB] | Section de crédits des images (source, auteur, licence) dans la page À propos (sacrifiable) | 1h | T-047-04 | ⏭️ Sacrifiée (ordre n°3, décision utilisateur 2026-10-17) |
 | T-047-10 | [DOC] | Documentation : relancer le script, ajouter une image, budget de taille, interdiction d'appel au runtime | 1h | T-047-08 | ✅ |
 | T-047-11 | [REV] | Revue (licences, absence d'appel réseau, taille du dépôt, secrets) | 1h | T-047-08 | 🔲 |
 
