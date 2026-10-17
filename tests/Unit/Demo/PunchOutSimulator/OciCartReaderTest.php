@@ -77,5 +77,4 @@ final class OciCartReaderTest extends TestCase
 
         return $fields;
     }
-
 }

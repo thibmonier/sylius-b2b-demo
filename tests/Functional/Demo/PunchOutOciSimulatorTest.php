@@ -248,5 +248,4 @@ final class PunchOutOciSimulatorTest extends WebTestCase
 
         return $state->sign(['nonce' => bin2hex(random_bytes(8)), 'oci' => true]);
     }
-
 }
