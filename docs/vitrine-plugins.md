@@ -145,3 +145,53 @@ Règles de traduction : accents obligatoires ; guillemets français « » en pro
 Les traductions françaises restent fidèles au texte anglais. Si vous décidez de neutraliser ces phrases, ce sera une modification des README anglais (et des traductions) dans la même branche `docs/readme-fr-demo`.
 
 Les lignes « Sylius Plus RBAC is not integrated » (limites de compatibilité) sont des mentions neutres et restent.
+
+## 6. Outil `bin/vitrine-readme` et état de la livraison (US-064, US-067)
+
+### Outil
+
+- `php bin/vitrine-readme apply <dépôt>...` : ajoute le lien de langue (`> English: ...` / `> Français : ...`, en tête) et le bloc standard « Démo B2B » / « B2B demo » (avant la section Licence, sinon en fin de fichier) à `README.md` et `README.fr.md`. Idempotent ; le `README.fr.md` doit exister. Le bloc est borné par `<!-- vitrine:demo-b2b:start -->` et `<!-- vitrine:demo-b2b:end -->`.
+- `php bin/vitrine-readme --check [--root=DIR] [--ref=REF] [--strict] [plugin...]` : lecture seule, sur les 24 dépôts. `--ref=docs/readme-fr-demo` lit les fichiers de la branche sans rien extraire.
+- Contrôles : `README.fr.md` présent ; lien de langue ; bloc présent, unique et identique au texte de référence (un seul lien autorisé : le dépôt public de la démo, `https://github.com/thibmonier/sylius-b2b-demo`, aucun lien de site ni de contact) ; mêmes niveaux de titres ; blocs de code identiques ; mêmes tableaux (lignes et colonnes) ; mêmes cibles de liens dans le même ordre ; ancres internes qui visent un titre existant ; termes interdits de la charte (erreur, avec fichier et ligne) ; phrases existantes qui comparent avec Plus (avertissement, erreur avec `--strict`).
+- Code : `src/Demo/Vitrine/` (hors conteneur Symfony), tests : `tests/Unit/Bin/VitrineReadmeTest.php`.
+
+### Branches `docs/readme-fr-demo` (locales, rien n'est poussé)
+
+Chaque branche part de `origin/main` après `git fetch`, contient un commit (`docs(readme): add French README and demo reference`) et deux fichiers (`README.md`, `README.fr.md`). Elles ont été créées avec `git worktree` : la branche courante des dépôts n'a pas changé (9 sur `main`, 15 sur une branche de travail non mergée, inchangées). Les worktrees ont été retirés ; les branches restent.
+
+| Plugin | Commit |
+|--------|--------|
+| admin-order-creation | `056811a` |
+| agentic-feeds | `2b47b9e` |
+| ai-catalog-copilot | `3af13aa` |
+| audit-log | `e4fe7ce` |
+| b2b-mcp | `dc5fa7d` |
+| bulk-actions | `def3bf9` |
+| channel-access | `0481517` |
+| command-palette | `077cef7` |
+| company-accounts | `500cd32` |
+| container-fill | `49b1e5b` |
+| customer-asset-management | `899d96e` |
+| facturx | `9f95233` |
+| gpsr | `9b7343b` |
+| order-hold | `b5df65a` |
+| punchout-cxml | `7275135` |
+| purchase-approval | `c92f72c` |
+| quick-order | `539f7eb` |
+| quote-request | `5dbbb1b` |
+| registration-approval | `64a92a1` |
+| tier-pricing | `5fa54ad` |
+| timeline | `2efc283` |
+| trade-credit | `a49fcf8` |
+| webhook-outbox | `22626e1` |
+| withdrawal | `b0cfd2c` |
+
+`bin/vitrine-readme --check --ref=docs/readme-fr-demo` : 24 dépôts, 0 erreur, 11 avertissements (phrases existantes qui comparent avec Plus, section 5). Avec `--strict`, ces 11 lignes deviennent des erreurs : elles tombent si la section 5 est neutralisée.
+
+### Note de GO (T-067-04)
+
+- **CI attendue** : les 24 dépôts n'ont qu'un workflow `build.yaml` (plus `symfony-ai-next.yaml` pour ai-catalog-copilot), avec `paths-ignore: ["*.md"]` sur `push` et `pull_request`. Une PR qui ne change que `README.md` et `README.fr.md` ne lance donc **aucun** contrôle. Si la protection de branche d'un dépôt exige le contrôle `build`, il restera « en attente » et le merge demandera l'accord de l'utilisateur. La protection de branche n'a pas été lue (aucune action GitHub dans cette étape) : à relever avant le GO.
+- **Ordre de merge** : indifférent, les 24 branches sont indépendantes (aucune ne touche au code). Ordre alphabétique proposé.
+- **Avant l'ouverture des PR** : rien n'est poussé. Les captures (US-065, T-065-06) s'ajouteront sur ces mêmes branches.
+- **Dépôts écartés** : aucun. Quatre dépôts (`command-palette`, `gpsr`, `timeline`, `withdrawal`) contiennent des `.DS_Store` non suivis ; ils n'ont pas été touchés (le travail s'est fait dans un worktree séparé).
+- **Phrases à décider** : section 5 (11 lignes dans 6 dépôts).
