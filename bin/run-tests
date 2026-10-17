@@ -1,0 +1,54 @@
+#!/bin/sh
+# Runs the test suite with a private, throwaway cache (US-055 / T-055-02). A stale compiled container (a constructor
+# changed since the last run) used to cause false failures: every run now gets an empty cache of its own, removed at the end.
+#
+#   bin/run-tests                                  # full suite, database sylius_b2b_demo_test
+#   bin/run-tests tests/Functional --filter Quote  # arguments go to PHPUnit
+#   TEST_DB_NAME=b2b_mine bin/run-tests
+#   TEST_CACHE_DIR=var/cache-mine bin/run-tests    # your own cache directory (emptied before, removed after)
+#
+# Stops without creating anything when less than MIN_FREE_GB (5) GB are free. Prepares the database through
+# bin/prepare-test-db, so it never touches the development database (sylius_b2b_demo). See docs/tests-locaux.md.
+set -eu
+cd "$(dirname "$0")/.."
+
+MIN_FREE_GB="${MIN_FREE_GB:-5}"
+FREE_KB=$(df -Pk . | awk 'NR==2 {print $4}')
+if [ "$FREE_KB" -lt $((MIN_FREE_GB * 1024 * 1024)) ]; then
+    echo "Only $((FREE_KB / 1024 / 1024)) GB free, at least ${MIN_FREE_GB} GB required: clean up before running the suite." >&2
+    exit 1
+fi
+
+DB_NAME="${TEST_DB_NAME:-sylius_b2b_demo_test}"
+case "$DB_NAME" in
+    ''|*[!A-Za-z0-9_]*) echo "TEST_DB_NAME must only contain letters, digits and underscores." >&2; exit 1 ;;
+    sylius_b2b_demo) echo "Refusing to use the development database \"sylius_b2b_demo\"." >&2; exit 1 ;;
+esac
+
+if [ -n "${TEST_CACHE_DIR:-}" ]; then
+    CACHE_DIR="$TEST_CACHE_DIR"
+    mkdir -p "$(dirname "$CACHE_DIR")"
+    RESOLVED="$(cd "$(dirname "$CACHE_DIR")" && pwd)/$(basename "$CACHE_DIR")"
+    case "$RESOLVED" in
+        "$PWD/var/cache"|"$PWD"|"$PWD/var"|"$HOME"|//*|/) echo "Refusing to empty \"$CACHE_DIR\": use a dedicated directory." >&2; exit 1 ;;
+    esac
+    rm -rf "$CACHE_DIR"
+else
+    CACHE_DIR=$(mktemp -d "${TMPDIR:-/tmp}/b2b-test-cache.XXXXXX")
+fi
+trap 'rm -rf "$CACHE_DIR"' EXIT INT TERM
+
+export TEST_DB_NAME="$DB_NAME"
+export TEST_CACHE_DIR="$CACHE_DIR"
+bin/prepare-test-db
+
+# Same environment as bin/prepare-test-db, so the tests hit the database it just loaded and the same cache.
+export APP_ENV=test
+export APP_CACHE_DIR="$CACHE_DIR"
+export APP_LOG_DIR="$CACHE_DIR/log"
+export APP_SHARE_DIR="$CACHE_DIR/share"
+export DATABASE_URL="${TEST_DATABASE_URL:-mysql://root@127.0.0.1:${MYSQL_PORT:-3340}/${DB_NAME}?serverVersion=8.4&charset=utf8mb4}"
+export WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf"
+
+# No exec: the trap must run after PHPUnit. Its exit code is the script's.
+php -d memory_limit=-1 vendor/bin/phpunit "$@"

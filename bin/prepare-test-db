@@ -7,6 +7,7 @@
 #   bin/prepare-test-db --start-mysql        # starts the compose MySQL first (Docker)
 #
 # Then: php -d memory_limit=-1 vendor/bin/phpunit   (see docs/tests-locaux.md)
+# To prepare and run the suite with an isolated, throwaway cache in one go: bin/run-tests.
 # Safe to run again: the fixtures load purges the test database before reloading it. Never touches the
 # development database (sylius_b2b_demo): the script refuses that name.
 set -eu
@@ -28,6 +29,8 @@ export WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf"
 # Optional: a separate cache directory lets several checkouts or workers share the vendor tree.
 if [ -n "${TEST_CACHE_DIR:-}" ]; then
     export APP_CACHE_DIR="$TEST_CACHE_DIR"
+    export APP_LOG_DIR="$TEST_CACHE_DIR/log"
+    export APP_SHARE_DIR="$TEST_CACHE_DIR/share"
 fi
 
 # The compiled container and the fixtures need more than the default 128M: without this the

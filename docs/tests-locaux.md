@@ -33,6 +33,22 @@ Variables (toutes facultatives) :
 
 Le script termine en affichant la ligne de commande des tests avec les mêmes variables.
 
+## Une commande pour tout : `bin/run-tests`
+
+```bash
+bin/run-tests                                   # suite complète
+bin/run-tests tests/Functional --filter Quote   # les arguments vont à PHPUnit
+```
+
+`bin/run-tests` appelle `bin/prepare-test-db` puis PHPUnit avec le même environnement. Il règle le problème du cache de test périmé (conteneur compilé avant un changement de constructeur, faux échecs de service inconnu) :
+
+- chaque exécution a **son propre cache**, créé vide dans un dossier temporaire (`mktemp`), et **supprimé à la fin** (aussi sur Ctrl-C ou en cas d'échec) : rien n'est écrit dans le vrai `var/cache` ;
+- journaux (`APP_LOG_DIR`), pools partagés (`APP_SHARE_DIR`), compteurs des limiteurs (`demo-limiter-test`) et images de test (`media-test`) vivent dans ce même dossier : plus rien de test dans le vrai `var/`, et deux exécutions parallèles ne vident plus les compteurs l'une de l'autre (faux échec de `PublicOpeningHardeningTest`, constaté le 2026-10-17) ;
+- `TEST_CACHE_DIR=var/cache-mon-nom` impose un dossier : il est vidé avant et supprimé après ; le script refuse `var/cache`, `var/` et la racine du dépôt ;
+- **seuil disque** : sous 5 Go libres (`MIN_FREE_GB`, 5 par défaut), il s'arrête avec un message avant de créer quoi que ce soit ;
+- la base reste `sylius_b2b_demo_test` (ou `TEST_DB_NAME`) ; la base de développement `sylius_b2b_demo` est refusée ;
+- le code de sortie est celui de PHPUnit.
+
 ## Lancer les tests
 
 ```bash
