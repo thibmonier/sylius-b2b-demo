@@ -226,3 +226,16 @@ sylius_fixtures:
                 # US-019: the feeds of the B2B channel carry prices: they get an access token (after the feeds, -50).
                 demo_hidden_prices_feeds:
                     priority: -60
+
+                # US-044: the plugin's own container presets (13 pallets, trucks, sea containers and cartons), as is.
+                # They read the locales and need no catalogue → -5 (after locale and channel, 0). The plugin demo
+                # fixture (tmonier_container_fill_demo) is NOT loaded: English-only products, a rule on every channel
+                # and a buyer account with a known password.
+                tmonier_container_fill_container_types:
+                    priority: -5
+
+                # US-044: logistics data, capacities and B2B rules derived from the catalogue CSV. After the products
+                # (-30) and the presets (-5), and after demo_orders (-60): the orders complete through the plugin's
+                # workflow guard, which would refuse the demo history (a few packs, no full pallet) once the rules exist.
+                demo_container_fill:
+                    priority: -70
