@@ -38,6 +38,41 @@ final class TrustedProxiesTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
     }
 
+    public function testTheRailwayDomainAndThePublicHostAreBothServedDuringTheTransition(): void
+    {
+        $this->setEnvironment(['TRUSTED_HOSTS' => '^demo\.example\.test$', 'DEMO_PUBLIC_HOST' => 'sylius-b2b.site.example']);
+        $client = self::createClient();
+
+        $client->request('GET', '/fr_FR/', server: ['HTTP_HOST' => 'demo.example.test']);
+        self::assertResponseIsSuccessful();
+
+        $client->request('GET', '/fr_FR/', server: ['HTTP_HOST' => 'sylius-b2b.site.example']);
+        self::assertResponseIsSuccessful();
+
+        $client->request('GET', '/health', server: ['HTTP_HOST' => 'healthcheck.railway.app']);
+        self::assertResponseStatusCodeSame(200);
+    }
+
+    public function testAnUnknownHostStaysRefusedWithAPublicHost(): void
+    {
+        $this->setEnvironment(['TRUSTED_HOSTS' => '^demo\.example\.test$', 'DEMO_PUBLIC_HOST' => 'sylius-b2b.site.example']);
+        $client = self::createClient();
+
+        $client->request('GET', '/fr_FR/', server: ['HTTP_HOST' => 'evil.example']);
+
+        self::assertResponseStatusCodeSame(400);
+    }
+
+    public function testWithoutAPublicHostOnlyTheRailwayDomainIsAccepted(): void
+    {
+        $this->setEnvironment(['TRUSTED_HOSTS' => '^demo\.example\.test$', 'DEMO_PUBLIC_HOST' => '']);
+        $client = self::createClient();
+
+        $client->request('GET', '/fr_FR/', server: ['HTTP_HOST' => 'sylius-b2b.site.example']);
+
+        self::assertResponseStatusCodeSame(400);
+    }
+
     public function testTheBadgeCookieIsSecureBehindATrustedHttpsProxy(): void
     {
         $client = self::createClient();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
+use App\Demo\Http\PublicHost;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -49,6 +50,8 @@ final class PunchoutDemoFixture extends AbstractFixture
         private readonly RepositoryInterface $channelRepository,
         #[Autowire(env: 'DEFAULT_URI')]
         private readonly string $defaultUri,
+        #[Autowire(env: 'default::DEMO_PUBLIC_HOST')]
+        private readonly ?string $publicHost = null,
     ) {
     }
 
@@ -56,17 +59,21 @@ final class PunchoutDemoFixture extends AbstractFixture
      * The simulator (US-027) receives the cart on the public host of the demo, so that host must be a return
      * domain of the buyer. The plugin only accepts HTTPS return URLs: an HTTP DEFAULT_URI (local) adds nothing.
      *
+     * US-066: the custom host (DEMO_PUBLIC_HOST) is a return domain too, the simulator builds its return URL from the request host.
+     *
      * @return list<string>
      */
-    public static function returnDomains(string $defaultUri): array
+    public static function returnDomains(string $defaultUri, string $publicHost = ''): array
     {
         $parts = parse_url($defaultUri);
         $host = strtolower(is_array($parts) ? $parts['host'] ?? '' : '');
-        if (!is_array($parts) || 'https' !== ($parts['scheme'] ?? null) || '' === $host || self::ERP_DOMAIN === $host) {
-            return [self::ERP_DOMAIN];
+        $domains = [self::ERP_DOMAIN];
+        if (is_array($parts) && 'https' === ($parts['scheme'] ?? null)) {
+            $domains[] = $host;
         }
+        $domains[] = PublicHost::normalize($publicHost) ?? '';
 
-        return [self::ERP_DOMAIN, $host];
+        return array_values(array_unique(array_filter($domains, static fn (string $domain): bool => '' !== $domain)));
     }
 
     public function load(array $options): void
@@ -104,7 +111,7 @@ final class PunchoutDemoFixture extends AbstractFixture
         $buyer->setCompanyId('ACME_IND');
         // Strict allowlist: the ERP domain and the public HTTPS host of the demo (no localhost: avoids an
         // SSRF/open-redirect shape).
-        $buyer->setReturnDomains(self::returnDomains($this->defaultUri));
+        $buyer->setReturnDomains(self::returnDomains($this->defaultUri, (string) $this->publicHost));
         $buyer->setLocale('fr_FR');
         // US-026 (I3): an OrderRequest is accepted only with a payment method, and the on-account one
         // makes the order reserve Acme's trade credit and go through purchase approval, as in the shop.
@@ -161,7 +168,7 @@ final class PunchoutDemoFixture extends AbstractFixture
         $buyer->setChannel($b2bChannel);
         $buyer->setCustomer($claire);
         $buyer->setCompanyId('ACME_IND');
-        $buyer->setReturnDomains(self::returnDomains($this->defaultUri));
+        $buyer->setReturnDomains(self::returnDomains($this->defaultUri, (string) $this->publicHost));
         $buyer->setLocale('fr_FR');
 
         $credential = new BuyerCredential();
