@@ -23,16 +23,16 @@ En tant que Thibaut, je veux solder les reports techniques du sprint 9, afin que
 
 | ID | Type | Action | Tâche | Estimation | Dépend de | Statut |
 |----|------|--------|-------|------------|-----------|--------|
-| T-048-01 | [DOC] | 1 | Contrat de fin de worker : bloc de rapport obligatoire dans `tasks/README.md`, vérifié à chaque clôture | 0.5h | — | 🔲 |
-| T-048-02 | [OPS] | 2 | Commande unique de préparation de la base de test locale (`memory_limit=-1`, faux `WKHTMLTOPDF_BINARY`, base dédiée, migrations, fixtures) | 2h | — | 🔲 |
-| T-048-03 | [DOC] | 2 | Procédure dans `docs/` ; assertion Factur-X d'`OrderHistorySmokeTest` passante en local ou exclue avec sa raison | 0.5h | T-048-02 | 🔲 |
-| T-048-04 | [TEST] | 4 | Profilage du reset par fixture, tableau committé et objectifs chiffrés par poste | 2h | — | 🔲 |
-| T-048-05 | [BE] | 4 | ⚠️ Réduire les requêtes de `demo_orders` (≈ 2000) vers la cible de T-048-04 | 3h | T-048-04 | 🔲 |
-| T-048-06 | [BE] | 4 | ⚠️ Grouper les SELECT et INSERT de `demo_container_fill` (776 + 776) vers la cible de T-048-04 | 2.5h | T-048-04 | 🔲 |
-| T-048-07 | [BE] | 5 | ⚠️ N+1 de la Wishlist sur les listes (28 requêtes à 50 produits) : constant en 5, 20, 50 | 2.5h | — | 🔲 |
-| T-048-08 | [BE] | 5 | ⚠️ `VariantLogisticsSeeder` : supprimer la capacité périmée quand la quantité est < 1 | 1h | — | 🔲 |
-| T-048-09 | [BE] | 5 | ⚠️ `PackagingUnitParser` : normalisation NFC | 0.5h | — | 🔲 |
-| T-048-10 | [BE] | 5 | ⚠️ Entrypoint : recharger les fixtures après un premier chargement interrompu | 1.5h | — | 🔲 |
+| T-048-01 | [DOC] | 1 | Contrat de fin de worker : bloc de rapport obligatoire dans `tasks/README.md`, vérifié à chaque clôture | 0.5h | — | ✅ |
+| T-048-02 | [OPS] | 2 | Commande unique de préparation de la base de test locale (`memory_limit=-1`, faux `WKHTMLTOPDF_BINARY`, base dédiée, migrations, fixtures) | 2h | — | ✅ |
+| T-048-03 | [DOC] | 2 | Procédure dans `docs/` ; assertion Factur-X d'`OrderHistorySmokeTest` passante en local ou exclue avec sa raison | 0.5h | T-048-02 | ✅ |
+| T-048-04 | [TEST] | 4 | Profilage du reset par fixture, tableau committé et objectifs chiffrés par poste | 2h | — | ✅ |
+| T-048-05 | [BE] | 4 | ⚠️ Réduire les requêtes de `demo_orders` (≈ 2000) vers la cible de T-048-04 | 3h | T-048-04 | ✅ |
+| T-048-06 | [BE] | 4 | ⚠️ Grouper les SELECT et INSERT de `demo_container_fill` (776 + 776) vers la cible de T-048-04 | 2.5h | T-048-04 | ✅ |
+| T-048-07 | [BE] | 5 | ⚠️ N+1 de la Wishlist sur les listes (28 requêtes à 50 produits) : constant en 5, 20, 50 | 2.5h | — | ✅ |
+| T-048-08 | [BE] | 5 | ⚠️ `VariantLogisticsSeeder` : supprimer la capacité périmée quand la quantité est < 1 | 1h | — | ✅ |
+| T-048-09 | [BE] | 5 | ⚠️ `PackagingUnitParser` : normalisation NFC | 0.5h | — | ✅ |
+| T-048-10 | [BE] | 5 | ⚠️ Entrypoint : recharger les fixtures après un premier chargement interrompu | 1.5h | — | ✅ |
 | T-048-11 | [OPS] | 3 | 📅 Relevé complet du coût Railway (T-041-15), GO utilisateur | 0.5h | — | 📅 |
 | T-048-12 | [OPS] | 3 | 📅 Vérifier `/api/v2/shop/*` (404 en local) sur Railway | 0.5h | — | 📅 |
 | T-048-13 | [OPS] | 3 | 📅 Pic mémoire du reset (≈ 1,08 Go) contre la limite du service Railway | 1h | T-048-04 | 📅 |
@@ -57,7 +57,7 @@ Le bloc de rapport obligatoire est posé dans [README.md](./README.md) (section 
 - `project-management/sprints/sprint-10-vitrine-et-reports/tasks/README.md`
 
 **Critères de validation** :
-- [ ] Bloc présent dans README.md
+- [x] Bloc présent dans README.md
 - [ ] Compte des blocs rendus consigné à la revue de sprint
 
 ---
@@ -76,8 +76,8 @@ Script ou cible (par exemple `bin/prepare-test-db`) lancé via Docker : créatio
 - `tests/Fixtures/bin/fake-wkhtmltopdf` (nom à ajuster)
 
 **Critères de validation** :
-- [ ] Une commande suffit sur un clone propre
-- [ ] Relance sans erreur
+- [ ] Une commande suffit sur un clone propre (vérifiée sur une base neuve, pas sur un clone)
+- [x] Relance sans erreur
 
 ---
 
@@ -94,8 +94,8 @@ Documenter la commande, ses prérequis et le piège de la mémoire. Statuer sur 
 - `docs/tests-locaux.md`
 
 **Critères de validation** :
-- [ ] Procédure datée dans `docs/`
-- [ ] Sort de l'assertion Factur-X décidé et écrit
+- [x] Procédure datée dans `docs/`
+- [x] Sort de l'assertion Factur-X décidé et écrit
 
 ---
 
@@ -113,8 +113,8 @@ Mesurer, en au moins 3 passes avec écart, le nombre de requêtes (SELECT/INSERT
 - `bin/profile-reset`
 
 **Critères de validation** :
-- [ ] Tableau par fixture committé, 3 passes minimum
-- [ ] Objectif chiffré par poste écrit avant toute optimisation
+- [x] Tableau par fixture committé, 3 passes minimum
+- [x] Objectif chiffré par poste écrit avant toute optimisation
 
 ---
 
@@ -132,8 +132,8 @@ Viser la cible de T-048-04 (≈ 2000 requêtes au départ) : chargement groupé 
 - `tests/Functional/`
 
 **Critères de validation** :
-- [ ] Cible chiffrée atteinte ou écart publié tel quel
-- [ ] Mêmes commandes et totaux qu'avant
+- [x] Cible chiffrée atteinte ou écart publié tel quel
+- [x] Mêmes commandes et totaux qu'avant
 
 ---
 
@@ -150,8 +150,8 @@ Viser la cible de T-048-04 (≈ 2000 requêtes au départ) : chargement groupé 
 - `src/DataFixtures/` (`demo_container_fill`)
 
 **Critères de validation** :
-- [ ] Cible chiffrée atteinte ou écart publié tel quel
-- [ ] Mêmes capacités et règles qu'avant
+- [x] Cible chiffrée atteinte ou écart publié tel quel
+- [x] Mêmes capacités et règles qu'avant
 
 ---
 
@@ -169,8 +169,8 @@ Test d'abord : compter les requêtes d'une liste de 5, 20 et 50 produits pour un
 - `tests/Functional/ProductListQueryCountTest.php` (existant, à étendre)
 
 **Critères de validation** :
-- [ ] Même nombre de requêtes pour 5, 20 et 50 produits
-- [ ] Test rouge avant correction
+- [x] Même nombre de requêtes pour 5, 20 et 50 produits
+- [x] Test rouge avant correction
 
 ---
 
@@ -187,8 +187,8 @@ Quand la quantité d'une variante passe sous 1, la capacité créée précédemm
 - `src/DataFixtures/` (`VariantLogisticsSeeder`)
 
 **Critères de validation** :
-- [ ] Capacité supprimée si quantité < 1
-- [ ] Test rouge avant correction
+- [x] Capacité supprimée si quantité < 1
+- [x] Test rouge avant correction
 
 ---
 
@@ -205,8 +205,8 @@ Normaliser les libellés d'unité en NFC avant comparaison (`Normalizer::normali
 - `src/` (`PackagingUnitParser`)
 
 **Critères de validation** :
-- [ ] Forme NFD reconnue
-- [ ] Test rouge avant correction
+- [x] Forme NFD reconnue
+- [x] Test rouge avant correction
 
 ---
 
@@ -224,8 +224,8 @@ Un premier chargement interrompu laisse une base partielle que l'entrypoint cons
 - `tests/`
 
 **Critères de validation** :
-- [ ] État partiel détecté et rechargé sans doublon
-- [ ] Chargement complet inchangé
+- [x] État partiel détecté et rechargé sans doublon
+- [x] Chargement complet inchangé
 
 ---
 
@@ -333,3 +333,16 @@ graph TD
 | [DOC] | 2 | 1h |
 | [REV] | 1 | 1h |
 | **TOTAL** | **14** | **19h** |
+
+## Suivi (worker du 2026-10-17)
+
+- **T-048-01** : le bloc « Rapport de fin » est dans [README.md](./README.md) ; le compte des blocs rendus reste à consigner à la revue de sprint.
+- **T-048-02 / 03** : `bin/prepare-test-db`, faux binaire versionné `tests/Fixtures/bin/fake-wkhtmltopdf` (+ `blank.pdf`), procédure dans `docs/tests-locaux.md`. L'assertion Factur-X d'`OrderHistorySmokeTest` **passe** en local (elle n'est pas exclue). Vérifié sur une base neuve (création, migrations, fixtures) et en relance ; non vérifié sur un clone propre ni dans Docker (pas de reconstruction d'image).
+- **T-048-04** : `bin/profile-reset` ; tableau, objectifs et mesures dans `docs/remise-a-zero-demo.md`. Relevé du 2026-10-17 (base `ff1dd86`, avant les images de la US-047).
+- **T-048-05** : `demo_orders` 822 à 770 `SELECT`, total 1 963 à 1 911. Objectif (≤ 600 / ≤ 1 750) **non atteint** : le reste est le cœur de Sylius et les plugins (zones, promotions, membres), voir le détail dans `docs/remise-a-zero-demo.md`.
+- **T-048-06** : `demo_container_fill` 2 205 à 31 requêtes (objectifs ≤ 40 `SELECT`, ≤ 60 `INSERT` atteints : 18 et 12). Données identiques (empreintes).
+- **T-048-07** : cause trouvée : sans cookie de liste d'achat, le résolveur du plugin renvoie un jeton aléatoire à chaque appel et le cache par jeton de ses fonctions Twig ne sert jamais. Le jeton est maintenant stable dans la requête (`App\Wishlist\RequestStableWishlistTokenResolver`) ; le test compte désormais les requêtes `sylius_wishlist` (rouge avant : 27, 42, 49 ; vert après).
+- **T-048-08** : suppression de la capacité périmée dans `VariantLogisticsSeeder` (test `VariantLogisticsSeederTest`, rouge avant).
+- **T-048-09** : normalisation NFC dans `PackagingUnitParser` (cas NFD ajoutés, rouge avant).
+- **T-048-10** : marqueur de fin de chargement (table `app_demo_load_marker`, écouteur de suite) lu par `app:demo:fixtures-loaded` ; l'entrypoint recharge sur le code 3, s'arrête sur tout autre code non nul. Migration `Version20261017120000` (marque comme chargée une base qui contient déjà des canaux). Testé : état partiel simulé (`FixturesLoadStateTest`) et logique de l'entrypoint avec un faux `php` ; pas de démarrage de conteneur (aucune reconstruction d'image).
+- **T-048-11 à 13** : ouvertes, en attente du GO et de l'accès Railway de l'utilisateur ; aucune valeur estimée.
