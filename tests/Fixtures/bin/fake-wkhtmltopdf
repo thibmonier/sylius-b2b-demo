@@ -1,0 +1,5 @@
+#!/bin/sh
+# Stand-in for wkhtmltopdf in the tests (WKHTMLTOPDF_BINARY, see docs/tests-locaux.md): writes a blank one-page PDF
+# to the last argument, as wkhtmltopdf does with its output file. No browser engine, no system library.
+for a; do out=$a; done
+cp "$(dirname "$0")/blank.pdf" "$out"
