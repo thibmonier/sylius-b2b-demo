@@ -33,6 +33,22 @@ final class ProductCsvFixture extends AbstractFixture
 {
     private const CSV_FILES = ['epi.csv', 'quincaillerie.csv', 'fournitures.csv'];
 
+    private const BATCH_SIZE = 25;
+
+    /**
+     * Lookups shared by the products of a batch (S2-R7): the entity manager is cleared after each batch, which
+     * detaches these entities, so they are dropped with it and read again once per batch instead of once per product.
+     *
+     * @var list<ChannelInterface>|null
+     */
+    private ?array $channels = null;
+
+    /** @var array<string, TaxonInterface|null> */
+    private array $taxons = [];
+
+    /** @var array<string, ProductAttributeInterface|null> */
+    private array $attributes = [];
+
     /**
      * @param FactoryInterface<ProductInterface>            $productFactory
      * @param FactoryInterface<ProductVariantInterface>     $productVariantFactory
@@ -78,21 +94,18 @@ final class ProductCsvFixture extends AbstractFixture
         /** @var array<string, list<array<string, string>>> $allRows */
         $allRows = $this->csvProductReader->readAll(\array_map(static fn (string $fileName): string => $csvDir . $fileName, self::CSV_FILES));
 
-        // Phase 2: Import all validated rows.
-        $i = 0;
-        foreach ($allRows as $rows) {
+        // Phase 2: Import all validated rows, one batch (one flush) at a time.
+        foreach (\array_chunk(\array_merge(...\array_values($allRows)), self::BATCH_SIZE) as $rows) {
+            $products = $this->existingProducts($rows);
             foreach ($rows as $row) {
-                $this->importProduct($row);
-                ++$i;
-                if ($i % 25 === 0) {
-                    $this->objectManager->flush();
-                    $this->objectManager->clear();
-                }
+                $this->importProduct($row, $products[\trim($row['sku'])] ?? null);
             }
+            $this->objectManager->flush();
+            $this->objectManager->clear();
+            $this->channels = null;
+            $this->taxons = [];
+            $this->attributes = [];
         }
-
-        $this->objectManager->flush();
-        $this->objectManager->clear();
     }
 
     public function getName(): string
@@ -104,13 +117,26 @@ final class ProductCsvFixture extends AbstractFixture
     // Internals
     // -------------------------------------------------------------------------
 
+    /**
+     * @param list<array<string, string>> $rows
+     *
+     * @return array<string, ProductInterface> the products of the batch that already exist, by code (one query)
+     */
+    private function existingProducts(array $rows): array
+    {
+        $codes = \array_map(static fn (array $row): string => \trim($row['sku']), $rows);
+        $products = [];
+        foreach ($this->productRepository->findBy(['code' => $codes]) as $product) {
+            $products[(string) $product->getCode()] = $product;
+        }
+
+        return $products;
+    }
+
     /** @param array<string, string> $row */
-    private function importProduct(array $row): void
+    private function importProduct(array $row, ?ProductInterface $product): void
     {
         $sku = \trim($row['sku']);
-
-        /** @var ProductInterface|null $product */
-        $product = $this->productRepository->findOneBy(['code' => $sku]);
 
         if ($product === null) {
             /** @var ProductInterface $product */
@@ -137,8 +163,7 @@ final class ProductCsvFixture extends AbstractFixture
 
         // Main taxon
         $taxonCode = \trim($row['taxon']);
-        /** @var TaxonInterface|null $taxon */
-        $taxon = $this->taxonRepository->findOneBy(['code' => $taxonCode]);
+        $taxon = $this->taxon($taxonCode);
         if ($taxon !== null) {
             $product->setMainTaxon($taxon);
             // Shop taxon listings query product_taxon, not the main taxon.
@@ -164,9 +189,7 @@ final class ProductCsvFixture extends AbstractFixture
 
     private function assignChannels(ProductInterface $product): void
     {
-        /** @var list<ChannelInterface> $channels */
-        $channels = $this->channelRepository->findAll();
-        foreach ($channels as $channel) {
+        foreach ($this->channels() as $channel) {
             if (!$product->hasChannel($channel)) {
                 $product->addChannel($channel);
             }
@@ -227,9 +250,7 @@ final class ProductCsvFixture extends AbstractFixture
         $priceHt = (float) ($row['price_eur_ht'] ?? 0);
         $priceInCents = (int) \round($priceHt * 100);
 
-        /** @var list<ChannelInterface> $channels */
-        $channels = $this->channelRepository->findAll();
-        foreach ($channels as $channel) {
+        foreach ($this->channels() as $channel) {
             $channelCode = $channel->getCode();
             if ($channelCode === null) {
                 continue;
@@ -265,8 +286,7 @@ final class ProductCsvFixture extends AbstractFixture
         }
 
         foreach ($attrs as $code => $value) {
-            /** @var ProductAttributeInterface|null $attribute */
-            $attribute = $this->attributeRepository->findOneBy(['code' => $code]);
+            $attribute = $this->attribute($code);
             if ($attribute === null) {
                 continue;
             }
@@ -286,5 +306,39 @@ final class ProductCsvFixture extends AbstractFixture
                 }
             }
         }
+    }
+
+    /** @return list<ChannelInterface> */
+    private function channels(): array
+    {
+        if (null === $this->channels) {
+            /** @var list<ChannelInterface> $channels */
+            $channels = $this->channelRepository->findAll();
+            $this->channels = $channels;
+        }
+
+        return $this->channels;
+    }
+
+    private function taxon(string $code): ?TaxonInterface
+    {
+        if (!\array_key_exists($code, $this->taxons)) {
+            /** @var TaxonInterface|null $taxon */
+            $taxon = $this->taxonRepository->findOneBy(['code' => $code]);
+            $this->taxons[$code] = $taxon;
+        }
+
+        return $this->taxons[$code];
+    }
+
+    private function attribute(string $code): ?ProductAttributeInterface
+    {
+        if (!\array_key_exists($code, $this->attributes)) {
+            /** @var ProductAttributeInterface|null $attribute */
+            $attribute = $this->attributeRepository->findOneBy(['code' => $code]);
+            $this->attributes[$code] = $attribute;
+        }
+
+        return $this->attributes[$code];
     }
 }
