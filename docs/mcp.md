@@ -7,7 +7,7 @@ Application d'US-030. Les étapes pour l'utilisateur sont sur la page **`/{local
 
 ## Ce que le serveur fait
 
-- Un seul point d'entrée : `https://<hôte>/_mcp` (serveur MCP officiel de Sylius + outils du plugin `tmonier/sylius-b2b-mcp-plugin`).
+- Un seul point d'entrée : `https://<hôte>/_mcp`, où `<hôte>` est le domaine Railway ou le sous-domaine de la démo ([sous-domaine-demo.md](sous-domaine-demo.md)) ; la page du guide affiche l'hôte de la requête (serveur MCP officiel de Sylius + outils du plugin `tmonier/sylius-b2b-mcp-plugin`).
 - Connexion OAuth 2.1 avec PKCE (S256) ; l'assistant s'enregistre lui-même (enregistrement dynamique, pas d'identifiant client) ; métadonnées : `/.well-known/oauth-authorization-server` et `/.well-known/oauth-protected-resource/_mcp`.
 - Portées : `b2b:read` (commandes, devis, crédit), `b2b:cart` (réassort, commande rapide, demande de devis). `b2b:approve` n'existe pas dans la démo (`approvals.allow_decisions` est à faux).
 - Aucune commande ni paiement dans l'assistant.
