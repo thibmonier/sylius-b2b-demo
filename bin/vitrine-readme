@@ -1,0 +1,106 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * MANUAL SCRIPT, run by a developer, never by the reset, the Docker build or the CI (US-064).
+ *
+ * Puts the standard "B2B demo" block and the English/French cross-link into the README.md and README.fr.md of a plugin
+ * repository, and checks the 24 repositories without writing anything.
+ *
+ *   php bin/vitrine-readme apply <plugin-dir>...      idempotent; README.fr.md must already exist
+ *   php bin/vitrine-readme --check [options] [plugin-name...]
+ *
+ * --check options:
+ *   --root=DIR     directory holding the sylius-*-plugin repositories (default: the parent of this project)
+ *   --ref=REF      read the files from this git reference (e.g. docs/readme-fr-demo) instead of the working tree
+ *   --strict       existing sentences that compare with Sylius Plus become errors (they are warnings otherwise)
+ *
+ * Exit code 1 when a repository has an error, 2 on a usage error. See docs/vitrine-plugins.md for the tone charter.
+ */
+
+use App\Demo\Vitrine\DirectorySource;
+use App\Demo\Vitrine\Finding;
+use App\Demo\Vitrine\FileSource;
+use App\Demo\Vitrine\GitRefSource;
+use App\Demo\Vitrine\ReadmeApplier;
+use App\Demo\Vitrine\ReadmeChecker;
+
+require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$arguments = \array_slice($argv, 1);
+$usage = "usage: php bin/vitrine-readme apply <plugin-dir>...\n       php bin/vitrine-readme --check [--root=DIR] [--ref=REF] [--strict] [plugin-name...]\n";
+
+if (['apply'] === \array_slice($arguments, 0, 1)) {
+    $directories = \array_slice($arguments, 1);
+    if ([] === $directories) {
+        \fwrite(\STDERR, $usage);
+        exit(2);
+    }
+    $failed = false;
+    foreach ($directories as $directory) {
+        try {
+            \printf("%s %s\n", (new ReadmeApplier())->apply($directory) ? 'CHANGED  ' : 'UNCHANGED', \basename(\rtrim($directory, '/')));
+        } catch (\RuntimeException $exception) {
+            \fwrite(\STDERR, 'KO        ' . $exception->getMessage() . "\n");
+            $failed = true;
+        }
+    }
+    exit($failed ? 1 : 0);
+}
+
+if (!\in_array('--check', $arguments, true)) {
+    \fwrite(\STDERR, $usage);
+    exit(2);
+}
+
+$root = \dirname(__DIR__, 2);
+$ref = null;
+$strict = false;
+$names = [];
+foreach ($arguments as $argument) {
+    if ('--check' === $argument) {
+        continue;
+    }
+    if (\str_starts_with($argument, '--root=')) {
+        $root = \rtrim(\substr($argument, 7), '/');
+    } elseif (\str_starts_with($argument, '--ref=')) {
+        $ref = \substr($argument, 6);
+    } elseif ('--strict' === $argument) {
+        $strict = true;
+    } elseif (\str_starts_with($argument, '--')) {
+        \fwrite(\STDERR, "Unknown option: $argument\n" . $usage);
+        exit(2);
+    } else {
+        $names[] = $argument;
+    }
+}
+
+if ([] === $names) {
+    $found = \glob($root . '/sylius-*-plugin', \GLOB_ONLYDIR);
+    $names = \array_map('basename', false === $found ? [] : $found);
+    \sort($names);
+}
+if ([] === $names) {
+    \fwrite(\STDERR, "No sylius-*-plugin repository under $root.\n");
+    exit(2);
+}
+
+$checker = new ReadmeChecker($strict);
+$errors = 0;
+$warnings = 0;
+foreach ($names as $name) {
+    $source = static fn (string $directory): FileSource => null === $ref ? new DirectorySource($directory) : new GitRefSource($directory, $ref);
+    $findings = $checker->check($source($root . '/' . $name), $name);
+    $pluginErrors = \array_filter($findings, static fn (Finding $finding): bool => 'error' === $finding->severity);
+    $errors += \count($pluginErrors);
+    $warnings += \count($findings) - \count($pluginErrors);
+    \printf("%s %s\n", [] === $pluginErrors ? 'OK ' : 'KO ', $name);
+    foreach ($findings as $finding) {
+        \printf("     %s %s\n", 'error' === $finding->severity ? 'error  ' : 'warning', $finding);
+    }
+}
+
+\printf("\n%d repositories, %d errors, %d warnings.\n", \count($names), $errors, $warnings);
+exit($errors > 0 ? 1 : 0);

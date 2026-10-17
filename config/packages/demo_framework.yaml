@@ -2,6 +2,9 @@ parameters:
     env(DEFAULT_URI): 'http://localhost:8080'
     # Port of the web server (Caddy): the webhook receiver of the demo is reached on 127.0.0.1:PORT (US-029).
     env(PORT): '8080'
+    # US-066: optional custom host (a subdomain of the owner's site), accepted next to TRUSTED_HOSTS. A bare host name,
+    # never a pattern; empty until the owner has created the domain (the Railway domain alone is then accepted).
+    env(DEMO_PUBLIC_HOST): ''
     # Railway terminates TLS in front of the container (ADR-0002): trust its proxy headers. Loopback is
     # kept in the list: the PunchOut simulator calls the shop on 127.0.0.1 and forwards the visitor IP.
     env(TRUSTED_PROXIES): '127.0.0.1,REMOTE_ADDR'
@@ -10,7 +13,8 @@ framework:
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
     # The Railway healthcheck calls the container with its own Host header.
+    # DEMO_PUBLIC_HOST: the custom host during and after the transition (US-066), escaped and anchored by the processor.
     # 127.0.0.1: the webhook outbox delivers to the receiver of this container on the loopback (US-029).
-    trusted_hosts: ['%env(TRUSTED_HOSTS)%', '^healthcheck\.railway\.app$', '^127\.0\.0\.1$']
+    trusted_hosts: ['%env(TRUSTED_HOSTS)%', '%env(demo_host_pattern:DEMO_PUBLIC_HOST)%', '^healthcheck\.railway\.app$', '^127\.0\.0\.1$']
     csrf_protection:
         stateless_token_ids: ['shop_authenticate', 'admin_authenticate']

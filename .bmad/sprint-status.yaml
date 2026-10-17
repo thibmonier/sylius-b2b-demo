@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 12
+current_sprint: 13
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -154,18 +154,36 @@ sprints:
       - {id: US-051, title: "Données container-fill : la boîte est l’unité de vente", points: 2, status: done}  # défaut d’US-044 signalé par l’utilisateur le 2026-10-17 : poids, volume et prix d’une boîte de 100 lus comme ceux d’une pièce
   sprint-12:
     name: sprint-12-ouverture-et-plugins
-    status: ready-for-dev
+    status: done
     sprint_id: "sprint-12"
     start_date: "2026-11-27"
     end_date: "2026-12-11"
     capacity_points: 14  # 3+4+4+3 pts ; 43,5 h décomposées (4 h calendaires) pour ≈ 30-35 h : ordre de sacrifice dans sprint-12-ouverture-et-plugins/tasks/README.md
     goal: "Ouvrir la démo au public sur GO et la vérifier, montrer PunchOut OCI dans le simulateur, cadrer le plugin de parc d'équipements client (spec, ADR, verdict Sylius Plus, socle qualité) et solder la dette outillage des rétros"
     stories:
-      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: in-progress}  # reprend T-050-09/10/11 et T-049-08 ; bascule sur GO explicite donné pendant le sprint (date non fixée), commandes Railway par l'utilisateur
-      - {id: US-053, title: "Simulateur PunchOut OCI dans la démo", points: 4, status: review}  # formulaire HOOK_URL, retour NEW_ITEM-* ; limiteurs et usage unique, pas de plafond quotidien (aucune commande créée, décision du 2026-10-17)
-      - {id: US-054, title: "Plugin parc d'équipements client, tranche 1", points: 4, status: review}  # spec, ADR, verdict Sylius Plus, socle qualité ; dépôt public créé par Claude après confirmation, Packagist soumis par l'utilisateur ; publié même si Plus couvre le besoin, sans promotion
-      - {id: US-055, title: "Actions de rétro et dette", points: 3, status: review}  # rétro S11 actions 1 à 3, action 4 du S10 (non faite : US-061/062), US-031 débloquée
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # reporté au sprint 13 : tâches OPS (T-052-03 à T-052-07) restent à l'utilisateur ; reprend T-050-09/10/11 et T-049-08 ; bascule sur GO explicite donné pendant le sprint (date non fixée), commandes Railway par l'utilisateur
+      - {id: US-053, title: "Simulateur PunchOut OCI dans la démo", points: 4, status: done}  # formulaire HOOK_URL, retour NEW_ITEM-* ; limiteurs et usage unique, pas de plafond quotidien (aucune commande créée, décision du 2026-10-17)
+      - {id: US-054, title: "Plugin parc d'équipements client, tranche 1", points: 4, status: done}  # spec, ADR, verdict Sylius Plus, socle qualité ; dépôt public créé par Claude après confirmation, Packagist soumis par l'utilisateur ; publié même si Plus couvre le besoin, sans promotion
+      - {id: US-055, title: "Actions de rétro et dette", points: 3, status: done}  # rétro S11 actions 1 à 3, action 4 du S10 (non faite : US-061/062), US-031 débloquée
     notes: "Ordre de sacrifice : T-052-02, puis T-054-07/08, puis T-055-04, puis coupe franche T-054-05/06/09. Intégration à la démo du plugin d'équipements (US-060) seulement si la tranche 1 est terminée."
+
+  sprint-13:
+    name: sprint-13-vitrine-des-plugins
+    status: ready-for-dev
+    sprint_id: "sprint-13"
+    start_date: "2026-12-11"
+    end_date: "2026-12-25"
+    capacity_points: 15  # 2+4+3+4+2 pts ; 37,5 h décomposées (2,5 h calendaires) pour ≈ 30-35 h : ordre de sacrifice dans sprint-13-vitrine-des-plugins/tasks/README.md
+    goal: "Préparer les 24 plugins à l'ouverture publique : classement Sylius Plus et charte de ton, README FR et référence à la démo, vraies captures d'écran, préparation du sous-domaine de la démo ; sans site ni liens de contact"
+    stories:
+      - {id: US-063, title: "Classement Sylius Plus des 24 plugins et charte de ton", points: 2, status: review}  # décision D2 ; docs/vitrine-plugins.md ; sources officielles et publiques de Plus
+      - {id: US-064, title: "Bloc standard, outil de contrôle et README FR du lot A (12 plugins)", points: 4, status: review}  # décision D1 ; livraison : une PR par dépôt (décision du 2026-10-17)
+      - {id: US-067, title: "README FR du lot B (12 plugins) et livraison des 24 dépôts", points: 3, status: review}  # scindée d'US-064 (max 8 pts) ; une PR par dépôt, un GO unique de l'utilisateur merge les 24 PR
+      - {id: US-065, title: "Captures d'écran manquantes et vérification des existantes", points: 4, status: review}  # décision D3 ; customer-asset-management reporté à US-056+, order-hold seul plugin purement technique (vérifié)
+      - {id: US-066, title: "Préparation du sous-domaine de la démo", points: 2, status: review}  # décision D4 ; préfixe du sous-domaine `sylius-b2b` (domaine du site inconnu, URL en US-068) ; CNAME et Railway par l'utilisateur
+    carried_over:
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de l'utilisateur (T-052-03 à T-052-07), hors capacité
+    notes: "Ordre de sacrifice : T-065-05, puis T-064-06 et T-065-07, puis T-067-04, puis coupe franche T-066-02/03/07. Liens vers le site et la page contact : US-068 et US-069 en backlog (URL inconnue). Le 2026-12-25 est férié : revue et rétro le 2026-12-24."
 
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
@@ -177,3 +195,6 @@ backlog:
   - {id: US-060, title: "Plugin équipements : intégration à la démo (données, config/demo/plugins.yaml)", points: 3, status: backlog}  # seulement si la tranche 1 est terminée et le plugin publié
   - {id: US-061, title: "Crédits des images de démo", points: 1, status: backlog}  # reprise de T-047-09, action 4 du sprint 10 (non faite, constatée au planning du sprint 12)
   - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked)
+  - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact
+  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon
+  - {id: US-070, title: "Plugin punchout : traduire le titre et le fil d’Ariane des acheteurs PunchOut", points: 1, status: backlog}  # clé brute `tmonier_punchout.ui.buyers` dans l’admin, relevée pendant les captures du sprint 13 (US-065)

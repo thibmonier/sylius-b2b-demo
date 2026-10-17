@@ -1,0 +1,47 @@
+# Captures d'écran des plugins (US-065)
+
+Audit du 2026-10-17 (branches locales des dépôts, lecture seule) et protocole de capture.
+
+## Audit des images existantes
+
+| Plugin | Images | Boutique | Admin | Remarque |
+|---|---|---|---|---|
+| admin-order-creation | 5 | - | oui | admin seul par nature |
+| agentic-feeds | 3 | - | oui | admin seul par nature |
+| ai-catalog-copilot | 5 | - | oui | admin seul par nature |
+| audit-log | 3 | - | oui | admin seul par nature |
+| b2b-mcp | 4 | oui | oui | |
+| bulk-actions | 6 | - | oui | admin seul par nature |
+| command-palette | 1 puis 2 | - | oui | complément : recherche « claire » |
+| company-accounts | 5 | oui | oui | |
+| container-fill | 7 | oui | oui | |
+| facturx | 2 | - | oui | admin seul |
+| gpsr | 2 | oui | oui | |
+| purchase-approval | 6 | oui | oui | |
+| quick-order | 3 | oui | - | pas d'écran admin |
+| quote-request | 6 | oui | oui | |
+| tier-pricing | 4 | oui | oui | |
+| timeline | 2 | - | oui | admin seul par nature |
+| trade-credit | 6 | oui | oui | |
+| webhook-outbox | 4 | - | oui | admin seul par nature |
+| withdrawal | 4 | oui | oui | |
+| channel-access, registration-approval, punchout-cxml | 0 | | | prises dans ce lot |
+| order-hold | 0 | | | purement technique (D7) |
+| customer-asset-management | 0 | | | reporté (D3, pas encore d'écran) |
+
+Aucun manque de face (boutique ou admin) hors de ces cas : pas de capture de comblement (T-065-05). La fraîcheur n'a pas été comparée écran par écran : aucune image n'a été signalée comme obsolète.
+
+## Protocole
+
+- Démo locale : `docker compose build web && docker compose up -d web`, puis `docker compose exec web php -d memory_limit=1G bin/console app:demo:reset --no-interaction` (base de développement du compose). Porte privée désactivée par le compose.
+- Navigateur piloté (Chrome), fenêtre d'environ 1330×900 en pixels de capture, badges de plugins masqués (`/demo/badges/off`).
+- Langue : boutique en anglais (`/en_US/`) ; l'admin est en français (seul compte admin de démo, `sophie`, `fr_FR`).
+- Comptes : connexion en un clic de la page de login (comptes `.example`). Ne pas capturer un formulaire de connexion (le gestionnaire de mots de passe du navigateur y préremplit un identifiant) ni un champ de formulaire (icône du gestionnaire).
+- Format et poids : JPEG (convention des dépôts), moins de 300 Ko ; nommage `shop-<sujet>.jpg` et `admin-<sujet>.jpg`.
+- Contrôle : aucun e-mail réel, secret ou mot de passe visible ; adresses `.example` ou `.demo` seulement.
+- Zone temporaire : `var/vitrine-shots/<plugin>/` (ignorée par git) avec un `MANIFEST.md` par plugin (légendes EN et FR, page source, date).
+
+## Limites locales constatées
+
+- PunchOut : le simulateur est refusé en local (403, l'URL de retour doit être HTTPS et le domaine autorisé) ; `/punchout/cxml` est réservé au simulateur en mode démo. Pas de capture d'une session PunchOut ni d'un journal d'échanges réussis en local.
+- PunchOut : le titre et le fil d'Ariane des pages d'administration des acheteurs affichent la clé brute `tmonier_punchout.ui.buyers` (traduction manquante du plugin).

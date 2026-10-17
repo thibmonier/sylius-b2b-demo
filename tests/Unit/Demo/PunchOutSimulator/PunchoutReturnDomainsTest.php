@@ -34,4 +34,19 @@ final class PunchoutReturnDomainsTest extends TestCase
     {
         self::assertSame(['erp.acme.example'], PunchoutDemoFixture::returnDomains($defaultUri));
     }
+
+    public function testThePublicSubdomainIsAddedAlongsideTheRailwayDomain(): void
+    {
+        self::assertSame(
+            ['erp.acme.example', 'demo.example.org', 'sylius-b2b.site.example'],
+            PunchoutDemoFixture::returnDomains('https://demo.example.org', 'Sylius-B2B.Site.example'),
+        );
+    }
+
+    public function testAnInvalidOrRepeatedPublicHostAddsNothing(): void
+    {
+        self::assertSame(['erp.acme.example', 'demo.example.org'], PunchoutDemoFixture::returnDomains('https://demo.example.org', '^.*$'));
+        self::assertSame(['erp.acme.example', 'demo.example.org'], PunchoutDemoFixture::returnDomains('https://demo.example.org', 'demo.example.org'));
+        self::assertSame(['erp.acme.example', 'sylius-b2b.site.example'], PunchoutDemoFixture::returnDomains('http://localhost:8080', 'sylius-b2b.site.example'));
+    }
 }
