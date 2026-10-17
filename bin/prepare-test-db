@@ -36,8 +36,9 @@ php_console() {
     php -d memory_limit=-1 bin/console "$@"
 }
 
-# The test container is not rebuilt when the code changes (debug is off): start from a fresh one.
-php_console cache:clear --no-interaction
+# The test container is not rebuilt when the code changes (debug is off): start from a fresh one. No warmup:
+# on a cache directory that does not exist yet it fails (DoctrineMetadataCacheWarmer), the next command compiles anyway.
+php_console cache:clear --no-warmup --no-interaction
 php_console doctrine:database:create --if-not-exists --no-interaction
 php_console doctrine:migrations:migrate --no-interaction --allow-no-migration
 php_console sylius:fixtures:load demo --no-interaction
