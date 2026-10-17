@@ -20,13 +20,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-065-01 | [DOC] | Audit des images des 19 plugins qui en ont : face boutique et admin couvertes, fraîcheur ; liste des manques | 1.5h | T-063-05 | 🔲 |
-| T-065-02 | [DOC] | Protocole de capture : fenêtre, langue, jeu de données, nommage `shop-*` et `admin-*`, poids (cible < 300 Ko), contrôle des données visibles ; liste des captures à prendre | 0.5h | T-065-01 | 🔲 |
-| T-065-03 | [OPS] | Démo locale : `docker compose`, remise à zéro des données, connexion de démo, vérification | 1h | — | 🔲 |
-| T-065-04 | [FE-WEB] | Captures des plugins sans image présents dans la démo (`channel-access`, `registration-approval`, `punchout-cxml`) et complément `command-palette` | 2.5h | T-065-02, T-065-03 | 🔲 |
-| T-065-05 | [FE-WEB] | ⚠️ Captures de comblement relevées par l'audit (boutique ou admin manquants) | 1h | T-065-04 | 🔲 |
+| T-065-01 | [DOC] | Audit des images des 19 plugins qui en ont : face boutique et admin couvertes, fraîcheur ; liste des manques | 1.5h | T-063-05 | ✅ |
+| T-065-02 | [DOC] | Protocole de capture : fenêtre, langue, jeu de données, nommage `shop-*` et `admin-*`, poids (cible < 300 Ko), contrôle des données visibles ; liste des captures à prendre | 0.5h | T-065-01 | ✅ |
+| T-065-03 | [OPS] | Démo locale : `docker compose`, remise à zéro des données, connexion de démo, vérification | 1h | — | ✅ |
+| T-065-04 | [FE-WEB] | Captures des plugins sans image présents dans la démo (`channel-access`, `registration-approval`, `punchout-cxml`) et complément `command-palette` | 2.5h | T-065-02, T-065-03 | ✅ |
+| T-065-05 | [FE-WEB] | ⚠️ Captures de comblement relevées par l'audit (boutique ou admin manquants) | 1h | T-065-04 | ✅ |
 | T-065-06 | [BE] | Insertion des images dans les README EN et FR (sections Screenshots) des plugins concernés, sur les branches d'US-067 | 1h | T-065-04, T-067-03 | 🔲 |
-| T-065-07 | [TEST] | ⚠️ Contrôle : liens d'images résolus, poids, aucune donnée réelle ni secret visible | 0.5h | T-065-06 | 🔲 |
+| T-065-07 | [TEST] | ⚠️ Contrôle : liens d'images résolus, poids, aucune donnée réelle ni secret visible | 0.5h | T-065-06 | 🔄 |
 | T-065-08 | [REV] | Revue | 0.5h | T-065-06 | 🔲 |
 
 **Total estimé : 8.5h** (8 tâches), dont 1.5h sacrifiables (T-065-05, T-065-07).
