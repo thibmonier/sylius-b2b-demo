@@ -29,6 +29,8 @@ Ratio observé : 3,6 à 3,7 h/point, mais les stories d'ouverture (US-052) et de
 | 3 | T-055-04 `docs/tests-locaux.md` | 0.5h | 35h | `bin/run-tests` documenté seulement dans son en-tête |
 | 4 | Coupe franche : T-054-05, T-054-06, T-054-09 (skeleton, socle qualité, revue) | 6.5h | 28.5h | La tranche 1 se limite à la mini-spec, l'ADR et le verdict Plus ; le socle technique passe en backlog |
 
+Ordre de sacrifice accepté tel quel par l'utilisateur (2026-10-17).
+
 **Non sacrifiables** : toute US-052 hors T-052-02 (la bascule et les vérifications sont le but), toute US-053 (garde-fous inclus), T-054-01 à T-054-03 (spec, ADR, verdict Plus), T-055-02 et T-055-03 (cache de test isolé, source des faux échecs du sprint 11), T-055-07 (US-031). Les [OPS] calendaires ne se sacrifient pas : elles restent ouvertes si l'utilisateur n'a pas donné son GO.
 
 ### Sacrifiables en un coup d'œil
@@ -39,7 +41,7 @@ Ratio observé : 3,6 à 3,7 h/point, mais les stories d'ouverture (US-052) et de
 
 - **US-052** : T-052-01 → T-052-02 → (GO) T-052-04 → T-052-05 / T-052-06 → T-052-08 → T-052-09 ; chemin de charge ≈ 5 h. Le sprint ne dépend pas du GO : sans lui, T-052-04 à T-052-06 restent ouvertes.
 - **US-053** : T-053-01 → T-053-02 → T-053-03 → T-053-04 → T-053-05 → T-053-06 → T-053-07 → T-053-08 (≈ 12.5 h).
-- **US-054** : T-054-01 → T-054-02 → T-054-05 → T-054-06 → T-054-07 → T-054-09 (≈ 11 h). T-054-04 (dépôt GitHub) attend le verdict T-054-03 et une confirmation explicite.
+- **US-054** : T-054-01 → T-054-02 → T-054-05 → T-054-06 → T-054-07 → T-054-09 (≈ 11 h). T-054-04 (dépôt GitHub, créé par Claude) attend le verdict T-054-03 et une confirmation explicite.
 - **US-055** : T-055-02 → T-055-03 en première semaine (≈ 4 h) ; le reste est indépendant.
 - **Calendaires / utilisateur** : T-052-03 (moniteur, avant la bascule), T-052-04 (bascule, GO explicite), T-052-05 (`X-Real-IP`, après la bascule), T-052-06 (parcours MCP), T-052-07 (coût Railway), T-054-04 (dépôt GitHub).
 
@@ -83,7 +85,7 @@ Plusieurs workers travaillent dans le même dépôt. Règles à coller dans chaq
 ## Actions externes (obligatoire)
 
 - Aucun push, merge, création de dépôt, tag, soumission Packagist ni commande Railway (`redeploy`, `variables`, `config apply`) par un worker.
-- Ces actions sont des tâches [OPS] de l'utilisateur ; le worker prépare la commande exacte et attend la confirmation.
+- Ces actions sont des tâches [OPS] soumises au GO de l'utilisateur ; le worker prépare la commande exacte et attend la confirmation. Exceptions décidées le 2026-10-17 : après confirmation explicite, Claude crée le dépôt GitHub du plugin (T-054-04) et pose son tag ; la soumission à Packagist reste à l'utilisateur.
 - Aucune lecture de `.env` ni de secret.
 
 ## Répartition par type

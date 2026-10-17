@@ -45,7 +45,7 @@
 | T-052-05 | US-052 | [OPS] Vérification de `X-Real-IP` après la bascule | 0.5h | Après T-052-04, deux connexions |
 | T-052-06 | US-052 | [OPS] Parcours MCP avec un vrai assistant (ex T-050-11) | 1h | Après T-052-04 |
 | T-052-07 | US-052 | [OPS] Relevé de coût Railway (ex T-049-08) | 0.5h | Accès Railway, après le 2026-10-23 |
-| T-054-04 | US-054 | [OPS] Création et publication du dépôt GitHub public du plugin | 0.5h | Confirmation explicite, après le verdict T-054-03 |
+| T-054-04 | US-054 | [OPS] Création du dépôt GitHub public du plugin (par Claude) | 0.5h | Confirmation explicite, après le verdict T-054-03 |
 
 ## 🔄 En Cours
 | ID | US | Tâche | Démarré | Assigné |

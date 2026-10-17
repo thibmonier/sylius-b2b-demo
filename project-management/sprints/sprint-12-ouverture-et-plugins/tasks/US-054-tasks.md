@@ -17,7 +17,7 @@ En tant que Thibaut, je veux cadrer le plugin OSS `tmonier/sylius-customer-asset
 - Plugin en dépôt séparé ([ADR-0006](../../../../docs/adr/0006-nouveaux-plugins-publies-separement.md)) ; ses commits n'entrent pas dans le dépôt de la démo.
 - Base : skeleton SyliusLabs, à l'image de `/Users/tmonier/Projects/sylius_plugins/sylius-channel-access-plugin` (plugin le plus récent) : ECS, PHPStan max, Rector, PHPUnit, CI multi-versions.
 - **Politique de communication** : si Sylius Plus couvre déjà le besoin, le plugin n'est pas promu (aucune annonce sur les canaux Sylius).
-- **Actions réservées à l'utilisateur** : création et publication du dépôt GitHub public, tag, soumission Packagist. Aucune n'est faite par Claude.
+- **Publication (décision du 2026-10-17)** : dépôt public et Packagist. Claude crée le dépôt et pose le tag après confirmation explicite ; l'utilisateur soumet lui-même le paquet à Packagist. Si Sylius Plus couvre le besoin, publié mais pas promu.
 - YAGNI : aucun code fonctionnel (entités, admin, espace client, filtre) dans cette tranche ; il est en backlog.
 - Tâches **sacrifiables** ⚠️ : T-054-07, T-054-08 ; coupe franche T-054-05, T-054-06, T-054-09 ; ordre dans [README.md](./README.md).
 - Contrat de fin de worker et isolation par chemins explicites : voir [README.md](./README.md).
@@ -29,7 +29,7 @@ En tant que Thibaut, je veux cadrer le plugin OSS `tmonier/sylius-customer-asset
 | T-054-01 | [DOC] | Mini-spec `SPEC.md` : cibles (industrie, bâtiment), vocabulaire, modèle d'équipement ↔ variantes compatibles, parc du client, filtre, hors périmètre | 2h | — | 🔲 |
 | T-054-02 | [DOC] | ADR-0001 : modèle de données (modèle d'équipement, équipement du client), compatibilité par variante, stratégie de filtre du catalogue | 1.5h | T-054-01 | 🔲 |
 | T-054-03 | [REV] | Vérification de chevauchement avec Sylius Plus (documentation et notes de version Plus) ; verdict et sources dans `docs/plus-overlap.md` | 1.5h | T-054-01 | 🔲 |
-| T-054-04 | [OPS] | 📅 Création et publication du dépôt GitHub public (sujets : ecommerce, sylius, sylius-plugin, symfony, b2b), par l'utilisateur, confirmation explicite | 0.5h | T-054-03, T-054-06 | 📅 |
+| T-054-04 | [OPS] | 📅 Création du dépôt GitHub public (sujets : ecommerce, sylius, sylius-plugin, symfony, b2b), par Claude, confirmation explicite | 0.5h | T-054-03, T-054-06 | 📅 |
 | T-054-05 | [BE] | Skeleton SyliusLabs du plugin dans le dépôt local : `composer.json`, bundle, extension DI, application de test, `Makefile`, licence MIT | 3h | T-054-02 | 🔲 |
 | T-054-06 | [BE] | Socle qualité : `ecs.php`, `phpstan.neon` (max), `rector.php`, `phpunit.xml.dist`, CI multi-versions (`.github/workflows/build.yaml`) | 2.5h | T-054-05 | 🔲 |
 | T-054-07 | [TEST] | ⚠️ Test de fumée : le noyau démarre avec le bundle et le conteneur compile | 1h | T-054-06 | 🔲 |
@@ -72,7 +72,7 @@ En tant que Thibaut, je veux cadrer le plugin OSS `tmonier/sylius-customer-asset
 - **Estimation** : 0.5h
 - **Condition** : confirmation explicite de l'utilisateur, après T-054-03
 
-**Description** : Claude prépare la commande exacte (`gh repo create tmonier/sylius-customer-asset-management-plugin --public ...`) et les sujets du dépôt (`ecommerce`, `sylius`, `sylius-plugin`, `symfony`, `b2b`) ; l'utilisateur l'exécute. Pas de tag ni de Packagist dans ce sprint (US-059). Si le verdict est « couvert », la création est à reconsidérer (dépôt privé ou pas de dépôt).
+**Description** : Après confirmation explicite, Claude crée le dépôt (`gh repo create tmonier/sylius-customer-asset-management-plugin --public ...`) avec les sujets `ecommerce`, `sylius`, `sylius-plugin`, `symfony`, `b2b`. Le tag est posé par Claude après confirmation ; la soumission à Packagist est faite par l'utilisateur (US-059). Si le verdict est « couvert », le dépôt est quand même public et publié, mais le plugin n'est pas promu.
 
 ### T-054-05 — Skeleton
 

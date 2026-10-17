@@ -13,15 +13,15 @@
 
 - [x] US-052 à US-055 : critères d'acceptation Gherkin (1 nominal, 2 alternatifs, 2 erreurs), points estimés, DoD
 - [x] Décomposition en tâches (`tasks/US-052-tasks.md` à `tasks/US-055-tasks.md`)
-- [ ] Capacité acceptée : 43,5 h décomposées (39,5 h de charge) pour ≈ 30-35 h, ordre de sacrifice relu par l'utilisateur
+- [x] Capacité acceptée : 43,5 h décomposées (39,5 h de charge) pour ≈ 30-35 h, ordre de sacrifice accepté par l'utilisateur (2026-10-17)
 - [x] Dépendances livrées : US-027, US-036, US-049, US-050 (en attente du merge de la PR #21)
 
 ## Décisions et accords à confirmer
 
-- [ ] US-052 : date de la bascule et du GO (dans le sprint ou hors sprint) ; choix du moniteur (UptimeRobot ou Better Stack)
-- [ ] US-053 : le plafond quotidien s'applique-t-il aux entrées OCI (aucune commande n'est créée côté simulateur) ou seulement aux commandes cXML (T-053-01)
-- [ ] US-054 : nom définitif du plugin et du dépôt ; dépôt public ou privé si Sylius Plus couvre le besoin
-- [ ] US-054 : le paquet est-il publié sur Packagist même si le verdict Plus interdit de le promouvoir
+- [x] US-052 : le GO est donné par l'utilisateur pendant le sprint, date non fixée (2026-10-17) ; choix du moniteur (UptimeRobot ou Better Stack)
+- [x] US-053 : le plafond quotidien des commandes ne s'applique pas à OCI (aucune commande créée) ; limiteurs par IP et usage unique appliqués (Tech Lead, 2026-10-17)
+- [x] US-054 : dépôt GitHub public dans tous les cas (2026-10-17) ; nom définitif du plugin et du dépôt à confirmer
+- [x] US-054 : publié sur Packagist même si Sylius Plus couvre le besoin, sans promotion ; Claude crée le dépôt et le tag après confirmation, l'utilisateur soumet à Packagist (2026-10-17)
 
 ## Environnement technique
 
@@ -38,5 +38,5 @@
 - [ ] T-052-05 : vérification de `X-Real-IP` après la bascule (deux connexions)
 - [ ] T-052-06 : parcours MCP avec un vrai assistant, après ouverture
 - [ ] T-052-07 : relevé de coût Railway (après le 2026-10-23)
-- [ ] T-054-04 : création et publication du dépôt GitHub public du plugin (confirmation explicite) ; tag et Packagist en backlog (US-059)
+- [ ] T-054-04 : création du dépôt GitHub public du plugin par Claude (confirmation explicite) ; tag par Claude après confirmation et soumission Packagist par l'utilisateur en backlog (US-059)
 - [ ] Tout push, merge, déploiement ou commande Railway : GO explicite

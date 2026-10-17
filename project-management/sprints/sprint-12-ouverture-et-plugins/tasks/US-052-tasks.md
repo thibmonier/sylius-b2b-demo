@@ -72,7 +72,7 @@ En tant que Thibaut, je veux ouvrir la démo au public sur mon GO et vérifier l
 
 - **Type** : [OPS] 📅
 - **Estimation** : 1h
-- **Condition** : GO explicite de l'utilisateur, éventuellement hors sprint
+- **Condition** : GO explicite de l'utilisateur, donné pendant le sprint (date non fixée)
 
 **Description** : Claude prépare le diff de `.railway/railway.ts` (`OPEN_TO_PUBLIC` à `true`) et la séquence de commandes ; l'utilisateur lance `railway config apply`. Claude exécute ensuite `bin/verify-public-mode` (ou les `curl` du runbook) et consigne le résultat. En cas d'écart : retour arrière (porte refermée, `401` attendu) avant toute analyse. La tâche reste ouverte sans GO.
 
