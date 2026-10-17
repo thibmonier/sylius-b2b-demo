@@ -16,7 +16,7 @@ use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\BuyerIdentity;
 use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\CredentialHasher;
 
 /**
- * Creates a PunchOut cXML buyer configuration for Acme Industries.
+ * Creates the PunchOut buyers of Acme Industries: a cXML one and, for the OCI simulator (US-053), an SAP OCI one.
  *
  * The shared secret is intentionally non-sensitive ("demo-secret-acme") and stored hashed.
  *
@@ -26,6 +26,10 @@ use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\CredentialHasher;
 final class PunchoutDemoFixture extends AbstractFixture
 {
     public const BUYER_CODE = 'acme-punchout';
+
+    public const OCI_BUYER_CODE = 'acme-punchout-oci';
+
+    public const OCI_USERNAME = 'acme-oci-demo';
 
     /** Non-secret, displayed in the demo accounts page */
     public const DEMO_SECRET = 'demo-secret-acme';
@@ -66,6 +70,12 @@ final class PunchoutDemoFixture extends AbstractFixture
     }
 
     public function load(array $options): void
+    {
+        $this->loadCxmlBuyer();
+        $this->loadOciBuyer();
+    }
+
+    private function loadCxmlBuyer(): void
     {
         // Idempotent: remove previous version if any
         $existing = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => self::BUYER_CODE]);
@@ -114,6 +124,46 @@ final class PunchoutDemoFixture extends AbstractFixture
         }
 
         // Shared secret (hashed — non-sensitive demo value)
+        $credential = new BuyerCredential();
+        $credential->setLabel('demo');
+        $credential->setPasswordHash($this->credentialHasher->hash(self::DEMO_SECRET));
+        $buyer->addCredential($credential);
+
+        $this->entityManager->persist($buyer);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * The same company on the OCI protocol: a user name and the same published secret (stored hashed). An OCI
+     * buyer never authenticates on the cXML endpoint, so it is a buyer of its own.
+     */
+    private function loadOciBuyer(): void
+    {
+        if (null !== $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => self::OCI_BUYER_CODE])) {
+            return;
+        }
+
+        /** @var ChannelInterface|null $b2bChannel */
+        $b2bChannel = $this->channelRepository->findOneBy(['code' => 'B2B'])
+            ?? $this->channelRepository->findOneBy(['enabled' => true]);
+        /** @var CustomerInterface|null $claire */
+        $claire = $this->customerRepository->findOneBy(['emailCanonical' => 'claire@acme.example']);
+        if (null === $b2bChannel) {
+            return;
+        }
+
+        $buyer = new Buyer();
+        $buyer->setCode(self::OCI_BUYER_CODE);
+        $buyer->setName('Acme Industries — PunchOut OCI');
+        $buyer->setProtocol('oci');
+        $buyer->setOciUsername(self::OCI_USERNAME);
+        $buyer->setEnabled(true);
+        $buyer->setChannel($b2bChannel);
+        $buyer->setCustomer($claire);
+        $buyer->setCompanyId('ACME_IND');
+        $buyer->setReturnDomains(self::returnDomains($this->defaultUri));
+        $buyer->setLocale('fr_FR');
+
         $credential = new BuyerCredential();
         $credential->setLabel('demo');
         $credential->setPasswordHash($this->credentialHasher->hash(self::DEMO_SECRET));
