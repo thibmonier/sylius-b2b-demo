@@ -161,10 +161,10 @@ sprints:
     capacity_points: 14  # 3+4+4+3 pts ; 43,5 h décomposées (4 h calendaires) pour ≈ 30-35 h : ordre de sacrifice dans sprint-12-ouverture-et-plugins/tasks/README.md
     goal: "Ouvrir la démo au public sur GO et la vérifier, montrer PunchOut OCI dans le simulateur, cadrer le plugin de parc d'équipements client (spec, ADR, verdict Sylius Plus, socle qualité) et solder la dette outillage des rétros"
     stories:
-      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: ready-for-dev}  # reprend T-050-09/10/11 et T-049-08 ; bascule sur GO explicite donné pendant le sprint (date non fixée), commandes Railway par l'utilisateur
-      - {id: US-053, title: "Simulateur PunchOut OCI dans la démo", points: 4, status: ready-for-dev}  # formulaire HOOK_URL, retour NEW_ITEM-* ; limiteurs et usage unique, pas de plafond quotidien (aucune commande créée, décision du 2026-10-17)
-      - {id: US-054, title: "Plugin parc d'équipements client, tranche 1", points: 4, status: ready-for-dev}  # spec, ADR, verdict Sylius Plus, socle qualité ; dépôt public créé par Claude après confirmation, Packagist soumis par l'utilisateur ; publié même si Plus couvre le besoin, sans promotion
-      - {id: US-055, title: "Actions de rétro et dette", points: 3, status: ready-for-dev}  # rétro S11 actions 1 à 3, action 4 du S10 (non faite : US-061/062), US-031 débloquée
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: in-progress}  # reprend T-050-09/10/11 et T-049-08 ; bascule sur GO explicite donné pendant le sprint (date non fixée), commandes Railway par l'utilisateur
+      - {id: US-053, title: "Simulateur PunchOut OCI dans la démo", points: 4, status: in-progress}  # formulaire HOOK_URL, retour NEW_ITEM-* ; limiteurs et usage unique, pas de plafond quotidien (aucune commande créée, décision du 2026-10-17)
+      - {id: US-054, title: "Plugin parc d'équipements client, tranche 1", points: 4, status: in-progress}  # spec, ADR, verdict Sylius Plus, socle qualité ; dépôt public créé par Claude après confirmation, Packagist soumis par l'utilisateur ; publié même si Plus couvre le besoin, sans promotion
+      - {id: US-055, title: "Actions de rétro et dette", points: 3, status: in-progress}  # rétro S11 actions 1 à 3, action 4 du S10 (non faite : US-061/062), US-031 débloquée
     notes: "Ordre de sacrifice : T-052-02, puis T-054-07/08, puis T-055-04, puis coupe franche T-054-05/06/09. Intégration à la démo du plugin d'équipements (US-060) seulement si la tranche 1 est terminée."
 
 # Stories prêtes pour un sprint futur, à planifier.
