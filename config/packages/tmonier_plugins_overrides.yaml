@@ -1,0 +1,8 @@
+# US-044: loaded after tmonier_plugins.yaml (alphabetical order), so that it wins the merge of the Twig hook.
+# The PunchOut and container-fill plugins both register `checkout` under the cart summary: without this, the
+# PunchOut template wins and the checkout button is never disabled by the fill rules.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.cart.index.content.form.sections.general#right':
+            checkout:
+                template: 'shop/container_fill/cart_checkout.html.twig'
