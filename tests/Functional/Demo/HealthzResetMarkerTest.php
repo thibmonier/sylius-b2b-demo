@@ -18,24 +18,29 @@ final class HealthzResetMarkerTest extends WebTestCase
 
     private string $marker;
 
+    private ResetStatus $status;
+
     private ?KernelBrowser $client = null;
 
     protected function setUp(): void
     {
         $this->marker = \dirname(__DIR__, 3) . '/var/demo-reset-failed';
+        $this->status = new ResetStatus($this->marker);
         @unlink($this->marker);
         $this->client = null;
     }
 
     protected function tearDown(): void
     {
+        // markStarted() registers a shutdown function that would write a failure marker when PHPUnit exits.
+        $this->status->markSucceeded();
         @unlink($this->marker);
         parent::tearDown();
     }
 
     public function testASuccessfulResetLeavesHealthzAt200(): void
     {
-        $status = new ResetStatus($this->marker);
+        $status = $this->status;
         $status->markStarted();
         $status->markSucceeded();
 
@@ -44,14 +49,14 @@ final class HealthzResetMarkerTest extends WebTestCase
 
     public function testAResetInProgressDoesNotRaiseTheAlert(): void
     {
-        new ResetStatus($this->marker)->markStarted();
+        $this->status->markStarted();
 
         $this->assertHealth(200, 'ok');
     }
 
     public function testAResetThatDiedWithoutAWordMakesHealthz503AfterTheGraceDelay(): void
     {
-        new ResetStatus($this->marker)->markStarted();
+        $this->status->markStarted();
         touch($this->marker, time() - ResetStatus::MAX_RUN_SECONDS - 60);
 
         $this->assertHealth(503, 'reset failed');
@@ -59,7 +64,7 @@ final class HealthzResetMarkerTest extends WebTestCase
 
     public function testAFailedResetMakesHealthz503ThenTheNextSuccessClearsIt(): void
     {
-        $status = new ResetStatus($this->marker);
+        $status = $this->status;
         $status->markStarted();
         $status->markFailed();
         $this->assertHealth(503, 'reset failed');
