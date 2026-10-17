@@ -1,4 +1,6 @@
 {% trans_default_domain 'simulator' %}
+{% set protocol = protocol|default('cxml') %}
+{% set home = protocol == 'oci' ? 'app_demo_punchout_simulator_oci' : 'app_demo_punchout_simulator' %}
 <!DOCTYPE html>
 <html lang="{{ locale }}">
 <head>
@@ -25,10 +27,14 @@
 </head>
 <body>
 <main>
-<p><a href="{{ path('app_demo_punchout_simulator', {lang: locale == 'fr' ? 'en' : 'fr'}) }}" lang="{{ locale == 'fr' ? 'en' : 'fr' }}">{{ 'switch_language'|trans({}, 'simulator', locale) }}</a></p>
+<p><a href="{{ path(home, {lang: locale == 'fr' ? 'en' : 'fr'}) }}" lang="{{ locale == 'fr' ? 'en' : 'fr' }}">{{ 'switch_language'|trans({}, 'simulator', locale) }}</a></p>
 
 <h1>{{ 'title'|trans({}, 'simulator', locale) }}</h1>
-<p>{{ 'intro'|trans({}, 'simulator', locale) }}</p>
+<nav aria-label="{{ 'protocol.label'|trans({}, 'simulator', locale) }}">
+    <a href="{{ path('app_demo_punchout_simulator', {lang: locale}) }}"{% if protocol == 'cxml' %} aria-current="page"{% endif %}>{{ 'protocol.cxml'|trans({}, 'simulator', locale) }}</a> ·
+    <a href="{{ path('app_demo_punchout_simulator_oci', {lang: locale}) }}"{% if protocol == 'oci' %} aria-current="page"{% endif %}>{{ 'protocol.oci'|trans({}, 'simulator', locale) }}</a>
+</nav>
+<p>{{ (protocol == 'oci' ? 'oci.intro' : 'intro')|trans({}, 'simulator', locale) }}</p>
 
 {% if error is defined %}
     <div class="error" role="alert">
@@ -47,6 +53,12 @@
 
 {% if cart is defined %}
     <h2>{{ 'cart.title'|trans({}, 'simulator', locale) }}</h2>
+    {% if received is defined %}
+        <div class="success" role="status">{{ 'oci.received'|trans({}, 'simulator', locale) }}</div>
+    {% endif %}
+    {% if cart.lines is empty %}
+        <div class="note" role="status">{{ 'cart.empty'|trans({}, 'simulator', locale) }}</div>
+    {% endif %}
     <table>
         <caption class="sr-only" style="position:absolute;left:-9999px">{{ 'cart.title'|trans({}, 'simulator', locale) }}</caption>
         <thead>
@@ -82,7 +94,24 @@
     {% endif %}
 {% endif %}
 
-{% if cart is not defined %}
+{% if cart is not defined and protocol == 'oci' %}
+    <div class="note">
+        {{ 'buyer.info'|trans({'%domains%': domains|join(', ')}, 'simulator', locale) }}
+    </div>
+    <form method="post" action="{{ path('app_demo_punchout_simulator_oci_start', {lang: locale}) }}">
+        <input type="hidden" name="_token" value="{{ csrf }}">
+        <p>
+            <label for="hook-url">{{ 'oci.hook_url'|trans({}, 'simulator', locale) }}</label>
+            <input id="hook-url" name="HOOK_URL" type="url" value="{{ hookUrl }}" size="70" maxlength="2000" required aria-describedby="hook-url-help">
+        </p>
+        <p id="hook-url-help">{{ 'oci.hook_url_help'|trans({}, 'simulator', locale) }}</p>
+        <fieldset>
+            <legend>{{ 'errors.legend'|trans({}, 'simulator', locale) }}</legend>
+            <label><input type="checkbox" name="wrong_secret" value="1"> {{ 'oci.wrong_password'|trans({}, 'simulator', locale) }}</label>
+        </fieldset>
+        <button type="submit">{{ 'oci.start'|trans({}, 'simulator', locale) }}</button>
+    </form>
+{% elseif cart is not defined %}
     <div class="note">
         {{ 'buyer.info'|trans({'%domains%': domains|join(', ')}, 'simulator', locale) }}
     </div>
@@ -95,7 +124,6 @@
         </fieldset>
         <button type="submit">{{ 'start'|trans({}, 'simulator', locale) }}</button>
     </form>
-    <p>{{ 'oci_note'|trans({}, 'simulator', locale) }}</p>
 {% endif %}
 </main>
 </body>

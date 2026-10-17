@@ -141,6 +141,12 @@ framework:
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_PUNCHOUT_ORDER)%'
             interval: '1 hour'
+        # US-053: the return of an OCI cart has its own bucket (same ceiling as the entry), so it never eats the orders' one.
+        demo_punchout_oci_return:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_PUNCHOUT_START)%'
+            interval: '10 minutes'
 
 # S4-R2: "no real data" notice on the registration, address and checkout pages.
 sylius_twig_hooks:
