@@ -12,6 +12,8 @@ imports:
     - { resource: demo/plugins.yaml }
 
 parameters:
+    # Marker of a failed nightly reset (ResetStatus); the test environment keeps its own in its cache directory.
+    demo.reset_marker_file: '%kernel.project_dir%/var/demo-reset-failed'
 
 services:
     # Default configuration for services in *this* file

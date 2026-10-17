@@ -35,10 +35,13 @@ final class ConsoleSubprocessTest extends TestCase
         putenv('DEMO_SUBPROCESS_PROBE=inherited');
         $_SERVER['DEMO_SUBPROCESS_PROBE'] = 'inherited';
         $output = new BufferedOutput();
+        $previousMemoryLimit = ini_get('memory_limit');
+        ini_set('memory_limit', '256M');
 
         try {
             $code = new ConsoleSubprocess($this->projectDir, 'prod')->run('cache:warmup', ['--no-debug'], $output);
         } finally {
+            ini_set('memory_limit', (string) $previousMemoryLimit);
             putenv('DEMO_SUBPROCESS_PROBE');
             unset($_SERVER['DEMO_SUBPROCESS_PROBE']);
         }
@@ -49,7 +52,7 @@ final class ConsoleSubprocessTest extends TestCase
         self::assertNotSame(getmypid(), $report['pid'], 'A process of its own, not the one that loaded the fixtures.');
         self::assertSame(['cache:warmup', '--env=prod', '--no-interaction', '--no-debug'], $report['argv']);
         self::assertSame(\PHP_BINARY, $report['binary']);
-        self::assertSame(ini_get('memory_limit'), $report['memory'], 'The -d memory_limit=1G of the crontab reaches the sub-process.');
+        self::assertSame('256M', $report['memory'], 'The -d memory_limit=1G of the crontab reaches the sub-process.');
         self::assertSame('inherited', $report['env'], 'APP_ENV, DATABASE_URL and the others are inherited.');
     }
 

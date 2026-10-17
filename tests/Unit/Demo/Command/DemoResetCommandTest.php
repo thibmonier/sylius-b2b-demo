@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Command;
 
 use App\Demo\Command\ConsoleSubprocess;
 use App\Demo\Command\DemoResetCommand;
+use App\Demo\Command\ResetLock;
 use App\Demo\Command\ResetStatus;
 use App\Demo\Media\ImagePathSource;
 use App\Demo\Media\OrphanImagePurger;
@@ -76,12 +77,13 @@ final class DemoResetCommandTest extends TestCase
             {
                 return [];
             }
-        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))), new ConsoleSubprocess($this->projectDir, 'test'));
+        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))), new ConsoleSubprocess($this->projectDir, 'test'), new ResetLock($this->statusFile . '.lock'));
     }
 
     protected function tearDown(): void
     {
         @unlink($this->statusFile);
+        @unlink($this->statusFile . '.lock');
         new Filesystem()->remove($this->projectDir);
     }
 
@@ -250,6 +252,23 @@ final class DemoResetCommandTest extends TestCase
 
         self::assertSame(Command::SUCCESS, $exitCode);
         self::assertFileDoesNotExist($this->statusFile);
+    }
+
+    public function testASecondResetStartedWhileAnotherRunsIsRefusedAndTouchesNothing(): void
+    {
+        $running = new ResetLock($this->statusFile . '.lock');
+        self::assertTrue($running->acquire());
+        $this->suiteRegistry->expects(self::never())->method('getSuite');
+        $this->connection->expects(self::never())->method('beginTransaction');
+        $tester = new CommandTester($this->command);
+
+        $exitCode = $tester->execute([], ['capture_stderr_separately' => true]);
+
+        self::assertSame(Command::FAILURE, $exitCode);
+        self::assertStringContainsString('DEMO_RESET_REFUSED', $tester->getErrorOutput());
+        self::assertStringContainsString('already running', $tester->getErrorOutput());
+        self::assertFileDoesNotExist($this->statusFile, 'The marker of the first reset is not touched.');
+        $running->release();
     }
 
     private function loadFixtures(): void

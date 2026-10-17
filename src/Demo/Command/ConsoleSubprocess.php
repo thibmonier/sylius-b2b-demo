@@ -20,7 +20,8 @@ use Symfony\Component\Process\Process;
  */
 final readonly class ConsoleSubprocess
 {
-    private const TIMEOUT_SECONDS = 900;
+    /** Per sub-process; ResetStatus::MAX_RUN_SECONDS stays above the sum of the worst case of a live reset. */
+    public const TIMEOUT_SECONDS = 300;
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')]

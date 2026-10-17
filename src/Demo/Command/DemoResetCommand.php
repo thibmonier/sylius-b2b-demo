@@ -61,6 +61,7 @@ final class DemoResetCommand extends Command
         private readonly ResetStatus $resetStatus,
         private readonly OrphanImagePurger $imagePurger,
         private readonly ConsoleSubprocess $subprocess,
+        private readonly ResetLock $lock,
     ) {
         parent::__construct();
     }
@@ -89,6 +90,22 @@ final class DemoResetCommand extends Command
             return Command::FAILURE;
         }
 
+        if (!$dryRun && !$this->lock->acquire()) {
+            $this->logger->error('app:demo:reset refused: another reset is running');
+            $errors->writeln('DEMO_RESET_REFUSED cause="another reset is already running (cron or manual): nothing was touched"');
+
+            return Command::FAILURE;
+        }
+
+        try {
+            return $this->reset($io, $output, $errors, $input, $dryRun, $startedAt);
+        } finally {
+            $this->lock->release();
+        }
+    }
+
+    private function reset(SymfonyStyle $io, OutputInterface $output, OutputInterface $errors, InputInterface $input, bool $dryRun, float $startedAt): int
+    {
         $io->title($dryRun ? '[DRY-RUN] Demo reset' : 'Demo reset');
         if (!$dryRun) {
             // Written before anything can go wrong: only a reset that ends well removes it (US-049).

@@ -24,10 +24,12 @@ final class HealthzResetMarkerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->marker = \dirname(__DIR__, 3) . '/var/demo-reset-failed';
+        $this->client = self::createClient();
+        $marker = self::getContainer()->getParameter('demo.reset_marker_file');
+        \assert(\is_string($marker));
+        $this->marker = $marker;
         $this->status = new ResetStatus($this->marker);
         @unlink($this->marker);
-        $this->client = null;
     }
 
     protected function tearDown(): void
@@ -77,7 +79,7 @@ final class HealthzResetMarkerTest extends WebTestCase
 
     private function assertHealth(int $status, string $body): void
     {
-        $this->client ??= self::createClient();
+        \assert(null !== $this->client);
         $this->client->request('GET', '/healthz', server: ['HTTP_X_FORWARDED_FOR' => self::visitorIp()]);
 
         self::assertResponseStatusCodeSame($status);

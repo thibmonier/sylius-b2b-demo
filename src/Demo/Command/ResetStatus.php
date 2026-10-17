@@ -22,7 +22,10 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  */
 final class ResetStatus
 {
-    /** A nightly reset lasts minutes; beyond this a "running" marker means the process died without a word. */
+    /**
+     * A nightly reset lasts minutes; beyond this a "running" marker means the process died without a word. Above the
+     * worst case of a live reset (two sub-processes of ConsoleSubprocess::TIMEOUT_SECONDS, fixtures, margin), see ResetStatusTest.
+     */
     public const MAX_RUN_SECONDS = 1800;
 
     private const RUNNING = 'running';
@@ -34,7 +37,7 @@ final class ResetStatus
     private bool $watching = false;
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%/var/demo-reset-failed')]
+        #[Autowire('%demo.reset_marker_file%')]
         private readonly string $markerFile,
     ) {
     }
@@ -70,7 +73,13 @@ final class ResetStatus
             return false;
         }
 
-        return self::RUNNING !== $state || (time() - (int) filemtime($this->markerFile)) > self::MAX_RUN_SECONDS;
+        if (self::RUNNING !== $state) {
+            return true;
+        }
+        // Unknown age (the marker vanished meanwhile): never a false alert.
+        $modifiedAt = @filemtime($this->markerFile);
+
+        return false !== $modifiedAt && (time() - $modifiedAt) > self::MAX_RUN_SECONDS;
     }
 
     private function watchForDeathWithoutReport(): void
@@ -88,7 +97,10 @@ final class ResetStatus
 
     private function write(string $state): void
     {
-        file_put_contents($this->markerFile, $state . ' ' . (new \DateTimeImmutable())->format(\DATE_ATOM));
+        // Written aside then renamed: the web server never reads a half-written marker.
+        $temporary = $this->markerFile . '.' . bin2hex(random_bytes(4)) . '.tmp';
+        file_put_contents($temporary, $state . ' ' . (new \DateTimeImmutable())->format(\DATE_ATOM));
+        rename($temporary, $this->markerFile);
     }
 
     /** The state word of the marker (running or failed), null without marker. */
@@ -99,6 +111,7 @@ final class ResetStatus
             return null;
         }
 
-        return str_starts_with($content, self::RUNNING) ? self::RUNNING : self::FAILED;
+        // Empty: read between the creation and the content of a write, the reset is still running.
+        return '' === $content || str_starts_with($content, self::RUNNING) ? self::RUNNING : self::FAILED;
     }
 }
