@@ -1,2 +1,6 @@
 sylius_api:
     enabled: true
+
+parameters:
+    # After services.yaml (which sets the production path): each test cache directory keeps its own marker and lock.
+    demo.reset_marker_file: '%kernel.cache_dir%/demo-reset-failed'

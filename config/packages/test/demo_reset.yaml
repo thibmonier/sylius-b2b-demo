@@ -1,2 +1,0 @@
-parameters:
-    demo.reset_marker_file: '%kernel.cache_dir%/demo-reset-failed'

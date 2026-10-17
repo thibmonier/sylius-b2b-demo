@@ -27,6 +27,7 @@ final class HealthzResetMarkerTest extends WebTestCase
         $this->client = self::createClient();
         $marker = self::getContainer()->getParameter('demo.reset_marker_file');
         \assert(\is_string($marker));
+        self::assertStringNotContainsString('/var/demo-reset-failed', $marker, 'The tests must never share the marker (and the lock) of the project root with another checkout or worker.');
         $this->marker = $marker;
         $this->status = new ResetStatus($this->marker);
         @unlink($this->marker);
