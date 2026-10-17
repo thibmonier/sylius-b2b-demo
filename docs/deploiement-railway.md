@@ -10,7 +10,7 @@ La démo tourne sur Railway (projet `sylius-b2b-demo`, environnement `production
 | `mysql` | base MySQL Railway | non | données de la démo |
 | `mailpit` | image `axllent/mailpit:v1.27` | **non** (réseau privé uniquement) | reçoit tous les e-mails ; lu côté serveur par `/demo/mails` |
 
-Déploiement : construction de l'image, puis `preDeploy` (migrations Doctrine), puis bascule après le healthcheck `/healthz` (timeout 600 s). Au premier démarrage sur une base vide, l'entrypoint charge les fixtures. L'entrypoint lance d'abord `app:demo:preflight` : le conteneur refuse de démarrer si la porte est active sans identifiants ou si le mailer n'est pas Mailpit (échec fermé).
+Déploiement : construction de l'image, puis `preDeploy` (migrations Doctrine), puis bascule après le healthcheck `/healthz` (timeout 600 s). Au premier démarrage sur une base vide, l'entrypoint charge les fixtures. Il ne se fie plus à la table des canaux : `php bin/console app:demo:fixtures-loaded` lit un marqueur de fin de chargement (table `app_demo_load_marker`, écrite en dernier par la suite de fixtures). Code de sortie 0 : chargé ; 3 : à charger (base vide, ou chargement interrompu qui laisse des canaux sans marqueur) ; autre : erreur, l'entrypoint s'arrête sans rien purger. La migration pose le marqueur sur une base qui contient déjà des canaux, pour ne pas purger une démo en service. L'entrypoint lance d'abord `app:demo:preflight` : le conteneur refuse de démarrer si la porte est active sans identifiants ou si le mailer n'est pas Mailpit (échec fermé).
 
 ## Variables
 
