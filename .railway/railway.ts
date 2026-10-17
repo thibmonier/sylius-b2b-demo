@@ -15,6 +15,11 @@ const OPEN_TO_PUBLIC = false;
 // valid certificate, at the switch (docs/sous-domaine-demo.md). Both hosts are accepted either way.
 const CANONICAL_IS_PUBLIC_HOST = false;
 
+// Fail at plan time rather than deploy a DEFAULT_URI of `https://` with nothing behind it.
+if (CANONICAL_IS_PUBLIC_HOST && !process.env.DEMO_PUBLIC_HOST) {
+  throw new Error("CANONICAL_IS_PUBLIC_HOST is true: export DEMO_PUBLIC_HOST (the value set in Railway) before `railway config plan` / `apply`.");
+}
+
 export default defineRailway(() => {
   // Pinned: the helper defaults to mysql:9; the demo (compose, CI, DATABASE_URL serverVersion) runs MySQL 8.4.
   const db = mysql("mysql", { image: "mysql:8.4" });

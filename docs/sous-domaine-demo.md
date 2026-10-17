@@ -7,8 +7,8 @@ Préparation du remplacement de l'URL provisoire Railway par un sous-domaine du 
 | Endroit | Comportement | Action |
 |---------|--------------|--------|
 | `TRUSTED_HOSTS` (hôtes de confiance) | Un hôte hors liste répond `400`. Liste : `TRUSTED_HOSTS` (domaine Railway), `DEMO_PUBLIC_HOST` (sous-domaine, échappé et ancré par `PublicHostPatternProcessor`), `healthcheck.railway.app`, `127.0.0.1` | `DEMO_PUBLIC_HOST` à poser dans Railway. Absent, vide ou invalide (motif, URL, chemin) : seul le domaine Railway est accepté |
-| Cookies et sessions | Aucun `cookie_domain` : cookies liés à l'hôte. Une session ouverte sur le domaine Railway n'existe pas sur le sous-domaine | Aucune. Les visiteurs se reconnectent une fois (porte privée comprise) |
-| Page MCP, simulateur PunchOut (URL de retour) | URL absolues construites depuis l'hôte de la requête | Aucune. Le sous-domaine est ajouté aux domaines de retour de l'acheteur PunchOut (fixtures) : le simulateur fonctionne sur les deux hôtes |
+| Cookies et sessions | Aucun `cookie_domain` : cookies liés à l'hôte. Une session ouverte sur le domaine Railway n'existe pas sur le sous-domaine | Aucune (pas de `cookie_domain` ni de session figée). Les visiteurs se reconnectent une fois (porte privée comprise) |
+| Page MCP, simulateur PunchOut (URL de retour) | URL absolues construites depuis l'hôte de la requête | Aucune (vérifié : guide, métadonnées OAuth et outils du plugin MCP utilisent l'hôte de la requête, test `TrustedProxiesTest`). Le sous-domaine est ajouté aux domaines de retour de l'acheteur PunchOut (fixtures) : le simulateur fonctionne sur les deux hôtes |
 | E-mails, URL hors requête | Construites avec `DEFAULT_URI` | Interrupteur `CANONICAL_IS_PUBLIC_HOST` de `.railway/railway.ts` (étape 4) |
 | `robots.txt`, `X-Robots-Tag` | Aucun hôte écrit ; mêmes règles sur les deux hôtes | Aucune |
 | Page Plugins, guide MCP | Aucun hôte provisoire figé dans les gabarits (liens vers GitHub et Sylius uniquement) | Aucune |
@@ -18,7 +18,9 @@ Préparation du remplacement de l'URL provisoire Railway par un sous-domaine du 
 1. **Domaine personnalisé Railway** : service `web`, onglet Settings, Networking, Custom Domain, saisir `sylius-b2b.<domaine du site>`. Railway affiche la cible du CNAME.
 2. **CNAME** chez le registrar du site : nom `sylius-b2b`, cible donnée par Railway. Si le DNS est proxyfé (Cloudflare), le passer en « DNS seul » le temps de l'émission du certificat.
 3. **Variable** : `railway variables --service web --set "DEMO_PUBLIC_HOST=sylius-b2b.<domaine du site>"` (nom d'hôte seul, sans schéma ni chemin). Déployer. Transition : les deux hôtes répondent.
-4. **Bascule** (après vérification du certificat) : dans `.railway/railway.ts`, passer `CANONICAL_IS_PUBLIC_HOST` à `true` (e-mails et fixtures pointent vers le sous-domaine), `railway config plan` (seule `DEFAULT_URI` change), puis `apply`. Ajouter l'URL en ligne aux README (US-068).
+   Les domaines de retour de l'acheteur PunchOut (simulateur) ne sont écrits qu'au chargement des fixtures : lancer un reset, toujours en `www-data` (le reset nocturne le fait aussi) :
+   `railway ssh --service web -- su -s /bin/sh www-data -c 'php -d memory_limit=1G bin/console app:demo:reset --no-interaction'`
+4. **Bascule** (après vérification du certificat) : dans `.railway/railway.ts`, passer `CANONICAL_IS_PUBLIC_HOST` à `true` (précondition : `DEMO_PUBLIC_HOST` posée dans Railway **et** exportée dans le shell de `railway config plan` / `apply`, sinon le script s'arrête avec un message ; e-mails et fixtures pointent vers le sous-domaine), `railway config plan` (seule `DEFAULT_URI` change), puis `apply`. Ajouter l'URL en ligne aux README (US-068).
 
 ## Vérifier le certificat (lecture seule)
 
