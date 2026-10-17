@@ -186,7 +186,7 @@ Chaque branche part de `origin/main` après `git fetch`, contient un commit (`do
 | webhook-outbox | `22626e1` |
 | withdrawal | `b0cfd2c` |
 
-`bin/vitrine-readme --check --ref=docs/readme-fr-demo` : 24 dépôts, 0 erreur, 11 avertissements (phrases existantes qui comparent avec Plus, section 5). Avec `--strict`, ces 11 lignes deviennent des erreurs : elles tombent si la section 5 est neutralisée.
+`bin/vitrine-readme --check --ref=docs/readme-fr-demo --strict` : 24 dépôts, 0 erreur, 0 avertissement. Les 11 phrases qui comparaient avec Plus (section 5) ont été retirées sur décision de l'utilisateur (D2) : 6 dépôts, un second commit chacun qui les liste (admin-order-creation `bf757b1`, company-accounts `1f4d1f2`, purchase-approval `f91c6af`, quote-request `246e662`, tier-pricing `7b481e1`, customer-asset-management `e79b228`). `docs/plus-overlap.md` de customer-asset-management n'a pas été touché.
 
 ### Note de GO (T-067-04)
 
@@ -194,4 +194,4 @@ Chaque branche part de `origin/main` après `git fetch`, contient un commit (`do
 - **Ordre de merge** : indifférent, les 24 branches sont indépendantes (aucune ne touche au code). Ordre alphabétique proposé.
 - **Avant l'ouverture des PR** : rien n'est poussé. Les captures (US-065, T-065-06) s'ajouteront sur ces mêmes branches.
 - **Dépôts écartés** : aucun. Quatre dépôts (`command-palette`, `gpsr`, `timeline`, `withdrawal`) contiennent des `.DS_Store` non suivis ; ils n'ont pas été touchés (le travail s'est fait dans un worktree séparé).
-- **Phrases à décider** : section 5 (11 lignes dans 6 dépôts).
+- **À relire dans les PR** : les 6 dépôts de la section 5 (phrases retirées).
