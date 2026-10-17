@@ -13,8 +13,8 @@
 | [EPIC-05](epics/EPIC-05.md) | Nouveau plugin : référence de commande | 2 | 10 |
 | [EPIC-06](epics/EPIC-06.md) | Listes d'achat et adresses d'entreprise | 3 | 18 |
 | [EPIC-07](epics/EPIC-07.md) | Intégration des plugins et scénarios | 6 | 19 |
-| [EPIC-08](epics/EPIC-08.md) | Hébergement Railway et exploitation | 3 | 9 |
-| [EPIC-09](epics/EPIC-09.md) | Sécurité de la démo publique | 3 | 10 |
+| [EPIC-08](epics/EPIC-08.md) | Hébergement Railway et exploitation | 5 | 12 |
+| [EPIC-09](epics/EPIC-09.md) | Sécurité de la démo publique | 4 | 15 |
 
 **Total** : 37 stories, 160 points.
 
@@ -29,6 +29,7 @@
 | 5 | Listes d'achat, adresses d'entreprise, historique, simulateur PunchOut, Mailpit | US-011, US-024, US-025, US-027, US-028 | 29 |
 | 6 | Railway, remise à zéro nocturne, budget, sécurité de la démo publique, spike worker, webhooks, MCP | US-006, US-029, US-030, US-032, US-033, US-034, US-035, US-036, US-037 | 26 |
 | 10 | Vitrine et reports : images des produits, encart Sylius Plus, récepteur de webhooks, reports techniques du sprint 9 | US-029, US-046, US-047, US-048 | 13 |
+| 11 | Fiabilité et ouverture : remise à zéro fiable (erreur fatale vue par `/healthz`), préparation de l'ouverture publique | US-049, US-050 | 8 |
 
 ## MoSCoW
 
