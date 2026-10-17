@@ -30,13 +30,16 @@ final class CompanyWishlistDemoFixture extends AbstractFixture
 
     private const LIST_NAME = 'Atelier';
 
-    /** Variant code (= product SKU of the catalogue CSV) => quantity. */
+    /**
+     * Variant code (= product SKU of the catalogue CSV) => quantity. The screws are in boxes (the sold unit): 5 + 2 boxes
+     * fill a carton S past the 20 % of the fasteners rule (US-051).
+     */
     private const ITEMS = [
         'EPI-CASK-001' => 10,
         'EPI-GANT-001' => 24,
         'EPI-CHAU-001' => 6,
-        'VISS-001' => 200,
-        'VISS-002' => 100,
+        'VISS-001' => 5,
+        'VISS-002' => 2,
     ];
 
     public function __construct(

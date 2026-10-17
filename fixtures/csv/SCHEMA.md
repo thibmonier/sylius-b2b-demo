@@ -35,7 +35,7 @@ CSV files versioned under `fixtures/csv/` feed the `demo_products_csv` fixture
 | Code | FR label | EN label | Used in |
 |------|----------|----------|---------|
 | `epi_norm` | Norme de protection | Protection standard | EPI |
-| `packaging_unit` | Unité de conditionnement | Packaging unit | All |
+| `packaging_unit` | Unité de conditionnement (le poids, les dimensions et le prix de la ligne sont ceux de ce conditionnement : « boîte de 100 » = une boîte) | Packaging unit (the row's weight, size and price are those of this packaging: "box of 100" = one box) | All |
 | `material` | Matière principale | Main material | All |
 | `certifications` | Certifications | Certifications | EPI |
 

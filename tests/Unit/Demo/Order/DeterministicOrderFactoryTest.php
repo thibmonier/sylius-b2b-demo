@@ -38,9 +38,9 @@ final class DeterministicOrderFactoryTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
         $order->expects(self::exactly(2))->method('addItem');
 
-        $this->generate($factory, ['EPI-GANT-001' => 24, 'VISS-001' => 100], $order);
+        $this->generate($factory, ['EPI-GANT-001' => 24, 'VISS-001' => 10], $order);
 
-        self::assertSame(['EPI-GANT-001' => 24, 'VISS-001' => 100], $quantities);
+        self::assertSame(['EPI-GANT-001' => 24, 'VISS-001' => 10], $quantities);
     }
 
     public function testAnUnknownVariantFailsLoudly(): void
