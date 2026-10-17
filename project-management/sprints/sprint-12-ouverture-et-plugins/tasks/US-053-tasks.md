@@ -24,13 +24,13 @@ En tant que Thibaut, je veux que le simulateur PunchOut de la démo sache aussi 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-053-01 | [DOC] | Analyse : contrat OCI du plugin (entrée `POST /punchout/oci/<code>`, champs, `HOOK_URL`, `oci_allow_get`, `VALIDATE`/`DETAIL`) et simulateur actuel ; plan (plafond quotidien non applicable à OCI, décision actée) | 1h | — | 🔲 |
-| T-053-02 | [TEST] | Tests rouges : constructeur de l'entrée OCI, lecture des champs `NEW_ITEM-*`, garde-fous | 1.5h | T-053-01 | 🔲 |
-| T-053-03 | [BE] | Formulaire `HOOK_URL` et entrée OCI (`POST /punchout/oci/<code>`) depuis le simulateur | 2.5h | T-053-02 | 🔲 |
-| T-053-04 | [BE] | Retour OCI : réception du `POST` `NEW_ITEM-*` du plugin, lecture et affichage des lignes reçues | 2h | T-053-03 | 🔲 |
-| T-053-05 | [BE] | Garde-fous OCI : limiteurs, usage unique du retour | 1.5h | T-053-04 | 🔲 |
-| T-053-06 | [TEST] | Tests fonctionnels du parcours OCI (nominal, 2 alternatifs, 2 erreurs) | 2h | T-053-05 | 🔲 |
-| T-053-07 | [DOC] | Documentation du simulateur : parcours OCI, garde-fous ; la mention « OCI non simulé » retirée | 1h | T-053-06 | 🔲 |
+| T-053-01 | [DOC] | Analyse : contrat OCI du plugin (entrée `POST /punchout/oci/<code>`, champs, `HOOK_URL`, `oci_allow_get`, `VALIDATE`/`DETAIL`) et simulateur actuel ; plan (plafond quotidien non applicable à OCI, décision actée) | 1h | — | ✅ |
+| T-053-02 | [TEST] | Tests rouges : constructeur de l'entrée OCI, lecture des champs `NEW_ITEM-*`, garde-fous | 1.5h | T-053-01 | ✅ |
+| T-053-03 | [BE] | Formulaire `HOOK_URL` et entrée OCI (`POST /punchout/oci/<code>`) depuis le simulateur | 2.5h | T-053-02 | ✅ |
+| T-053-04 | [BE] | Retour OCI : réception du `POST` `NEW_ITEM-*` du plugin, lecture et affichage des lignes reçues | 2h | T-053-03 | ✅ |
+| T-053-05 | [BE] | Garde-fous OCI : limiteurs, usage unique du retour | 1.5h | T-053-04 | ✅ |
+| T-053-06 | [TEST] | Tests fonctionnels du parcours OCI (nominal, 2 alternatifs, 2 erreurs) | 2h | T-053-05 | ✅ |
+| T-053-07 | [DOC] | Documentation du simulateur : parcours OCI, garde-fous ; la mention « OCI non simulé » retirée | 1h | T-053-06 | ✅ |
 | T-053-08 | [REV] | Revue | 1h | T-053-07 | 🔲 |
 
 **Total estimé : 12.5h** (8 tâches).
@@ -99,3 +99,12 @@ En tant que Thibaut, je veux que le simulateur PunchOut de la démo sache aussi 
 - **Estimation** : 1h
 
 **Description** : relecture indépendante (SSRF sur `HOOK_URL`, secrets absents, rejeu, plafond, non-régression cXML) ; 12 tours minimum pour le relecteur, rapport exigé.
+
+---
+
+## Notes de réalisation (worker w12-oci)
+
+- **Contrat relevé (T-053-01)** : l'entrée OCI pose la session dans le navigateur (cookie + redirection 303), donc l'appel serveur à serveur du simulateur relaie le cookie et le `Location` (chemin local seulement) au visiteur. Le buyer OCI est un buyer à part (`acme-punchout-oci`, protocole `oci`, `USERNAME` `acme-oci-demo`, secret de démo publié) : un buyer OCI ne s'authentifie jamais sur cXML. `POST /punchout/oci/<code>` est ajouté au garde `PunchOutEndpointGuard` (sinon le secret publié ouvrirait une session publique). `HOOK_URL` : mêmes règles que le plugin (`ReturnUrlValidator`), vérifiées avant tout appel ; l'état signé (nonce + `oci`) voyage dans sa requête, le plugin la conserve et y poste le panier.
+- **Garde-fous (T-053-05)** : limiteur de l'entrée = `DEMO_RATE_LIMIT_PUNCHOUT_START` ; retour = limiteur `demo_punchout_oci_return` (même variable, seau séparé : pas de nouvelle variable) ; retour à usage unique (`OciReturnGate`, nonce) ; pas de plafond quotidien (décision du Tech Lead).
+- **Choix assumé** : contrairement au cXML (`ReturnAuthenticator`, journal du plugin), l'authenticité du contenu du retour OCI n'est pas prouvée octet par octet : le plugin ne journalise pas le corps posté de façon rejouable, et le retour OCI ne crée rien (affichage seul, échappé par Twig, champs bornés et typés). Le nonce signé prouve que le retour répond à une entrée du simulateur, une seule fois.
+- **Écart de contrat** : aucun, le plugin n'est pas modifié.
