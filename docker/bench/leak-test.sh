@@ -51,8 +51,14 @@ fill_cart() { # jar : B2C channel, two SKUs through the quick-order plugin
         --data-urlencode "lines=$SKUS" -d mode=partial -o "$TMP/pv.html"
     token="$(grep -o 'name="_csrf_token" value="[^"]*"' "$TMP/pv.html" | head -1 | sed 's/.*value="//;s/"//')"
     preview="$(grep -o 'name="preview" value="[^"]*"' "$TMP/pv.html" | sed 's/.*value="//;s/"//')"
-    req "$jar" -b demo_channel=B2C -X POST "$BASE/en_US/quick-order/add" --data-urlencode "_csrf_token=$token" \
-        -d "preview=$preview" -d mode=partial -o /dev/null
+    local code
+    code="$(req "$jar" -b demo_channel=B2C -X POST "$BASE/en_US/quick-order/add" --data-urlencode "_csrf_token=$token" \
+        -d "preview=$preview" -d mode=partial -o /dev/null -w '%{http_code}')"
+    # A failed add is a defect of the mode under test (ADR-0013: 500 in worker mode), not a silent pass.
+    case "$code" in
+        200|302|303) ;;
+        *) echo "FAIL quick-order/add answered $code"; FAILURES=$((FAILURES + 1)) ;;
+    esac
 }
 
 session_of() { grep -o 'PHPSESSID[[:space:]]*[0-9a-f]*' "$1" | awk '{print $2}' | tail -1; }

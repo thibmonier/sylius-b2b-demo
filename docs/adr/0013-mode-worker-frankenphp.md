@@ -41,6 +41,8 @@ Le mode classique a été mesuré deux fois (deux colonnes en intervalle, écart
 
 Le gain est donc de 40 à 50 % sur les pages, soit environ 20 ms par page à charge légère. Il est réel, mais la démo est un usage de présentation et non de volume.
 
+Limite (revue du sprint 9) : le mode worker n'a été mesuré qu'en une seule passe, sans écart-type, sur un poste partagé. L'ordre de grandeur est plausible, mais ce n'est pas une mesure reproductible. Si le mode worker est réévalué, il faudra au moins 3 passes par mode, avec l'écart entre les passes.
+
 ### Mémoire du conteneur (supercronic compris)
 
 | Situation | Classique | Worker (4 workers) |
@@ -73,7 +75,14 @@ Script : `docker/bench/leak-test.sh`, exécuté contre un conteneur worker à **
 | Mode classique (témoin de non-régression du script) | 173 | 0 |
 | Worker avec témoin de fuite injecté (`docker/bench/witness-index.php`) | 41 | **9** (canal, formulaire d'achat, session) |
 
-Le témoin est un décorateur de noyau qui retient le cookie de canal d'une requête pour la suivante, comme le ferait un service à état : le script le détecte (code de sortie 1), ce qui prouve qu'il sait voir une fuite. Aucun état de visiteur (canal, client, panier, locale, badges, session, porte de démo) ne passe d'une requête à l'autre en mode worker.
+Le témoin est un décorateur de noyau qui retient le cookie de canal d'une requête pour la suivante, comme le ferait un service à état. Le script le détecte (code de sortie 1), ce qui prouve qu'il sait voir une fuite **de ce type**.
+
+Portée réelle du résultat :
+- **Ce qui est couvert.** Sur les parcours testés, aucun état de visiteur observable dans les réponses ne passe d'une requête à l'autre en mode worker : canal, client, panier, locale, badges, session, porte de démo.
+- **Témoin limité.** Le témoin ne simule qu'une fuite de cookie. Il ne prouve pas que le script détecterait une fuite d'état Doctrine (EntityManager, identity map), qui est justement la classe de défaut rencontrée ci-dessous.
+- **Ajout au panier non vérifié pendant la mesure.** Le script ne contrôlait pas le résultat de `quick-order/add`. La régression ci-dessous (500 en mode worker) n'est donc pas comptée dans les 190 vérifications. Le script la compte désormais comme un échec (revue du sprint 9).
+
+Conclusion : pas de fuite de cookie ni de session observée, mais le mode worker n'est pas démontré sûr pour les écritures Doctrine. C'est une raison de plus de rester en mode classique.
 
 ### Régression en mode worker (bloquante)
 

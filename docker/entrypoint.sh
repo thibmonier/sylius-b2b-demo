@@ -28,7 +28,12 @@ fi
 
 # Opt-in worker mode (ADR-0013, off by default): the kernel stays booted between requests. symfony/runtime
 # detects the worker thread by itself and loops on frankenphp_handle_request() in public/index.php.
+# The directive is spliced into the Caddyfile as raw text: it is only ever built here, never taken from the environment.
+unset FRANKENPHP_WORKER_DIRECTIVE
 if [ "${FRANKENPHP_WORKER_MODE:-0}" = "1" ]; then
+    case "${FRANKENPHP_WORKERS:-4}" in
+        ''|*[!0-9]*) echo "FRANKENPHP_WORKERS must be a positive integer" >&2; exit 1 ;;
+    esac
     FRANKENPHP_WORKER_DIRECTIVE="worker /app/public/index.php ${FRANKENPHP_WORKERS:-4}"
     export FRANKENPHP_WORKER_DIRECTIVE
 fi
