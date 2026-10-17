@@ -34,6 +34,7 @@
         "symfony/ai-bundle": "^0.14.1",
         "symfony/dotenv": "^7.4.11 || ^8.0.15",
         "symfony/flex": "^2.11",
+        "symfony/process": "7.4.*",
         "symfony/runtime": "^7.4.13 || ^8.0.14",
         "tmonier/sylius-admin-order-creation-plugin": "^1.0",
         "tmonier/sylius-agentic-feeds-plugin": "^1.0",
