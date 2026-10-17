@@ -27,11 +27,15 @@ final class ImageManifest
         $handle = \is_file($path) ? \fopen($path, 'r') : false;
         if ($handle !== false) {
             $header = self::strings(\fgetcsv($handle, null, ',', '"', ''));
-            while (($line = \fgetcsv($handle, null, ',', '"', '')) !== false) {
-                if (\count($line) === \count($header)) {
-                    $row = \array_combine($header, self::strings($line));
-                    $rows[$row['sku'] ?? ''] = $row;
+            for ($number = 2; ($line = \fgetcsv($handle, null, ',', '"', '')) !== false; ++$number) {
+                if ($line === [null]) {
+                    continue;
                 }
+                if (\count($line) !== \count($header)) {
+                    throw new \RuntimeException(\sprintf('Malformed manifest row at line %d of "%s".', $number, $path));
+                }
+                $row = \array_combine($header, self::strings($line));
+                $rows[$row['sku'] ?? ''] = $row;
             }
             \fclose($handle);
         }

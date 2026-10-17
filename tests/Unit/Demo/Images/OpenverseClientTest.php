@@ -14,17 +14,30 @@ final class OpenverseClientTest extends TestCase
     public function testTheResultsThatDoNotShowTheArticleOrShowPeopleAndDrawingsAreDropped(): void
     {
         $client = $this->client([
-            $this->hit('1', 'A cartoon of a hard hat'),
-            $this->hit('2', 'Portrait of a woman with a hard hat'),
-            $this->hit('3', 'Sunset over the sea'),
-            $this->hit('4', 'Yellow hat'),
-            $this->hit('5', 'Construction hard hat on a table'),
-            $this->hit('6', 'Photo', [['name' => 'hard hat']], 'by'),
+            $this->hit('00000001-0000-0000-0000-000000000000', 'A cartoon of a hard hat'),
+            $this->hit('00000002-0000-0000-0000-000000000000', 'Portrait of a woman with a hard hat'),
+            $this->hit('00000003-0000-0000-0000-000000000000', 'Sunset over the sea'),
+            $this->hit('00000004-0000-0000-0000-000000000000', 'Yellow hat'),
+            $this->hit('00000005-0000-0000-0000-000000000000', 'Construction hard hat on a table'),
+            $this->hit('00000006-0000-0000-0000-000000000000', 'Photo', [['name' => 'hard hat']], 'by'),
         ]);
 
         $ids = \array_map(static fn ($candidate): string => $candidate->id, $client->search('hard hat'));
 
-        self::assertSame(['5', '4'], $ids, 'Best match first: both words of the query, then the head noun only.');
+        self::assertSame(['00000005-0000-0000-0000-000000000000', '00000004-0000-0000-0000-000000000000'], $ids, 'Best match first: both words of the query, then the head noun only.');
+    }
+
+    public function testAnIdThatIsNotAUuidIsRejectedBecauseItNamesTheFile(): void
+    {
+        $client = $this->client([
+            $this->hit('../../public/index', 'Hard hat'),
+            $this->hit('', 'Hard hat'),
+            $this->hit('aaaa1111-2222-3333-4444-555566667777', 'Hard hat'),
+        ]);
+
+        $ids = \array_map(static fn ($candidate): string => $candidate->id, $client->search('hard hat'));
+
+        self::assertSame(['aaaa1111-2222-3333-4444-555566667777'], $ids);
     }
 
     public function testTheSearchIsMadeWithTheCc0FilterAndAnIdentifiedUserAgent(): void

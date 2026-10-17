@@ -6,6 +6,9 @@ namespace App\Demo\Images\Fetch;
 
 final readonly class ImageCandidate
 {
+    /** The id names the stored file: only a plain UUID is accepted (no path, never an empty name). */
+    public const ID_PATTERN = '/^[0-9a-f-]{36}$/i';
+
     public function __construct(
         public string $id,
         public string $title,

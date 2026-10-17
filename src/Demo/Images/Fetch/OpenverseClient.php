@@ -130,6 +130,7 @@ final class OpenverseClient
             \strtolower($this->field($result, 'license')) !== 'cc0' ||
             !\str_contains($this->field($result, 'license_url'), 'publicdomain/zero') ||
             ($result['mature'] ?? false) === true ||
+            \preg_match(ImageCandidate::ID_PATTERN, $this->field($result, 'id')) !== 1 ||
             !\str_starts_with($url, 'https://') ||
             ($extension !== '' && !\in_array($extension, self::ALLOWED_EXTENSIONS, true))
         ) {

@@ -63,6 +63,18 @@ final class ImageBudgetTest extends TestCase
         self::assertSame([], $missing, 'SKUs without an image (own or family).');
     }
 
+    public function testNoManifestRowPointsToAProductThatNoLongerExists(): void
+    {
+        $skus = [];
+        foreach (['epi', 'quincaillerie', 'fournitures'] as $name) {
+            foreach ((new CsvProductReader())->read(\dirname($this->imagesDir) . '/csv/' . $name . '.csv') as $row) {
+                $skus[] = $row['sku'];
+            }
+        }
+
+        self::assertSame([], \array_values(\array_diff($this->manifest()->skus(), $skus)), 'Manifest rows of SKUs absent from the CSV files.');
+    }
+
     public function testTheManifestAndTheFolderListTheSameFiles(): void
     {
         $onDisk = \array_map('basename', $this->imageFiles());
