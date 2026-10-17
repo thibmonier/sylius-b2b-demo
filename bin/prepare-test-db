@@ -1,0 +1,46 @@
+#!/bin/sh
+# Prepares the local test database in one command (US-048 / T-048-02): creates it, migrates it and loads the demo
+# fixtures, with the settings the tests need (no PHP memory limit, a fake wkhtmltopdf).
+#
+#   bin/prepare-test-db                      # database sylius_b2b_demo_test on the compose MySQL (127.0.0.1:3340)
+#   TEST_DB_NAME=b2b_mine bin/prepare-test-db
+#   bin/prepare-test-db --start-mysql        # starts the compose MySQL first (Docker)
+#
+# Then: php -d memory_limit=-1 vendor/bin/phpunit   (see docs/tests-locaux.md)
+# Safe to run again: the fixtures load purges the test database before reloading it. Never touches the
+# development database (sylius_b2b_demo): the script refuses that name.
+set -eu
+cd "$(dirname "$0")/.."
+
+if [ "${1:-}" = "--start-mysql" ]; then
+    docker compose up -d --wait mysql
+fi
+
+DB_NAME="${TEST_DB_NAME:-sylius_b2b_demo_test}"
+case "$DB_NAME" in
+    ''|*[!A-Za-z0-9_]*) echo "TEST_DB_NAME must only contain letters, digits and underscores." >&2; exit 1 ;;
+    sylius_b2b_demo) echo "Refusing to use the development database \"sylius_b2b_demo\"." >&2; exit 1 ;;
+esac
+
+export APP_ENV=test
+export DATABASE_URL="${TEST_DATABASE_URL:-mysql://root@127.0.0.1:${MYSQL_PORT:-3340}/${DB_NAME}?serverVersion=8.4&charset=utf8mb4}"
+export WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf"
+# Optional: a separate cache directory lets several checkouts or workers share the vendor tree.
+if [ -n "${TEST_CACHE_DIR:-}" ]; then
+    export APP_CACHE_DIR="$TEST_CACHE_DIR"
+fi
+
+# The compiled container and the fixtures need more than the default 128M: without this the
+# commands die with "Allowed memory size exhausted" and no useful message.
+php_console() {
+    php -d memory_limit=-1 bin/console "$@"
+}
+
+# The test container is not rebuilt when the code changes (debug is off): start from a fresh one.
+php_console cache:clear --no-interaction
+php_console doctrine:database:create --if-not-exists --no-interaction
+php_console doctrine:migrations:migrate --no-interaction --allow-no-migration
+php_console sylius:fixtures:load demo --no-interaction
+
+echo "Test database \"$DB_NAME\" ready. Run the tests with the same environment:"
+echo "  APP_ENV=test DATABASE_URL='$DATABASE_URL' WKHTMLTOPDF_BINARY='$WKHTMLTOPDF_BINARY' php -d memory_limit=-1 vendor/bin/phpunit"

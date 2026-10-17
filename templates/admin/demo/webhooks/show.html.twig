@@ -1,0 +1,7 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'webhooks.detail'|trans({}, 'demo_webhooks') }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'app.demo_webhooks.show' with { webhook, payload } %}
+{% endblock %}

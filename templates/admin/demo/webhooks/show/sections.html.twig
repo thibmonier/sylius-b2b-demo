@@ -1,0 +1,35 @@
+{% set webhook = hookable_metadata.context.webhook %}
+
+<div class="page-body" data-demo-webhook>
+    <div class="container-xl">
+        <div class="card mb-3">
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">{{ 'webhooks.type'|trans({}, 'demo_webhooks') }}</dt>
+                    <dd class="col-sm-9"><code data-demo-webhook-type>{{ webhook.eventType }}</code></dd>
+                    <dt class="col-sm-3">{{ 'webhooks.id'|trans({}, 'demo_webhooks') }}</dt>
+                    <dd class="col-sm-9"><code>{{ webhook.webhookId }}</code></dd>
+                    <dt class="col-sm-3">{{ 'webhooks.received_at'|trans({}, 'demo_webhooks') }}</dt>
+                    <dd class="col-sm-9">{{ webhook.receivedAt|date('Y-m-d H:i:s') }}</dd>
+                    <dt class="col-sm-3">{{ 'webhooks.signature'|trans({}, 'demo_webhooks') }}</dt>
+                    <dd class="col-sm-9">
+                        {% if webhook.signatureVerified %}
+                            <span class="badge bg-green-lt" data-demo-webhook-signature="verified">{{ 'webhooks.signature_verified'|trans({}, 'demo_webhooks') }}</span>
+                        {% else %}
+                            <span class="badge bg-red-lt" data-demo-webhook-signature="unverified">{{ 'webhooks.signature_unverified'|trans({}, 'demo_webhooks') }}</span>
+                        {% endif %}
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header"><div class="card-title">{{ 'webhooks.payload'|trans({}, 'demo_webhooks') }}</div></div>
+            <div class="card-body">
+                {% if webhook.payloadTruncated %}
+                    <div class="alert alert-warning" data-demo-webhook-truncated>{{ 'webhooks.truncated'|trans({}, 'demo_webhooks') }}</div>
+                {% endif %}
+                <pre class="mb-0" style="max-height: 32rem; overflow: auto;" data-demo-webhook-payload>{{ hookable_metadata.context.payload }}</pre>
+            </div>
+        </div>
+    </div>
+</div>

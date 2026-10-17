@@ -29,6 +29,7 @@ final class PackagingUnitParserTest extends TestCase
         yield 'empty' => ['', 1];
         yield 'absent' => [null, 1];
         yield 'zero is not a case' => ['boîte de 0', 1];
+        yield 'decomposed accent (NFD) in front of the count' => ["bo\u{0069}\u{0302}te de 100", 100];
     }
 
     /** @dataProvider casePrefixes */
@@ -45,5 +46,7 @@ final class PackagingUnitParserTest extends TestCase
         yield 'roll' => ['rouleau de 500', 'other'];
         yield 'unit' => ['unité', 'other'];
         yield 'absent' => [null, 'other'];
+        yield 'box with a decomposed accent (NFD)' => ["bo\u{0069}\u{0302}te de 100", 'box'];
+        yield 'precomposed accent (NFC)' => ["bo\u{00EE}te de 100", 'box'];
     }
 }

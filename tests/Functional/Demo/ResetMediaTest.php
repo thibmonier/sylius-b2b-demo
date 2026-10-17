@@ -46,8 +46,8 @@ final class ResetMediaTest extends KernelTestCase
         self::assertSame(0, $tester->getStatusCode(), $tester->getDisplay() . $tester->getErrorOutput());
         self::assertFileDoesNotExist($this->imagesDirectory . '/' . self::ORPHAN);
         $paths = $this->db()->fetchFirstColumn('SELECT path FROM sylius_product_image UNION SELECT path FROM sylius_taxon_image');
-        // The demo suite carries no image today; whatever image a fixture gets later must survive the purge
-        // (the unit test of the purger covers the kept file with a known path).
+        // The product images of the demo suite (US-047) are rows like any other: the purge must keep their files.
+        self::assertNotEmpty($paths, 'The demo suite loads the product images.');
         foreach ($paths as $path) {
             self::assertIsString($path);
             self::assertFileExists($this->imagesDirectory . '/' . ltrim($path, '/'), 'The image of a fixture must stay.');

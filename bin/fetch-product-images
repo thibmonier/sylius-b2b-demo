@@ -1,0 +1,78 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * MANUAL SCRIPT, run by a developer, never by the reset, the Docker build or the CI (US-047).
+ *
+ * Fetches one CC0 image per demo product from Openverse (https://api.openverse.org, public API, no key), shrinks it
+ * (WebP, 800 px, <= 80 KB) into fixtures/images/ and records its licence in fixtures/images/manifest.csv.
+ * Resumable: products already in the manifest with their file on disk are skipped.
+ *
+ *   php bin/fetch-product-images [--only=SKU1,SKU2] [--cache-dir=/path/outside/the/repo]
+ *
+ * Anonymous quota: 20 requests/minute and 200/day. One search per query (not per product), 4 s between searches,
+ * 1.2 s between downloads, no parallelism.
+ */
+
+use App\Demo\Images\Fetch\ImageProcessor;
+use App\Demo\Images\Fetch\OpenverseClient;
+use App\Demo\Images\Fetch\ProductImageFetcher;
+use App\Demo\Images\Fetch\ProductQueryBuilder;
+use App\Demo\Images\ImageManifest;
+use App\Demo\Infrastructure\Csv\CsvProductReader;
+use Symfony\Component\HttpClient\HttpClient;
+
+require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$projectDir = \dirname(__DIR__);
+$imagesDir = $projectDir . '/fixtures/images';
+$only = null;
+$cacheDir = \sys_get_temp_dir() . '/b2b-demo-openverse-cache';
+foreach (\array_slice($argv, 1) as $argument) {
+    if (\str_starts_with($argument, '--only=')) {
+        $only = \explode(',', \substr($argument, 7));
+    } elseif (\str_starts_with($argument, '--cache-dir=')) {
+        $cacheDir = \substr($argument, 12);
+    } else {
+        \fwrite(\STDERR, "Unknown argument: $argument\n");
+        exit(2);
+    }
+}
+foreach ([$imagesDir, $cacheDir] as $directory) {
+    if (!\is_dir($directory) && !\mkdir($directory, 0o755, true)) {
+        \fwrite(\STDERR, "Cannot create $directory\n");
+        exit(1);
+    }
+}
+\ini_set('memory_limit', '1G');
+
+$userAgent = 'sylius-b2b-demo-image-fetch/1.0 (demo catalogue images, one-off; contact: thibaut.monier@gmail.com)';
+$httpClient = HttpClient::create(['timeout' => 30]);
+$sleep = static function (float $seconds): void {
+    \usleep((int) ($seconds * 1_000_000));
+};
+
+$csvFiles = \array_map(static fn (string $name): string => $projectDir . '/fixtures/csv/' . $name, ['epi.csv', 'quincaillerie.csv', 'fournitures.csv']);
+$products = \array_merge(...\array_values((new CsvProductReader())->readAll($csvFiles)));
+if ($only !== null) {
+    $products = \array_values(\array_filter($products, static fn (array $row): bool => \in_array($row['sku'], $only, true)));
+}
+
+$fetcher = new ProductImageFetcher(
+    new OpenverseClient($httpClient, $userAgent, $cacheDir, static fn () => $sleep(4.0)),
+    new ImageProcessor(),
+    $httpClient,
+    $userAgent,
+    $imagesDir,
+    $sleep,
+    (new ProductQueryBuilder())(...),
+);
+
+$report = $fetcher->fetch($products, ImageManifest::load($imagesDir . '/manifest.csv'));
+
+\printf("own: %d, family (shared): %d, without image: %d\n", $report['own'], $report['family'], \count($report['missing']));
+if ($report['missing'] !== []) {
+    \printf("No CC0 image for: %s\n", \implode(', ', $report['missing']));
+}

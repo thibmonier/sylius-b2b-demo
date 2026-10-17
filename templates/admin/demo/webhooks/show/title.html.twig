@@ -1,0 +1,11 @@
+{% import '@SyliusAdmin/shared/helper/header.html.twig' as header %}
+
+<div class="col-12 col-md-6">
+    {{ header.h1('webhooks.detail'|trans({}, 'demo_webhooks'), 'tabler:webhook', hookable_metadata.context.webhook.eventType) }}
+</div>
+<div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-2">
+    <a class="btn" href="{{ path('app_demo_admin_received_webhooks') }}">
+        {{ ux_icon('tabler:arrow-back-up', {'class': 'icon'}) }}
+        {{ 'sylius.ui.back'|trans }}
+    </a>
+</div>

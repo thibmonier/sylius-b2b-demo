@@ -41,6 +41,8 @@ final class ContainerFillDemoFixture extends AbstractFixture
 
     private const MIN_FILL_PERCENT = 20;
 
+    private const CHUNK = 250;
+
     /**
      * @param RepositoryInterface<ChannelInterface>        $channelRepository
      * @param RepositoryInterface<TaxonInterface>          $taxonRepository
@@ -79,17 +81,38 @@ final class ContainerFillDemoFixture extends AbstractFixture
         $types = $this->capacityTypes();
         $types['EUR_PALLET']->setLayerMode(true);
 
-        foreach ($this->rows() as $row) {
-            $variant = $this->variantRepository->findOneBy(['code' => $row->sku]);
-            if ($variant instanceof ProductVariantInterface) {
-                $this->seeder->seed($variant, $row, $types, \in_array($row->taxon, self::LAYER_FAMILIES, true));
+        $rows = \iterator_to_array($this->rows(), false);
+        $variants = $this->variantsBySku(\array_map(static fn (ContainerFillRow $row): string => $row->sku, $rows));
+        $this->seeder->preload($variants);
+        foreach ($rows as $row) {
+            if (isset($variants[$row->sku])) {
+                $this->seeder->seed($variants[$row->sku], $row, $types, \in_array($row->taxon, self::LAYER_FAMILIES, true));
             }
         }
 
-        $this->entityManager->flush();
+        $this->seeder->flush();
 
         $this->seedRules();
         $this->entityManager->flush();
+    }
+
+    /**
+     * The variants of the CSV, read by lists of codes instead of one query per row.
+     *
+     * @param list<string> $skus
+     *
+     * @return array<string, ProductVariantInterface>
+     */
+    private function variantsBySku(array $skus): array
+    {
+        $variants = [];
+        foreach (\array_chunk(\array_unique($skus), self::CHUNK) as $codes) {
+            foreach ($this->variantRepository->findBy(['code' => $codes]) as $variant) {
+                $variants[(string) $variant->getCode()] = $variant;
+            }
+        }
+
+        return $variants;
     }
 
     /** @return iterable<ContainerFillRow> */

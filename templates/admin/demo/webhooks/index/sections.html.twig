@@ -1,0 +1,43 @@
+{% set webhooks = hookable_metadata.context.webhooks %}
+
+<div class="page-body" data-demo-webhooks>
+    <div class="container-xl">
+        <div class="alert alert-info" role="note" data-demo-webhooks-note>{{ 'webhooks.note'|trans({}, 'demo_webhooks') }}</div>
+        <div class="card">
+            {% if webhooks|length == 0 %}
+                <div class="card-body text-secondary" data-demo-webhooks-empty>{{ 'webhooks.empty'|trans({}, 'demo_webhooks') }}</div>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'webhooks.received_at'|trans({}, 'demo_webhooks') }}</th>
+                                <th>{{ 'webhooks.type'|trans({}, 'demo_webhooks') }}</th>
+                                <th>{{ 'webhooks.id'|trans({}, 'demo_webhooks') }}</th>
+                                <th>{{ 'webhooks.signature'|trans({}, 'demo_webhooks') }}</th>
+                                <th class="w-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for webhook in webhooks %}
+                                <tr data-demo-webhook-row>
+                                    <td>{{ webhook.receivedAt|date('Y-m-d H:i:s') }}</td>
+                                    <td><code>{{ webhook.eventType }}</code></td>
+                                    <td class="text-secondary"><code>{{ webhook.webhookId }}</code></td>
+                                    <td>
+                                        {% if webhook.signatureVerified %}
+                                            <span class="badge bg-green-lt" data-demo-webhook-signature="verified">{{ 'webhooks.signature_verified'|trans({}, 'demo_webhooks') }}</span>
+                                        {% else %}
+                                            <span class="badge bg-red-lt" data-demo-webhook-signature="unverified">{{ 'webhooks.signature_unverified'|trans({}, 'demo_webhooks') }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><a class="btn btn-sm" href="{{ path('app_demo_admin_received_webhook', {id: webhook.id}) }}">{{ 'webhooks.show'|trans({}, 'demo_webhooks') }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

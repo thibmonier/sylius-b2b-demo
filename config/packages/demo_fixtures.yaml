@@ -6,6 +6,8 @@ sylius_fixtures:
             listeners:
                 orm_purger: ~
                 logger: ~
+                # US-048: end-of-load marker, written after the last fixture (read by docker/entrypoint.sh).
+                demo_load_marker: ~
 
             fixtures:
                 locale:
@@ -239,3 +241,8 @@ sylius_fixtures:
                 # workflow guard, which would refuse the demo history (a few packs, no full pallet) once the rules exist.
                 demo_container_fill:
                     priority: -70
+
+                # US-029: the webhook endpoint of the demo (receiver of the container). After the order history (-60) and the
+                # container-fill data (-70): the fixtures themselves must not queue webhooks.
+                demo_webhook_endpoint:
+                    priority: -80

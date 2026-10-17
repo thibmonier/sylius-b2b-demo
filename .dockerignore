@@ -16,6 +16,9 @@ vendor/
 project-management/
 docs/
 tests/
+# One-off tooling (US-047): fetches the demo product images, never part of the running image.
+bin/fetch-product-images
+src/Demo/Images/Fetch
 # Local-only artifacts that must never enter the image.
 # NB: .env and .env.prod are kept — they provide Symfony's runtime defaults in prod.
 .claude/

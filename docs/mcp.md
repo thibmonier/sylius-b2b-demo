@@ -29,6 +29,8 @@ Tant que la porte HTTP (`DEMO_BASIC_AUTH=1`) est active, un assistant hébergé 
 
 Le jeton `Authorization: Bearer` du MCP et l'authentification HTTP basique partagent le même en-tête : on ne peut pas franchir la porte et s'authentifier en même temps avec un client hébergé.
 
+L'API REST Sylius (`/api/v2/*`) est désactivée en prod et répond `404`. Le MCP n'en dépend pas (voir [durcissement-demo.md](durcissement-demo.md#api-rest-désactivée-en-production)).
+
 ## Vérification manuelle avec un vrai assistant (T-030-03, à faire par l'utilisateur)
 
 À faire après l'ouverture publique (aucune commande externe depuis ce sprint) :

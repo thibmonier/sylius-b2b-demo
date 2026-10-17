@@ -28,6 +28,7 @@
 | 4 | Thème B2B, accueil et page Plugins, bandeau de démo, badges shop et admin, pages légales | US-013, US-014, US-015, US-016, US-017, US-018 | 26 |
 | 5 | Listes d'achat, adresses d'entreprise, historique, simulateur PunchOut, Mailpit | US-011, US-024, US-025, US-027, US-028 | 29 |
 | 6 | Railway, remise à zéro nocturne, budget, sécurité de la démo publique, spike worker, webhooks, MCP | US-006, US-029, US-030, US-032, US-033, US-034, US-035, US-036, US-037 | 26 |
+| 10 | Vitrine et reports : images des produits, encart Sylius Plus, récepteur de webhooks, reports techniques du sprint 9 | US-029, US-046, US-047, US-048 | 13 |
 
 ## MoSCoW
 

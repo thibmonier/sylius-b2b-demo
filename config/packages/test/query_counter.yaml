@@ -2,3 +2,8 @@
 services:
     App\Tests\Support\QueryCounter:
         tags: ['doctrine.middleware']
+
+    # US-048 / T-048-04: per-fixture profile of the reset (bin/profile-reset); a pass-through without PROFILE_RESET_OUT.
+    App\Tests\Support\FixtureProfiler:
+        decorates: 'sylius_fixtures.fixture_loader'
+        arguments: ['@.inner']

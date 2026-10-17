@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 9
+current_sprint: 10
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -117,23 +117,29 @@ sprints:
       - {id: US-043, title: "Statut d'approbation dans le plugin b2b-mcp", points: 5, status: done}  # ré-estimée 3→5 (20,5 h)
   sprint-9:
     name: sprint-9-reports
-    status: in-progress
+    status: done
     sprint_id: "sprint-9"
     start_date: "2026-10-16"
     end_date: "2026-10-30"
     capacity_points: 11  # 7 pts de stories (US-006, US-044) + reports d'US-041 (T-041-06 à 09) ; 52,5 h. US-029 reportée au sprint 10 (arbitrage utilisateur 2026-10-16)
     goal: "Faire vivre container-fill dans la démo et solder les reports techniques du sprint 8 (spike worker FrankenPHP, requêtes du reset, prix « dès » en lot)"
     stories:
-      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: review}  # reportée du sprint 8 (capacité, décision utilisateur 2026-10-16)
-      - {id: US-044, title: "Données de remplissage des contenants (container-fill)", points: 5, status: review}  # demande utilisateur 2026-10-16 : presets du plugin + fixture de démo dérivée du catalogue
-    notes: "Aussi au sprint 9 : T-041-06 à T-041-09 (S2-R7 à R10, requêtes du reset et vérifications latentes) et T-041-15 (relevé de coût complet à J+7, à partir du 2026-10-23)."
+      - {id: US-006, title: "Spike : mode worker FrankenPHP", points: 2, status: done}  # reportée du sprint 8 (capacité, décision utilisateur 2026-10-16)
+      - {id: US-044, title: "Données de remplissage des contenants (container-fill)", points: 5, status: done}  # demande utilisateur 2026-10-16 : presets du plugin + fixture de démo dérivée du catalogue
+    notes: "Aussi au sprint 9 : T-041-06 à T-041-09 (S2-R7 à R10, requêtes du reset et vérifications latentes). T-041-15 (relevé de coût complet) reportée au sprint 10 (T-048-11, US-048). Reports de la rétro (actions 1 à 5) dans US-048."
   sprint-10:
-    name: sprint-10-a-definir
-    status: planned
+    name: sprint-10-vitrine-et-reports
+    status: in-progress
+    sprint_id: "sprint-10"
+    start_date: "2026-10-30"
+    end_date: "2026-11-13"
+    capacity_points: 13  # 3+2+5+3 pts ; 62,5 h décomposées (dont 2 h calendaires) pour ≈ 50 h : ordre de sacrifice dans sprint-10-vitrine-et-reports/tasks/README.md
+    goal: "Soigner la vitrine de la démo (images des produits, encart Sylius Plus, récepteur de webhooks) et solder les reports techniques du sprint 9"
     stories:
-      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: ready-for-dev}  # reportée du sprint 9 (arbitrage utilisateur 2026-10-16 : 68 h pour ~52 h) ; tâches dans sprint-9-reports/tasks/US-029-tasks.md
-# Stories prêtes pour un sprint futur (demandes utilisateur du 2026-10-16), à planifier.
+      - {id: US-029, title: "Récepteur de webhooks de démo", points: 3, status: review}  # reportée du sprint 9 (arbitrage utilisateur 2026-10-16) ; tâches reprises dans sprint-10-vitrine-et-reports/tasks/US-029-tasks.md
+      - {id: US-046, title: "Encart Sylius Plus sur la page Plugins", points: 2, status: review}  # texte validé par l'utilisateur avant merge (T-046-04 bloquante), aucune promesse de compatibilité
+      - {id: US-047, title: "Images des produits de démo", points: 5, status: review}  # Openverse CC0, script manuel lancé une fois, images versionnées, jamais d'appel au runtime
+      - {id: US-048, title: "Reports techniques du sprint 9", points: 3, status: review}  # rétro S9 actions 1 à 5 + points ouverts de la revue ; tâches sacrifiables
+# Stories prêtes pour un sprint futur, à planifier.
 backlog:
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: review}  # faite hors sprint le 2026-10-17 (demande utilisateur)
-  - {id: US-046, title: "Encart Sylius Plus sur la page Plugins", points: 2, status: backlog}  # texte validé par l'utilisateur (communication publique)
-  - {id: US-047, title: "Images des produits de démo", points: 5, status: backlog}  # récupération unique, images versionnées, licences tracées

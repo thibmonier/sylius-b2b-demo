@@ -1,0 +1,73 @@
+#!/bin/sh
+# Profiles the demo reset fixture by fixture (US-048 / T-048-04): statements by kind, duration and memory, over
+# several passes. Test environment only (the DBAL counter and the profiler live in tests/Support).
+#
+#   TEST_DB_NAME=b2b_mine bin/profile-reset [passes]        # default: 3 passes
+#
+# Needs a migrated test database (bin/prepare-test-db). Each pass reloads the whole "demo" suite, purge included.
+set -eu
+cd "$(dirname "$0")/.."
+
+PASSES="${1:-3}"
+DB_NAME="${TEST_DB_NAME:-sylius_b2b_demo_test}"
+case "$DB_NAME" in
+    ''|*[!A-Za-z0-9_]*|sylius_b2b_demo) echo "Invalid or development database name." >&2; exit 1 ;;
+esac
+
+export APP_ENV=test
+export DATABASE_URL="${TEST_DATABASE_URL:-mysql://root@127.0.0.1:${MYSQL_PORT:-3340}/${DB_NAME}?serverVersion=8.4&charset=utf8mb4}"
+export WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf"
+if [ -n "${TEST_CACHE_DIR:-}" ]; then
+    export APP_CACHE_DIR="$TEST_CACHE_DIR"
+fi
+
+OUT="$(mktemp)"
+trap 'rm -f "$OUT" "$OUT.rss"' EXIT
+export PROFILE_RESET_OUT="$OUT"
+
+i=1
+while [ "$i" -le "$PASSES" ]; do
+    echo "Pass $i/$PASSES..." >&2
+    echo '{"pass":'"$i"'}' >> "$OUT"
+    # macOS (-l) and GNU (-v) time both report the maximum resident set size of the whole process.
+    if /usr/bin/time -l true >/dev/null 2>&1; then
+        /usr/bin/time -l -o "$OUT.rss" php -d memory_limit=-1 bin/console sylius:fixtures:load demo --no-interaction >/dev/null
+        /usr/bin/awk '/maximum resident set size/ {printf "{\"rss_mb\":%.0f}\n", $1/1048576}' "$OUT.rss" >> "$OUT"
+    else
+        /usr/bin/time -v -o "$OUT.rss" php -d memory_limit=-1 bin/console sylius:fixtures:load demo --no-interaction >/dev/null
+        /usr/bin/awk '/Maximum resident set size/ {printf "{\"rss_mb\":%.0f}\n", $6/1024}' "$OUT.rss" >> "$OUT"
+    fi
+    i=$((i + 1))
+done
+
+php -r '
+$passes = []; $pass = -1;
+foreach (file($argv[1], FILE_IGNORE_NEW_LINES) as $l) {
+    $d = json_decode($l, true);
+    if (isset($d["pass"])) { $pass = $d["pass"]; continue; }
+    if (isset($d["rss_mb"])) { $passes[$pass]["__rss"] = $d["rss_mb"]; continue; }
+    $passes[$pass][$d["fixture"]] = $d;
+}
+$names = array_keys(reset($passes));
+printf("%-34s %7s %7s %7s %7s %7s  %-18s\n", "fixture", "select", "insert", "update", "delete", "total", "seconds (min-max)");
+foreach ($names as $n) {
+    if ("__rss" === $n) { continue; }
+    $q = []; $s = [];
+    foreach ($passes as $p) { $q[] = $p[$n]; $s[] = $p[$n]["seconds"]; }
+    $t = fn($f) => max(array_map(fn($r) => $r[$f], $q));
+    $sum = array_map(fn($r) => $r["select"] + $r["insert"] + $r["update"] + $r["delete"] + $r["other"], $q);
+    $spread = max($sum) - min($sum);
+    printf("%-34s %7d %7d %7d %7d %7d  %.2f-%.2f%s\n", $n, $t("select"), $t("insert"), $t("update"), $t("delete"), max($sum), min($s), max($s), $spread ? "  (statement spread $spread)" : "");
+}
+foreach (reset($passes) as $n => $r) {
+    if (isset($r["top"]) && $r["select"] + $r["insert"] + $r["update"] >= 500) {
+        printf("\nMost frequent statements of %s (pass 1):\n", $n);
+        foreach ($r["top"] as $sql => $c) { printf("  %5d x %s\n", $c, $sql); }
+    }
+}
+$out = 0; $rest = reset($passes);
+foreach ($rest as $n => $r) { if ("__total" !== $n && "__rss" !== $n) { $out += $r["select"] + $r["insert"] + $r["update"] + $r["delete"] + $r["other"]; } }
+$tot = $rest["__total"]; printf("Statements outside the fixtures (purge, listeners), pass 1: %d\n", $tot["select"] + $tot["insert"] + $tot["update"] + $tot["delete"] + $tot["other"] - $out);
+$rss = array_map(fn($p) => $p["__rss"] ?? 0, $passes);
+printf("Peak RSS of the whole process (MB) per pass: %s\n", implode(", ", $rss));
+' "$OUT"

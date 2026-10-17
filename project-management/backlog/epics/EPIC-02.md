@@ -13,4 +13,4 @@
 | [US-011](../user-stories/US-011.md) | Historique de commandes et factures | Should | 5 | 5 |
 | [US-012](../user-stories/US-012.md) | Commande de remise à zéro | Must | 5 | 2 |
 | [US-044](../user-stories/US-044.md) | Données de remplissage des contenants (container-fill) | Should | 5 | 9 |
-| [US-047](../user-stories/US-047.md) | Images des produits de démo | Should | 5 | à planifier |
+| [US-047](../user-stories/US-047.md) | Images des produits de démo | Should | 5 | 10 |

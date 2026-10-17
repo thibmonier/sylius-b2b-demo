@@ -25,6 +25,8 @@ parameters:
     env(DEMO_RATE_LIMIT_MCP): '300'
     # /health and /healthz per minute: well above a monitor polling every 10 seconds (6 calls), far below a flood.
     env(DEMO_RATE_LIMIT_HEALTH): '30'
+    # US-029: webhooks the demo receiver accepts per minute (all callers share it: the sender is the container itself).
+    env(DEMO_RATE_LIMIT_WEBHOOK_RECEIVER): '60'
 
     # 0 = the shop registration form and the shop API no longer create customers (US-040, M2): set it before the public opening.
     env(DEMO_REGISTRATION_OPEN): '1'
@@ -58,6 +60,12 @@ services:
         class: App\Demo\Http\OutboundGuardHttpClient
         decorates: tmonier_webhook.http_client.transport
         arguments: ['@.inner', '%demo.mode%', '%demo.outbound.allowed_hosts%']
+
+    # US-029: behind the generic guard above, the webhook transport only reaches the receiver of the demo.
+    demo.outbound_guard.webhook_receiver_only:
+        class: App\Demo\Webhook\ReceiverOnlyHttpClient
+        decorates: tmonier_webhook.http_client.transport
+        arguments: ['@.inner', '@App\Demo\Webhook\DemoWebhookTarget', '%demo.mode%']
 
 # No call to the Sylius hub (version / notifications) from the admin menu: nothing leaves the demo.
 sylius_admin:
@@ -111,6 +119,11 @@ framework:
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_FORMS)%'
             interval: '1 hour'
+        demo_webhook_receiver:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_WEBHOOK_RECEIVER)%'
+            interval: '1 minute'
         demo_punchout_start:
             policy: sliding_window
             cache_pool: cache.demo_rate_limiter

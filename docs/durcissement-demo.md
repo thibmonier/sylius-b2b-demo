@@ -54,6 +54,10 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
 | M8 retour du simulateur PunchOut (US-040) | Corrigé | Le panier n'est cru que s'il est, octet pour octet, un `PunchOutOrderMessage` du journal du plugin ; usage unique, dans l'heure (`ReturnAuthenticator`). |
 
+## API REST désactivée en production
+
+`config/packages/sylius_api.yaml` n'active l'API Sylius (`/api/v2/*`) qu'en `dev`, comme Sylius-Standard : en prod, tout `/api/v2/*` répond `404` (`KernelRequestEventSubscriber` du cœur). Constaté sur Railway le 2026-10-17 (T-048-12). Décision de l'utilisateur, le même jour : **l'API reste désactivée**. L'activer exposerait, entre autres, les prix des variantes sur le canal B2B à prix masqués. Les contrôles cités ci-dessous pour `/api/v2/*` restent en place en défense en profondeur. Le serveur MCP n'en dépend pas : ses outils appellent les services directement. Les ressources d'API des plugins (commande rapide en lot, plan de chargement container-fill, vues entreprise) ne sont donc pas démontrées en ligne.
+
 ## Risques acceptés
 
 - **`TRUSTED_PROXIES` contient `REMOTE_ADDR`** : tout appelant direct du conteneur serait cru sur `X-Forwarded-*`. Acceptable parce que seul le proxy Railway atteint le conteneur (aucun port TCP public).

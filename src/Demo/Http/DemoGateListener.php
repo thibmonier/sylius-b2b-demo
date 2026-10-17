@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Http;
 
+use App\Demo\Webhook\DemoWebhookTarget;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,9 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 final readonly class DemoGateListener
 {
     public const OPEN_PATHS = ['/health', '/healthz'];
+
+    /** Exact paths that skip the basic auth because the request proves itself otherwise (US-029: Standard Webhooks signature). */
+    public const SIGNED_PATHS = [DemoWebhookTarget::PATH];
 
     public function __construct(
         private BasicAuthGate $gate,
@@ -44,7 +48,7 @@ final readonly class DemoGateListener
 
             return;
         }
-        if (!$this->gate->isActive() || $this->internalToken->isValid($request)) {
+        if (!$this->gate->isActive() || $this->internalToken->isValid($request) || $this->isSignedRequest($request)) {
             return;
         }
 
@@ -52,6 +56,12 @@ final readonly class DemoGateListener
         if ($response instanceof Response) {
             $event->setResponse($response);
         }
+    }
+
+    /** The receiver of the webhooks verifies the signature itself; only a POST on the exact path skips the gate. */
+    private function isSignedRequest(Request $request): bool
+    {
+        return $request->isMethod(Request::METHOD_POST) && \in_array($request->getPathInfo(), self::SIGNED_PATHS, true);
     }
 
     private function challenge(Request $request): ?Response

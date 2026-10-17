@@ -10,7 +10,7 @@ La démo tourne sur Railway (projet `sylius-b2b-demo`, environnement `production
 | `mysql` | base MySQL Railway | non | données de la démo |
 | `mailpit` | image `axllent/mailpit:v1.27` | **non** (réseau privé uniquement) | reçoit tous les e-mails ; lu côté serveur par `/demo/mails` |
 
-Déploiement : construction de l'image, puis `preDeploy` (migrations Doctrine), puis bascule après le healthcheck `/healthz` (timeout 600 s). Au premier démarrage sur une base vide, l'entrypoint charge les fixtures. L'entrypoint lance d'abord `app:demo:preflight` : le conteneur refuse de démarrer si la porte est active sans identifiants ou si le mailer n'est pas Mailpit (échec fermé).
+Déploiement : construction de l'image, puis `preDeploy` (migrations Doctrine), puis bascule après le healthcheck `/healthz` (timeout 600 s). Au premier démarrage sur une base vide, l'entrypoint charge les fixtures. Il ne se fie plus à la table des canaux : `php bin/console app:demo:fixtures-loaded` lit un marqueur de fin de chargement (table `app_demo_load_marker`, écrite en dernier par la suite de fixtures). Code de sortie 0 : chargé ; 3 : à charger (base vide, ou chargement interrompu qui laisse des canaux sans marqueur) ; autre : erreur, l'entrypoint s'arrête sans rien purger. La migration pose le marqueur sur une base qui contient déjà des canaux, pour ne pas purger une démo en service. L'entrypoint lance d'abord `app:demo:preflight` : le conteneur refuse de démarrer si la porte est active sans identifiants ou si le mailer n'est pas Mailpit (échec fermé).
 
 ## Variables
 
@@ -92,5 +92,6 @@ Ou, dans le tableau de bord Railway, *Deployments > Redeploy* sur une version pr
 - La limite Railway est **par workspace** (partagée avec les autres projets du compte) : alerte e-mail (*soft limit*) à **30 $** posée le 2026-10-16 (25 $ démo + ~5 $ des autres projets), **sans** limite dure (une limite dure arrêterait tous les services du workspace). Décision utilisateur.
 - `railway usage` et `railway usage projects` donnent le coût courant.
 - Relevé partiel du 2026-10-16 (T-041-12/13) : le projet `sylius-b2b-demo` a coûté 0,065 $ en ~5 h, une journée chargée en builds. La projection donne ≈ 9,5 $/mois, sans doute surestimée. Le workspace est estimé à 3,95 $ pour la période en cours. On reste sous le plafond de 25 $.
-- Relevé complet à J+7 (T-041-15, sprint 9) à partir du 2026-10-23 : coût réel d'une semaine sans builds intensifs.
+- Relevé du 2026-10-17 (T-048-11, encore partiel) : 1,62 $ consommés sur la période, facture estimée à 4,75 $. Projet `sylius-b2b-demo` : environ 0,35 $ pour la journée. La RAM cumulée des services tourne autour de 1,4 Go au repos, avec un pic à 2,77 Go. Le CPU reste sous 0,1 vCPU.
+- Relevé complet à J+7 (T-048-11, ex-T-041-15) à partir du 2026-10-23 : coût réel d'une semaine sans builds intensifs.
 - Leviers si le coût dérive : réduire la mémoire allouée au service web, purger Mailpit (`MP_MAX_MESSAGES`), espacer les tâches planifiées toutes les minutes (`tmonier:webhook:dispatch`).

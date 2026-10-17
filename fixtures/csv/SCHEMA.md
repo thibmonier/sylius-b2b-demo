@@ -73,14 +73,11 @@ The fixture is **idempotent**: existing products are updated, not duplicated.
 Within a single file, duplicate SKUs cause an immediate import failure with
 an explicit error message and **no partial import**.
 
-## Generating placeholder images
+## Product images
 
-```bash
-php bin/generate-fixtures-images.php          # skip already-existing images
-php bin/generate-fixtures-images.php --force  # overwrite all
-```
-
-Output: `public/media/fixtures/<SKU>.svg`
+Every product gets its image from `fixtures/images/` (WebP, CC0), linked by SKU through `fixtures/images/manifest.csv`
+(`ProductImageAttacher`, called by the fixture; local files only, never a network call). A new product needs a manifest
+row: see `docs/images-produits.md`.
 
 ## Validation at load
 

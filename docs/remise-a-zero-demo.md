@@ -65,6 +65,94 @@ php bin/console app:demo:reset --simulate-failure               # vérifie l'ale
 2. Chercher `DEMO_RESET_FAILED` : la cause est dans le message ; la démo est restée dans l'état de la veille, relancer la commande à la main après correction.
 3. Cache : `php bin/console cache:clear && php bin/console cache:warmup`.
 
+## Profilage du reset et objectifs (US-048 / T-048-04)
+
+Principe : **aucun objectif chiffré sans mesure**. Le sprint 9 avait fixé « reset −50 % » sans profil (−13 % obtenu) ; ce tableau remplace cette cible par un objectif par poste.
+
+Mesure reproductible, base de test migrée (voir [tests-locaux.md](./tests-locaux.md)) :
+
+```bash
+TEST_DB_NAME=ma_base_de_test bin/profile-reset 3    # 3 passes ; chaque passe recharge la suite « demo » en entier
+```
+
+Le script lance `sylius:fixtures:load demo` en `APP_ENV=test`. Le décorateur `tests/Support/FixtureProfiler.php` (inactif sans `PROFILE_RESET_OUT`) compte les requêtes SQL de chaque fixture grâce au compteur DBAL `tests/Support/QueryCounter.php` ; la mémoire est le pic RSS du processus (`/usr/bin/time`).
+
+### Mesure initiale
+
+Relevé du **2026-10-17**, base `ff1dd86` (branche `feature/sprint-10-vitrine-et-reports`, avant tout correctif de la US-048), 3 passes, MySQL 8.4 local. Les images de la US-047 ne sont **pas** encore associées par `demo_products_csv` : le profil changera quand elles le seront (à refaire alors, voir la fin de la section). L'écart de requêtes entre passes est nul (reset déterministe) ; seule la durée varie.
+
+| Fixture | SELECT | INSERT | UPDATE | Total | Durée (s, min-max) |
+|---|---:|---:|---:|---:|---|
+| `demo_products_csv` | 308 | 3 890 | 9 | **4 207** | 0,88-0,92 |
+| `demo_container_fill` | 1 211 | 993 | 1 | **2 205** | 0,45-0,46 |
+| `demo_orders` | 822 | 997 | 86 | **1 963** | 1,59-1,93 |
+| `demo_taxons` | 16 | 42 | 40 | 98 | 0,03-0,05 |
+| `demo_companies` | 27 | 38 | 0 | 65 | 0,03-0,05 |
+| `demo_tier_pricing` | 37 | 24 | 0 | 61 | 0,02 |
+| `tmonier_container_fill_container_types` | 14 | 39 | 0 | 53 | 0,01-0,02 |
+| `demo_quotes` | 24 | 7 | 0 | 31 | 0,01 |
+| `demo_gpsr` | 12 | 17 | 0 | 29 | 0,02 |
+| `channel` | 16 | 11 | 0 | 27 | 0,02-0,03 |
+| Les 21 autres fixtures | 68 | 92 | 8 | 168 | < 0,3 chacune (`demo_punchout` 0,25) |
+| Purge et écouteurs, hors fixtures | | | | 157 | |
+| **Reset complet** | **2 555** | **6 150** | **144** | **9 064** | **4,04-4,48** |
+
+Pic mémoire : **≈ 458 Mo** de RSS pour le processus entier (458 à 466 Mo selon la passe), `APP_ENV=test`, sans débogage. Ce n'est pas le « ≈ 1,08 Go » du sprint 9 : la source de cette valeur n'est pas reproductible ici (mesure faite sur un autre environnement ou avec une autre jauge) ; la comparaison à la limite Railway relève de T-048-13 (commande ci-dessous), jamais d'une estimation.
+
+Où vont les requêtes (statements les plus fréquents, `bin/profile-reset` les affiche) :
+
+- `demo_products_csv` : 420 variantes × (traductions, prix, journal de prix, canaux) + 1 160 valeurs d'attributs. Ce sont des `INSERT` ORM inévitables sans contourner l'ORM ; **hors cible** (la fixture est en lecture seule pour la US-048, elle appartient à la US-047).
+- `demo_container_fill` : 776 `SELECT` de capacité + 210 `SELECT` de logistique + 210 `SELECT` de variante, chacun suivi d'un `INSERT` (776 capacités, 210 logistiques). Les `SELECT` retrouvent des lignes qui n'existent pas encore : la base vient d'être purgée.
+- `demo_orders` : 12 commandes ; 725 `INSERT` d'unités (une ligne par unité, inévitable avec l'ORM) ; 264 `SELECT` de promotions et 72 de règles et d'actions (processeur de promotions de Sylius, une vingtaine par commande : cœur Sylius, non touché) ; le reste (≈ 350 `SELECT`) est le chargement unitaire de variantes, clients, membres, méthodes de livraison et de paiement, détection de doublon par référence.
+
+### Objectifs par poste
+
+Fixés **avant** toute optimisation, à partir du tableau ci-dessus. Un objectif non atteint est publié tel quel, avec son écart.
+
+| Poste | Mesure initiale | Objectif | Raisonnement |
+|---|---|---|---|
+| `demo_container_fill`, `SELECT` | 1 211 | **≤ 40** | Un chargement par lot des variantes, des logistiques et des capacités existantes (3 requêtes + les types) remplace une recherche par ligne. |
+| `demo_container_fill`, `INSERT` | 993 | **≤ 60** | Insertion multi-lignes (lots de 250) des lignes nouvelles ; mise à jour par l'ORM des lignes déjà présentes. Si le chemin multi-lignes se révèle risqué (données non identiques), l'objectif retombe à 993 (un `INSERT` ORM par ligne) et l'écart est publié. |
+| `demo_container_fill`, total | 2 205 | **≤ 100** | Somme des deux lignes ci-dessus. |
+| `demo_orders`, `SELECT` | 822 | **≤ 600** | Seul le chargement unitaire (≈ 350 `SELECT`) est à notre portée : variantes en un lot, méthodes et clients mémorisés. Les 336 `SELECT` de promotions sont dans le cœur de Sylius. |
+| `demo_orders`, `INSERT` et `UPDATE` | 997 et 86 | inchangés | Pas de contournement de l'ORM pour les commandes : une commande doit passer par les processeurs et les machines à états de Sylius. |
+| `demo_orders`, total | 1 963 | **≤ 1 750** (−11 %) | |
+| **Reset complet** | 9 064 | **≤ 7 000** (−23 %) | Conséquence des deux postes ci-dessus (−2 100 pour `demo_container_fill`, −210 pour `demo_orders`) ; le reste (`demo_products_csv`, 4 207) est hors périmètre. |
+
+Dans tous les cas, **les données ne changent pas** : empreinte (comptes et sommes de contrôle des tables concernées) comparée avant et après chaque optimisation.
+
+### Mesures après optimisation
+
+Relevé du **2026-10-17**, 3 passes, base `db01c13` plus les modifications non encore validées de la branche (US-029 et US-047 en cours : `demo_products_csv` compte maintenant 171 `INSERT` d'images et `demo_webhook_endpoint` existe). Les chiffres des deux fixtures de la US-048 ne dépendent pas de ces ajouts ; le total, si.
+
+| Poste | Avant | Objectif | Après | Verdict |
+|---|---:|---:|---:|---|
+| `demo_container_fill`, `SELECT` | 1 211 | ≤ 40 | **18** | atteint |
+| `demo_container_fill`, `INSERT` | 993 | ≤ 60 | **12** | atteint (lots de 250 lignes, SQL multi-lignes) |
+| `demo_container_fill`, total | 2 205 | ≤ 100 | **31** | atteint ; 0,45 s devient 0,10 s |
+| `demo_orders`, `SELECT` | 822 | ≤ 600 | **770** (−6 %) | **non atteint**, écart publié |
+| `demo_orders`, `INSERT` et `UPDATE` | 997 et 86 | inchangés | 997 et 86 | conforme |
+| `demo_orders`, total | 1 963 | ≤ 1 750 | **1 911** (−3 %) | **non atteint**, écart publié |
+| Reset complet | 9 064 | ≤ 7 000 | **7 014** brut, **≈ 6 840** à périmètre égal | atteint à périmètre égal (le brut compte les 172 requêtes ajoutées par la US-047 aux produits) |
+
+Pourquoi `demo_orders` s'arrête à 770 `SELECT` : l'objectif de 600 supposait environ 350 recherches unitaires à notre portée ; il n'y en avait qu'une cinquantaine. Ce que la fixture contrôlait (variantes des lignes, clients, méthodes de livraison et de paiement) est maintenant lu une fois (−52). Le reste est du cœur de Sylius et des plugins : 264 `SELECT` de zones et 72 de promotions (les processeurs de commande tournent à chaque transition du tunnel de commande : environ 8 passes par commande), 39 `SELECT` des membres d'entreprise (plugin des comptes d'entreprise), 34 de limites d'approbation, 30 de points d'accès de webhooks (US-029), 27 de factures. Les réduire demanderait de mémoïser ces processeurs ou de contourner le tunnel de commande, ce que le sprint n'a pas retenu (une commande de démonstration doit passer par la même machine à états que celle d'un client). Les `INSERT` d'unités (725) et d'adresses restent des `INSERT` ORM, un par ligne.
+
+Données : empreinte des tables (nombre de lignes et somme de contrôle des colonnes stables, ids compris, base vidée par `TRUNCATE` avant chaque chargement pour que les ids repartent de 1) comparée avant et après : **identique** pour `tmonier_container_variant_capacity` (776 lignes), `tmonier_container_variant_logistics` (210) et toutes les tables de commandes (`sylius_order*`, `sylius_payment`, `sylius_shipment`, `tmonier_timeline_entry`, approbations, `tmonier_company_order`). Les seules différences sont les tables des autres travaux (`sylius_product_image`, `tmonier_webhook_endpoint`, `app_demo_load_marker`) et `sylius_invoicing_plugin_*` et `sylius_tax_category`, qui varient d'un chargement à l'autre même sans changement de code (numérotation et identifiants aléatoires).
+
+Le chemin du reset nocturne (`app:demo:reset`) ajoute à `sylius:fixtures:load`, pour `demo_orders`, 126 `INSERT` du journal d'audit et 87 paires `SAVEPOINT` : le tableau ci-dessus mesure le chargement des fixtures, comme au sprint 9.
+
+Tests de non-régression (rouges avant, verts après) : `tests/Functional/Demo/ContainerFillFixtureQueryCountTest.php` (≤ 40 `SELECT`, ≤ 60 `INSERT`, mêmes lignes) et `tests/Functional/Demo/OrderHistoryFixtureQueryCountTest.php` (≤ 770 `SELECT`, mêmes commandes). À refaire quand la US-047 associera définitivement les images : `bin/profile-reset 3`.
+
+### Pic mémoire sur Railway (T-048-13, utilisateur)
+
+Commande à lancer par l'exploitant (GO requis), qui n'estime rien : elle relève le pic réel d'un reset.
+
+```bash
+railway ssh --service web -- su -s /bin/sh www-data -c '/usr/bin/time -v php bin/console app:demo:reset --no-interaction 2>&1 | grep -E "DEMO_RESET|Maximum resident"'
+```
+
+À comparer à la limite mémoire du service (*Settings > Resource Limits*). Résultat à consigner ici (valeur en Go et limite).
+
 ## Tests
 
 `tests/Functional/Demo/DemoResetCommandTest.php` (garde, succès, échec atomique, purge Acme), `tests/Unit/Demo/Command/DemoResetCommandTest.php` (options, garde, rollback). La bannière « prochaine remise à zéro » (T-033-05) est glissée au sprint 7.

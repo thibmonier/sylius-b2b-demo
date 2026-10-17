@@ -1,0 +1,80 @@
+# US-029: the webhook outbox delivers to the demo's own receiver (127.0.0.1:PORT, DemoWebhookTarget) and nowhere else.
+# The plugin refuses http:// URLs and private networks by default: both are opened (the plugin does not accept an env
+# placeholder here), and in the demo mode DemoEndpointUrl (validation) plus ReceiverOnlyHttpClient (emission) then
+# restrict them to that single URL. This application is the demo: there is no other mode in production.
+tmonier_sylius_webhook_outbox:
+    allow_http_endpoints: true
+    allowed_private_networks: ['127.0.0.0/8']
+
+# US-029: the "Received webhooks" back-office pages (same skeleton as the plugin pages: sidebar, navbar, content).
+sylius_twig_hooks:
+    hooks:
+        'app.demo_webhooks.index':
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            navbar:
+                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                priority: 100
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'app.demo_webhooks.index.content':
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 200
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 100
+            sections:
+                template: 'admin/demo/webhooks/index/sections.html.twig'
+                priority: 0
+
+        'app.demo_webhooks.index.content.header':
+            breadcrumbs:
+                template: 'admin/demo/webhooks/index/breadcrumbs.html.twig'
+                priority: 100
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'app.demo_webhooks.index.content.header.title_block':
+            title:
+                template: 'admin/demo/webhooks/index/title.html.twig'
+                priority: 100
+
+        'app.demo_webhooks.show':
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            navbar:
+                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                priority: 100
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'app.demo_webhooks.show.content':
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 200
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 100
+            sections:
+                template: 'admin/demo/webhooks/show/sections.html.twig'
+                priority: 0
+
+        'app.demo_webhooks.show.content.header':
+            breadcrumbs:
+                template: 'admin/demo/webhooks/show/breadcrumbs.html.twig'
+                priority: 100
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'app.demo_webhooks.show.content.header.title_block':
+            title:
+                template: 'admin/demo/webhooks/show/title.html.twig'
+                priority: 100

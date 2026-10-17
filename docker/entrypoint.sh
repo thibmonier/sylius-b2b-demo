@@ -21,10 +21,22 @@ until php bin/console dbal:run-sql "SELECT 1" >/dev/null 2>&1; do
 done
 
 php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-if [ "$(php bin/console dbal:run-sql 'SELECT COUNT(*) AS n FROM sylius_channel' --force-fetch 2>/dev/null | grep -Eo '[0-9]+' | tail -1)" = "0" ]; then
-    echo "Empty database: loading the demo data"
-    php -d memory_limit=1G bin/console sylius:fixtures:load demo --no-interaction
-fi
+# US-048: the fixtures are loaded unless a finished load left its marker (exit code 0). Testing "the channel table is
+# not empty" took a first load killed half-way for a finished one. Exit code 3 means "to load"; any other non-zero
+# code is an error (database unreachable...) and stops the start, because the load purges the database first.
+fixtures_state=0
+php bin/console app:demo:fixtures-loaded --no-interaction || fixtures_state=$?
+case "$fixtures_state" in
+    0) ;;
+    3)
+        echo "Demo data missing or incomplete: loading it"
+        php -d memory_limit=1G bin/console sylius:fixtures:load demo --no-interaction
+        ;;
+    *)
+        echo "Cannot tell whether the demo data is loaded (exit code $fixtures_state)" >&2
+        exit "$fixtures_state"
+        ;;
+esac
 
 # Opt-in worker mode (ADR-0013, off by default): the kernel stays booted between requests. symfony/runtime
 # detects the worker thread by itself and loops on frankenphp_handle_request() in public/index.php.
