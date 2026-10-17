@@ -39,7 +39,7 @@ final readonly class WebhookReceiverController
     #[Route(DemoWebhookTarget::PATH, name: 'app_demo_webhook_receive', methods: ['POST'])]
     public function __invoke(Request $request): Response
     {
-        if (!$this->demoWebhookReceiverLimiter->create('receiver')->consume()->isAccepted()) {
+        if (!$this->demoWebhookReceiverLimiter->create($request->getClientIp() ?? 'unknown')->consume()->isAccepted()) {
             return $this->answer(Response::HTTP_TOO_MANY_REQUESTS, 'rate_limited', ['Retry-After' => '60']);
         }
         if ((int) $request->headers->get('Content-Length', '0') > self::MAX_BODY_BYTES) {

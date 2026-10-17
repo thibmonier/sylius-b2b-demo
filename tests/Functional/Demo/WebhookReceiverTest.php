@@ -184,6 +184,22 @@ final class WebhookReceiverTest extends DemoAdminWebTestCase
         self::assertSame(2, $this->intValue('SELECT COUNT(*) FROM app_received_webhook'));
     }
 
+    public function testAVisitorCannotExhaustTheQuotaOfTheDeliveriesOfTheContainer(): void
+    {
+        $this->setEnvironment(['DEMO_RATE_LIMIT_WEBHOOK_RECEIVER' => '2']);
+        $client = self::createClient();
+
+        for ($i = 0; $i < 3; ++$i) {
+            $client->request('POST', self::PATH, server: ['REMOTE_ADDR' => '203.0.113.9'], content: '{}');
+        }
+        self::assertResponseStatusCodeSame(429, 'the visitor is limited');
+
+        $this->deliver($client, 'evt_quota_1', 'order.placed', server: ['REMOTE_ADDR' => '127.0.0.1']);
+
+        self::assertResponseStatusCodeSame(200);
+        self::assertSame(1, $this->intValue('SELECT COUNT(*) FROM app_received_webhook'));
+    }
+
     public function testTheStoreKeepsTheLatestWebhooksOnly(): void
     {
         $client = self::createClient();
