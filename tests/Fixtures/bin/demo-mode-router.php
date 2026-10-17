@@ -7,7 +7,8 @@ declare(strict_types=1);
  * test of bin/verify-public-mode. DEMO_STUB_BREAK names one path that answers wrongly, to prove a check can fail.
  */
 $mode = getenv('DEMO_STUB_MODE') ?: 'public';
-$path = parse_url((string) $_SERVER['REQUEST_URI'], \PHP_URL_PATH);
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+$path = parse_url(\is_string($requestUri) ? $requestUri : '/', \PHP_URL_PATH);
 $broken = getenv('DEMO_STUB_BREAK') ?: null;
 
 $respond = static function (int $code, string $body = '', array $headers = []): void {
