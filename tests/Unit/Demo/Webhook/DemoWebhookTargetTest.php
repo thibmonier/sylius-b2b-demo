@@ -27,7 +27,8 @@ final class DemoWebhookTargetTest extends TestCase
         yield 'external host on the receiver path' => ['http://hooks.partner.example:8080/demo/webhooks/receive'];
         yield 'look-alike host' => ['http://localhost.evil.example:8080/demo/webhooks/receive'];
         yield 'host with the loopback as a prefix' => ['http://127.0.0.1.evil.example:8080/demo/webhooks/receive'];
-        yield 'credentials' => ['http://user:pass@127.0.0.1:8080/demo/webhooks/receive'];
+        // A user name alone is enough to exercise the userinfo part (a user:password pair trips secret scanners).
+        yield 'credentials' => ['http://demo-user@127.0.0.1:8080/demo/webhooks/receive'];
         yield 'credentials hiding the host' => ['http://127.0.0.1:8080@evil.example/demo/webhooks/receive'];
         yield 'private address' => ['http://10.0.0.5:8080/demo/webhooks/receive'];
         yield 'metadata address' => ['http://169.254.169.254/latest/meta-data/'];

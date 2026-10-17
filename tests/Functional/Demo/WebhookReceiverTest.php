@@ -304,7 +304,8 @@ final class WebhookReceiverTest extends DemoAdminWebTestCase
         yield 'internal address' => ['http://10.0.0.5:8080/demo/webhooks/receive'];
         yield 'metadata address' => ['http://169.254.169.254/latest/meta-data/'];
         yield 'other scheme' => ['ftp://127.0.0.1:8080/demo/webhooks/receive'];
-        yield 'credentials' => ['http://user:pass@127.0.0.1:8080/demo/webhooks/receive'];
+        // A user name alone is enough to exercise the userinfo part (a user:password pair trips secret scanners).
+        yield 'credentials' => ['http://demo-user@127.0.0.1:8080/demo/webhooks/receive'];
         yield 'other route of the demo' => ['http://127.0.0.1:8080/punchout/cxml'];
     }
 
