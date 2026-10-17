@@ -23,13 +23,13 @@ En tant que Thibaut, je veux que toute défaillance du reset, y compris une erre
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-049-01 | [TEST] | Test rouge : une erreur fatale pendant le reset laisse le marqueur d'échec et `/healthz` répond 503 (reset réussi : marqueur absent, 200) | 1.5h | — | 🔲 |
-| T-049-02 | [BE] | `ResetStatus` : marqueur « en cours » posé au début, retiré au seul succès (ou `register_shutdown_function`) ; échec suivi d'un succès retire le marqueur | 2.5h | T-049-01 | 🔲 |
-| T-049-03 | [TEST] | Test rouge : `cache:clear` / `cache:warmup` tournent dans un sous-processus ; code de sortie non nul = reset en échec | 1h | — | 🔲 |
-| T-049-04 | [BE] | `DemoResetCommand::stepClearWarmUpCache` / `runSubCommand` en sous-processus à mémoire fraîche ; `-d memory_limit=1G` du crontab conservé | 2.5h | T-049-03, T-049-02 | 🔲 |
-| T-049-05 | [TEST] | ⚠️ Test rouge : corps de `POST /demo/webhooks/receive` au-dessus du plafond, y compris chunked, refusé en 413 par Caddy | 1.5h | — | 🔲 |
-| T-049-06 | [BE] | ⚠️ `docker/Caddyfile` : `request_body max_size` pour `/demo/webhooks/receive` | 1h | T-049-05 | 🔲 |
-| T-049-07 | [DOC] | Acter la limite de `demo_orders` (1 911 requêtes pour un objectif de 1 750, cœur Sylius) dans `docs/remise-a-zero-demo.md` ; documenter marqueur et sous-processus | 0.5h | T-049-04 | 🔲 |
+| T-049-01 | [TEST] | Test rouge : une erreur fatale pendant le reset laisse le marqueur d'échec et `/healthz` répond 503 (reset réussi : marqueur absent, 200) | 1.5h | — | ✅ |
+| T-049-02 | [BE] | `ResetStatus` : marqueur « en cours » posé au début, retiré au seul succès (ou `register_shutdown_function`) ; échec suivi d'un succès retire le marqueur | 2.5h | T-049-01 | ✅ |
+| T-049-03 | [TEST] | Test rouge : `cache:clear` / `cache:warmup` tournent dans un sous-processus ; code de sortie non nul = reset en échec | 1h | — | ✅ |
+| T-049-04 | [BE] | `DemoResetCommand::stepClearWarmUpCache` / `runSubCommand` en sous-processus à mémoire fraîche ; `-d memory_limit=1G` du crontab conservé | 2.5h | T-049-03, T-049-02 | ✅ |
+| T-049-05 | [TEST] | ⚠️ Test rouge : corps de `POST /demo/webhooks/receive` au-dessus du plafond, y compris chunked, refusé en 413 par Caddy | 1.5h | — | ✅ |
+| T-049-06 | [BE] | ⚠️ `docker/Caddyfile` : `request_body max_size` pour `/demo/webhooks/receive` | 1h | T-049-05 | ✅ |
+| T-049-07 | [DOC] | Acter la limite de `demo_orders` (1 911 requêtes pour un objectif de 1 750, cœur Sylius) dans `docs/remise-a-zero-demo.md` ; documenter marqueur et sous-processus | 0.5h | T-049-04 | ✅ |
 | T-049-08 | [OPS] | 📅 Relevé de coût Railway complet (ex T-048-11 / T-041-15), pas avant 2026-10-23, par l'utilisateur | 0.5h | — | 📅 |
 | T-049-09 | [REV] | Revue | 1h | T-049-04, T-049-07 | 🔲 |
 

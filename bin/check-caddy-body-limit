@@ -1,0 +1,43 @@
+#!/bin/sh
+# Proves the request body ceiling of docker/Caddyfile on a built image (US-049), without the application:
+# a stub index.php reports how many body bytes PHP managed to read.
+#   bin/check-caddy-body-limit sylius-b2b-demo:ci
+# CADDYFILE=docker/Caddyfile mounts that file over the one of the image (check without rebuilding it).
+set -eu
+
+image="${1:?usage: bin/check-caddy-body-limit IMAGE}"
+port="${CHECK_PORT:-8099}"
+limit=262145
+work="$(mktemp -d)"
+name="caddy-body-limit-$$"
+trap 'docker rm -f "$name" >/dev/null 2>&1 || true; rm -rf "$work"' EXIT
+
+mkdir "$work/public"
+printf '<?php\nheader("Content-Type: text/plain");\necho "PHP-READ:" . strlen(file_get_contents("php://input"));\n' > "$work/public/index.php"
+head -c 300000 /dev/zero | tr '\0' a > "$work/big.bin"
+head -c 1000 /dev/zero | tr '\0' a > "$work/small.bin"
+
+mount=""
+[ -z "${CADDYFILE:-}" ] || mount="-v $(cd "$(dirname "$CADDYFILE")" && pwd)/$(basename "$CADDYFILE"):/etc/frankenphp/Caddyfile:ro"
+# shellcheck disable=SC2086
+docker run -d --name "$name" -p "$port:8080" -v "$work/public:/app/public:ro" $mount --entrypoint frankenphp "$image" \
+    run --config /etc/frankenphp/Caddyfile >/dev/null
+i=0
+until curl -fsS "http://localhost:$port/" >/dev/null 2>&1; do
+    i=$((i + 1))
+    [ "$i" -le 30 ] || { docker logs "$name" | tail -20; echo "FAIL: the server did not start" >&2; exit 1; }
+    sleep 1
+done
+
+post() { curl -sS -X POST "$@" "http://localhost:$port/$path"; }
+expect() {
+    [ "$2" = "$3" ] || { echo "FAIL: $1: expected $3, got $2" >&2; exit 1; }
+    echo "ok: $1 ($2)"
+}
+
+path=demo/webhooks/receive
+expect "small body passes whole" "$(post --data-binary @"$work/small.bin")" "PHP-READ:1000"
+expect "big body is cut by Caddy" "$(post --data-binary @"$work/big.bin")" "PHP-READ:$limit"
+expect "big chunked body is cut by Caddy" "$(post -H 'Transfer-Encoding: chunked' --data-binary @"$work/big.bin")" "PHP-READ:$limit"
+path=other
+expect "other paths are not limited" "$(post --data-binary @"$work/big.bin")" "PHP-READ:300000"

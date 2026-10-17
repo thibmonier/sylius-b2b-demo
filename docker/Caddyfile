@@ -31,6 +31,16 @@
 	@static path /build/* /bundles/* /media/*
 	header @static Cache-Control "public, max-age=604800"
 
+	# Body ceiling of the public webhook receiver (US-049). Without it a chunked body (no Content-Length to look at) is
+	# read whole by PHP before its size check. Under FrankenPHP Caddy does not answer 413 itself: it cuts the stream
+	# and PHP reads at most max_size bytes. The value is WebhookReceiverController::MAX_BODY_BYTES + 1, so that a
+	# body over the ceiling still reaches the controller's own `strlen > MAX_BODY_BYTES` test and is answered 413
+	# (tests/Unit/Docker/CaddyfileTest.php keeps the two aligned, bin/check-caddy-body-limit proves the cut on the image).
+	@webhookReceiver path /demo/webhooks/receive
+	request_body @webhookReceiver {
+		max_size 262145
+	}
+
 	# Worker mode (ADR-0013) is opt-in: entrypoint.sh fills FRANKENPHP_WORKER_DIRECTIVE when FRANKENPHP_WORKER_MODE=1,
 	# otherwise the line expands to nothing and the classic mode applies.
 	php_server {

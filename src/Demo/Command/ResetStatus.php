@@ -12,22 +12,52 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  *
  * A marker file outside the database: the reset runs in one transaction that a failure rolls back, and the web
  * server must see the marker written by the cron job (same container). A new deployment starts without it.
+ *
+ * The marker is written when the reset STARTS and removed only when it succeeds (US-049): a fatal error such as
+ * "Allowed memory size exhausted" is not an exception, so nothing could report it afterwards. Two nets cover it:
+ * a shutdown function turns the marker into a failure at once when the process ends without reporting (fatal
+ * error, exit), and a marker that stays "running" longer than MAX_RUN_SECONDS counts as a failure (SIGKILL, kill by
+ * the out-of-memory killer, container stop: no PHP code runs then). A reset in progress is not a failure: the
+ * monitor must not alert every night at 03:00.
  */
-final readonly class ResetStatus
+final class ResetStatus
 {
+    /** A nightly reset lasts minutes; beyond this a "running" marker means the process died without a word. */
+    public const MAX_RUN_SECONDS = 1800;
+
+    private const RUNNING = 'running';
+
+    private const FAILED = 'failed';
+
+    private bool $reported = false;
+
+    private bool $watching = false;
+
     public function __construct(
         #[Autowire('%kernel.project_dir%/var/demo-reset-failed')]
-        private string $markerFile,
+        private readonly string $markerFile,
     ) {
+    }
+
+    public function markStarted(): void
+    {
+        $this->reported = false;
+        $this->watchForDeathWithoutReport();
+        // The previous failure stays visible until a reset succeeds.
+        if ($this->content() !== self::FAILED) {
+            $this->write(self::RUNNING);
+        }
     }
 
     public function markFailed(): void
     {
-        file_put_contents($this->markerFile, (new \DateTimeImmutable())->format(\DATE_ATOM));
+        $this->reported = true;
+        $this->write(self::FAILED);
     }
 
     public function markSucceeded(): void
     {
+        $this->reported = true;
         if (is_file($this->markerFile)) {
             unlink($this->markerFile);
         }
@@ -35,6 +65,40 @@ final readonly class ResetStatus
 
     public function hasFailed(): bool
     {
-        return is_file($this->markerFile);
+        $state = $this->content();
+        if (null === $state) {
+            return false;
+        }
+
+        return self::RUNNING !== $state || (time() - (int) filemtime($this->markerFile)) > self::MAX_RUN_SECONDS;
+    }
+
+    private function watchForDeathWithoutReport(): void
+    {
+        if ($this->watching) {
+            return;
+        }
+        $this->watching = true;
+        register_shutdown_function(function (): void {
+            if (!$this->reported) {
+                $this->markFailed();
+            }
+        });
+    }
+
+    private function write(string $state): void
+    {
+        file_put_contents($this->markerFile, $state . ' ' . (new \DateTimeImmutable())->format(\DATE_ATOM));
+    }
+
+    /** The state word of the marker (running or failed), null without marker. */
+    private function content(): ?string
+    {
+        $content = is_file($this->markerFile) ? file_get_contents($this->markerFile) : false;
+        if (false === $content) {
+            return null;
+        }
+
+        return str_starts_with($content, self::RUNNING) ? self::RUNNING : self::FAILED;
     }
 }
