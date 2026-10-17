@@ -1,0 +1,108 @@
+#!/bin/sh
+# Read-only check of the demo access mode (US-052 / T-052-02): checks 1 to 9 and 12 of docs/ouverture-publique.md.
+# Only GET requests, no credential, no redirect followed, nothing written. Checks 10 and 11 (rate limiters, two
+# connections) stay manual: they flood the demo and need two IP addresses.
+#
+#   bin/verify-public-mode https://<domain> [PRODUCT_SLUG]            # public mode (after the switch)
+#   bin/verify-public-mode --private https://<domain>                  # private mode (gate closed, rollback, no GO)
+#
+# PRODUCT_SLUG (a product of the catalogue) enables check 12; without it, check 12 is skipped.
+# Prints one OK/KO line per check; exit code 1 when at least one check is KO, 2 on a usage error.
+set -eu
+
+MODE=public
+if [ "${1:-}" = "--private" ]; then
+    MODE=private
+    shift
+fi
+[ $# -ge 1 ] && [ $# -le 2 ] || { echo "usage: bin/verify-public-mode [--private] URL [PRODUCT_SLUG]" >&2; exit 2; }
+URL="${1%/}"
+SLUG="${2:-}"
+case "$URL" in
+    http://*|https://*) ;;
+    *) echo "URL must start with http:// or https://" >&2; exit 2 ;;
+esac
+case "$SLUG" in
+    *[!A-Za-z0-9_-]*) echo "PRODUCT_SLUG must only contain letters, digits, - and _." >&2; exit 2 ;;
+esac
+
+FAILED=0
+
+# report "label" "expected" "actual": OK when the actual value equals the expected one.
+report() {
+    if [ "$3" = "$2" ]; then
+        printf 'OK   %-52s %s\n' "$1" "$3"
+    else
+        printf 'KO   %-52s expected %s, got %s\n' "$1" "$2" "$3"
+        FAILED=1
+    fi
+}
+
+# status [curl options] PATH: the HTTP status code, 000 when the demo does not answer.
+status() {
+    path="$1"
+    shift
+    curl -s -m 20 -o /dev/null -w '%{http_code}' "$@" "$URL$path" || true
+}
+
+# body PATH: the response body.
+body() {
+    curl -s -m 20 "$URL$1" || true
+}
+
+# present "needle" "text": yes or no.
+present() {
+    case "$2" in *"$1"*) echo yes ;; *) echo no ;; esac
+}
+
+# redirect_to_login PATH: "redirect to login" when the page answers 302 towards a login URL, the raw answer otherwise.
+redirect_to_login() {
+    answer=$(curl -s -m 20 -o /dev/null -w '%{http_code} %{redirect_url}' -b "$B2C" "$URL$1" || true)
+    case "$answer" in
+        '302 '*/login*) echo 'redirect to login' ;;
+        *) echo "$answer" ;;
+    esac
+}
+
+# mcp_guide: "private note" when the MCP guide still carries the private-demo warning, "no note" when it does not,
+# the HTTP status when the page is not served (a closed gate must not pass for a clean page).
+mcp_guide() {
+    code=$(status /fr_FR/mcp)
+    [ "$code" = 200 ] || { echo "HTTP $code"; return; }
+    if [ "$(present 'data-mcp-private-note' "$(body /fr_FR/mcp)")" = yes ]; then echo 'private note'; else echo 'no note'; fi
+}
+
+B2C='demo_channel=B2C'
+
+if [ "$MODE" = "private" ]; then
+    echo "Mode: private (gate closed) on $URL"
+    report 'anonymous visitor, home page' 401 "$(status /fr_FR/)"
+    report 'anonymous visitor, registration' 401 "$(status /fr_FR/register)"
+    report '/healthz is exempt from the gate' 200 "$(status /healthz)"
+    report '/healthz body' ok "$(body /healthz)"
+    report '/health is exempt from the gate' 200 "$(status /health)"
+else
+    echo "Mode: public on $URL"
+    report '1  anonymous visitor, home page' 200 "$(status /fr_FR/)"
+    report '2  /healthz status' 200 "$(status /healthz)"
+    report '2  /healthz body' ok "$(body /healthz)"
+    report '3  registration refused' 403 "$(status /fr_FR/register)"
+    report '4  guest checkout refused (B2C)' 403 "$(status /fr_FR/checkout/address -b "$B2C")"
+    report '5  guest quote redirected to the login' 'redirect to login' "$(redirect_to_login /fr_FR/quote-request)"
+    report '6  robots.txt disallows everything' yes "$(present 'Disallow: /' "$(body /robots.txt)")"
+    report '6  X-Robots-Tag noindex' yes "$(present noindex "$(curl -sI -m 20 "$URL/fr_FR/" | tr 'A-Z' 'a-z' | grep '^x-robots-tag' || true)")"
+    report '7  MCP guide without the private note' 'no note' "$(mcp_guide)"
+    report '8  OAuth metadata published' 200 "$(status /.well-known/oauth-authorization-server)"
+    report '9  REST API disabled in production' 404 "$(status /api/v2/shop/products)"
+    if [ -n "$SLUG" ]; then
+        report '12 guest product review refused (B2C)' 403 "$(status "/fr_FR/products/$SLUG/reviews/new" -b "$B2C")"
+    else
+        printf 'SKIP %-52s no PRODUCT_SLUG given\n' '12 guest product review refused (B2C)'
+    fi
+fi
+
+if [ "$FAILED" -ne 0 ]; then
+    echo "At least one check is KO." >&2
+    exit 1
+fi
+echo "All checks OK."
