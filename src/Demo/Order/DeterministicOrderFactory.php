@@ -7,7 +7,9 @@ namespace App\Demo\Order;
 use App\Order\OrderPoReferenceAwareInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\OrderExampleFactory;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Core\Model\ShippingMethodInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
@@ -24,6 +26,14 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     /** @var array<string, int> */
     private array $items = [];
 
+    /** @var array<string, ProductVariantInterface> variants by code, read once for the whole history (see {@see self::preloadVariants()}) */
+    private array $variants = [];
+
+    /** The same shipping and payment methods serve every order: read once (see {@see self::forget()}). */
+    private ?ShippingMethodInterface $shippingMethod = null;
+
+    private ?PaymentMethodInterface $paymentMethod = null;
+
     private ?string $company = null;
 
     /** @var RepositoryInterface<ProductVariantInterface>|null */
@@ -33,6 +43,29 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     public function setVariantRepository(RepositoryInterface $variantRepository): void
     {
         $this->variantRepository = $variantRepository;
+    }
+
+    /**
+     * Reads these variants in one query instead of one lookup per order line. Call it before {@see self::create()};
+     * {@see self::forget()} drops what it holds (the entities do not outlive a purge).
+     *
+     * @param list<string> $codes
+     */
+    public function preloadVariants(array $codes): void
+    {
+        if (null === $this->variantRepository) {
+            throw new \LogicException('A demo order needs its variant repository.');
+        }
+
+        foreach ($this->variantRepository->findBy(['code' => \array_values(\array_unique($codes))]) as $variant) {
+            $this->variants[(string) $variant->getCode()] = $variant;
+        }
+    }
+
+    public function forget(): void
+    {
+        $this->variants = [];
+        $this->shippingMethod = $this->paymentMethod = null;
     }
 
     public function create(array $options = []): OrderInterface
@@ -66,7 +99,7 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         }
 
         foreach ($this->items as $code => $quantity) {
-            $variant = $this->variantRepository->findOneBy(['code' => $code]);
+            $variant = $this->variants[$code] ?? $this->variantRepository->findOneBy(['code' => $code]);
             if (!$variant instanceof ProductVariantInterface) {
                 throw new \InvalidArgumentException(sprintf('Demo order: variant "%s" does not exist.', $code));
             }
@@ -97,7 +130,7 @@ final class DeterministicOrderFactory extends OrderExampleFactory
 
     protected function selectShipping(OrderInterface $order, \DateTimeInterface $createdAt): void
     {
-        $method = $this->shippingMethodRepository->findOneBy(['code' => self::SHIPPING_METHOD]);
+        $method = $this->shippingMethod ??= $this->shippingMethodRepository->findOneBy(['code' => self::SHIPPING_METHOD]);
         if (null === $method) {
             throw new \InvalidArgumentException(sprintf('Demo order: shipping method "%s" does not exist.', self::SHIPPING_METHOD));
         }
@@ -112,7 +145,7 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     /** Bank transfer: the paid-on-account method would reserve trade credit, which is not what this history shows. */
     protected function selectPayment(OrderInterface $order, \DateTimeInterface $createdAt): void
     {
-        $method = $this->paymentMethodRepository->findOneBy(['code' => self::PAYMENT_METHOD]);
+        $method = $this->paymentMethod ??= $this->paymentMethodRepository->findOneBy(['code' => self::PAYMENT_METHOD]);
         if (null === $method) {
             throw new \InvalidArgumentException(sprintf('Demo order: payment method "%s" does not exist.', self::PAYMENT_METHOD));
         }

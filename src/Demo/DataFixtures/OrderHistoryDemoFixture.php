@@ -40,6 +40,9 @@ use Tmonier\SyliusPurchaseApprovalPlugin\Repository\OrderApprovalRepositoryInter
  */
 final class OrderHistoryDemoFixture extends AbstractFixture
 {
+    /** @var array<string, CustomerInterface> by canonical e-mail; see {@see self::preload()} */
+    private array $customers = [];
+
     /**
      * @param RepositoryInterface<ChannelInterface>  $channelRepository
      * @param RepositoryInterface<CustomerInterface> $customerRepository
@@ -74,9 +77,11 @@ final class OrderHistoryDemoFixture extends AbstractFixture
 
         $this->removeStaleInvoiceFiles();
         $now = new \DateTimeImmutable();
+        $plan = DemoOrderPlan::all();
+        $this->preload($plan);
 
         try {
-            foreach (DemoOrderPlan::all() as $spec) {
+            foreach ($plan as $spec) {
                 $this->placeOrder($spec, $channel, DemoOrderPlan::completedAt($now, $spec->daysAgo));
             }
         } finally {
@@ -87,6 +92,33 @@ final class OrderHistoryDemoFixture extends AbstractFixture
     public function getName(): string
     {
         return 'demo_orders';
+    }
+
+    /**
+     * The variants and customers of the whole history, read in two queries instead of one lookup per order
+     * (US-048 / T-048-05). Everything held is dropped first: a purge removes the entities it was about.
+     *
+     * @param list<DemoOrderSpec> $plan
+     */
+    private function preload(array $plan): void
+    {
+        $this->orderFactory->forget();
+        $this->customers = [];
+
+        $codes = [];
+        $emails = [];
+        foreach ($plan as $spec) {
+            \array_push($codes, ...\array_keys($spec->items));
+            $emails[] = $spec->customerEmail;
+            if (null !== $spec->approverEmail) {
+                $emails[] = $spec->approverEmail;
+            }
+        }
+        $this->orderFactory->preloadVariants($codes);
+
+        foreach ($this->customerRepository->findBy(['emailCanonical' => \array_values(\array_unique($emails))]) as $customer) {
+            $this->customers[(string) $customer->getEmailCanonical()] = $customer;
+        }
     }
 
     /** The purger empties the database, not the invoice PDFs, and the invoicing plugin refuses to overwrite one. */
@@ -212,7 +244,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
 
     private function customer(string $email): CustomerInterface
     {
-        $customer = $this->customerRepository->findOneBy(['emailCanonical' => $email]);
+        $customer = $this->customers[$email] ?? $this->customerRepository->findOneBy(['emailCanonical' => $email]);
         if (!$customer instanceof CustomerInterface) {
             throw new \LogicException(sprintf('Demo order history: customer "%s" does not exist.', $email));
         }
