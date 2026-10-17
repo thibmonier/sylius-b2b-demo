@@ -87,7 +87,7 @@ bin/verify-public-mode --private "$URL"               # mode privé : 401 pour u
 Les vérifications 10 et 11 restent manuelles (elles saturent un limiteur et exigent deux connexions). Le script ne remplace pas la liste « À la main » plus bas.
 
 ```bash
-URL=https://<domaine>
+URL=https://<domaine>   # domaine Railway ou sous-domaine (DEMO_PUBLIC_HOST), voir sous-domaine-demo.md
 
 # 1. Anonyme : 200 (et non 401)
 /usr/bin/curl -s -o /dev/null -w '%{http_code}\n' "$URL/fr_FR/"                         # 200

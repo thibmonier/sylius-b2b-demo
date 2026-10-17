@@ -22,6 +22,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `DEMO_BASIC_AUTH_USER` | vide | choisi par l'opérateur (secret) |
 | `DEMO_BASIC_AUTH_PASSWORD_HASH` | vide | hash Argon2id (secret) |
 | `TRUSTED_HOSTS` | `^.*$` | expression exacte du domaine Railway, ex. `^demo\.up\.railway\.app$` (`healthcheck.railway.app` est toujours accepté) |
+| `DEMO_PUBLIC_HOST` | vide | sous-domaine de la démo (nom d'hôte seul), accepté en plus de `TRUSTED_HOSTS` ; vide ou invalide : rien d'ajouté ([sous-domaine-demo.md](sous-domaine-demo.md)) |
 | `TRUSTED_PROXIES` | `127.0.0.1,REMOTE_ADDR` | inchangé ; `127.0.0.1` doit rester dans la liste (simulateur) |
 | `DEMO_RATE_LIMIT_LOGIN` | `30` (par 15 min) | `30` |
 | `DEMO_RATE_LIMIT_PUBLIC` | `120` (par minute) | `120` |

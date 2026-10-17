@@ -45,6 +45,8 @@ services:
             - '../src/Demo/Account/DemoCompany.php'
             # Manual tooling (bin/fetch-product-images), never part of the running application.
             - '../src/Demo/Images/Fetch/'
+            # Manual tooling (bin/vitrine-readme), never part of the running application.
+            - '../src/Demo/Vitrine/'
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
