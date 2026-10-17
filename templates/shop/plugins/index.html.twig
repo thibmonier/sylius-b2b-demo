@@ -45,5 +45,14 @@
                 </div>
             </section>
         {% endfor %}
+
+        {# US-046: reminder of the official offering; the wording follows the public Sylius documentation (translations/plugins_plus.*). #}
+        <aside class="card mt-5" data-sylius-plus-notice>
+            <div class="card-body">
+                <h2 class="h5 card-title">{{ 'title'|trans({}, 'plugins_plus') }}</h2>
+                <p class="card-text">{{ 'text'|trans({}, 'plugins_plus') }}</p>
+                <a href="https://sylius.com/plus/" rel="noopener noreferrer" target="_blank" data-sylius-plus-link>{{ 'link'|trans({}, 'plugins_plus') }}</a>
+            </div>
+        </aside>
     </div>
 {% endblock %}
