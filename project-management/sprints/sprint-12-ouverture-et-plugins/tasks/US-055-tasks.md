@@ -28,16 +28,25 @@ En tant que Thibaut, je veux appliquer les actions des rétrospectives (disque, 
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-055-01 | [DOC] | Contrat de fin de worker (nettoyage `var/cache-*`) et ligne `df` : vérifiés dans les fichiers du sprint 12 et reportés dans les modèles de sprint | 0.5h | — | 🔲 |
-| T-055-02 | [BE] | `bin/run-tests` : cache de test dédié par exécution, vidé avant la suite et supprimé à la fin, contrôle `df` (arrêt sous 5 Go), appelle `bin/prepare-test-db` | 2.5h | — | 🔲 |
-| T-055-03 | [TEST] | Vérification : suite complète deux fois de suite sans erreur liée au cache, y compris après un changement de constructeur ; aucun fichier de test dans le vrai `var/` | 1.5h | T-055-02 | 🔲 |
-| T-055-04 | [DOC] | ⚠️ `docs/tests-locaux.md` : `bin/run-tests`, cache isolé, seuil disque | 0.5h | T-055-03 | 🔲 |
-| T-055-05 | [DOC] | Consigne d'orchestration des relecteurs (12 tours minimum, rapport exigé) : vérifiée dans `tasks/README.md` et reportée dans le modèle de consigne | 0.5h | — | 🔲 |
-| T-055-06 | [REV] | Action 4 du sprint 10 : mineurs au backlog (US-061, US-062), suivi consigné dans la rétro du sprint 12 | 1h | — | 🔲 |
-| T-055-07 | [BE] | US-031 : retirer le dépôt VCS d'agentic-feeds de `composer.json`, résolution depuis Packagist (`composer update` ciblé dans Docker), README punchout vérifié, US-031 `done` | 1.5h | — | 🔲 |
+| T-055-01 | [DOC] | Contrat de fin de worker (nettoyage `var/cache-*`) et ligne `df` : vérifiés dans les fichiers du sprint 12 et reportés dans les modèles de sprint | 0.5h | — | ✅ |
+| T-055-02 | [BE] | `bin/run-tests` : cache de test dédié par exécution, vidé avant la suite et supprimé à la fin, contrôle `df` (arrêt sous 5 Go), appelle `bin/prepare-test-db` | 2.5h | — | ✅ |
+| T-055-03 | [TEST] | Vérification : suite complète deux fois de suite sans erreur liée au cache, y compris après un changement de constructeur ; aucun fichier de test dans le vrai `var/` | 1.5h | T-055-02 | ✅ |
+| T-055-04 | [DOC] | ⚠️ `docs/tests-locaux.md` : `bin/run-tests`, cache isolé, seuil disque | 0.5h | T-055-03 | ✅ |
+| T-055-05 | [DOC] | Consigne d'orchestration des relecteurs (12 tours minimum, rapport exigé) : vérifiée dans `tasks/README.md` et reportée dans le modèle de consigne | 0.5h | — | ✅ |
+| T-055-06 | [REV] | Action 4 du sprint 10 : mineurs au backlog (US-061, US-062), suivi consigné dans la rétro du sprint 12 | 1h | — | ✅ |
+| T-055-07 | [BE] | US-031 : retirer le dépôt VCS d'agentic-feeds de `composer.json`, résolution depuis Packagist (`composer update` ciblé dans Docker), README punchout vérifié, US-031 `done` | 1.5h | — | 🚫 |
 | T-055-08 | [REV] | Revue | 0.5h | T-055-03, T-055-07 | 🔲 |
 
 **Total estimé : 8.5h** (8 tâches), dont 0.5h sacrifiable (T-055-04).
+
+## Résultats (worker w12-tools, 2026-10-17)
+
+- **T-055-01 / T-055-05** : contrat de fin de worker, ligne `df` (5 Go) et consigne des relecteurs vérifiés dans `tasks/README.md` et `pre-sprint-checklist.md`. Le dépôt ne contient aucun modèle réutilisable de consigne à mettre à jour (les modèles de `/project:decompose-tasks` et `/workflow:start` sont hors dépôt) : rien à reporter ici.
+- **T-055-02** : `bin/run-tests` (cache `mktemp` vide par exécution, supprimé à la fin, arrêt sous 5 Go, appelle `bin/prepare-test-db`). Test rouge puis vert : constructeur de `HealthController` modifié sur un cache chaud, `PagesTest` donne un 500 (cache périmé), puis passe avec `bin/run-tests`. Cause d'un faux échec de la première passe (`PublicOpeningHardeningTest`) : les compteurs des limiteurs étaient dans le vrai `var/demo-limiter-test`, vidé par le démarrage d'une autre exécution en parallèle. Compteurs, images de test, journaux et pools partagés vivent maintenant dans le cache de l'exécution.
+- **T-055-03** : suite complète deux fois de suite avec `bin/run-tests` : 861 tests, 8558 assertions, 0 échec les deux fois (1 test ignoré, 207 dépréciations, déjà là). Aucun fichier de test écrit dans le vrai `var/` (seul `var/share/dev` a bougé, écrit par un autre worker en `dev`).
+- **T-055-04** : `docs/tests-locaux.md`, section « Une commande pour tout ».
+- **T-055-06** : `US-061` et `US-062` sont dans `backlog:` de `.bmad/sprint-status.yaml` (vérifié) ; le suivi dans la rétro du sprint 12 se consigne en séance (la rétro n'existe pas encore).
+- **T-055-07 🚫 bloquée** : le paquet n'est **pas résolvable depuis Packagist**. Retiré le dépôt VCS, `composer update tmonier/sylius-agentic-feeds-plugin` répond « not found in remote repositories » ; `https://repo.packagist.org/p2/tmonier/sylius-agentic-feeds-plugin.json` répond `404`, alors que `composer search` liste le nom. La version `v1.0.0` vue par `composer show --available` venait du dépôt VCS GitHub, pas de Packagist (même constat dans un dossier vide sans dépôt). `composer.json` et `composer.lock` sont restés inchangés. Action de l'utilisateur : sur packagist.org, page du paquet, forcer la mise à jour (ou vérifier le webhook GitHub), puis relancer cette tâche.
 
 ---
 

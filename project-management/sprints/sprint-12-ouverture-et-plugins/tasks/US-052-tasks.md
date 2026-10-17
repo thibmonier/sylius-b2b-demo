@@ -25,8 +25,8 @@ En tant que Thibaut, je veux ouvrir la démo au public sur mon GO et vérifier l
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-052-01 | [DOC] | Relecture de `docs/ouverture-publique.md` contre l'état réel (variables, `railway.ts`, vérifications 1 à 12) ; check-list de GO consolidée | 1h | — | 🔲 |
-| T-052-02 | [TEST] | ⚠️ Script `bin/verify-public-mode <url>` (lecture seule) : les vérifications 1 à 12 du runbook, plus un test fonctionnel du mode public rejoué | 2h | T-052-01 | 🔲 |
+| T-052-01 | [DOC] | Relecture de `docs/ouverture-publique.md` contre l'état réel (variables, `railway.ts`, vérifications 1 à 12) ; check-list de GO consolidée | 1h | — | ✅ |
+| T-052-02 | [TEST] | ⚠️ Script `bin/verify-public-mode <url>` (lecture seule) : les vérifications 1 à 12 du runbook, plus un test fonctionnel du mode public rejoué | 2h | T-052-01 | ✅ |
 | T-052-03 | [OPS] | 📅 Moniteur externe sur `/healthz` (ex T-050-09) | 0.5h | T-052-01 | 📅 |
 | T-052-04 | [OPS] | 📅 Bascule en mode public, GO explicite (ex T-050-10) | 1h | T-052-01, T-052-03 | 📅 |
 | T-052-05 | [OPS] | 📅 Vérification de `X-Real-IP` après la bascule (vérification 11 : deux IP distinctes) | 0.5h | T-052-04 | 📅 |
@@ -36,6 +36,11 @@ En tant que Thibaut, je veux ouvrir la démo au public sur mon GO et vérifier l
 | T-052-09 | [REV] | Revue | 0.5h | T-052-08 | 🔲 |
 
 **Total estimé : 8.5h** (9 tâches), dont 3.5h calendaires (T-052-03 à T-052-07) et 2h sacrifiables (T-052-02).
+
+## Résultats de la préparation (worker w12-tools, 2026-10-17)
+
+- **T-052-01** : runbook relu contre `.railway/railway.ts`, `config/packages/demo_hardening.yaml`, `RateLimitSubscriber`, `RobotsController`, `HealthController`, les routes du plugin de devis. Écart corrigé : `POST /api/v2/shop/customers` répond `404` en production (API désactivée), pas `403`. Ajouts : check-list de GO d'une page (section « Check-list de GO », la section Prérequis y renvoie), `railway config plan` avant `apply`, usage du script.
+- **T-052-02** : `bin/verify-public-mode [--private] <url> [slug]` (GET seul, aucun identifiant), vérifications 1 à 9 et 12, test `tests/Unit/Bin/VerifyPublicModeTest.php` sur un serveur factice (`php -S`) dans les deux modes et sur un écart. Lancé en lecture seule contre la démo privée : `--private` donne « All checks OK. » (401 pour l'anonyme, `/healthz` et `/health` en 200) ; en mode public il sort en erreur, comme attendu tant que la porte est fermée.
 
 ---
 
