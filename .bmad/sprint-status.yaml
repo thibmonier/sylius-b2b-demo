@@ -176,11 +176,11 @@ sprints:
     capacity_points: 15  # 2+4+3+4+2 pts ; 37,5 h décomposées (2,5 h calendaires) pour ≈ 30-35 h : ordre de sacrifice dans sprint-13-vitrine-des-plugins/tasks/README.md
     goal: "Préparer les 24 plugins à l'ouverture publique : classement Sylius Plus et charte de ton, README FR et référence à la démo, vraies captures d'écran, préparation du sous-domaine de la démo ; sans site ni liens de contact"
     stories:
-      - {id: US-063, title: "Classement Sylius Plus des 24 plugins et charte de ton", points: 2, status: in-progress}  # décision D2 ; docs/vitrine-plugins.md ; sources officielles et publiques de Plus
-      - {id: US-064, title: "Bloc standard, outil de contrôle et README FR du lot A (12 plugins)", points: 4, status: in-progress}  # décision D1 ; livraison : une PR par dépôt (décision du 2026-10-17)
-      - {id: US-067, title: "README FR du lot B (12 plugins) et livraison des 24 dépôts", points: 3, status: in-progress}  # scindée d'US-064 (max 8 pts) ; une PR par dépôt, un GO unique de l'utilisateur merge les 24 PR
-      - {id: US-065, title: "Captures d'écran manquantes et vérification des existantes", points: 4, status: in-progress}  # décision D3 ; customer-asset-management reporté à US-056+, order-hold seul plugin purement technique (vérifié)
-      - {id: US-066, title: "Préparation du sous-domaine de la démo", points: 2, status: in-progress}  # décision D4 ; préfixe du sous-domaine `sylius-b2b` (domaine du site inconnu, URL en US-068) ; CNAME et Railway par l'utilisateur
+      - {id: US-063, title: "Classement Sylius Plus des 24 plugins et charte de ton", points: 2, status: review}  # décision D2 ; docs/vitrine-plugins.md ; sources officielles et publiques de Plus
+      - {id: US-064, title: "Bloc standard, outil de contrôle et README FR du lot A (12 plugins)", points: 4, status: review}  # décision D1 ; livraison : une PR par dépôt (décision du 2026-10-17)
+      - {id: US-067, title: "README FR du lot B (12 plugins) et livraison des 24 dépôts", points: 3, status: review}  # scindée d'US-064 (max 8 pts) ; une PR par dépôt, un GO unique de l'utilisateur merge les 24 PR
+      - {id: US-065, title: "Captures d'écran manquantes et vérification des existantes", points: 4, status: review}  # décision D3 ; customer-asset-management reporté à US-056+, order-hold seul plugin purement technique (vérifié)
+      - {id: US-066, title: "Préparation du sous-domaine de la démo", points: 2, status: review}  # décision D4 ; préfixe du sous-domaine `sylius-b2b` (domaine du site inconnu, URL en US-068) ; CNAME et Railway par l'utilisateur
     carried_over:
       - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de l'utilisateur (T-052-03 à T-052-07), hors capacité
     notes: "Ordre de sacrifice : T-065-05, puis T-064-06 et T-065-07, puis T-067-04, puis coupe franche T-066-02/03/07. Liens vers le site et la page contact : US-068 et US-069 en backlog (URL inconnue). Le 2026-12-25 est férié : revue et rétro le 2026-12-24."
@@ -197,3 +197,4 @@ backlog:
   - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked)
   - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact
   - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon
+  - {id: US-070, title: "Plugin punchout : traduire le titre et le fil d’Ariane des acheteurs PunchOut", points: 1, status: backlog}  # clé brute `tmonier_punchout.ui.buyers` dans l’admin, relevée pendant les captures du sprint 13 (US-065)
