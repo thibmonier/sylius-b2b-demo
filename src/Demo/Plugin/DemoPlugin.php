@@ -18,6 +18,7 @@ final readonly class DemoPlugin
         public string $scenarioEn,
         public string $advisedAccount,
         public bool $published = true,
+        public bool $installed = true,
     ) {
     }
 
@@ -34,6 +35,16 @@ final readonly class DemoPlugin
     }
 
     /** Packagist page, or null while the package is not published (no broken link is ever shown). */
+    /** Publication status shown on the card: null once published, 'in_progress' (installed here) or 'upcoming' (not installed yet). */
+    public function status(): ?string
+    {
+        return match (true) {
+            $this->published => null,
+            $this->installed => 'in_progress',
+            default => 'upcoming',
+        };
+    }
+
     public function packagistUrl(): ?string
     {
         return $this->published ? 'https://packagist.org/packages/' . $this->composerName() : null;

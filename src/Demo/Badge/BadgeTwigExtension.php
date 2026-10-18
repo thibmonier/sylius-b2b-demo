@@ -23,6 +23,7 @@ final class BadgeTwigExtension extends AbstractExtension
         return [
             new TwigFunction('demo_badges_visible', $this->preference->visible(...)),
             // An unknown slug yields null: the template then renders nothing, without any error.
+            new TwigFunction('demo_plugin_count', $this->catalog->count(...)),
             new TwigFunction('demo_plugin', fn (mixed $slug): ?DemoPlugin => \is_string($slug) ? $this->catalog->get($slug) : null),
         ];
     }

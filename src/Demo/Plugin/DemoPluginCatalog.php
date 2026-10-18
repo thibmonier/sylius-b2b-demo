@@ -38,6 +38,12 @@ final class DemoPluginCatalog
         return $this->plugins;
     }
 
+    /** The number of showcased plugins: the catalogue is the only source of the figure displayed in the pages. */
+    public function count(): int
+    {
+        return \count($this->plugins);
+    }
+
     public function get(string $slug): ?DemoPlugin
     {
         foreach ($this->plugins as $plugin) {
@@ -95,6 +101,7 @@ final class DemoPluginCatalog
             self::string($scenario, 'en', $slug, 'scenario.en'),
             $account,
             ($entry['published'] ?? true) !== false,
+            ($entry['installed'] ?? true) !== false,
         );
     }
 

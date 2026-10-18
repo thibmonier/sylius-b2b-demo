@@ -24,10 +24,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-104-01 | [DOC] | Consigner la décision D2 et sa date dans `US-104.md` ; inventaire des mentions de Sylius Plus dans la démo | 0,5h | - | 🔲 |
-| T-104-02 | [TEST] | Tests rouges : phrase factuelle FR et EN, plus d'encart ; contrôle de charte signalant tout passage comparatif | 0,5h | T-104-01 | 🔲 |
-| T-104-03 | [FE-WEB] | Remplacer l'encart et les traductions `plugins_plus.*` | 0,5h | T-104-02 | 🔲 |
-| T-104-04 | [REV] | Revue (rendu réel de la page Plugins FR et EN, mentions résiduelles) | 0,5h | T-104-03 | 🔲 |
+| T-104-01 | [DOC] | Consigner la décision D2 et sa date dans `US-104.md` ; inventaire des mentions de Sylius Plus dans la démo | 0,5h | - | ✅ |
+| T-104-02 | [TEST] | Tests rouges : phrase factuelle FR et EN, plus d'encart ; contrôle de charte signalant tout passage comparatif | 0,5h | T-104-01 | ✅ |
+| T-104-03 | [FE-WEB] | Remplacer l'encart et les traductions `plugins_plus.*` | 0,5h | T-104-02 | ✅ |
+| T-104-04 | [REV] | Revue (rendu réel de la page Plugins FR et EN, mentions résiduelles) | 0,5h | T-104-03 | ✅ |
 
 **Total estimé : 2 h** (4 tâches).
 

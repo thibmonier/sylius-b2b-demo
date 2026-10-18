@@ -1,9 +1,10 @@
-# Single source of truth for the 23 showcased plugins (US-014). Consumed by the Plugins page, the
+# Single source of truth for the showcased plugins (US-014); the figure shown in the pages is counted from it (US-087). Consumed by the Plugins page, the
 # About page and (later) the plugin badges through App\Demo\Plugin\DemoPluginCatalog.
 # slug = GitHub repository name = Packagist package "tmonier/<slug>"; descriptions come from each
 # plugin's composer.json. demo_route = name of a real shop route showing the plugin (null when the
 # plugin is only visible in the admin panel, the API or at checkout). Categories: purchasing,
-# billing, catalog, integration, compliance, admin.
+# billing, catalog, integration, compliance, admin. published: false = not on Packagist yet; installed: false = not
+# installed in this demo (card marked "coming soon" instead of "in progress").
 parameters:
     demo.plugin_catalog:
         - slug: sylius-admin-order-creation-plugin
@@ -117,6 +118,19 @@ parameters:
               fr: "Sur le canal B2B, ajoutez 10 cartons « Carton simple cannelure A4 » (EMBA-001, famille Emballage) : la jauge de la palette EUR indique 8 %, la commande est désactivée avec la raison et un bouton arrondit à la couche. À 117 cartons (13 couches de 9), la palette est complète et la commande passe. Les vis VISS-001 se vendent à la boîte (une boîte de 100 vis tient dans un carton S) : 5 boîtes de VISS-001 et 2 de VISS-002, la liste d'achat d'Atelier, remplissent un carton à plus de 20 % et respectent la règle Visserie. Le canal B2C n'a aucune règle."
               en: "On the B2B channel, add 10 'Single-wall cardboard box A4' (EMBA-001, Packaging family): the EUR pallet gauge shows 8 %, checkout is disabled with the reason and a button rounds up to the layer. At 117 cartons (13 layers of 9) the pallet is full and the order goes through. Hex bolts VISS-001 are sold by the box (a box of 100 bolts fits a carton S): 5 boxes of VISS-001 and 2 of VISS-002, the Atelier shopping list, fill a carton past 20 % and meet the Fasteners rule. The B2C channel has no rule."
           advised_account: claire@acme.example
+        - slug: sylius-customer-asset-management-plugin
+          name: 'Customer Asset Management'
+          category: catalog
+          description:
+              fr: "Parc d'équipements du client : le client déclare ses machines et le catalogue se limite aux pièces compatibles. Plugin en conception, pas encore installé dans la démo."
+              en: 'Customer equipment fleet: customers declare their machines and the catalogue narrows down to the compatible spare parts. Plugin in design, not installed in the demo yet.'
+          demo_route: null
+          scenario:
+              fr: "À venir : un client déclare son parc d'équipements, puis ne voit que les pièces détachées compatibles."
+              en: "Coming soon: a customer declares their equipment fleet, then only sees the compatible spare parts."
+          advised_account: sophie@fournitures-pro.example
+          published: false
+          installed: false
         - slug: sylius-facturx-plugin
           name: 'Factur-X'
           category: billing

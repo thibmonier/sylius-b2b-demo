@@ -15,7 +15,7 @@
         </ul>
 
         <h2>{{ 'about.plugins'|trans({}, 'legal') }}</h2>
-        <p>{{ 'about.plugins_intro'|trans({}, 'legal') }}</p>
+        <p>{{ 'about.plugins_intro'|trans({'%count%': demo_plugin_count()}, 'legal') }}</p>
         <ul data-plugin-list>
             {% for plugin in plugins %}
                 <li>{% include 'shared/_external_link.html.twig' with { url: plugin.githubUrl, label: plugin.slug } only %}</li>

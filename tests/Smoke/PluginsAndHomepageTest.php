@@ -43,7 +43,7 @@ final class PluginsAndHomepageTest extends WebTestCase
         $content = (string) $client->getResponse()->getContent();
         $catalog = self::catalog();
 
-        self::assertCount(23, $client->getCrawler()->filter('[data-plugin]'));
+        self::assertCount($catalog->count(), $client->getCrawler()->filter('[data-plugin]'));
         foreach ($catalog->all() as $plugin) {
             self::assertStringContainsString('data-plugin="' . $plugin->slug . '"', $content);
             self::assertStringContainsString($plugin->githubUrl(), $content);
@@ -56,11 +56,13 @@ final class PluginsAndHomepageTest extends WebTestCase
                 $plugin->slug,
             );
         }
-        self::assertCount(1, $client->getCrawler()->filter('[data-plugin-unpublished]'));
-        self::assertCount(22, $client->getCrawler()->filter('[data-plugin-packagist]'));
+        self::assertCount(2, $client->getCrawler()->filter('[data-plugin-unpublished]'));
+        self::assertCount(1, $client->getCrawler()->filter('[data-plugin-status="in_progress"]'));
+        self::assertCount(1, $client->getCrawler()->filter('[data-plugin-status="upcoming"]'));
+        self::assertCount($catalog->count() - 2, $client->getCrawler()->filter('[data-plugin-packagist]'));
         // Each external link carries the icon of its service (GitHub, Packagist).
-        self::assertCount(23, $client->getCrawler()->filter('[data-plugin] .card-footer a[href^="https://github.com/"] svg'));
-        self::assertCount(22, $client->getCrawler()->filter('[data-plugin-packagist] svg'));
+        self::assertCount($catalog->count(), $client->getCrawler()->filter('[data-plugin] .card-footer a[href^="https://github.com/"] svg'));
+        self::assertCount($catalog->count() - 2, $client->getCrawler()->filter('[data-plugin-packagist] svg'));
     }
 
     public function testEveryDemoRouteOfTheCatalogExists(): void

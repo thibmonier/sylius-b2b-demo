@@ -24,10 +24,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-087-01 | [TEST] | Tests rouges : nombre calculé = 24 (accueil, À propos), statut des plugins, devis vide, smoke « clé brute » boutique et admin | 1,5h | - | 🔲 |
-| T-087-02 | [BE] | Nombre de plugins calculé depuis `config/demo/plugins.yaml` (accueil et À propos) | 1h | T-087-01 | 🔲 |
-| T-087-03 | [FE-WEB] | Mention « en cours » ou « à venir » pour chaque plugin non publié | 0,5h | T-087-01, T-104-03 | 🔲 |
-| T-087-04 | [FE-WEB] | Devis vide : message FR et EN à la place de la clé `sylius.ui.continue_shopping` | 0,5h | T-087-01 | 🔲 |
+| T-087-01 | [TEST] | Tests rouges : nombre calculé = 24 (accueil, À propos), statut des plugins, devis vide, smoke « clé brute » boutique et admin | 1,5h | - | ✅ |
+| T-087-02 | [BE] | Nombre de plugins calculé depuis `config/demo/plugins.yaml` (accueil et À propos) | 1h | T-087-01 | ✅ |
+| T-087-03 | [FE-WEB] | Mention « en cours » ou « à venir » pour chaque plugin non publié | 0,5h | T-087-01, T-104-03 | ✅ |
+| T-087-04 | [FE-WEB] | Devis vide : message FR et EN à la place de la clé `sylius.ui.continue_shopping` | 0,5h | T-087-01 | ✅ |
 | T-087-05 | [FE-WEB] | Admin en français : tableau de bord (« Sales », « Paid orders count ») et noms de produits du journal d'audit | 1,5h | T-087-01 | 🔲 |
 | T-087-06 | [TEST] | ⚠️ Parcours de rendu réel des pages clés (boutique et admin) FR et EN contre les clés brutes | 0,5h | T-087-02, T-087-03, T-087-04, T-087-05, T-070-02 | 🔲 |
 | T-087-07 | [REV] | Revue | 0,5h | T-087-05 | 🔲 |
