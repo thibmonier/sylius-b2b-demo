@@ -223,6 +223,7 @@ sprints:
       - {id: US-139, title: "Plugins à jour dans la démo", points: 2, status: ready-for-dev}  # Must ; nouvelle ; quick-order ^1.2.0, punchout ^1.2.1, surcharge temporaire retirée
       - {id: US-140, title: "Hôtes de confiance indépendants du domaine public Railway", points: 1, status: ready-for-dev}  # Must ; nouvelle ; incident du 2026-10-18 ; application par Thibaut (T-140-06)
       - {id: US-141, title: "Nettoyage des caches de test", points: 1, status: ready-for-dev}  # Should ; nouvelle ; actions de rétro S14 ; sacrifice n° 5
+      - {id: US-144, title: "Bandeau du haut sans offre newsletter", points: 1, status: ready-for-dev}  # ajoutée en cours de sprint (demande de Thibaut du 2026-10-18), implémentée par l'orchestrateur
       - {id: US-078, title: "SEO de base et vitesse d'affichage mobile", points: 5, status: ready-for-dev}  # Should ; sacrifice n° 1
       - {id: US-081, title: "Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes", points: 5, status: ready-for-dev}  # Should ; sacrifice n° 2
       - {id: US-082, title: "Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances", points: 5, status: ready-for-dev}  # Should ; sacrifice n° 3
