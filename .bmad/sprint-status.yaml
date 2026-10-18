@@ -188,13 +188,82 @@ sprints:
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
-  - {id: US-056, title: "Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin)", points: 5, status: backlog}  # suite d'US-054 ; dépôt sylius-customer-asset-management-plugin
-  - {id: US-057, title: "Plugin équipements : parc du client dans l'espace client (CRUD)", points: 5, status: backlog}  # suite d'US-054 ; un client ne voit que son parc
-  - {id: US-058, title: "Plugin équipements : filtre « pièces compatibles » au catalogue", points: 5, status: backlog}  # suite d'US-054 ; repli si parc vide
-  - {id: US-059, title: "Plugin équipements : publication 0.1.0 (tag, Packagist, README)", points: 2, status: backlog}  # actions de l'utilisateur ; pas de promotion si Sylius Plus couvre le besoin
-  - {id: US-060, title: "Plugin équipements : intégration à la démo (données, config/demo/plugins.yaml)", points: 3, status: backlog}  # seulement si la tranche 1 est terminée et le plugin publié
-  - {id: US-061, title: "Crédits des images de démo", points: 1, status: backlog}  # reprise de T-047-09, action 4 du sprint 10 (non faite, constatée au planning du sprint 12)
-  - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked)
-  - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact
-  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon
-  - {id: US-070, title: "Plugin punchout : traduire le titre et le fil d’Ariane des acheteurs PunchOut", points: 1, status: backlog}  # clé brute `tmonier_punchout.ui.buyers` dans l’admin, relevée pendant les captures du sprint 13 (US-065)
+  - {id: US-056, title: "Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin)", points: 5, status: backlog}  # suite d'US-054 ; dépôt sylius-customer-asset-management-plugin ; cible sprint 20 (roadmap ouverture-communication)
+  - {id: US-057, title: "Plugin équipements : parc du client dans l'espace client (CRUD)", points: 5, status: backlog}  # suite d'US-054 ; un client ne voit que son parc ; cible sprint 20 (roadmap ouverture-communication)
+  - {id: US-058, title: "Plugin équipements : filtre « pièces compatibles » au catalogue", points: 5, status: backlog}  # suite d'US-054 ; repli si parc vide ; cible sprint 20 (roadmap ouverture-communication)
+  - {id: US-059, title: "Plugin équipements : publication 0.1.0 (tag, Packagist, README)", points: 2, status: backlog}  # actions de l'utilisateur ; pas de promotion si Sylius Plus couvre le besoin ; cible sprint 21 (roadmap ouverture-communication)
+  - {id: US-060, title: "Plugin équipements : intégration à la démo (données, config/demo/plugins.yaml)", points: 3, status: backlog}  # seulement si la tranche 1 est terminée et le plugin publié ; cible sprint 21 (roadmap ouverture-communication)
+  - {id: US-061, title: "Crédits des images de démo", points: 1, status: backlog}  # reprise de T-047-09, action 4 du sprint 10 (non faite, constatée au planning du sprint 12) ; cible sprint 16 (roadmap ouverture-communication)
+  - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked) ; cible sprint 19 (roadmap ouverture-communication)
+  - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact ; cible sprint 17 (roadmap ouverture-communication)
+  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon ; cible sprint 18 (roadmap ouverture-communication)
+  - {id: US-070, title: "Plugin punchout : traduire le titre et le fil d’Ariane des acheteurs PunchOut", points: 1, status: backlog}  # clé brute `tmonier_punchout.ui.buyers` dans l’admin, relevée pendant les captures du sprint 13 (US-065) ; cible sprint 14 (roadmap ouverture-communication)
+  # --- Backlog ouverture publique et communication (2026-10-18, issu de l'audit fonctionnel B2B et des audits accessibilité/UX/UI/sécurité/qualité) : EPIC-10 à EPIC-14 ; voir project-management/backlog/roadmap-ouverture-et-communication.md ; reprises sans doublon : US-052, US-056 à US-062, US-068 à US-070
+  - {id: US-071, title: "Mise en page mobile sans débordement ni cible trop petite", points: 3, status: backlog}  # cible sprint 14 ; EPIC-10, Must
+  - {id: US-072, title: "Structure sémantique du thème : repères, lien d'évitement et annonces", points: 5, status: backlog}  # cible sprint 14 ; EPIC-10, Must
+  - {id: US-073, title: "Contrastes AAA et jetons de couleur uniques", points: 3, status: backlog}  # cible sprint 14 ; EPIC-10, Must
+  - {id: US-074, title: "Pied de page dédié à la démo B2B", points: 3, status: backlog}  # cible sprint 14 ; EPIC-10, Must
+  - {id: US-075, title: "Connexion : comptes de démo en premier, groupés par société", points: 2, status: backlog}  # cible sprint 14 ; EPIC-10, Should
+  - {id: US-076, title: "Barre de démo sur une ligne, dans la langue du visiteur", points: 2, status: backlog}  # cible sprint 14 ; EPIC-10, Should
+  - {id: US-077, title: "Libellés accessibles du cœur en français", points: 2, status: backlog}  # cible sprint 14 ; EPIC-10, Should
+  - {id: US-078, title: "SEO de base et vitesse d'affichage mobile", points: 5, status: backlog}  # cible sprint 15 ; EPIC-10, Should
+  - {id: US-079, title: "Sécurité avant ouverture : exposition, configuration versionnée, branche protégée", points: 3, status: backlog}  # cible sprint 14 ; EPIC-10, Must
+  - {id: US-080, title: "Boîte de courriels de démo limitée aux mails des fixtures", points: 2, status: backlog}  # cible sprint 14 ; EPIC-10, Must
+  - {id: US-081, title: "Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes", points: 5, status: backlog}  # cible sprint 15 ; EPIC-10, Should
+  - {id: US-082, title: "Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances", points: 5, status: backlog}  # cible sprint 15 ; EPIC-10, Should
+  - {id: US-083, title: "Relire la licence du plugin MCP tiers", points: 1, status: backlog}  # cible sprint 15 ; EPIC-10, Should
+  - {id: US-084, title: "Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société", points: 5, status: backlog}  # cible sprint 20 ; EPIC-10, Could
+  - {id: US-085, title: "Revue de sécurité de réouverture et dossier de GO", points: 2, status: backlog}  # cible sprint 15 ; EPIC-10, Must
+  - {id: US-086, title: "Exemple de commande rapide avec de vraies références", points: 2, status: backlog}  # cible sprint 14 ; EPIC-11, Must
+  - {id: US-087, title: "Signaux « prototype » : 23/24 plugins, clés brutes, libellés anglais", points: 3, status: backlog}  # cible sprint 14 ; EPIC-11, Must
+  - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: backlog}  # cible sprint 19 ; EPIC-11, Should
+  - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: backlog}  # cible sprint 15 ; EPIC-11, Must
+  - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: backlog}  # cible sprint 15 ; EPIC-11, Must
+  - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: backlog}  # cible sprint 15 ; EPIC-11, Must
+  - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
+  - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: backlog}  # cible sprint 16 ; EPIC-11, Should
+  - {id: US-094, title: "Stock et délais indicatifs sur la fiche produit (données de démonstration)", points: 5, status: backlog}  # cible sprint 19 ; EPIC-11, Should
+  - {id: US-095, title: "Fiches techniques PDF fictives", points: 3, status: backlog}  # cible sprint 20 ; EPIC-11, Could
+  - {id: US-096, title: "Données vivantes (1/2) : panier de départ, historique et approbation en attente", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
+  - {id: US-097, title: "Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons et suggestions IA", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
+  - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: backlog}  # cible sprint 18 ; EPIC-11, Should
+  - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: backlog}  # cible sprint 18 ; EPIC-11, Should
+  - {id: US-100, title: "Les 403 expliqués et les menus inaccessibles masqués", points: 3, status: backlog}  # cible sprint 20 ; EPIC-11, Should
+  - {id: US-101, title: "Factures PDF et relevé de compte côté acheteur", points: 5, status: backlog}  # cible sprint 21 ; EPIC-11, Should
+  - {id: US-102, title: "Suivi de commande côté acheteur", points: 3, status: backlog}  # cible sprint 21 ; EPIC-11, Could
+  - {id: US-103, title: "Assistants IA : page utile avec transcript d'une vraie conversation", points: 3, status: backlog}  # cible sprint 18 ; EPIC-11, Should
+  - {id: US-104, title: "Retirer l'encart « Sylius Plus » de la page Plugins", points: 1, status: backlog}  # cible sprint 14 ; EPIC-12, Must
+  - {id: US-105, title: "Parcours guidés : moteur de visite par étapes", points: 8, status: backlog}  # cible sprint 17 ; EPIC-12, Must
+  - {id: US-106, title: "Parcours guidés : contenu par persona et écran de sortie vers le contact", points: 5, status: backlog}  # cible sprint 17 ; EPIC-12, Must
+  - {id: US-107, title: "Page « Intégrer ces plugins dans votre projet »", points: 5, status: backlog}  # cible sprint 17 ; EPIC-12, Must
+  - {id: US-108, title: "Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants", points: 3, status: backlog}  # cible sprint 19 ; EPIC-12, Should
+  - {id: US-109, title: "Cas d'usage sectoriels : quatre pages avec appel à l'action", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
+  - {id: US-110, title: "Mini-diagnostic en six questions", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
+  - {id: US-111, title: "Bloc de preuve technique : qualité, compatibilité, versions", points: 3, status: backlog}  # cible sprint 19 ; EPIC-12, Should
+  - {id: US-112, title: "Mode « présentation commerciale »", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
+  - {id: US-113, title: "Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue", points: 3, status: backlog}  # cible sprint 18 ; EPIC-12, Should
+  - {id: US-114, title: "Études de cas fictives signalées", points: 3, status: backlog}  # cible sprint 21 ; EPIC-12, Could
+  - {id: US-115, title: "Appels à l'action cohérents : cartes de plugins, À propos et composant partagé", points: 2, status: backlog}  # cible sprint 18 ; EPIC-12, Should
+  - {id: US-116, title: "Charte éditoriale LinkedIn et messages clés", points: 2, status: backlog}  # cible sprint 16 ; EPIC-13, Must
+  - {id: US-117, title: "Mesure de la communication : visites par campagne sans cookie", points: 3, status: backlog}  # cible sprint 18 ; EPIC-13, Should
+  - {id: US-118, title: "Fiches plugins pour le site : gabarit et six plugins phares", points: 5, status: backlog}  # cible sprint 16 ; EPIC-13, Must
+  - {id: US-119, title: "Fiches plugins pour le site : les dix-huit autres plugins", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
+  - {id: US-120, title: "Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide", points: 5, status: backlog}  # cible sprint 17 ; EPIC-13, Must
+  - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
+  - {id: US-122, title: "Calendrier éditorial LinkedIn sur huit semaines", points: 3, status: backlog}  # cible sprint 16 ; EPIC-13, Must
+  - {id: US-123, title: "Posts LinkedIn rédigés, lot 1 : annonce et trois premiers posts", points: 5, status: backlog}  # cible sprint 17 ; EPIC-13, Must
+  - {id: US-124, title: "Posts LinkedIn rédigés, lot 2 : semaines 3 à 8", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
+  - {id: US-125, title: "Page « démo » du site personnel", points: 3, status: backlog}  # cible sprint 17 ; EPIC-13, Must
+  - {id: US-126, title: "Pages « services » et « contact » du site : offres bankables", points: 5, status: backlog}  # cible sprint 16 ; EPIC-13, Should
+  - {id: US-127, title: "Annonce d'ouverture : checklist de J-7 à J+7", points: 3, status: backlog}  # cible sprint 17 ; EPIC-13, Must
+  - {id: US-128, title: "Bilan de communication : retours, échanges et rétrospective", points: 2, status: backlog}  # cible sprint 20 ; EPIC-13, Could
+  - {id: US-129, title: "Profil LinkedIn : texte, bannière et section « À la une »", points: 2, status: backlog}  # cible sprint 18 ; EPIC-13, Should
+  - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: backlog}  # cible sprint 19 ; EPIC-14, Should
+  - {id: US-131, title: "Spike P3 : assortiments et prix par société", points: 3, status: backlog}  # cible sprint 20 ; EPIC-14, Should
+  - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: backlog}  # cible sprint 19 ; EPIC-14, Should
+  - {id: US-133, title: "Spike P2 : contrats-cadres", points: 3, status: backlog}  # cible sprint 20 ; EPIC-14, Could
+  - {id: US-134, title: "Spike P4 : stock multi-entrepôts et délais", points: 3, status: backlog}  # cible sprint 20 ; EPIC-14, Could
+  - {id: US-135, title: "Spike P8 : budgets et centres de coût", points: 2, status: backlog}  # cible sprint 20 ; EPIC-14, Could
+  - {id: US-136, title: "Connecteur ERP, tranche 1 : export des commandes et contrat d'événements", points: 5, status: backlog}  # cible sprint 21 ; EPIC-14, Should
+  - {id: US-137, title: "Connecteur ERP, tranche 2 : import des prix et du stock", points: 5, status: backlog}  # cible sprint 21 ; EPIC-14, Could
+  - {id: US-138, title: "Assortiments par société, tranche 1", points: 8, status: backlog}  # cible sprint 21 ; EPIC-14, Could
