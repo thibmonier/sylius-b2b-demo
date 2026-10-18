@@ -24,11 +24,11 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-086-01 | [DOC] | Arbitrer et consigner : option de configuration + traduction neutre (plugin), références réelles (démo) ; relever 2 références valides du catalogue | 0,5h | - | 🔲 |
-| T-086-02 | [TEST] | Test de fumée de la démo : coller l'exemple, aperçu à deux lignes valides ; échec nommant la référence retirée | 1h | T-086-01 | 🔲 |
-| T-086-03 | [BE] | Plugin quick-order : option `placeholder` et défaut neutre, tests et README ; branche `main` à jour | 1,5h | T-086-01 | 🔲 |
-| T-086-04 | [BE] | Démo : paramètre des références d'exemple (ou surcharge temporaire du gabarit) | 0,5h | T-086-02, T-086-03 | 🔲 |
-| T-086-05 | [REV] | Revue des deux dépôts (rendu réel de la page de commande rapide FR et EN) | 0,5h | T-086-04 | 🔲 |
+| T-086-01 | [DOC] | Arbitrer et consigner : option de configuration + traduction neutre (plugin), références réelles (démo) ; relever 2 références valides du catalogue | 0,5h | - | ✅ |
+| T-086-02 | [TEST] | Test de fumée de la démo : coller l'exemple, aperçu à deux lignes valides ; échec nommant la référence retirée | 1h | T-086-01 | ✅ |
+| T-086-03 | [BE] | Plugin quick-order : option `placeholder` et défaut neutre, tests et README ; branche `main` à jour | 1,5h | T-086-01 | ✅ |
+| T-086-04 | [BE] | Démo : paramètre des références d'exemple (ou surcharge temporaire du gabarit) | 0,5h | T-086-02, T-086-03 | ✅ |
+| T-086-05 | [REV] | Revue des deux dépôts (rendu réel de la page de commande rapide FR et EN) | 0,5h | T-086-04 | ✅ |
 | T-086-06 | [OPS] | 📅 PR du plugin avec la démo, merge puis release de patch (GO de Thibaut) ; montée de version dans la démo | 0,5h | T-086-05 | 🔲 |
 
 **Total estimé : 4,5 h** (6 tâches), dont 0,5 h calendaire(s) (📅).

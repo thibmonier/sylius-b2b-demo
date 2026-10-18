@@ -25,8 +25,8 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-070-01 | [TEST] | Test rouge : les clés `tmonier_punchout.ui.buyers` existent dans les 7 langues du plugin et la page liste affiche le titre traduit (FR et EN) | 0,5h | - | 🔲 |
-| T-070-02 | [BE] | Ajouter `ui.buyers` aux 7 fichiers `translations/messages.*.yaml` ; vérifier le rendu réel de la liste et du fil d'Ariane dans l'admin de la démo | 1h | T-070-01 | 🔲 |
+| T-070-01 | [TEST] | Test rouge : les clés `tmonier_punchout.ui.buyers` existent dans les 7 langues du plugin et la page liste affiche le titre traduit (FR et EN) | 0,5h | - | ✅ |
+| T-070-02 | [BE] | Ajouter `ui.buyers` aux 7 fichiers `translations/messages.*.yaml` ; vérifier le rendu réel de la liste et du fil d'Ariane dans l'admin de la démo | 1h | T-070-01 | ✅ |
 | T-070-03 | [REV] | Revue (ECS et PHPStan du plugin, rendu admin FR et EN) | 0,5h | T-070-02 | 🔲 |
 | T-070-04 | [OPS] | 📅 Ouverture de la PR du plugin avec la démo, merge puis release de patch (GO de Thibaut) ; montée de version dans la démo | 0,5h | T-070-03 | 🔲 |
 
