@@ -25,13 +25,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-072-01 | [TEST] | Tests rouges d'audit : un `header`, un `main`, un `footer` uniques, un seul `h1`, lien d'évitement premier focalisable, échec si deux `main` | 2h | - | 🔲 |
-| T-072-02 | [FE-WEB] | Surcharge du layout : `header`, `main` (`id`, `tabindex="-1"`), `footer` | 2h | T-072-01 | 🔲 |
-| T-072-03 | [FE-WEB] | Lien « Aller au contenu » visible au focus (FR et EN) | 1h | T-072-02 | 🔲 |
-| T-072-04 | [FE-WEB] | Région `aria-live` polie pour les confirmations (panier, liste d'achat) | 1,5h | T-072-02 | 🔲 |
-| T-072-05 | [FE-WEB] | Un seul `h1` par page : connexion, pages d'erreur 403 et 404 avec mêmes repères | 1,5h | T-072-02 | 🔲 |
-| T-072-06 | [TEST] | Audit des repères et du lien d'évitement ajouté à la CI ; vérification Tab réelle sur 5 pages | 1h | T-072-03, T-072-04, T-072-05 | 🔲 |
-| T-072-07 | [DOC] | ⚠️ Documentation du layout et de l'audit | 0,5h | T-072-06 | 🔲 |
+| T-072-01 | [TEST] | Tests rouges d'audit : un `header`, un `main`, un `footer` uniques, un seul `h1`, lien d'évitement premier focalisable, échec si deux `main` | 2h | - | ✅ |
+| T-072-02 | [FE-WEB] | Surcharge du layout : `header`, `main` (`id`, `tabindex="-1"`), `footer` | 2h | T-072-01 | ✅ |
+| T-072-03 | [FE-WEB] | Lien « Aller au contenu » visible au focus (FR et EN) | 1h | T-072-02 | ✅ |
+| T-072-04 | [FE-WEB] | Région `aria-live` polie pour les confirmations (panier, liste d'achat) | 1,5h | T-072-02 | ✅ |
+| T-072-05 | [FE-WEB] | Un seul `h1` par page : connexion, pages d'erreur 403 et 404 avec mêmes repères | 1,5h | T-072-02 | ✅ |
+| T-072-06 | [TEST] | Audit des repères et du lien d'évitement ajouté à la CI ; vérification Tab réelle sur 5 pages | 1h | T-072-03, T-072-04, T-072-05 | ✅ |
+| T-072-07 | [DOC] | ⚠️ Documentation du layout et de l'audit | 0,5h | T-072-06 | ✅ |
 | T-072-08 | [REV] | Revue | 0,5h | T-072-06 | 🔲 |
 
 **Total estimé : 10 h** (8 tâches), sacrifiable(s) ⚠️ : T-072-07.

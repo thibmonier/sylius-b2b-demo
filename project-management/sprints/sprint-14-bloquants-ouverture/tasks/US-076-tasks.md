@@ -24,11 +24,11 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-076-01 | [TEST] | Tests rouges : une langue à la fois, lien contact présent ou masqué (vide, http) | 1h | - | 🔲 |
-| T-076-02 | [FE-WEB] | Barre sur une ligne dans la langue courante (`top_bar`) | 1,5h | T-076-01 | 🔲 |
-| T-076-03 | [FE-WEB] | Lien contact depuis la configuration (US-074) | 0,5h | T-076-02, T-074-02 | 🔲 |
-| T-076-04 | [TEST] | Mesure réelle : une ligne à 375 px et à 1280 px, FR et EN | 0,5h | T-076-03, T-071-01 | 🔲 |
-| T-076-05 | [REV] | Revue | 0,5h | T-076-04 | 🔲 |
+| T-076-01 | [TEST] | Tests rouges : une langue à la fois, lien contact présent ou masqué (vide, http) | 1h | - | ✅ |
+| T-076-02 | [FE-WEB] | Barre sur une ligne dans la langue courante (`top_bar`) | 1,5h | T-076-01 | ✅ |
+| T-076-03 | [FE-WEB] | Lien contact depuis la configuration (US-074) | 0,5h | T-076-02, T-074-02 | ✅ |
+| T-076-04 | [TEST] | Mesure réelle : une ligne à 375 px et à 1280 px, FR et EN | 0,5h | T-076-03, T-071-01 | ✅ |
+| T-076-05 | [REV] | Revue | 0,5h | T-076-04 | ✅ |
 
 **Total estimé : 4 h** (5 tâches).
 

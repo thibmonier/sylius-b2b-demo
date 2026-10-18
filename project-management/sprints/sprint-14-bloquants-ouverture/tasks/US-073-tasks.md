@@ -24,12 +24,12 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-073-01 | [DOC] | Mesure des contrastes actuels (pagination 2,07:1, identifiants 4,5:1, favoris 4,69:1, textes grisés) et liste des couleurs en dur | 1h | - | 🔲 |
-| T-073-02 | [TEST] | Contrôle des contrastes (7:1 texte, 3:1 composants) et contrôle de style signalant toute couleur en dur | 1,5h | T-073-01 | 🔲 |
-| T-073-03 | [FE-WEB] | Jeton CSS unique pour le brun ; suppression des deux valeurs d'origine | 1h | T-073-02 | 🔲 |
-| T-073-04 | [FE-WEB] | Corriger pagination, code des identifiants de démo, boutons favoris, textes grisés | 1,5h | T-073-03 | 🔲 |
-| T-073-05 | [FE-WEB] | ⚠️ Contraste élevé (`prefers-contrast`, `forced-colors`) lisible | 0,5h | T-073-04 | 🔲 |
-| T-073-06 | [REV] | Revue (contrôle sur le rendu réel des 6 pages) | 0,5h | T-073-04 | 🔲 |
+| T-073-01 | [DOC] | Mesure des contrastes actuels (pagination 2,07:1, identifiants 4,5:1, favoris 4,69:1, textes grisés) et liste des couleurs en dur | 1h | - | ✅ |
+| T-073-02 | [TEST] | Contrôle des contrastes (7:1 texte, 3:1 composants) et contrôle de style signalant toute couleur en dur | 1,5h | T-073-01 | ✅ |
+| T-073-03 | [FE-WEB] | Jeton CSS unique pour le brun ; suppression des deux valeurs d'origine | 1h | T-073-02 | ✅ |
+| T-073-04 | [FE-WEB] | Corriger pagination, code des identifiants de démo, boutons favoris, textes grisés | 1,5h | T-073-03 | ✅ |
+| T-073-05 | [FE-WEB] | ⚠️ Contraste élevé (`prefers-contrast`, `forced-colors`) lisible | 0,5h | T-073-04 | ✅ |
+| T-073-06 | [REV] | Revue (contrôle sur le rendu réel des 6 pages) | 0,5h | T-073-04 | ✅ |
 
 **Total estimé : 6 h** (6 tâches), sacrifiable(s) ⚠️ : T-073-05.
 

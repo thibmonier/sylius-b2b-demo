@@ -23,9 +23,9 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-077-01 | [DOC] | Inventaire des libellés accessibles restés en anglais (rendu FR des pages clés) | 1h | - | 🔲 |
-| T-077-02 | [TEST] | Test de traduction : échoue en nommant toute clé sans traduction ; libellés EN conservés | 1h | T-077-01 | 🔲 |
-| T-077-03 | [BE] | Traductions FR (et EN conservées) dans `translations/` de la démo | 1,5h | T-077-02 | 🔲 |
+| T-077-01 | [DOC] | Inventaire des libellés accessibles restés en anglais (rendu FR des pages clés) | 1h | - | ✅ |
+| T-077-02 | [TEST] | Test de traduction : échoue en nommant toute clé sans traduction ; libellés EN conservés | 1h | T-077-01 | ✅ |
+| T-077-03 | [BE] | Traductions FR (et EN conservées) dans `translations/` de la démo | 1,5h | T-077-02 | ✅ |
 | T-077-04 | [REV] | Revue (audit des libellés en FR et en EN) | 0,5h | T-077-03 | 🔲 |
 
 **Total estimé : 4 h** (4 tâches).

@@ -1,19 +1,17 @@
+{# US-076: one line at every width, one language at a time. What does not fit is folded into two menus
+   (quick login, demo menu); the contact link (URL from the configuration, https only) shows from the md width.
+   Bootstrap utilities only: the bar also shows on the B2C channel, where the B2B stylesheet is not loaded. #}
 {% if demo_mode() %}
-    <div class="bg-dark text-white py-2 small" data-demo-banner>
-        <div class="container d-flex flex-wrap align-items-center gap-3">
-            <strong>Démo B2B / B2B demo</strong>
-            <a class="text-white" href="{{ path('app_demo_accounts') }}">Comptes de démo / Demo accounts</a>
-            <span>
-                Canal / Channel :
-                <a class="text-white" href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a> |
-                <a class="text-white" href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
-            </span>
-            {% if demo_mails_enabled() %}
-                <a class="text-white" href="{{ path('app_demo_mails') }}">E-mails / Mails</a>
-            {% endif %}
-            <details class="position-relative">
-                <summary>Se connecter en un clic / One-click login</summary>
-                <div class="position-absolute bg-white text-dark p-2 border rounded shadow d-grid gap-1" style="z-index: 1050; min-width: 22rem">
+    {% set contact_url = app_demo_contact_url() %}
+    {% set target = 'd-inline-flex align-items-center' %}
+    {% set target_height = 'min-height: 2.75rem' %}
+    {% set panel = 'position-absolute start-0 end-0 mt-1 p-2 bg-white text-dark border rounded shadow' %}
+    <div class="bg-dark text-white small" data-demo-banner>
+        <div class="container position-relative d-flex flex-nowrap align-items-center gap-3" data-controller="demo-menus" data-action="keydown.esc->demo-menus#close click@window->demo-menus#outside">
+            <strong class="text-nowrap">{{ 'banner.title'|trans({}, 'theme_demo') }}</strong>
+            <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
+                <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.login'|trans({}, 'theme_demo') }}</summary>
+                <div class="{{ panel }} d-grid gap-1" style="z-index: 1050; max-width: 24rem">
                     {% for account in demo_shop_accounts() %}
                         {% include 'demo/_login_form.html.twig' with {
                             account,
@@ -25,8 +23,25 @@
                     {% endfor %}
                 </div>
             </details>
-            {% include 'demo/_next_reset.html.twig' with { reset: demo_next_reset() } only %}
-            <span class="ms-auto" data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' only %}</span>
+            <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
+                <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.menu'|trans({}, 'theme_demo') }}</summary>
+                <ul class="{{ panel }} list-unstyled d-grid gap-1 mb-0" style="z-index: 1050; max-width: 24rem">
+                    <li><a class="{{ target }} w-100" style="{{ target_height }}" href="{{ path('app_demo_accounts') }}">{{ 'banner.accounts'|trans({}, 'theme_demo') }}</a></li>
+                    <li class="d-flex align-items-center gap-3" style="{{ target_height }}">
+                        <span>{{ 'banner.channel'|trans({}, 'theme_demo') }}</span>
+                        <a href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a>
+                        <a href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
+                    </li>
+                    {% if demo_mails_enabled() %}
+                        <li><a class="{{ target }} w-100" style="{{ target_height }}" href="{{ path('app_demo_mails') }}">{{ 'banner.mails'|trans({}, 'theme_demo') }}</a></li>
+                    {% endif %}
+                    <li class="d-flex align-items-center" style="{{ target_height }}">{% include 'demo/_next_reset.html.twig' with { reset: demo_next_reset() } only %}</li>
+                    <li data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' with { link_class: 'd-inline-flex align-items-center w-100', link_style: 'min-height: 2.75rem' } only %}</li>
+                </ul>
+            </details>
+            {% if contact_url %}
+                <a class="{{ target }} ms-auto d-none d-md-inline-flex text-white text-nowrap" style="{{ target_height }}" href="{{ contact_url }}" target="_blank" rel="noopener noreferrer" data-contact-link>{{ 'banner.contact'|trans({}, 'theme_demo') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+            {% endif %}
         </div>
     </div>
 {% endif %}

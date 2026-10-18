@@ -1,9 +1,23 @@
-// B2B theme palette (US-013). Every text/background pair below is >= 4.5:1 (WCAG AA).
-$b2b-navy: #1f3a5f;       // on white 11.1:1, white on navy 11.1:1
+// B2B theme palette (US-013, US-073). Single source of every colour: b2b.scss writes none by hand (a unit test
+// reports any). Every text/background pair is >= 7:1 (WCAG AAA 1.4.6), every boundary or focus ring >= 3:1; the
+// pairs are listed in tests/Unit/Theme/ThemeColorTokensTest.php, which measures them.
+$b2b-white: #ffffff;
+$b2b-navy: #1f3a5f;          // on white 11.1:1, white on navy 11.1:1
 $b2b-navy-dark: #162a45;
-$b2b-accent: #9a3f00;     // on white 7.0:1, white on accent 7.0:1 (brown of the logo: third colour, hovers, icons)
-$b2b-accent-dark: #7a3200; // white on it 9.5:1 (pressed state)
-$b2b-accent-subtle: #fbf1ea; // tinted background behind accent icons (accent on it 6.4:1)
+$b2b-accent: #8a3800;        // the one brown of the logo: on white 7.9:1, white on it 7.9:1, on surface 7.3:1
+$b2b-accent-dark: #6b2b00;   // white on it 10.7:1 (pressed state)
+$b2b-accent-subtle: #fbf1ea; // tinted background behind accent icons (accent on it 7.1:1)
 $b2b-surface: #f3f5f8;
-$b2b-border: #cfd6df;
-$b2b-muted: #4b5563;      // on white 7.6:1
+$b2b-surface-strong: #e9ecef;
+$b2b-border: #cfd6df;        // decoration only: boundaries of controls use $b2b-muted
+$b2b-muted: #3f4753;         // secondary text: on white 9.4:1, on surface 8.6:1
+$b2b-success: #0f5a36;       // in stock: on white 8.3:1
+$b2b-warning: #774000;       // on order: on white 8.3:1
+$b2b-danger: #962130;        // white on it 8.2:1
+$b2b-black: #000000;         // high-contrast preference only
+
+// Same colours as "r, g, b" triplets for the Bootstrap `--bs-*-rgb` variables and translucent shadows.
+$b2b-navy-rgb: 31, 58, 95;
+$b2b-accent-rgb: 138, 56, 0;
+$b2b-muted-rgb: 63, 71, 83;
+$b2b-danger-rgb: 150, 33, 48;

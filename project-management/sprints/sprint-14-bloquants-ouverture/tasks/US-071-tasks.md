@@ -25,12 +25,12 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-071-01 | [TEST] | Script `bin/measure-mobile` (Puppeteer `isMobile`, 375 et 320 px, 7 pages, sortie nommant la page fautive) et test de régression structurel (pages et seuil)  | 2h | - | 🔲 |
-| T-071-02 | [FE-WEB] | Corriger les débordements : connexion (418 px), pagination des catégories, tableaux ; texte long à la ligne (`overflow-wrap`) | 1,5h | T-071-01 | 🔲 |
-| T-071-03 | [FE-WEB] | Cibles tactiles ≥ 44 x 44 px : boutons, pagination, favoris, champs | 1h | T-071-02 | 🔲 |
-| T-071-04 | [FE-WEB] | Libellé explicite du champ de recherche de catégorie (FR et EN) | 0,5h | T-071-01 | 🔲 |
-| T-071-05 | [TEST] | ⚠️ Contenu long (nom de produit, numéro de commande) à 320 px, rendu réel | 0,5h | T-071-03 | 🔲 |
-| T-071-06 | [REV] | Revue (mesure à 375 et 320 px sur les 7 pages, copie du résultat) | 0,5h | T-071-05, T-071-04 | 🔲 |
+| T-071-01 | [TEST] | Script `bin/measure-mobile` (Puppeteer `isMobile`, 375 et 320 px, 7 pages, sortie nommant la page fautive) et test de régression structurel (pages et seuil)  | 2h | - | ✅ |
+| T-071-02 | [FE-WEB] | Corriger les débordements : connexion (418 px), pagination des catégories, tableaux ; texte long à la ligne (`overflow-wrap`) | 1,5h | T-071-01 | ✅ |
+| T-071-03 | [FE-WEB] | Cibles tactiles ≥ 44 x 44 px : boutons, pagination, favoris, champs | 1h | T-071-02 | ✅ |
+| T-071-04 | [FE-WEB] | Libellé explicite du champ de recherche de catégorie (FR et EN) | 0,5h | T-071-01 | ✅ |
+| T-071-05 | [TEST] | ⚠️ Contenu long (nom de produit, numéro de commande) à 320 px, rendu réel | 0,5h | T-071-03 | ✅ |
+| T-071-06 | [REV] | Revue (mesure à 375 et 320 px sur les 7 pages, copie du résultat) | 0,5h | T-071-05, T-071-04 | ✅ |
 
 **Total estimé : 6 h** (6 tâches), sacrifiable(s) ⚠️ : T-071-05.
 

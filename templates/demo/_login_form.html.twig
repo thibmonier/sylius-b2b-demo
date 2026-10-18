@@ -1,33 +1,42 @@
 {# One-click login: a standard login form (same fields and CSRF token as the real one) posted to the firewall check path. No bypass.
-   menu = true: full-width row (first name on the left, role on the right) for the banner menu; Bootstrap utilities only,
-   the banner also shows on the B2C channel where the B2B stylesheet is not loaded. #}
+   list = true (US-075): login page row, name and role announced in the button, credentials below.
+   menu = true: compact full-width row (first name on the left, role on the right) for the banner menu.
+   Bootstrap utilities only: the banner and the login page also show on the B2C channel, where the B2B stylesheet is not loaded.
+   One language at a time (US-076): the wording comes from the "theme_demo" translations. #}
 {% set menu = menu|default(false) %}
+{% set list = list|default(false) %}
+{% set role = ('role.' ~ account.role)|trans({}, 'theme_demo') %}
+{% set row = 'w-100 d-flex flex-wrap justify-content-between align-items-center column-gap-3 text-start' %}
 {% if account.enabled %}
-    <form method="post" action="{{ path(check_route) }}" class="{{ menu ? 'd-block' : 'd-inline' }}">
+    <form method="post" action="{{ path(check_route) }}" class="d-block">
         <input type="hidden" name="_username" value="{{ account.email }}">
         <input type="hidden" name="_password" value="{{ account.password }}">
         {% if sylius_csrf_protection_enabled() %}
             <input type="hidden" name="{{ csrf_field }}" value="{{ csrf_token(csrf_id) }}">
         {% endif %}
-        {% if menu %}
-            <button type="submit" class="btn btn-sm btn-outline-primary w-100 d-flex justify-content-between align-items-center gap-3 text-start" data-demo-login="{{ account.email }}">
-                <span class="visually-hidden">Se connecter en tant que {{ account.firstName }} / Log in as {{ account.firstName }} —</span>
-                <span class="fw-semibold" aria-hidden="true">{{ account.firstName }}</span>
-                <span class="small text-nowrap">{{ account.roleLabel }}</span>
+        {% if list %}
+            <button type="submit" class="btn btn-outline-primary {{ row }}" data-demo-login="{{ account.email }}">
+                <span>{{ 'login.log_in_as'|trans({'%name%': account.fullName}, 'theme_demo') }}</span>
+                <span class="small fw-semibold">{{ role }}</span>
             </button>
+            <p class="small mb-0 mt-1 text-break"><code>{{ account.email }}</code> / <code>{{ account.password }}</code></p>
         {% else %}
-            <button type="submit" class="btn btn-sm btn-outline-primary text-nowrap" data-demo-login="{{ account.email }}">
-                Se connecter en tant que {{ account.firstName }} / Log in as {{ account.firstName }}
+            <button type="submit" class="btn btn-sm btn-outline-primary {{ row }}" style="min-height: 2.75rem" data-demo-login="{{ account.email }}">
+                <span class="visually-hidden">{{ 'login.log_in_as'|trans({'%name%': account.firstName}, 'theme_demo') }} —</span>
+                <span class="fw-semibold" aria-hidden="true">{{ account.firstName }}</span>
+                <span class="small">{{ role }}</span>
             </button>
         {% endif %}
     </form>
+{% elseif list %}
+    <button type="button" class="btn btn-outline-secondary {{ row }}" disabled>
+        <span>{{ account.fullName }}</span>
+        <span class="small fw-semibold">{{ role }} — {{ 'login.disabled'|trans({}, 'theme_demo') }}</span>
+    </button>
+    <p class="small mb-0 mt-1 text-break"><code>{{ account.email }}</code></p>
 {% else %}
-    <button type="button" class="btn btn-sm btn-outline-secondary{{ menu ? ' w-100 d-flex justify-content-between align-items-center gap-3 text-start' : ' text-nowrap' }}" disabled>
-        {% if menu %}
-            <span class="fw-semibold">{{ account.firstName }}</span>
-            <span class="small text-nowrap">compte désactivé / disabled</span>
-        {% else %}
-            {{ account.firstName }} — compte désactivé / disabled account
-        {% endif %}
+    <button type="button" class="btn btn-sm btn-outline-secondary {{ row }}" style="min-height: 2.75rem" disabled>
+        <span class="fw-semibold">{{ account.firstName }}</span>
+        <span class="small">{{ 'login.disabled'|trans({}, 'theme_demo') }}</span>
     </button>
 {% endif %}

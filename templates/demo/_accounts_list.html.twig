@@ -1,16 +1,27 @@
-<div class="card mt-4" data-demo-accounts="{{ scope }}">
-    <div class="card-header">Comptes de démo / Demo accounts</div>
-    <ul class="list-group list-group-flush">
-        {% for account in accounts %}
-            <li class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <div>
-                    <strong>{{ account.fullName }}</strong>
-                    <span class="text-muted small">— {{ account.roleLabel }}{% if account.companyName %}, {{ account.companyName }}{% endif %}</span><br>
-                    <code>{{ account.email }}</code> / <code>{{ account.password }}</code>
-                    {% if not account.enabled %}<span class="badge bg-danger">désactivé / disabled</span>{% endif %}
-                </div>
-                {% include 'demo/_login_form.html.twig' with { account, check_route, csrf_field, csrf_id } only %}
-            </li>
+{# US-075: accounts grouped by company (role announced, one language, one click). Bootstrap utilities only: also shown on the B2C channel.
+   Used by the shop login page (scope shop) and the back-office login page (scope admin, no company). #}
+{% set groups = {} %}
+{% for account in accounts %}
+    {% set key = account.companyName ?? '' %}
+    {% set groups = groups|merge({(key): (groups[key] ?? [])|merge([account])}) %}
+{% endfor %}
+<section class="card mb-4" data-demo-accounts="{{ scope }}" aria-labelledby="demo-accounts-title-{{ scope }}">
+    <div class="card-body">
+        <h2 class="h5 mb-1" id="demo-accounts-title-{{ scope }}">{{ 'login.title'|trans({}, 'theme_demo') }}</h2>
+        <p class="mb-3">{{ 'login.hint'|trans({}, 'theme_demo') }}</p>
+        {% for company, members in groups %}
+            <div class="mb-3" data-demo-company="{{ company }}">
+                {% if scope == 'shop' %}
+                    <h3 class="h6 border-bottom pb-1 mb-2">{{ company ?: 'login.no_company'|trans({}, 'theme_demo') }}</h3>
+                {% endif %}
+                <ul class="list-unstyled d-grid gap-2 mb-0">
+                    {% for account in members %}
+                        <li>
+                            {% include 'demo/_login_form.html.twig' with { account, check_route, csrf_field, csrf_id, list: true } only %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% endfor %}
-    </ul>
-</div>
+    </div>
+</section>

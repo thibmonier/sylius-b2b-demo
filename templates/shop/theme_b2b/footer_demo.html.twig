@@ -1,0 +1,31 @@
+{% set site_url = app_demo_site_url() %}
+{% set contact_url = app_demo_contact_url() %}
+<div class="mt-5 border-top py-5" data-demo-footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2 class="h6 fw-bold">{{ 'footer.demo.title'|trans({}, 'shop_layout') }}</h2>
+                <ul class="list-unstyled mb-0">
+                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_about', {_locale: app.request.locale}) }}">{{ 'footer.demo.about'|trans({}, 'shop_layout') }}</a></li>
+                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}">{{ 'footer.demo.plugins'|trans({}, 'shop_layout') }}</a></li>
+                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_accounts') }}">{{ 'footer.demo.journeys'|trans({}, 'shop_layout') }}</a></li>
+                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_mcp_guide', {_locale: app.request.locale}) }}">{{ 'footer.demo.integrate'|trans({}, 'shop_layout') }}</a></li>
+                    {% if contact_url %}
+                        <li><a class="nav-link px-0 text-decoration-underline" href="{{ contact_url }}" rel="noopener noreferrer" target="_blank" data-contact-link>{{ 'footer.demo.contact'|trans({}, 'shop_layout') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 mt-4 mt-md-0">
+                <p class="mb-2">{{ 'footer.demo.fictional'|trans({}, 'shop_layout') }}</p>
+                <p class="mb-0">
+                    {% if site_url %}
+                        {{ 'footer.demo.made_by_prefix'|trans({}, 'shop_layout') }}
+                        <a class="text-decoration-underline" href="{{ site_url }}" rel="noopener noreferrer" target="_blank" data-site-link>Thibaut Monier<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                    {% else %}
+                        {{ 'footer.demo.made_by_prefix'|trans({}, 'shop_layout') }} Thibaut Monier
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

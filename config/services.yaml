@@ -10,6 +10,7 @@ imports:
     - { resource: demo/accounts.yaml }
     - { resource: demo/legal.yaml }
     - { resource: demo/plugins.yaml }
+    - { resource: demo/site.yaml }
 
 parameters:
     # Marker of a failed nightly reset (ResetStatus); the test environment keeps its own in its cache directory.

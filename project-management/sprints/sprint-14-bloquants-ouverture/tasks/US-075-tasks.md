@@ -23,10 +23,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-075-01 | [TEST] | Tests rouges : comptes en tête, groupés par société avec rôle ; aucun compte hors mode démo | 1h | - | 🔲 |
-| T-075-02 | [FE-WEB] | Réordonner la page de connexion : comptes groupés d'abord, formulaire classique dessous | 2h | T-075-01 | 🔲 |
-| T-075-03 | [FE-WEB] | Libellés FR et EN, connexion en un clic avec le rôle annoncé | 0,5h | T-075-02 | 🔲 |
-| T-075-04 | [REV] | Revue (rendu réel en mode démo et hors démo) | 0,5h | T-075-03 | 🔲 |
+| T-075-01 | [TEST] | Tests rouges : comptes en tête, groupés par société avec rôle ; aucun compte hors mode démo | 1h | - | ✅ |
+| T-075-02 | [FE-WEB] | Réordonner la page de connexion : comptes groupés d'abord, formulaire classique dessous | 2h | T-075-01 | ✅ |
+| T-075-03 | [FE-WEB] | Libellés FR et EN, connexion en un clic avec le rôle annoncé | 0,5h | T-075-02 | ✅ |
+| T-075-04 | [REV] | Revue (rendu réel en mode démo et hors démo) | 0,5h | T-075-03 | ✅ |
 
 **Total estimé : 4 h** (4 tâches).
 
