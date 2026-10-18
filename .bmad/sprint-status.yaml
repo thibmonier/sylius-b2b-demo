@@ -232,7 +232,7 @@ sprints:
       - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: review}  # Must
       - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: review}  # Must ; D2 : société de démo = groupe de clients, aucun nouveau plugin
       - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: review}  # Must
-      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: review}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité de développement ; bascule sur GO explicite après US-085 ; commandes Railway par Thibaut
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: in-progress}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité de développement ; bascule sur GO explicite après US-085 ; commandes Railway par Thibaut
     notes: "Ordre de sacrifice (D1) : Should d'abord, US-078, US-081, US-082, US-083, US-141 (T-141-04 conservée) ; Must non sacrifiables ; ≈ 37 h restantes après tous les sacrifices. Une story sacrifiée devient un risque résiduel daté au dossier de GO (US-085). Domaine : thibaut-monier.fr, démo sur sylius-b2b.thibaut-monier.fr (D3). 10 jours ouvrés, planning le 2027-01-11, point d'étape le 2027-01-15, revue et rétro le 2027-01-22."
 
 # Stories prêtes pour un sprint futur, à planifier.
