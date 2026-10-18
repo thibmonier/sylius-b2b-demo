@@ -25,9 +25,9 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-085-01 | [DOC] | Collecter l'état de chaque bloquant : rapports des sprints 14 et 15 (US-079, 080, 081, 082, 083), accessibilité, signaux prototype | 1h | - | 🔲 |
+| T-085-01 | [DOC] | Collecter l'état de chaque bloquant : rapports des sprints 14 et 15 (US-079, 080, 081, 082, 083), accessibilité, signaux prototype | 1h | - | ✅ |
 | T-085-02 | [TEST] | Revue de réouverture exécutée : `bin/verify-public-mode`, `bin/check-branch-protection`, pa11y AAA, `bin/measure-mobile`, audit des dépendances ; résultats consignés | 1h | T-085-01 | 🔲 |
-| T-085-03 | [DOC] | Rédiger `docs/dossier-de-go.md` : bloquants, état, GO ou NO-GO, risques résiduels datés, bascule du domaine (D3), liste des actions de Thibaut (US-052) | 1h | T-085-02 | 🔲 |
+| T-085-03 | [DOC] | Rédiger `docs/dossier-de-go.md` : bloquants, état, GO ou NO-GO, risques résiduels datés, bascule du domaine (D3), liste des actions de Thibaut (US-052) | 1h | T-085-02 | ✅ |
 | T-085-04 | [REV] | Revue indépendante (relecture « aucun détail exploitable » de tous les documents du dossier) | 0,5h | T-085-03 | 🔲 |
 | T-085-05 | [OPS] | 📅 Thibaut : relire le dossier, accepter les risques résiduels, décider GO ou NO-GO | 0,5h | T-085-04 | 🔲 |
 
