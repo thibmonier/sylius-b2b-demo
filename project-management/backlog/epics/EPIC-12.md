@@ -15,7 +15,7 @@ Transformer la démo en outil de conversion : parcours guidés par persona, page
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
-| [US-069](../user-stories/US-069.md) | La page Plugins de la démo renvoie vers le site | Could | 2 | 18 |
+| [US-069](../user-stories/US-069.md) | La page Plugins de la démo renvoie vers le site | Could | 2 | 19 |
 | [US-104](../user-stories/US-104.md) | Retirer l'encart « Sylius Plus » de la page Plugins | Must | 1 | 14 |
 | [US-105](../user-stories/US-105.md) | Parcours guidés : moteur de visite par étapes | Must | 8 | 17 |
 | [US-106](../user-stories/US-106.md) | Parcours guidés : contenu par persona et écran de sortie vers le contact | Must | 5 | 17 |
@@ -25,7 +25,7 @@ Transformer la démo en outil de conversion : parcours guidés par persona, page
 | [US-110](../user-stories/US-110.md) | Mini-diagnostic en six questions | Should | 5 | 19 |
 | [US-111](../user-stories/US-111.md) | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 | 19 |
 | [US-112](../user-stories/US-112.md) | Mode « présentation commerciale » | Should | 5 | 19 |
-| [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 18 |
+| [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 19 |
 | [US-114](../user-stories/US-114.md) | Études de cas fictives signalées | Could | 3 | 21 |
 | [US-115](../user-stories/US-115.md) | Appels à l'action cohérents : cartes de plugins, À propos et composant partagé | Should | 2 | absorbée par US-142 |
 | [US-142](../user-stories/US-142.md) | Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly) | Must | 5 | 16 |
