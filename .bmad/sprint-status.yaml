@@ -187,26 +187,26 @@ sprints:
 
   sprint-14:
     name: sprint-14-bloquants-ouverture
-    status: in-review
+    status: done  # PR #26 mergée (squash) le 2026-10-18 ; plugins quick-order v1.2.0 et punchout v1.2.1 publiés le même jour
     sprint_id: "sprint-14"
     start_date: "2026-12-25"
     end_date: "2027-01-08"
     capacity_points: 32  # périmètre complet décidé le 2026-10-18 (D1), malgré une vélocité récente de 10-15 points ; 66 h décomposées (63 h de charge) ; ordre de sacrifice dans sprint-14-bloquants-ouverture/tasks/README.md
     goal: "Lever les bloquants d'ouverture publique de la démo : accessibilité mobile et clavier, contrastes AAA, pied de page B2B, sécurité (branche protégée, boîte de mails filtrée, vérifications de l'exposition) et suppression des signaux de prototype, sans comparaison avec Sylius Plus"
     stories:
-      - {id: US-070, title: "Plugin punchout : traduire le titre et le fil d’Ariane des acheteurs PunchOut", points: 1, status: review}  # Should ; dépôt sylius-punchout-cxml-plugin (D4) ; sacrifice n° 1
-      - {id: US-071, title: "Mise en page mobile sans débordement ni cible trop petite", points: 3, status: review}  # Must
-      - {id: US-072, title: "Structure sémantique du thème : repères, lien d'évitement et annonces", points: 5, status: review}  # Must
-      - {id: US-073, title: "Contrastes AAA et jetons de couleur uniques", points: 3, status: review}  # Must
-      - {id: US-074, title: "Pied de page dédié à la démo B2B", points: 3, status: review}  # Must ; URL du site et du contact en configuration
-      - {id: US-075, title: "Connexion : comptes de démo en premier, groupés par société", points: 2, status: review}  # Should ; sacrifice n° 4
-      - {id: US-076, title: "Barre de démo sur une ligne, dans la langue du visiteur", points: 2, status: review}  # Should ; sacrifice n° 3
-      - {id: US-077, title: "Libellés accessibles du cœur en français", points: 2, status: review}  # Should ; sacrifice n° 2
-      - {id: US-079, title: "Sécurité avant ouverture : exposition, configuration versionnée, branche protégée", points: 3, status: review}  # Must ; décision D3 ; protection de branche par Claude via gh api, vérifications [OPS] par Thibaut ; aucun détail exploitable (dépôt public)
-      - {id: US-080, title: "Boîte de courriels de démo limitée aux mails des fixtures", points: 2, status: review}  # Must
-      - {id: US-086, title: "Exemple de commande rapide avec de vraies références", points: 2, status: review}  # Must ; dépôt sylius-quick-order-plugin + démo (D4)
-      - {id: US-087, title: "Signaux « prototype » : 23/24 plugins, clés brutes, libellés anglais", points: 3, status: review}  # Must
-      - {id: US-104, title: "Retirer l'encart « Sylius Plus » de la page Plugins", points: 1, status: review}  # Must ; décision D2 du 2026-10-18 : phrase factuelle neutre
+      - {id: US-070, title: "Plugin punchout : traduire le titre et le fil d’Ariane des acheteurs PunchOut", points: 1, status: done}  # Should ; dépôt sylius-punchout-cxml-plugin (D4) ; sacrifice n° 1
+      - {id: US-071, title: "Mise en page mobile sans débordement ni cible trop petite", points: 3, status: done}  # Must
+      - {id: US-072, title: "Structure sémantique du thème : repères, lien d'évitement et annonces", points: 5, status: done}  # Must
+      - {id: US-073, title: "Contrastes AAA et jetons de couleur uniques", points: 3, status: done}  # Must
+      - {id: US-074, title: "Pied de page dédié à la démo B2B", points: 3, status: done}  # Must ; URL du site et du contact en configuration
+      - {id: US-075, title: "Connexion : comptes de démo en premier, groupés par société", points: 2, status: done}  # Should ; sacrifice n° 4
+      - {id: US-076, title: "Barre de démo sur une ligne, dans la langue du visiteur", points: 2, status: done}  # Should ; sacrifice n° 3
+      - {id: US-077, title: "Libellés accessibles du cœur en français", points: 2, status: done}  # Should ; sacrifice n° 2
+      - {id: US-079, title: "Sécurité avant ouverture : exposition, configuration versionnée, branche protégée", points: 3, status: done}  # Must ; décision D3 ; protection de branche par Claude via gh api, vérifications [OPS] par Thibaut ; aucun détail exploitable (dépôt public)
+      - {id: US-080, title: "Boîte de courriels de démo limitée aux mails des fixtures", points: 2, status: done}  # Must
+      - {id: US-086, title: "Exemple de commande rapide avec de vraies références", points: 2, status: done}  # Must ; dépôt sylius-quick-order-plugin + démo (D4)
+      - {id: US-087, title: "Signaux « prototype » : 23/24 plugins, clés brutes, libellés anglais", points: 3, status: done}  # Must
+      - {id: US-104, title: "Retirer l'encart « Sylius Plus » de la page Plugins", points: 1, status: done}  # Must ; décision D2 du 2026-10-18 : phrase factuelle neutre
     carried_over:
       - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de l'utilisateur (T-052-03 à T-052-07), hors capacité ; GO d'ouverture visé fin du sprint 15 (US-085)
     notes: "Ordre de sacrifice : US-070, US-077, US-076, US-075 (Should), puis tâches de finition T-073-05, T-071-05, T-087-06, T-072-07, T-074-05. Les 25 décembre et 1er janvier sont fériés : 9 jours ouvrés, planning le 2026-12-28, revue et rétro le 2027-01-08. Une PR par dépôt de plugin (punchout, quick-order), livrée avec la démo, puis release de patch si la démo en dépend."
