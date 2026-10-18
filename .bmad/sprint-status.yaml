@@ -271,9 +271,11 @@ backlog:
   - {id: US-112, title: "Mode « présentation commerciale »", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
   - {id: US-113, title: "Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue", points: 3, status: backlog}  # cible sprint 18 ; EPIC-12, Should
   - {id: US-114, title: "Études de cas fictives signalées", points: 3, status: backlog}  # cible sprint 21 ; EPIC-12, Could
-  - {id: US-115, title: "Appels à l'action cohérents : cartes de plugins, À propos et composant partagé", points: 2, status: backlog}  # cible sprint 18 ; EPIC-12, Should
+  - {id: US-115, title: "Appels à l'action cohérents : cartes de plugins, À propos et composant partagé", points: 2, status: cancelled}  # absorbée par US-142 (demande de Thibaut du 2026-10-18)
+  - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: backlog}  # cible sprint 16 ; EPIC-12, Must ; demande de Thibaut du 2026-10-18
   - {id: US-116, title: "Charte éditoriale LinkedIn et messages clés", points: 2, status: backlog}  # cible sprint 16 ; EPIC-13, Must
-  - {id: US-117, title: "Mesure de la communication : visites par campagne sans cookie", points: 3, status: backlog}  # cible sprint 18 ; EPIC-13, Should
+  - {id: US-117, title: "Mesure de la communication : visites par campagne sans cookie", points: 3, status: backlog}  # cible sprint 18 ; EPIC-13, Should ; outil : Umami (US-143)
+  - {id: US-143, title: "Mesure d'audience de la démo avec Umami", points: 3, status: backlog}  # cible sprint 16 ; EPIC-13, Must ; demande de Thibaut du 2026-10-18
   - {id: US-118, title: "Fiches plugins pour le site : gabarit et six plugins phares", points: 5, status: backlog}  # cible sprint 16 ; EPIC-13, Must
   - {id: US-119, title: "Fiches plugins pour le site : les dix-huit autres plugins", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
   - {id: US-120, title: "Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide", points: 5, status: backlog}  # cible sprint 17 ; EPIC-13, Must
