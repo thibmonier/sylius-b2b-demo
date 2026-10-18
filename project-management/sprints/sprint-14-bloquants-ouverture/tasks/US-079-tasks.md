@@ -25,10 +25,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-079-01 | [DOC] | Noms exacts des jobs de `ci.yaml` et lecture de l'état actuel de la protection (`gh api` en lecture seule) | 0,5h | - | 🔲 |
+| T-079-01 | [DOC] | Noms exacts des jobs de `ci.yaml` et lecture de l'état actuel de la protection (`gh api` en lecture seule) | 0,5h | - | ✅ |
 | T-079-02 | [OPS] | Appliquer la protection de `main` via `gh api` (après confirmation) et relire le résultat | 1h | T-079-01 | 🔲 |
 | T-079-03 | [TEST] | Script de contrôle en lecture seule `bin/check-branch-protection` : échoue et demande l'activation à Thibaut si la protection manque | 1,5h | T-079-01 | 🔲 |
-| T-079-04 | [DOC] | Checklist [OPS] de Thibaut (exposition, configuration versionnée, clé de chiffrement propre à l'environnement) sans détail exploitable | 1h | - | 🔲 |
+| T-079-04 | [DOC] | Checklist [OPS] de Thibaut (exposition, configuration versionnée, clé de chiffrement propre à l'environnement) sans détail exploitable | 1h | - | ✅ |
 | T-079-05 | [OPS] | 📅 Thibaut : vérifier l'exposition des services de l'hébergement | 1h | T-079-04 | 🔲 |
 | T-079-06 | [OPS] | 📅 Thibaut : relire les fichiers de configuration versionnés et confirmer la clé de production | 1h | T-079-04 | 🔲 |
 | T-079-07 | [DOC] | Rapport de vérification : conclusion par vérification, actions de Thibaut, sans valeur sensible | 0,5h | T-079-02, T-079-05, T-079-06 | 🔲 |
