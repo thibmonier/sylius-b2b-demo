@@ -22,7 +22,7 @@ Les valeurs non secrètes sont dans `.railway/railway.ts`. Les secrets ne sont j
 | `DEMO_BASIC_AUTH_USER` | secret Railway | identifiant de la porte privée |
 | `DEMO_BASIC_AUTH_PASSWORD_HASH` | secret Railway | `password_hash(<mot de passe>, PASSWORD_ARGON2ID)` ; le mot de passe en clair n'est jamais stocké chez Railway |
 | `DEMO_BASIC_AUTH` | `railway.ts` | `1` (démo privée) jusqu'au GO d'ouverture |
-| `TRUSTED_HOSTS` | `railway.ts` | domaine public + `healthcheck.railway.app` (hôte du healthcheck Railway) |
+| `TRUSTED_HOSTS` | `railway.ts` | domaine Railway d'origine du service `web` (écrit en dur, échappé et ancré) + `healthcheck.railway.app` (hôte du healthcheck Railway) ; ne lit plus `RAILWAY_PUBLIC_DOMAIN`, qui suit le domaine personnalisé (US-140) |
 | `DEMO_PUBLIC_HOST` | variable Railway (non secrète, absente du dépôt) | sous-domaine de la démo, nom d'hôte seul, accepté en plus du domaine Railway ([sous-domaine-demo.md](sous-domaine-demo.md)) |
 | `DATABASE_URL`, `MAILER_DSN`, `DEMO_MAILPIT_API_URL` | `railway.ts` | références au réseau privé (`${{mysql.MYSQL_URL}}`, `${{mailpit.RAILWAY_PRIVATE_DOMAIN}}`) |
 | `DEFAULT_URI` | `railway.ts` | `https://${{RAILWAY_PUBLIC_DOMAIN}}` (aussi domaine de retour PunchOut) ; `https://${{DEMO_PUBLIC_HOST}}` une fois `CANONICAL_IS_PUBLIC_HOST` à `true` |

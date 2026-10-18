@@ -1,0 +1,81 @@
+{#
+    US-090 (decision D2): replaces the template of the tier-pricing hookable on the product page. Same place (between the
+    quantity and the button, re-rendered by the add to cart form when the variant changes), same price source (the
+    plugin calculator), plus: the negotiated price of the company (rules of its customer group), the tier of the typed
+    quantity in evidence and a live total (Stimulus controller b2b-price-breaks). Prices are conditional ("from N
+    pieces"), never struck through. Nothing is rendered without tier: no empty table.
+#}
+{% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+
+{% set form = hookable_metadata.context.form %}
+{% set variant = form.vars.value.cartItem.variant|default(null) %}
+{% set breaks = app_b2b_price_breaks(variant) %}
+
+{% if breaks is not null %}
+    {% set negotiated = breaks.negotiated %}
+    {% set tax_convention = tmonier_tier_pricing_tax_convention(variant) %}
+    {% set rows = [] %}
+    {% for row in breaks.rows %}
+        {% set rows = rows|merge([{
+            min: row.minQuantity,
+            price: row.unitPrice|sylius_convert_money(sylius.channel.baseCurrency.code, sylius.currencyCode),
+        }]) %}
+    {% endfor %}
+    <section class="b2b-price-breaks mb-4"
+        aria-labelledby="b2b-price-breaks-title"
+        data-controller="b2b-price-breaks"
+        data-b2b-price-breaks-rows-value="{{ rows|json_encode|e('html_attr') }}"
+        data-b2b-price-breaks-locale-value="{{ sylius.localeCode|replace({'_': '-'}) }}"
+        data-b2b-price-breaks-currency-value="{{ sylius.currencyCode }}"
+        data-b2b-price-breaks-total-template-value="{{ 'app.theme_b2b.price_breaks.total'|trans({'%quantity%': '{quantity}', '%unit%': '{unit}', '%total%': '{total}', '%tax%': '{tax}'})|e('html_attr') }}"
+        data-b2b-price-breaks-tax-value="{{ tax_convention is null ? '' : ((tax_convention == 'included' ? 'tmonier_tier_pricing.ui.incl_tax' : 'tmonier_tier_pricing.ui.excl_tax')|trans) }}"
+        data-b2b-price-breaks-nudge-template-value="{{ 'app.theme_b2b.price_breaks.nudge'|trans({'%quantity%': '{quantity}', '%price%': '{price}', '%tax%': '{tax}'})|e('html_attr') }}"
+        {{ sylius_test_html_attribute('tmonier-tier-prices') }}>
+        <h3 class="fs-6 fw-semibold mb-2" id="b2b-price-breaks-title">{{ 'tmonier_tier_pricing.ui.volume_prices'|trans }}</h3>
+
+        {% if negotiated is not null %}
+            <div class="b2b-negotiated mb-3" {{ sylius_test_html_attribute('b2b-negotiated-price') }}>
+                <p class="b2b-negotiated__title mb-1">{{ 'app.theme_b2b.price_breaks.negotiated_title'|trans({'%company%': breaks.groupName}) }}</p>
+                <p class="mb-0">{{ 'app.theme_b2b.price_breaks.negotiated_detail'|trans({
+                    '%price%': money.convertAndFormat(negotiated.unitPrice),
+                    '%quantity%': negotiated.minQuantity,
+                    '%percent%': app_b2b_percent(negotiated.percentage, sylius.localeCode),
+                    '%base%': money.convertAndFormat(breaks.basePrice),
+                }) }}</p>
+            </div>
+        {% endif %}
+
+        <table class="table table-sm align-middle mb-1 b2b-price-breaks__table">
+            <caption class="visually-hidden">{{ 'app.theme_b2b.price_breaks.caption'|trans }}</caption>
+            <thead>
+                <tr>
+                    <th scope="col">{{ 'app.theme_b2b.price_breaks.quantity'|trans }}</th>
+                    <th scope="col" class="text-end">{{ 'app.theme_b2b.price_breaks.unit_price'|trans }}</th>
+                    <th scope="col" class="text-end">{{ 'app.theme_b2b.price_breaks.discount'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in breaks.rows %}
+                    <tr data-b2b-price-breaks-target="row" data-min="{{ row.minQuantity }}" {{ sylius_test_html_attribute('tmonier-tier-row', row.minQuantity) }}>
+                        <th scope="row" class="fw-normal">
+                            {% if loop.first %}{{ 'tmonier_tier_pricing.ui.from_one'|trans }}{% else %}{{ 'tmonier_tier_pricing.ui.from_quantity'|trans({'%quantity%': row.minQuantity}) }}{% endif %}
+                            <span class="visually-hidden b2b-price-breaks__current-label" hidden> ({{ 'app.theme_b2b.price_breaks.current_tier'|trans }})</span>
+                        </th>
+                        <td class="text-end fw-semibold" {{ sylius_test_html_attribute('tmonier-tier-price') }}>{{ money.convertAndFormat(row.unitPrice) }}</td>
+                        <td class="text-end">
+                            {% if not loop.first %}-{{ app_b2b_percent(row.percentage, sylius.localeCode) }}{% endif %}
+                            {% if row.negotiated %}<span class="b2b-badge-negotiated ms-1">{{ 'app.theme_b2b.price_breaks.negotiated_badge'|trans }}</span>{% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="small text-secondary mb-2">
+            {% if tax_convention is not null %}<span {{ sylius_test_html_attribute('tmonier-tier-tax-label') }}>{{ (tax_convention == 'included' ? 'tmonier_tier_pricing.ui.prices_incl_tax' : 'tmonier_tier_pricing.ui.prices_excl_tax')|trans }}</span>{% endif %}
+        </p>
+        <p class="b2b-price-breaks__total fw-semibold mb-1" data-b2b-price-breaks-target="total" hidden {{ sylius_test_html_attribute('b2b-tier-total') }}></p>
+        <p class="b2b-price-breaks__nudge small mb-0" data-b2b-price-breaks-target="nudge" hidden {{ sylius_test_html_attribute('tmonier-tier-nudge') }}></p>
+        {# One polite region, announced once the typing pauses: the visible lines above change on every keystroke. #}
+        <p class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-b2b-price-breaks-target="announcement"></p>
+    </section>
+{% endif %}

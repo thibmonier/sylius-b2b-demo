@@ -25,8 +25,17 @@
 		X-Frame-Options "DENY"
 		Referrer-Policy "strict-origin-when-cross-origin"
 		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
 		-Server
 	}
+
+	# Hidden files and directories (dotfiles) are never served; /.well-known/ stays reachable.
+	@hidden {
+		path_regexp hidden (^|/)\.
+		not path /.well-known/*
+	}
+	respond @hidden 404
 
 	@static path /build/* /bundles/* /media/*
 	header @static Cache-Control "public, max-age=604800"

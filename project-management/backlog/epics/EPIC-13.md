@@ -1,6 +1,6 @@
 # EPIC-13 — Communication LinkedIn et site personnel
 
-> Exigences : Objectif 2 de la démo ; politique de communication (LinkedIn et site uniquement) · 15 stories · 58 points (dont 1 reprises de stories existantes)
+> Exigences : Objectif 2 de la démo ; politique de communication (LinkedIn et site uniquement) · 16 stories · 61 points (dont 1 reprises de stories existantes)
 
 ## Description
 
@@ -18,6 +18,7 @@ Préparer les contenus (fiches plugins pour le site, kit média, calendrier édi
 | [US-068](../user-stories/US-068.md) | Liens vers le site et la page contact dans les 24 README | Should | 5 | 17 |
 | [US-116](../user-stories/US-116.md) | Charte éditoriale LinkedIn et messages clés | Must | 2 | 16 |
 | [US-117](../user-stories/US-117.md) | Mesure de la communication : visites par campagne sans cookie | Should | 3 | 18 |
+| [US-143](../user-stories/US-143.md) | Mesure d'audience de la démo avec Umami | Must | 3 | 16 |
 | [US-118](../user-stories/US-118.md) | Fiches plugins pour le site : gabarit et six plugins phares | Must | 5 | 16 |
 | [US-119](../user-stories/US-119.md) | Fiches plugins pour le site : les dix-huit autres plugins | Should | 5 | 18 |
 | [US-120](../user-stories/US-120.md) | Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide | Must | 5 | 17 |

@@ -1,6 +1,6 @@
 # EPIC-12 — Conversion et contenu commercial
 
-> Exigences : Objectif 2 de la démo (faire solliciter le consultant) · 13 stories · 50 points (dont 1 reprises de stories existantes)
+> Exigences : Objectif 2 de la démo (faire solliciter le consultant) · 14 stories · 53 points (US-115 absorbée par US-142) (dont 1 reprises de stories existantes)
 
 ## Description
 
@@ -27,6 +27,7 @@ Transformer la démo en outil de conversion : parcours guidés par persona, page
 | [US-112](../user-stories/US-112.md) | Mode « présentation commerciale » | Should | 5 | 19 |
 | [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 18 |
 | [US-114](../user-stories/US-114.md) | Études de cas fictives signalées | Could | 3 | 21 |
-| [US-115](../user-stories/US-115.md) | Appels à l'action cohérents : cartes de plugins, À propos et composant partagé | Should | 2 | 18 |
+| [US-115](../user-stories/US-115.md) | Appels à l'action cohérents : cartes de plugins, À propos et composant partagé | Should | 2 | absorbée par US-142 |
+| [US-142](../user-stories/US-142.md) | Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly) | Must | 5 | 16 |
 
 **Notes** : Les URL du site et du contact sont des paramètres de configuration (voir US-068, US-069). US-104 attend une décision de Thibaut.

@@ -1,0 +1,15 @@
+{# US-078: copy of the Sylius template. It is the first thing the visitor looks at: fetched first (fetchpriority), sized before it arrives (width and height, 3:4) and offered in three widths. #}
+{% set product = hookable_metadata.context.product %}
+{% set srcset = hookable_metadata.context.srcset %}
+
+<div class="col pe-lg-5 pe-xxl-5">
+    <a href="{{ hookable_metadata.context.original_path }}" class="d-block overflow-auto bg-light rounded-3{% if product.images|length < 2 %} spotlight{% endif %}">
+        <img id="main-image" src="{{ hookable_metadata.context.path }}"{% if srcset %} srcset="{{ srcset }}" sizes="(min-width: 992px) 40vw, 100vw"{% endif %} width="600" height="800" fetchpriority="high" decoding="async" alt="{{ product.name }}" class="img-fluid w-100 h-100 object-fit-cover"
+            {% if product.images.first %}
+                {{ sylius_test_html_attribute('main-image', product.images.first.type) }}
+            {% else %}
+                {{ sylius_test_html_attribute('main-image') }}
+            {% endif %}
+        />
+    </a>
+</div>

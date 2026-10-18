@@ -17,6 +17,9 @@ sylius_twig_hooks:
                 priority: 300
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.base.header.top_bar':
+            # US-144: the core newsletter offer (-20 %) means nothing in the demo, on either channel.
+            info_message:
+                enabled: false
             b2b_message:
                 template: 'shop/theme_b2b/top_bar.html.twig'
                 priority: 150
@@ -46,6 +49,13 @@ sylius_twig_hooks:
             b2b_price_note:
                 template: 'shop/theme_b2b/product_card_price_note.html.twig'
                 priority: -10
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        # US-091: discount of the volume tiers and of the company price in the cart summary, under the items total.
+        'sylius_shop.cart.index.content.form.sections.general.summary':
+            b2b_tier_discount:
+                template: 'shop/theme_b2b/cart_tier_discount.html.twig'
+                priority: 450
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
         # S4-R3: one batch for the cards of the page (variants, prices, images) instead of a few queries per card.
@@ -78,3 +88,13 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/home_journeys.html.twig'
                 priority: 320
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            # US-089: signed in, three product blocks (usual references, restock, negotiated promotions); anonymous, the
+            # roles presentation without product or price. Channel Access decides who sees prices (the categories stay visible to visitors).
+            b2b_buyer:
+                template: 'shop/theme_b2b/home_buyer.html.twig'
+                priority: 250
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
+            b2b_roles:
+                template: 'shop/theme_b2b/home_roles.html.twig'
+                priority: 250
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and not is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"

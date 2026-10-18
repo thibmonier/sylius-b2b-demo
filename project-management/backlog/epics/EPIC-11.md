@@ -36,5 +36,6 @@ Rendre la démo crédible pour un décideur métier : prix B2B visibles, catalog
 | [US-101](../user-stories/US-101.md) | Factures PDF et relevé de compte côté acheteur | Should | 5 | 21 |
 | [US-102](../user-stories/US-102.md) | Suivi de commande côté acheteur | Could | 3 | 21 |
 | [US-103](../user-stories/US-103.md) | Assistants IA : page utile avec transcript d'une vraie conversation | Should | 3 | 18 |
+| [US-144](../user-stories/US-144.md) | Bandeau du haut sans offre newsletter | Must | 1 | 15 |
 
 **Notes** : S'appuie sur US-047/061/062 pour les images. Les écrans vides se mesurent par un test de fumée.

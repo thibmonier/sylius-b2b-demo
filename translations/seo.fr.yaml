@@ -1,0 +1,11 @@
+description:
+    default: 'Boutique de démonstration B2B Fournitures Pro, construite avec Sylius 2.3 : compte société, devis, commande rapide, prix négociés.'
+    sylius_shop_homepage: 'Fournitures Pro, boutique B2B de démonstration sous Sylius 2.3 : commande rapide, devis, achat sur compte et prix négociés pour les sociétés.'
+    sylius_shop_product_index: 'Catalogue %name% de Fournitures Pro : références professionnelles, prix dégressifs et commande rapide pour les sociétés.'
+    sylius_shop_product_show: '%name% sur Fournitures Pro : prix par palier, stock et commande rapide pour les professionnels.'
+    app_demo_plugins: 'Les plugins open source Sylius de Thibaut Monier, installés dans cette démo B2B : fonctions, état et dépôts GitHub.'
+    app_demo_about: 'À propos de Fournitures Pro : une boutique B2B fictive qui présente des plugins Sylius open source. Données inventées, remise à zéro régulière.'
+    app_demo_legal_notice: 'Mentions légales de la démo Fournitures Pro : démonstration non commerciale, données fictives, aucun paiement réel.'
+    sylius_shop_login: 'Connexion à la démo Fournitures Pro : comptes de démonstration société, acheteur et approbateur, sans inscription.'
+    app_demo_accounts: 'Parcours et comptes de démonstration de Fournitures Pro : choisissez un rôle pour parcourir la boutique B2B.'
+    app_demo_mcp_guide: 'Guide pour connecter un assistant IA à la boutique de démonstration par le serveur MCP de Sylius.'

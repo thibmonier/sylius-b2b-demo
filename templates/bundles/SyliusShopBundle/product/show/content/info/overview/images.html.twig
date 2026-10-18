@@ -1,0 +1,18 @@
+{# US-078: copy of the Sylius template. The main image is the 600 px file (with a 300 and a 1200 px choice in srcset), not the 1200 x 1600 one every phone used to download; the full-size original stays behind the link. #}
+{% set product = hookable_metadata.context.product %}
+{% set srcset = null %}
+
+{% if product.images.first %}
+    {% set source_path = product.images.first.path %}
+    {% set original_path = source_path|imagine_filter('sylius_shop_product_original') %}
+    {% set path = source_path|imagine_filter(filter|default('sylius_shop_product_thumbnail')) %}
+    {% set srcset = source_path|imagine_filter('sylius_shop_product_small_thumbnail') ~ ' 300w, ' ~ path ~ ' 600w, ' ~ source_path|imagine_filter('sylius_shop_product_large_thumbnail') ~ ' 1200w' %}
+{% else %}
+    {% set original_path = asset('bundles/syliusui/images/400x300.png') %}
+    {% set path = original_path %}
+{% endif %}
+
+<div class="row spotlight-group mb-5" {{ stimulus_controller('product-show-images') }}>
+    <div data-product-image="{{ path }}" data-product-link="{{ original_path }}"></div>
+    {% hook 'images' with { original_path, path, srcset } %}
+</div>

@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Clock\NativeClock;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * US-036: the hardening of the public demo, asserted on what is rendered (status codes, headers, HTML),
@@ -375,7 +378,7 @@ final class HardeningTest extends WebTestCase
         $client = self::createClient();
         $state = $this->orderState();
         $visitor = ['HTTP_X_FORWARDED_FOR' => self::visitorIp()];
-        $fields = ['state' => $state, 'orderId' => 'PO-HARDEN-1'];
+        $fields = ['_token' => $this->orderToken($client), 'state' => $state, 'orderId' => 'PO-HARDEN-1'];
 
         $client->request('POST', '/demo/punchout-simulator/order', $fields, server: $visitor);
         self::assertResponseIsSuccessful();
@@ -388,13 +391,30 @@ final class HardeningTest extends WebTestCase
         self::assertCount(1, $this->captured(), 'The replay never reaches the shop.');
     }
 
+    /** US-082: the order form of the simulator carries a CSRF token; without a valid one nothing is sent. */
+    public function testASimulatorOrderWithoutAValidTokenIsRefusedAndSendsNothing(): void
+    {
+        $this->startFakeEndpoint();
+        $this->setEnvironment(['DEMO_PUNCHOUT_DAILY_ORDERS' => '100000']);
+        $client = self::createClient();
+        $state = $this->orderState();
+
+        foreach ([[], ['_token' => 'forged']] as $token) {
+            $client->request('POST', '/demo/punchout-simulator/order', $token + ['state' => $state, 'orderId' => 'PO-HARDEN-6'], server: ['HTTP_X_FORWARDED_FOR' => self::visitorIp()]);
+
+            self::assertResponseStatusCodeSame(422);
+            self::assertStringContainsString('Formulaire expiré', (string) $client->getResponse()->getContent());
+        }
+        self::assertSame([], $this->captured());
+    }
+
     public function testTheDailyCapOfAnonymousOrdersRefusesWithADemoMessageAndCreatesNothing(): void
     {
         $this->startFakeEndpoint();
         $this->setEnvironment(['DEMO_PUNCHOUT_DAILY_ORDERS' => '0']);
         $client = self::createClient();
 
-        $client->request('POST', '/demo/punchout-simulator/order', ['state' => $this->orderState(), 'orderId' => 'PO-HARDEN-2'], server: ['HTTP_X_FORWARDED_FOR' => self::visitorIp()]);
+        $client->request('POST', '/demo/punchout-simulator/order', ['_token' => $this->orderToken($client), 'state' => $this->orderState(), 'orderId' => 'PO-HARDEN-2'], server: ['HTTP_X_FORWARDED_FOR' => self::visitorIp()]);
 
         self::assertResponseStatusCodeSame(429);
         self::assertStringContainsString('plafond quotidien', (string) $client->getResponse()->getContent());
@@ -409,7 +429,7 @@ final class HardeningTest extends WebTestCase
         self::assertInstanceOf(SignedState::class, $unsigned);
         $state = $unsigned->sign(['cookie' => 'not-a-signed-cookie', 'currency' => 'EUR', 'total' => '1.00', 'lines' => [$this->line()]]);
 
-        $client->request('POST', '/demo/punchout-simulator/order', ['state' => $state, 'orderId' => 'PO-HARDEN-3']);
+        $client->request('POST', '/demo/punchout-simulator/order', ['_token' => $this->orderToken($client), 'state' => $state, 'orderId' => 'PO-HARDEN-3']);
 
         self::assertResponseStatusCodeSame(410);
         self::assertSame([], $this->captured());
@@ -425,8 +445,8 @@ final class HardeningTest extends WebTestCase
         $first = self::visitorIp();
         $second = self::visitorIp();
 
-        $client->request('POST', '/demo/punchout-simulator/order', ['state' => $this->orderState(), 'orderId' => 'PO-HARDEN-4'], server: ['HTTP_X_FORWARDED_FOR' => $first]);
-        $client->request('POST', '/demo/punchout-simulator/order', ['state' => $this->orderState(), 'orderId' => 'PO-HARDEN-5'], server: ['HTTP_X_FORWARDED_FOR' => $second]);
+        $client->request('POST', '/demo/punchout-simulator/order', ['_token' => $this->orderToken($client), 'state' => $this->orderState(), 'orderId' => 'PO-HARDEN-4'], server: ['HTTP_X_FORWARDED_FOR' => $first]);
+        $client->request('POST', '/demo/punchout-simulator/order', ['_token' => $this->orderToken($client), 'state' => $this->orderState(), 'orderId' => 'PO-HARDEN-5'], server: ['HTTP_X_FORWARDED_FOR' => $second]);
 
         $calls = $this->captured();
         self::assertCount(2, $calls);
@@ -455,6 +475,8 @@ final class HardeningTest extends WebTestCase
         self::assertSame('DENY', $headers->get('X-Frame-Options'), $path);
         self::assertSame('strict-origin-when-cross-origin', $headers->get('Referrer-Policy'), $path);
         self::assertStringContainsString('camera=()', (string) $headers->get('Permissions-Policy'), $path);
+        self::assertSame('same-origin', $headers->get('Cross-Origin-Opener-Policy'), $path);
+        self::assertSame('same-origin', $headers->get('Cross-Origin-Resource-Policy'), $path);
         self::assertStringContainsString("frame-ancestors 'none'", (string) $headers->get('Content-Security-Policy'), $path);
         self::assertStringContainsString("object-src 'none'", (string) $headers->get('Content-Security-Policy'), $path);
         self::assertFalse($headers->has('Strict-Transport-Security'), 'No HSTS over plain HTTP.');
@@ -629,5 +651,18 @@ final class HardeningTest extends WebTestCase
         }
 
         return $calls;
+    }
+
+    /** The token the order form of the simulator would carry, bound to the session of the client. */
+    private function orderToken(KernelBrowser $client): string
+    {
+        $client->request('GET', '/demo/punchout-simulator');
+        $request = $client->getRequest();
+        $stack = new RequestStack();
+        $stack->push($request);
+        $token = new CsrfTokenManager(null, new SessionTokenStorage($stack))->getToken('demo_punchout_simulator_order')->getValue();
+        $request->getSession()->save();
+
+        return $token;
     }
 }

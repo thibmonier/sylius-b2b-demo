@@ -1,0 +1,11 @@
+{
+    "yarn": [
+        {
+            "advisory": "GHSA-vfj7-8cjw-p6xm",
+            "cve": "CVE-2026-93687",
+            "package": "braces",
+            "reason": "Build tool only (sass > chokidar, used by the asset build); absent from the final image; no patched version published.",
+            "review_by": "2027-01-31"
+        }
+    ]
+}

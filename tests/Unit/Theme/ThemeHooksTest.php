@@ -9,11 +9,14 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * US-013 — the theme only ADDS hookables (prefix `b2b_`). The single exception is the core logo,
- * which only gets a `condition` (kept on B2C). No plugin hookable is touched.
+ * which only gets a `condition` (kept on B2C). No plugin hookable is touched. US-144: the core
+ * newsletter offer of the top bar is the only core hookable switched off.
  */
 final class ThemeHooksTest extends TestCase
 {
     private const CORE_HOOKABLES_WITH_CONDITION_ONLY = ['logo', 'banner'];
+
+    private const CORE_HOOKABLES_DISABLED = ['sylius_shop.base.header.top_bar' => ['info_message']];
 
     public function testThemeOnlyAddsHookablesOrConditionsACoreOne(): void
     {
@@ -21,6 +24,11 @@ final class ThemeHooksTest extends TestCase
             foreach ($hookables as $name => $config) {
                 if (str_starts_with($name, 'b2b_')) {
                     self::assertArrayHasKey('template', $config, "$hook#$name");
+
+                    continue;
+                }
+                if (\in_array($name, self::CORE_HOOKABLES_DISABLED[$hook] ?? [], true)) {
+                    self::assertSame(['enabled' => false], $config, "$hook#$name may only be switched off");
 
                     continue;
                 }

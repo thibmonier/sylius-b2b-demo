@@ -1,6 +1,7 @@
 // B2B theme: loaded on top of the official Sylius shop stylesheet (only the B2B channel), it overrides
 // Bootstrap 5 CSS variables and a few components; nothing of the official theme is rewritten.
 @use 'variables' as *;
+@use 'pricing';
 
 :root {
     --bs-primary: #{$b2b-navy};
@@ -24,7 +25,6 @@
     --bs-danger: #{$b2b-danger};
     --bs-danger-rgb: #{$b2b-danger-rgb};
     --bs-code-color: var(--b2b-accent);
-    --bs-font-sans-serif: 'InterVariable', 'Segoe UI', Arial, sans-serif;
     --bs-border-radius: .25rem;
 }
 

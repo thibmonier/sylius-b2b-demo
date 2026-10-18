@@ -14,8 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * US-087: no raw translation key (sylius.ui.xxx, tmonier_xxx.ui.xxx, app.xxx.yyy) is ever visible on the
  * key pages of the shop and of the back office, in French and in English. The failure names the page.
- *
- * "/admin/punchout-buyers/" is left out until the PunchOut plugin release that translates its title (US-070).
  */
 final class RawTranslationKeysSmokeTest extends WebTestCase
 {
@@ -73,7 +71,7 @@ final class RawTranslationKeysSmokeTest extends WebTestCase
     /** @return iterable<string, array{string}> */
     public static function adminPages(): iterable
     {
-        foreach (['/admin/', '/admin/orders/', '/admin/customers/', '/admin/products/', '/admin/companies/', '/admin/audit-log', '/admin/quote-requests/'] as $path) {
+        foreach (['/admin/', '/admin/orders/', '/admin/customers/', '/admin/products/', '/admin/companies/', '/admin/audit-log', '/admin/quote-requests/', '/admin/punchout-buyers/'] as $path) {
             yield $path => [$path];
         }
     }

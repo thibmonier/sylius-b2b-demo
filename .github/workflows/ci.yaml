@@ -24,15 +24,15 @@ jobs:
             WKHTMLTOPDF_BINARY: /usr/local/bin/wkhtmltopdf
         services:
             mysql:
-                image: mysql:8.4
+                image: mysql:8.4@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
                 ports: ["3306:3306"]
                 options: --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=5s --health-retries=20
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-            - uses: shivammathur/setup-php@v2
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
               with:
                   php-version: "8.4"
                   extensions: intl, gd, zip, exif, pdo_mysql, bcmath
@@ -40,7 +40,7 @@ jobs:
                   coverage: pcov
 
             - name: Composer cache
-              uses: actions/cache@v4
+              uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
               with:
                   path: ~/.composer/cache
                   key: composer-${{ hashFiles('composer.lock') }}
@@ -48,7 +48,7 @@ jobs:
             # --no-scripts: the test cache warmup of debug-less test kernels trips on the Doctrine metadata warmer
             - run: composer install --no-interaction --no-progress --no-scripts
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
               with:
                   node-version: "22"
                   cache: yarn
@@ -99,12 +99,12 @@ jobs:
         name: Docker image
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-            - uses: docker/setup-buildx-action@v3
+            - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 
             - name: Build
-              uses: docker/build-push-action@v6
+              uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
               with:
                   context: .
                   file: docker/Dockerfile
@@ -112,6 +112,9 @@ jobs:
                   load: true
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
+
+            - name: The final image does not ship Composer
+              run: docker run --rm --entrypoint sh sylius-b2b-demo:ci -c '! command -v composer'
 
             # The Caddyfile of the image is valid and cuts the body of the public webhook receiver (US-049).
             - name: Caddyfile is valid and limits the webhook receiver body
@@ -123,7 +126,7 @@ jobs:
               run: |
                   docker network create demo
                   docker run -d --name mysql --network demo -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=demo \
-                    --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=3s --health-retries=40 mysql:8.4
+                    --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=3s --health-retries=40 mysql:8.4@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70
                   for i in $(seq 1 40); do
                     [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" = healthy ] && break
                     sleep 3
@@ -158,3 +161,79 @@ jobs:
                   curl -fsS -u ci:ci-gate-password -b demo_channel=B2C http://localhost:8080/fr_FR/ > b2c.html
                   grep -q 'Fournitures Pro — Particuliers' b2c.html
                   grep -q '/withdrawal' b2c.html
+
+    # Supply chain (US-081). Separate jobs on purpose: they are not required checks of main, so a new advisory shows up
+    # here without blocking an unrelated merge. Exceptions are dated: security/audit-exceptions.json, .trivyignore.yaml.
+    audit:
+        name: Dependency audit
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+              with:
+                  php-version: "8.4"
+                  tools: composer:v2
+
+            - name: Actions and images are pinned by SHA / digest
+              run: bin/check-pinned-refs
+
+            # Abandoned packages are reported, not blocking (behat/transliterator and php-http/message-factory, transitive).
+            - name: PHP dependencies (composer audit)
+              run: composer audit --locked --abandoned=report
+
+            # The Sylius UI packages are `file:vendor/...` dependencies: yarn audit needs vendor/ to resolve them.
+            - name: Install PHP dependencies (vendor/ for the Sylius UI JavaScript packages)
+              run: composer install --no-interaction --no-progress --no-scripts
+
+            - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+              with:
+                  node-version: "22"
+
+            - name: JavaScript dependencies (production group, dated exceptions)
+              run: bin/audit-js-dependencies
+
+    image-scan:
+        name: Image scan and SBOM
+        runs-on: ubuntu-latest
+        env:
+            TRIVY_IMAGE: ghcr.io/aquasecurity/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
+        steps:
+            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+            - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+
+            - name: Build
+              uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+              with:
+                  context: .
+                  file: docker/Dockerfile
+                  tags: sylius-b2b-demo:scan
+                  load: true
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+
+            # Report first (all severities, never failing), then the gate: a fixable CRITICAL vulnerability that has no
+            # dated exception in .trivyignore.yaml fails the job.
+            - name: Scan report
+              run: |
+                  mkdir -p reports
+                  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/work" -w /work "$TRIVY_IMAGE" \
+                    image --ignorefile .trivyignore.yaml --format table --output reports/image-scan.txt sylius-b2b-demo:scan
+                  tail -n 40 reports/image-scan.txt
+
+            - name: Scan gate (CRITICAL, fixable)
+              run: |
+                  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/work" -w /work "$TRIVY_IMAGE" \
+                    image --ignorefile .trivyignore.yaml --severity CRITICAL --ignore-unfixed --exit-code 1 sylius-b2b-demo:scan
+
+            - name: SBOM (CycloneDX)
+              run: |
+                  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/work" -w /work "$TRIVY_IMAGE" \
+                    image --format cyclonedx --output reports/sbom.cdx.json sylius-b2b-demo:scan
+
+            - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+              if: always()
+              with:
+                  name: image-scan-and-sbom
+                  path: reports/

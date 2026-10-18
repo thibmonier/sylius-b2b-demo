@@ -1,0 +1,10 @@
+{# US-078: copy of the Sylius page with the name of the category in the title (it only had the name of the shop). #}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% set prefixes = ['sylius_shop.product.index'] %}
+
+{% block title %}{{ app_seo_taxon().name }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% hook 'sylius_shop.product.index' with { products, resources } %}
+{% endblock %}

@@ -1,0 +1,3 @@
+# Exceptions of the image scan (US-081). Each entry needs a `statement` (the reason) and an `expired_at` (the review
+# date: after it the exception stops applying and the scan fails again). Checked by tests/Unit/Bin/PinnedRefsTest.php.
+vulnerabilities: []

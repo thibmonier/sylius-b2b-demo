@@ -1,0 +1,11 @@
+{# US-078: copy of the Sylius template. The thumbnails are below the main image: they load when they approach the screen, with their size stated. The 1200 px "data-large-thumbnail" nobody read is gone (it made the server prepare a file per thumbnail). #}
+{% set product = hookable_metadata.context.product %}
+{% set image = hookable_metadata.context.image %}
+{% set path = hookable_metadata.context.path %}
+
+<a href="{{ image.path|imagine_filter('sylius_shop_product_original') }}" class="d-block overflow-auto bg-light rounded-3 spotlight">
+    <img src="{{ path }}"
+         width="300" height="400" loading="lazy" decoding="async"
+         alt="{{ product.name }}" {{ sylius_test_html_attribute('thumbnail-image', image.type) }}
+         class="img-fluid w-100 h-100 object-fit-cover" />
+</a>

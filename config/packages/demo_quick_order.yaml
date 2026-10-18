@@ -1,10 +1,7 @@
-# US-086: the quick order page shows lines that work in this catalogue (fixtures/csv/*.csv), not the neutral example of
-# the plugin. The plugin 1.1 has no option for it: the form template is overridden in templates/bundles/
-# TmonierSyliusQuickOrderPlugin (temporary). With the plugin release that adds `example_lines`, delete that template and
-# configure `tmonier_sylius_quick_order: { example_lines: '%demo.quick_order_example_lines%' }` instead.
+# US-086 / US-139: the quick order page shows lines that work in this catalogue (fixtures/csv/*.csv), not the neutral
+# example of the plugin. Since the plugin 1.2 the example comes from its `example_lines` option (no template override).
 parameters:
     demo.quick_order_example_lines: "VISS-001;2\nVISS-002,10\nVISS-003\t5"
 
-twig:
-    globals:
-        demo_quick_order_example: '%demo.quick_order_example_lines%'
+tmonier_sylius_quick_order:
+    example_lines: '%demo.quick_order_example_lines%'

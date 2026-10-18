@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Demo\Theme;
 
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Twig\Extension\AbstractExtension;
@@ -16,6 +18,9 @@ final class B2bThemeExtension extends AbstractExtension
         private readonly PackagingUnitProvider $packagingUnits,
         private readonly TierFromPriceProvider $fromPrices,
         private readonly ProductListPreloader $listPreloader,
+        private readonly PriceBreaksProvider $priceBreaks,
+        private readonly CartTierDiscountProvider $cartDiscounts,
+        private readonly HomeSelectionProvider $homeSelection,
     ) {
     }
 
@@ -24,8 +29,22 @@ final class B2bThemeExtension extends AbstractExtension
         return [
             new TwigFunction('app_b2b_packaging_unit', fn (?ProductInterface $product): ?string => $this->packagingUnits->forProductId($product?->getId())),
             new TwigFunction('app_b2b_tier_from_price', fn (?ProductInterface $product): ?int => $this->fromPrices->fromPrice($this->firstVariant($product))),
+            new TwigFunction('app_b2b_price_breaks', fn (ProductInterface|ProductVariantInterface|null $subject): ?PriceBreaks => $this->priceBreaks->forVariant($subject instanceof ProductInterface ? $this->firstVariant($subject) : $subject)),
+            new TwigFunction('app_b2b_cart_tier_discount', fn (OrderInterface $order): ?CartTierDiscount => $this->cartDiscounts->forOrder($order)),
+            new TwigFunction('app_b2b_item_negotiated', fn (OrderItemInterface $item): bool => $this->cartDiscounts->isNegotiated($item)),
+            new TwigFunction('app_b2b_percent', static fn (float $rate, string $locale): string => self::percent($rate, $locale)),
+            new TwigFunction('app_b2b_home_selection', fn (): HomeSelection => $this->homeSelection->forCurrentCustomer()),
             new TwigFunction('app_b2b_preload_product_list', fn (iterable $products): string => $this->preload($products)),
         ];
+    }
+
+    /** "12 %" / "12,5 %" for the locale: the rate of a rule, at most one decimal. */
+    private static function percent(float $rate, string $locale): string
+    {
+        $formatter = new \NumberFormatter($locale, \NumberFormatter::PERCENT);
+        $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 1);
+
+        return (string) $formatter->format($rate / 100);
     }
 
     /** @param iterable<mixed> $products */

@@ -1,6 +1,19 @@
-{# "From X excl. VAT" computed from the real volume tiers; nothing when the product has no tier. #}
+{# Prices of the volume tiers on the card (excl. VAT), computed from the real tiers; nothing when the product has no tier. #}
+{# US-091: the price of the company (rule of its customer group) on its own line; "from X" only when the gap with the catalogue price exceeds 5 %. #}
 {% import '@SyliusShop/shared/macro/money.html.twig' as money %}
-{% set from_price = app_b2b_tier_from_price(hookable_metadata.context.product) %}
-{% if from_price is not null %}
-    <span class="b2b-from-price fs-7" {{ sylius_test_html_attribute('b2b-product-from-price') }}>{{ 'app.theme_b2b.from_price'|trans({'%price%': money.convertAndFormat(from_price)}) }}</span>
+{% set product = hookable_metadata.context.product %}
+{% set breaks = app_b2b_price_breaks(product) %}
+{% if breaks is not null %}
+    {% set negotiated = breaks.negotiated %}
+    {% if negotiated is not null %}
+        <span class="b2b-negotiated-line fs-7" {{ sylius_test_html_attribute('b2b-product-negotiated-price') }}>{{ 'app.theme_b2b.card_negotiated'|trans({
+            '%company%': breaks.groupName,
+            '%price%': money.convertAndFormat(negotiated.unitPrice),
+            '%quantity%': negotiated.minQuantity,
+        }) }}</span>
+    {% endif %}
+    {% set from_price = app_b2b_tier_from_price(product) %}
+    {% if from_price is not null %}
+        <span class="b2b-from-price fs-7" {{ sylius_test_html_attribute('b2b-product-from-price') }}>{{ 'app.theme_b2b.from_price'|trans({'%price%': money.convertAndFormat(from_price)}) }}</span>
+    {% endif %}
 {% endif %}

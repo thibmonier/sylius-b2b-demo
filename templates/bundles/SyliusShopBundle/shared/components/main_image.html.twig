@@ -1,0 +1,16 @@
+{# US-078: copy of the Sylius component. The image states its size (no layout shift), offers two widths (a phone downloads the small one), loads when it approaches the screen and falls back on an inline visual (no request that could fail) when the product has none. All the product filters keep the 3:4 ratio of the 600 x 800 file. #}
+{% set filter = filter|default('sylius_shop_product_thumbnail') %}
+{% set image = product.imagesByType('thumbnail') is not empty ? product.imagesByType('thumbnail').first : product.images.first %}
+{% set width = 'sylius_shop_product_small_thumbnail' == filter ? 300 : 600 %}
+{% set srcset = null %}
+
+{% if image and image.path %}
+    {% set path = image.path|imagine_filter(filter) %}
+    {% if 'sylius_shop_product_thumbnail' == filter %}
+        {% set srcset = image.path|imagine_filter('sylius_shop_product_small_thumbnail') ~ ' 300w, ' ~ path ~ ' 600w' %}
+    {% endif %}
+{% else %}
+    {% set path = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Crect width='600' height='800' fill='%23eef1f5'/%3E%3Cpath d='M210 340h180v140H210z' fill='none' stroke='%236b7686' stroke-width='14'/%3E%3C/svg%3E" %}
+{% endif %}
+
+<img {{ attributes.without('product', 'filter').defaults({ class: 'img-fluid', loading: 'lazy', decoding: 'async' }) }} src="{{ path }}"{% if srcset %} srcset="{{ srcset }}" sizes="(min-width: 1200px) 262px, (min-width: 768px) 33vw, 50vw"{% endif %} width="{{ width }}" height="{{ width * 4 // 3 }}" {{ sylius_test_html_attribute('main-image') }} alt="{{ 'sylius.ui.product'|trans }} {{ product.name }} {{ 'sylius.ui.image'|trans }}" />

@@ -1,4 +1,4 @@
-{# US-072: copy of the Sylius shop layout with the page landmarks (header, main, footer) and the skip link added. #}
+{# US-072: copy of the Sylius shop layout with the page landmarks (header, main, footer) and the skip link added. US-078: with the description and share metadata. #}
 {% import "@SyliusUi/macro/rtl.html.twig" as rtl %}
 
 {% set generic_hook = 'sylius_shop.base' %}
@@ -13,6 +13,8 @@
         {% endblock %}
 
         <title>{% block title %}{{ sylius.channel.name }}{% endblock %}</title>
+        {# US-078: description, canonical and share metadata #}
+        {% include 'shop/seo/metatags.html.twig' with { seo_title: app_seo_plain_text(block('title')) } %}
 
         {% block stylesheets %}
             {% hook '#stylesheets' with { _prefixes: prefixes } %}

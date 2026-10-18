@@ -1,0 +1,69 @@
+#!/bin/sh
+# Frees the disk space taken by local test runs (US-141): the private caches var/cache-*, the stale test databases of
+# the local MySQL container and its binary logs. Shows `df -h .` before and after. The default test database
+# (sylius_b2b_demo_test) and the development database (sylius_b2b_demo) are never touched. The threshold MIN_FREE_GB
+# of bin/run-tests is never lowered: when it blocks, run this script (or ask for help), do not bypass it.
+#
+#   bin/clean-test-caches --dry-run     # lists what would be removed, removes nothing
+#   bin/clean-test-caches               # removes it
+#   MYSQL_CONTAINER=name bin/clean-test-caches   # default: sylius-b2b-demo-mysql-1
+#
+# Refuses a real run while a bin/run-tests is active (exit 3).
+# Databases matched: sylius_test_*, b2b_*, sylius_b2b_demo_test_* (the ones TEST_DB_NAME=... creates). See docs/tests-locaux.md.
+set -eu
+cd "$(dirname "$0")/.."
+
+DRY_RUN=0
+case "${1:-}" in
+    '') ;;
+    --dry-run) DRY_RUN=1 ;;
+    *) echo "Usage: bin/clean-test-caches [--dry-run]" >&2; exit 2 ;;
+esac
+
+CONTAINER="${MYSQL_CONTAINER:-sylius-b2b-demo-mysql-1}"
+KEEP_DB="sylius_b2b_demo_test"
+
+if [ "$DRY_RUN" = 0 ] && pgrep -f 'bin/run-tests' >/dev/null 2>&1; then
+    echo "bin/run-tests is running: its caches and database would be removed under it. Wait for it, or use --dry-run." >&2
+    exit 3
+fi
+
+if [ "$DRY_RUN" = 1 ]; then echo "[dry-run] nothing will be removed."; fi
+echo "== Disk before"; df -h .
+
+echo "== Test caches (var/cache-*)"
+FOUND=0
+for dir in var/cache-*; do
+    [ -d "$dir" ] || continue
+    FOUND=1
+    if [ "$DRY_RUN" = 1 ]; then echo "would remove $dir"; else rm -rf "$dir"; echo "removed $dir"; fi
+done
+[ "$FOUND" = 1 ] || echo "none"
+
+mysql_exec() { docker exec "$CONTAINER" mysql -uroot -N -B -e "$1"; }
+
+echo "== Stale test databases ($CONTAINER)"
+if ! DATABASES=$(mysql_exec 'SHOW DATABASES' 2>/dev/null); then
+    echo "MySQL container not reachable: databases and binary logs skipped."
+else
+    FOUND=0
+    for db in $DATABASES; do
+        case "$db" in
+            "$KEEP_DB") echo "kept $db (default test database)"; continue ;;
+            sylius_test_*|b2b_*|sylius_b2b_demo_test_*) ;;
+            *) continue ;;
+        esac
+        FOUND=1
+        if [ "$DRY_RUN" = 1 ]; then echo "would drop $db"; else mysql_exec "DROP DATABASE \`$db\`"; echo "dropped $db"; fi
+    done
+    [ "$FOUND" = 1 ] || echo "none"
+
+    echo "== Binary logs"
+    if [ "$DRY_RUN" = 1 ]; then
+        mysql_exec 'SHOW BINARY LOGS' 2>/dev/null | awk '{print "would purge " $1 " (" $2 " bytes)"}' || true
+    else
+        mysql_exec 'PURGE BINARY LOGS BEFORE NOW()' 2>/dev/null && echo "purged" || echo "no binary log to purge"
+    fi
+fi
+
+echo "== Disk after"; df -h .

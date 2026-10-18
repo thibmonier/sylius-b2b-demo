@@ -82,15 +82,27 @@ final class PunchOutSimulatorControllerTest extends TestCase
     {
         $state = $this->state()->sign(['cookie' => 'c', 'currency' => 'EUR', 'total' => '0.00', 'lines' => []]);
 
-        $response = $this->controller()->order($this->post(['state' => $state, 'orderId' => 'PO-1']));
+        $response = $this->controller()->order($this->orderPost(['state' => $state, 'orderId' => 'PO-1']));
 
         self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
         self::assertSame('empty_cart_order', $this->errorKey());
     }
 
+    public function testAnOrderWithoutAValidTokenIsRefusedWithAGenericMessage(): void
+    {
+        $state = $this->state()->sign(['cookie' => 'c', 'currency' => 'EUR', 'total' => '0.00', 'lines' => []]);
+
+        foreach ([[], ['_token' => 'forged']] as $token) {
+            $response = $this->controller()->order($this->post($token + ['state' => $state, 'orderId' => 'PO-1']));
+
+            self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+            self::assertSame('csrf', $this->errorKey());
+        }
+    }
+
     public function testAnOrderWithAForgedStateIsRefused(): void
     {
-        $response = $this->controller()->order($this->post(['state' => 'forged.value', 'orderId' => 'PO-1']));
+        $response = $this->controller()->order($this->orderPost(['state' => 'forged.value', 'orderId' => 'PO-1']));
 
         self::assertSame(Response::HTTP_GONE, $response->getStatusCode());
         self::assertSame('session_expired', $this->errorKey());
@@ -101,7 +113,7 @@ final class PunchOutSimulatorControllerTest extends TestCase
         $line = ['supplierPartId' => 'V', 'supplierPartAuxId' => 'v1:V', 'description' => 'd', 'quantity' => 1, 'unitPrice' => '1.00', 'currency' => 'EUR', 'unitOfMeasure' => 'EA'];
         $state = $this->state()->sign(['cookie' => 'c', 'currency' => 'EUR', 'total' => '1.00', 'lines' => [$line]]);
 
-        $this->controller()->order($this->post(['state' => $state, 'orderId' => 'PO 1; DROP']));
+        $this->controller()->order($this->orderPost(['state' => $state, 'orderId' => 'PO 1; DROP']));
 
         self::assertSame('invalid_order_id', $this->errorKey());
     }
@@ -119,6 +131,16 @@ final class PunchOutSimulatorControllerTest extends TestCase
         return Request::create('/demo/punchout-simulator/x', 'POST', $fields);
     }
 
+    /**
+     * An order post carrying the CSRF token the form holds.
+     *
+     * @param array<string, string> $fields
+     */
+    private function orderPost(array $fields): Request
+    {
+        return $this->post(['_token' => 'v'] + $fields);
+    }
+
     private function state(): SignedState
     {
         return new SignedState('secret', new MockClock('2026-10-16 10:00:00'));
@@ -134,6 +156,7 @@ final class PunchOutSimulatorControllerTest extends TestCase
         });
         $csrf = $this->createMock(CsrfTokenManagerInterface::class);
         $csrf->method('getToken')->willReturn(new \Symfony\Component\Security\Csrf\CsrfToken('t', 'v'));
+        $csrf->method('isTokenValid')->willReturnCallback(static fn (\Symfony\Component\Security\Csrf\CsrfToken $token): bool => 'v' === $token->getValue());
         $clock = new MockClock('2026-10-16 10:00:00');
         $loader = new SafeXmlLoader();
         // The shop's journal knows every message (the authentication itself is tested on the HTTP answers).

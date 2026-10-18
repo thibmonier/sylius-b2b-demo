@@ -43,3 +43,7 @@ Les images des produits sont rechargées par les fixtures à chaque reset (nouve
 copie par produit) ; la purge des images orphelines (étape 4 du reset) supprime les anciennes et celles téléversées par les
 visiteurs. Le cache LiipImagine est vidé par l'étape 2 : les vignettes sont régénérées à la première visite.
 Chargement des fixtures mesuré : 9,4 s et 317 Mo sans images, 6,7 s et 331 Mo avec les 210 images (écart de bruit).
+
+## Affichage (US-078)
+
+Tailles, `srcset`, chargement différé, image principale prioritaire et visuel de repli : voir [seo-et-vitesse.md](seo-et-vitesse.md) (mesures avant et après).

@@ -26,6 +26,27 @@ app:
             compliance: 'Conformité'
             admin: 'Administration'
     home_b2b:
+        buyer:
+            usual:
+                title: 'Vos références habituelles'
+                intro: 'Les produits que vous commandez le plus souvent.'
+                title_start: 'Pour démarrer : une sélection du catalogue'
+                intro_start: 'Vous n''avez pas encore de commande : voici des références pour commencer.'
+            restock:
+                title: 'Réassort rapide'
+                intro: 'Les articles de la liste Atelier de votre société, à recommander sans chercher.'
+                intro_start: 'Votre société n''a pas encore de liste d''achats partagée : voici d''autres références du catalogue.'
+                link: 'Ouvrir la liste Atelier'
+            negotiated:
+                title: 'Promotions négociées'
+                intro: 'Les produits pour lesquels votre société a un prix négocié.'
+            roles:
+                title: 'Choisissez un rôle pour voir votre accueil'
+                intro: 'Les prix B2B ne sont visibles qu''une fois connecté : chaque rôle retrouve ses références, son réassort et ses promotions négociées.'
+                usual: 'Vos références habituelles'
+                restock: 'Réassort rapide'
+                negotiated: 'Promotions négociées'
+                cta: 'Choisir un compte de démo'
         hero:
             title: 'Fournitures Pro, la démo B2B de Sylius'
             subtitle: "Devis, commande rapide, validation des achats, PunchOut : parcourez les plugins B2B open source sur une boutique d'équipements professionnels."
@@ -69,6 +90,22 @@ app:
         in_stock: 'En stock'
         on_order: 'Sur commande'
         from_price: 'dès %price% HT par palier'
+        price_breaks:
+            caption: 'Prix unitaires hors taxes selon la quantité commandée'
+            quantity: 'Quantité'
+            unit_price: 'Prix unitaire HT'
+            discount: 'Remise'
+            negotiated_badge: 'Prix négocié'
+            current_tier: 'palier appliqué à la quantité saisie'
+            negotiated_title: 'Votre prix négocié (%company%)'
+            negotiated_detail: '%price% HT dès %quantity% pièces, soit -%percent% par rapport au prix catalogue de %base% HT.'
+            total: 'Total pour cette quantité : %quantity% × %unit% = %total% %tax%'
+            nudge: 'Ajoutez-en %quantity% pour payer %price% %tax% la pièce.'
+        card_negotiated: 'Prix %company% : %price% HT dès %quantity% pièces'
+        cart:
+            tier_discount: 'Dont remise paliers de quantité'
+            negotiated_discount: 'Dont remise prix négocié'
+            negotiated_applied: 'Prix négocié %company% appliqué (dès %quantity% pièces)'
         footer:
             invoice: 'Facturation mensuelle'
             terms: 'Paiement à terme sur compte'

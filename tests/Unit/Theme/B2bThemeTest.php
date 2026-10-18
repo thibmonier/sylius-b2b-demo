@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Theme;
 
 use App\Demo\Theme\B2bThemeExtension;
+use App\Demo\Theme\CartTierDiscountProvider;
+use App\Demo\Theme\HomeSelectionProvider;
 use App\Demo\Theme\PackagingUnitProvider;
 use App\Demo\Theme\PackagingUnitRows;
+use App\Demo\Theme\PriceBreaksProvider;
 use App\Demo\Theme\ProductListPreloader;
 use App\Demo\Theme\TierFromPriceProvider;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +21,7 @@ use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
+use Tmonier\SyliusCompanyAccountsPlugin\Repository\CompanyMemberRepositoryInterface;
 use Tmonier\SyliusTierPricingPlugin\Pricing\TierPriceCalculatorInterface;
 use Tmonier\SyliusTierPricingPlugin\Pricing\TierPriceRow;
 use Tmonier\SyliusTierPricingPlugin\Pricing\TierPriceTable;
@@ -55,6 +59,22 @@ final class B2bThemeTest extends TestCase
         self::assertSame(700, $provider->fromPrice(new ProductVariant()));
     }
 
+    public function testFromPriceNeedsAGapAboveFivePercent(): void
+    {
+        $noise = new TierPriceTable([new TierPriceRow(1, 890, 0.0, false), new TierPriceRow(10, 889, 0.1, false)]);
+        $real = new TierPriceTable([new TierPriceRow(1, 1000, 0.0, false), new TierPriceRow(10, 949, 5.1, false)]);
+
+        self::assertNull($this->fromPrice($noise)->fromPrice(new ProductVariant()));
+        self::assertSame(949, $this->fromPrice($real)->fromPrice(new ProductVariant()));
+    }
+
+    public function testAPercentageIsFormattedForTheLocale(): void
+    {
+        $percent = $this->twig(rows: [], table: $this->tiers())->createTemplate("{{ app_b2b_percent(12, 'fr_FR') }}|{{ app_b2b_percent(12.5, 'en_US') }}");
+
+        self::assertMatchesRegularExpression('/^12\s%\|12\.5%$/u', $percent->render([]));
+    }
+
     public function testNoTierMeansNoFromPrice(): void
     {
         $noTier = new TierPriceTable([new TierPriceRow(1, 1000, 0.0, false)]);
@@ -68,7 +88,7 @@ final class B2bThemeTest extends TestCase
     {
         $channels = $this->createStub(ChannelContextInterface::class);
         $channels->method('getChannel')->willThrowException(new ChannelNotFoundException());
-        $provider = new TierFromPriceProvider($this->createStub(TierPriceCalculatorInterface::class), $channels, $this->createStub(CustomerContextInterface::class));
+        $provider = new TierFromPriceProvider(new PriceBreaksProvider($this->createStub(TierPriceCalculatorInterface::class), $channels, $this->createStub(CustomerContextInterface::class)));
 
         self::assertNull($provider->fromPrice(new ProductVariant()));
     }
@@ -174,16 +194,19 @@ final class B2bThemeTest extends TestCase
         return new TierPriceTable([new TierPriceRow(1, 1000, 0.0, false), new TierPriceRow(10, 850, 15.0, false), new TierPriceRow(100, 700, 30.0, false)]);
     }
 
-    private function fromPrice(TierPriceTable $table): TierFromPriceProvider
+    private function priceBreaks(TierPriceTable $table): PriceBreaksProvider
     {
         $calculator = $this->createStub(TierPriceCalculatorInterface::class);
         $calculator->method('table')->willReturn($table);
         $channels = $this->createStub(ChannelContextInterface::class);
         $channels->method('getChannel')->willReturn(new Channel());
-        $customers = $this->createStub(CustomerContextInterface::class);
-        $customers->method('getCustomer')->willReturn(null);
 
-        return new TierFromPriceProvider($calculator, $channels, $customers);
+        return new PriceBreaksProvider($calculator, $channels, $this->createStub(CustomerContextInterface::class));
+    }
+
+    private function fromPrice(TierPriceTable $table): TierFromPriceProvider
+    {
+        return new TierFromPriceProvider($this->priceBreaks($table));
     }
 
     /** @param list<array{productId: int, locale: string, text: string|null}> $rows */
@@ -214,6 +237,15 @@ final class B2bThemeTest extends TestCase
             new PackagingUnitProvider($this->rows($rows), $this->locale('fr_FR')),
             $this->fromPrice($table),
             new ProductListPreloader($this->createStub(EntityManagerInterface::class)),
+            $this->priceBreaks($table),
+            new CartTierDiscountProvider($this->createStub(EntityManagerInterface::class)),
+            new HomeSelectionProvider(
+                $this->createStub(EntityManagerInterface::class),
+                $this->createStub(ChannelContextInterface::class),
+                $this->createStub(CustomerContextInterface::class),
+                $this->createStub(CompanyMemberRepositoryInterface::class),
+                $this->priceBreaks($table),
+            ),
         ));
         $twig->addFilter(new TwigFilter('trans', static fn (string $id, array $params = []): string => match ($id) {
             'app.theme_b2b.from_price' => 'from ' . ($params['%price%'] ?? ''),

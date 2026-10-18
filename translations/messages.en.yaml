@@ -26,6 +26,27 @@ app:
             compliance: 'Compliance'
             admin: 'Administration'
     home_b2b:
+        buyer:
+            usual:
+                title: 'Your usual references'
+                intro: 'The products you order most often.'
+                title_start: 'To get started: a catalogue selection'
+                intro_start: 'You have no order yet: here are some references to begin with.'
+            restock:
+                title: 'Quick restock'
+                intro: 'The items of your company''s Atelier list, to reorder without searching.'
+                intro_start: 'Your company has no shared purchase list yet: here are more catalogue references.'
+                link: 'Open the Atelier list'
+            negotiated:
+                title: 'Negotiated promotions'
+                intro: 'The products for which your company has a negotiated price.'
+            roles:
+                title: 'Choose a role to see your home page'
+                intro: 'B2B prices are only visible once signed in: each role finds its references, its restock and its negotiated promotions.'
+                usual: 'Your usual references'
+                restock: 'Quick restock'
+                negotiated: 'Negotiated promotions'
+                cta: 'Choose a demo account'
         hero:
             title: 'Fournitures Pro, the Sylius B2B demo'
             subtitle: 'Quotes, quick order, purchase approval, PunchOut: try the open source B2B plugins on a professional equipment store.'
@@ -69,6 +90,22 @@ app:
         in_stock: 'In stock'
         on_order: 'On order'
         from_price: 'from %price% excl. VAT with volume tiers'
+        price_breaks:
+            caption: 'Unit prices excluding VAT by ordered quantity'
+            quantity: 'Quantity'
+            unit_price: 'Unit price excl. VAT'
+            discount: 'Discount'
+            negotiated_badge: 'Negotiated price'
+            current_tier: 'tier applied to the typed quantity'
+            negotiated_title: 'Your negotiated price (%company%)'
+            negotiated_detail: '%price% excl. VAT from %quantity% pieces, that is -%percent% against the catalogue price of %base% excl. VAT.'
+            total: 'Total for this quantity: %quantity% × %unit% = %total% %tax%'
+            nudge: 'Add %quantity% more to pay %price% %tax% per piece.'
+        card_negotiated: '%company% price: %price% excl. VAT from %quantity% pieces'
+        cart:
+            tier_discount: 'Including quantity tier discount'
+            negotiated_discount: 'Including negotiated price discount'
+            negotiated_applied: '%company% negotiated price applied (from %quantity% pieces)'
         footer:
             invoice: 'Monthly invoicing'
             terms: 'Payment terms on account'

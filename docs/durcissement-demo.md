@@ -58,6 +58,12 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
 | US-053 simulateur OCI | Corrigé | Entrée OCI relayée par le serveur (mot de passe jamais dans une page ni une URL), `HOOK_URL` limitée aux domaines de retour de l'acheteur et vérifiée avant tout appel, `POST /punchout/oci/<code>` réservé au simulateur (`PunchOutEndpointGuard`), limiteurs par IP, retour à usage unique (`OciReturnGate`). Pas de plafond quotidien : un retour OCI ne crée pas de commande (décision du Tech Lead, 2026-10-17). |
 | M8 retour du simulateur PunchOut (US-040) | Corrigé | Le panier n'est cru que s'il est, octet pour octet, un `PunchOutOrderMessage` du journal du plugin ; usage unique, dans l'heure (`ReturnAuthenticator`). |
+| US-082 en-têtes cross-origin | Corrigé (COEP volontairement absent) | `Cross-Origin-Opener-Policy` et `Cross-Origin-Resource-Policy` en `same-origin`, posés par Caddy (fichiers statiques compris) et par l'application. Pas de `Cross-Origin-Embedder-Policy` : toutes les ressources sont déjà de même origine (CSP) et rien n'a besoin de l'isolation cross-origin ; le risque de casser un contenu embarqué par un plugin l'emporte. |
+| US-082 fichiers cachés | Corrigé | Caddy répond 404 à tout chemin dont un segment commence par un point (sauf `/.well-known/`). |
+| US-082 formulaire du simulateur | Corrigé | Le formulaire de commande du simulateur PunchOut porte un jeton CSRF, vérifié avant toute lecture de l'état ; message générique FR et EN. |
+| US-082 dépendances | Corrigé en partie | `api-platform/*` 5.0.4. `doctrine/orm` reste en 3.6.x : Sylius 2.3 déclare un conflit avec `doctrine/orm >=3.7`, la montée attend une version de Sylius qui le lève. |
+| US-082 outillage de l'image | Corrigé | Composer n'est présent que dans les étages de construction ; l'image finale ne l'embarque plus (test `DockerfileTest`, étape de CI). |
+| US-081 chaîne d'approvisionnement | Corrigé | Dependabot (Composer, npm, Actions, Docker) ; actions GitHub figées par SHA de commit et images par condensat (`bin/check-pinned-refs`) ; `composer audit` et audit JS avec exception datée (`bin/audit-js-dependencies`, `security/audit-exceptions.json`) ; scan d'image Trivy (échec sur critique corrigeable sans exception datée, `.trivyignore.yaml`) et SBOM CycloneDX publié en artefact. Ces contrôles sont des jobs distincts de CI, non requis par la protection de `main`. |
 
 ## API REST désactivée en production
 
@@ -65,6 +71,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 
 ## Risques acceptés
 
+- **Exception d'audit JavaScript (braces)** : un avis de gravité haute sans correctif publié touche un outil de construction des assets (absent de l'image finale). Exception datée dans `security/audit-exceptions.json`, à revoir à sa date.
 - **`TRUSTED_PROXIES` contient `REMOTE_ADDR`** : tout appelant direct du conteneur serait cru sur `X-Forwarded-*`. Acceptable parce que seul le proxy Railway atteint le conteneur (aucun port TCP public).
 - **CSP compatible** (`'unsafe-inline'`, `'unsafe-eval'` pour les scripts) : l'admin Sylius et les contrôleurs Stimulus en ont besoin. La CSP bloque tout de même les ressources d'une autre origine, les objets, les cadres et les cibles de formulaire externes.
 - **Compteurs de débit dans le cache du conteneur** (système de fichiers) : remis à zéro à chaque déploiement et par instance. Une seule instance est déployée.
@@ -75,3 +82,4 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 - **Retour OCI du simulateur (US-053)** : l'état signé (HMAC, une heure) n'est lié ni à la session ni à l'acheteur, et le marqueur « déjà reçu » vit dans `cache.app` : un vidage du cache (reset nocturne) rouvre un rejeu dans l'heure. Impact quasi nul : aucune commande n'est créée, le panier n'est affiché qu'à celui qui poste, et le limiteur `punchout_oci_return` borne les essais (revue du sprint 12).
 - **Retour du simulateur rejoué après actualisation** : un retour de panier ne sert qu'une fois ; actualiser la page de retour affiche « déjà reçu », sans commande (relancer une session).
 - **`/health` rouge pendant la remise à zéro** (base recréée, migrations en cours) : la sonde Railway ne s'exécute qu'au déploiement, le `HEALTHCHECK` Docker n'est qu'informatif.
+- **Prix de groupe appliqués aux requêtes de boutique sans session** (`group_prices_for_guests`) : accepté parce que les comptes de démo et leurs adresses sont publics et que la démo ne porte aucune donnée réelle. Correctif à prévoir dans le plugin de prix par paliers : authentifier la session PunchOut plutôt que d'ouvrir ce réglage.

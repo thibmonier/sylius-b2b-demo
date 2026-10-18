@@ -22,7 +22,9 @@ final class OrderHistoryFixtureQueryCountTest extends KernelTestCase
 {
     use DatabaseAccess;
 
-    private const MAX_SELECT = 770;
+    // 770 + 10 (US-090): the tier-pricing rules of the Acme customer group are read once per product (cached rule
+    // provider), about four more selects than before the company price existed; 774 measured.
+    private const MAX_SELECT = 780;
 
     private string $profile = '';
 

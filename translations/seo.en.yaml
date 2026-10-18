@@ -1,0 +1,11 @@
+description:
+    default: 'Fournitures Pro, a B2B demo shop built with Sylius 2.3: company accounts, quotes, quick order and negotiated prices.'
+    sylius_shop_homepage: 'Fournitures Pro, a B2B demo shop on Sylius 2.3: quick order, quotes, purchase on account and negotiated prices for companies.'
+    sylius_shop_product_index: 'Fournitures Pro %name% catalogue: professional references, tiered prices and quick order for companies.'
+    sylius_shop_product_show: '%name% at Fournitures Pro: tiered prices, stock and quick order for professional buyers.'
+    app_demo_plugins: 'The open source Sylius plugins by Thibaut Monier installed in this B2B demo: features, status and GitHub repositories.'
+    app_demo_about: 'About Fournitures Pro: a fictional B2B shop that showcases open source Sylius plugins. Invented data, reset regularly.'
+    app_demo_legal_notice: 'Legal notice of the Fournitures Pro demo: non-commercial demonstration, fictional data, no real payment.'
+    sylius_shop_login: 'Sign in to the Fournitures Pro demo: demonstration accounts for company, buyer and approver, no registration needed.'
+    app_demo_accounts: 'Demo journeys and accounts of Fournitures Pro: pick a role to browse the B2B shop.'
+    app_demo_mcp_guide: 'Guide to connect an AI assistant to the demo shop through the Sylius MCP server.'
