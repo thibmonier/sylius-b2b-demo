@@ -1,0 +1,122 @@
+===== pa11y-home.json
+[warning] x33 1.Guideline1_4.1_4_6.G17.Abs
+   This element is absolutely positioned and the background color can not be determined. Ensure the contrast ratio between the text and all covered parts of the ba
+   ex: <span class="visually-hidden">Se connecter en tant que Claire...</span>
+[error] x12 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 4.
+   ex: <a href="/fr_FR/wishlist/add/756" class="btn btn-icon btn-outline-secondary w-100" data-pr
+[warning] x8 3.Guideline3_2.3_2_5.H83.3
+   Check that this link's link text contains information indicating that the link will open in a new window.
+   ex: <a href="https://sylius.com/partner/paypal/" target="_blank" class="ratio ratio-21x9 d-blo
+[error] x4 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 6.
+   ex: <span class="b2b-logo__pro">Pro</span>
+[warning] x3 1.Guideline1_3.1_3_1.H48
+   If this element contains a navigation section, it is recommended that it be marked up as a list.
+   ex: <div class="container d-flex flex-wrap align-items-center gap-3"> <strong>Démo B2B /...</d
+[error] x1 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 1:
+   ex: <a href="/fr_FR/">Inscrivez-vous à notre newslett...</a>
+===== pa11y-homelogin.json
+[warning] x33 1.Guideline1_4.1_4_6.G17.Abs
+   This element is absolutely positioned and the background color can not be determined. Ensure the contrast ratio between the text and all covered parts of the ba
+   ex: <span class="visually-hidden">Se connecter en tant que Claire...</span>
+[error] x25 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 4.
+   ex: <code>claire@acme.example</code>
+[error] x12 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of Na
+   ex: <span class="text-muted small">— Acheteur / Buyer, Acme Indust...</span>
+[warning] x8 3.Guideline3_2.3_2_5.H83.3
+   Check that this link's link text contains information indicating that the link will open in a new window.
+   ex: <a href="https://sylius.com/partner/paypal/" target="_blank" class="ratio ratio-21x9 d-blo
+[error] x4 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 6.
+   ex: <span class="b2b-logo__pro">Pro</span>
+[warning] x3 1.Guideline1_3.1_3_1.H48
+   If this element contains a navigation section, it is recommended that it be marked up as a list.
+   ex: <div class="container d-flex flex-wrap align-items-center gap-3"> <strong>Démo B2B /...</d
+[error] x1 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 1:
+   ex: <a href="/fr_FR/">Inscrivez-vous à notre newslett...</a>
+===== pa11y-homeplugins.json
+[warning] x54 3.Guideline3_2.3_2_5.H83.3
+   Check that this link's link text contains information indicating that the link will open in a new window.
+   ex: <a href="https://github.com/thibmonier/sylius-admin-order-creation-plugin" rel="noopener" 
+[warning] x33 1.Guideline1_4.1_4_6.G17.Abs
+   This element is absolutely positioned and the background color can not be determined. Ensure the contrast ratio between the text and all covered parts of the ba
+   ex: <span class="visually-hidden">Se connecter en tant que Claire...</span>
+[warning] x25 1.Guideline1_3.1_3_1.H48
+   If this element contains a navigation section, it is recommended that it be marked up as a list.
+   ex: <div class="container d-flex flex-wrap align-items-center gap-3"> <strong>Démo B2B /...</d
+[error] x24 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 4.
+   ex: <code>sophie@fournitures-pro.example</code>
+[error] x15 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of Na
+   ex: <span class="text-muted">Visible dans l'administration o...</span>
+[error] x4 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 6.
+   ex: <span class="b2b-logo__pro">Pro</span>
+[error] x1 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 1:
+   ex: <a href="/fr_FR/">Inscrivez-vous à notre newslett...</a>
+===== pa11y-homeproducts_outi-019-fr.json
+[warning] x33 1.Guideline1_4.1_4_6.G17.Abs
+   This element is absolutely positioned and the background color can not be determined. Ensure the contrast ratio between the text and all covered parts of the ba
+   ex: <span class="visually-hidden">Se connecter en tant que Claire...</span>
+[warning] x8 3.Guideline3_2.3_2_5.H83.3
+   Check that this link's link text contains information indicating that the link will open in a new window.
+   ex: <a href="https://sylius.com/partner/paypal/" target="_blank" class="ratio ratio-21x9 d-blo
+[error] x6 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 6.
+   ex: <span class="b2b-logo__pro">Pro</span>
+[error] x5 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 4.
+   ex: <button type="submit" class="btn btn-icon btn-outline-secondary" data-product-name="Scie à
+[error] x4 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of Na
+   ex: <span class="text-body-tertiary text-break">Catalogue</span>
+[warning] x3 1.Guideline1_3.1_3_1.H48
+   If this element contains a navigation section, it is recommended that it be marked up as a list.
+   ex: <div class="container d-flex flex-wrap align-items-center gap-3"> <strong>Démo B2B /...</d
+[warning] x2 2.Guideline2_5.2_5_3.F96
+   Accessible name for this element does not contain the visible label text. Check that for user interface components with labels that include text or images of te
+   ex: <a class="badge text-bg-light border text-decoration-none fw-normal" href="/fr_FR/plugins#
+[error] x1 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 1:
+   ex: <a href="/fr_FR/">Inscrivez-vous à notre newslett...</a>
+[warning] x1 1.Guideline1_3.1_3_1.H39.3.NoCaption
+   If this table is a data table, consider using a caption element to the table element to identify this table.
+   ex: <table class="table table-lg table-list"> <tbody> ...</table>
+===== pa11y-hometaxons_quincaillerie.json
+[warning] x33 1.Guideline1_4.1_4_6.G17.Abs
+   This element is absolutely positioned and the background color can not be determined. Ensure the contrast ratio between the text and all covered parts of the ba
+   ex: <span class="visually-hidden">Se connecter en tant que Claire...</span>
+[error] x9 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 4.
+   ex: <a href="/fr_FR/wishlist/add/711" class="btn btn-icon btn-outline-secondary w-100" data-pr
+[warning] x8 3.Guideline3_2.3_2_5.H83.3
+   Check that this link's link text contains information indicating that the link will open in a new window.
+   ex: <a href="https://sylius.com/partner/paypal/" target="_blank" class="ratio ratio-21x9 d-blo
+[warning] x6 1.Guideline1_3.1_3_1.H48
+   If this element contains a navigation section, it is recommended that it be marked up as a list.
+   ex: <div class="container d-flex flex-wrap align-items-center gap-3"> <strong>Démo B2B /...</d
+[error] x4 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 6.
+   ex: <span class="b2b-logo__pro">Pro</span>
+[error] x4 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of Na
+   ex: <span class="text-body-tertiary text-break">Catalogue</span>
+[error] x3 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 2.
+   ex: <span class="page-link">Précédent</span>
+[error] x1 1.Guideline1_4.1_4_6.G17.Fail
+   This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 7:1, but text in this element has a contrast ratio of 1:
+   ex: <a href="/fr_FR/">Inscrivez-vous à notre newslett...</a>
+[error] x1 4.Guideline4_1.4_1_2.H91.InputText.Name
+   This textinput element does not have a name available to an accessibility API. Valid names are: label element, title undefined, aria-label undefined, aria-label
+   ex: <input type="text" id="criteria_search_value" name="criteria[search][value]" placeholder="
+[error] x1 1.Guideline1_3.1_3_1.F68
+   This form field should be labelled in some way. Use the label element (either with a "for" attribute or wrapped around the form field), or "title", "aria-label"
+   ex: <input type="text" id="criteria_search_value" name="criteria[search][value]" placeholder="

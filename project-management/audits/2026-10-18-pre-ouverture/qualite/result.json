@@ -1,0 +1,253 @@
+{
+  "tech": "symfony",
+  "score": 45,
+  "architecture": {
+    "score": 14,
+    "findings": [
+      {
+        "severity": "high",
+        "file": "src/Controller/CompanyWishlistController.php:103-107",
+        "message": "removeItem() mute l'agrégat (removeProduct) et appelle EntityManagerInterface::flush() directement dans le contrôleur (flush l.106). Pattern violé : persistance et règle métier hors des services (-5).",
+        "recommendation": "Déplacer la suppression dans un service applicatif (ex. CompanyWishlistManager) ou une méthode du domaine ; le contrôleur ne fait que résoudre, autoriser, appeler et rediriger. Injecter le service, retirer EntityManagerInterface du constructeur."
+      },
+      {
+        "severity": "medium",
+        "file": "src/Demo/PunchOutSimulator/OciBuyerProvider.php:7,27",
+        "message": "Code d'exécution du simulateur importe PunchoutDemoFixture (couche DataFixtures) pour lire la constante OCI_BUYER_CODE : dépendance inversée, le runtime dépend d'un fixture (-3). Idem BuyerCredentialsProvider.php:7,55 avec BUYER_CODE.",
+        "recommendation": "Extraire les codes acheteurs dans une constante partagée neutre (ex. src/Demo/PunchOutSimulator/DemoBuyerCodes.php) ou dans config/demo/accounts.yaml, et faire dépendre fixtures et simulateur de cette source."
+      },
+      {
+        "severity": "medium",
+        "file": "src/Demo/Controller/WebhookReceiverController.php:40-69",
+        "message": "__invoke() enchaîne rate limiting, contrôle de taille du corps, recherche d'endpoint, vérification HMAC (isSigned l.71), parsing du type d'événement (eventType l.88) et persistance (store->record). Logique de réception dans le contrôleur (-1). Aspects sécurité : voir rapport /team:security.",
+        "recommendation": "Extraire un service WebhookReceiver qui renvoie un résultat typé ; le contrôleur ne traduit que ce résultat en Response."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Controller/PunchOutSimulatorController.php:241-257",
+        "message": "cartFromState() décode et valide l'état signé (tableaux, types, reconstruction de ReceivedLine) dans le contrôleur (-1). Le contrôleur fait 258 lignes et orchestre setup, order, claim et return.",
+        "recommendation": "Déplacer la reconstruction dans une fabrique de ReceivedCart (ex. ReceivedCart::fromState) ou dans SignedState ; le contrôleur ne garde que le routage et le rendu."
+      },
+      {
+        "severity": "low",
+        "file": "config/services.yaml (exclusions App\\ : '../src/Demo/Images/Fetch/', '../src/Demo/Vitrine/')",
+        "message": "Outils manuels (bin/fetch-product-images, bin/vitrine-readme) vivent dans src/ et sont exclus du conteneur par une liste d'exclusions. Le périmètre de l'application est donc brouillé (-1).",
+        "recommendation": "Déplacer ces outils dans un namespace dédié hors src/Demo (ex. tools/) avec leur propre autoload ou dans bin/ ; supprimer les exclusions correspondantes."
+      },
+      {
+        "severity": "info",
+        "file": "config/services.yaml",
+        "message": "Points forts : _defaults avec autowire/autoconfigure, public: false (aucun $container->get() dans src/, vérifié), services métier injectés par type, lint:container OK, 53 templates Twig sans logique métier (pas de repository ni de service() dans templates/).",
+        "recommendation": "Aucune action requise ; maintenir."
+      }
+    ]
+  },
+  "code_quality": {
+    "score": 0,
+    "findings": [
+      {
+        "severity": "low",
+        "file": "rector.php",
+        "message": "vendor/bin/rector process --dry-run signale 61 fichiers modifiables (27 \\LogicException FQCN à importer, ParamAndEnvAttributeRector sur des #[Autowire('%...%')] à passer en Autowire(param: ...), ex. src/Demo/DataFixtures/OrderHistoryDemoFixture.php:66). Rector n'est pas exécuté en CI (.github/workflows/ci.yaml:58-61) (-1).",
+        "recommendation": "Appliquer les règles retenues puis ajouter 'vendor/bin/rector process --dry-run' au step de CI 'Coding standard and static analysis'."
+      },
+      {
+        "severity": "info",
+        "file": "phpstan.dist.neon",
+        "message": "PHPStan niveau 9 sur bin/, config/, public/, src/, tests/ : 0 erreur, aucune baseline, aucun @phpstan-ignore dans src/config/tests. ECS (vendor/bin/ecs check src tests) : 0 erreur. Résultat excellent.",
+        "recommendation": "Aucune action requise."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/ProductCsvFixture.php:203",
+        "message": "createOrUpdateVariant() fait 73 lignes avec une complexité cyclomatique estimée à ~17 (-1 pour la longueur, avertissement sur la complexité).",
+        "recommendation": "Découper en étapes (résolution du produit, prix, stock, attributs) ; même traitement pour importProduct (l.138, 54 lignes)."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/ProductCsvFixture.php:32",
+        "message": "Classe de 316 lignes pour un fixture de démo (avertissement -1). Avec importProduct, createOrUpdateVariant et assignAttributes, c'est le plus gros fichier de glue.",
+        "recommendation": "Extraire la lecture CSV, la création de variantes et l'attribution des attributs dans des services dédiés injectés dans le fixture."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Command/DemoResetCommand.php:52",
+        "message": "Commande de reset de 281 lignes (avertissement -1) qui orchestre purge, fixtures, cache, sous-commandes et utilise DBAL Connection directement ; reset() (l.107) fait 47 lignes.",
+        "recommendation": "Extraire chaque étape (stepPurgeMediaCache, stepLoadFixtures, etc.) dans un service ou un step dédié ; garder la commande pour la CLI et le reporting."
+      },
+      {
+        "severity": "info",
+        "file": "src/Demo/Command/DemoResetCommand.php:75,181",
+        "message": "L'option --simulate-failure (test seam opérateur) est présente dans le code de production de la commande. Elle est documentée et voulue, mais elle ajoute une branche en prod.",
+        "recommendation": "Acceptable ; s'assurer qu'elle reste couverte par DemoResetCommandTest."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/PunchoutDemoFixture.php:85",
+        "message": "loadCxmlBuyer() fait 57 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la construction du buyer cXML en sous-méthodes ou dans une fabrique."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/PunchoutDemoFixture.php:147",
+        "message": "loadOciBuyer() fait 35 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la configuration OCI dans une fabrique ou un fichier de config."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/GpsrDemoFixture.php:53",
+        "message": "load() fait 38 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Découper load() par type d'entité."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/ProductCsvFixture.php:278",
+        "message": "assignAttributes() fait 35 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la boucle d'attributs dans un helper."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/TierPricingDemoFixture.php:65",
+        "message": "load() fait 51 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Découper load() en création des paliers et affectation aux produits."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/OrderHistoryDemoFixture.php:166",
+        "message": "advance() fait 34 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la logique de dates relatives dans un helper testé."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/QuoteDemoFixture.php:44",
+        "message": "load() fait 40 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Découper load() par devis."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/TradeCreditDemoFixture.php:66",
+        "message": "load() fait 41 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Découper load() par compte crédit."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures/TaxonDemoFixture.php:70",
+        "message": "buildTree() fait 43 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Découper en création de nœud et récursion."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Plugin/DemoPluginCatalog.php:67",
+        "message": "plugin() fait 33 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Déplacer les données dans config/demo/plugins.yaml (déjà présent, 21 Ko)."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Controller/WebhookReceiverController.php:39",
+        "message": "__invoke() fait 31 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Voir le finding architecture sur le même contrôleur."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Controller/PunchOutSimulatorController.php:122",
+        "message": "order() fait 36 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la validation de la commande dans un service."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Theme/ProductListPreloader.php:22",
+        "message": "preload() fait 33 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la préparation des identifiants."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Command/DemoResetCommand.php:164",
+        "message": "stepLoadFixtures() fait 36 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Voir le finding DemoResetCommand."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Command/DemoResetCommand.php:288",
+        "message": "runSubCommand() fait 40 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Voir le finding DemoResetCommand."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Infrastructure/Csv/CsvProductReader.php:86",
+        "message": "parseHandle() fait 57 lignes et CC ~14 (méthode > 30 lignes, -1).",
+        "recommendation": "Séparer lecture, validation de ligne et mapping."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/Vitrine/MarkdownDocument.php:170",
+        "message": "markManaged() fait 33 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la détection des blocs gérés."
+      },
+      {
+        "severity": "low",
+        "file": "src/Form/Extension/OrderPoReferenceTypeExtension.php:38",
+        "message": "buildForm() fait 63 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Découper en ajouts de champs par bloc (PO, cost center)."
+      },
+      {
+        "severity": "low",
+        "file": "src/Controller/CompanyWishlistController.php:65",
+        "message": "addToCart() fait 31 lignes (méthode > 30 lignes, -1) et contient le filtrage des articles sélectionnés.",
+        "recommendation": "Déplacer le filtrage des items dans CompanyWishlistCartAdder ou un service de sélection."
+      },
+      {
+        "severity": "low",
+        "file": "src/Invoice/PoReferenceCiiXmlWriter.php:74",
+        "message": "addBuyerReference() fait 35 lignes (méthode > 30 lignes, -1).",
+        "recommendation": "Extraire la construction du noeud XML."
+      }
+    ]
+  },
+  "testing": {
+    "score": 20,
+    "findings": [
+      {
+        "severity": "medium",
+        "file": "src/Controller/CompanyWishlistController.php ; src/Wishlist/CompanyWishlistRepository.php",
+        "message": "Aucun test unitaire ni fonctionnel ne référence ces classes par leur nom ; la seule couverture visible est tests/Smoke/CompanyWishlistSmokeTest.php (-1). Le contrôleur contient la suppression (voir architecture).",
+        "recommendation": "Ajouter un test fonctionnel sur removeItem et addToCart (CSRF, 403 autre société, flush) et un test unitaire de CompanyWishlistRepository."
+      },
+      {
+        "severity": "medium",
+        "file": "tests/ (répartition)",
+        "message": "Pyramide : tests/Unit 60 fichiers dont 5 démarrent le kernel, tests/Functional 38 et tests/Smoke 19 (quasi tous kernel). 40 tests unitaires purs sur 236 classes src (-1). Pyramide en losange, suites lentes et couplées au container.",
+        "recommendation": "Déplacer les tests de logique pure (ContainerFill, Vitrine, Logistics, Images) vers des tests sans kernel ; garder le kernel pour les parcours HTTP et CLI."
+      },
+      {
+        "severity": "medium",
+        "file": ".github/workflows/ci.yaml:84-96",
+        "message": "La couverture est mesurée et publiée mais non bloquante (seuil 80 % en attente, commentaire ci.yaml:84) (-1). Couverture non mesurable localement (pas de pilote pcov/xdebug autorisé) ; estimation qualitative : 46 classes src ont un test homonyme, la couverture réelle est probablement modérée, avec des trous sur Vitrine/, Images/Fetch/ et Logistics/.",
+        "recommendation": "Fixer un seuil de non-régression (ex. 70 % lignes) puis le relever vers 80 % ; ajouter la couverture des outils Vitrine."
+      },
+      {
+        "severity": "medium",
+        "file": "tests/Unit/Bin/VerifyPublicModeTest.php:102 ; tests/Functional/Demo/McpOutboundGuardTest.php:65",
+        "message": "usleep(100_000) dans des tests : attente temporelle, risque de flakiness (-1).",
+        "recommendation": "Remplacer par une horloge injectée (comme SimulatorFlowTest qui utilise $clock->sleep) ou par un serveur de test déterministe."
+      },
+      {
+        "severity": "low",
+        "file": "tests/Smoke/LegalPagesTest.php:68",
+        "message": "Le test est silencieusement skippé sauf si DEMO_LEGAL_REQUIRED=1 ; la CI (ci.yaml) ne définit pas cette variable, donc la contrainte légale n'est jamais vérifiée en CI (-1).",
+        "recommendation": "Exporter DEMO_LEGAL_REQUIRED=1 dans le job tests de la CI ou rendre le test bloquant par défaut."
+      },
+      {
+        "severity": "info",
+        "file": "tests/ (651 méthodes, 1739 assertions, 122 fichiers strict_types)",
+        "message": "Qualité : aucun fichier de test sans assertion (heuristique), usage de mocks limité à 15 fichiers unitaires, horloge injectée dans SimulatorFlowTest, tests de requêtes (QueryCount) présents.",
+        "recommendation": "Aucune action requise."
+      }
+    ]
+  },
+  "security": {
+    "score": null,
+    "findings": [
+      "voir /team:security"
+    ]
+  }
+}
