@@ -6,6 +6,7 @@
     "watch": "encore dev --watch"
   },
   "dependencies": {
+    "apexcharts": "^3.41.0",
     "@sylius-ui/admin": "file:vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/npm",
     "@sylius-ui/shop": "file:vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/npm",
     "@sylius/admin-bundle": "file:vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/assets",

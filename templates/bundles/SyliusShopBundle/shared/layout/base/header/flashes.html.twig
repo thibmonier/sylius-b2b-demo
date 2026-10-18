@@ -1,0 +1,4 @@
+{# US-072: the live region is always present so the messages added later are announced politely. #}
+<div class="container sylius-messages" aria-live="polite" aria-atomic="true">
+    {% hook 'flashes' %}
+</div>

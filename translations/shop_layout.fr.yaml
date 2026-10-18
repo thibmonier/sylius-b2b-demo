@@ -1,0 +1,20 @@
+skip_link: 'Aller au contenu'
+close: 'Fermer'
+external_link: '(nouvel onglet)'
+footer:
+    demo:
+        title: 'Cette démo'
+        about: 'À propos'
+        plugins: 'Plugins'
+        journeys: 'Parcours et comptes de démo'
+        integrate: 'Intégrer (MCP)'
+        contact: 'Contact'
+        fictional: 'Boutique de démonstration : données fictives, aucune commande honorée.'
+        made_by_prefix: 'Réalisé par'
+a11y:
+    breadcrumbs: 'Fil d’Ariane'
+    cart_button: 'Bouton panier'
+    clear_filters: 'Effacer les filtres'
+    search_button: 'Bouton de recherche'
+    toggle_navigation: 'Afficher ou masquer la navigation'
+    wishlist_button: 'Bouton liste d’achat'

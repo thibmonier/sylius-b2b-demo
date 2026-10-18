@@ -6,15 +6,18 @@ app:
         show: 'Afficher les badges plugin'
     plugins:
         title: 'Plugins'
-        intro: "Les 23 plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo."
+        intro: "Les %count% plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo."
         github: 'GitHub'
         packagist: 'Packagist'
-        unpublished: 'Non publié'
+        status:
+            in_progress: 'En cours de publication'
+            upcoming: 'À venir'
         scenario: 'Scénario :'
         advised_account: 'Compte conseillé :'
         see_in_demo: 'Voir dans la démo'
         mcp_guide: 'Guide de connexion de Claude'
         no_demo_page: "Visible dans l'administration ou au checkout"
+        sylius_version: "Ces plugins s'installent sur Sylius 2.3."
         category:
             purchasing: 'Achats B2B'
             billing: 'Facturation et paiement'
@@ -38,7 +41,7 @@ app:
                 quincaillerie: 'Quincaillerie'
                 fournitures-industrielles: 'Fournitures industrielles'
             plugins: 'Plugins'
-            plugins_text: 'Les 23 plugins et où les voir dans la démo.'
+            plugins_text: 'Les %count% plugins et où les voir dans la démo.'
             plugins_link: 'Voir les plugins'
         journeys:
             title: 'Parcours B2B à essayer'
@@ -83,3 +86,8 @@ app:
         cost_center: 'Centre de coût'
     email:
         po_reference: 'Référence PO :'
+
+# The quote request plugin shows this core-style key on its empty page (US-087); Sylius defines no text for it.
+sylius:
+    ui:
+        continue_shopping: 'Continuer mes achats'

@@ -12,3 +12,11 @@ sylius_twig_hooks:
         'sylius_shop.homepage.index':
             new_collection:
                 condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_CATALOG') and is_granted('DEMO_CONSUMER_CHANNEL')"
+
+# US-087: the nightly reset (app:demo:reset) reloads the fixtures in-process: its ~1000 "Création" entries would
+# bury the audit log of the visitors. The defaults of the plugin are repeated because the list replaces them.
+tmonier_sylius_audit_log:
+    ignored_commands:
+        - 'sylius:fixtures:load'
+        - 'doctrine:fixtures:load'
+        - 'app:demo:reset'

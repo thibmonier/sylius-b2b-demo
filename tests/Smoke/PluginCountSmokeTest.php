@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Smoke;
+
+use App\Demo\Plugin\DemoPluginCatalog;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+/** US-087: the number of plugins shown on the home, About and Plugins pages is counted from config/demo/plugins.yaml. */
+final class PluginCountSmokeTest extends WebTestCase
+{
+    /** @return iterable<string, array{string, string}> */
+    public static function pages(): iterable
+    {
+        yield 'home fr' => ['/fr_FR/', 'Les %d plugins et où les voir'];
+        yield 'home en' => ['/en_US/', 'The %d plugins and where to see them'];
+        yield 'about fr' => ['/fr_FR/a-propos', 'Les %d plugins ci-dessous'];
+        yield 'about en' => ['/en_US/a-propos', 'The %d plugins below'];
+        yield 'plugins fr' => ['/fr_FR/plugins', 'Les %d plugins open source'];
+        yield 'plugins en' => ['/en_US/plugins', 'The %d open source plugins'];
+    }
+
+    #[DataProvider('pages')]
+    public function testThePageShowsTheFigureCountedFromTheCatalogue(string $path, string $pattern): void
+    {
+        $client = self::createClient();
+        $catalog = self::getContainer()->get(DemoPluginCatalog::class);
+        self::assertInstanceOf(DemoPluginCatalog::class, $catalog);
+
+        $client->request('GET', $path);
+
+        self::assertResponseIsSuccessful();
+        self::assertSame(24, $catalog->count());
+        self::assertStringContainsString(sprintf($pattern, $catalog->count()), html_entity_decode((string) $client->getResponse()->getContent(), \ENT_QUOTES));
+        self::assertDoesNotMatchRegularExpression('/\b23 (open source )?plugins|plugins\s+23\b/i', strip_tags((string) $client->getResponse()->getContent()));
+    }
+}

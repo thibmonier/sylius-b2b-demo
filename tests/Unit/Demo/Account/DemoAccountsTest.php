@@ -55,7 +55,7 @@ final class DemoAccountsTest extends KernelTestCase
         self::assertStringContainsString('name="_csrf_shop_security_token"', $html);
         self::assertStringContainsString('/login-check', $html);
         self::assertSame(11, substr_count($html, '<form'), '10 enabled members + Lea; Thomas has no form.');
-        self::assertStringContainsString('désactivé', $html);
+        self::assertStringContainsString('disabled account', $html, 'one language at a time (US-075): the test locale is English');
         self::assertStringNotContainsString('data-demo-login="thomas@buildco.example"', $html);
         self::assertStringContainsString('data-demo-login="claire@acme.example"', $html);
         self::assertStringNotContainsString('sophie@fournitures-pro.example', $html);
@@ -78,7 +78,7 @@ final class DemoAccountsTest extends KernelTestCase
         self::assertStringContainsString('/demo/channel/B2B', $html);
         self::assertStringContainsString('/demo/channel/B2C', $html);
         self::assertStringContainsString('data-demo-badges-slot', $html);
-        self::assertStringContainsString('Se connecter en tant que Claire', $html);
+        self::assertStringContainsString('Log in as Claire', $html);
     }
 
     public function testTheAccountsPageIsNotFoundWhenTheDemoModeIsOff(): void

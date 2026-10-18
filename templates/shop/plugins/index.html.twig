@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container my-5" data-page="plugins">
         <h1>{{ 'app.plugins.title'|trans }}</h1>
-        <p class="lead">{{ 'app.plugins.intro'|trans }}</p>
+        <p class="lead">{{ 'app.plugins.intro'|trans({'%count%': demo_plugin_count()}) }}</p>
         {% if demo_mode() %}
             <p><a href="{{ path('app_demo_punchout_simulator', {lang: app.request.locale|slice(0, 2)}) }}" data-punchout-simulator-link>{{ 'plugins_link'|trans({}, 'simulator') }}</a></p>
         {% endif %}
@@ -28,7 +28,7 @@
                                     {% if plugin.packagistUrl is not null %}
                                         {% include 'shared/_external_link.html.twig' with { url: plugin.packagistUrl, label: 'app.plugins.packagist'|trans, data_attribute: 'data-plugin-packagist' } only %}
                                     {% else %}
-                                        <span class="badge text-bg-secondary align-self-center" data-plugin-unpublished>{{ 'app.plugins.unpublished'|trans }}</span>
+                                        <span class="badge text-bg-secondary align-self-center" data-plugin-unpublished data-plugin-status="{{ plugin.status }}">{{ ('app.plugins.status.' ~ plugin.status)|trans }}</span>
                                     {% endif %}
                                     {% if plugin.demoRoute is not null %}
                                         <a href="{{ path(plugin.demoRoute, {_locale: app.request.locale}) }}" data-plugin-demo-link>{{ 'app.plugins.see_in_demo'|trans }}</a>
@@ -46,13 +46,7 @@
             </section>
         {% endfor %}
 
-        {# US-046: reminder of the official offering; the wording follows the public Sylius documentation (translations/plugins_plus.*). #}
-        <aside class="card mt-5" data-sylius-plus-notice>
-            <div class="card-body">
-                <h2 class="h5 card-title">{{ 'title'|trans({}, 'plugins_plus') }}</h2>
-                <p class="card-text">{{ 'text'|trans({}, 'plugins_plus') }}</p>
-                <a href="https://sylius.com/plus/" rel="noopener noreferrer" target="_blank" data-sylius-plus-link>{{ 'link'|trans({}, 'plugins_plus') }}</a>
-            </div>
-        </aside>
+        {# US-104 (decision D2): factual sentence only, no comparison with the official offering. #}
+        <p class="text-muted mt-5 mb-0" data-plugins-compat-note>{{ 'app.plugins.sylius_version'|trans }}</p>
     </div>
 {% endblock %}

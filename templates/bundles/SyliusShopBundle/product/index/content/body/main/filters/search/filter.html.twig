@@ -1,0 +1,7 @@
+{# US-071: the core search field only has a placeholder ("Valeur"): an explicit label for screen readers, same id as the field. #}
+<label for="criteria_search_value" class="visually-hidden">{{ 'mobile.search_label'|trans({}, 'theme_demo') }}</label>
+{% set products = hookable_metadata.context.products %}
+
+{% for filter in products.definition.enabledFilters %}
+    {{ sylius_grid_render_filter(products, filter) }}
+{% endfor %}

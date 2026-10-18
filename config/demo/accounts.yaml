@@ -7,6 +7,12 @@ parameters:
     env(DEMO_MODE): '0'
     demo.mailpit_url: '%env(DEMO_MAILPIT_URL)%'
     env(DEMO_MAILPIT_URL): ''
+    # Mail types published on /demo/mails (US-080): subject patterns of the mails the fixtures produce.
+    # A new mail type stays hidden until it is listed here.
+    demo.public_mail_subjects:
+        - '/^Invoice generated$/'
+        - '/^La commande n° \d+ attend votre approbation$/'
+        - '/^Confirmation de commande$/'
     # Internal Mailpit HTTP API, called server-side only (US-028); never rendered. Empty = demo mailbox off.
     demo.mailpit_api_url: '%env(DEMO_MAILPIT_API_URL)%'
     env(DEMO_MAILPIT_API_URL): ''

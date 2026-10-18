@@ -1,0 +1,12 @@
+# US-074: footer dedicated to the B2B demo. The stock footer (dead links, payment partners, social networks) stays
+# on the B2C channel only; the B2B channel gets the "This demo" column. Legal links and the B2B strip are kept
+# (demo_legal.yaml, demo_theme_b2b.yaml).
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.base.footer':
+            content:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_demo_footer:
+                template: 'shop/theme_b2b/footer_demo.html.twig'
+                priority: 95
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"

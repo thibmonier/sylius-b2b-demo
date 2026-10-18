@@ -1,0 +1,20 @@
+skip_link: 'Skip to content'
+close: 'Close'
+external_link: '(new tab)'
+footer:
+    demo:
+        title: 'This demo'
+        about: 'About'
+        plugins: 'Plugins'
+        journeys: 'Journeys and demo accounts'
+        integrate: 'Integrate (MCP)'
+        contact: 'Contact'
+        fictional: 'Demo shop: fictional data, no order is fulfilled.'
+        made_by_prefix: 'Built by'
+a11y:
+    breadcrumbs: 'breadcrumbs'
+    cart_button: 'cart button'
+    clear_filters: 'clear filters'
+    search_button: 'search button'
+    toggle_navigation: 'Toggle navigation'
+    wishlist_button: 'wishlist button'

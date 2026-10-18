@@ -1,4 +1,3 @@
 <span data-demo-next-reset="{{ reset.at|date('c', 'Europe/Paris') }}">
-    Prochaine remise à zéro : {{ reset.today ? "aujourd'hui" : 'demain' }} {{ reset.at|date('H:i', 'Europe/Paris') }} (heure de Paris)
-    / Next reset: {{ reset.today ? 'today' : 'tomorrow' }} {{ reset.at|date('H:i', 'Europe/Paris') }} (Paris time)
+    {{ (reset.today ? 'banner.reset.today' : 'banner.reset.tomorrow')|trans({'%time%': reset.at|date('H:i', 'Europe/Paris')}, 'theme_demo') }}
 </span>

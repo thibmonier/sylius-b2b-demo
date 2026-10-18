@@ -1,0 +1,4 @@
+{# US-077: copy of the Sylius template with the accessible name translated. #}
+<a class="btn btn btn-outline-secondary btn-sm" href="{{ path('sylius_shop_product_index', {'slug': app.request.attributes.get('slug')}) }}" {{ sylius_test_html_attribute('clear') }} aria-label="{{ 'a11y.clear_filters'|trans({}, 'shop_layout') }}">
+    {{ ux_icon('tabler:x') }}
+</a>

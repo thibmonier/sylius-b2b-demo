@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import Encore from '@symfony/webpack-encore';
+import webpack from 'webpack';
 import SyliusAdmin from '@sylius-ui/admin';
 import SyliusShop from '@sylius-ui/shop';
 
@@ -10,6 +11,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default async () => {
   // Admin config
   const adminConfig = await SyliusAdmin.getBaseWebpackConfig(path.resolve(__dirname));
+
+  // US-087: Sylius hard-codes the chart series names in English; the copy under assets/admin/scripts translates them.
+  adminConfig.plugins.push(new webpack.NormalModuleReplacementPlugin(
+    /^\.\/scripts\/statistics_chart$/,
+    path.resolve(__dirname, 'assets/admin/scripts/statistics_chart.js')
+  ));
 
   // Shop config
   const shopConfig = await SyliusShop.getBaseWebpackConfig(path.resolve(__dirname));

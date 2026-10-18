@@ -1,0 +1,13 @@
+# US-077: accessible names of the Sylius shop that have no French text in the core (they would be read in English).
+# Kept apart from messages.fr.yaml; the ICU domain is merged into "messages" by the translator.
+sylius:
+    ui:
+        account_button: 'Bouton compte'
+        account_navigation_desktop: 'Navigation du compte (ordinateur)'
+        account_navigation_mobile: 'Navigation du compte (mobile)'
+        close: 'Fermer'
+        footer_help_links: 'Liens d’aide du pied de page'
+        footer_informational_links: 'Liens d’information du pied de page'
+        sylius_logo_aria: 'Logo Sylius'
+        taxon_navigation_desktop: 'Navigation des catégories (ordinateur)'
+        taxon_navigation_mobile: 'Navigation des catégories (mobile)'

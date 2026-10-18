@@ -1,0 +1,26 @@
+mobile:
+    search_label: 'Search in this category'
+login:
+    title: 'Enter the demo in one click'
+    hint: 'Pick an account: the announced role decides what you will see.'
+    no_company: 'Shoppers (B2C channel)'
+    log_in_as: 'Log in as %name%'
+    disabled: 'disabled account'
+    classic: 'Or sign in with your own credentials'
+role:
+    buyer: 'Buyer'
+    approver: 'Approver'
+    admin: 'Company administrator'
+    consumer: 'B2C customer'
+    back_office: 'Back-office admin (restricted)'
+banner:
+    title: 'B2B demo'
+    login: 'Quick login'
+    menu: 'Demo menu'
+    accounts: 'Demo accounts'
+    channel: 'Channel'
+    mails: 'Demo e-mails'
+    contact: "A B2B project? Let's talk"
+    reset:
+        today: 'Next reset: today %time% (Paris time)'
+        tomorrow: 'Next reset: tomorrow %time% (Paris time)'

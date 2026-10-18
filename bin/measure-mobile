@@ -1,0 +1,143 @@
+#!/usr/bin/env node
+// Mobile layout check on the real rendering (US-071 / T-071-01): Puppeteer in mobile emulation (`isMobile`; headless
+// Chrome alone never goes below ~500 px), document width at 375 and 320 px on the 7 pages of the opening path,
+// then the demo bar on one line at 375, 320 and 1280 px.
+// Prints one OK/KO line per page and width, naming the page and the widest elements of a failing page.
+//
+//   bin/measure-mobile [BASE_URL]            # default http://localhost:8080, locale fr_FR (LOCALE=en_US for English)
+//   bin/measure-mobile --targets [BASE_URL]  # also fails on interactive targets under 44 x 44 px (WCAG 2.5.5)
+//
+// Needs `puppeteer` (PUPPETEER_MODULE=<path> when it is not installed next to the project) and a Chromium
+// (PUPPETEER_EXECUTABLE_PATH). The cart and the quote request need a session: the script signs in with the first
+// enabled one-click demo account of the login page, so the demo mode must be on. Exit code 1 when a page is KO.
+'use strict';
+
+const WIDTHS = [375, 320];
+const MIN_TARGET = 44;
+const PAGES = [
+    { name: 'connexion', path: 'login' },
+    { name: 'accueil', path: '' },
+    { name: 'categorie', path: 'taxons/quincaillerie' },
+    { name: 'fiche produit', path: null }, // first product of the category: the slug depends on the language
+    { name: 'panier', path: 'cart/', signedIn: true },
+    { name: 'devis', path: 'quote-request', signedIn: true },
+    { name: 'plugins', path: 'plugins' },
+];
+
+const args = process.argv.slice(2);
+const checkTargets = args.includes('--targets');
+const base = (args.find((a) => !a.startsWith('--')) ?? 'http://localhost:8080').replace(/\/$/, '');
+const locale = process.env.LOCALE ?? 'fr_FR';
+
+/** Elements of the page wider than the viewport, and (optionally) interactive targets under 44 px. */
+function inspect({ minTarget }) {
+    const viewport = document.documentElement.clientWidth;
+    const label = (el) => `${el.tagName.toLowerCase()}${[...el.classList].slice(0, 3).map((c) => '.' + c).join('')}`;
+    const visible = (el) => el.checkVisibility({ checkVisibilityCSS: true, contentVisibilityAuto: true });
+    const wide = [];
+    for (const el of document.querySelectorAll('body *')) {
+        const box = el.getBoundingClientRect();
+        if (box.width > 0 && box.right > viewport + 1 && visible(el)) {
+            wide.push(`${label(el)} right=${Math.round(box.right)}`);
+        }
+    }
+    const small = [];
+    if (minTarget) {
+        for (const el of document.querySelectorAll('a[href], button, input:not([type=hidden]), select, textarea, summary')) {
+            const style = getComputedStyle(el);
+            const box = el.getBoundingClientRect();
+            const inline = el.tagName === 'A' && style.display === 'inline';
+            const hidden = box.width === 0 || box.height === 0 || !visible(el) || el.closest('.visually-hidden');
+            const choice = el.type === 'checkbox' || el.type === 'radio'; // the label around it is the target
+            // A link that only wraps a picture is not a control (the picture can still be loading when measured).
+            const thumbnail = el.tagName === 'A' && el.querySelector('img') !== null && !el.textContent.trim();
+            if (!inline && !hidden && !choice && !el.matches('.visually-hidden-focusable') && !thumbnail && (box.width < minTarget - 0.5 || box.height < minTarget - 0.5)) {
+                small.push(`${label(el)} ${Math.round(box.width)}x${Math.round(box.height)}`);
+            }
+        }
+    }
+    return { viewport, scrollWidth: document.documentElement.scrollWidth, wide: wide.slice(0, 5), small: small.slice(0, 8) };
+}
+
+/** The demo bar (US-076) must stay on one line: every visible child of its container sits on the same row. */
+function barRows() {
+    const bar = document.querySelector('[data-demo-banner]');
+    if (!bar) {
+        return { missing: true };
+    }
+    const tops = [...bar.querySelector('.container').children]
+        .filter((el) => el.checkVisibility({ checkVisibilityCSS: true }))
+        .map((el) => { const box = el.getBoundingClientRect(); return box.top + box.height / 2; });
+    return { rows: new Set(tops.map((middle) => Math.round(middle / 12))).size, height: Math.round(bar.getBoundingClientRect().height) };
+}
+
+async function signIn(page) {
+    await page.goto(`${base}/${locale}/login`, { waitUntil: 'networkidle0' });
+    const button = await page.$('[data-demo-accounts] [data-demo-login]:not([disabled])');
+    if (!button) {
+        throw new Error('no one-click demo account on the login page: the demo mode is off');
+    }
+    await Promise.all([page.waitForNavigation({ waitUntil: 'networkidle0' }), button.click()]);
+}
+
+async function main() {
+    let puppeteer;
+    try {
+        puppeteer = require(process.env.PUPPETEER_MODULE ?? 'puppeteer');
+    } catch {
+        console.error('puppeteer not found: install it or set PUPPETEER_MODULE=<path to the module>');
+        return 2;
+    }
+    const browser = await puppeteer.launch({ headless: 'new', executablePath: process.env.PUPPETEER_EXECUTABLE_PATH });
+    let failures = 0;
+    try {
+        // The login page redirects a signed-in visitor: public pages are measured anonymously, the cart and the
+        // quote request in a second browser context signed in once.
+        const anonymous = await browser.createBrowserContext();
+        const visitors = { anonymous: await anonymous.newPage(), member: await (await browser.createBrowserContext()).newPage() };
+        await signIn(visitors.member);
+        await visitors.anonymous.goto(`${base}/${locale}/taxons/quincaillerie`, { waitUntil: 'networkidle0' });
+        const product = await visitors.anonymous.$eval('a[href*="/products/"]', (a, code) => new URL(a.href).pathname.split(`/${code}/`)[1], locale);
+        for (const width of WIDTHS) {
+            for (const { name, path: configured, signedIn } of PAGES) {
+                const path = configured ?? product;
+                const page = visitors[signedIn ? 'member' : 'anonymous'];
+                await page.setViewport({ width, height: 800, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+                const response = await page.goto(`${base}/${locale}/${path}`, { waitUntil: 'networkidle0' });
+                if (process.env.MEASURE_INJECT_CSS) {
+                    // Development aid: try a compiled stylesheet on the running demo without rebuilding the image.
+                    await page.addStyleTag({ content: require('node:fs').readFileSync(process.env.MEASURE_INJECT_CSS, 'utf8') });
+                }
+                const result = await page.evaluate(inspect, { minTarget: checkTargets ? MIN_TARGET : 0 });
+                const overflow = result.scrollWidth > result.viewport;
+                const tooSmall = result.small.length > 0;
+                const status = response?.status() ?? 0;
+                const ok = status === 200 && !overflow && !tooSmall;
+                failures += ok ? 0 : 1;
+                const detail = [
+                    status === 200 ? '' : `HTTP ${status}`,
+                    overflow ? `scrollWidth=${result.scrollWidth} > ${result.viewport}: ${result.wide.join(' | ')}` : '',
+                    tooSmall ? `targets < ${MIN_TARGET}px: ${result.small.join(' | ')}` : '',
+                ].filter(Boolean).join(' ; ');
+                console.log(`${ok ? 'OK' : 'KO'}  ${String(width).padStart(3)} px  ${name}${detail ? '  ' + detail : ''}`);
+            }
+        }
+        for (const width of [...WIDTHS, 1280]) {
+            const page = visitors.anonymous;
+            await page.setViewport({ width, height: 800, isMobile: width < 768, hasTouch: width < 768, deviceScaleFactor: 1 });
+            await page.goto(`${base}/${locale}/`, { waitUntil: 'networkidle0' });
+            const bar = await page.evaluate(barRows);
+            const ok = !bar.missing && bar.rows === 1;
+            failures += ok ? 0 : 1;
+            console.log(`${ok ? 'OK' : 'KO'}  ${String(width).padStart(4)} px  barre de démo ${bar.missing ? 'absente' : `${bar.rows} ligne(s), ${bar.height} px`}`);
+        }
+    } finally {
+        await browser.close();
+    }
+    return failures > 0 ? 1 : 0;
+}
+
+main().then((code) => process.exit(code), (error) => {
+    console.error(error.message);
+    process.exit(2);
+});

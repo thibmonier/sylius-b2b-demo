@@ -1,0 +1,8 @@
+{# US-072: the footer landmark is the layout's; the stock block keeps its markup in a plain container. #}
+<div class="mt-auto border-top mt-5 py-5">
+    <div class="container">
+        <div class="row">
+            {% hook 'content' %}
+        </div>
+    </div>
+</div>

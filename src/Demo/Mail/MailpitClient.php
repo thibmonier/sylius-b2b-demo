@@ -102,6 +102,7 @@ final readonly class MailpitClient
             self::date($data['Date'] ?? null),
             self::string($data['Text'] ?? null),
             self::string($data['HTML'] ?? null),
+            trim(self::addresses($data['Cc'] ?? null) . ', ' . self::addresses($data['Bcc'] ?? null), ', '),
         );
     }
 

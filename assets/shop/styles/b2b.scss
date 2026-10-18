@@ -4,13 +4,26 @@
 
 :root {
     --bs-primary: #{$b2b-navy};
-    --bs-primary-rgb: 31, 58, 95;
+    --b2b-accent: #{$b2b-accent};
+    --b2b-accent-rgb: #{$b2b-accent-rgb};
+    --b2b-navy-rgb: #{$b2b-navy-rgb};
+    --bs-primary-rgb: #{$b2b-navy-rgb};
     --bs-primary-text-emphasis: #{$b2b-navy};
     --bs-link-color: #{$b2b-navy};
-    --bs-link-color-rgb: 31, 58, 95;
+    --bs-link-color-rgb: #{$b2b-navy-rgb};
     // Links turn to the brown of the logo on hover: a visible change of colour, not only of shade.
-    --bs-link-hover-color: #{$b2b-accent};
-    --bs-link-hover-color-rgb: 154, 63, 0;
+    --bs-link-hover-color: var(--b2b-accent);
+    --bs-link-hover-color-rgb: var(--b2b-accent-rgb);
+    // Greyed text (.text-muted, .text-body-secondary, breadcrumb, form hints) and identifiers in <code> stay at 7:1.
+    --bs-secondary-color: #{$b2b-muted};
+    --bs-secondary-color-rgb: #{$b2b-muted-rgb};
+    --bs-tertiary-color: #{$b2b-muted};
+    --bs-tertiary-color-rgb: #{$b2b-muted-rgb};
+    --bs-secondary: #{$b2b-muted};
+    --bs-secondary-rgb: #{$b2b-muted-rgb};
+    --bs-danger: #{$b2b-danger};
+    --bs-danger-rgb: #{$b2b-danger-rgb};
+    --bs-code-color: var(--b2b-accent);
     --bs-font-sans-serif: 'InterVariable', 'Segoe UI', Arial, sans-serif;
     --bs-border-radius: .25rem;
 }
@@ -18,17 +31,17 @@
 // The official theme draws mint buttons with black text (--bs-btn-*-color: #000): every text colour is set here,
 // otherwise the text turns black on navy on hover. Hover = brown of the logo, white text (7:1).
 .btn-primary {
-    --bs-btn-color: #fff;
+    --bs-btn-color: #{$b2b-white};
     --bs-btn-bg: #{$b2b-navy};
     --bs-btn-border-color: #{$b2b-navy};
-    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-color: #{$b2b-white};
     --bs-btn-hover-bg: #{$b2b-accent};
     --bs-btn-hover-border-color: #{$b2b-accent};
-    --bs-btn-focus-shadow-rgb: 154, 63, 0;
-    --bs-btn-active-color: #fff;
+    --bs-btn-focus-shadow-rgb: #{$b2b-accent-rgb};
+    --bs-btn-active-color: #{$b2b-white};
     --bs-btn-active-bg: #{$b2b-accent-dark};
     --bs-btn-active-border-color: #{$b2b-accent-dark};
-    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-color: #{$b2b-white};
     --bs-btn-disabled-bg: #{$b2b-navy};
     --bs-btn-disabled-border-color: #{$b2b-navy};
 }
@@ -36,13 +49,50 @@
 .btn-outline-primary {
     --bs-btn-color: #{$b2b-navy};
     --bs-btn-border-color: #{$b2b-navy};
-    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-color: #{$b2b-white};
     --bs-btn-hover-bg: #{$b2b-navy};
     --bs-btn-hover-border-color: #{$b2b-navy};
-    --bs-btn-focus-shadow-rgb: 31, 58, 95;
-    --bs-btn-active-color: #fff;
+    --bs-btn-focus-shadow-rgb: #{$b2b-navy-rgb};
+    --bs-btn-active-color: #{$b2b-white};
     --bs-btn-active-bg: #{$b2b-navy-dark};
     --bs-btn-active-border-color: #{$b2b-navy-dark};
+}
+
+// Favourite and secondary actions: the core draws them in Bootstrap grey (4.7:1); text and boundary at 7:1 here.
+.btn-outline-secondary {
+    --bs-btn-color: #{$b2b-muted};
+    --bs-btn-border-color: #{$b2b-muted};
+    --bs-btn-hover-color: #{$b2b-white};
+    --bs-btn-hover-bg: #{$b2b-muted};
+    --bs-btn-hover-border-color: #{$b2b-muted};
+    --bs-btn-focus-shadow-rgb: #{$b2b-muted-rgb};
+    --bs-btn-active-color: #{$b2b-white};
+    --bs-btn-active-bg: #{$b2b-muted};
+    --bs-btn-active-border-color: #{$b2b-muted};
+}
+
+// Pagination: navy text on white, current page white on navy (the core mint gave 2.1:1).
+.pagination {
+    --bs-pagination-color: #{$b2b-navy};
+    --bs-pagination-bg: #{$b2b-white};
+    --bs-pagination-border-color: #{$b2b-muted};
+    --bs-pagination-hover-color: #{$b2b-white};
+    --bs-pagination-hover-bg: #{$b2b-navy};
+    --bs-pagination-hover-border-color: #{$b2b-navy};
+    --bs-pagination-focus-color: #{$b2b-white};
+    --bs-pagination-focus-bg: #{$b2b-navy};
+    --bs-pagination-focus-box-shadow: none;
+    --bs-pagination-active-color: #{$b2b-white};
+    --bs-pagination-active-bg: #{$b2b-navy};
+    --bs-pagination-active-border-color: #{$b2b-navy};
+    --bs-pagination-disabled-color: #{$b2b-muted};
+    --bs-pagination-disabled-bg: #{$b2b-surface};
+    --bs-pagination-disabled-border-color: #{$b2b-muted};
+}
+
+// Utilities fixed by the core in translucent black.
+.text-black-50 {
+    color: $b2b-muted !important;
 }
 
 .text-primary,
@@ -57,11 +107,16 @@
 
 // Header: navy top bar, compact corporate logo.
 .b2b-topbar-item {
-    color: #fff;
+    color: $b2b-white;
 }
 
 .bg-black:has(> .container .b2b-topbar-item) {
     background-color: $b2b-navy !important;
+}
+
+// Links of the core's black top bar (newsletter promotion) would inherit the navy link colour: white on black.
+.bg-black a:not(.btn) {
+    color: $b2b-white;
 }
 
 .b2b-logo {
@@ -98,12 +153,12 @@
 }
 
 .b2b-stock--in {
-    color: #146c43;
+    color: $b2b-success;
     font-weight: 600;
 }
 
 .b2b-stock--out {
-    color: #8a4b00;
+    color: $b2b-warning;
     font-weight: 600;
 }
 
@@ -168,7 +223,7 @@
 
     &:hover,
     &:focus-within {
-        box-shadow: 0 .4rem 1rem rgba(31, 58, 95, .12);
+        box-shadow: 0 .4rem 1rem rgba(var(--b2b-navy-rgb), .12);
         transform: translateY(-.1rem);
     }
 
@@ -215,5 +270,92 @@
 
     li + li {
         margin-left: 1.5rem;
+    }
+}
+
+// Small screens and touch (US-071): long words wrap instead of widening the page, and every control is a
+// 44 x 44 px target (WCAG 2.5.5). Kept to additions on top of the core theme.
+body {
+    overflow-wrap: break-word;
+}
+
+.pagination {
+    flex-wrap: wrap;
+    gap: .25rem;
+}
+
+@media (pointer: coarse), (max-width: 767.98px) {
+    .btn,
+    .page-link,
+    .navbar-toggler,
+    .form-control,
+    .form-select,
+    .dropdown-item,
+    .nav-link,
+    summary {
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+    }
+
+    .btn,
+    .page-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    // Links drawn as blocks (breadcrumb, filters, badges, tile calls to action, logo): the whole line is the target.
+    a.link-reset,
+    a.d-inline-block,
+    a.d-inline-flex,
+    a.badge,
+    a.col-md-auto,
+    a[data-plugin-demo-link],
+    a[data-plugin-guide-link],
+    .b2b-logo,
+    .b2b-tile__cta {
+        display: inline-flex !important; // utilities such as .d-inline-block are !important themselves
+        align-items: center;
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+    }
+}
+
+// High-contrast preferences (US-073). The browser's own palette wins in forced colours: the decorations drawn
+// with a background colour (title bar) or a border colour (tile) take system colours so they do not vanish.
+@media (prefers-contrast: more) {
+    :root {
+        --bs-secondary-color: #{$b2b-black};
+        --bs-body-color: #{$b2b-black};
+    }
+
+    a:not(.btn):not(.page-link) {
+        text-decoration: underline;
+    }
+
+    .b2b-tile,
+    .b2b-reference,
+    .b2b-price-note {
+        border-color: $b2b-navy;
+    }
+}
+
+@media (forced-colors: active) {
+    .b2b-section-title::before {
+        background: CanvasText;
+    }
+
+    .b2b-tile {
+        border: 1px solid CanvasText;
+        border-top-width: .2rem;
+    }
+
+    .b2b-reference {
+        border-left-color: CanvasText;
+    }
+
+    .btn,
+    .page-link {
+        border: 1px solid ButtonText;
     }
 }

@@ -1,3 +1,6 @@
 demo_admin:
     title: 'Action disabled in the demo'
     refused: 'This action is disabled in the public demo. The rest of the back office stays usable; the demo is reset every night at 03:00 (Paris time).'
+    dashboard:
+        sales: 'Sales'
+        paid_orders_count: 'Paid orders'
