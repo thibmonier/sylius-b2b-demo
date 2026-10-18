@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 14
+current_sprint: 15
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -211,6 +211,29 @@ sprints:
       - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de l'utilisateur (T-052-03 à T-052-07), hors capacité ; GO d'ouverture visé fin du sprint 15 (US-085)
     notes: "Ordre de sacrifice : US-070, US-077, US-076, US-075 (Should), puis tâches de finition T-073-05, T-071-05, T-087-06, T-072-07, T-074-05. Les 25 décembre et 1er janvier sont fériés : 9 jours ouvrés, planning le 2026-12-28, revue et rétro le 2027-01-08. Une PR par dépôt de plugin (punchout, quick-order), livrée avec la démo, puis release de patch si la démo en dépend."
 
+  sprint-15:
+    name: sprint-15-dossier-de-go
+    status: ready-for-dev
+    sprint_id: "sprint-15"
+    start_date: "2027-01-08"
+    end_date: "2027-01-22"
+    capacity_points: 35  # périmètre complet décidé le 2026-10-18 (D1), hors US-052 (3 pts, OPS de Thibaut) ; 73,5 h décomposées (72 h de charge, 72 tâches) ; ordre de sacrifice dans sprint-15-dossier-de-go/tasks/README.md
+    goal: "Fermer la sécurité et la performance de la démo, afficher les prix négociés B2B (paliers et prix de la société), mettre à jour les plugins et les hôtes de confiance, et remettre à Thibaut un dossier de GO complet pour décider l'ouverture publique"
+    stories:
+      - {id: US-139, title: "Plugins à jour dans la démo", points: 2, status: ready-for-dev}  # Must ; nouvelle ; quick-order ^1.2.0, punchout ^1.2.1, surcharge temporaire retirée
+      - {id: US-140, title: "Hôtes de confiance indépendants du domaine public Railway", points: 1, status: ready-for-dev}  # Must ; nouvelle ; incident du 2026-10-18 ; application par Thibaut (T-140-06)
+      - {id: US-141, title: "Nettoyage des caches de test", points: 1, status: ready-for-dev}  # Should ; nouvelle ; actions de rétro S14 ; sacrifice n° 5
+      - {id: US-078, title: "SEO de base et vitesse d'affichage mobile", points: 5, status: ready-for-dev}  # Should ; sacrifice n° 1
+      - {id: US-081, title: "Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes", points: 5, status: ready-for-dev}  # Should ; sacrifice n° 2
+      - {id: US-082, title: "Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances", points: 5, status: ready-for-dev}  # Should ; sacrifice n° 3
+      - {id: US-083, title: "Relire la licence du plugin MCP tiers", points: 1, status: ready-for-dev}  # Should ; sacrifice n° 4 ; décision de Thibaut
+      - {id: US-085, title: "Revue de sécurité de réouverture et dossier de GO", points: 2, status: ready-for-dev}  # Must ; en dernier ; décision d'ouvrir = Thibaut seul
+      - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: ready-for-dev}  # Must
+      - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: ready-for-dev}  # Must ; D2 : société de démo = groupe de clients, aucun nouveau plugin
+      - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: ready-for-dev}  # Must
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: ready-for-dev}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité de développement ; bascule sur GO explicite après US-085 ; commandes Railway par Thibaut
+    notes: "Ordre de sacrifice (D1) : Should d'abord, US-078, US-081, US-082, US-083, US-141 (T-141-04 conservée) ; Must non sacrifiables ; ≈ 37 h restantes après tous les sacrifices. Une story sacrifiée devient un risque résiduel daté au dossier de GO (US-085). Domaine : thibaut-monier.fr, démo sur sylius-b2b.thibaut-monier.fr (D3). 10 jours ouvrés, planning le 2027-01-11, point d'étape le 2027-01-15, revue et rétro le 2027-01-22."
+
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
@@ -224,16 +247,8 @@ backlog:
   - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact ; cible sprint 17 (roadmap ouverture-communication)
   - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon ; cible sprint 18 (roadmap ouverture-communication)
   # --- Backlog ouverture publique et communication (2026-10-18, issu de l'audit fonctionnel B2B et des audits accessibilité/UX/UI/sécurité/qualité) : EPIC-10 à EPIC-14 ; voir project-management/backlog/roadmap-ouverture-et-communication.md ; reprises sans doublon : US-052, US-056 à US-062, US-068 à US-070
-  - {id: US-078, title: "SEO de base et vitesse d'affichage mobile", points: 5, status: backlog}  # cible sprint 15 ; EPIC-10, Should
-  - {id: US-081, title: "Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes", points: 5, status: backlog}  # cible sprint 15 ; EPIC-10, Should
-  - {id: US-082, title: "Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances", points: 5, status: backlog}  # cible sprint 15 ; EPIC-10, Should
-  - {id: US-083, title: "Relire la licence du plugin MCP tiers", points: 1, status: backlog}  # cible sprint 15 ; EPIC-10, Should
   - {id: US-084, title: "Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société", points: 5, status: backlog}  # cible sprint 20 ; EPIC-10, Could
-  - {id: US-085, title: "Revue de sécurité de réouverture et dossier de GO", points: 2, status: backlog}  # cible sprint 15 ; EPIC-10, Must
   - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: backlog}  # cible sprint 19 ; EPIC-11, Should
-  - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: backlog}  # cible sprint 15 ; EPIC-11, Must
-  - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: backlog}  # cible sprint 15 ; EPIC-11, Must
-  - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: backlog}  # cible sprint 15 ; EPIC-11, Must
   - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
   - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: backlog}  # cible sprint 16 ; EPIC-11, Should
   - {id: US-094, title: "Stock et délais indicatifs sur la fiche produit (données de démonstration)", points: 5, status: backlog}  # cible sprint 19 ; EPIC-11, Should
