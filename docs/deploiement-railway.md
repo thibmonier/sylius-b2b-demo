@@ -8,6 +8,7 @@ La démo tourne sur Railway (projet `sylius-b2b-demo`, environnement `production
 |---------|--------|--------|------|
 | `web` | GitHub `thibmonier/sylius-b2b-demo`, `docker/Dockerfile` | domaine HTTPS Railway, **porte privée** | FrankenPHP (boutique, admin) + supercronic (tâches planifiées, reset 03:00 Paris) |
 | `mysql` | base MySQL Railway | non | données de la démo |
+| volume `media` | volume Railway monté sur `/app/public/media` (service `web`) | non | images produit et cache d'images, conservés d'un déploiement à l'autre (US-145) |
 | `mailpit` | image `axllent/mailpit:v1.27` | **non** (réseau privé uniquement) | reçoit tous les e-mails ; lu côté serveur par `/demo/mails` |
 
 Déploiement : construction de l'image, puis `preDeploy` (migrations Doctrine), puis bascule après le healthcheck `/healthz` (timeout 600 s). Au premier démarrage sur une base vide, l'entrypoint charge les fixtures. Il ne se fie plus à la table des canaux : `php bin/console app:demo:fixtures-loaded` lit un marqueur de fin de chargement (table `app_demo_load_marker`, écrite en dernier par la suite de fixtures). Code de sortie 0 : chargé ; 3 : à charger (base vide, ou chargement interrompu qui laisse des canaux sans marqueur) ; autre : erreur, l'entrypoint s'arrête sans rien purger. La migration pose le marqueur sur une base qui contient déjà des canaux, pour ne pas purger une démo en service. L'entrypoint lance d'abord `app:demo:preflight` : le conteneur refuse de démarrer si la porte est active sans identifiants ou si le mailer n'est pas Mailpit (échec fermé).
@@ -24,6 +25,8 @@ Les valeurs non secrètes sont dans `.railway/railway.ts`. Les secrets ne sont j
 | `DEMO_BASIC_AUTH` | `railway.ts` | `1` (démo privée) jusqu'au GO d'ouverture |
 | `TRUSTED_HOSTS` | `railway.ts` | domaine Railway d'origine du service `web` (écrit en dur, échappé et ancré) + `healthcheck.railway.app` (hôte du healthcheck Railway) ; ne lit plus `RAILWAY_PUBLIC_DOMAIN`, qui suit le domaine personnalisé (US-140) |
 | `DEMO_PUBLIC_HOST` | variable Railway (non secrète, absente du dépôt) | sous-domaine de la démo, nom d'hôte seul, accepté en plus du domaine Railway ([sous-domaine-demo.md](sous-domaine-demo.md)) |
+| `DEMO_BOOKING_URL`, `DEMO_CONTACT_URL`, `DEMO_SITE_URL` | variables Railway (non secrètes, posées par Thibaut, vides par défaut) | appel à l'action « Me contacter » (US-142) : page de rendez-vous (Calendly) et formulaire de contact, URL https sans identifiants ; vides ou invalides, les boutons correspondants sont masqués sans erreur |
+| `DEMO_UMAMI_SCRIPT_URL`, `DEMO_UMAMI_WEBSITE_ID` | variables Railway (non secrètes, conservées par `preserve()`) | mesure d'audience Umami (US-143) : URL du script en https (ex. `https://cloud.umami.is/script.js`) et identifiant du site (UUID) de thibaut-monier.fr dans Umami. Vides ou invalides : aucun script, CSP inchangée. Voir [`durcissement-demo.md`](durcissement-demo.md) |
 | `DATABASE_URL`, `MAILER_DSN`, `DEMO_MAILPIT_API_URL` | `railway.ts` | références au réseau privé (`${{mysql.MYSQL_URL}}`, `${{mailpit.RAILWAY_PRIVATE_DOMAIN}}`) |
 | `DEFAULT_URI` | `railway.ts` | `https://${{RAILWAY_PUBLIC_DOMAIN}}` (aussi domaine de retour PunchOut) ; `https://${{DEMO_PUBLIC_HOST}}` une fois `CANONICAL_IS_PUBLIC_HOST` à `true` |
 
@@ -45,6 +48,26 @@ railway config apply                              # applique après confirmation
 ```
 
 `apply` supprime les ressources absentes du fichier : ne jamais retirer un service du fichier sans le vouloir.
+
+## Images produit persistantes (US-145)
+
+Les images produit (`public/media/image`) et le cache LiipImagine (`public/media/cache`) vivent sur un **volume Railway** déclaré dans `.railway/railway.ts` (`volume("media")`, monté sur `/app/public/media`). Sans lui, chaque redéploiement efface les images jusqu'à la prochaine remise à zéro.
+
+- **Droits** : Railway monte le volume avec root pour propriétaire. L'image démarre donc en root ; `docker/prepare-media.sh` crée `image/` et `cache/`, rend le dossier à `www-data`, puis l'entrypoint abandonne les privilèges (`setpriv`) avant de lancer l'application, le planificateur et le serveur. Si le dossier n'est pas inscriptible, le conteneur s'arrête avec un message explicite dans les journaux (`The media directory … is not writable`).
+- **Premier démarrage** : le volume est vide. `/healthz` répond normalement et les fiches affichent le visuel de repli (US-078) jusqu'à la première remise à zéro, qui crée les images.
+- **Images orphelines** : l'étape 4 de la remise à zéro supprime les fichiers de `public/media/image` qu'aucune ligne ne référence (`--dry-run` n'en supprime aucun) ; le volume ne grossit donc pas d'une nuit à l'autre. Le cache est purgé à l'étape 2, comme avant.
+
+Mise en place (par Thibaut, jamais par Claude) :
+
+```bash
+cd .railway && npm ci --ignore-scripts && cd ..
+railway config plan     # doit annoncer la création du volume et son montage sur le service web
+railway config apply
+```
+
+Puis lancer une **remise à zéro** après le premier montage (commande « relance manuelle » ci-dessous) pour remplir le volume.
+
+Vérification : redéployer deux fois le service `web` **sans** remise à zéro (`railway redeploy --service web`), puis ouvrir une fiche produit en FR et en EN : les images doivent s'afficher.
 
 ## Vérifications après déploiement
 

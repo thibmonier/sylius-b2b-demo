@@ -26,13 +26,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-145-01 | [DOC] | Spike : chemin exact des médias (images Sylius, cache LiipImagine), droits `www-data`, déclaration d'un volume dans le SDK `railway` 3.16.0 ; conclusions consignées dans la story (sans identifiant) | 1h | - | 🔲 |
-| T-145-02 | [TEST] | Tests rouges : `railway.ts` déclare un volume sur le dossier des médias (sans identifiant) ; démarrage sur dossier vide ou propriété de root rétablit les droits ; purge des orphelines (dry-run sans suppression, images référencées conservées) | 1h | T-145-01 | 🔲 |
-| T-145-03 | [BE] | Déclarer le volume dans `.railway/railway.ts` (chemin de montage = dossier des médias) | 1h | T-145-02 | 🔲 |
-| T-145-04 | [BE] | Premier démarrage : droits `www-data` et dossiers rétablis à l'entrée du conteneur, `/healthz` sain sur volume vide, erreur explicite si non inscriptible | 1,5h | T-145-02 | 🔲 |
-| T-145-05 | [BE] | Purge des images orphelines après le reset (`--dry-run`), cache LiipImagine purgé comme aujourd'hui | 1h | T-145-04 | 🔲 |
-| T-145-06 | [DOC] | `docs/deploiement-railway.md` (volume, premier démarrage, purge, procédure de redéploiement) et `docs/dossier-de-go.md` ligne 14, sans détail exploitable | 0,5h | T-145-05 | 🔲 |
-| T-145-07 | [REV] | Revue (relecture « aucun détail exploitable », rendu réel d'une fiche produit après reset) | 0,5h | T-145-06 | 🔲 |
+| T-145-01 | [DOC] | Spike : chemin exact des médias (images Sylius, cache LiipImagine), droits `www-data`, déclaration d'un volume dans le SDK `railway` 3.16.0 ; conclusions consignées dans la story (sans identifiant) | 1h | - |✅ |
+| T-145-02 | [TEST] | Tests rouges : `railway.ts` déclare un volume sur le dossier des médias (sans identifiant) ; démarrage sur dossier vide ou propriété de root rétablit les droits ; purge des orphelines (dry-run sans suppression, images référencées conservées) | 1h | T-145-01 |✅ |
+| T-145-03 | [BE] | Déclarer le volume dans `.railway/railway.ts` (chemin de montage = dossier des médias) | 1h | T-145-02 |✅ |
+| T-145-04 | [BE] | Premier démarrage : droits `www-data` et dossiers rétablis à l'entrée du conteneur, `/healthz` sain sur volume vide, erreur explicite si non inscriptible | 1,5h | T-145-02 |✅ |
+| T-145-05 | [BE] | Purge des images orphelines après le reset (`--dry-run`), cache LiipImagine purgé comme aujourd'hui | 1h | T-145-04 |✅ |
+| T-145-06 | [DOC] | `docs/deploiement-railway.md` (volume, premier démarrage, purge, procédure de redéploiement) et `docs/dossier-de-go.md` ligne 14, sans détail exploitable | 0,5h | T-145-05 |✅ |
+| T-145-07 | [REV] | Revue (relecture « aucun détail exploitable », rendu réel d'une fiche produit après reset) | 0,5h | T-145-06 |🔲 |
 | T-145-08 | [OPS] | Thibaut : `railway config plan` puis `apply`, lancer le reset, redéployer deux fois sans reset et vérifier les images d'une fiche (FR et EN) | 0,5h | T-145-07 | 🔲 |
 
 **Total estimé : 7 h** (8 tâches, dont 1 de Thibaut).
