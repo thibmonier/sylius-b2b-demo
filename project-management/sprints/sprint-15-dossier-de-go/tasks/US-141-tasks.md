@@ -25,10 +25,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-141-01 | [TEST] | Test du script en `--dry-run` : rien n'est supprimé, base active conservée et signalée, seuls `var/cache-*` et les bases périmées sont ciblés | 0,5h | - | 🔲 |
-| T-141-02 | [BE] | `bin/clean-test-caches` : caches, bases MySQL périmées, journaux binaires, `df -h .`, `--dry-run` | 1,5h | T-141-01 | 🔲 |
-| T-141-03 | [DOC] | `docs/tests-locaux.md` : procédure disque (contrôle au démarrage, seuil jamais abaissé) et usage du script | 0,5h | T-141-02 | 🔲 |
-| T-141-04 | [DOC] | Documenter `PUPPETEER_MODULE` et `PUPPETEER_EXECUTABLE_PATH` dans l'en-tête de `bin/measure-mobile` et `docs/tests-locaux.md` ; lancement à froid de la mesure sans aide (non sacrifiable) | 0,5h | - | 🔲 |
+| T-141-01 | [TEST] | Test du script en `--dry-run` : rien n'est supprimé, base active conservée et signalée, seuls `var/cache-*` et les bases périmées sont ciblés | 0,5h | - | ✅ |
+| T-141-02 | [BE] | `bin/clean-test-caches` : caches, bases MySQL périmées, journaux binaires, `df -h .`, `--dry-run` | 1,5h | T-141-01 | ✅ |
+| T-141-03 | [DOC] | `docs/tests-locaux.md` : procédure disque (contrôle au démarrage, seuil jamais abaissé) et usage du script | 0,5h | T-141-02 | ✅ |
+| T-141-04 | [DOC] | Documenter `PUPPETEER_MODULE` et `PUPPETEER_EXECUTABLE_PATH` dans l'en-tête de `bin/measure-mobile` et `docs/tests-locaux.md` ; lancement à froid de la mesure sans aide (non sacrifiable) | 0,5h | - | ✅ |
 | T-141-05 | [REV] | Revue (script relu, lancement à froid de `bin/measure-mobile` selon la doc) | 0,5h | T-141-03, T-141-04 | 🔲 |
 
 **Total estimé : 3,5 h** (5 tâches).

@@ -25,6 +25,9 @@ final class SecurityHeadersSubscriber
         'X-Frame-Options' => 'DENY',
         'Referrer-Policy' => 'strict-origin-when-cross-origin',
         'Permissions-Policy' => 'camera=(), microphone=(), geolocation=()',
+        // US-082. No COEP: every subresource is already same-origin (CSP) and nothing needs cross-origin isolation.
+        'Cross-Origin-Opener-Policy' => 'same-origin',
+        'Cross-Origin-Resource-Policy' => 'same-origin',
     ];
 
     public function __invoke(ResponseEvent $event): void

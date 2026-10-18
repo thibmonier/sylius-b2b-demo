@@ -25,11 +25,11 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-140-01 | [DOC] | Relire `.railway/railway.ts`, `docs/sous-domaine-demo.md`, `docs/deploiement-railway.md` ; consigner l'incident sans valeur secrète | 0,5h | - | 🔲 |
-| T-140-02 | [TEST] | Test rouge (structurel) : `TRUSTED_HOSTS` ne lit plus `RAILWAY_PUBLIC_DOMAIN`, points échappés, expression ancrée, échec clair si la valeur manque | 0,5h | T-140-01 | 🔲 |
-| T-140-03 | [BE] | Corriger `.railway/railway.ts` : domaine d'origine explicite ou variable dédiée, `DEMO_PUBLIC_HOST` pour le domaine personnalisé | 1h | T-140-02 | 🔲 |
-| T-140-04 | [DOC] | Piège documenté dans `docs/sous-domaine-demo.md` ; `docs/deploiement-railway.md` mis à jour | 0,5h | T-140-03 | 🔲 |
-| T-140-05 | [REV] | Revue (aucune valeur secrète, expression relue) | 0,5h | T-140-04 | 🔲 |
+| T-140-01 | [DOC] | Relire `.railway/railway.ts`, `docs/sous-domaine-demo.md`, `docs/deploiement-railway.md` ; consigner l'incident sans valeur secrète | 0,5h | - | ✅ |
+| T-140-02 | [TEST] | Test rouge (structurel) : `TRUSTED_HOSTS` ne lit plus `RAILWAY_PUBLIC_DOMAIN`, points échappés, expression ancrée, échec clair si la valeur manque | 0,5h | T-140-01 | ✅ |
+| T-140-03 | [BE] | Corriger `.railway/railway.ts` : domaine d'origine explicite ou variable dédiée, `DEMO_PUBLIC_HOST` pour le domaine personnalisé | 1h | T-140-02 | ✅ |
+| T-140-04 | [DOC] | Piège documenté dans `docs/sous-domaine-demo.md` ; `docs/deploiement-railway.md` mis à jour | 0,5h | T-140-03 | ✅ |
+| T-140-05 | [REV] | Revue (aucune valeur secrète, expression relue) | 0,5h | T-140-04 | ✅ |
 | T-140-06 | [OPS] | 📅 Thibaut : appliquer la configuration, vérifier que les deux domaines répondent | 0,5h | T-140-05 | 🔲 |
 
 **Total estimé : 3,5 h** (6 tâches), dont 0,5 h calendaire(s) (📅).

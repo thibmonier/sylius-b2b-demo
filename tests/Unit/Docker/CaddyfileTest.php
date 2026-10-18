@@ -39,4 +39,16 @@ final class CaddyfileTest extends TestCase
         preg_match('#request_body @\w+ \{\s*max_size (\d+)\s*\}#', $this->caddyfile, $match);
         self::assertSame($controllerLimit + 1, (int) ($match[1] ?? 0), 'Caddy cuts the stream: one byte over the limit of the controller makes its own 413 test fire.');
     }
+
+    public function testTheCrossOriginHeadersAreSetOnEveryResponse(): void
+    {
+        self::assertStringContainsString('Cross-Origin-Opener-Policy "same-origin"', $this->caddyfile);
+        self::assertStringContainsString('Cross-Origin-Resource-Policy "same-origin"', $this->caddyfile);
+    }
+
+    public function testHiddenFilesAreAnsweredNotFoundBeforePhpServerSeesThem(): void
+    {
+        self::assertMatchesRegularExpression('#@hidden \{\s*path_regexp hidden \(\^\|/\)\\\.\s*not path /\.well-known/\*\s*\}\s*respond @hidden 404#', $this->caddyfile);
+        self::assertLessThan(strpos($this->caddyfile, 'php_server'), strpos($this->caddyfile, 'respond @hidden 404'));
+    }
 }

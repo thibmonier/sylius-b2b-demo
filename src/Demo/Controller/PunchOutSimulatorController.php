@@ -43,6 +43,8 @@ final readonly class PunchOutSimulatorController
 {
     private const CSRF_START = 'demo_punchout_simulator_start';
 
+    private const CSRF_ORDER = 'demo_punchout_simulator_order';
+
     public function __construct(
         private Environment $twig,
         private UrlGeneratorInterface $urlGenerator,
@@ -123,6 +125,9 @@ final readonly class PunchOutSimulatorController
     public function order(Request $request): Response
     {
         $this->guard();
+        if (!$this->csrfTokenManager->isTokenValid(new CsrfToken(self::CSRF_ORDER, $request->request->getString('_token')))) {
+            return $this->page($request, ['error' => ['key' => 'csrf']], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
         $cart = $this->cartFromState($request->request->getString('state'));
         if (!$cart instanceof ReceivedCart) {
             return $this->page($request, ['error' => ['key' => 'session_expired']], Response::HTTP_GONE);
@@ -270,6 +275,7 @@ final readonly class PunchOutSimulatorController
         $response = new Response($this->twig->render('demo/punchout_simulator/simulator.html.twig', $parameters + [
             'locale' => $locale,
             'csrf' => $this->csrfTokenManager->getToken(self::CSRF_START)->getValue(),
+            'csrf_order' => $this->csrfTokenManager->getToken(self::CSRF_ORDER)->getValue(),
             'domains' => $this->safeDomains(),
             'host' => $request->getHost(),
         ]), $status);

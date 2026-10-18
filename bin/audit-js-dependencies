@@ -1,0 +1,79 @@
+#!/usr/bin/env php
+<?php
+
+// Audit of the production JavaScript dependencies (US-081): `yarn audit --groups dependencies`, minus the dated
+// exceptions of security/audit-exceptions.json. Exit code 1 on a high or critical advisory without a valid exception,
+// on an expired exception, or when yarn audit gives no summary (crash, no network). Lower severities are printed as warnings.
+//
+//   bin/audit-js-dependencies                 # runs yarn audit
+//   bin/audit-js-dependencies --input=FILE    # reads the `yarn audit --json` output from FILE (tests)
+
+declare(strict_types=1);
+
+const BLOCKING = ['high', 'critical'];
+
+$root = dirname(__DIR__);
+$input = null;
+foreach (array_slice($argv, 1) as $argument) {
+    if (str_starts_with($argument, '--input=')) {
+        $input = substr($argument, 8);
+    }
+}
+$today = getenv('AUDIT_TODAY') ?: date('Y-m-d');
+
+$exceptions = json_decode((string) file_get_contents($root . '/security/audit-exceptions.json'), true, flags: JSON_THROW_ON_ERROR)['yarn'] ?? [];
+$failures = [];
+foreach ($exceptions as $exception) {
+    foreach (['advisory', 'package', 'reason', 'review_by'] as $key) {
+        if (!is_string($exception[$key] ?? null) || '' === $exception[$key]) {
+            $failures[] = 'exception without "' . $key . '"';
+        }
+    }
+    if (is_string($exception['review_by'] ?? null) && 1 !== preg_match('/^\d{4}-\d{2}-\d{2}$/', $exception['review_by'])) {
+        $failures[] = 'exception ' . ($exception['advisory'] ?? '?') . ': review_by must be YYYY-MM-DD';
+    }
+}
+$valid = [];
+foreach ($exceptions as $exception) {
+    $reviewBy = (string) ($exception['review_by'] ?? '');
+    if ($reviewBy >= $today) {
+        $valid[(string) ($exception['advisory'] ?? '')] = true;
+        continue;
+    }
+    $failures[] = sprintf('exception %s expired on %s: review it', $exception['advisory'] ?? '?', $reviewBy);
+}
+
+$output = null === $input
+    ? (string) shell_exec('cd ' . escapeshellarg($root) . ' && yarn audit --groups dependencies --json 2>/dev/null')
+    : (string) file_get_contents($input);
+$summary = false;
+foreach (preg_split('/\R/', $output) ?: [] as $line) {
+    $row = json_decode($line, true);
+    if (is_array($row) && 'auditSummary' === ($row['type'] ?? null)) {
+        $summary = true;
+    }
+    $advisory = is_array($row) && 'auditAdvisory' === ($row['type'] ?? null) ? ($row['data']['advisory'] ?? null) : null;
+    if (!is_array($advisory)) {
+        continue;
+    }
+    $id = (string) ($advisory['github_advisory_id'] ?? $advisory['id'] ?? '');
+    $label = sprintf('%s %s (%s)', $advisory['module_name'] ?? '?', $id, $advisory['severity'] ?? '?');
+    if (isset($valid[$id])) {
+        echo 'EXCEPTION ' . $label . "\n";
+    } elseif (in_array($advisory['severity'] ?? '', BLOCKING, true)) {
+        $failures[] = $label;
+    } else {
+        echo 'WARNING   ' . $label . "\n";
+    }
+}
+
+// A crashed or offline yarn prints nothing useful: without the summary line the audit did not happen.
+if (!$summary) {
+    $failures[] = 'no auditSummary line in the yarn audit output: the audit did not run';
+}
+
+foreach ($failures as $failure) {
+    fwrite(STDERR, 'KO ' . $failure . "\n");
+}
+echo [] === $failures ? "OK no blocking advisory\n" : '';
+exit([] === $failures ? 0 : 1);

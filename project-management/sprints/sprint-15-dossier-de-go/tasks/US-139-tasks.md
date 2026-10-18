@@ -25,10 +25,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-139-01 | [DOC] | Relever les versions publiées (v1.2.0 quick-order, v1.2.1 punchout) et les changements utiles à la démo ; consigner dans la story | 0,5h | - | 🔲 |
-| T-139-02 | [TEST] | Tests rouges : l'exemple de commande rapide vient de l'option `example_lines` (aperçu à deux lignes valides, échec nommant la référence retirée) ; la surcharge du gabarit n'existe plus | 1h | T-139-01 | 🔲 |
-| T-139-03 | [BE] | Monter les deux plugins (`composer.json`, `composer.lock`), supprimer la surcharge du gabarit, vérifier `demo_quick_order.yaml` | 1,5h | T-139-02 | 🔲 |
-| T-139-04 | [TEST] | Réactiver `/admin/punchout-buyers/` dans `RawTranslationKeysSmokeTest` ; lancer la suite complète via `bin/run-tests` | 0,5h | T-139-03 | 🔲 |
+| T-139-01 | [DOC] | Relever les versions publiées (v1.2.0 quick-order, v1.2.1 punchout) et les changements utiles à la démo ; consigner dans la story | 0,5h | - | ✅ |
+| T-139-02 | [TEST] | Tests rouges : l'exemple de commande rapide vient de l'option `example_lines` (aperçu à deux lignes valides, échec nommant la référence retirée) ; la surcharge du gabarit n'existe plus | 1h | T-139-01 | ✅ |
+| T-139-03 | [BE] | Monter les deux plugins (`composer.json`, `composer.lock`), supprimer la surcharge du gabarit, vérifier `demo_quick_order.yaml` | 1,5h | T-139-02 | ✅ |
+| T-139-04 | [TEST] | Réactiver `/admin/punchout-buyers/` dans `RawTranslationKeysSmokeTest` ; lancer la suite complète via `bin/run-tests` | 0,5h | T-139-03 | ✅ |
 | T-139-05 | [REV] | Revue (rendu réel de la commande rapide et de l'admin PunchOut, FR et EN) | 0,5h | T-139-04 | 🔲 |
 
 **Total estimé : 4 h** (5 tâches).

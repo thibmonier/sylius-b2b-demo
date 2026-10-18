@@ -25,13 +25,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-081-01 | [DOC] | Choisir l'outil de mises à jour par écosystème (Dependabot ou Renovate), consigner dans un ADR court ; état actuel de la CI et du Dockerfile | 1h | - | 🔲 |
-| T-081-02 | [TEST] | Contrôle rouge `bin/check-pinned-refs` : échoue si une action ou une image de base est référencée par étiquette ; test du format des exceptions de scan (raison et date de revue) | 1,5h | T-081-01 | 🔲 |
-| T-081-03 | [BE] | Figer les actions GitHub par empreinte de commit et les images du `Dockerfile` par condensat ; configuration de l'outil retenu | 1,5h | T-081-02 | 🔲 |
-| T-081-04 | [BE] | CI : scan d'image publié en rapport, échec sur critique non justifiée, fichier d'exceptions daté | 2h | T-081-03 | 🔲 |
-| T-081-05 | [BE] | CI : SBOM (CycloneDX ou SPDX) publié en artefact à chaque build | 1,5h | T-081-03 | 🔲 |
-| T-081-06 | [BE] | Composer retiré de l'image finale (étage de production) ; test de contenu de l'image | 1,5h | T-081-03 | 🔲 |
-| T-081-07 | [DOC] | Documentation (`docs/durcissement-demo.md` ou ADR), sans détail exploitable | 0,5h | T-081-04, T-081-05, T-081-06 | 🔲 |
+| T-081-01 | [DOC] | Choisir l'outil de mises à jour par écosystème (Dependabot ou Renovate), consigner dans un ADR court ; état actuel de la CI et du Dockerfile | 1h | - | ✅ |
+| T-081-02 | [TEST] | Contrôle rouge `bin/check-pinned-refs` : échoue si une action ou une image de base est référencée par étiquette ; test du format des exceptions de scan (raison et date de revue) | 1,5h | T-081-01 | ✅ |
+| T-081-03 | [BE] | Figer les actions GitHub par empreinte de commit et les images du `Dockerfile` par condensat ; configuration de l'outil retenu | 1,5h | T-081-02 | ✅ |
+| T-081-04 | [BE] | CI : scan d'image publié en rapport, échec sur critique non justifiée, fichier d'exceptions daté | 2h | T-081-03 | ✅ |
+| T-081-05 | [BE] | CI : SBOM (CycloneDX ou SPDX) publié en artefact à chaque build | 1,5h | T-081-03 | ✅ |
+| T-081-06 | [BE] | Composer retiré de l'image finale (étage de production) ; test de contenu de l'image | 1,5h | T-081-03 | ✅ |
+| T-081-07 | [DOC] | Documentation (`docs/durcissement-demo.md` ou ADR), sans détail exploitable | 0,5h | T-081-04, T-081-05, T-081-06 | ✅ |
 | T-081-08 | [REV] | Revue (CI verte : « Quality and smoke tests » et « Docker image ») | 0,5h | T-081-07 | 🔲 |
 
 **Total estimé : 10 h** (8 tâches).

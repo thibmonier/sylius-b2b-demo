@@ -86,6 +86,7 @@
 
     {% if state is defined and sent is not defined %}
         <form method="post" action="{{ path('app_demo_punchout_simulator_order', {lang: locale}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_order }}">
             <input type="hidden" name="state" value="{{ state }}">
             <label for="orderId">{{ 'order.id_label'|trans({}, 'simulator', locale) }}</label>
             <input id="orderId" name="orderId" value="{{ orderId|default('') }}" maxlength="64" pattern="[A-Za-z0-9\-]+" required>

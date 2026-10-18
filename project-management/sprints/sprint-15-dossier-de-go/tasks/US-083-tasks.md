@@ -24,10 +24,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-083-01 | [DOC] | Lire la licence du paquet installé (fichier de licence, `composer.json`) ; relever les passages sur démo publique, dépôt public, captures et vidéos | 1h | - | 🔲 |
-| T-083-02 | [DOC] | Note de décision dans `docs/licence-plugin-mcp.md` : permis, interdit, incertain, avec les passages cités et l'action proposée | 0,5h | T-083-01 | 🔲 |
-| T-083-03 | [REV] | Revue (citations exactes, aucun avis juridique présenté comme définitif) | 0,5h | T-083-02 | 🔲 |
-| T-083-04 | [OPS] | 📅 Thibaut : trancher et consigner la décision dans la story | 0,5h | T-083-03 | 🔲 |
+| T-083-01 | [DOC] | Lire la licence du paquet installé (fichier de licence, `composer.json`) ; relever les passages sur démo publique, dépôt public, captures et vidéos | 1h | - | ✅ |
+| T-083-02 | [DOC] | Note de décision dans `docs/licence-plugin-mcp.md` : permis, interdit, incertain, avec les passages cités et l'action proposée | 0,5h | T-083-01 | ✅ |
+| T-083-03 | [REV] | Revue (citations exactes, aucun avis juridique présenté comme définitif) | 0,5h | T-083-02 | ✅ |
+| T-083-04 | [OPS] | 📅 Thibaut : trancher et consigner la décision dans la story | 0,5h | T-083-03 | ✅ |
 
 **Total estimé : 2,5 h** (4 tâches), dont 0,5 h calendaire(s) (📅).
 

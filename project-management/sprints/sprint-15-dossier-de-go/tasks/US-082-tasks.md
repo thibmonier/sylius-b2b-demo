@@ -25,14 +25,14 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-082-01 | [DOC] | Relire l'audit et inventorier les éléments à traiter, sans détail exploitable ; état de `composer audit` | 1h | - | 🔲 |
-| T-082-02 | [TEST] | Tests rouges : en-têtes Cross-Origin attendus sur une page publique ; fichier de configuration serveur non servi (404) ; formulaire du simulateur refusé sans jeton valide, accepté avec ; `composer audit` sans les deux alertes | 1,5h | T-082-01 | 🔲 |
-| T-082-03 | [BE] | En-têtes Cross-Origin de réponse (serveur ou Symfony), vérification des images, scripts et polices de la démo | 1,5h | T-082-02 | 🔲 |
-| T-082-04 | [BE] | Fichiers cachés non servis (404) côté serveur | 1h | T-082-02 | 🔲 |
-| T-082-05 | [BE] | Protection CSRF du formulaire de commande du simulateur PunchOut, message d'erreur générique FR et EN | 1,5h | T-082-02 | 🔲 |
-| T-082-06 | [BE] | Montée api-platform 5.0.4 et doctrine/orm 3.7.5 (`composer.lock`), `composer audit` | 1h | T-082-02, T-139-03 | 🔲 |
+| T-082-01 | [DOC] | Relire l'audit et inventorier les éléments à traiter, sans détail exploitable ; état de `composer audit` | 1h | - | ✅ |
+| T-082-02 | [TEST] | Tests rouges : en-têtes Cross-Origin attendus sur une page publique ; fichier de configuration serveur non servi (404) ; formulaire du simulateur refusé sans jeton valide, accepté avec ; `composer audit` sans les deux alertes | 1,5h | T-082-01 | ✅ |
+| T-082-03 | [BE] | En-têtes Cross-Origin de réponse (serveur ou Symfony), vérification des images, scripts et polices de la démo | 1,5h | T-082-02 | ✅ |
+| T-082-04 | [BE] | Fichiers cachés non servis (404) côté serveur | 1h | T-082-02 | ✅ |
+| T-082-05 | [BE] | Protection CSRF du formulaire de commande du simulateur PunchOut, message d'erreur générique FR et EN | 1,5h | T-082-02 | ✅ |
+| T-082-06 | [BE] | Montée api-platform 5.0.4 et doctrine/orm 3.7.5 (`composer.lock`), `composer audit` | 1h | T-082-02, T-139-03 | ✅ |
 | T-082-07 | [TEST] | Suite de fumée complète verte et rendu réel des pages clés après les en-têtes (aucune ressource bloquée) | 1,5h | T-082-03, T-082-04, T-082-05, T-082-06 | 🔲 |
-| T-082-08 | [DOC] | `docs/durcissement-demo.md` à jour (conclusions seulement) | 0,5h | T-082-07 | 🔲 |
+| T-082-08 | [DOC] | `docs/durcissement-demo.md` à jour (conclusions seulement) | 0,5h | T-082-07 | ✅ |
 | T-082-09 | [REV] | Revue (relecture « aucun détail exploitable ») | 0,5h | T-082-08 | 🔲 |
 
 **Total estimé : 10 h** (9 tâches).

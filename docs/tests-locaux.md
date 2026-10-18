@@ -77,6 +77,36 @@ Les PDF des factures sont écrits au chargement des fixtures : après un changem
 - **Base partagée** : plusieurs copies de travail peuvent utiliser le même MySQL ; leur donner chacune sa `TEST_DB_NAME` et son `TEST_CACHE_DIR`.
 - Les tests qui lancent `app:demo:reset` rechargent la suite entière dans la base (elle en ressort identique).
 
+## Libérer le disque : `bin/clean-test-caches`
+
+Chaque exécution laisse des caches (`var/cache-*`), des bases de test (`sylius_test_*`, `b2b_*`, `sylius_b2b_demo_test_*`) et des journaux binaires MySQL (plusieurs centaines de Mo). `bin/run-tests` refuse de démarrer sous `MIN_FREE_GB` (5 Go) : **ce seuil n'est jamais abaissé** ; on libère de l'espace, ou on demande de l'aide.
+
+```bash
+df -h .                         # contrôle au démarrage de la session
+bin/clean-test-caches --dry-run # liste ce qui serait supprimé, ne supprime rien
+bin/clean-test-caches           # supprime, purge les journaux binaires, affiche df -h . avant et après
+```
+
+La base par défaut (`sylius_b2b_demo_test`) et la base de développement (`sylius_b2b_demo`) sont conservées. Le script supprime aussi les bases d'une autre session en cours : ne le lancer que lorsque personne d'autre n'utilise le MySQL local. Conteneur visé : `sylius-b2b-demo-mysql-1` (`MYSQL_CONTAINER=` pour un autre). Test : `tests/Unit/Bin/CleanTestCachesTest.php`.
+
+## Mesure mobile à froid : `bin/measure-mobile`
+
+Le script a besoin de Puppeteer et d'un Chromium, que l'on indique par deux variables :
+
+| Variable | Rôle | Défaut |
+|----------|------|--------|
+| `PUPPETEER_MODULE` | chemin du module `puppeteer` s'il n'est pas installé à côté du projet | `puppeteer` |
+| `PUPPETEER_EXECUTABLE_PATH` | binaire Chromium / Chrome à lancer | celui téléchargé par Puppeteer |
+
+```bash
+docker compose up -d --wait            # la démo répond sur http://localhost:8080 (mode démo actif : connexion en un clic)
+PUPPETEER_MODULE="$HOME/outils/node_modules/puppeteer" \
+PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+bin/measure-mobile --targets
+```
+
+Sans module : code de sortie 2 et le message `puppeteer not found`. Code 1 : une page est KO (la ligne nomme la page et les éléments trop larges).
+
 ## Profiler le reset
 
 ```bash

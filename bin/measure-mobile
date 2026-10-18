@@ -7,8 +7,12 @@
 //   bin/measure-mobile [BASE_URL]            # default http://localhost:8080, locale fr_FR (LOCALE=en_US for English)
 //   bin/measure-mobile --targets [BASE_URL]  # also fails on interactive targets under 44 x 44 px (WCAG 2.5.5)
 //
-// Needs `puppeteer` (PUPPETEER_MODULE=<path> when it is not installed next to the project) and a Chromium
-// (PUPPETEER_EXECUTABLE_PATH). The cart and the quote request need a session: the script signs in with the first
+// Needs `puppeteer` and a Chromium, both found through two environment variables (US-141, cold start, see docs/tests-locaux.md):
+//   PUPPETEER_MODULE=<path>           the puppeteer module, when it is not installed next to the project (default: `puppeteer`)
+//   PUPPETEER_EXECUTABLE_PATH=<path>  the Chromium / Chrome binary to launch (default: the one puppeteer downloaded)
+//   e.g. PUPPETEER_MODULE=$HOME/tools/node_modules/puppeteer \
+//        PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" bin/measure-mobile
+// The cart and the quote request need a session: the script signs in with the first
 // enabled one-click demo account of the login page, so the demo mode must be on. Exit code 1 when a page is KO.
 'use strict';
 

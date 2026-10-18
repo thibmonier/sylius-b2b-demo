@@ -31,6 +31,12 @@ final class QuickOrderExampleSmokeTest extends WebTestCase
         self::assertSame($this->example(), $client->getCrawler()->filter('#tmonier-quick-order-lines')->attr('placeholder'), $locale);
     }
 
+    /** US-139: the example comes from the plugin option `example_lines`, not from a copy of its template. */
+    public function testTheFormTemplateOfThePluginIsNotOverridden(): void
+    {
+        self::assertFileDoesNotExist(\dirname(__DIR__, 2) . '/templates/bundles/TmonierSyliusQuickOrderPlugin/shop/quick_order/_form.html.twig');
+    }
+
     public function testEveryReferenceOfTheExampleExistsInTheCatalogue(): void
     {
         $skus = [];
