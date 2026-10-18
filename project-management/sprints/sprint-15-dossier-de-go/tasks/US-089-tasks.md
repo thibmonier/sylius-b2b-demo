@@ -25,13 +25,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-089-01 | [DOC] | Analyser l'accueil actuel (blocs existants, historique de commandes, liste Atelier) et définir les trois blocs | 1h | - | 🔲 |
-| T-089-02 | [TEST] | Tests rouges : trois blocs sans doublon, anonyme, compte sans historique, produit retiré, détection de doublon | 2h | T-089-01 | 🔲 |
-| T-089-03 | [BE] | Fournisseur des références habituelles (historique de commandes et liste Atelier), repli sur des suggestions | 2h | T-089-02 | 🔲 |
-| T-089-04 | [BE] | Réassort rapide et promotions négociées (prix de la société d'US-090) | 1,5h | T-089-03, T-090-05 | 🔲 |
-| T-089-05 | [FE-WEB] | Gabarits des trois blocs à la place des deux anciens, FR et EN | 1,5h | T-089-04 | 🔲 |
-| T-089-06 | [TEST] | Rendu réel FR et EN : Claire avec historique, compte sans commande, visiteur anonyme, mobile | 1h | T-089-05 | 🔲 |
-| T-089-07 | [DOC] | Documentation (`docs/theme-b2b.md`) | 0,5h | T-089-06 | 🔲 |
+| T-089-01 | [DOC] | Analyser l'accueil actuel (blocs existants, historique de commandes, liste Atelier) et définir les trois blocs | 1h | - | ✅ |
+| T-089-02 | [TEST] | Tests rouges : trois blocs sans doublon, anonyme, compte sans historique, produit retiré, détection de doublon | 2h | T-089-01 | ✅ |
+| T-089-03 | [BE] | Fournisseur des références habituelles (historique de commandes et liste Atelier), repli sur des suggestions | 2h | T-089-02 | ✅ |
+| T-089-04 | [BE] | Réassort rapide et promotions négociées (prix de la société d'US-090) | 1,5h | T-089-03, T-090-05 | ✅ |
+| T-089-05 | [FE-WEB] | Gabarits des trois blocs à la place des deux anciens, FR et EN | 1,5h | T-089-04 | ✅ |
+| T-089-06 | [TEST] | Rendu réel FR et EN : Claire avec historique, compte sans commande, visiteur anonyme, mobile | 1h | T-089-05 | ✅ |
+| T-089-07 | [DOC] | Documentation (`docs/theme-b2b.md`) | 0,5h | T-089-06 | ✅ |
 | T-089-08 | [REV] | Revue | 0,5h | T-089-07 | 🔲 |
 
 **Total estimé : 10 h** (8 tâches).

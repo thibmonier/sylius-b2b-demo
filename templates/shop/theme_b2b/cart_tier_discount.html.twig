@@ -1,0 +1,17 @@
+{# US-091: what the volume tiers and the company price take off the cart; no block without discount (empty cart included). #}
+{% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+{% set discount = app_b2b_cart_tier_discount(hookable_metadata.context.cart) %}
+{% if discount is not null %}
+    {% if discount.tierAmount > 0 %}
+        <div class="hstack gap-2 mb-2">
+            <div>{{ 'app.theme_b2b.cart.tier_discount'|trans }}:</div>
+            <div class="ms-auto text-end" {{ sylius_test_html_attribute('cart-tier-discount') }}>-{{ money.convertAndFormat(discount.tierAmount) }}</div>
+        </div>
+    {% endif %}
+    {% if discount.negotiatedAmount > 0 %}
+        <div class="hstack gap-2 mb-2">
+            <div>{{ 'app.theme_b2b.cart.negotiated_discount'|trans }}:</div>
+            <div class="ms-auto text-end" {{ sylius_test_html_attribute('cart-negotiated-discount') }}>-{{ money.convertAndFormat(discount.negotiatedAmount) }}</div>
+        </div>
+    {% endif %}
+{% endif %}

@@ -24,10 +24,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-091-01 | [TEST] | Tests rouges : panier détaillé (prix unitaire, palier appliqué, total) ; carte de liste avec prix de la société et « dès » au-delà de 5 % ; panier vide sans bloc | 1,5h | T-090-05 | 🔲 |
-| T-091-02 | [FE-WEB] | Cartes de la liste : prix de la société, mention « dès » conditionnée à l'écart | 1,5h | T-091-01 | 🔲 |
-| T-091-03 | [FE-WEB] | Panier et devis : palier appliqué et ligne de remise, FR et EN | 1,5h | T-091-01 | 🔲 |
-| T-091-04 | [TEST] | Rendu réel FR et EN, mobile 375 et 320 px via `bin/measure-mobile` | 1h | T-091-02, T-091-03 | 🔲 |
+| T-091-01 | [TEST] | Tests rouges : panier détaillé (prix unitaire, palier appliqué, total) ; carte de liste avec prix de la société et « dès » au-delà de 5 % ; panier vide sans bloc | 1,5h | T-090-05 | ✅ |
+| T-091-02 | [FE-WEB] | Cartes de la liste : prix de la société, mention « dès » conditionnée à l'écart | 1,5h | T-091-01 | ✅ |
+| T-091-03 | [FE-WEB] | Panier et devis : palier appliqué et ligne de remise, FR et EN | 1,5h | T-091-01 | ✅ |
+| T-091-04 | [TEST] | Rendu réel FR et EN, mobile 375 et 320 px via `bin/measure-mobile` | 1h | T-091-02, T-091-03 | ✅ |
 | T-091-05 | [REV] | Revue | 0,5h | T-091-04 | 🔲 |
 
 **Total estimé : 6 h** (5 tâches).

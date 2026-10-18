@@ -1,0 +1,39 @@
+{#
+    US-091: the cell of the plugin (tier-pricing shop/cart/item.html.twig) with, for a line priced by the company
+    rule, "negotiated price applied" instead of the generic tier label. Everything else is the plugin template.
+#}
+{% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+
+{% set item = hookable_metadata.context.item %}
+{% set tier = tmonier_tier_pricing_item_tier(item) %}
+{% set table = tmonier_tier_pricing_cart_table(item) %}
+{% set negotiated = tier is not null and app_b2b_item_negotiated(item) %}
+
+<td {{ sylius_test_html_attribute('cart-item-product') }}>
+    {{ component('sylius_shop:order_item:product_info', { item: item }) }}
+    {% if tier is not null or (table is not null and table.nudge is not null) %}
+        <div class="small mt-2" {{ sylius_test_html_attribute('tmonier-tier-cart-info') }}>
+            {% if tier is not null %}
+                <div class="text-success fw-semibold" {{ sylius_test_html_attribute('tmonier-tier-applied') }}>
+                    {% if negotiated %}
+                        <span {{ sylius_test_html_attribute('b2b-negotiated-applied') }}>{{ 'app.theme_b2b.cart.negotiated_applied'|trans({'%company%': item.order.customer.group.name|default(''), '%quantity%': tier.minQuantity|default('')}) }}</span>
+                    {% else %}
+                        {{ 'tmonier_tier_pricing.ui.tier_applied'|trans({'%quantity%': tier.minQuantity|default('')}) }}
+                    {% endif %}
+                    {%- if tier.mixAndMatch|default(false) %} <span class="fw-normal text-body-secondary">({{ 'tmonier_tier_pricing.ui.mix_and_match'|trans|trim('.') }})</span>{% endif %}
+                    {%- if tier.taxonBasis|default(false) %} <span class="fw-normal text-body-secondary">({{ 'tmonier_tier_pricing.ui.taxon_basis'|trans|trim('.') }})</span>{% endif %}
+                </div>
+            {% endif %}
+            {% if table is not null and table.nudge is not null %}
+                {% set tax_convention = tmonier_tier_pricing_tax_convention(item.variant) %}
+                {% set tax_suffix = tax_convention is null ? '' : ' ' ~ ((tax_convention == 'included' ? 'tmonier_tier_pricing.ui.incl_tax' : 'tmonier_tier_pricing.ui.excl_tax')|trans) %}
+                <div class="text-body-secondary" {{ sylius_test_html_attribute('tmonier-tier-nudge') }}>
+                    {{ 'tmonier_tier_pricing.ui.nudge'|trans({
+                        '%quantity%': table.nudge.quantityToAdd,
+                        '%price%': money.convertAndFormat(table.nudge.unitPrice) ~ tax_suffix,
+                    }) }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</td>

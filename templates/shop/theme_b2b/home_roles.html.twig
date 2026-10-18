@@ -1,0 +1,14 @@
+{# US-089: anonymous visitor of the B2B channel: what each role will find (no product, no price: Channel Access) and where to pick a role. #}
+<section class="container mb-5" data-b2b-home="roles" aria-labelledby="b2b-home-roles">
+    <h2 class="h3 mb-2 b2b-section-title" id="b2b-home-roles">{{ 'app.home_b2b.buyer.roles.title'|trans }}</h2>
+    <p class="mb-4">{{ 'app.home_b2b.buyer.roles.intro'|trans }}</p>
+    <ul class="row row-cols-1 row-cols-md-3 g-4 list-unstyled">
+        {% for block in ['usual', 'restock', 'negotiated'] %}
+            <li class="col"><div class="card h-100 b2b-tile"><div class="card-body">
+                <h3 class="b2b-tile__title">{{ ('app.home_b2b.buyer.roles.' ~ block)|trans }}</h3>
+                <p class="card-text mb-0">{{ ('app.home_b2b.buyer.' ~ block ~ '.intro')|trans }}</p>
+            </div></div></li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-primary mt-4" href="{{ path('app_demo_accounts') }}" data-b2b-home-roles-cta>{{ 'app.home_b2b.buyer.roles.cta'|trans }}</a>
+</section>

@@ -25,13 +25,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-090-01 | [DOC] | Spike D2 : ce que permet tier-pricing (canal, groupe, produit, variante, taxon) et pourquoi la fiche ne montre pas le tableau ; décision « société = groupe de clients » consignée dans la story | 1,5h | - | 🔲 |
-| T-090-02 | [TEST] | Tests rouges : tableau d'au moins 3 paliers avec palier atteignable en évidence ; prix de la société et écart ; anonyme sans prix ; produit sans palier sans tableau vide ; total recalculé sans rechargement | 1,5h | T-090-01 | 🔲 |
-| T-090-03 | [BE] | Données : groupe de clients de la société de démo, règle de prix propre à ce groupe, paliers révisés dans les fixtures | 1,5h | T-090-01 | 🔲 |
-| T-090-04 | [FE-WEB] | Tableau des paliers sur la fiche (hook du plugin ou surcharge), palier atteignable en évidence, légende et en-têtes accessibles | 2h | T-090-02, T-090-03 | 🔲 |
-| T-090-05 | [FE-WEB] | Ligne « Votre prix négocié » de la société et écart avec le prix catalogue, FR et EN | 1,5h | T-090-04 | 🔲 |
-| T-090-06 | [TEST] | Rendu réel FR et EN (fiche, quantité saisie, mobile 375 px), pa11y du tableau | 1h | T-090-05 | 🔲 |
-| T-090-07 | [DOC] | Documentation : D2, société = groupe de clients, données de démonstration | 0,5h | T-090-06 | 🔲 |
+| T-090-01 | [DOC] | Spike D2 : ce que permet tier-pricing (canal, groupe, produit, variante, taxon) et pourquoi la fiche ne montre pas le tableau ; décision « société = groupe de clients » consignée dans la story | 1,5h | - | ✅ |
+| T-090-02 | [TEST] | Tests rouges : tableau d'au moins 3 paliers avec palier atteignable en évidence ; prix de la société et écart ; anonyme sans prix ; produit sans palier sans tableau vide ; total recalculé sans rechargement | 1,5h | T-090-01 | ✅ |
+| T-090-03 | [BE] | Données : groupe de clients de la société de démo, règle de prix propre à ce groupe, paliers révisés dans les fixtures | 1,5h | T-090-01 | ✅ |
+| T-090-04 | [FE-WEB] | Tableau des paliers sur la fiche (hook du plugin ou surcharge), palier atteignable en évidence, légende et en-têtes accessibles | 2h | T-090-02, T-090-03 | ✅ |
+| T-090-05 | [FE-WEB] | Ligne « Votre prix négocié » de la société et écart avec le prix catalogue, FR et EN | 1,5h | T-090-04 | ✅ |
+| T-090-06 | [TEST] | Rendu réel FR et EN (fiche, quantité saisie, mobile 375 px), pa11y du tableau | 1h | T-090-05 | ✅ |
+| T-090-07 | [DOC] | Documentation : D2, société = groupe de clients, données de démonstration | 0,5h | T-090-06 | ✅ |
 | T-090-08 | [REV] | Revue | 0,5h | T-090-07 | 🔲 |
 
 **Total estimé : 10 h** (8 tâches).

@@ -1,0 +1,10 @@
+# US-090 / US-091 (decision D2): the B2B channel is a business channel for the tier-pricing plugin (discount column in
+# the tier table, regular price kept as the original price of a tier line, amount of the tier adjustment); B2C stays a
+# consumer channel (conditional prices only).
+tmonier_sylius_tier_pricing:
+    b2b_channels: ['B2B']
+    # The PunchOut OrderRequest (/punchout/cxml) is a shop request without session: without this, the group of the
+    # buyer is ignored there and the order is priced at the public tier while the transferred cart had the company
+    # price ("Prices changed"). The request is authenticated by the shared secret of the buyer; the demo accounts
+    # (and their e-mails) are public anyway.
+    group_prices_for_guests: true

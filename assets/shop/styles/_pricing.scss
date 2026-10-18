@@ -1,0 +1,66 @@
+// US-090 / US-091: price breaks of the product page, company price on the cards and in the cart.
+// Colours: tokens only (pairs measured in ThemeColorTokensTest: navy and accent on accent-subtle >= 7:1).
+@use 'variables' as *;
+
+// The company price: a boxed statement, tinted so that it stands out from the tier table without relying on colour only
+// (title in bold, "negotiated price" written in full).
+.b2b-negotiated {
+    padding: .75rem 1rem;
+    color: $b2b-navy;
+    background: $b2b-accent-subtle;
+    border-left: .25rem solid $b2b-accent;
+    border-radius: .25rem;
+}
+
+.b2b-negotiated__title {
+    font-weight: 600;
+    color: $b2b-accent;
+}
+
+// Tier reached by the typed quantity: tinted row, bold, and the text "tier applied" for assistive technologies.
+.b2b-price-breaks__row--current {
+    --bs-table-bg: #{$b2b-accent-subtle};
+    --bs-table-color: #{$b2b-navy};
+
+    font-weight: 600;
+}
+
+.b2b-badge-negotiated {
+    display: inline-block;
+    padding: .1rem .4rem;
+    font-size: .75rem;
+    font-weight: 600;
+    color: $b2b-accent;
+    background: $b2b-accent-subtle;
+    border: 1px solid $b2b-accent;
+    border-radius: .25rem;
+    white-space: nowrap;
+}
+
+.b2b-negotiated-line {
+    display: block;
+    font-weight: 600;
+    color: $b2b-accent;
+}
+
+@media (prefers-contrast: more) {
+    .b2b-price-breaks__row--current {
+        outline: 2px solid $b2b-navy;
+        outline-offset: -2px;
+    }
+}
+
+@media (forced-colors: active) {
+    .b2b-price-breaks__row--current {
+        outline: 2px solid Highlight;
+        outline-offset: -2px;
+    }
+
+    .b2b-negotiated {
+        border-left-color: Highlight;
+    }
+
+    .b2b-badge-negotiated {
+        border-color: ButtonText;
+    }
+}

@@ -1,0 +1,21 @@
+# US-090 / US-091: loaded after tmonier_plugins.yaml (alphabetical order), so that it wins the merge of the Twig hooks.
+# The theme keeps the hookables of the tier-pricing plugin (same hook, same name) and only replaces their template:
+# product page (company price, tier of the typed quantity, live total) and cart line (company price applied).
+# The discount line of the cart summary is an additional hookable (b2b_ prefix) in demo_theme_b2b.yaml.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.product.show.content.info.summary.add_to_cart':
+            tmonier_tier_pricing:
+                template: 'shop/theme_b2b/product_price_breaks.html.twig'
+        'sylius_shop.cart.index.content.form.sections.general.items.body':
+            item:
+                template: 'shop/theme_b2b/cart_item.html.twig'
+
+        # US-089: the two core blocks ("latest deals" / "latest products", the same articles) stay on B2C only; on the B2B
+        # channel the theme shows the three blocks of home_buyer.html.twig (demo_theme_b2b.yaml). channel-access sets its
+        # own condition on these blocks (catalogue visibility); a condition is replaced, not combined: both are kept here.
+        'sylius_shop.homepage.index':
+            latest_deals:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_CATALOG') and is_granted('DEMO_CONSUMER_CHANNEL')"
+            latest_products:
+                condition: "@=is_granted('TMONIER_CHANNEL_ACCESS_SEE_CATALOG') and is_granted('DEMO_CONSUMER_CHANNEL')"
