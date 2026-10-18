@@ -182,6 +182,14 @@ jobs:
             - name: PHP dependencies (composer audit)
               run: composer audit --locked --abandoned=report
 
+            # The Sylius UI packages are `file:vendor/...` dependencies: yarn audit needs vendor/ to resolve them.
+            - name: Install PHP dependencies (vendor/ for the file: JavaScript packages)
+              run: composer install --no-interaction --no-progress --no-scripts
+
+            - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+              with:
+                  node-version: "22"
+
             - name: JavaScript dependencies (production group, dated exceptions)
               run: bin/audit-js-dependencies
 
