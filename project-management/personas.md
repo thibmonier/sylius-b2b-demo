@@ -14,6 +14,12 @@
 - **Frustrations** : les démos B2C maquillées en B2B, le jargon technique.
 - **Ce qu'elle attend** : parcours guidés, données crédibles (EPI, quincaillerie), français.
 
+### Didier, DSI d'un distributeur industriel (prospect)
+- 48 ans, DSI d'un distributeur de 200 personnes (ERP en place, site B2B vieillissant), décide du budget d'un projet de refonte.
+- **Objectif** : savoir en 15 minutes ce qu'il faudrait intégrer (ERP, PunchOut, facturation électronique), avec quel effort et quels délais, et à qui s'adresser.
+- **Frustrations** : les démos sans suite concrète, le jargon (cXML, OCI, MCP) non traduit en bénéfice, l'absence d'estimation.
+- **Ce qu'il attend** : une page « Intégrer ces plugins », des cas d'usage de son secteur, un contact simple.
+
 ## Comptes de démo (rôles joués)
 
 | Persona | Rôle | Entreprise | Ce qu'il montre |
@@ -30,6 +36,7 @@
 ### Thibaut, auteur des plugins
 - **Objectif** : une démo qui tourne seule (remise à zéro chaque nuit, coût maîtrisé), à jour des versions des plugins, et qui sert de banc d'intégration.
 - **Ce qu'il attend** : déploiement par Git, alertes en cas d'échec de la remise à zéro, mise à jour Renovate, budget plafonné.
+- **Rôle de consultant** (EPIC-10 à EPIC-14) : consultant indépendant Sylius et Symfony ; la démo et les 24 plugins servent à présenter son savoir-faire. Il communique uniquement par LinkedIn (son profil) et son site personnel, jamais sur les canaux Sylius, et publie lui-même : Claude prépare les contenus.
 
 ## Acteur système
 
