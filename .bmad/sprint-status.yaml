@@ -257,6 +257,7 @@ sprints:
 
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
+  - {id: US-146, title: "Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client", points: 5, status: backlog}  # cible sprint 17 ; EPIC-07, Should ; enhancement du plugin admin-order-creation, demande de Thibaut du 2026-10-18
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
   - {id: US-056, title: "Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin)", points: 5, status: backlog}  # suite d'US-054 ; dépôt sylius-customer-asset-management-plugin ; cible sprint 20 (roadmap ouverture-communication)
   - {id: US-057, title: "Plugin équipements : parc du client dans l'espace client (CRUD)", points: 5, status: backlog}  # suite d'US-054 ; un client ne voit que son parc ; cible sprint 20 (roadmap ouverture-communication)
