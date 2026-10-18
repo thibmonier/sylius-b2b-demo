@@ -25,12 +25,12 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-143-01 | [DOC] | Volume d'événements autorisé par le plan gratuit, format de l'identifiant, périmètre et exclusions consignés dans la story | 0,5h | - | 🔲 |
-| T-143-02 | [TEST] | Tests rouges : configuration vide ou invalide désactive la mesure, script en `defer`, CSP conditionnelle, exclusions, aucun cookie (valeurs factices) | 1h | T-143-01 | 🔲 |
-| T-143-03 | [BE] | Paramètres, validation (https, UUID), extension de la CSP et variable Twig | 1,5h | T-143-02 | 🔲 |
-| T-143-04 | [FE-WEB] | Script dans le gabarit de la boutique, `data-umami-event` sur CTA, connexion, devis, PunchOut, MCP, GitHub ; mentions légales FR et EN | 1,5h | T-143-03 | 🔲 |
+| T-143-01 | [DOC] | Volume d'événements autorisé par le plan gratuit, format de l'identifiant, périmètre et exclusions consignés dans la story | 0,5h | - |✅ |
+| T-143-02 | [TEST] | Tests rouges : configuration vide ou invalide désactive la mesure, script en `defer`, CSP conditionnelle, exclusions, aucun cookie (valeurs factices) | 1h | T-143-01 |✅ |
+| T-143-03 | [BE] | Paramètres, validation (https, UUID), extension de la CSP et variable Twig | 1,5h | T-143-02 |✅ |
+| T-143-04 | [FE-WEB] | Script dans le gabarit de la boutique, `data-umami-event` sur CTA, connexion, devis, PunchOut, MCP, GitHub ; mentions légales FR et EN | 1,5h | T-143-03 |✅ |
 | T-143-05 | [TEST] | Rendu réel : script présent sur une page mesurée, absent de l'admin, aucun cookie, console sans erreur de CSP, Lighthouse mobile sur 3 pages sans régression | 1h | T-143-04 | 🔲 |
-| T-143-06 | [DOC] | ⚠️ `docs/deploiement-railway.md` (variables), `docs/durcissement-demo.md` (CSP), décision d'outil reportée dans US-117 | 0,5h | T-143-05 | 🔲 |
+| T-143-06 | [DOC] | ⚠️ `docs/deploiement-railway.md` (variables), `docs/durcissement-demo.md` (CSP), décision d'outil reportée dans US-117 | 0,5h | T-143-05 |✅ |
 | T-143-07 | [REV] | Revue (aucune donnée personnelle dans les événements) | 0,5h | T-143-06 | 🔲 |
 | T-143-08 | [OPS] | Thibaut : fournir l'identifiant du site Umami de thibaut-monier.fr et l'URL du script, les poser dans Railway | 0,5h | T-143-07 | 🔲 |
 

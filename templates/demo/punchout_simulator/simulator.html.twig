@@ -23,9 +23,11 @@
         button { background: #1f3a5f; color: #fff; border: 0; padding: .6rem 1.2rem; border-radius: 4px; font-size: 1rem; cursor: pointer; }
         button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
         .num { text-align: right; }
+        .cta a { display: inline-flex; align-items: center; min-height: 2.75rem; margin-right: 1.5rem; color: #1f3a5f; }
     </style>
 </head>
 <body>
+{% include 'shared/_umami.html.twig' %}
 <main>
 <p><a href="{{ path(home, {lang: locale == 'fr' ? 'en' : 'fr'}) }}" lang="{{ locale == 'fr' ? 'en' : 'fr' }}">{{ 'switch_language'|trans({}, 'simulator', locale) }}</a></p>
 
@@ -110,7 +112,7 @@
             <legend>{{ 'errors.legend'|trans({}, 'simulator', locale) }}</legend>
             <label><input type="checkbox" name="wrong_secret" value="1"> {{ 'oci.wrong_password'|trans({}, 'simulator', locale) }}</label>
         </fieldset>
-        <button type="submit">{{ 'oci.start'|trans({}, 'simulator', locale) }}</button>
+        <button type="submit"{{ app_umami_event('simulateur-punchout-lancement', { protocole: 'oci' }) }}>{{ 'oci.start'|trans({}, 'simulator', locale) }}</button>
     </form>
 {% elseif cart is not defined %}
     <div class="note">
@@ -123,8 +125,11 @@
             <label><input type="checkbox" name="wrong_secret" value="1"> {{ 'errors.wrong_secret'|trans({}, 'simulator', locale) }}</label>
             <label><input type="checkbox" name="foreign_domain" value="1"> {{ 'errors.foreign_domain'|trans({}, 'simulator', locale) }}</label>
         </fieldset>
-        <button type="submit">{{ 'start'|trans({}, 'simulator', locale) }}</button>
+        <button type="submit"{{ app_umami_event('simulateur-punchout-lancement', { protocole: 'cxml' }) }}>{{ 'start'|trans({}, 'simulator', locale) }}</button>
     </form>
+{% endif %}
+{% if app_demo_cta_targets('punchout-simulator') %}
+    <p class="cta"><strong>{{ 'cta.card.title'|trans({}, 'theme_demo', locale) }}</strong><br>{% include 'shared/_contact_cta.html.twig' with { variant: 'link', placement: 'punchout-simulator', locale: locale } only %}</p>
 {% endif %}
 </main>
 </body>
