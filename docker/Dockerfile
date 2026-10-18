@@ -7,13 +7,13 @@ ARG PHP_IMAGE=dunglas/frankenphp:1-php8.4-bookworm@sha256:14007e6207a57651cb4029
 FROM ${PHP_IMAGE} AS base
 ARG TARGETARCH
 ARG WKHTMLTOX_VERSION=0.12.6.1-3
-ARG SUPERCRONIC_VERSION=v0.2.33
+ARG SUPERCRONIC_VERSION=v0.2.49
 # SHA256 of the pinned downloads; supercronic matches the SHA1 of its release notes,
 # wkhtmltox publishes no checksum (recorded at first download). Update them with the versions.
 ARG WKHTMLTOX_SHA256_AMD64=98ba0d157b50d36f23bd0dedf4c0aa28c7b0c50fcdcdc54aa5b6bbba81a3941d
 ARG WKHTMLTOX_SHA256_ARM64=b6606157b27c13e044d0abbe670301f88de4e1782afca4f9c06a5817f3e03a9c
-ARG SUPERCRONIC_SHA256_AMD64=feefa310da569c81b99e1027b86b27b51e6ee9ab647747b49099645120cfc671
-ARG SUPERCRONIC_SHA256_ARM64=f1f8585c66de020fef494dd636058f99949d108f569fef00016a1c8b9eb145b3
+ARG SUPERCRONIC_SHA256_AMD64=a53ae236602c7338aba3fbaff40bda6300eae3b9fedb8261eb06cfe3724430c1
+ARG SUPERCRONIC_SHA256_ARM64=02aa0cb229ba09050cba6638059dadb9eedc2276632ea43d6a57a2f8c1629dd5
 WORKDIR /app
 RUN install-php-extensions intl gd zip exif pdo_mysql opcache apcu bcmath \
  && apt-get update \
