@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Images;
 
 use App\Demo\Images\Fetch\ImageProcessor;
 use App\Demo\Images\ImageManifest;
+use App\Demo\Images\ImageManifestAuditor;
 use App\Demo\Infrastructure\Csv\CsvProductReader;
 use PHPUnit\Framework\TestCase;
 
@@ -38,14 +39,7 @@ final class ImageBudgetTest extends TestCase
         $rows = $this->manifest()->rows();
 
         self::assertNotEmpty($rows);
-        foreach ($rows as $row) {
-            foreach (ImageManifest::FIELDS as $field) {
-                self::assertNotSame('', $row[$field] ?? '', $row['sku'] . ': ' . $field . ' is empty.');
-            }
-            self::assertSame('cc0', $row['license'], $row['sku'] . ' is not CC0.');
-            self::assertStringContainsString('publicdomain/zero', $row['license_url'], $row['sku']);
-            self::assertContains($row['scope'], ['own', 'family'], $row['sku']);
-        }
+        self::assertSame([], (new ImageManifestAuditor())->violations($rows), 'Rows that are not free, not reviewed or not fit for their product (US-092).');
     }
 
     public function testEveryProductOfTheCatalogueHasAnImage(): void

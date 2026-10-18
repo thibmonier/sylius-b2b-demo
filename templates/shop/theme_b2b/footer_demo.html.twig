@@ -1,5 +1,4 @@
 {% set site_url = app_demo_site_url() %}
-{% set contact_url = app_demo_contact_url() %}
 <div class="mt-5 border-top py-5" data-demo-footer>
     <div class="container">
         <div class="row">
@@ -9,9 +8,10 @@
                     <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_about', {_locale: app.request.locale}) }}">{{ 'footer.demo.about'|trans({}, 'shop_layout') }}</a></li>
                     <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}">{{ 'footer.demo.plugins'|trans({}, 'shop_layout') }}</a></li>
                     <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_accounts') }}">{{ 'footer.demo.journeys'|trans({}, 'shop_layout') }}</a></li>
-                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_mcp_guide', {_locale: app.request.locale}) }}">{{ 'footer.demo.integrate'|trans({}, 'shop_layout') }}</a></li>
-                    {% if contact_url %}
-                        <li><a class="nav-link px-0 text-decoration-underline" href="{{ contact_url }}" rel="noopener noreferrer" target="_blank" data-contact-link>{{ 'footer.demo.contact'|trans({}, 'shop_layout') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a></li>
+                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_mcp_guide', {_locale: app.request.locale}) }}"{{ app_umami_event('guide-mcp', { emplacement: 'pied-de-page' }) }}>{{ 'footer.demo.integrate'|trans({}, 'shop_layout') }}</a></li>
+                    <li><a class="nav-link px-0 text-decoration-underline" href="{{ path('app_demo_image_credits', {_locale: app.request.locale}) }}">{{ 'footer.demo.credits'|trans({}, 'shop_layout') }}</a></li>
+                    {% if app_demo_cta_targets('footer') %}
+                        <li>{% include 'shared/_contact_cta.html.twig' with { variant: 'link', placement: 'footer', locale: app.request.locale } only %}</li>
                     {% endif %}
                 </ul>
             </div>

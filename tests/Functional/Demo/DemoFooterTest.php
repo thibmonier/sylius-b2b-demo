@@ -53,7 +53,7 @@ final class DemoFooterTest extends WebTestCase
         $column = self::createClient()->request('GET', '/fr_FR/')->filter('footer [data-demo-footer]');
 
         self::assertStringContainsString('Thibaut Monier', $column->text());
-        self::assertCount(0, $column->filter('a[data-site-link], a[data-contact-link]'));
+        self::assertCount(0, $column->filter('a[data-site-link], a[data-cta-contact]'));
     }
 
     public function testConfiguredHttpsUrlsAreClickableAndSafe(): void
@@ -67,7 +67,7 @@ final class DemoFooterTest extends WebTestCase
         self::assertSame('https://site.example/', $site->attr('href'));
         self::assertStringContainsString('Thibaut Monier', $site->text());
         self::assertSame('noopener noreferrer', $site->attr('rel'));
-        self::assertSame('https://site.example/contact', $column->filter('a[data-contact-link]')->attr('href'));
+        self::assertSame('https://site.example/contact?utm_source=demo-b2b&utm_medium=cta&utm_content=footer', $column->filter('a[data-cta-contact]')->attr('href'));
     }
 
     public function testAnHttpUrlIsRefusedAndTheLinkHidden(): void
@@ -76,7 +76,7 @@ final class DemoFooterTest extends WebTestCase
 
         $page = self::createClient()->request('GET', '/fr_FR/');
 
-        self::assertCount(0, $page->filter('footer a[data-site-link], footer a[data-contact-link]'));
+        self::assertCount(0, $page->filter('footer a[data-site-link], footer a[data-cta-contact]'));
         self::assertStringNotContainsString('javascript:', (string) $page->html());
         self::assertStringNotContainsString('http://site.example', (string) $page->html());
     }

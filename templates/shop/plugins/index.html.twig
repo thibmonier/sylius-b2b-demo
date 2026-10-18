@@ -7,8 +7,10 @@
         <h1>{{ 'app.plugins.title'|trans }}</h1>
         <p class="lead">{{ 'app.plugins.intro'|trans({'%count%': demo_plugin_count()}) }}</p>
         {% if demo_mode() %}
-            <p><a href="{{ path('app_demo_punchout_simulator', {lang: app.request.locale|slice(0, 2)}) }}" data-punchout-simulator-link>{{ 'plugins_link'|trans({}, 'simulator') }}</a></p>
+            <p><a href="{{ path('app_demo_punchout_simulator', {lang: app.request.locale|slice(0, 2)}) }}" data-punchout-simulator-link{{ app_umami_event('simulateur-punchout-ouverture', { emplacement: 'plugins' }) }}>{{ 'plugins_link'|trans({}, 'simulator') }}</a></p>
         {% endif %}
+
+        {% include 'shared/_contact_cta.html.twig' with { variant: 'banner', placement: 'plugins-top' } only %}
 
         {% for category, plugins in groups %}
             <section class="mt-5" data-plugin-category="{{ category }}">
@@ -35,8 +37,9 @@
                                     {% else %}
                                         <span class="text-muted">{{ 'app.plugins.no_demo_page'|trans }}</span>
                                     {% endif %}
+                                    {% include 'shared/_contact_cta.html.twig' with { variant: 'link', placement: 'plugin-' ~ plugin.slug, context: plugin.name } only %}
                                     {% if plugin.slug == 'sylius-b2b-mcp-plugin' %}
-                                        <a href="{{ path('app_demo_mcp_guide', {_locale: app.request.locale}) }}" data-plugin-guide-link>{{ 'app.plugins.mcp_guide'|trans }}</a>
+                                        <a href="{{ path('app_demo_mcp_guide', {_locale: app.request.locale}) }}" data-plugin-guide-link{{ app_umami_event('guide-mcp', { emplacement: 'plugins' }) }}>{{ 'app.plugins.mcp_guide'|trans }}</a>
                                     {% endif %}
                                 </div>
                             </article>
@@ -45,6 +48,8 @@
                 </div>
             </section>
         {% endfor %}
+
+        {% include 'shared/_contact_cta.html.twig' with { variant: 'banner', placement: 'plugins-bottom' } only %}
 
         {# US-104 (decision D2): factual sentence only, no comparison with the official offering. #}
         <p class="text-muted mt-5 mb-0" data-plugins-compat-note>{{ 'app.plugins.sylius_version'|trans }}</p>

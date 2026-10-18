@@ -5,6 +5,7 @@ footer:
     demo:
         title: 'Cette démo'
         about: 'À propos'
+        credits: 'Crédits des images'
         plugins: 'Plugins'
         journeys: 'Parcours et comptes de démo'
         integrate: 'Intégrer (MCP)'

@@ -25,14 +25,14 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-092-01 | [DOC] | Relever les images incohérentes du manifeste (`ImageManifest`), lister les produits à corriger et les sources CC0 | 1h | - | 🔲 |
-| T-092-02 | [TEST] | Tests rouges : chaque image validée ou remplacée, licence non libre refusée, visuel de repli de catégorie, crédits présents | 1,5h | T-092-01 | 🔲 |
-| T-092-03 | [BE] | Contrôle de licence et statut « validé » dans le manifeste, commande de contrôle | 1,5h | T-092-02 | 🔲 |
-| T-092-04 | [BE] | ⚠️ Visuels neutres de catégorie (repli) | 1h | T-092-03 | 🔲 |
-| T-092-05 | [BE] | Remplacer les photos incohérentes (CC0, cache hors dépôt), manifeste à jour | 2,5h | T-092-03 | 🔲 |
-| T-092-06 | [FE-WEB] | Vérifier que la page Crédits d'US-061 couvre chaque nouvelle image, FR et EN | 0,5h | T-092-05, T-061-03 | 🔲 |
+| T-092-01 | [DOC] | Relever les images incohérentes du manifeste (`ImageManifest`), lister les produits à corriger et les sources CC0 | 1h | - | ✅ |
+| T-092-02 | [TEST] | Tests rouges : chaque image validée ou remplacée, licence non libre refusée, visuel de repli de catégorie, crédits présents | 1,5h | T-092-01 | ✅ |
+| T-092-03 | [BE] | Contrôle de licence et statut « validé » dans le manifeste, commande de contrôle | 1,5h | T-092-02 | ✅ |
+| T-092-04 | [BE] | ⚠️ Visuels neutres de catégorie (repli) | 1h | T-092-03 | ✅ |
+| T-092-05 | [BE] | Remplacer les photos incohérentes (CC0, cache hors dépôt), manifeste à jour | 2,5h | T-092-03 | ✅ |
+| T-092-06 | [FE-WEB] | Vérifier que la page Crédits d'US-061 couvre chaque nouvelle image, FR et EN | 0,5h | T-092-05, T-061-03 | ✅ |
 | T-092-07 | [TEST] | Rendu réel FR et EN sur un échantillon de 20 produits (captures pour Thibaut), fiche et catalogue | 1h | T-092-06 | 🔲 |
-| T-092-08 | [DOC] | ⚠️ `docs/images-produits.md` (manifeste, repli, crédits) | 0,5h | T-092-07 | 🔲 |
+| T-092-08 | [DOC] | ⚠️ `docs/images-produits.md` (manifeste, repli, crédits) | 0,5h | T-092-07 | ✅ |
 | T-092-09 | [REV] | Revue (licences, aucune image jugée incohérente ne subsiste) | 0,5h | T-092-08 | 🔲 |
 | T-092-10 | [OPS] | Thibaut : relire l'échantillon de 20 produits | 0,5h | T-092-09 | 🔲 |
 

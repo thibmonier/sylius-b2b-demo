@@ -25,13 +25,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-142-01 | [DOC] | Inventaire des emplacements (barre de démo, accueil, fiche, Plugins, À propos, MCP, simulateur PunchOut, confirmations) et de `SiteLinks` ; gabarits concernés consignés | 1h | - | 🔲 |
-| T-142-02 | [TEST] | Tests rouges : validation des URL (https, sans identifiants), masquage si vide ou invalide, UTM par emplacement, une cible seule, FR et EN (valeurs factices) | 2h | T-142-01 | 🔲 |
-| T-142-03 | [BE] | Paramètre `DEMO_BOOKING_URL`, extension de `SiteLinks`, fonction Twig et construction des UTM | 1,5h | T-142-02 | 🔲 |
-| T-142-04 | [FE-WEB] | Composant partagé (bandeau, carte, lien), libellés FR et EN, cibles de 44 px, AAA | 1,5h | T-142-03 | 🔲 |
-| T-142-05 | [FE-WEB] | Intégration aux emplacements (barre de démo, accueil, fiche produit, Plugins, À propos, MCP, simulateur PunchOut, confirmations) | 2h | T-142-04 | 🔲 |
+| T-142-01 | [DOC] | Inventaire des emplacements (barre de démo, accueil, fiche, Plugins, À propos, MCP, simulateur PunchOut, confirmations) et de `SiteLinks` ; gabarits concernés consignés | 1h | - | ✅ |
+| T-142-02 | [TEST] | Tests rouges : validation des URL (https, sans identifiants), masquage si vide ou invalide, UTM par emplacement, une cible seule, FR et EN (valeurs factices) | 2h | T-142-01 | ✅ |
+| T-142-03 | [BE] | Paramètre `DEMO_BOOKING_URL`, extension de `SiteLinks`, fonction Twig et construction des UTM | 1,5h | T-142-02 | ✅ |
+| T-142-04 | [FE-WEB] | Composant partagé (bandeau, carte, lien), libellés FR et EN, cibles de 44 px, AAA | 1,5h | T-142-03 | ✅ |
+| T-142-05 | [FE-WEB] | Intégration aux emplacements (barre de démo, accueil, fiche produit, Plugins, À propos, MCP, simulateur PunchOut, confirmations) | 2h | T-142-04 | ✅ |
 | T-142-06 | [TEST] | Rendu réel FR et EN avec valeurs factices et vides : desktop, 375 et 320 px (`bin/measure-mobile`), pa11y WCAG2AAA | 1h | T-142-05 | 🔲 |
-| T-142-07 | [DOC] | ⚠️ `docs/theme-b2b.md`, variables dans `docs/deploiement-railway.md`, US-115 marquée absorbée | 0,5h | T-142-06 | 🔲 |
+| T-142-07 | [DOC] | ⚠️ `docs/theme-b2b.md`, variables dans `docs/deploiement-railway.md`, US-115 marquée absorbée | 0,5h | T-142-06 | ✅ |
 | T-142-08 | [REV] | Revue (URL absentes = composant masqué, aucune URL en dur) | 0,5h | T-142-07 | 🔲 |
 | T-142-09 | [OPS] | Thibaut : fournir l'URL Calendly et celle du formulaire de contact, les poser dans Railway | 0,5h | T-142-08 | 🔲 |
 

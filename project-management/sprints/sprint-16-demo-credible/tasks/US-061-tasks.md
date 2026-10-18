@@ -24,9 +24,9 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-061-01 | [DOC] | Relever source et licence de chaque image du manifeste, écarts consignés dans la story | 0,5h | - | 🔲 |
-| T-061-02 | [TEST] | ⚠️ Tests rouges : chaque image du manifeste figure sur la page Crédits (FR et EN), lien depuis le pied de page, image sans crédit refusée | 0,5h | T-061-01 | 🔲 |
-| T-061-03 | [FE-WEB] | ⚠️ Page Crédits générée depuis le manifeste et lien dans le pied de page B2B, FR et EN | 0,5h | T-061-02 | 🔲 |
+| T-061-01 | [DOC] | Relever source et licence de chaque image du manifeste, écarts consignés dans la story | 0,5h | - | ✅ |
+| T-061-02 | [TEST] | ⚠️ Tests rouges : chaque image du manifeste figure sur la page Crédits (FR et EN), lien depuis le pied de page, image sans crédit refusée | 0,5h | T-061-01 | ✅ |
+| T-061-03 | [FE-WEB] | ⚠️ Page Crédits générée depuis le manifeste et lien dans le pied de page B2B, FR et EN | 0,5h | T-061-02 | ✅ |
 | T-061-04 | [REV] | ⚠️ Revue (rendu réel FR et EN, pa11y) | 0,5h | T-061-03 | 🔲 |
 
 **Total estimé : 2 h** (4 tâches).

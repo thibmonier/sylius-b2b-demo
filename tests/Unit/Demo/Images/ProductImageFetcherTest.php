@@ -60,10 +60,11 @@ final class ProductImageFetcherTest extends TestCase
 
         $row = $this->manifest()->row('P-1');
         self::assertNotNull($row);
-        foreach (['sku', 'file', 'source', 'creator', 'title', 'origin_url', 'license', 'license_url', 'fetched_at', 'scope'] as $field) {
+        foreach (['sku', 'file', 'source', 'creator', 'title', 'origin_url', 'license', 'license_url', 'fetched_at', 'scope', 'status'] as $field) {
             self::assertNotSame('', $row[$field], $field . ' must be filled');
         }
         self::assertSame('own', $row['scope']);
+        self::assertSame('unreviewed', $row['status'], 'a fresh image waits for a review before it can be shown');
         self::assertFileExists($this->dir . '/images/' . $row['file']);
         self::assertLessThanOrEqual(ImageProcessor::MAX_BYTES, \filesize($this->dir . '/images/' . $row['file']));
     }

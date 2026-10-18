@@ -80,7 +80,7 @@ final class DemoBannerTest extends WebTestCase
         $link = $this->bar($locale)->filter('a[data-contact-link]');
 
         self::assertCount(1, $link);
-        self::assertSame('https://example.com/contact', $link->attr('href'));
+        self::assertSame('https://example.com/contact?utm_source=demo-b2b&utm_medium=cta&utm_content=demo-bar', $link->attr('href'));
         self::assertStringContainsString($contact, $link->text());
         self::assertSame('noopener noreferrer', $link->attr('rel'));
     }

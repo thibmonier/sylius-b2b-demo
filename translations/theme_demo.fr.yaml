@@ -24,3 +24,12 @@ banner:
     reset:
         today: "Prochaine remise à zéro : aujourd'hui %time% (heure de Paris)"
         tomorrow: 'Prochaine remise à zéro : demain %time% (heure de Paris)'
+cta:
+    booking: 'Prendre rendez-vous'
+    contact: 'Écrire un message'
+    new_window: '(nouvelle fenêtre)'
+    banner:
+        title: "Un projet B2B sur Sylius ? Parlons-en"
+    card:
+        title: 'Ces fonctionnalités dans votre boutique ?'
+        text: 'Échangeons sur votre projet.'

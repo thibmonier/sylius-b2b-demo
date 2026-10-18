@@ -1,0 +1,40 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'credits.title'|trans({}, 'legal') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-legal-page="image-credits">
+        <h1>{{ 'credits.title'|trans({}, 'legal') }}</h1>
+        <p class="lead">{{ 'credits.intro'|trans({'%count%': credits|length}, 'legal') }}</p>
+
+        <ul class="list-unstyled d-grid gap-3 mt-4">
+            {% for credit in credits %}
+                <li class="border rounded p-3" data-image-credit="{{ credit.file }}">
+                    <p class="fw-bold mb-1">{{ credit.generated ? 'credits.generated_title'|trans({'%category%': ('credits.category.' ~ credit.category)|trans({}, 'legal')}, 'legal') : credit.title }}</p>
+                    <p class="mb-1">
+                        {% if credit.generated %}
+                            <span data-credit-creator>{{ 'credits.generated_by'|trans({'%author%': credit.creator}, 'legal') }}</span>
+                        {% else %}
+                            {{ 'credits.by'|trans({}, 'legal') }} <span data-credit-creator>{{ credit.creator == 'not specified' ? 'credits.unknown_author'|trans({}, 'legal') : credit.creator }}</span>
+                        {% endif %}
+                        ·
+                        <span data-credit-source>
+                            {% if credit.generated %}
+                                {{ 'credits.source_generated'|trans({}, 'legal') }}
+                            {% elseif credit.originUrl starts with 'https://' %}
+                                <a href="{{ credit.originUrl }}" rel="noopener noreferrer" target="_blank">{{ credit.source }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                            {% else %}
+                                {{ credit.source }}
+                            {% endif %}
+                        </span>
+                    </p>
+                    <p class="mb-0">
+                        <a href="{{ credit.licenseUrl }}" rel="noopener noreferrer" target="_blank">{{ 'credits.licence'|trans({}, 'legal') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                        · {{ 'credits.products'|trans({'%count%': credit.products}, 'legal') }}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+        <p class="mt-4 mb-0">{{ 'credits.note'|trans({}, 'legal') }}</p>
+    </div>
+{% endblock %}

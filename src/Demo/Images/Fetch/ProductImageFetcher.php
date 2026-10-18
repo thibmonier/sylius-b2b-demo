@@ -158,6 +158,7 @@ final class ProductImageFetcher
             'license_url' => $candidate->licenseUrl,
             'fetched_at' => \date('Y-m-d'),
             'scope' => $scope,
+            'status' => ImageManifest::STATUS_UNREVIEWED,
         ];
     }
 }

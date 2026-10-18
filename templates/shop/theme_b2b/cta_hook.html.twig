@@ -1,0 +1,5 @@
+{# US-142: hookable of the call to action. Configuration: { placement: <utm_content>, variant: banner|card }. #}
+{% include 'shared/_contact_cta.html.twig' with {
+    variant: hookable_metadata.configuration.variant|default('card'),
+    placement: hookable_metadata.configuration.placement,
+} only %}

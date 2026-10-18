@@ -24,3 +24,12 @@ banner:
     reset:
         today: 'Next reset: today %time% (Paris time)'
         tomorrow: 'Next reset: tomorrow %time% (Paris time)'
+cta:
+    booking: 'Book a meeting'
+    contact: 'Write a message'
+    new_window: '(opens in a new window)'
+    banner:
+        title: "A B2B project on Sylius? Let's talk"
+    card:
+        title: 'These features in your shop?'
+        text: 'Let us talk about your project.'
