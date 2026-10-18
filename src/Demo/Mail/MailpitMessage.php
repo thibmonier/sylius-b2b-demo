@@ -15,6 +15,8 @@ final readonly class MailpitMessage
         public ?\DateTimeImmutable $date,
         public string $text,
         public string $html,
+        /** Cc and Bcc addresses: they count as recipients for the allow-list. */
+        public string $copies = '',
     ) {
     }
 

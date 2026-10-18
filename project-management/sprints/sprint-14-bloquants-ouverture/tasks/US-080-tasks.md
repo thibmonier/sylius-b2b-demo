@@ -24,10 +24,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-080-01 | [TEST] | Tests d'intégration rouges : seuls les mails des fixtures, boîte vide, 404 sur mail exclu, nouveau type non publié | 1,5h | - | 🔲 |
-| T-080-02 | [BE] | Filtre par liste blanche dans `DemoMailbox` (liste et accès direct) ; adapter `SensitiveMailFilter` | 1,5h | T-080-01 | 🔲 |
-| T-080-03 | [FE-WEB] | Message « aucun mail » FR et EN, rendu réel de la page | 0,5h | T-080-02 | 🔲 |
-| T-080-04 | [REV] | Revue (aucun mail d'administration visible en anonyme) | 0,5h | T-080-03 | 🔲 |
+| T-080-01 | [TEST] | Tests d'intégration rouges : seuls les mails des fixtures, boîte vide, 404 sur mail exclu, nouveau type non publié | 1,5h | - | ✅ |
+| T-080-02 | [BE] | Filtre par liste blanche dans `DemoMailbox` (liste et accès direct) ; adapter `SensitiveMailFilter` | 1,5h | T-080-01 | ✅ |
+| T-080-03 | [FE-WEB] | Message « aucun mail » FR et EN, rendu réel de la page | 0,5h | T-080-02 | ✅ |
+| T-080-04 | [REV] | Revue (aucun mail d'administration visible en anonyme) | 0,5h | T-080-03 | ✅ |
 
 **Total estimé : 4 h** (4 tâches).
 
