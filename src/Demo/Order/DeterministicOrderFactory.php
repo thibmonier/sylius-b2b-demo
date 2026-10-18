@@ -6,6 +6,7 @@ namespace App\Demo\Order;
 
 use App\Order\OrderPoReferenceAwareInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\OrderExampleFactory;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -23,6 +24,8 @@ final class DeterministicOrderFactory extends OrderExampleFactory
 
     private const PAYMENT_METHOD = 'bank_transfer';
 
+    private ?string $paymentMethodCode = null;
+
     /** @var array<string, int> */
     private array $items = [];
 
@@ -32,7 +35,8 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     /** The same shipping and payment methods serve every order: read once (see {@see self::forget()}). */
     private ?ShippingMethodInterface $shippingMethod = null;
 
-    private ?PaymentMethodInterface $paymentMethod = null;
+    /** @var array<string, PaymentMethodInterface> by code */
+    private array $paymentMethods = [];
 
     private ?string $company = null;
 
@@ -65,7 +69,8 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     public function forget(): void
     {
         $this->variants = [];
-        $this->shippingMethod = $this->paymentMethod = null;
+        $this->shippingMethod = null;
+        $this->paymentMethods = [];
     }
 
     public function create(array $options = []): OrderInterface
@@ -78,9 +83,12 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         $costCenter = $options['cost_center'] ?? null;
         /** @var string|null $company */
         $company = $options['company'] ?? null;
+        /** @var string|null $paymentMethod */
+        $paymentMethod = $options['payment_method'] ?? null;
         $this->items = $items;
         $this->company = $company;
-        unset($options['items'], $options['po_reference'], $options['cost_center'], $options['company']);
+        $this->paymentMethodCode = $paymentMethod;
+        unset($options['items'], $options['po_reference'], $options['cost_center'], $options['company'], $options['payment_method']);
 
         $this->faker->seed(crc32((string) $poReference));
         $order = parent::create($options);
@@ -96,6 +104,13 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     {
         if (null === $this->variantRepository || [] === $this->items) {
             throw new \LogicException('A demo order needs its variant repository and at least one line.');
+        }
+
+        // Placed by its signed-in customer from the start: the checkout completes right after the items, and payment on
+        // account (trade credit) refuses an order created as a guest.
+        $customer = $order->getCustomer();
+        if ($customer instanceof CustomerInterface && $customer->hasUser()) {
+            $order->setCustomerWithAuthorization($customer);
         }
 
         foreach ($this->items as $code => $quantity) {
@@ -142,13 +157,15 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         $this->applyCheckoutStateTransition($order, OrderCheckoutTransitions::TRANSITION_SELECT_SHIPPING);
     }
 
-    /** Bank transfer: the paid-on-account method would reserve trade credit, which is not what this history shows. */
+    /** Bank transfer unless the order asks for another method: paid on account, it reserves trade credit (an open item). */
     protected function selectPayment(OrderInterface $order, \DateTimeInterface $createdAt): void
     {
-        $method = $this->paymentMethod ??= $this->paymentMethodRepository->findOneBy(['code' => self::PAYMENT_METHOD]);
+        $code = $this->paymentMethodCode ?? self::PAYMENT_METHOD;
+        $method = $this->paymentMethods[$code] ?? $this->paymentMethodRepository->findOneBy(['code' => $code]);
         if (null === $method) {
-            throw new \InvalidArgumentException(sprintf('Demo order: payment method "%s" does not exist.', self::PAYMENT_METHOD));
+            throw new \InvalidArgumentException(sprintf('Demo order: payment method "%s" does not exist.', $code));
         }
+        $this->paymentMethods[$code] = $method;
         foreach ($order->getPayments() as $payment) {
             $payment->setMethod($method);
             $payment->setCreatedAt($createdAt);

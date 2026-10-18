@@ -73,6 +73,24 @@ php bin/console app:demo:reset --simulate-failure               # vérifie l'ale
 2. Chercher `DEMO_RESET_FAILED` : la cause est dans le message ; la démo est restée dans l'état de la veille, relancer la commande à la main après correction.
 3. Cache : `php bin/console cache:clear && php bin/console cache:warmup`.
 
+## Données vivantes après la remise à zéro (US-096, US-097)
+
+Chaque écran clé montre un état « vivant » : les dates sont **relatives au jour de la remise à zéro** (jamais figées) et les numéros de devis portent l'**année courante**.
+
+| Écran | Fixture | Contenu |
+|---|---|---|
+| Panier de Claire | `demo_cart` (-71) | La liste « Atelier » d'Acme en panier, quantité pour quantité (`CompanyWishlistDemoFixture::ITEMS`) ; au-dessus du plafond de Claire : l'approbation se déclenche à la commande |
+| Commandes d'Acme | `demo_orders` (-60) | 8 commandes sur environ 6 mois (la plus ancienne à 172 jours), dont une en attente d'approbation de Paul (`ACME-PO-2026-0634`) |
+| Encours | `demo_orders` + `demo_trade_credit` | 3 commandes payées « sur compte » restent des pièces ouvertes : deux chez Acme (dont une échue depuis 18 jours) et une chez BuildCo au-dessus de son plafond (compte autorisé à dépasser) ; le blocage « si échu » est désactivé pour ne pas empêcher les visiteurs de commander |
+| Mes devis | `demo_quotes` (-50) | `Q-AAAA-001` d'Acme en négociation (demande, proposition, contre-proposition, réponse, palier sur les gants), `Q-AAAA-002` reçu, `Q-AAAA-003` en étude |
+| Commandes en préparation (admin) | `demo_draft_orders` (-72) | Deux brouillons de Sophie pour Henri et Marc |
+| Suggestions IA (admin) | `tmonier_ai_copilot_demo_suggestions` (-73) | Fixture du plugin, générateur de démonstration (aucun fournisseur d'IA appelé) : suggestions en attente, acceptées et refusées |
+| Journal d'audit (admin) | `demo_audit_log` (-74) | 5 événements métier de l'équipe sur deux semaines (deux baisses de prix, deux numéros de téléphone, une note de commande) ; les lignes techniques du reset restent exclues (US-087), les valeurs écrites sont réellement en base |
+
+Les fixtures du panier, des brouillons, des suggestions et du journal passent **avant** le point d'accès webhook (-80) : elles ne mettent aucun webhook en file. Contrôles : `tests/Smoke/LiveDemoDataSmokeTest.php` (un écran vide est nommé dans le message d'échec ; `App\Demo\Check\QuoteNumberingCheck` refuse un numéro de devis d'une autre année que sa date), `tests/Functional/Demo/LiveAdminScreensTest.php` (écrans d'administration, FR et EN).
+
+Coût mesuré (`bin/profile-reset`, 2026-10-18, base de test) : le chargement complet passe à **6,8 à 11,1 s** (variance de la machine) ; ajouts : `demo_orders` 2,4 s pour 15 commandes (980 `SELECT`, 65 par commande), suggestions IA 0,7 s, panier 0,05 s, brouillons 0,05 s, journal 0,04 s, soit environ **+1,5 s** pour les données vivantes. Le reset complet (purge, médias, cache : 30 à 60 s avant ces ajouts) reste très en deçà de l'objectif de 10 minutes ; la mesure de bout en bout sur l'image reconstruite relève de l'orchestrateur.
+
 ## Profilage du reset et objectifs (US-048 / T-048-04)
 
 Principe : **aucun objectif chiffré sans mesure**. Le sprint 9 avait fixé « reset −50 % » sans profil (−13 % obtenu) ; ce tableau remplace cette cible par un objectif par poste.

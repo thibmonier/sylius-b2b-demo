@@ -24,6 +24,9 @@ final class DemoResetCommandTest extends KernelTestCase
 
     private const INITIAL_CUSTOMERS = 12;
 
+    /** Carts that are not history orders (US-096 / US-097): the cart of Claire and the two drafts of the back office. */
+    private const LIVE_CARTS = 3;
+
     protected function tearDown(): void
     {
         // A failed reset leaves a marker that turns /healthz to 503 (US-033): never leak it to the next tests.
@@ -57,7 +60,7 @@ final class DemoResetCommandTest extends KernelTestCase
         self::assertMatchesRegularExpression('/DEMO_RESET_OK duration=\d+(\.\d+)?s/', $tester->getDisplay());
         self::assertSame('', $tester->getErrorOutput());
         // The initial demo data, whatever other tests added before (smoke tests leave carts and PunchOut orders).
-        self::assertSame(['products' => self::INITIAL_PRODUCTS, 'customers' => self::INITIAL_CUSTOMERS, 'orders' => \count(DemoOrderPlan::all())], $this->counts());
+        self::assertSame(['products' => self::INITIAL_PRODUCTS, 'customers' => self::INITIAL_CUSTOMERS, 'orders' => \count(DemoOrderPlan::all()) + self::LIVE_CARTS], $this->counts());
         self::assertNotSame(self::MARKER, $this->channelName(), 'The reload must replace the previous data.');
     }
 
@@ -92,7 +95,15 @@ final class DemoResetCommandTest extends KernelTestCase
         self::assertSame(0, $tester->getStatusCode(), $tester->getDisplay() . $tester->getErrorOutput());
         self::assertSame(0, $this->intValue("SELECT COUNT(*) FROM sylius_order WHERE number LIKE 'SIM-%'"));
         self::assertSame($before['orders'], $this->counts()['orders']);
-        self::assertSame(0, $this->intValue('SELECT committed_amount FROM tmonier_trade_credit_account WHERE owner_identifier = ?', [(string) $this->intValue('SELECT id FROM tmonier_company WHERE code = ?', ['ACME_IND'])]));
+        // Back to the open items of the demo (US-097), not to zero: the committed amount is what the reservations hold.
+        $acme = (string) $this->intValue('SELECT id FROM tmonier_company WHERE code = ?', ['ACME_IND']);
+        $committed = $this->intValue('SELECT committed_amount FROM tmonier_trade_credit_account WHERE owner_identifier = ?', [$acme]);
+        self::assertSame(
+            $this->intValue('SELECT COALESCE(SUM(t.amount), 0) FROM tmonier_trade_credit_order_terms t JOIN tmonier_trade_credit_account a ON a.id = t.account_id WHERE t.state = ? AND a.owner_identifier = ?', ['reserved', $acme]),
+            $committed,
+        );
+        self::assertGreaterThan(0, $committed);
+        self::assertLessThan($limit, $committed);
     }
 
     /** @param array<string, mixed> $options */

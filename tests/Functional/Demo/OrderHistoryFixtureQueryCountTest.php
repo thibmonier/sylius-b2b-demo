@@ -24,7 +24,9 @@ final class OrderHistoryFixtureQueryCountTest extends KernelTestCase
 
     // 770 + 10 (US-090): the tier-pricing rules of the Acme customer group are read once per product (cached rule
     // provider), about four more selects than before the company price existed; 774 measured.
-    private const MAX_SELECT = 780;
+    // 780 + 210 (US-097): three more orders, paid on account (open items of the credit gauge), about 65 selects each
+    // like the others; 980 measured for 15 orders.
+    private const MAX_SELECT = 1050;
 
     private string $profile = '';
 

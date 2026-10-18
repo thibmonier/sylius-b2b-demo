@@ -25,16 +25,16 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-097-01 | [DOC] | État des devis, du crédit, des brouillons, des suggestions IA et du journal d'audit ; événements métier à produire consignés | 1h | - | 🔲 |
-| T-097-02 | [TEST] | Tests rouges : devis en négociation (numéro de l'année courante), pièces ouvertes dont une échue, ≥ 5 suggestions « démonstration », événements au journal d'audit, numérotation incohérente refusée | 1,5h | T-097-01 | 🔲 |
-| T-097-03 | [BE] | Fixture du devis en négociation avec historique | 1,5h | T-097-02 | 🔲 |
-| T-097-04 | [BE] | Fixtures du crédit : pièces ouvertes dont une échue, dépassement de plafond, jauge | 1,5h | T-097-02 | 🔲 |
-| T-097-05 | [BE] | Brouillons, commandes en préparation et suggestions IA pré-générées | 1h | T-097-03 | 🔲 |
-| T-097-06 | [BE] | ⚠️ Quelques événements métier au journal d'audit après le reset (commande, approbation, devis) | 1h | T-097-05 | 🔲 |
-| T-097-07 | [TEST] | Contrôle de données, fumée « écran resté vide » nommant l'écran, reset < 10 minutes (`bin/profile-reset`) | 1h | T-097-04, T-097-06 | 🔲 |
-| T-097-08 | [TEST] | Rendu réel FR et EN : Mes devis, encours, suggestions IA, journal d'audit | 0,5h | T-097-07 | 🔲 |
-| T-097-09 | [DOC] | ⚠️ `docs/remise-a-zero-demo.md` (fixtures, journal d'audit) | 0,5h | T-097-08 | 🔲 |
-| T-097-10 | [REV] | Revue (numérotation, mention « démonstration », aucun détail exploitable) | 0,5h | T-097-09 | 🔲 |
+| T-097-01 | [DOC] | État des devis, du crédit, des brouillons, des suggestions IA et du journal d'audit ; événements métier à produire consignés | 1h | - | ✅ |
+| T-097-02 | [TEST] | Tests rouges : devis en négociation (numéro de l'année courante), pièces ouvertes dont une échue, ≥ 5 suggestions « démonstration », événements au journal d'audit, numérotation incohérente refusée | 1,5h | T-097-01 | ✅ |
+| T-097-03 | [BE] | Fixture du devis en négociation avec historique | 1,5h | T-097-02 | ✅ |
+| T-097-04 | [BE] | Fixtures du crédit : pièces ouvertes dont une échue, dépassement de plafond, jauge | 1,5h | T-097-02 | ✅ |
+| T-097-05 | [BE] | Brouillons, commandes en préparation et suggestions IA pré-générées | 1h | T-097-03 | ✅ |
+| T-097-06 | [BE] | ⚠️ Quelques événements métier au journal d'audit après le reset (commande, approbation, devis) | 1h | T-097-05 | ✅ |
+| T-097-07 | [TEST] | Contrôle de données, fumée « écran resté vide » nommant l'écran, reset < 10 minutes (`bin/profile-reset`) | 1h | T-097-04, T-097-06 | ✅ |
+| T-097-08 | [TEST] | Rendu réel FR et EN : Mes devis, encours, suggestions IA, journal d'audit | 0,5h | T-097-07 | 🔄 |
+| T-097-09 | [DOC] | ⚠️ `docs/remise-a-zero-demo.md` (fixtures, journal d'audit) | 0,5h | T-097-08 | ✅ |
+| T-097-10 | [REV] | Revue (numérotation, mention « démonstration », aucun détail exploitable) | 0,5h | T-097-09 | ✅ |
 
 **Total estimé : 10 h** (10 tâches).
 

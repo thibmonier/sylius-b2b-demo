@@ -11,10 +11,37 @@ use PHPUnit\Framework\TestCase;
 
 final class DemoOrderPlanTest extends TestCase
 {
-    public function testThePlanHasBetweenEightAndTwelveOrders(): void
+    public function testThePlanHasBetweenEightAndFifteenOrders(): void
     {
         self::assertGreaterThanOrEqual(8, count(DemoOrderPlan::all()));
-        self::assertLessThanOrEqual(12, count(DemoOrderPlan::all()));
+        self::assertLessThanOrEqual(15, count(DemoOrderPlan::all()));
+    }
+
+    /** US-096: Claire's company shows 6 to 8 orders over six months. */
+    public function testAcmeHasSixToEightOrdersSpreadOverSixMonths(): void
+    {
+        $days = [];
+        foreach (DemoOrderPlan::all() as $spec) {
+            if (str_ends_with($spec->customerEmail, '@acme.example')) {
+                $days[] = $spec->daysAgo;
+            }
+        }
+
+        self::assertGreaterThanOrEqual(6, count($days));
+        self::assertLessThanOrEqual(8, count($days));
+        self::assertGreaterThanOrEqual(150, max([0, ...$days]));
+    }
+
+    /** US-097: open items on the credit account, one of them overdue (net 30), one company above its limit. */
+    public function testOpenItemsArePaidOnAccountAndOneIsOverdue(): void
+    {
+        $onAccount = array_filter(DemoOrderPlan::all(), static fn ($spec): bool => DemoOrderPlan::ON_ACCOUNT === $spec->paymentMethod);
+
+        self::assertGreaterThanOrEqual(3, count($onAccount));
+        self::assertNotSame([], array_filter($onAccount, static fn ($spec): bool => $spec->daysAgo > 30));
+        foreach ($onAccount as $spec) {
+            self::assertSame(OrderScenario::AwaitingPayment, $spec->scenario, $spec->poReference);
+        }
     }
 
     public function testPoReferencesAreUniqueAndValid(): void
@@ -67,9 +94,8 @@ final class DemoOrderPlanTest extends TestCase
             $byCompany[explode('@', $spec->customerEmail)[1]][$spec->scenario->value] = true;
         }
 
-        self::assertCount(3, $byCompany);
-        foreach ($byCompany as $domain => $scenarios) {
-            self::assertGreaterThanOrEqual(3, count($scenarios), $domain);
+        foreach (['acme.example', 'techparts.example', 'globalmaint.example'] as $domain) {
+            self::assertGreaterThanOrEqual(3, count($byCompany[$domain] ?? []), $domain);
         }
     }
 
