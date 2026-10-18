@@ -1,0 +1,30 @@
+{# US-078: description, canonical address and share metadata (Open Graph, Twitter) of every shop page. The demo stays noindex (X-Robots-Tag, NoIndexSubscriber): these tags only make a pasted link look right. Included by the shop layout with the title of the page. #}
+{% set seo_name = '' %}
+{% set seo_text = null %}
+{% set seo_image = null %}
+{% if product is defined and product %}
+    {% set seo_name = product.name %}
+    {% set seo_text = product.metaDescription|default(product.shortDescription)|default(product.description) %}
+    {% if product.images.first %}
+        {% set seo_image = product.images.first.path|imagine_filter('sylius_shop_product_thumbnail') %}
+    {% endif %}
+{% elseif app_seo_taxon() %}
+    {% set seo_name = app_seo_taxon().name %}
+    {% set seo_text = app_seo_taxon().description %}
+{% endif %}
+{% set seo_description = app_seo_description(app.request.attributes.get('_route')|default(''), seo_text, seo_name) %}
+{% set seo_url = app_seo_canonical(app.request.pathInfo, app.request.query.get('page')) %}
+{% set seo_image = seo_image ?? app_seo_canonical(asset('build/app/shop/images/share-preview.png', 'app.shop')) %}
+<meta name="description" content="{{ seo_description }}">
+<link rel="canonical" href="{{ seo_url }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ sylius.channel.name }}">
+<meta property="og:locale" content="{{ app.request.locale }}">
+<meta property="og:title" content="{{ seo_title }}">
+<meta property="og:description" content="{{ seo_description }}">
+<meta property="og:url" content="{{ seo_url }}">
+<meta property="og:image" content="{{ seo_image }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ seo_title }}">
+<meta name="twitter:description" content="{{ seo_description }}">
+<meta name="twitter:image" content="{{ seo_image }}">

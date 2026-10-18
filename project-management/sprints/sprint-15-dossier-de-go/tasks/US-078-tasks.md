@@ -25,14 +25,14 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-078-01 | [DOC] | Mesure Lighthouse avant (mobile : LCP fiche et catégorie, CLS, SEO) consignée | 1h | - | 🔲 |
-| T-078-02 | [TEST] | Tests rouges : meta description et métadonnées de partage, `noindex` conservé, dimensions des images, chargement différé, première image prioritaire, visuel de repli | 1,5h | T-078-01 | 🔲 |
-| T-078-03 | [FE-WEB] | Meta description et métadonnées de partage (titre, description, image), `noindex` conservé | 1,5h | T-078-02 | 🔲 |
-| T-078-04 | [BE] | Images produit adaptées : tailles générées, `srcset`, format léger, sans appel externe au runtime | 2h | T-078-02 | 🔲 |
-| T-078-05 | [FE-WEB] | Dimensions explicites, chargement différé hors écran, première image prioritaire (LCP, CLS) | 1,5h | T-078-04 | 🔲 |
-| T-078-06 | [FE-WEB] | Visuel de repli quand l'image est absente, sans erreur | 0,5h | T-078-05 | 🔲 |
-| T-078-07 | [TEST] | Mesure Lighthouse après : LCP ≤ 2,5 s fiche et catégorie, CLS < 0,1 ; consignée | 1h | T-078-03, T-078-06 | 🔲 |
-| T-078-08 | [DOC] | Documentation (`docs/images-produits.md`) et avant/après | 0,5h | T-078-07 | 🔲 |
+| T-078-01 | [DOC] | Mesure Lighthouse avant (mobile : LCP fiche et catégorie, CLS, SEO) consignée | 1h | - | ✅ |
+| T-078-02 | [TEST] | Tests rouges : meta description et métadonnées de partage, `noindex` conservé, dimensions des images, chargement différé, première image prioritaire, visuel de repli | 1,5h | T-078-01 | ✅ |
+| T-078-03 | [FE-WEB] | Meta description et métadonnées de partage (titre, description, image), `noindex` conservé | 1,5h | T-078-02 | ✅ |
+| T-078-04 | [BE] | Images produit adaptées : tailles générées, `srcset`, format léger, sans appel externe au runtime | 2h | T-078-02 | ✅ |
+| T-078-05 | [FE-WEB] | Dimensions explicites, chargement différé hors écran, première image prioritaire (LCP, CLS) | 1,5h | T-078-04 | ✅ |
+| T-078-06 | [FE-WEB] | Visuel de repli quand l'image est absente, sans erreur | 0,5h | T-078-05 | ✅ |
+| T-078-07 | [TEST] | Mesure Lighthouse après : LCP ≤ 2,5 s fiche et catégorie, CLS < 0,1 ; consignée | 1h | T-078-03, T-078-06 | ✅ |
+| T-078-08 | [DOC] | Documentation (`docs/images-produits.md`) et avant/après | 0,5h | T-078-07 | ✅ |
 | T-078-09 | [REV] | Revue (rendu réel FR et EN, aperçu de lien) | 0,5h | T-078-08 | 🔲 |
 
 **Total estimé : 10 h** (9 tâches).

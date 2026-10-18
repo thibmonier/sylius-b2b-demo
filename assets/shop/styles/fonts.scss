@@ -1,0 +1,23 @@
+// US-078: the Latin subset of Inter (OFL, 66 KB, the variable weight axis kept) replaces the two full files of the
+// official theme (344 KB and 379 KB), which a phone had to download before the page was settled. The text shows at
+// once in a fallback tuned to Inter's metrics, then switches to Inter without moving.
+@font-face {
+    font-family: 'InterLatin';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('../fonts/InterVariable-latin.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'InterFallback';
+    src: local('Arial');
+    size-adjust: 107.64%;
+    ascent-override: 89.79%;
+    descent-override: 22.24%;
+    line-gap-override: 0%;
+}
+
+:root {
+    --bs-font-sans-serif: 'InterLatin', 'InterFallback', 'Segoe UI', Arial, sans-serif;
+}

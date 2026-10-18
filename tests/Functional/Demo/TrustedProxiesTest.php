@@ -61,8 +61,12 @@ final class TrustedProxiesTest extends WebTestCase
         $client->request('GET', '/fr_FR/mcp', server: ['HTTP_HOST' => 'sylius-b2b.site.example']);
 
         self::assertResponseIsSuccessful();
+        $crawler = $client->getCrawler();
         self::assertStringContainsString('sylius-b2b.site.example/_mcp', (string) $client->getResponse()->getContent());
-        self::assertStringNotContainsString('demo.example.test', (string) $client->getResponse()->getContent());
+        // The address announced for the server and its configuration is the one of the request, not DEFAULT_URI.
+        self::assertStringNotContainsString('demo.example.test', $crawler->filter('[data-mcp-server-url]')->text() . $crawler->filter('[data-mcp-config]')->text());
+        // The canonical address of the page (US-078) is the one of DEFAULT_URI, whatever host the visitor came by.
+        self::assertSame('https://demo.example.test/fr_FR/mcp', $crawler->filter('link[rel="canonical"]')->attr('href'));
     }
 
     public function testAnUnknownHostStaysRefusedWithAPublicHost(): void
