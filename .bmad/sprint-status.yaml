@@ -213,25 +213,25 @@ sprints:
 
   sprint-15:
     name: sprint-15-dossier-de-go
-    status: in-review
+    status: done  # PR #27 mergée (squash) le 2026-10-18 ; US-052 reste en cours (actions de Thibaut)
     sprint_id: "sprint-15"
     start_date: "2027-01-08"
     end_date: "2027-01-22"
     capacity_points: 35  # périmètre complet décidé le 2026-10-18 (D1), hors US-052 (3 pts, OPS de Thibaut) ; 73,5 h décomposées (72 h de charge, 72 tâches) ; ordre de sacrifice dans sprint-15-dossier-de-go/tasks/README.md
     goal: "Fermer la sécurité et la performance de la démo, afficher les prix négociés B2B (paliers et prix de la société), mettre à jour les plugins et les hôtes de confiance, et remettre à Thibaut un dossier de GO complet pour décider l'ouverture publique"
     stories:
-      - {id: US-139, title: "Plugins à jour dans la démo", points: 2, status: review}  # Must ; nouvelle ; quick-order ^1.2.0, punchout ^1.2.1, surcharge temporaire retirée
-      - {id: US-140, title: "Hôtes de confiance indépendants du domaine public Railway", points: 1, status: review}  # Must ; nouvelle ; incident du 2026-10-18 ; application par Thibaut (T-140-06)
-      - {id: US-141, title: "Nettoyage des caches de test", points: 1, status: review}  # Should ; nouvelle ; actions de rétro S14 ; sacrifice n° 5
-      - {id: US-144, title: "Bandeau du haut sans offre newsletter", points: 1, status: review}  # ajoutée en cours de sprint (demande de Thibaut du 2026-10-18), implémentée par l'orchestrateur
-      - {id: US-078, title: "SEO de base et vitesse d'affichage mobile", points: 5, status: review}  # Should ; sacrifice n° 1
-      - {id: US-081, title: "Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes", points: 5, status: review}  # Should ; sacrifice n° 2
-      - {id: US-082, title: "Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances", points: 5, status: review}  # Should ; sacrifice n° 3
-      - {id: US-083, title: "Relire la licence du plugin MCP tiers", points: 1, status: review}  # Should ; sacrifice n° 4 ; décision de Thibaut
-      - {id: US-085, title: "Revue de sécurité de réouverture et dossier de GO", points: 2, status: review}  # Must ; en dernier ; décision d'ouvrir = Thibaut seul
-      - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: review}  # Must
-      - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: review}  # Must ; D2 : société de démo = groupe de clients, aucun nouveau plugin
-      - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: review}  # Must
+      - {id: US-139, title: "Plugins à jour dans la démo", points: 2, status: done}  # Must ; nouvelle ; quick-order ^1.2.0, punchout ^1.2.1, surcharge temporaire retirée
+      - {id: US-140, title: "Hôtes de confiance indépendants du domaine public Railway", points: 1, status: done}  # Must ; nouvelle ; incident du 2026-10-18 ; application par Thibaut (T-140-06)
+      - {id: US-141, title: "Nettoyage des caches de test", points: 1, status: done}  # Should ; nouvelle ; actions de rétro S14 ; sacrifice n° 5
+      - {id: US-144, title: "Bandeau du haut sans offre newsletter", points: 1, status: done}  # ajoutée en cours de sprint (demande de Thibaut du 2026-10-18), implémentée par l'orchestrateur
+      - {id: US-078, title: "SEO de base et vitesse d'affichage mobile", points: 5, status: done}  # Should ; sacrifice n° 1
+      - {id: US-081, title: "Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes", points: 5, status: done}  # Should ; sacrifice n° 2
+      - {id: US-082, title: "Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances", points: 5, status: done}  # Should ; sacrifice n° 3
+      - {id: US-083, title: "Relire la licence du plugin MCP tiers", points: 1, status: done}  # Should ; sacrifice n° 4 ; décision de Thibaut
+      - {id: US-085, title: "Revue de sécurité de réouverture et dossier de GO", points: 2, status: done}  # Must ; en dernier ; décision d'ouvrir = Thibaut seul
+      - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: done}  # Must
+      - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: done}  # Must ; D2 : société de démo = groupe de clients, aucun nouveau plugin
+      - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: done}  # Must
       - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: in-progress}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité de développement ; bascule sur GO explicite après US-085 ; commandes Railway par Thibaut
     notes: "Ordre de sacrifice (D1) : Should d'abord, US-078, US-081, US-082, US-083, US-141 (T-141-04 conservée) ; Must non sacrifiables ; ≈ 37 h restantes après tous les sacrifices. Une story sacrifiée devient un risque résiduel daté au dossier de GO (US-085). Domaine : thibaut-monier.fr, démo sur sylius-b2b.thibaut-monier.fr (D3). 10 jours ouvrés, planning le 2027-01-11, point d'étape le 2027-01-15, revue et rétro le 2027-01-22."
 
