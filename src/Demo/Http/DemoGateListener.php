@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 /**
  * Private demo (US-032): before anything else, a request is refused unless it carries valid basic
@@ -31,7 +31,7 @@ final readonly class DemoGateListener
         private DemoConfigurationGuard $guard,
         private InternalRequestToken $internalToken,
         private VisitorIpResolver $visitors,
-        private RateLimiterFactory $demoGateLimiter,
+        private RateLimiterFactoryInterface $demoGateLimiter,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {

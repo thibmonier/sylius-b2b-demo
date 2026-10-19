@@ -60,7 +60,11 @@ final class ContainerFillCheckoutGuardTest extends TestCase
         self::assertTrue($event->isBlocked());
     }
 
-    /** @param array<string, ProductVariantLogisticsInterface> $logisticsByVariant */
+    /**
+     * @param array<string, ProductVariantLogisticsInterface> $logisticsByVariant
+     *
+     * @return GuardEvent<Order>
+     */
     private function guard(Order $order, array $logisticsByVariant = []): GuardEvent
     {
         $taxon = new Taxon();

@@ -46,6 +46,7 @@ final class PunchOutPoReferenceSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /** @param CompletedEvent<covariant object> $event */
     public function onOrderCompleted(CompletedEvent $event): void
     {
         $order = $event->getSubject();

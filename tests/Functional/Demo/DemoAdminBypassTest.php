@@ -69,10 +69,13 @@ final class DemoAdminBypassTest extends DemoAdminWebTestCase
     {
         $client = $this->sophieClient();
         $channelId = $this->intValue("SELECT id FROM sylius_channel WHERE code = 'B2B'");
+        $before = $this->snapshot('sylius_channel');
 
         $client->request('POST', '/admin/channels/' . $channelId . '/edit', ['_method' => 'GET', 'sylius_admin_channel' => ['name' => 'Hacked']]);
 
-        $this->assertDemoRefusal($client, self::MESSAGE_FR);
+        // Symfony 8 ignores an override to GET: the request stays a POST, which the edit route refuses before the guard.
+        self::assertSame(405, $client->getResponse()->getStatusCode());
+        self::assertSame($before, $this->snapshot('sylius_channel'));
     }
 
     public function testABulkActionOnCustomersIsRefusedWhileOneOnOrdersIsNot(): void

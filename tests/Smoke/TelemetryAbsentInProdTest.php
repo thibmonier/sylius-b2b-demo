@@ -25,9 +25,6 @@ final class TelemetryAbsentInProdTest extends TestCase
 
             $offenders = [];
             foreach ($dispatcher->getListeners() as $event => $listeners) {
-                if (!\is_iterable($listeners)) {
-                    continue;
-                }
                 foreach ($listeners as $listener) {
                     $class = \is_array($listener) && \is_object($listener[0]) ? $listener[0]::class : '';
                     if (str_contains($class, 'Telemetry')) {

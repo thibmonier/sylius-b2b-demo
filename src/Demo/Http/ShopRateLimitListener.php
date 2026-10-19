@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 /**
  * US-050: one ceiling per visitor IP on every PHP request of the demo (search, cart, image resize, CSV upload, PDF...),
@@ -24,7 +24,7 @@ final readonly class ShopRateLimitListener
     public function __construct(
         private VisitorIpResolver $visitors,
         private InternalRequestToken $internalToken,
-        private RateLimiterFactory $demoShopLimiter,
+        private RateLimiterFactoryInterface $demoShopLimiter,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {

@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Tmonier\SyliusWebhookOutboxPlugin\Repository\WebhookEndpointRepositoryInterface;
 use Tmonier\SyliusWebhookOutboxPlugin\Signature\WebhookSigner;
@@ -32,7 +32,7 @@ final readonly class WebhookReceiverController
         private WebhookSigner $signer,
         private DemoWebhookTarget $target,
         private ReceivedWebhookStore $store,
-        private RateLimiterFactory $demoWebhookReceiverLimiter,
+        private RateLimiterFactoryInterface $demoWebhookReceiverLimiter,
     ) {
     }
 

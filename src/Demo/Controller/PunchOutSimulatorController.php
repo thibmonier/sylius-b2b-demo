@@ -263,7 +263,7 @@ final readonly class PunchOutSimulatorController
 
     private function locale(Request $request): string
     {
-        $lang = $request->get('lang');
+        $lang = $request->query->get('lang');
 
         return 'en' === $lang ? 'en' : 'fr';
     }
