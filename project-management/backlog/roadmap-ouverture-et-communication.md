@@ -88,11 +88,13 @@
 
 *Jalon* : Prérequis bloquant du dossier de GO levé (images persistantes, US-145) ; démo crédible avant toute communication. Mise en ligne des fiches du site repoussée au sprint 17.
 
-### Sprint 17 (2027-02-05 au 2027-02-19) : 41 points (dont 41 Must)
+### Sprint 17 (2027-02-05 au 2027-02-19) : 47 points (dont 47 Must)
 
 **Objectif** : Convertir et préparer la communication : parcours guidés, page Intégrer, charte, calendrier, premières fiches du site, kit média et premiers posts.
 
 > **Report en cascade (à signaler à Thibaut).** Les cinq stories décalées (US-093, US-116, US-118, US-122, US-126, soit 23 points) portaient le sprint 17 à 62 points pour une capacité de 35-39. Pour rester dans la capacité, ne sont gardées au sprint 17 que les Must qui conditionnent l'annonce ; US-068 (5), US-125 (3), US-126 (5) passent au sprint 18 et US-093 (8) au sprint 19 (voir ci-dessous). Conséquence : la page « démo » du site (US-125) n'est plus prête en fin de sprint 17 et l'annonce LinkedIn (qui exige le site en ligne) se tient en cours de sprint 18, pas en semaine 1.
+
+> **Ajout de Thibaut du 2026-10-19 : « on met tout en sprint 17 ».** Suite du passage de la démo en Symfony 8.1 (PR #35, ADR-0014) : US-147 (PHP 8.5) et US-148 (limiteurs des cinq plugins), 6 points. Le sprint passe à 47 points pour une capacité de 35-39 : à arbitrer au planning (US-146 reste candidate, hors table).
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
@@ -105,6 +107,8 @@
 | US-122 (décalée du sprint 16) | Calendrier éditorial LinkedIn sur huit semaines | Must | 3 |
 | US-123 | Posts LinkedIn rédigés, lot 1 : annonce et trois premiers posts | Must | 5 |
 | US-127 | Annonce d'ouverture : checklist de J-7 à J+7 | Must | 3 |
+| US-147 (ajoutée le 2026-10-19) | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 |
+| US-148 (ajoutée le 2026-10-19) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
 
 *Jalon* : Mise en ligne des six premières fiches du site par Thibaut (URL du site connue) ; checklist J-7 prête.
 

@@ -13,3 +13,4 @@
 | [US-030](../user-stories/US-030.md) | Guide de connexion MCP | Could | 2 | 6 |
 | [US-031](../user-stories/US-031.md) | Correctifs des plugins publiés | Must | 1 | 1 |
 | [US-146](../user-stories/US-146.md) | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | Should | 5 | 17 |
+| [US-148](../user-stories/US-148.md) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 | 17 |
