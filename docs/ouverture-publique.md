@@ -172,7 +172,7 @@ Limite connue : `Disallow: /` empêche l'exploration, donc un moteur peut ne pas
 
 ## Rappel de non-promotion
 
-Aucune annonce sur Slack, GitHub Discussions, réseaux sociaux ou les canaux Sylius ; pas de lien depuis la documentation des plugins qui chevauchent Sylius Plus. La démo reste un lien partagé à la main.
+Aucune annonce sur les canaux Sylius (Slack, forum, GitHub Discussions du projet Sylius) ni de comparaison avec une autre offre. Depuis la décision de Thibaut du 2026-10-17, la démo est promue sur LinkedIn et sur son site (thibaut-monier.fr), d'un ton neutre, avec des liens suivis (UTM) ; ouverture publique le 2026-10-19.
 
 ## Problèmes courants
 
