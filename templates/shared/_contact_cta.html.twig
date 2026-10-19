@@ -1,0 +1,36 @@
+{#
+    US-142: the "contact me" call to action, one component for every placement. No widget, no pop-up, no sticky bar: plain links.
+    Usage: {% include 'shared/_contact_cta.html.twig' with { variant: 'banner'|'card'|'link', placement: 'home', locale: app.request.locale, context: 'Plugin name' } only %}
+    `context` (optional): visually hidden text appended to each label, so repeated links stay distinguishable (WCAG 2.4.4).
+    The targets (booking page, contact form) come from the configuration, https only, tagged with the placement (utm_content);
+    none configured = nothing rendered. `locale` is only needed outside the shop layout (PunchOut simulator).
+    Bootstrap utilities only: the pages also show on the B2C channel, where the B2B stylesheet is not loaded.
+#}
+{% set targets = app_demo_cta_targets(placement) %}
+{% if targets %}
+    {% set locale = locale|default(app.request.locale) %}
+    {% set title_id = 'cta-title-' ~ placement %}
+    {% set buttons %}
+        {% for target in targets %}
+            <a class="{{ variant == 'link' ? 'd-inline-flex align-items-center text-decoration-underline' : (target.kind == 'booking' ? 'btn btn-primary d-inline-flex align-items-center' : 'btn btn-outline-primary d-inline-flex align-items-center') }}" style="min-height: 2.75rem" href="{{ target.url }}" target="_blank" rel="noopener noreferrer" data-cta-{{ target.kind }}{{ app_umami_event(target.kind == 'booking' ? 'cta-rendez-vous' : 'cta-message', { emplacement: placement }) }}>{{ ('cta.' ~ target.kind)|trans({}, 'theme_demo', locale) }}{% if context is defined %}<span class="visually-hidden"> {{ context }}</span>{% endif %}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo', locale) }}</span></a>
+        {% endfor %}
+    {% endset %}
+    {% if variant == 'banner' %}
+        <section class="container my-4" aria-labelledby="{{ title_id }}" data-cta="{{ placement }}">
+            <div class="border rounded p-4 d-flex flex-column flex-md-row align-items-md-center gap-3">
+                <p class="h5 mb-0 flex-grow-1" id="{{ title_id }}">{{ 'cta.banner.title'|trans({}, 'theme_demo', locale) }}</p>
+                <div class="d-flex flex-wrap gap-2">{{ buttons }}</div>
+            </div>
+        </section>
+    {% elseif variant == 'card' %}
+        <section class="card my-4" aria-labelledby="{{ title_id }}" data-cta="{{ placement }}">
+            <div class="card-body">
+                <h2 class="h5 card-title" id="{{ title_id }}">{{ 'cta.card.title'|trans({}, 'theme_demo', locale) }}</h2>
+                <p class="card-text">{{ 'cta.card.text'|trans({}, 'theme_demo', locale) }}</p>
+                <div class="d-flex flex-wrap gap-2">{{ buttons }}</div>
+            </div>
+        </section>
+    {% else %}
+        <span class="d-inline-flex flex-wrap gap-3" data-cta="{{ placement }}">{{ buttons }}</span>
+    {% endif %}
+{% endif %}

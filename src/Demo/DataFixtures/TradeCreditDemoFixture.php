@@ -38,6 +38,9 @@ final class TradeCreditDemoFixture extends AbstractFixture
         'BUILDCO' => 300_000,      // 3 000 €
     ];
 
+    /** Companies whose account tolerates an open item above the limit (US-097: the gauge shows an overrun). */
+    private const ALLOW_EXCEED = ['BUILDCO'];
+
     /**
      * @param FactoryInterface<TradeCreditAccountInterface>         $accountFactory
      * @param FactoryInterface<PaymentTermsPolicyInterface>         $policyFactory
@@ -96,6 +99,9 @@ final class TradeCreditDemoFixture extends AbstractFixture
             $account->setCreditLimit($limitCents);
             $account->setNetDays(30);
             $account->setEnabled(true);
+            // An overdue item (US-097) must not stop the visitors from paying on account.
+            $account->setBlockWhenOverdue(false);
+            $account->setAllowExceed(\in_array($companyCode, self::ALLOW_EXCEED, true));
             $account->setNote(sprintf('Crédit commercial démo pour %s (US-010).', $company->getName()));
 
             $this->entityManager->persist($account);

@@ -155,6 +155,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
             'items' => $spec->items,
             'po_reference' => $spec->poReference,
             'cost_center' => $spec->costCenter,
+            'payment_method' => $spec->paymentMethod,
         ]);
         $order->setCreatedAt(\DateTime::createFromImmutable($date));
         $this->entityManager->persist($order);

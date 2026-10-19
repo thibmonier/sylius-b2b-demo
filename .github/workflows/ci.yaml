@@ -147,6 +147,13 @@ jobs:
                   done
                   docker logs web | tail -30
                   curl -fsS -o /dev/null http://localhost:8080/healthz || { echo "The demo did not become healthy" >&2; exit 1; }
+                  # The entrypoint starts as root (media volume, US-145) then drops privileges: the long-running processes must not be root.
+                  # The image has no ps: read /proc in the container (owner of /proc/<pid> = effective uid of the process).
+                  owners() { docker exec web sh -c 'for p in /proc/[0-9]*; do echo "$(stat -c %U "$p") $(cat "$p/comm" 2>/dev/null)"; done'; }
+                  for process in frankenphp supercronic; do
+                    owners | awk -v p="$process" '$2 == p { print $1 }' | grep -qx www-data \
+                      || { echo "$process does not run as www-data" >&2; owners >&2; exit 1; }
+                  done
 
             - name: The private gate refuses visitors without credentials
               run: |

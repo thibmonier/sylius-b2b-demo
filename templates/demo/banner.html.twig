@@ -2,7 +2,7 @@
    (quick login, demo menu); the contact link (URL from the configuration, https only) shows from the md width.
    Bootstrap utilities only: the bar also shows on the B2C channel, where the B2B stylesheet is not loaded. #}
 {% if demo_mode() %}
-    {% set contact_url = app_demo_contact_url() %}
+    {% set contact = app_demo_cta_targets('demo-bar')|filter(target => target.kind == 'contact')|first %}
     {% set target = 'd-inline-flex align-items-center' %}
     {% set target_height = 'min-height: 2.75rem' %}
     {% set panel = 'position-absolute start-0 end-0 mt-1 p-2 bg-white text-dark border rounded shadow' %}
@@ -39,8 +39,8 @@
                     <li data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' with { link_class: 'd-inline-flex align-items-center w-100', link_style: 'min-height: 2.75rem' } only %}</li>
                 </ul>
             </details>
-            {% if contact_url %}
-                <a class="{{ target }} ms-auto d-none d-md-inline-flex text-white text-nowrap" style="{{ target_height }}" href="{{ contact_url }}" target="_blank" rel="noopener noreferrer" data-contact-link>{{ 'banner.contact'|trans({}, 'theme_demo') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+            {% if contact %}
+                <a class="{{ target }} ms-auto d-none d-md-inline-flex text-white text-nowrap" style="{{ target_height }}" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-contact-link{{ app_umami_event('cta-message', { emplacement: 'barre-demo' }) }}>{{ 'banner.contact'|trans({}, 'theme_demo') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
             {% endif %}
         </div>
     </div>

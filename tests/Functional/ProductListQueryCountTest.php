@@ -37,6 +37,27 @@ final class ProductListQueryCountTest extends WebTestCase
         self::assertSame($counts[20], $counts[50], 'Statements for 20 and 50 products: ' . json_encode($counts));
     }
 
+    /**
+     * Claire has a starting cart of 5 lines (US-096). The header loads each line's variant, product, translation and
+     * images one by one (Sylius core cart query, no fetch-join: overriding the core repository for a demo is not worth
+     * it). The cost is bounded by the lines of the cart (4 statements each), not by the page size.
+     */
+    public function testACartAddsAtMostFourStatementsPerLineWhateverThePageSize(): void
+    {
+        $counts = [];
+        foreach ([5, 50] as $limit) {
+            $client = $this->signedInClient('claire@acme.example');
+            $client->request('GET', $this->url($limit));
+            QueryCounter::reset();
+            $client->request('GET', $this->url($limit));
+            self::assertResponseIsSuccessful();
+            $counts[$limit] = QueryCounter::count();
+            self::ensureKernelShutdown();
+        }
+
+        self::assertLessThanOrEqual(5 * 4, abs($counts[5] - $counts[50]), 'Statements for 5 and 50 products: ' . json_encode($counts));
+    }
+
     public function testFromPricesDoNotDependOnThePageSize(): void
     {
         $byLimit = [];
@@ -59,12 +80,16 @@ final class ProductListQueryCountTest extends WebTestCase
         return '/fr_FR/taxons/catalogue?limit=' . $limit;
     }
 
-    private function signedInClient(): KernelBrowser
+    /**
+     * Isabelle, in the Acme group like Claire: Claire has a starting cart (US-096), whose lines the header loads one by
+     * one when they are not among the listed products, which would make the count depend on the page size.
+     */
+    private function signedInClient(string $email = 'isabelle@acme.example'): KernelBrowser
     {
         $client = self::createClient();
         $connection = $client->getContainer()->get('doctrine.dbal.default_connection');
         self::assertInstanceOf(Connection::class, $connection);
-        $id = $connection->fetchOne('SELECT u.id FROM sylius_shop_user u JOIN sylius_customer c ON c.id = u.customer_id WHERE c.email = ?', ['claire@acme.example']);
+        $id = $connection->fetchOne('SELECT u.id FROM sylius_shop_user u JOIN sylius_customer c ON c.id = u.customer_id WHERE c.email = ?', [$email]);
         $repository = $client->getContainer()->get('sylius.repository.shop_user');
         self::assertInstanceOf(RepositoryInterface::class, $repository);
         $user = $repository->find($id);

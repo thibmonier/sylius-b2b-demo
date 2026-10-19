@@ -21,6 +21,9 @@
         {% endblock %}
 
         {% hook 'head' with { _prefixes: prefixes } %}
+
+        {# US-143: audience measurement, only when configured #}
+        {% include 'shared/_umami.html.twig' %}
     </head>
 
     <body data-route="{{ app.request.attributes.get('_route') }}">

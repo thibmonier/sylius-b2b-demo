@@ -1,6 +1,6 @@
 # EPIC-10 — Ouverture publique
 
-> Exigences : NFR-4 (sécurité), accessibilité WCAG, i18n · 19 stories · 55 points (dont 1 reprises de stories existantes)
+> Exigences : NFR-4 (sécurité), accessibilité WCAG, i18n · 20 stories · 58 points (dont 1 reprises de stories existantes)
 
 ## Description
 
@@ -34,5 +34,6 @@ Lever les bloquants avant l'ouverture publique de la démo : accessibilité mobi
 | [US-139](../user-stories/US-139.md) | Plugins à jour dans la démo | Must | 2 | 15 |
 | [US-140](../user-stories/US-140.md) | Hôtes de confiance indépendants du domaine public Railway | Must | 1 | 15 |
 | [US-141](../user-stories/US-141.md) | Nettoyage des caches de test | Should | 1 | 15 |
+| [US-145](../user-stories/US-145.md) | Images produit persistantes sur Railway | Must | 3 | 16 |
 
 **Notes** : Les stories de sécurité ne contiennent aucun détail exploitable (le dépôt est public) ; les actions de plateforme sont faites par Thibaut. La bascule publique reste US-052.

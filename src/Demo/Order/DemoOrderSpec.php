@@ -15,6 +15,7 @@ final readonly class DemoOrderSpec
         public OrderScenario $scenario,
         public ?string $costCenter = null,
         public ?string $approverEmail = null,
+        public ?string $paymentMethod = null,
     ) {
     }
 }

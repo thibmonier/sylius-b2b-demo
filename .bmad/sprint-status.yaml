@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 15
+current_sprint: 16
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -232,32 +232,49 @@ sprints:
       - {id: US-089, title: "Accueil connecté sans doublon : références habituelles, réassort, promotions négociées", points: 5, status: done}  # Must
       - {id: US-090, title: "Paliers de prix et prix négocié sur la fiche produit", points: 5, status: done}  # Must ; D2 : société de démo = groupe de clients, aucun nouveau plugin
       - {id: US-091, title: "Paliers et prix négocié au catalogue et au panier", points: 3, status: done}  # Must
-      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: in-progress}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité de développement ; bascule sur GO explicite après US-085 ; commandes Railway par Thibaut
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité ; reportée au sprint 16 ; bascule sur GO explicite après US-085 ; commandes Railway par Thibaut
     notes: "Ordre de sacrifice (D1) : Should d'abord, US-078, US-081, US-082, US-083, US-141 (T-141-04 conservée) ; Must non sacrifiables ; ≈ 37 h restantes après tous les sacrifices. Une story sacrifiée devient un risque résiduel daté au dossier de GO (US-085). Domaine : thibaut-monier.fr, démo sur sylius-b2b.thibaut-monier.fr (D3). 10 jours ouvrés, planning le 2027-01-11, point d'étape le 2027-01-15, revue et rétro le 2027-01-22."
+
+  sprint-16:
+    name: sprint-16-demo-credible
+    status: done  # PR #30 mergée (squash) le 2026-10-19 ; US-052 reportée (actions de Thibaut)
+    sprint_id: "sprint-16"
+    start_date: "2027-01-22"
+    end_date: "2027-02-05"
+    capacity_points: 27  # périmètre « démo d'abord » décidé le 2026-10-18 (D1), hors US-052 (3 pts, OPS de Thibaut) ; 57 h décomposées (55 h de charge, 58 tâches) ; ordre de sacrifice dans sprint-16-demo-credible/tasks/README.md
+    goal: "Rendre la démo crédible avant de la montrer : images produit persistantes sur Railway, photos cohérentes avec les produits et crédits visibles, données vivantes (panier, historique, approbation, devis, crédit, journal d'audit), appel à l'action « Me contacter » partout et mesure d'audience sans cookie"
+    stories:
+      - {id: US-145, title: "Images produit persistantes sur Railway", points: 3, status: done}  # Must ; nouvelle ; prérequis bloquant du dossier de GO (ligne 14) ; volume Railway sur public/media (D2) ; application par Thibaut (T-145-08)
+      - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: done}  # Must ; URL vides par défaut, valeurs factices en test (D3) ; absorbe US-115
+      - {id: US-143, title: "Mesure d'audience de la démo avec Umami", points: 3, status: done}  # Must ; après US-142 ; paramètres vides par défaut (D3)
+      - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: done}  # Must ; relecture de Thibaut sur 20 produits (T-092-10)
+      - {id: US-096, title: "Données vivantes (1/2) : panier de départ, historique et approbation en attente", points: 5, status: done}  # Must
+      - {id: US-097, title: "Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons, suggestions IA et journal d'audit", points: 5, status: done}  # Must ; inclut quelques événements métier au journal d'audit (T-097-06)
+      - {id: US-061, title: "Crédits des images de démo", points: 1, status: done}  # Should ; sacrifice n° 1
+    carried_over:
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité ; bascule sur GO explicite après le dossier d'US-085 ; commandes Railway par Thibaut
+    notes: "Ordre de sacrifice (D1) : US-061, puis T-092-04 et T-092-08, puis les tâches de documentation de finition (T-142-07, T-143-06, T-096-08, T-097-09), puis T-097-06 ; Must non sacrifiables, US-145 en tête ; ≈ 48,5 h restantes après tous les sacrifices. Décalées : US-116, US-118, US-122 au sprint 17 ; US-126 et US-068 et US-125 au sprint 18 ; US-093, US-069, US-098, US-099, US-113 au sprint 19 (report en cascade, voir la feuille de route). Les 7 stories décidées totalisent 27 points (≈ 34 au cadrage) : tampon de capacité. 10 jours ouvrés, planning le 2027-01-25, point d'étape le 2027-01-29, revue et rétro le 2027-02-05."
 
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
+  - {id: US-146, title: "Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client", points: 5, status: backlog}  # cible sprint 17 ; EPIC-07, Should ; enhancement du plugin admin-order-creation, demande de Thibaut du 2026-10-18
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
   - {id: US-056, title: "Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin)", points: 5, status: backlog}  # suite d'US-054 ; dépôt sylius-customer-asset-management-plugin ; cible sprint 20 (roadmap ouverture-communication)
   - {id: US-057, title: "Plugin équipements : parc du client dans l'espace client (CRUD)", points: 5, status: backlog}  # suite d'US-054 ; un client ne voit que son parc ; cible sprint 20 (roadmap ouverture-communication)
   - {id: US-058, title: "Plugin équipements : filtre « pièces compatibles » au catalogue", points: 5, status: backlog}  # suite d'US-054 ; repli si parc vide ; cible sprint 20 (roadmap ouverture-communication)
   - {id: US-059, title: "Plugin équipements : publication 0.1.0 (tag, Packagist, README)", points: 2, status: backlog}  # actions de l'utilisateur ; pas de promotion si Sylius Plus couvre le besoin ; cible sprint 21 (roadmap ouverture-communication)
   - {id: US-060, title: "Plugin équipements : intégration à la démo (données, config/demo/plugins.yaml)", points: 3, status: backlog}  # seulement si la tranche 1 est terminée et le plugin publié ; cible sprint 21 (roadmap ouverture-communication)
-  - {id: US-061, title: "Crédits des images de démo", points: 1, status: backlog}  # reprise de T-047-09, action 4 du sprint 10 (non faite, constatée au planning du sprint 12) ; cible sprint 16 (roadmap ouverture-communication)
   - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked) ; cible sprint 19 (roadmap ouverture-communication)
-  - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact ; cible sprint 17 (roadmap ouverture-communication)
-  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon ; cible sprint 18 (roadmap ouverture-communication)
+  - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact ; cible sprint 18 (décalée par la décision « démo d'abord » du 2026-10-18) (roadmap ouverture-communication)
+  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon ; cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) (roadmap ouverture-communication)
   # --- Backlog ouverture publique et communication (2026-10-18, issu de l'audit fonctionnel B2B et des audits accessibilité/UX/UI/sécurité/qualité) : EPIC-10 à EPIC-14 ; voir project-management/backlog/roadmap-ouverture-et-communication.md ; reprises sans doublon : US-052, US-056 à US-062, US-068 à US-070
   - {id: US-084, title: "Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société", points: 5, status: backlog}  # cible sprint 20 ; EPIC-10, Could
   - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: backlog}  # cible sprint 19 ; EPIC-11, Should
-  - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
-  - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: backlog}  # cible sprint 16 ; EPIC-11, Should
+  - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-11, Should
   - {id: US-094, title: "Stock et délais indicatifs sur la fiche produit (données de démonstration)", points: 5, status: backlog}  # cible sprint 19 ; EPIC-11, Should
   - {id: US-095, title: "Fiches techniques PDF fictives", points: 3, status: backlog}  # cible sprint 20 ; EPIC-11, Could
-  - {id: US-096, title: "Données vivantes (1/2) : panier de départ, historique et approbation en attente", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
-  - {id: US-097, title: "Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons et suggestions IA", points: 5, status: backlog}  # cible sprint 16 ; EPIC-11, Must
-  - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: backlog}  # cible sprint 18 ; EPIC-11, Should
-  - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: backlog}  # cible sprint 18 ; EPIC-11, Should
+  - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-11, Should
+  - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-11, Should
   - {id: US-100, title: "Les 403 expliqués et les menus inaccessibles masqués", points: 3, status: backlog}  # cible sprint 20 ; EPIC-11, Should
   - {id: US-101, title: "Factures PDF et relevé de compte côté acheteur", points: 5, status: backlog}  # cible sprint 21 ; EPIC-11, Should
   - {id: US-102, title: "Suivi de commande côté acheteur", points: 3, status: backlog}  # cible sprint 21 ; EPIC-11, Could
@@ -270,22 +287,20 @@ backlog:
   - {id: US-110, title: "Mini-diagnostic en six questions", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
   - {id: US-111, title: "Bloc de preuve technique : qualité, compatibilité, versions", points: 3, status: backlog}  # cible sprint 19 ; EPIC-12, Should
   - {id: US-112, title: "Mode « présentation commerciale »", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
-  - {id: US-113, title: "Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue", points: 3, status: backlog}  # cible sprint 18 ; EPIC-12, Should
+  - {id: US-113, title: "Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue", points: 3, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-12, Should
   - {id: US-114, title: "Études de cas fictives signalées", points: 3, status: backlog}  # cible sprint 21 ; EPIC-12, Could
   - {id: US-115, title: "Appels à l'action cohérents : cartes de plugins, À propos et composant partagé", points: 2, status: cancelled}  # absorbée par US-142 (demande de Thibaut du 2026-10-18)
-  - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: backlog}  # cible sprint 16 ; EPIC-12, Must ; demande de Thibaut du 2026-10-18
-  - {id: US-116, title: "Charte éditoriale LinkedIn et messages clés", points: 2, status: backlog}  # cible sprint 16 ; EPIC-13, Must
+  - {id: US-116, title: "Charte éditoriale LinkedIn et messages clés", points: 2, status: backlog}  # cible sprint 17 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Must
   - {id: US-117, title: "Mesure de la communication : visites par campagne sans cookie", points: 3, status: backlog}  # cible sprint 18 ; EPIC-13, Should ; outil : Umami (US-143)
-  - {id: US-143, title: "Mesure d'audience de la démo avec Umami", points: 3, status: backlog}  # cible sprint 16 ; EPIC-13, Must ; demande de Thibaut du 2026-10-18
-  - {id: US-118, title: "Fiches plugins pour le site : gabarit et six plugins phares", points: 5, status: backlog}  # cible sprint 16 ; EPIC-13, Must
+  - {id: US-118, title: "Fiches plugins pour le site : gabarit et six plugins phares", points: 5, status: backlog}  # cible sprint 17 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Must
   - {id: US-119, title: "Fiches plugins pour le site : les dix-huit autres plugins", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
   - {id: US-120, title: "Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide", points: 5, status: backlog}  # cible sprint 17 ; EPIC-13, Must
   - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
-  - {id: US-122, title: "Calendrier éditorial LinkedIn sur huit semaines", points: 3, status: backlog}  # cible sprint 16 ; EPIC-13, Must
+  - {id: US-122, title: "Calendrier éditorial LinkedIn sur huit semaines", points: 3, status: backlog}  # cible sprint 17 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Must
   - {id: US-123, title: "Posts LinkedIn rédigés, lot 1 : annonce et trois premiers posts", points: 5, status: backlog}  # cible sprint 17 ; EPIC-13, Must
   - {id: US-124, title: "Posts LinkedIn rédigés, lot 2 : semaines 3 à 8", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
-  - {id: US-125, title: "Page « démo » du site personnel", points: 3, status: backlog}  # cible sprint 17 ; EPIC-13, Must
-  - {id: US-126, title: "Pages « services » et « contact » du site : offres bankables", points: 5, status: backlog}  # cible sprint 16 ; EPIC-13, Should
+  - {id: US-125, title: "Page « démo » du site personnel", points: 3, status: backlog}  # cible sprint 18 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Must
+  - {id: US-126, title: "Pages « services » et « contact » du site : offres bankables", points: 5, status: backlog}  # cible sprint 18 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Should
   - {id: US-127, title: "Annonce d'ouverture : checklist de J-7 à J+7", points: 3, status: backlog}  # cible sprint 17 ; EPIC-13, Must
   - {id: US-128, title: "Bilan de communication : retours, échanges et rétrospective", points: 2, status: backlog}  # cible sprint 20 ; EPIC-13, Could
   - {id: US-129, title: "Profil LinkedIn : texte, bannière et section « À la une »", points: 2, status: backlog}  # cible sprint 18 ; EPIC-13, Should

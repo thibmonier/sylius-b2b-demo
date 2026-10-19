@@ -49,6 +49,7 @@
             <li>{% include 'shared/_external_link.html.twig' with { url: 'https://github.com/thibmonier/sylius-b2b-mcp-plugin', label: 'links.plugin'|trans({}, 'mcp_guide') } only %}</li>
             <li>{% include 'shared/_external_link.html.twig' with { url: 'https://support.claude.com/en/articles/11503834', label: 'links.claude'|trans({}, 'mcp_guide') } only %}</li>
         </ul>
+        {% include 'shared/_contact_cta.html.twig' with { variant: 'card', placement: 'mcp' } only %}
     </div>
 
     <script>

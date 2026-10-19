@@ -11,7 +11,18 @@ namespace App\Demo\Images;
  */
 final class ImageManifest
 {
-    public const FIELDS = ['sku', 'file', 'source', 'creator', 'title', 'origin_url', 'license', 'license_url', 'fetched_at', 'scope'];
+    public const FIELDS = ['sku', 'file', 'source', 'creator', 'title', 'origin_url', 'license', 'license_url', 'fetched_at', 'scope', 'status'];
+
+    /** US-092: a person looked at the image and judged it fit for the products that show it. */
+    public const STATUS_VALIDATED = 'validated';
+
+    /** US-092: no fitting photo: a neutral visual of the category, drawn for the demo, replaces it. */
+    public const STATUS_FALLBACK = 'fallback';
+
+    /** What the fetch script writes: not shown as fit until someone reviews it (ImageManifestAuditor refuses it). */
+    public const STATUS_UNREVIEWED = 'unreviewed';
+
+    public const SOURCE_GENERATED = 'generated';
 
     /** @param array<string, array<string, string>> $rows by SKU */
     private function __construct(

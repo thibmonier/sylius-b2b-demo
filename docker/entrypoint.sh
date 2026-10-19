@@ -4,6 +4,13 @@
 set -e
 cd /app
 
+# The media directory is a Railway volume, mounted as root: fix it as root, then run everything as www-data (US-145).
+sh docker/prepare-media.sh /app/public/media
+if [ "$(id -u)" = "0" ]; then
+    export HOME=/var/www
+    exec setpriv --reuid=www-data --regid=www-data --init-groups "$0" "$@"
+fi
+
 # Secrets come from the platform (Railway variables). Without them (local run), ephemeral values are
 # generated: sessions and API tokens do not survive a restart, which suits a demo.
 if [ -z "${APP_SECRET:-}" ]; then

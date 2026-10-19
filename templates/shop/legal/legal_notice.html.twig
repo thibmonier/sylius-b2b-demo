@@ -16,6 +16,11 @@
         <h2>{{ 'legal_notice.data'|trans({}, 'legal') }}</h2>
         <p>{{ 'legal_notice.data_text'|trans({}, 'legal') }}</p>
 
+        {% if app_umami_enabled() %}
+            <h2>{{ 'legal_notice.audience'|trans({}, 'legal') }}</h2>
+            <p data-legal-audience>{{ 'legal_notice.audience_text'|trans({}, 'legal') }}</p>
+        {% endif %}
+
         <h2>{{ 'legal_notice.ip'|trans({}, 'legal') }}</h2>
         <p>{{ 'legal_notice.ip_text'|trans({}, 'legal') }}</p>
     </div>

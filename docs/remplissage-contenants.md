@@ -95,7 +95,7 @@ Les quantités qui supposaient des pièces comptent maintenant des boîtes :
 | Commande ACME-PO-2026-0547 (annulée) | VISS-002 × 50 | VISS-002 × 5 |
 | Commande TP-2026-117 | VISS-001 × 300 | VISS-001 × 30 |
 | Commande GM-8903 (remboursée) | VISS-002 × 120 | VISS-002 × 12 |
-| Devis Q-2024-002 (`demo_quotes`) | 10 à 50 | inchangé : un devis de 10 à 50 boîtes est un devis de volume |
+| Devis Q-AAAA-002 (`demo_quotes`, année du reset) | 10 à 50 | inchangé : un devis de 10 à 50 boîtes est un devis de volume |
 | Paliers (`demo_tier_pricing`) | −5 % dès 10, −10 % dès 50 | inchangé : 10 boîtes de 100 vis (1 000 vis) et 50 boîtes (5 000 vis) restent des paliers de gros crédibles |
 
 Plan de chargement du panier de Claire (liste d'achat envoyée au panier, règle Visserie, carton S : 28 boîtes de VISS-001 ou 23 de VISS-002) : avant, 200 « pièces » de colis de 35 kg dans un carton de 10 kg, surcharge à 357 % ; après, 5 boîtes VISS-001 (17,9 %) + 2 boîtes VISS-002 (8,7 %) = environ 26 % d'un carton S, sans surcharge.

@@ -4,6 +4,7 @@ external_link: '(new tab)'
 footer:
     demo:
         title: 'This demo'
+        credits: 'Image credits'
         about: 'About'
         plugins: 'Plugins'
         journeys: 'Journeys and demo accounts'

@@ -13,15 +13,16 @@ final class SiteLinksTest extends TestCase
 {
     public function testAnHttpsUrlIsExposed(): void
     {
-        $links = new SiteLinks('https://example.com/', 'https://example.com/contact?from=demo');
+        $links = new SiteLinks('https://example.com/', 'https://example.com/contact?from=demo', 'https://exemple.test/rdv');
 
         self::assertSame('https://example.com/', $links->siteUrl());
         self::assertSame('https://example.com/contact?from=demo', $links->contactUrl());
+        self::assertSame('https://exemple.test/rdv', $links->bookingUrl());
     }
 
     public function testNoUrlMeansNoLinkAndNoError(): void
     {
-        $links = new SiteLinks('', '   ');
+        $links = new SiteLinks('', '   ', '');
 
         self::assertNull($links->siteUrl());
         self::assertNull($links->contactUrl());
@@ -46,9 +47,10 @@ final class SiteLinksTest extends TestCase
     #[DataProvider('refusedUrls')]
     public function testAnythingButHttpsIsRefused(string $url): void
     {
-        $links = new SiteLinks($url, $url);
+        $links = new SiteLinks($url, $url, $url);
 
         self::assertNull($links->siteUrl());
         self::assertNull($links->contactUrl());
+        self::assertNull($links->bookingUrl());
     }
 }
