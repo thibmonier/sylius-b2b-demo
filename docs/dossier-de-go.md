@@ -6,7 +6,7 @@ Document de décision pour Thibaut. Dépôt public : ce dossier ne donne que des
 
 ## Recommandation
 
-**GO technique possible, sous réserve des actions de Thibaut ci-dessous.** Aucun bloquant de code n'est ouvert. Reste avant l'ouverture : la vérification de l'exposition des services internes dans l'hébergeur (point 4), la sonde de disponibilité externe, la bascule `CANONICAL_IS_PUBLIC_HOST` (point 11), puis le GO explicite de Thibaut et la bascule `OPEN_TO_PUBLIC` (US-052). La page contact du site (en construction) n'est pas bloquante pour le GO technique.
+**GO donné par Thibaut et démo ouverte au public le 2026-10-19** sur `https://sylius-b2b.thibaut-monier.fr` (PR #32 et #33, `railway config apply`). Vérifications après bascule : 1 à 12 du runbook [ouverture-publique.md](ouverture-publique.md) toutes conformes, dont la 11 (limiteurs par visiteur) vérifiée depuis une seconde connexion. Exposition des services internes vérifiée par Thibaut, sonde externe posée (Sentry), hôte canonique basculé (`DEFAULT_URI` sur le sous-domaine), images persistantes (volume). Retour arrière : section « Refermer la porte » du runbook.
 
 ## Bloquants
 
