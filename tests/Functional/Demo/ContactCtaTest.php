@@ -46,6 +46,20 @@ final class ContactCtaTest extends WebTestCase
         self::assertSame('_blank', $cta->filter('a[data-cta-booking]')->attr('target'));
     }
 
+    /** The banner stands out from the page: primary background, white text, white booking button turning primary on hover. */
+    public function testTheBannerIsInvertedAndTheBookingButtonIsWhite(): void
+    {
+        $this->setEnvironment(['DEMO_BOOKING_URL' => self::BOOKING, 'DEMO_CONTACT_URL' => self::CONTACT]);
+
+        $cta = $this->page('/fr_FR/')->filter('[data-cta="home"]');
+
+        self::assertCount(1, $cta->filter('.text-bg-primary'));
+        $booking = (string) $cta->filter('a[data-cta-booking]')->attr('style');
+        self::assertStringContainsString('--bs-btn-bg: var(--bs-white)', $booking);
+        self::assertStringContainsString('--bs-btn-hover-bg: var(--bs-primary)', $booking);
+        self::assertStringContainsString('btn-outline-light', (string) $cta->filter('a[data-cta-contact]')->attr('class'));
+    }
+
     public function testOnlyTheBookingTargetWhenTheContactUrlIsEmpty(): void
     {
         $this->setEnvironment(['DEMO_BOOKING_URL' => self::BOOKING, 'DEMO_CONTACT_URL' => '']);
