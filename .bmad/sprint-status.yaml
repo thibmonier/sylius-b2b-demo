@@ -252,7 +252,7 @@ sprints:
       - {id: US-097, title: "Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons, suggestions IA et journal d'audit", points: 5, status: done}  # Must ; inclut quelques événements métier au journal d'audit (T-097-06)
       - {id: US-061, title: "Crédits des images de démo", points: 1, status: done}  # Should ; sacrifice n° 1
     carried_over:
-      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité ; bascule sur GO explicite après le dossier d'US-085 ; commandes Railway par Thibaut
+      - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: done}  # OUVERTE le 2026-10-19 : GO de Thibaut, PR #32 et #33, railway config apply ; vérifications 1 à 12 du runbook OK (11 vérifiée depuis une connexion 4G) ; tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité ; bascule sur GO explicite après le dossier d'US-085 ; commandes Railway par Thibaut
     notes: "Ordre de sacrifice (D1) : US-061, puis T-092-04 et T-092-08, puis les tâches de documentation de finition (T-142-07, T-143-06, T-096-08, T-097-09), puis T-097-06 ; Must non sacrifiables, US-145 en tête ; ≈ 48,5 h restantes après tous les sacrifices. Décalées : US-116, US-118, US-122 au sprint 17 ; US-126 et US-068 et US-125 au sprint 18 ; US-093, US-069, US-098, US-099, US-113 au sprint 19 (report en cascade, voir la feuille de route). Les 7 stories décidées totalisent 27 points (≈ 34 au cadrage) : tampon de capacité. 10 jours ouvrés, planning le 2027-01-25, point d'étape le 2027-01-29, revue et rétro le 2027-02-05."
 
 # Stories prêtes pour un sprint futur, à planifier.
