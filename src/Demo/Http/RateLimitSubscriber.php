@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 /**
  * Per-visitor rate limits of the public demo (US-036): login, demo pages, registration and public forms,
@@ -52,16 +52,16 @@ final readonly class RateLimitSubscriber
 
     public function __construct(
         private VisitorIpResolver $visitors,
-        private RateLimiterFactory $demoLoginLimiter,
-        private RateLimiterFactory $demoPublicLimiter,
-        private RateLimiterFactory $demoFormsLimiter,
-        private RateLimiterFactory $demoPunchoutStartLimiter,
-        private RateLimiterFactory $demoPunchoutOrderLimiter,
-        private RateLimiterFactory $demoPunchoutOciReturnLimiter,
-        private RateLimiterFactory $demoApiAuthLimiter,
-        private RateLimiterFactory $demoApiWriteLimiter,
-        private RateLimiterFactory $demoMcpLimiter,
-        private RateLimiterFactory $demoHealthLimiter,
+        private RateLimiterFactoryInterface $demoLoginLimiter,
+        private RateLimiterFactoryInterface $demoPublicLimiter,
+        private RateLimiterFactoryInterface $demoFormsLimiter,
+        private RateLimiterFactoryInterface $demoPunchoutStartLimiter,
+        private RateLimiterFactoryInterface $demoPunchoutOrderLimiter,
+        private RateLimiterFactoryInterface $demoPunchoutOciReturnLimiter,
+        private RateLimiterFactoryInterface $demoApiAuthLimiter,
+        private RateLimiterFactoryInterface $demoApiWriteLimiter,
+        private RateLimiterFactoryInterface $demoMcpLimiter,
+        private RateLimiterFactoryInterface $demoHealthLimiter,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {
@@ -88,7 +88,7 @@ final readonly class RateLimitSubscriber
         ));
     }
 
-    private function factory(string $name): RateLimiterFactory
+    private function factory(string $name): RateLimiterFactoryInterface
     {
         return match ($name) {
             'login' => $this->demoLoginLimiter,

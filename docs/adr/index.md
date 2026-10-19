@@ -14,3 +14,4 @@
 | [0010](0010-connexion-de-demo-par-formulaire-pre-rempli.md) | Connexion de démo par formulaire pré-rempli | Accepté |
 | [0011](0011-canal-de-demo-par-cookie.md) | Canal de la démo choisi par cookie | Accepté |
 | [0013](0013-mode-worker-frankenphp.md) | Mode worker FrankenPHP : classique retenu, threads bornés | Accepté |
+| [0014](0014-symfony-8-et-fork-du-plugin-wishlist.md) | Symfony 8.1 et fork temporaire du plugin wishlist | Accepté |
