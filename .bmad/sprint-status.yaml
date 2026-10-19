@@ -237,20 +237,20 @@ sprints:
 
   sprint-16:
     name: sprint-16-demo-credible
-    status: in-review
+    status: done  # PR #30 mergée (squash) le 2026-10-19 ; US-052 reportée (actions de Thibaut)
     sprint_id: "sprint-16"
     start_date: "2027-01-22"
     end_date: "2027-02-05"
     capacity_points: 27  # périmètre « démo d'abord » décidé le 2026-10-18 (D1), hors US-052 (3 pts, OPS de Thibaut) ; 57 h décomposées (55 h de charge, 58 tâches) ; ordre de sacrifice dans sprint-16-demo-credible/tasks/README.md
     goal: "Rendre la démo crédible avant de la montrer : images produit persistantes sur Railway, photos cohérentes avec les produits et crédits visibles, données vivantes (panier, historique, approbation, devis, crédit, journal d'audit), appel à l'action « Me contacter » partout et mesure d'audience sans cookie"
     stories:
-      - {id: US-145, title: "Images produit persistantes sur Railway", points: 3, status: review}  # Must ; nouvelle ; prérequis bloquant du dossier de GO (ligne 14) ; volume Railway sur public/media (D2) ; application par Thibaut (T-145-08)
-      - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: review}  # Must ; URL vides par défaut, valeurs factices en test (D3) ; absorbe US-115
-      - {id: US-143, title: "Mesure d'audience de la démo avec Umami", points: 3, status: review}  # Must ; après US-142 ; paramètres vides par défaut (D3)
-      - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: review}  # Must ; relecture de Thibaut sur 20 produits (T-092-10)
-      - {id: US-096, title: "Données vivantes (1/2) : panier de départ, historique et approbation en attente", points: 5, status: review}  # Must
-      - {id: US-097, title: "Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons, suggestions IA et journal d'audit", points: 5, status: review}  # Must ; inclut quelques événements métier au journal d'audit (T-097-06)
-      - {id: US-061, title: "Crédits des images de démo", points: 1, status: review}  # Should ; sacrifice n° 1
+      - {id: US-145, title: "Images produit persistantes sur Railway", points: 3, status: done}  # Must ; nouvelle ; prérequis bloquant du dossier de GO (ligne 14) ; volume Railway sur public/media (D2) ; application par Thibaut (T-145-08)
+      - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: done}  # Must ; URL vides par défaut, valeurs factices en test (D3) ; absorbe US-115
+      - {id: US-143, title: "Mesure d'audience de la démo avec Umami", points: 3, status: done}  # Must ; après US-142 ; paramètres vides par défaut (D3)
+      - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: done}  # Must ; relecture de Thibaut sur 20 produits (T-092-10)
+      - {id: US-096, title: "Données vivantes (1/2) : panier de départ, historique et approbation en attente", points: 5, status: done}  # Must
+      - {id: US-097, title: "Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons, suggestions IA et journal d'audit", points: 5, status: done}  # Must ; inclut quelques événements métier au journal d'audit (T-097-06)
+      - {id: US-061, title: "Crédits des images de démo", points: 1, status: done}  # Should ; sacrifice n° 1
     carried_over:
       - {id: US-052, title: "Ouverture publique de la démo", points: 3, status: carried-over}  # tâches OPS de Thibaut (T-052-03 à T-052-07), hors capacité ; bascule sur GO explicite après le dossier d'US-085 ; commandes Railway par Thibaut
     notes: "Ordre de sacrifice (D1) : US-061, puis T-092-04 et T-092-08, puis les tâches de documentation de finition (T-142-07, T-143-06, T-096-08, T-097-09), puis T-097-06 ; Must non sacrifiables, US-145 en tête ; ≈ 48,5 h restantes après tous les sacrifices. Décalées : US-116, US-118, US-122 au sprint 17 ; US-126 et US-068 et US-125 au sprint 18 ; US-093, US-069, US-098, US-099, US-113 au sprint 19 (report en cascade, voir la feuille de route). Les 7 stories décidées totalisent 27 points (≈ 34 au cadrage) : tampon de capacité. 10 jours ouvrés, planning le 2027-01-25, point d'étape le 2027-01-29, revue et rétro le 2027-02-05."
