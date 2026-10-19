@@ -58,6 +58,8 @@ final class SecurityHeadersSubscriber
             return self::CSP;
         }
 
-        return str_replace(["script-src 'self'", "connect-src 'self'"], ["script-src 'self' " . $origin, "connect-src 'self' " . $origin], self::CSP);
+        $connect = implode(' ', array_unique([$origin, (string) $this->umami->collectOrigin()]));
+
+        return str_replace(["script-src 'self'", "connect-src 'self'"], ["script-src 'self' " . $origin, "connect-src 'self' " . $connect], self::CSP);
     }
 }

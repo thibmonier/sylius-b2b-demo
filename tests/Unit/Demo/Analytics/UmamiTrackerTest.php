@@ -23,6 +23,35 @@ final class UmamiTrackerTest extends TestCase
         self::assertSame('https://cloud.umami.is', $tracker->origin());
     }
 
+    public function testUmamiCloudCollectsOnItsGateway(): void
+    {
+        self::assertSame('https://gateway.umami.is', (new UmamiTracker('https://cloud.umami.is/script.js', self::ID))->collectOrigin());
+    }
+
+    public function testASelfHostedUmamiCollectsOnTheScriptHost(): void
+    {
+        self::assertSame('https://stats.example.test', (new UmamiTracker('https://stats.example.test/script.js', self::ID))->collectOrigin());
+    }
+
+    public function testAnExplicitCollectionUrlWins(): void
+    {
+        $tracker = new UmamiTracker('https://cloud.umami.is/script.js', self::ID, 'https://collect.example.test/api/send');
+
+        self::assertSame('https://collect.example.test', $tracker->collectOrigin());
+    }
+
+    public function testAnInvalidCollectionUrlFallsBackToTheDefault(): void
+    {
+        $tracker = new UmamiTracker('https://cloud.umami.is/script.js', self::ID, 'http://collect.example.test');
+
+        self::assertSame('https://gateway.umami.is', $tracker->collectOrigin());
+    }
+
+    public function testNoCollectionOriginWhenDisabled(): void
+    {
+        self::assertNull((new UmamiTracker('', ''))->collectOrigin());
+    }
+
     public function testTheOriginKeepsANonDefaultPort(): void
     {
         self::assertSame('https://stats.example.test:8443', (new UmamiTracker('https://stats.example.test:8443/u.js', self::ID))->origin());

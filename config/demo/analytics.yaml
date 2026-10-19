@@ -1,9 +1,13 @@
 # US-143: Umami audience measurement, shared with the author's website (events are prefixed `demo-`).
 # DEMO_UMAMI_SCRIPT_URL: the script URL, https only (e.g. https://cloud.umami.is/script.js).
 # DEMO_UMAMI_WEBSITE_ID: the site id (UUID) in Umami.
+# DEMO_UMAMI_COLLECT_URL (optional): the host the script sends the events to, when it is not the script host. Empty:
+# https://gateway.umami.is for Umami Cloud (cloud.umami.is), the script host otherwise. Allowed in the CSP connect-src.
 # Empty or invalid = no script, no request to Umami, and the CSP stays unchanged.
 parameters:
     env(DEMO_UMAMI_SCRIPT_URL): ''
     env(DEMO_UMAMI_WEBSITE_ID): ''
+    env(DEMO_UMAMI_COLLECT_URL): ''
     demo.umami_script_url: '%env(DEMO_UMAMI_SCRIPT_URL)%'
     demo.umami_website_id: '%env(DEMO_UMAMI_WEBSITE_ID)%'
+    demo.umami_collect_url: '%env(DEMO_UMAMI_COLLECT_URL)%'

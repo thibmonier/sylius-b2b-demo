@@ -23,13 +23,20 @@ final readonly class UmamiTracker
 
     private ?string $websiteId;
 
+    /** Umami Cloud serves the script from cloud.umami.is but its script sends the events to another host. */
+    private const CLOUD_COLLECT_ORIGINS = ['https://cloud.umami.is' => 'https://gateway.umami.is'];
+
     private ?string $origin;
+
+    private ?string $collectOrigin;
 
     public function __construct(
         #[Autowire(param: 'demo.umami_script_url')]
         string $scriptUrl,
         #[Autowire(param: 'demo.umami_website_id')]
         string $websiteId,
+        #[Autowire(param: 'demo.umami_collect_url')]
+        string $collectUrl = '',
     ) {
         $origin = self::httpsOrigin(trim($scriptUrl));
         $id = trim($websiteId);
@@ -38,6 +45,9 @@ final readonly class UmamiTracker
         $this->scriptUrl = $valid ? trim($scriptUrl) : null;
         $this->websiteId = $valid ? $id : null;
         $this->origin = $valid ? $origin : null;
+        $this->collectOrigin = $valid
+            ? (self::httpsOrigin(trim($collectUrl)) ?? self::CLOUD_COLLECT_ORIGINS[$origin] ?? $origin)
+            : null;
     }
 
     public function isEnabled(): bool
@@ -55,10 +65,16 @@ final readonly class UmamiTracker
         return $this->websiteId;
     }
 
-    /** The script host, also the collection endpoint (CSP script-src and connect-src). */
+    /** The script host (CSP script-src and connect-src). */
     public function origin(): ?string
     {
         return $this->origin;
+    }
+
+    /** The host the script sends the events to (CSP connect-src): DEMO_UMAMI_COLLECT_URL, the Umami Cloud gateway or the script host. */
+    public function collectOrigin(): ?string
+    {
+        return $this->collectOrigin;
     }
 
     public function measures(string $path): bool

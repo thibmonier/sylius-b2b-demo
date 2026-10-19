@@ -22,8 +22,23 @@ final class SecurityHeadersUmamiTest extends TestCase
         $csp = $this->csp(new UmamiTracker('https://cloud.umami.is/script.js', self::ID), '/fr_FR/');
 
         self::assertStringContainsString("script-src 'self' https://cloud.umami.is 'unsafe-inline'", $csp);
-        self::assertStringContainsString("connect-src 'self' https://cloud.umami.is;", $csp);
+        // Umami Cloud serves the script from cloud.umami.is but sends the events to gateway.umami.is (2026-10-19 incident).
+        self::assertStringContainsString("connect-src 'self' https://cloud.umami.is https://gateway.umami.is;", $csp);
         self::assertStringContainsString("default-src 'self';", $csp);
+    }
+
+    public function testASelfHostedUmamiCollectsOnItsOwnHost(): void
+    {
+        $csp = $this->csp(new UmamiTracker('https://stats.example.test/script.js', self::ID), '/fr_FR/');
+
+        self::assertStringContainsString("connect-src 'self' https://stats.example.test;", $csp);
+    }
+
+    public function testAnExplicitCollectionUrlIsAllowed(): void
+    {
+        $csp = $this->csp(new UmamiTracker('https://stats.example.test/script.js', self::ID, 'https://collect.example.test/api/send'), '/fr_FR/');
+
+        self::assertStringContainsString("connect-src 'self' https://stats.example.test https://collect.example.test;", $csp);
     }
 
     public function testWithoutUmamiTheCspIsUnchanged(): void
