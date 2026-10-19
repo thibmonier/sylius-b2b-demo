@@ -4,6 +4,7 @@
 import { defineRailway, github, image, mysql, preserve, project, service, volume } from "railway/iac";
 
 const REGION = "europe-west4";
+const MEDIA_VOLUME_ZONE = "europe-west4-drams3a";
 
 // US-050: the one switch between the private demo (HTTP gate on, registrations open) and the public demo (gate off,
 // registrations closed, search engines asked to stay away). Stays false until the explicit GO of the owner; the steps
@@ -49,7 +50,9 @@ export default defineRailway(() => {
     },
   });
 
-  const mediaVolume = volume("media", { sizeMB: 1024, region: REGION });
+  // Railway places the volume in a zone of the region and reports that zone: declaring the region alone would plan a
+  // region change of the volume (risk of losing the images). Zone read on the 2026-10-19 plan.
+  const mediaVolume = volume("media", { sizeMB: 1024, region: MEDIA_VOLUME_ZONE });
 
   const web = service("web", {
     source: github("thibmonier/sylius-b2b-demo", { branch: "main" }),
@@ -78,6 +81,12 @@ export default defineRailway(() => {
       DEMO_PUBLIC_HOST: preserve(),
       DEMO_UMAMI_SCRIPT_URL: preserve(),
       DEMO_UMAMI_WEBSITE_ID: preserve(),
+      DEMO_UMAMI_COLLECT_URL: preserve(),
+      // US-142 / US-074: the owner's links (booking page, contact form, site), set in Railway. An undeclared variable is
+      // deleted by `railway config apply` (2026-10-19 plan): they must stay listed here.
+      DEMO_BOOKING_URL: preserve(),
+      DEMO_CONTACT_URL: preserve(),
+      DEMO_SITE_URL: preserve(),
       MAILER_DSN: "smtp://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:1025",
       DEMO_MAILPIT_API_URL: "http://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:8025",
       DEMO_MAILPIT_URL: "",
