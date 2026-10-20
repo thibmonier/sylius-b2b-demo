@@ -208,6 +208,13 @@
 | US-154 | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 |
 | US-155 | Company-insights : historique d'achats de 12 mois et intégration à la démo | Must | 5 |
 
+> **Ajout de Thibaut du 2026-10-20.** Notification des approbations pour les approbateurs (et l'administratrice, point à trancher dans US-156) : 2 stories, 5 points, dans le plugin purchase-approval ([EPIC-07](epics/EPIC-07.md)).
+
+| Story | Titre | MoSCoW | Pts |
+|---|---|---|---|
+| US-156 | Purchase-approval : approbations en attente signalées dans l'en-tête | Should | 3 |
+| US-157 | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | Could | 2 |
+
 ## Dépendances
 
 ```mermaid
