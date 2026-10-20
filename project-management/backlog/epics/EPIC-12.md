@@ -20,13 +20,13 @@ Transformer la démo en outil de conversion : parcours guidés par persona, page
 | [US-105](../user-stories/US-105.md) | Parcours guidés : moteur de visite par étapes | Must | 8 | 17 |
 | [US-106](../user-stories/US-106.md) | Parcours guidés : contenu par persona et écran de sortie vers le contact | Must | 5 | 17 |
 | [US-107](../user-stories/US-107.md) | Page « Intégrer ces plugins dans votre projet » | Must | 5 | 17 |
-| [US-108](../user-stories/US-108.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 | 19 |
-| [US-109](../user-stories/US-109.md) | Cas d'usage sectoriels : quatre pages avec appel à l'action | Should | 5 | 19 |
-| [US-110](../user-stories/US-110.md) | Mini-diagnostic en six questions | Should | 5 | 19 |
-| [US-111](../user-stories/US-111.md) | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 | 19 |
-| [US-112](../user-stories/US-112.md) | Mode « présentation commerciale » | Should | 5 | 19 |
-| [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 19 |
-| [US-114](../user-stories/US-114.md) | Études de cas fictives signalées | Could | 3 | 21 |
+| [US-108](../user-stories/US-108.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 | 20 |
+| [US-109](../user-stories/US-109.md) | Cas d'usage sectoriels : quatre pages avec appel à l'action | Should | 5 | 22 |
+| [US-110](../user-stories/US-110.md) | Mini-diagnostic en six questions | Should | 5 | 21 |
+| [US-111](../user-stories/US-111.md) | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 | 20 |
+| [US-112](../user-stories/US-112.md) | Mode « présentation commerciale » | Should | 5 | 22 |
+| [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 20 |
+| [US-114](../user-stories/US-114.md) | Études de cas fictives signalées | Could | 3 | 23 |
 | [US-115](../user-stories/US-115.md) | Appels à l'action cohérents : cartes de plugins, À propos et composant partagé | Should | 2 | absorbée par US-142 |
 | [US-142](../user-stories/US-142.md) | Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly) | Must | 5 | 16 |
 

@@ -19,17 +19,17 @@ Préparer les contenus (fiches plugins pour le site, kit média, calendrier édi
 | [US-116](../user-stories/US-116.md) | Charte éditoriale LinkedIn et messages clés | Must | 2 | 17 |
 | [US-117](../user-stories/US-117.md) | Mesure de la communication : visites par campagne sans cookie | Should | 3 | 18 |
 | [US-143](../user-stories/US-143.md) | Mesure d'audience de la démo avec Umami | Must | 3 | 16 |
-| [US-118](../user-stories/US-118.md) | Fiches plugins pour le site : gabarit et six plugins phares | Must | 5 | 17 |
+| [US-118](../user-stories/US-118.md) | Fiches plugins pour le site : gabarit et six plugins phares | Must | 5 | 18 |
 | [US-119](../user-stories/US-119.md) | Fiches plugins pour le site : les dix-huit autres plugins | Should | 5 | 18 |
 | [US-120](../user-stories/US-120.md) | Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide | Must | 5 | 17 |
-| [US-121](../user-stories/US-121.md) | Kit média (2/2) : approbation, MCP, container-fill et visite complète | Should | 5 | 18 |
+| [US-121](../user-stories/US-121.md) | Kit média (2/2) : approbation, MCP, container-fill et visite complète | Should | 5 | 19 |
 | [US-122](../user-stories/US-122.md) | Calendrier éditorial LinkedIn sur huit semaines | Must | 3 | 17 |
 | [US-123](../user-stories/US-123.md) | Posts LinkedIn rédigés, lot 1 : annonce et trois premiers posts | Must | 5 | 17 |
 | [US-124](../user-stories/US-124.md) | Posts LinkedIn rédigés, lot 2 : semaines 3 à 8 | Should | 5 | 18 |
 | [US-125](../user-stories/US-125.md) | Page « démo » du site personnel | Must | 3 | 18 |
 | [US-126](../user-stories/US-126.md) | Pages « services » et « contact » du site : offres bankables | Should | 5 | 18 |
 | [US-127](../user-stories/US-127.md) | Annonce d'ouverture : checklist de J-7 à J+7 | Must | 3 | 17 |
-| [US-128](../user-stories/US-128.md) | Bilan de communication : retours, échanges et rétrospective | Could | 2 | 20 |
+| [US-128](../user-stories/US-128.md) | Bilan de communication : retours, échanges et rétrospective | Could | 2 | 23 |
 | [US-129](../user-stories/US-129.md) | Profil LinkedIn : texte, bannière et section « À la une » | Should | 2 | 18 |
 
 **Notes** : Les publications, la mise en ligne du site, le DNS et les réglages de profil sont des actions de Thibaut ; Claude prépare les contenus. Dépend de l'URL du site (US-068, US-069).

@@ -1,4 +1,4 @@
-# Feuille de route : ouverture publique puis communication (sprints 14 à 21)
+# Feuille de route : ouverture publique puis communication (sprints 14 à 23)
 
 > Proposition du Product Owner du 2026-10-18, à valider par Thibaut. Entrées : audit fonctionnel B2B, audits accessibilité (58/100), UX (68), UI (66), Lighthouse, sécurité et qualité du même jour. Backlog : EPIC-10 à EPIC-14 (68 nouvelles stories, 255 points) plus 11 stories existantes reprises (33 points), soit 79 stories et 288 points sur 8 sprints. Les dates sont indicatives (sprints de 2 semaines à la suite du sprint 13) ; le planning détaillé se fait au lancement de chaque sprint. Aucune section sprint-14 n'est créée dans `.bmad/sprint-status.yaml`.
 >
@@ -9,7 +9,7 @@
 1. **Ouvrir au public** (sprints 14-15) : bloquants d'accessibilité mobile et de structure, sécurité, signaux « prototype », prix B2B visibles, dossier de GO. Rappel : la démo est publique mais non promue ; la décision d'ouvrir est celle de Thibaut (US-052 pour la bascule).
 2. **Rendre crédible** (sprints 15-16) : catalogue et photos cohérents, données vivantes.
 3. **Convertir et communiquer** (sprints 16-18) : parcours guidés, page « Intégrer ces plugins », fiches et pages du site, kit média, annonce LinkedIn. Communication uniquement par LinkedIn (profil de Thibaut) et son site ; jamais sur les canaux Sylius, jamais de comparaison avec une offre éditeur.
-4. **Nourrir les offres** (sprints 19-21) : cas d'usage, diagnostic, plugins bankables (spikes d'abord).
+4. **Nourrir les offres** (sprints 19-23) : pilotage des achats (EPIC-15), cas d'usage, diagnostic, plugins bankables (spikes d'abord).
 
 ## Jalons
 
@@ -18,13 +18,16 @@
 | Revue de GO d'ouverture publique | Fin du sprint 15 (revue, US-085) | Bloquants a11y, sécurité et signaux « prototype » traités |
 | **Ouverture publique : GO de Thibaut** | Après la revue du sprint 15 | Décision de Thibaut seul ; bascule US-052 (commandes Railway par Thibaut) |
 | Prérequis bloquant du dossier de GO levé (images persistantes) et démo crédible | Fin du sprint 16 | US-145, US-092, US-096, US-097 |
-| Charte, calendrier et six fiches plugins prêts | Fin du sprint 17 (décalé du sprint 16) | US-116, US-122, US-118 |
-| **Mise en ligne des fiches et pages du site** | Fiches phares : sprint 17 ; page démo, services et contact : sprint 18 (décalés), par Thibaut | URL du site connue ; US-118, US-125, US-126 |
+| Charte et calendrier prêts | Fin du sprint 17 | US-116, US-122 |
+| Six fiches plugins prêtes | Sprint 18 (décalé du sprint 17, plan du 2026-10-20) | US-118 |
+| **Mise en ligne des fiches et pages du site** | Sprint 18 : fiches phares puis page démo, services et contact, par Thibaut | URL du site connue ; US-118, US-125, US-126 |
 | README des 24 dépôts reliés au site | Sprint 18 (décalé du sprint 17, GO unique de merge) | US-068 ; URL du site |
 | Prérequis d'annonce (checklist J-7) | Fin du sprint 17 | US-127, US-123, US-120 |
 | **Annonce LinkedIn de l'ouverture** | Sprint 18, une fois la page démo du site en ligne (plus en semaine 1 : US-125 décalée), par Thibaut | GO donné, site en ligne, posts du lot 1 prêts |
 | Calendrier éditorial de 8 semaines | Sprints 18 à 21 | US-122, US-124 |
 | 24 fiches du site en ligne | Fin du sprint 18 | US-119 |
+| Tableau de bord des achats en démo (MMF EPIC-15) | Fin du sprint 20 | US-149, US-150, US-151, US-155 |
+| Plugin parc d'équipements publié | Sprint 22 | US-056 à US-060 |
 
 ## Sprints
 
@@ -88,132 +91,139 @@
 
 *Jalon* : Prérequis bloquant du dossier de GO levé (images persistantes, US-145) ; démo crédible avant toute communication. Mise en ligne des fiches du site repoussée au sprint 17.
 
-### Sprint 17 (2027-02-05 au 2027-02-19) : 47 points (dont 47 Must)
+> **Planification complète demandée par Thibaut le 2026-10-20.**
+> - **Périmètre :** tout le scope restant, soit 64 stories et 253 points. Cela comprend le contenu des anciens sprints 17 à 21, US-146, EPIC-15 et US-156/157.
+> - **Capacité :** 7 sprints de 34 à 39 points, pour une capacité de 35 à 39. Tous les Must sont placés au plus tard au sprint 20, et les Could sont regroupés au sprint 23.
+> - **Dépendances :** l'ordre respecte le graphe ci-dessous (US-107 puis US-106 puis US-127 avant l'annonce ; US-118 puis US-125 ; spikes avant les tranches ; US-149 avant le reste d'EPIC-15).
+> - **Révision :** le planning détaillé reste fait au lancement de chaque sprint.
+> - **Risque de vélocité :** si elle reste sous 35 points, on retire d'abord les Could du sprint 23, puis on décale les Should du sprint 22.
 
-**Objectif** : Convertir et préparer la communication : parcours guidés, page Intégrer, charte, calendrier, premières fiches du site, kit média et premiers posts.
+### Sprint 17 (2027-02-05 au 2027-02-19) : 36 points (dont 36 Must)
 
-> **Report en cascade (à signaler à Thibaut).** Les cinq stories décalées (US-093, US-116, US-118, US-122, US-126, soit 23 points) portaient le sprint 17 à 62 points pour une capacité de 35-39. Pour rester dans la capacité, ne sont gardées au sprint 17 que les Must qui conditionnent l'annonce ; US-068 (5), US-125 (3), US-126 (5) passent au sprint 18 et US-093 (8) au sprint 19 (voir ci-dessous). Conséquence : la page « démo » du site (US-125) n'est plus prête en fin de sprint 17 et l'annonce LinkedIn (qui exige le site en ligne) se tient en cours de sprint 18, pas en semaine 1.
-
-> **Ajout de Thibaut du 2026-10-19 : « on met tout en sprint 17 ».** Suite du passage de la démo en Symfony 8.1 (PR #35, ADR-0014) : US-147 (PHP 8.5) et US-148 (limiteurs des cinq plugins), 6 points. Le sprint passe à 47 points pour une capacité de 35-39 : à arbitrer au planning (US-146 reste candidate, hors table).
+**Objectif** : Préparer l'annonce (charte, calendrier, lot 1 de posts, kit média, checklist J-7) et livrer la conversion dans la démo (parcours guidés complets, page « Intégrer »).
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
 | US-105 | Parcours guidés : moteur de visite par étapes | Must | 8 |
 | US-106 | Parcours guidés : contenu par persona et écran de sortie vers le contact | Must | 5 |
 | US-107 | Page « Intégrer ces plugins dans votre projet » | Must | 5 |
-| US-116 (décalée du sprint 16) | Charte éditoriale LinkedIn et messages clés | Must | 2 |
-| US-118 (décalée du sprint 16) | Fiches plugins pour le site : gabarit et six plugins phares | Must | 5 |
+| US-116 | Charte éditoriale LinkedIn et messages clés | Must | 2 |
 | US-120 | Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide | Must | 5 |
-| US-122 (décalée du sprint 16) | Calendrier éditorial LinkedIn sur huit semaines | Must | 3 |
+| US-122 | Calendrier éditorial LinkedIn sur huit semaines | Must | 3 |
 | US-123 | Posts LinkedIn rédigés, lot 1 : annonce et trois premiers posts | Must | 5 |
 | US-127 | Annonce d'ouverture : checklist de J-7 à J+7 | Must | 3 |
-| US-147 (ajoutée le 2026-10-19) | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 |
-| US-148 (ajoutée le 2026-10-19) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
 
-*Jalon* : Mise en ligne des six premières fiches du site par Thibaut (URL du site connue) ; checklist J-7 prête.
+*Jalon* : Les quatre actions de la rétro du sprint 16 sont prises en tâches, sans points : verrou de `bin/run-tests`, isolation des comptes de démo partagés, arrêt des tâches de fond, reconstruction de l'image. Fin de sprint : checklist J-7 prête, parcours guidés et page « Intégrer » en ligne.
 
-### Sprint 18 (2027-02-19 au 2027-03-05) : 36 points (dont 8 Must)
+### Sprint 18 (2027-02-19 au 2027-03-05) : 39 points (dont 14 Must)
 
-**Objectif** : Mettre le site en ligne (page démo, services, contact), relier les README, annoncer l'ouverture sur LinkedIn et compléter le contenu.
+**Objectif** : Mettre en ligne le site (fiches, page démo, services, contact), relier les README, annoncer l'ouverture sur LinkedIn et passer la démo et les plugins aux dernières versions (PHP 8.5, Symfony 8).
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
-| US-068 (reprise, décalée du sprint 17) | Liens vers le site et la page contact dans les 24 README | Should | 5 |
-| US-125 (décalée du sprint 17) | Page « démo » du site personnel | Must | 3 |
-| US-126 (décalée du sprint 16) | Pages « services » et « contact » du site : offres bankables | Should | 5 |
-| US-103 | Assistants IA : page utile avec transcript d'une vraie conversation | Should | 3 |
+| US-118 | Fiches plugins pour le site : gabarit et six plugins phares | Must | 5 |
+| US-125 | Page « démo » du site personnel | Must | 3 |
+| US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 |
+| US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
+| US-068 | Liens vers le site et la page contact dans les 24 README | Should | 5 |
 | US-117 | Mesure de la communication : visites par campagne sans cookie (outil : Umami, US-143) | Should | 3 |
 | US-119 | Fiches plugins pour le site : les dix-huit autres plugins | Should | 5 |
-| US-121 | Kit média (2/2) : approbation, MCP, container-fill et visite complète | Should | 5 |
 | US-124 | Posts LinkedIn rédigés, lot 2 : semaines 3 à 8 | Should | 5 |
+| US-126 | Pages « services » et « contact » du site : offres bankables | Should | 5 |
 | US-129 | Profil LinkedIn : texte, bannière et section « À la une » | Should | 2 |
 
-*Jalon* : Annonce LinkedIn une fois US-125 en ligne (cours de sprint) ; US-115 est absorbée par US-142 (sprint 16).
+*Jalon* : Six fiches phares puis page démo du site en ligne, par Thibaut. Annonce LinkedIn par Thibaut une fois US-125 en ligne, en cours de sprint. GO unique de merge des 24 PR de README (US-068).
 
-### Sprint 19 (2027-03-05 au 2027-03-19) : 54 points (dont 0 Must) : DÉBORDEMENT à arbitrer
+### Sprint 19 (2027-03-05 au 2027-03-19) : 35 points (dont 15 Must)
 
-**Objectif** : Approfondir la conversion (cas d'usage, diagnostic, preuve technique, mode présentation), étendre le catalogue et cadrer les plugins ERP et e-facture.
-
-> **Report en cascade (à signaler à Thibaut).** Reçoit US-093 (8, décalée du sprint 16) et US-069, US-098, US-099, US-113 (10 points, décalées du sprint 18) en plus de ses 36 points : 54 points pour une capacité de 35-39. À arbitrer au planning du sprint 18 (ordre de sacrifice : Could puis Should de faible valeur, décalage éventuel vers les sprints 20-21 qui sont eux-mêmes pleins ; la feuille de route sera alors à rebaser).
-
-| Story | Titre | MoSCoW | Pts |
-|---|---|---|---|
-| US-062 (reprise) | Mineurs du script d'images | Could | 1 |
-| US-069 (reprise, décalée du sprint 18) | La page Plugins de la démo renvoie vers le site | Could | 2 |
-| US-088 | Journal d'audit lisible : reset masqué et événements métier (le noyau d'événements métier est livré par US-097) | Should | 3 |
-| US-093 (décalée du sprint 16) | Catalogue crédible, tranche 2 : environ 150 références réalistes | Should | 8 |
-| US-094 | Stock et délais indicatifs sur la fiche produit (données de démonstration) | Should | 5 |
-| US-098 (décalée du sprint 18) | Jauge de remplissage condensée sur la fiche produit | Should | 2 |
-| US-099 (décalée du sprint 18) | Simulateur PunchOut habillé et expliqué | Should | 3 |
-| US-108 | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 |
-| US-109 | Cas d'usage sectoriels : quatre pages avec appel à l'action | Should | 5 |
-| US-110 | Mini-diagnostic en six questions | Should | 5 |
-| US-111 | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 |
-| US-112 | Mode « présentation commerciale » | Should | 5 |
-| US-113 (décalée du sprint 18) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 |
-| US-130 | Spike P5 : connecteur ERP de référence | Should | 3 |
-| US-132 | Spike P7 : facture électronique France (PA/PDP) et e-reporting | Should | 3 |
-
-*Jalon* : Posts de la semaine 3 à 4 alimentés par les spikes.
-
-### Sprint 20 (2027-03-19 au 2027-04-02) : 39 points (dont 0 Must)
-
-**Objectif** : Avancer le plugin parc d'équipements et cadrer les autres plugins bankables.
-
-| Story | Titre | MoSCoW | Pts |
-|---|---|---|---|
-| US-056 (reprise) | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | Should | 5 |
-| US-057 (reprise) | Plugin équipements : parc du client dans l'espace client (CRUD) | Should | 5 |
-| US-058 (reprise) | Plugin équipements : filtre « pièces compatibles » au catalogue | Should | 5 |
-| US-084 | Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société | Could | 5 |
-| US-095 | Fiches techniques PDF fictives | Could | 3 |
-| US-100 | Les 403 expliqués et les menus inaccessibles masqués | Should | 3 |
-| US-128 | Bilan de communication : retours, échanges et rétrospective | Could | 2 |
-| US-131 | Spike P3 : assortiments et prix par société | Should | 3 |
-| US-133 | Spike P2 : contrats-cadres | Could | 3 |
-| US-134 | Spike P4 : stock multi-entrepôts et délais | Could | 3 |
-| US-135 | Spike P8 : budgets et centres de coût | Could | 2 |
-
-*Jalon* : Les posts des semaines 5 à 8 peuvent annoncer le plugin en cours (sans date).
-
-### Sprint 21 (2027-04-02 au 2027-04-16) : 34 points (dont 0 Must)
-
-**Objectif** : Publier le plugin parc d'équipements, démarrer le connecteur ERP et étendre l'espace acheteur.
-
-| Story | Titre | MoSCoW | Pts |
-|---|---|---|---|
-| US-059 (reprise) | Plugin équipements : publication 0.1.0 (tag, Packagist, README) | Should | 2 |
-| US-060 (reprise) | Plugin équipements : intégration à la démo | Should | 3 |
-| US-101 | Factures PDF et relevé de compte côté acheteur | Should | 5 |
-| US-102 | Suivi de commande côté acheteur | Could | 3 |
-| US-114 | Études de cas fictives signalées | Could | 3 |
-| US-136 | Connecteur ERP, tranche 1 : export des commandes et contrat d'événements | Should | 5 |
-| US-137 | Connecteur ERP, tranche 2 : import des prix et du stock | Could | 5 |
-| US-138 | Assortiments par société, tranche 1 | Could | 8 |
-
-*Jalon* : Provisoire : à revoir selon les retours de la communication.
-
-
-### Non planifié, à arbitrer
-
-> **Ajout de Thibaut du 2026-10-20.** [EPIC-15](epics/EPIC-15.md) « Pilotage des achats de l'entreprise » : nouveau plugin `company-insights`, 7 stories, 33 points (MMF : US-149, US-150, US-151, US-155, 20 points Must). Hors des sprints 17 à 21, déjà au-delà de leur capacité : à placer au planning, en arbitrant avec les Should et les Could.
+**Objectif** : Montrer le pilotage des achats (indicateurs, graphique mensuel, tops), signaler les approbations dans l'en-tête et compléter le kit média et la page des assistants IA.
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
 | US-149 | Company-insights : squelette du plugin et indicateurs de la période | Must | 5 |
 | US-150 | Company-insights : achats par mois sur 12 mois, comparés à l'année précédente | Must | 5 |
 | US-151 | Company-insights : tops acheteurs, produits et catégories | Must | 5 |
-| US-152 | Company-insights : ventilation par site et centre de coût, export CSV | Should | 5 |
-| US-153 | Company-insights : indicateurs des approbations et de l'encours | Should | 5 |
-| US-154 | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 |
-| US-155 | Company-insights : historique d'achats de 12 mois et intégration à la démo | Must | 5 |
+| US-103 | Assistants IA : page utile avec transcript d'une vraie conversation | Should | 3 |
+| US-121 | Kit média (2/2) : approbation, MCP, container-fill et visite complète | Should | 5 |
+| US-146 | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | Should | 5 |
+| US-156 | Purchase-approval : approbations en attente signalées dans l'en-tête | Should | 3 |
+| US-069 | La page Plugins de la démo renvoie vers le site | Could | 2 |
+| US-157 | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | Could | 2 |
 
-> **Ajout de Thibaut du 2026-10-20.** Notification des approbations pour les approbateurs (et l'administratrice, point à trancher dans US-156) : 2 stories, 5 points, dans le plugin purchase-approval ([EPIC-07](epics/EPIC-07.md)).
+*Jalon* : La décision « administratrice approbatrice » de US-156 est à prendre au planning. US-121 dépend de la licence du plugin MCP (US-083).
+
+### Sprint 20 (2027-03-19 au 2027-04-02) : 35 points (dont 5 Must)
+
+**Objectif** : Livrer le tableau de bord des achats en démo (MMF d'EPIC-15) et rendre la vitrine plus convaincante (accueil, preuve technique, intégrations, simulateur, catalogue).
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
-| US-156 | Purchase-approval : approbations en attente signalées dans l'en-tête | Should | 3 |
-| US-157 | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | Could | 2 |
+| US-155 | Company-insights : historique d'achats de 12 mois et intégration à la démo | Must | 5 |
+| US-093 | Catalogue crédible, tranche 2 : environ 150 références réalistes | Should | 8 |
+| US-099 | Simulateur PunchOut habillé et expliqué | Should | 3 |
+| US-108 | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 |
+| US-111 | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 |
+| US-113 | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 |
+| US-152 | Company-insights : ventilation par site et centre de coût, export CSV | Should | 5 |
+| US-153 | Company-insights : indicateurs des approbations et de l'encours | Should | 5 |
+
+*Jalon* : MMF d'EPIC-15 en démo (Isabelle) ; plugin company-insights 0.1.0, soumis à Packagist par Thibaut.
+
+### Sprint 21 (2027-04-02 au 2027-04-16) : 37 points (dont 0 Must)
+
+**Objectif** : Cadrer les plugins bankables (spikes ERP, facture électronique, assortiments) et livrer le cœur du plugin parc d'équipements.
+
+| Story | Titre | MoSCoW | Pts |
+|---|---|---|---|
+| US-056 | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | Should | 5 |
+| US-057 | Plugin équipements : parc du client dans l'espace client (CRUD) | Should | 5 |
+| US-058 | Plugin équipements : filtre « pièces compatibles » au catalogue | Should | 5 |
+| US-088 | Journal d'audit lisible : reset masqué et événements métier (le noyau d'événements métier est livré par US-097) | Should | 3 |
+| US-094 | Stock et délais indicatifs sur la fiche produit (données de démonstration) | Should | 5 |
+| US-110 | Mini-diagnostic en six questions | Should | 5 |
+| US-130 | Spike P5 : connecteur ERP de référence | Should | 3 |
+| US-131 | Spike P3 : assortiments et prix par société | Should | 3 |
+| US-132 | Spike P7 : facture électronique France (PA/PDP) et e-reporting | Should | 3 |
+
+*Jalon* : Les posts des semaines 5 à 8 peuvent annoncer le plugin équipements en cours, sans date.
+
+### Sprint 22 (2027-04-16 au 2027-04-30) : 34 points (dont 0 Must)
+
+**Objectif** : Publier le parc d'équipements, livrer la tranche 1 du connecteur ERP et les contenus de conversion (cas sectoriels, mode présentation).
+
+| Story | Titre | MoSCoW | Pts |
+|---|---|---|---|
+| US-059 | Plugin équipements : publication 0.1.0 (tag, Packagist, README) | Should | 2 |
+| US-060 | Plugin équipements : intégration à la démo | Should | 3 |
+| US-098 | Jauge de remplissage condensée sur la fiche produit | Should | 2 |
+| US-100 | Les 403 expliqués et les menus inaccessibles masqués | Should | 3 |
+| US-101 | Factures PDF et relevé de compte côté acheteur | Should | 5 |
+| US-109 | Cas d'usage sectoriels : quatre pages avec appel à l'action | Should | 5 |
+| US-112 | Mode « présentation commerciale » | Should | 5 |
+| US-136 | Connecteur ERP, tranche 1 : export des commandes et contrat d'événements | Should | 5 |
+| US-062 | Mineurs du script d'images | Could | 1 |
+| US-154 | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 |
+
+*Jalon* : Packagist : Thibaut soumet le plugin parc d'équipements (US-059).
+
+### Sprint 23 (2027-04-30 au 2027-05-14) : 37 points (dont 0 Must)
+
+**Objectif** : Tranches optionnelles et finitions (Could), puis bilan de la communication pour décider de la suite.
+
+| Story | Titre | MoSCoW | Pts |
+|---|---|---|---|
+| US-084 | Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société | Could | 5 |
+| US-095 | Fiches techniques PDF fictives | Could | 3 |
+| US-102 | Suivi de commande côté acheteur | Could | 3 |
+| US-114 | Études de cas fictives signalées | Could | 3 |
+| US-128 | Bilan de communication : retours, échanges et rétrospective | Could | 2 |
+| US-133 | Spike P2 : contrats-cadres | Could | 3 |
+| US-134 | Spike P4 : stock multi-entrepôts et délais | Could | 3 |
+| US-135 | Spike P8 : budgets et centres de coût | Could | 2 |
+| US-137 | Connecteur ERP, tranche 2 : import des prix et du stock | Could | 5 |
+| US-138 | Assortiments par société, tranche 1 | Could | 8 |
+
+*Jalon* : Provisoire : à revoir selon le bilan de communication (US-128) et les retours des prospects.
 
 ## Dépendances
 
@@ -246,23 +256,29 @@ graph TD
   subgraph S17[Sprint 17 : conversion]
     US105[US-105 moteur de parcours] --> US106[US-106 parcours]
     US107[US-107 page Intégrer]
-    URL{{URL du site}} --> US068[US-068 README]
-    URL --> US069[US-069 page Plugins]
     US097 --> US120[US-120 kit média 1]
     US122 --> US123[US-123 posts lot 1]
     US120 --> US123
-    US118 --> US125[US-125 page démo du site]
     US127[US-127 checklist annonce]
   end
   subgraph S18[Sprint 18 : lancement]
+    URL{{URL du site}} --> US068[US-068 README]
+    US118[US-118 fiches phares] --> US125[US-125 page démo du site]
+    US125 --> ANN
     US123 --> ANN{{Annonce LinkedIn}}
     US127 --> ANN
     US052 --> ANN
-    US103[US-103 transcript MCP] --> US121[US-121 kit média 2]
     US123 --> US124[US-124 posts lot 2]
     US118 --> US119[US-119 18 fiches]
   end
-  subgraph S19_21[Sprints 19 à 21 : offres]
+  subgraph S19_23[Sprints 19 à 23 : pilotage et offres]
+    URL --> US069[US-069 page Plugins]
+    US103[US-103 transcript MCP] --> US121[US-121 kit média 2]
+    US149[US-149 indicateurs] --> US150[US-150 achats par mois] --> US155[US-155 démo 12 mois]
+    US149 --> US151[US-151 tops] --> US155
+    US149 --> US152[US-152 ventilation + CSV]
+    US149 --> US153[US-153 approbations + encours] --> US154[US-154 devis + économies]
+    US156[US-156 approbations en-tête] --> US157[US-157 aperçu]
     US130[US-130 spike ERP] --> US136[US-136 export ERP]
     US136 --> US137[US-137 import ERP]
     US131[US-131 spike P3] --> US138[US-138 assortiments]

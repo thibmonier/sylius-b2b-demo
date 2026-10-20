@@ -12,4 +12,4 @@
 | [US-004](../user-stories/US-004.md) | Tâches planifiées dans le conteneur | Must | 3 | 1 |
 | [US-005](../user-stories/US-005.md) | CI GitHub Actions et tests de fumée | Must | 3 | 1 |
 | [US-006](../user-stories/US-006.md) | Spike : mode worker FrankenPHP | Should | 2 | 6 |
-| [US-147](../user-stories/US-147.md) | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 | 17 |
+| [US-147](../user-stories/US-147.md) | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 | 18 |
