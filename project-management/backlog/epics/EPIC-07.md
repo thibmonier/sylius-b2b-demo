@@ -12,7 +12,7 @@
 | [US-029](../user-stories/US-029.md) | Récepteur de webhooks de démo | Could | 3 | 10 (reportée du 6) |
 | [US-030](../user-stories/US-030.md) | Guide de connexion MCP | Could | 2 | 6 |
 | [US-031](../user-stories/US-031.md) | Correctifs des plugins publiés | Must | 1 | 1 |
-| [US-146](../user-stories/US-146.md) | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | Should | 5 | 17 |
-| [US-148](../user-stories/US-148.md) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 | 17 |
-| [US-156](../user-stories/US-156.md) | Purchase-approval : approbations en attente signalées dans l'en-tête | Should | 3 | à planifier |
-| [US-157](../user-stories/US-157.md) | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | Could | 2 | à planifier |
+| [US-146](../user-stories/US-146.md) | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | Should | 5 | 19 |
+| [US-148](../user-stories/US-148.md) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 | 18 |
+| [US-156](../user-stories/US-156.md) | Purchase-approval : approbations en attente signalées dans l'en-tête | Should | 3 | 19 |
+| [US-157](../user-stories/US-157.md) | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | Could | 2 | 19 |
