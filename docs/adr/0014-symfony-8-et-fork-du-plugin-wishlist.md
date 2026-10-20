@@ -1,6 +1,6 @@
 # ADR-0014 — Symfony 8.1 et fork temporaire du plugin wishlist
 
-- **Statut** : Accepté (2026-10-19)
+- **Statut** : Accepté (2026-10-19), fork abandonné le 2026-10-20 (voir la mise à jour en fin de document)
 - **Contexte projet** : sylius-b2b-demo, hors sprint (montée de version demandée après l'ouverture publique)
 
 ## Contexte
@@ -30,6 +30,16 @@ Chez Sylius, la PR [#91](https://github.com/Sylius/WishlistPlugin/pull/91) (conv
 ## Conditions de sortie
 
 Revenir au paquet officiel (supprimer l'entrée `repositories` et remettre `^1.3`, ou la version qui conviendra) dès que Sylius publie une version de `sylius/wishlist-plugin` compatible Symfony 8. À vérifier à chaque revue de dépendances.
+
+## Mise à jour du 2026-10-20 : fork abandonné
+
+Sylius a fusionné le 2026-10-19 « Update to Sylius 2.3 » ([#109](https://github.com/Sylius/WishlistPlugin/pull/109)) dans la branche `1.4` du dépôt officiel. Elle reprend la conversion des services en PHP et les correctifs Symfony 8 du fork (voter, `Request::get()`), avec quelques nettoyages : deux définitions de service en double retirées, `$request->request->all('…')`.
+
+La démo dépend désormais de **`sylius/wishlist-plugin: 1.4.x-dev`**, depuis Packagist et sans dépôt VCS. Le lock épingle le commit `bff330c`. Ont été vérifiés : la compilation du conteneur en `dev` et en `prod`, PHPStan et la suite PHPUnit.
+
+Nouvelle condition de sortie : passer à `^1.4` dès que la version 1.4.0 est publiée. On quitte ainsi une branche de développement pour une version stable. D'ici là, un `composer update` peut faire avancer le commit : relire le diff de `sylius/wishlist-plugin` à chaque mise à jour.
+
+Le fork `thibmonier/WishlistPlugin` ne sert plus à la démo. Sa branche `symfony-8` peut être supprimée dès la publication de la 1.4.0.
 
 ## Conséquences
 
