@@ -22,9 +22,9 @@
 | Six fiches plugins prêtes | Sprint 18 (décalé du sprint 17, plan du 2026-10-20) | US-118 |
 | **Mise en ligne des fiches et pages du site** | Sprint 18 : fiches phares puis page démo, services et contact, par Thibaut | URL du site connue ; US-118, US-125, US-126 |
 | README des 24 dépôts reliés au site | Sprint 18 (décalé du sprint 17, GO unique de merge) | US-068 ; URL du site |
-| Prérequis d'annonce (checklist J-7) | Fin du sprint 17 | US-127, US-123, US-120 |
-| **Annonce LinkedIn de l'ouverture** | Sprint 18, une fois la page démo du site en ligne (plus en semaine 1 : US-125 décalée), par Thibaut | GO donné, site en ligne, posts du lot 1 prêts |
-| Calendrier éditorial de 8 semaines | Sprints 18 à 21 | US-122, US-124 |
+| Suivi de l'annonce (J+7 puis J+30) | Sprint 17 : bilan à J+7 le 2026-10-26 | US-127, US-123, US-129, US-117 |
+| **Annonce LinkedIn de l'ouverture** | **Faite le 2026-10-19 par Thibaut**, avant le site et la page contact (environ 380 réactions et environ 10 vues du profil au 2026-10-20) | Démo publique depuis le 2026-10-19 |
+| Calendrier éditorial de 8 semaines | Sprints 17 à 21 (premier post de suite au plus tard le 2026-10-26) | US-122, US-123, US-124 |
 | 24 fiches du site en ligne | Fin du sprint 18 | US-119 |
 | Tableau de bord des achats en démo (MMF EPIC-15) | Fin du sprint 20 | US-149, US-150, US-151, US-155 |
 | Plugin parc d'équipements publié | Sprint 22 | US-056 à US-060 |
@@ -92,15 +92,16 @@
 *Jalon* : Prérequis bloquant du dossier de GO levé (images persistantes, US-145) ; démo crédible avant toute communication. Mise en ligne des fiches du site repoussée au sprint 17.
 
 > **Planification complète demandée par Thibaut le 2026-10-20.**
-> - **Périmètre :** tout le scope restant, soit 64 stories et 253 points. Cela comprend le contenu des anciens sprints 17 à 21, US-146, EPIC-15 et US-156/157.
+> - **Périmètre :** tout le scope restant, soit 64 stories et 250 points (253 avant le recadrage de l'annonce). Cela comprend le contenu des anciens sprints 17 à 21, US-146, EPIC-15 et US-156/157.
 > - **Capacité :** 7 sprints de 34 à 39 points, pour une capacité de 35 à 39. Tous les Must sont placés au plus tard au sprint 20, et les Could sont regroupés au sprint 23.
-> - **Dépendances :** l'ordre respecte le graphe ci-dessous (US-107 puis US-106 puis US-127 avant l'annonce ; US-118 puis US-125 ; spikes avant les tranches ; US-149 avant le reste d'EPIC-15).
+> - **Dépendances :** l'ordre respecte le graphe ci-dessous (US-107 puis US-106 ; US-118 puis US-125 ; spikes avant les tranches ; US-149 avant le reste d'EPIC-15).
 > - **Révision :** le planning détaillé reste fait au lancement de chaque sprint.
+> - **Annonce déjà publiée (rappel de Thibaut du 2026-10-20) :** le premier post est parti le 2026-10-19, avant le site. US-127 devient le suivi de l'annonce (2 points), US-123 se réduit aux trois posts de suite (3 points), et US-129 (profil, devenue Must) et US-117 (mesure) passent au sprint 17. Le sprint 17 fait 38 points, le sprint 18 en fait 34.
 > - **Risque de vélocité :** si elle reste sous 35 points, on retire d'abord les Could du sprint 23, puis on décale les Should du sprint 22.
 
-### Sprint 17 (2027-02-05 au 2027-02-19) : 36 points (dont 36 Must)
+### Sprint 17 (2027-02-05 au 2027-02-19) : 38 points (dont 35 Must)
 
-**Objectif** : Préparer l'annonce (charte, calendrier, lot 1 de posts, kit média, checklist J-7) et livrer la conversion dans la démo (parcours guidés complets, page « Intégrer »).
+**Objectif** : Transformer l'élan de l'annonce du 2026-10-19 en visites et en échanges (profil, posts de suite, suivi à J+7 et J+30, mesure, charte, calendrier, kit média) et livrer la conversion dans la démo (parcours guidés complets, page « Intégrer »).
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
@@ -110,14 +111,16 @@
 | US-116 | Charte éditoriale LinkedIn et messages clés | Must | 2 |
 | US-120 | Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide | Must | 5 |
 | US-122 | Calendrier éditorial LinkedIn sur huit semaines | Must | 3 |
-| US-123 | Posts LinkedIn rédigés, lot 1 : annonce et trois premiers posts | Must | 5 |
-| US-127 | Annonce d'ouverture : checklist de J-7 à J+7 | Must | 3 |
+| US-123 | Posts LinkedIn rédigés, lot 1 : trois posts de suite à l'annonce | Must | 3 |
+| US-127 | Suivi de l'annonce d'ouverture, de J+1 à J+30 | Must | 2 |
+| US-129 | Profil LinkedIn : texte, bannière et section « À la une » | Must | 2 |
+| US-117 | Mesure de la communication : visites par campagne sans cookie (outil : Umami, US-143) | Should | 3 |
 
-*Jalon* : Les quatre actions de la rétro du sprint 16 sont prises en tâches, sans points : verrou de `bin/run-tests`, isolation des comptes de démo partagés, arrêt des tâches de fond, reconstruction de l'image. Fin de sprint : checklist J-7 prête, parcours guidés et page « Intégrer » en ligne.
+*Jalon* : Les quatre actions de la rétro du sprint 16 sont prises en tâches, sans points : verrou de `bin/run-tests`, isolation des comptes de démo partagés, arrêt des tâches de fond, reconstruction de l'image. Premier post de suite publié au plus tard le 2026-10-26 et profil à jour avant lui. Fin de sprint : bilan à J+7 fait, parcours guidés et page « Intégrer » en ligne.
 
-### Sprint 18 (2027-02-19 au 2027-03-05) : 39 points (dont 14 Must)
+### Sprint 18 (2027-02-19 au 2027-03-05) : 34 points (dont 14 Must)
 
-**Objectif** : Mettre en ligne le site (fiches, page démo, services, contact), relier les README, annoncer l'ouverture sur LinkedIn et passer la démo et les plugins aux dernières versions (PHP 8.5, Symfony 8).
+**Objectif** : Mettre en ligne le site (fiches, page démo, services, contact) pour donner un point d'arrivée aux posts, relier les README et passer la démo et les plugins aux dernières versions (PHP 8.5, Symfony 8).
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
@@ -126,13 +129,11 @@
 | US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 |
 | US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
 | US-068 | Liens vers le site et la page contact dans les 24 README | Should | 5 |
-| US-117 | Mesure de la communication : visites par campagne sans cookie (outil : Umami, US-143) | Should | 3 |
 | US-119 | Fiches plugins pour le site : les dix-huit autres plugins | Should | 5 |
 | US-124 | Posts LinkedIn rédigés, lot 2 : semaines 3 à 8 | Should | 5 |
 | US-126 | Pages « services » et « contact » du site : offres bankables | Should | 5 |
-| US-129 | Profil LinkedIn : texte, bannière et section « À la une » | Should | 2 |
 
-*Jalon* : Six fiches phares puis page démo du site en ligne, par Thibaut. Annonce LinkedIn par Thibaut une fois US-125 en ligne, en cours de sprint. GO unique de merge des 24 PR de README (US-068).
+*Jalon* : Six fiches phares puis page démo du site en ligne, par Thibaut ; les posts suivants pointent vers le site dès qu'il existe. GO unique de merge des 24 PR de README (US-068). Bilan à J+30 de l'annonce (US-127).
 
 ### Sprint 19 (2027-03-05 au 2027-03-19) : 35 points (dont 15 Must)
 
@@ -259,15 +260,14 @@ graph TD
     US097 --> US120[US-120 kit média 1]
     US122 --> US123[US-123 posts lot 1]
     US120 --> US123
-    US127[US-127 checklist annonce]
+    US127[US-127 suivi de l annonce]
   end
   subgraph S18[Sprint 18 : lancement]
     URL{{URL du site}} --> US068[US-068 README]
     US118[US-118 fiches phares] --> US125[US-125 page démo du site]
-    US125 --> ANN
-    US123 --> ANN{{Annonce LinkedIn}}
-    US127 --> ANN
-    US052 --> ANN
+    US052 --> ANN{{Annonce LinkedIn faite le 2026-10-19}}
+    ANN --> US127
+    ANN --> US123
     US123 --> US124[US-124 posts lot 2]
     US118 --> US119[US-119 18 fiches]
   end
@@ -286,7 +286,6 @@ graph TD
   end
   US087 --> US085
   US090 --> US096
-  US106 --> US127
   US105 --> US106
   US107 --> US106
   ANN --> US128[US-128 bilan]
