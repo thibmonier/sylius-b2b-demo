@@ -193,6 +193,21 @@
 
 *Jalon* : Provisoire : à revoir selon les retours de la communication.
 
+
+### Non planifié, à arbitrer
+
+> **Ajout de Thibaut du 2026-10-20.** [EPIC-15](epics/EPIC-15.md) « Pilotage des achats de l'entreprise » : nouveau plugin `company-insights`, 7 stories, 33 points (MMF : US-149, US-150, US-151, US-155, 20 points Must). Hors des sprints 17 à 21, déjà au-delà de leur capacité : à placer au planning, en arbitrant avec les Should et les Could.
+
+| Story | Titre | MoSCoW | Pts |
+|---|---|---|---|
+| US-149 | Company-insights : squelette du plugin et indicateurs de la période | Must | 5 |
+| US-150 | Company-insights : achats par mois sur 12 mois, comparés à l'année précédente | Must | 5 |
+| US-151 | Company-insights : tops acheteurs, produits et catégories | Must | 5 |
+| US-152 | Company-insights : ventilation par site et centre de coût, export CSV | Should | 5 |
+| US-153 | Company-insights : indicateurs des approbations et de l'encours | Should | 5 |
+| US-154 | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 |
+| US-155 | Company-insights : historique d'achats de 12 mois et intégration à la démo | Must | 5 |
+
 ## Dépendances
 
 ```mermaid
