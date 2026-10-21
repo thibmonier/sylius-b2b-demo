@@ -53,20 +53,21 @@ final class TrustedProxiesTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
     }
 
-    public function testTheMcpGuideAnnouncesTheHostOfTheRequest(): void
+    public function testTheMcpGuideAnnouncesThePublicSiteWhateverTheHostOfTheRequest(): void
     {
-        $this->setEnvironment(['TRUSTED_HOSTS' => '^demo\.example\.test$', 'DEMO_PUBLIC_HOST' => 'sylius-b2b.site.example', 'DEFAULT_URI' => 'https://demo.example.test']);
+        $this->setEnvironment(['TRUSTED_HOSTS' => '^demo\.example\.test$', 'DEMO_PUBLIC_HOST' => 'sylius-b2b.site.example', 'DEFAULT_URI' => 'https://sylius-b2b.site.example']);
         $client = self::createClient();
 
-        $client->request('GET', '/fr_FR/mcp', server: ['HTTP_HOST' => 'sylius-b2b.site.example']);
+        $client->request('GET', '/fr_FR/mcp', server: ['HTTP_HOST' => 'demo.example.test']);
 
         self::assertResponseIsSuccessful();
         $crawler = $client->getCrawler();
-        self::assertStringContainsString('sylius-b2b.site.example/_mcp', (string) $client->getResponse()->getContent());
-        // The address announced for the server and its configuration is the one of the request, not DEFAULT_URI.
-        self::assertStringNotContainsString('demo.example.test', $crawler->filter('[data-mcp-server-url]')->text() . $crawler->filter('[data-mcp-config]')->text());
+        // US-103: the address announced for the server and its configuration is the public one (DEFAULT_URI), never the
+        // platform domain the visitor came by.
+        self::assertSame('https://sylius-b2b.site.example/_mcp', $crawler->filter('[data-mcp-server-url]')->text());
+        self::assertStringNotContainsString('demo.example.test', $crawler->filter('[data-mcp-config]')->text());
         // The canonical address of the page (US-078) is the one of DEFAULT_URI, whatever host the visitor came by.
-        self::assertSame('https://demo.example.test/fr_FR/mcp', $crawler->filter('link[rel="canonical"]')->attr('href'));
+        self::assertSame('https://sylius-b2b.site.example/fr_FR/mcp', $crawler->filter('link[rel="canonical"]')->attr('href'));
     }
 
     public function testAnUnknownHostStaysRefusedWithAPublicHost(): void

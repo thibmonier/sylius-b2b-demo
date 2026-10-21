@@ -123,11 +123,18 @@ final class DemoPluginCatalogTest extends TestCase
         $catalog = self::catalog();
         $unpublished = array_values(array_filter($catalog->all(), static fn ($plugin): bool => !$plugin->published));
 
-        self::assertSame(['sylius-agentic-feeds-plugin', 'sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
+        self::assertSame(['sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
         self::assertNull($unpublished[0]->packagistUrl());
-        self::assertSame('in_progress', $unpublished[0]->status());
-        self::assertSame('upcoming', $unpublished[1]->status());
+        self::assertSame('upcoming', $unpublished[0]->status());
         self::assertNull(self::catalog()->get('sylius-quick-order-plugin')?->status());
+    }
+
+    public function testAnInstalledButUnpublishedPluginIsInProgress(): void
+    {
+        $plugin = new DemoPluginCatalog([self::entry('sylius-draft-plugin', ['published' => false])], self::accounts())->get('sylius-draft-plugin');
+
+        self::assertNull($plugin?->packagistUrl());
+        self::assertSame('in_progress', $plugin?->status());
     }
 
     public function testPublishedPluginsLinkToPackagist(): void

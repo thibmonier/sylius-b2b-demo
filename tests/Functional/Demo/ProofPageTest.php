@@ -188,7 +188,8 @@ final class ProofPageTest extends WebTestCase
     {
         return [
             'rows' => $page->filter('tr[data-plugin]')->each(static fn (Crawler $row): string => (string) $row->attr('data-plugin')),
-            'links' => $page->filter('table[data-proof-table] a, [data-proof-delivery] a')->each(static fn (Crawler $a): string => (string) $a->attr('href')),
+            // Internal links carry the locale of the page: only their target is compared.
+            'links' => $page->filter('table[data-proof-table] a, [data-proof-delivery] a')->each(static fn (Crawler $a): string => (string) preg_replace('#^/(fr_FR|en_US)/#', '/{locale}/', (string) $a->attr('href'))),
         ];
     }
 
