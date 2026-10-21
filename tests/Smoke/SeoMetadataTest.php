@@ -34,6 +34,7 @@ final class SeoMetadataTest extends WebTestCase
             yield $locale . ' login' => [$locale, '/' . $locale . '/login'];
             yield $locale . ' mcp' => [$locale, '/' . $locale . '/mcp'];
             yield $locale . ' about' => [$locale, '/' . $locale . '/a-propos'];
+            yield $locale . ' integrate' => [$locale, '/' . $locale . '/integrer'];
         }
     }
 

@@ -16,6 +16,7 @@ app:
         advised_account: 'Advised account:'
         see_in_demo: 'See it in the demo'
         mcp_guide: 'Guide to connect Claude'
+        integrate_link: 'Integrate these plugins in your project: formulas, questions to settle first, lead times'
         no_demo_page: 'Visible in the admin panel or at checkout'
         sylius_version: 'These plugins install on Sylius 2.3.'
         category:

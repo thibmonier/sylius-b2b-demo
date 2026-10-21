@@ -10,6 +10,8 @@
             <p><a href="{{ path('app_demo_punchout_simulator', {lang: app.request.locale|slice(0, 2)}) }}" data-punchout-simulator-link{{ app_umami_event('simulateur-punchout-ouverture', { emplacement: 'plugins' }) }}>{{ 'plugins_link'|trans({}, 'simulator') }}</a></p>
         {% endif %}
 
+        <p><a href="{{ path('app_demo_integrate', {_locale: app.request.locale}) }}" data-plugins-integrate-link>{{ 'app.plugins.integrate_link'|trans }}</a></p>
+
         {% include 'shared/_contact_cta.html.twig' with { variant: 'banner', placement: 'plugins-top' } only %}
 
         {% for category, plugins in groups %}

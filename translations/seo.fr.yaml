@@ -8,4 +8,5 @@ description:
     app_demo_legal_notice: 'Mentions légales de la démo Fournitures Pro : démonstration non commerciale, données fictives, aucun paiement réel.'
     sylius_shop_login: 'Connexion à la démo Fournitures Pro : comptes de démonstration société, acheteur et approbateur, sans inscription.'
     app_demo_accounts: 'Parcours et comptes de démonstration de Fournitures Pro : choisissez un rôle pour parcourir la boutique B2B.'
+    app_demo_integrate: 'Intégrer les plugins Sylius B2B de Thibaut Monier dans votre projet : trois formules, questions préalables, architecture type et délais indicatifs.'
     app_demo_mcp_guide: 'Guide pour connecter un assistant IA à la boutique de démonstration par le serveur MCP de Sylius.'

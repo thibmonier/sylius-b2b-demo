@@ -21,6 +21,7 @@ final class ThemeLandmarksTest extends WebTestCase
             yield $locale . ' plugins' => ['/' . $locale . '/plugins'];
             yield $locale . ' login' => ['/' . $locale . '/login'];
             yield $locale . ' about' => ['/' . $locale . '/a-propos'];
+            yield $locale . ' integrate' => ['/' . $locale . '/integrer'];
             yield $locale . ' category' => ['/' . $locale . '/taxons/quincaillerie'];
             yield $locale . ' product' => ['/' . $locale . '/products/outi-001-' . substr($locale, 0, 2)];
         }
