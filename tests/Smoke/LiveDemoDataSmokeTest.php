@@ -207,11 +207,11 @@ final class LiveDemoDataSmokeTest extends WebTestCase
         self::assertGreaterThanOrEqual(3, count($resources), 'Several kinds of resources: prices, orders, customers…');
     }
 
-    public function testTheHistoryOfAcmeIsStillSpreadOverSixMonths(): void
+    public function testTheCoreHistoryOfAcmeIsStillSpreadOverSixMonths(): void
     {
         self::bootKernel();
         $dates = [];
-        foreach (DemoOrderPlan::all() as $spec) {
+        foreach (DemoOrderPlan::core() as $spec) {
             if (str_ends_with($spec->customerEmail, '@acme.example')) {
                 $order = $this->entityManager()->getRepository(OrderInterface::class)->findOneBy(['poReference' => $spec->poReference]);
                 self::assertInstanceOf(OrderInterface::class, $order, $spec->poReference);

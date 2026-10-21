@@ -109,7 +109,7 @@ final class McpGuideTest extends WebTestCase
         $client = self::createClient();
         $token = $this->mcpAccessToken(self::CLAIRE);
 
-        $answer = $this->mcpTool($client, $token, 'list_my_orders');
+        $answer = $this->mcpTool($client, $token, 'list_my_orders', ['limit' => 100]);
 
         self::assertIsArray($answer['orders']);
         $numbers = array_column($answer['orders'], 'number');

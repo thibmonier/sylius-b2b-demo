@@ -22,7 +22,7 @@ final class DemoResetCommandTest extends KernelTestCase
     /** Products of fixtures/csv and customers of config/demo/accounts.yaml (11 B2B members + Léa). */
     private const INITIAL_PRODUCTS = 210;
 
-    private const INITIAL_CUSTOMERS = 12;
+    private const INITIAL_CUSTOMERS = 13;
 
     /** Carts that are not history orders (US-096 / US-097): the cart of Claire and the two drafts of the back office. */
     private const LIVE_CARTS = 3;

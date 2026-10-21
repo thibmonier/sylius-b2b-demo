@@ -28,9 +28,9 @@ final class DemoOrderHistoryTest extends TestCase
 
         self::assertGreaterThanOrEqual(40, count($acme));
         self::assertLessThanOrEqual(55, count($acme));
-        self::assertGreaterThanOrEqual(500, max($days));
-        self::assertLessThanOrEqual(560, max($days));
-        self::assertGreaterThanOrEqual(0, min($days));
+        self::assertGreaterThanOrEqual(500, max([0, ...$days]));
+        self::assertLessThanOrEqual(560, max([0, ...$days]));
+        self::assertGreaterThanOrEqual(0, min([\PHP_INT_MAX, ...$days]));
     }
 
     public function testAugustIsTheTroughAndSeptemberThePeakOfTheLastTwelveMonths(): void
@@ -38,7 +38,7 @@ final class DemoOrderHistoryTest extends TestCase
         $perMonth = $this->placedPerMonth($this->acme(DemoOrderPlan::all($this->now)), $this->now, '2025-11', '2026-10');
 
         self::assertCount(12, $perMonth);
-        self::assertSame(min($perMonth), $perMonth['2026-08']);
+        self::assertSame(min([\PHP_INT_MAX, ...array_values($perMonth)]), $perMonth['2026-08']);
         self::assertSame(max($perMonth), $perMonth['2026-09']);
         self::assertLessThan($perMonth['2026-07'], $perMonth['2026-08']);
     }
@@ -48,7 +48,7 @@ final class DemoOrderHistoryTest extends TestCase
         $perMonth = $this->placedPerMonth($this->acme(DemoOrderPlan::all($this->now)), $this->now, '2025-05', '2025-10');
 
         self::assertCount(6, $perMonth);
-        self::assertSame(min($perMonth), $perMonth['2025-08']);
+        self::assertSame(min([\PHP_INT_MAX, ...array_values($perMonth)]), $perMonth['2025-08']);
         self::assertNotContains(0, $perMonth);
     }
 
@@ -57,7 +57,7 @@ final class DemoOrderHistoryTest extends TestCase
         $now = new \DateTimeImmutable('2027-02-03 09:30:00');
         $perMonth = $this->placedPerMonth($this->acme(DemoOrderPlan::history($now)), $now, '2026-03', '2027-02');
 
-        self::assertSame(min($perMonth), $perMonth['2026-08']);
+        self::assertSame(min([\PHP_INT_MAX, ...array_values($perMonth)]), $perMonth['2026-08']);
         self::assertSame(max($perMonth), $perMonth['2026-09']);
     }
 
@@ -208,14 +208,14 @@ final class DemoOrderHistoryTest extends TestCase
     }
 
     /**
-     * @param array<int|string, mixed> $values
+     * @param array<int|string, string|null> $values
      *
-     * @return list<mixed>
+     * @return list<string|null>
      */
     private function sorted(array $values): array
     {
         $values = array_values($values);
-        usort($values, static fn (mixed $a, mixed $b): int => strcmp((string) $a, (string) $b));
+        usort($values, static fn (?string $a, ?string $b): int => strcmp((string) $a, (string) $b));
 
         return $values;
     }

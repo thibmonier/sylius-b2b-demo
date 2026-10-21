@@ -52,14 +52,16 @@ final class OrderHistorySmokeTest extends WebTestCase
         self::assertCount(count(DemoOrderPlan::all()), $this->placedOrders($em));
     }
 
-    public function testEveryOrderHasItsInvoiceExceptTheOneWaitingForAnApproval(): void
+    public function testEveryCoreOrderHasItsInvoiceExceptTheOneWaitingForAnApproval(): void
     {
         self::bootKernel();
         $em = $this->entityManager();
 
+        // The 18-month history (US-155) is written in bulk, without invoices: only the core orders go through the services.
+        $core = array_map(static fn ($spec): string => $spec->poReference, DemoOrderPlan::core());
         $without = [];
         foreach ($this->placedOrders($em) as $order) {
-            if (null === $this->invoiceOf($em, $order) && $order instanceof OrderPoReferenceAwareInterface) {
+            if (null === $this->invoiceOf($em, $order) && $order instanceof OrderPoReferenceAwareInterface && in_array($order->getPoReference(), $core, true)) {
                 $without[] = (string) $order->getPoReference();
             }
         }
