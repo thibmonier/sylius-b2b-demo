@@ -357,6 +357,9 @@ final class ContainerFillDemoTest extends WebTestCase
         $processor = $container->get('sylius.order_processing.order_processor');
         self::assertInstanceOf(OrderProcessorInterface::class, $processor);
         $processor->process($order);
+        // Sylius shows the latest cart (createdAt DESC, to the second): a cart of the same customer leaked by
+        // another test in the same second would tie with this one. Rolled back with the transaction.
+        $order->setCreatedAt(new \DateTime('+1 hour'));
         $this->entityManager()->persist($order);
         $this->entityManager()->flush();
 
