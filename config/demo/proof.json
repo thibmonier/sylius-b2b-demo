@@ -334,6 +334,13 @@
                 "checked_at": "2026-10-21"
             }
         },
+        "sylius-company-insights-plugin": {
+            "version": {
+                "state": "unpublished",
+                "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
+                "checked_at": "2026-10-21"
+            }
+        },
         "sylius-container-fill-plugin": {
             "version": {
                 "value": "v1.1.1",

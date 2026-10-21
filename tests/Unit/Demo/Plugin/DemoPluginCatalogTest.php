@@ -31,8 +31,8 @@ final class DemoPluginCatalogTest extends TestCase
         sort($slugs);
 
         self::assertSame($expected, $slugs);
-        self::assertCount(24, self::catalog()->all());
-        self::assertSame(24, self::catalog()->count());
+        self::assertCount(25, self::catalog()->all());
+        self::assertSame(25, self::catalog()->count());
         self::assertSame(['sylius-customer-asset-management-plugin'], array_values(array_map(
             static fn ($plugin): string => $plugin->slug,
             array_filter(self::catalog()->all(), static fn ($plugin): bool => !$plugin->installed),
@@ -69,7 +69,7 @@ final class DemoPluginCatalogTest extends TestCase
     {
         $groups = self::catalog()->byCategory();
 
-        self::assertSame(24, array_sum(array_map('count', $groups)));
+        self::assertSame(25, array_sum(array_map('count', $groups)));
         self::assertArrayHasKey('purchasing', $groups);
     }
 
@@ -123,9 +123,12 @@ final class DemoPluginCatalogTest extends TestCase
         $catalog = self::catalog();
         $unpublished = array_values(array_filter($catalog->all(), static fn ($plugin): bool => !$plugin->published));
 
-        self::assertSame(['sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
+        // company-insights (US-155) is installed from GitHub until its 0.1.0 is on Packagist.
+        self::assertSame(['sylius-company-insights-plugin', 'sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
         self::assertNull($unpublished[0]->packagistUrl());
-        self::assertSame('upcoming', $unpublished[0]->status());
+        self::assertSame('in_progress', $unpublished[0]->status());
+        self::assertNull($unpublished[1]->packagistUrl());
+        self::assertSame('upcoming', $unpublished[1]->status());
         self::assertNull(self::catalog()->get('sylius-quick-order-plugin')?->status());
     }
 

@@ -45,6 +45,7 @@
         "tmonier/sylius-channel-access-plugin": "^0.2",
         "tmonier/sylius-command-palette-plugin": "^1.1.0",
         "tmonier/sylius-company-accounts-plugin": "^1.2",
+        "tmonier/sylius-company-insights-plugin": "dev-feature/walking-skeleton",
         "tmonier/sylius-container-fill-plugin": "^1.1.1",
         "tmonier/sylius-facturx-plugin": "^1.1",
         "tmonier/sylius-gpsr-plugin": "^1.0",
@@ -119,6 +120,13 @@
             "src/Kernel.php"
         ]
     },
+    "_comment_repositories": "TEMPORARY (US-155): tmonier/sylius-company-insights-plugin is installed from GitHub (dev-feature/walking-skeleton) until its 0.1.0 is on Packagist. Then remove this repository and the _comment, and require ^0.1 (ADR-0006: the demo installs tagged versions).",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/thibmonier/sylius-company-insights-plugin"
+        }
+    ],
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": [
