@@ -29,7 +29,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-147-01 | [OPS] | Veille : l'image FrankenPHP PHP 8.5 corrigée est-elle publiée (version de PHP au moins égale au correctif, digest relevé) ? Veille programmée de l'orchestrateur | 0,5 h | - | Orchestrateur | 🔲 |
+| T-147-01 | [OPS] | Veille : l'image FrankenPHP PHP 8.5 corrigée est-elle publiée (version de PHP au moins égale au correctif, digest relevé) ? Veille programmée de l'orchestrateur — *Clôture 2026-10-21 : veille horaire active ; à 13:29 UTC, PHP 8.5.11 et digest `1-php8.5-bookworm` non corrigé : story sortie du sprint, PR séparée dès l'image corrigée* | 0,5 h | - | Orchestrateur | 🔄 |
 | T-147-02 | [TEST] | Tests rouges : un test lit Dockerfile, `ci.yaml` et `composer.json` et exige PHP 8.5 partout ; `bin/check-pinned-refs` échoue sur une image référencée par tag seul | 1 h | - | Claude | 🔲 |
 | T-147-03 | [OPS] | Dockerfile (nouveau digest), deux jobs de la CI en 8.5, `composer.json` (`^8.5`, `platform.php` 8.5.x), `composer.lock` régénéré sans mise à jour de paquets (`composer validate`, `composer install`) | 1,5 h | T-147-01, T-147-02 | Claude | 🔲 |
 | T-147-04 | [BE] | Dépréciations PHP 8.5 levées par `src/` corrigées (suite avec `E_ALL`) ; celles des dépendances listées sans être corrigées | 1 h | T-147-03 | Claude | 🔲 |

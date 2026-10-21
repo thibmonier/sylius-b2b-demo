@@ -33,7 +33,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-111-03 | [BE] | Lecture du fichier de données, service et contrôleur de la page de preuve | 1,25 h | T-111-02, T-158-08 | Claude | ✅ |
 | T-111-04 | [BE] | Commande manuelle de rafraîchissement (Packagist, GitHub Actions) avec liens de source ; première série de données | 1,25 h | T-111-02 | Claude | ✅ |
 | T-111-05 | [FE-WEB] | Gabarit du tableau et ligne « Comment cette démo est livrée » ; libellés FR et EN ; 320 px | 1,25 h | T-111-03, T-111-04 | Claude | ✅ |
-| T-111-06 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite complète, ECS, PHPStan | 1 h | T-111-05 | Claude | 🔄 |
+| T-111-06 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite complète, ECS, PHPStan — *Clôture 2026-10-21 : suite, ECS, PHPStan et `ProofPageTest` verts ; `proof.json` rafraîchi (1055d17) ; pa11y, `bin/measure-mobile` et rendu réel non rejoués* | 1 h | T-111-05 | Claude | 🔄 |
 | T-111-07 | [DOC] | Documentation (`docs/theme-b2b.md`, procédure de rafraîchissement) | 0,5 h | T-111-06 | Claude | ✅ |
 | T-111-08 | [REV] | Revue (aucun chiffre sans source, aucun secret) | 0,5 h | T-111-07 | Claude | 🔲 |
 

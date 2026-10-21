@@ -31,11 +31,11 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-068-01 | [TEST] | Tests rouges de l'outil (`VitrineReadmeTest`) : deux liens EN et FR identiques partout, relance sans diff, plugin sans démo (profil seul), URL absente refusée, terme commercial ou lien mort signalé | 1 h | - | Claude | ✅ |
 | T-068-02 | [BE] | `bin/vitrine-readme apply` : liens démo et profil (argument d'URL), refus sans URL, détection du plugin sans démo | 1 h | T-068-01, T-158-09 | Claude | ✅ |
 | T-068-03 | [BE] | `--check` : termes « mission », « devis », « prestation », liens morts, cohérence des liens entre les 24 dépôts | 0,75 h | T-068-01 | Claude | ✅ |
-| T-068-04 | [OPS] | Application aux 24 dépôts (`git fetch`, branche courante vérifiée, une branche par dépôt), `--check` avant et après, aucun push | 1 h | T-068-02, T-068-03 | Claude | 🔄 |
-| T-068-05 | [OPS] | Thibaut donne le GO unique : push des 24 branches, 24 PR, merge quand les CI sont vertes | 0,25 h | T-068-04 | Thibaut | 🔲 |
-| T-068-06 | [OPS] | 24 PR (une par dépôt) et suivi de chaque CI | 1,25 h | T-068-05 | Claude | 🔲 |
-| T-068-07 | [OPS] | Merge des 24 PR après run terminé de chacune (branche principale protégée) | 0,75 h | T-068-06 | Claude | 🔲 |
-| T-068-08 | [REV] | Revue : `--check` sur les 24 branches principales, liens qui répondent, aucun secret | 0,5 h | T-068-07 | Claude | 🔲 |
+| T-068-04 | [OPS] | Application aux 24 dépôts (`git fetch`, branche courante vérifiée, une branche par dépôt), `--check` avant et après, aucun push — *Clôture 2026-10-21 : 24 branches `docs/readme-demo-profile`, une par dépôt* | 1 h | T-068-02, T-068-03 | Claude | ✅ |
+| T-068-05 | [OPS] | Thibaut donne le GO unique : push des 24 branches, 24 PR, merge quand les CI sont vertes — *Clôture 2026-10-21 : GO donné le 2026-10-21* | 0,25 h | T-068-04 | Thibaut | ✅ |
+| T-068-06 | [OPS] | 24 PR (une par dépôt) et suivi de chaque CI — *Clôture 2026-10-21 : 24 PR ouvertes, CI vertes* | 1,25 h | T-068-05 | Claude | ✅ |
+| T-068-07 | [OPS] | Merge des 24 PR après run terminé de chacune (branche principale protégée) — *Clôture 2026-10-21 : 24 PR fusionnées (squash) le 2026-10-21, lancées par Thibaut via un script ; purchase-approval #5 (correctif du test des onglets) fusionnée avant #4* | 0,75 h | T-068-06 | Claude | ✅ |
+| T-068-08 | [REV] | Revue : `--check` sur les 24 branches principales, liens qui répondent, aucun secret — *Clôture 2026-10-21 : `--check` sur les 24 branches principales pas encore rejoué* | 0,5 h | T-068-07 | Claude | 🔲 |
 
 **Total estimé : 6,5 h** (8 tâches, dont 1 de Thibaut, soit 0,25 h).
 

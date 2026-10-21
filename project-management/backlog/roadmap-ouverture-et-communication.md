@@ -131,7 +131,7 @@
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
 | US-158 (nouvelle, en cours) | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | Must | 3 |
-| US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) ; **prioritaire : faille critique PHP (CVSS 9.2) publiée le 2026-10-21** ; peut être livrée avant par la veille programmée | Must | 3 |
+| US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) ; **prioritaire : faille critique PHP (CVSS 9.2) publiée le 2026-10-21** ; peut être livrée avant par la veille programmée ; **reportée le 2026-10-21** (correctif non publié à la clôture du sprint) : PR séparée dès l'image FrankenPHP corrigée, sinon sprint 19 | Must | 3 |
 | US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
 | US-160 (nouvelle) | Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé | Must | 5 |
 | US-161 (nouvelle) | Actions de la rétrospective du sprint 17 (disque, isolation, vérification croisée, attente bornée, prérequis) | Must | 5 |

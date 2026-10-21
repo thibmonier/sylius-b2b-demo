@@ -35,7 +35,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-103-05 | [BE] | Fichier de données du transcript, validation au chargement, URL MCP depuis l'hôte public | 1 h | T-103-04 | Claude | ✅ |
 | T-103-06 | [FE-WEB] | Bloc transcript daté et vidéo ou GIF (alternative textuelle, sans lecture automatique), masqué si absent ; libellés FR et EN ; `docs/mcp.md` | 1,25 h | T-103-05 | Claude | ✅ |
 | T-103-07 | [DOC] | Relecture du transcript : retrait de toute donnée privée avant intégration | 0,25 h | T-103-03 | Claude | 🔲 |
-| T-103-08 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite complète, ECS, PHPStan | 0,75 h | T-103-06, T-103-07 | Claude | 🔲 |
+| T-103-08 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite complète, ECS, PHPStan — *Clôture 2026-10-21 : suite complète, ECS et PHPStan verts (`McpTranscriptTest` et `McpGuideTest` rejoués) ; rendu réel, pa11y et `bin/measure-mobile` attendent le transcript réel (T-103-03)* | 0,75 h | T-103-06, T-103-07 | Claude | 🔄 |
 | T-103-09 | [REV] | Revue (aucune donnée personnelle ni secret dans le transcript, URL de production) | 0,5 h | T-103-08 | Claude | 🔲 |
 
 **Total estimé : 7,25 h** (9 tâches, dont 1 de Thibaut, soit 1 h) ; reste à faire : 6,75 h (le reste est ✅).

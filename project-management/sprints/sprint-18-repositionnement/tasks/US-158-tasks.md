@@ -32,12 +32,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-158-02 | [FE-WEB] | Libellés neutres FR et EN (accueil, fiche produit, pied de page, barre de démo, SEO), page `/integrer` en guide technique, écran de sortie des parcours | 3 h | T-158-01 | Claude | ✅ |
 | T-158-03 | [TEST] | `PositioningWordingTest` (termes interdits dans `translations/` et `templates/`) et tests du CTA, de la page Intégrer et des parcours | 2 h | T-158-02 | Claude | ✅ |
 | T-158-04 | [DOC] | Documentation (`docs/deploiement-railway.md`, `theme-b2b.md`, `mesure-communication.md`, `dossier-de-go.md`) | 1 h | T-158-02 | Claude | ✅ |
-| T-158-05 | [TEST] | Suite complète via `TEST_DB_NAME=<db> bin/run-tests`, ECS (`src tests`) et PHPStan ; preuves rejouables dans le rapport | 1 h | T-158-03, T-158-04 | Claude | 🔲 |
-| T-158-06 | [TEST] | Rendu réel FR et EN : accueil, fiche produit, écran de sortie d'un parcours, `/integrer`, avec URL renseignée puis vide ; `bin/measure-mobile` (23 pages sans débordement) | 1 h | T-158-05 | Claude | 🔲 |
-| T-158-07 | [TEST] | pa11y WCAG2AAA sur les pages modifiées, FR et EN (0 erreur) | 0,5 h | T-158-05 | Claude | 🔲 |
+| T-158-05 | [TEST] | Suite complète via `TEST_DB_NAME=<db> bin/run-tests`, ECS (`src tests`) et PHPStan ; preuves rejouables dans le rapport — *Clôture 2026-10-21 : suite complète verte (1 633 tests), ECS et PHPStan en local et dans la CI de la PR #43* | 1 h | T-158-03, T-158-04 | Claude | ✅ |
+| T-158-06 | [TEST] | Rendu réel FR et EN : accueil, fiche produit, écran de sortie d'un parcours, `/integrer`, avec URL renseignée puis vide ; `bin/measure-mobile` (23 pages sans débordement) — *Clôture 2026-10-21 : rendu réel et `bin/measure-mobile` non rejoués à la clôture* | 1 h | T-158-05 | Claude | 🔲 |
+| T-158-07 | [TEST] | pa11y WCAG2AAA sur les pages modifiées, FR et EN (0 erreur) — *Clôture 2026-10-21 : pa11y non rejoué à la clôture* | 0,5 h | T-158-05 | Claude | 🔲 |
 | T-158-08 | [REV] | Revue : aucun libellé commercial, aucun secret, `DEMO_BOOKING_URL` absente, fichiers partagés libérés pour US-160 et US-111 | 1 h | T-158-06, T-158-07 | Claude | 🔲 |
-| T-158-09 | [OPS] | Thibaut fournit l'URL de son profil LinkedIn (`DEMO_PROFILE_URL`, https) par message ; elle ne va pas dans le dépôt | 0,25 h | - | Thibaut | 🔲 |
-| T-158-10 | [OPS] | Thibaut valide les libellés exacts et pose `DEMO_PROFILE_URL` sur Railway après le merge (commande Railway par Thibaut) | 0,25 h | T-158-08, T-158-09 | Thibaut | 🔲 |
+| T-158-09 | [OPS] | Thibaut fournit l'URL de son profil LinkedIn (`DEMO_PROFILE_URL`, https) par message ; elle ne va pas dans le dépôt — *Clôture 2026-10-21 : URL fournie hors dépôt* | 0,25 h | - | Thibaut | ✅ |
+| T-158-10 | [OPS] | Thibaut valide les libellés exacts et pose `DEMO_PROFILE_URL` sur Railway après le merge (commande Railway par Thibaut) — *2026-10-21 : variables posées par Thibaut (`DEMO_PROFILE_URL` posée, `DEMO_BOOKING_URL` retirée) ; redéploiement bloqué par l'incident Railway (builds en pause), la démo en ligne pointe encore vers Calendly ; vérification en ligne à faire après le redéploiement* | 0,25 h | T-158-08, T-158-09 | Thibaut | 🔄 |
 
 **Total estimé : 12 h** (10 tâches, dont 2 de Thibaut, soit 0,5 h) ; reste à faire : 4 h (le reste est ✅).
 

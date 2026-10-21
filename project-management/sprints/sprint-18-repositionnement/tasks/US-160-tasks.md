@@ -34,7 +34,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-160-04 | [BE] | `JourneyController` et `JourneyProgress` : GET sans effet de bord, avancement par POST, formulaire « Suivant » | 1,5 h | T-160-03 | Claude | ✅ |
 | T-160-05 | [TEST] | Tests rouges : menu compte au nom accessible FR et EN ; nom et rôle du compte non rendus aux anonymes | 1 h | T-158-08 | Claude | ✅ |
 | T-160-06 | [FE-WEB] | Surcharge du gabarit du menu compte (nom accessible), information réduite pour les anonymes, libellés FR et EN | 2 h | T-160-05 | Claude | ✅ |
-| T-160-07 | [TEST] | Suite complète sur trois graines aléatoires, ECS, PHPStan ; pa11y WCAG2AAA accueil FR et EN (connecté et anonyme) ; `bin/measure-mobile` | 1,5 h | T-160-02, T-160-04, T-160-06 | Claude | 🔄 |
+| T-160-07 | [TEST] | Suite complète sur trois graines aléatoires, ECS, PHPStan ; pa11y WCAG2AAA accueil FR et EN (connecté et anonyme) ; `bin/measure-mobile` — *Clôture 2026-10-21 : graines 1818, 2121 et 3131 vertes après 7de1789 (deux tests rendus indépendants de l'état laissé par d'autres tests) ; ECS et PHPStan OK ; pa11y et `bin/measure-mobile` non faits* | 1,5 h | T-160-02, T-160-04, T-160-06 | Claude | 🔄 |
 | T-160-08 | [REV] | Revue (GET réellement sans effet de bord, aucun détail exploitable, verrou testé 20 fois) | 1 h | T-160-07 | Claude | 🔲 |
 
 **Total estimé : 10 h** (8 tâches, dont 0 de Thibaut, soit 0 h).
