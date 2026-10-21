@@ -32,11 +32,14 @@ use Twig\Environment;
 
 /**
  * Guided journeys (US-105): one URL per step, rendered on the server, the progress kept in the session. The list, a step
- * (or the exit screen, one past the last step) and the launch of the scenario of a step. Only in the demo mode.
+ * (or the exit screen, one past the last step), the launch of the scenario of a step and the move to the next step. Only in
+ * the demo mode. A GET never writes in the session (US-160): the progress moves by the "next" POST, protected by a CSRF token.
  */
 final readonly class JourneyController
 {
     private const LAUNCH_CSRF = 'demo_journey_launch';
+
+    private const ADVANCE_CSRF = 'demo_journey_advance';
 
     private const LOCALE = '[a-z]{2}_[A-Z]{2}';
 
@@ -63,16 +66,16 @@ final readonly class JourneyController
     public function index(): Response
     {
         $this->assertDemoMode();
-        $this->progress->syncWithReset($this->resetStatus->lastSuccess());
+        $reset = $this->progress->hasBeenReset($this->resetStatus->lastSuccess());
         $resumes = [];
         foreach ($this->catalog->all() as $journey) {
-            $resumes[$journey->id] = $this->progress->hasStarted($journey->id) ? $this->progress->step($journey->id) : null;
+            $resumes[$journey->id] = !$reset && $this->progress->hasStarted($journey->id) ? $this->progress->step($journey->id) : null;
         }
 
         return new Response($this->twig->render('demo/journey/index.html.twig', [
             'journeys' => $this->catalog->all(),
             'resumes' => $resumes,
-            'reset_notice' => $this->progress->consumeResetNotice(),
+            'reset_notice' => $reset,
         ]));
     }
 
@@ -84,11 +87,10 @@ final readonly class JourneyController
         if ($step < 1 || $step > $journey->exitNumber()) {
             throw new NotFoundHttpException();
         }
-        if ($this->progress->syncWithReset($this->resetStatus->lastSuccess()) && 1 !== $step) {
+        $reset = $this->progress->hasBeenReset($this->resetStatus->lastSuccess());
+        if ($reset && 1 !== $step) {
             return new RedirectResponse($this->stepUrl($journey, 1));
         }
-        $notice = $this->progress->consumeResetNotice();
-        $this->progress->moveTo($id, $step);
 
         $current = $journey->step($step);
         $account = $this->accounts->findShopAccount($journey->accountEmail);
@@ -100,14 +102,31 @@ final readonly class JourneyController
             'exit' => $journey->isExit($step),
             'target_url' => null === $current ? null : $this->targetUrl($current, $request->getLocale()),
             'previous_url' => $step > 1 ? $this->stepUrl($journey, $step - 1) : null,
-            'next_url' => $journey->isExit($step) ? null : $this->stepUrl($journey, $step + 1),
+            'advance_url' => $journey->isExit($step) ? null : $this->urls->generate('app_demo_journey_advance', ['id' => $journey->id, 'step' => $step]),
             'first_url' => $this->stepUrl($journey, 1),
             'wrong_account' => $this->signedInEmail() !== strtolower($journey->accountEmail),
             'account' => $account,
-            'reset_notice' => $notice,
+            'reset_notice' => $reset,
             'integrate_url' => $this->integrateUrl($request->getLocale()),
             'launch_token' => $this->csrf->getToken(self::LAUNCH_CSRF)->getValue(),
+            'advance_token' => $this->csrf->getToken(self::ADVANCE_CSRF)->getValue(),
         ]));
+    }
+
+    #[Route('/{_locale}/guides/{id}/{step}/advance', name: 'app_demo_journey_advance', requirements: ['_locale' => self::LOCALE, 'id' => '[a-z0-9_-]+', 'step' => '\d+'], methods: ['POST'])]
+    public function advance(Request $request, string $id, int $step): Response
+    {
+        $this->assertDemoMode();
+        $journey = $this->journey($id);
+        if ($step < 1 || $step >= $journey->exitNumber()) {
+            throw new NotFoundHttpException();
+        }
+        if (!$this->csrf->isTokenValid(new CsrfToken(self::ADVANCE_CSRF, (string) $request->request->get('_token')))) {
+            throw new AccessDeniedHttpException('Invalid CSRF token.');
+        }
+        $this->progress->advance($id, $step + 1, $this->resetStatus->lastSuccess());
+
+        return new RedirectResponse($this->stepUrl($journey, $step + 1), Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{_locale}/guides/{id}/{step}/launch', name: 'app_demo_journey_launch', requirements: ['_locale' => self::LOCALE, 'id' => '[a-z0-9_-]+', 'step' => '\d+'], methods: ['POST'])]

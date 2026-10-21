@@ -13,7 +13,7 @@
 | [US-161](./US-161-tasks.md) | Actions de la rétrospective du sprint 17 | 5 | 13 | 11 h | 🔲 |
 | [US-159](./US-159-tasks.md) | Contenu LinkedIn réaligné sur la recherche d'emploi : calendrier et posts de suite | 3 | 11 | 9 h | 🔲 |
 | [US-124](./US-124-tasks.md) | Posts LinkedIn rédigés, lot 2 : semaines 3 à 8 | 5 | 11 | 10,75 h | 🔲 |
-| [US-111](./US-111-tasks.md) | Bloc de preuve technique : qualité, compatibilité, versions | 3 | 8 | 7,5 h | 🔲 |
+| [US-111](./US-111-tasks.md) | Bloc de preuve technique : qualité, compatibilité, versions | 3 | 8 | 7,5 h | 🔄 |
 | [US-103](./US-103-tasks.md) | Assistants IA : page utile avec transcript d'une vraie conversation | 3 | 9 | 7,25 h | 🔄 |
 | [US-068](./US-068-tasks.md) | Liens vers la démo et le profil de l'auteur dans les 24 README | 3 | 8 | 6,5 h | 🔲 |
 | [Transverse](./technical-tasks.md) | Clôture et bilan de l'orchestrateur (sans points) | 0 | 2 | 1,5 h | 🔲 |

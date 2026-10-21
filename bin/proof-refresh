@@ -1,0 +1,93 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * MANUAL SCRIPT, run by a developer, never by the reset, the Docker build, the CI or the page (US-111).
+ *
+ * Refreshes config/demo/proof.json, the data of the technical proof page (/{locale}/preuve): for each plugin of
+ * config/demo/plugins.yaml the published version and Sylius constraint (Packagist), the CI result, the Sylius
+ * versions of the CI matrix, the PHPStan level, the number of test files and composer audit (GitHub), and for the demo
+ * itself how it is delivered. Public sources only: Packagist's public API and the GitHub REST API through `gh`, which
+ * carries its own authentication. No token is read from, or written to, any file; `.env` is never read.
+ *
+ *   php bin/proof-refresh [--only=slug,slug] [--no-delivery] [--dry-run] [--file=PATH]
+ *
+ * --only         refresh these plugins only (the others keep their facts); the demo too unless --no-delivery
+ * --dry-run      print the new content, write nothing
+ * --file         another output file (default config/demo/proof.json)
+ *
+ * A source that fails keeps the last verified value, marked stale, with its old date. Exit code 1 when a source failed
+ * (the file is written anyway), 2 on a usage error. A coverage figure is never written: the CI does not publish one.
+ * See docs/theme-b2b.md ("Bloc de preuve technique").
+ */
+
+use App\Demo\Proof\Refresh\GhCliApi;
+use App\Demo\Proof\Refresh\HttpPackagistApi;
+use App\Demo\Proof\Refresh\PluginCatalogFile;
+use App\Demo\Proof\Refresh\ProofCollector;
+use App\Demo\Proof\Refresh\ProofRefresher;
+use Symfony\Component\Clock\NativeClock;
+use Symfony\Component\HttpClient\HttpClient;
+
+require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$usage = "usage: php bin/proof-refresh [--only=slug,slug] [--no-delivery] [--dry-run] [--file=PATH]\n";
+$root = \dirname(__DIR__);
+$demoRepository = 'thibmonier/sylius-b2b-demo';
+$only = [];
+$delivery = true;
+$dryRun = false;
+$file = $root . '/config/demo/proof.json';
+$arguments = \is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], \is_string(...))) : [];
+foreach (\array_slice($arguments, 1) as $argument) {
+    if ('--no-delivery' === $argument) {
+        $delivery = false;
+    } elseif ('--dry-run' === $argument) {
+        $dryRun = true;
+    } elseif (str_starts_with($argument, '--only=')) {
+        $only = array_values(array_filter(explode(',', substr($argument, 7))));
+    } elseif (str_starts_with($argument, '--file=')) {
+        $file = substr($argument, 7);
+    } else {
+        fwrite(\STDERR, $usage);
+        exit(2);
+    }
+}
+
+$slugs = array_column(PluginCatalogFile::entries($root . '/config/demo/plugins.yaml'), 'slug');
+$unknown = array_diff($only, $slugs);
+if ([] !== $unknown) {
+    fwrite(\STDERR, 'Unknown plugin: ' . implode(', ', $unknown) . "\n" . $usage);
+    exit(2);
+}
+
+$current = [];
+if (is_file($file)) {
+    $decoded = json_decode((string) file_get_contents($file), true);
+    $current = \is_array($decoded) ? $decoded : [];
+}
+
+$clock = new NativeClock();
+$refresher = new ProofRefresher(new ProofCollector(new HttpPackagistApi(HttpClient::create()), new GhCliApi(), $clock), $clock);
+$result = $refresher->refresh(
+    $current,
+    [] === $only ? $slugs : $only,
+    $delivery ? $demoRepository : null,
+    static function (string $subject, array $failed): void {
+        printf("%-8s %s%s\n", [] === $failed ? 'OK' : 'STALE', $subject, [] === $failed ? '' : ' (' . implode(', ', $failed) . ' unavailable, last verified value kept)');
+    },
+);
+
+$json = json_encode($result->data(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR) . "\n";
+if ($dryRun) {
+    echo $json;
+    exit([] === $result->failures ? 0 : 1);
+}
+$temporary = $file . '.tmp' . getmypid();
+file_put_contents($temporary, $json);
+rename($temporary, $file);
+printf("Written: %s\n", $file);
+
+exit([] === $result->failures ? 0 : 1);

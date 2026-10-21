@@ -13,11 +13,11 @@ final class SiteLinksTest extends TestCase
 {
     public function testAnHttpsUrlIsExposed(): void
     {
-        $links = new SiteLinks('https://example.com/', 'https://example.com/contact?from=demo', 'https://exemple.test/rdv');
+        $links = new SiteLinks('https://example.com/', 'https://example.com/contact?from=demo', 'https://exemple.test/profil');
 
         self::assertSame('https://example.com/', $links->siteUrl());
         self::assertSame('https://example.com/contact?from=demo', $links->contactUrl());
-        self::assertSame('https://exemple.test/rdv', $links->bookingUrl());
+        self::assertSame('https://exemple.test/profil', $links->profileUrl());
     }
 
     public function testNoUrlMeansNoLinkAndNoError(): void
@@ -51,6 +51,6 @@ final class SiteLinksTest extends TestCase
 
         self::assertNull($links->siteUrl());
         self::assertNull($links->contactUrl());
-        self::assertNull($links->bookingUrl());
+        self::assertNull($links->profileUrl());
     }
 }

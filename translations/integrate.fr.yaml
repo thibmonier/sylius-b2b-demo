@@ -1,73 +1,58 @@
-title: "Intégrer ces plugins dans votre projet"
-intro: "Ces plugins s'installent sur un projet Sylius 2.3, existant ou à venir. Cette page décrit les trois formules possibles, les questions à régler avant de commencer, une architecture type et les délais indicatifs."
+title: "Guide d'intégration des plugins"
+intro: "Guide technique en libre-service pour les développeurs et les intégrateurs : prérequis, installation type d'un plugin, architecture type, questions à régler avant de commencer et dépôts GitHub. Chaque plugin a son propre README, qui fait foi."
 cta:
-    label: "Échanger sur votre projet"
-    text: "Décrivez votre contexte en quelques lignes : vous recevez une première lecture de votre besoin."
-formulas:
-    title: "Trois formules"
-    deliverable: "Ce que vous recevez"
-    scoping:
-        name: "Cadrage"
-        summary: "Décider avant de développer."
-        items:
-            1: "Lecture de votre catalogue, de vos comptes clients et de vos flux existants."
-            2: "Choix des plugins utiles à votre activité, et de ceux qui ne le sont pas."
-            3: "Architecture cible et plan de mise en œuvre."
-        deliverable: "Une note de cadrage et un plan de mise en œuvre."
-    integration:
-        name: "Intégration"
-        summary: "Mettre les plugins en service dans votre projet."
-        items:
-            1: "Installation et configuration des plugins retenus sur votre boutique."
-            2: "Branchement à votre ERP, à vos plateformes d'achat (PunchOut) et à votre facturation."
-            3: "Tests, recette avec vos équipes et mise en production."
-        deliverable: "Une boutique qui fonctionne avec vos données, recettée avec vous."
-    support:
-        name: "Accompagnement"
-        summary: "Rester disponible après la mise en production."
-        items:
-            1: "Corrections et évolutions des plugins installés."
-            2: "Montées de version de Sylius."
-            3: "Transfert de compétences à votre équipe."
-        deliverable: "Un projet qui suit les versions de Sylius et les besoins de votre équipe."
-    support_note: "Un support sous contrat peut être convenu pour les projets en production ; ses modalités se définissent ensemble."
+    title: "Une question ?"
+    text: "Une question sur un plugin ou sur ce guide ?"
+prerequisites:
+    title: "Prérequis"
+    sylius: "Sylius 2.3 (2.2.9 minimum pour la plupart des plugins : les versions 2.2 antérieures sont touchées par des avis de sécurité sur le panier et le paiement)."
+    php: "PHP 8.2 ou plus (8.3 ou plus avec Sylius 2.3) ; la démo requiert PHP 8.4 ou plus."
+    symfony: "Symfony 6.4, 7.4 ou 8.0 selon le plugin ; la démo tourne sous Symfony 8.1."
+    composer: "Composer, une base de données gérée par Doctrine, et Node avec yarn pour recompiler les assets de l'administration."
+install:
+    title: "Installation type d'un plugin"
+    intro: "Exemple avec le plugin de commande rapide. Les autres suivent le même schéma ; les noms de bundle, de ressources et de tables changent, et le README du plugin donne la liste exacte."
+    require:
+        title: "Installer le paquet"
+    bundle:
+        title: "Enregistrer le bundle dans config/bundles.php"
+    config:
+        title: "Importer la configuration dans config/packages/tmonier_sylius_quick_order.yaml"
+    routes:
+        title: "Importer les routes dans config/routes/tmonier_sylius_quick_order.yaml"
+    migrations:
+        title: "Exécuter les migrations"
+        text: "Le plugin de commande rapide n'a pas de table et n'a donc pas de migration. La plupart des autres plugins en ont (PunchOut, demandes de devis) : jouez la commande, après l'avoir relue."
+    assets:
+        title: "Installer les assets, puis vider le cache"
+        text: "Nécessaire pour les plugins qui livrent du CSS ou du JavaScript côté administration ou boutique (palette de commandes, par exemple). Recompilez ensuite les assets de l'application (yarn install && yarn build)."
 questions:
     title: "Questions à régler avant de commencer"
     erp:
         summary: "Quel ERP, et quelles données doivent circuler ?"
-        text: "Quel est votre ERP ? Les prix, les stocks, les clients et les commandes doivent-ils s'échanger dans un sens ou dans les deux, et à quelle fréquence ? La réponse fixe l'architecture et une grande part du délai."
+        text: "Les prix, les stocks, les clients et les commandes doivent-ils s'échanger dans un sens ou dans les deux, et à quelle fréquence ? La réponse fixe l'architecture et une grande part du travail d'intégration."
     punchout:
-        summary: "Vos clients commandent-ils depuis leur système d'achat ?"
-        text: "PunchOut cXML ou OCI : quelles plateformes, quels acheteurs, quelles informations reprendre dans la commande ? Un compte de test chez le client facilite la recette."
+        summary: "Les acheteurs commandent-ils depuis leur système d'achat ?"
+        text: "PunchOut cXML ou OCI : quelles plateformes, quels acheteurs, quelles informations reprendre dans la commande ? Un compte de test chez l'acheteur facilite la recette."
     e-invoicing:
-        summary: "Quelles sont vos obligations de facturation électronique ?"
-        text: "Quel format de facture (Factur-X, par exemple), quelle plateforme de transmission, quelle échéance pour votre société ? La démo produit des factures Factur-X ; le choix de la plateforme de transmission vous appartient."
+        summary: "Quelles sont les obligations de facturation électronique ?"
+        text: "Quel format de facture (Factur-X, par exemple), quelle plateforme de transmission, quelle échéance pour la société ? La démo produit des factures Factur-X ; le choix de la plateforme de transmission reste à faire."
     volume:
-        summary: "Quelle est votre volumétrie ?"
+        summary: "Quelle est la volumétrie ?"
         text: "Nombre de références, de sociétés clientes et d'utilisateurs, commandes par jour, import du catalogue : ces chiffres dimensionnent l'hébergement et les tests de charge."
 architecture:
     title: "Architecture type"
     intro: "Les plugins s'ajoutent à la boutique Sylius. Les échanges avec l'extérieur passent par des interfaces standard."
     figure_title: "Schéma d'architecture type"
-    figure_desc: "La boutique Sylius 2 avec ses plugins B2B reçoit les paniers des plateformes d'achat de vos clients (PunchOut cXML ou OCI) et les demandes des assistants IA (MCP). Elle échange les catalogues, les prix, les stocks et les commandes avec votre ERP, et produit les factures Factur-X pour votre facturation électronique."
+    figure_desc: "La boutique Sylius 2 avec ses plugins B2B reçoit les paniers des plateformes d'achat des acheteurs (PunchOut cXML ou OCI) et les demandes des assistants IA (MCP). Elle échange les catalogues, les prix, les stocks et les commandes avec l'ERP, et produit les factures Factur-X pour la facturation électronique."
     shop: "Boutique Sylius 2 + plugins B2B"
     punchout: "Plateformes d'achat (PunchOut)"
     mcp: "Assistants IA (MCP)"
-    erp: "Votre ERP"
+    erp: "ERP"
     invoicing: "Facturation électronique"
     caption: "Entrées : PunchOut cXML ou OCI et assistants IA (MCP). Échanges avec l'ERP : catalogue, prix, stocks, commandes. Sortie : factures Factur-X."
-delays:
-    title: "Délais indicatifs"
-    intro: "Ces délais sont des ordres de grandeur ; ils se confirment après le cadrage."
-    scoping:
-        name: "Cadrage"
-        duration: "1 à 2 semaines"
-        text: "Selon le nombre d'interlocuteurs à réunir."
-    integration:
-        name: "Intégration"
-        duration: "4 à 12 semaines"
-        text: "Selon le nombre de plugins retenus et d'interfaces à brancher (ERP, PunchOut, facturation)."
-    support:
-        name: "Accompagnement"
-        duration: "Durée convenue ensemble"
-        text: "Après la mise en production, à votre rythme."
+repositories:
+    title: "Dépôts et README"
+    intro: "Chaque plugin est un dépôt GitHub indépendant, avec son README (installation, configuration, tests) et son paquet Composer."
+    github: "Dépôt GitHub"
+    readme: "README"

@@ -1,0 +1,7 @@
+{# US-160: override of the Sylius mobile account menu. The core button holds only an icon, so it has no accessible name (pa11y WCAG2AAA). #}
+<button class="btn btn-icon btn-transparent px-0" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="{{ 'sylius.ui.my_account'|trans }}" data-account-menu-toggle>
+    {{ ux_icon('tabler:user') }}
+</button>
+<ul class="dropdown-menu dropdown-menu-end">
+    {% hook 'menu' %}
+</ul>

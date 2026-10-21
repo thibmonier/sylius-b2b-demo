@@ -29,11 +29,11 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
 | T-103-01 | [DOC] | Fiche complétée à cinq scénarios (1 nominal, 2 alternatifs, 2 erreurs) | 0,5 h | - | Claude | ✅ |
-| T-103-02 | [DOC] | Script de la conversation (4 à 6 échanges, outils MCP appelés, compte de démo, rappel que l'assistant ne paie jamais) à partir de `docs/mcp.md` et de la page existante | 1 h | T-103-01 | Claude | 🔲 |
+| T-103-02 | [DOC] | Script de la conversation (4 à 6 échanges, outils MCP appelés, compte de démo, rappel que l'assistant ne paie jamais) à partir de `docs/mcp.md` et de la page existante | 1 h | T-103-01 | Claude | ✅ |
 | T-103-03 | [OPS] | Thibaut réalise la conversation réelle avec son assistant sur le MCP de production, enregistre le transcript brut et un GIF ou une vidéo courte | 1 h | T-103-02 | Thibaut | 🔲 |
-| T-103-04 | [TEST] | Tests rouges : transcript daté visible, transcript sans vidéo, bloc masqué sans enregistrement, URL MCP de l'hôte public, jeton, e-mail ou `localhost` refusés | 1 h | T-103-01 | Claude | 🔲 |
-| T-103-05 | [BE] | Fichier de données du transcript, validation au chargement, URL MCP depuis l'hôte public | 1 h | T-103-04 | Claude | 🔲 |
-| T-103-06 | [FE-WEB] | Bloc transcript daté et vidéo ou GIF (alternative textuelle, sans lecture automatique), masqué si absent ; libellés FR et EN ; `docs/mcp.md` | 1,25 h | T-103-05 | Claude | 🔲 |
+| T-103-04 | [TEST] | Tests rouges : transcript daté visible, transcript sans vidéo, bloc masqué sans enregistrement, URL MCP de l'hôte public, jeton, e-mail ou `localhost` refusés | 1 h | T-103-01 | Claude | ✅ |
+| T-103-05 | [BE] | Fichier de données du transcript, validation au chargement, URL MCP depuis l'hôte public | 1 h | T-103-04 | Claude | ✅ |
+| T-103-06 | [FE-WEB] | Bloc transcript daté et vidéo ou GIF (alternative textuelle, sans lecture automatique), masqué si absent ; libellés FR et EN ; `docs/mcp.md` | 1,25 h | T-103-05 | Claude | ✅ |
 | T-103-07 | [DOC] | Relecture du transcript : retrait de toute donnée privée avant intégration | 0,25 h | T-103-03 | Claude | 🔲 |
 | T-103-08 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite complète, ECS, PHPStan | 0,75 h | T-103-06, T-103-07 | Claude | 🔲 |
 | T-103-09 | [REV] | Revue (aucune donnée personnelle ni secret dans le transcript, URL de production) | 0,5 h | T-103-08 | Claude | 🔲 |

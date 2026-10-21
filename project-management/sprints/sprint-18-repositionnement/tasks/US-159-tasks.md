@@ -28,15 +28,15 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-159-01 | [DOC] | Cadrage : relecture charte v2, profil v2 et posts du lot 1 ; liste des formules de consultant à retirer ; angle des trois posts | 0,75 h | - | Claude | 🔲 |
-| T-159-02 | [DOC] | Post de suite n°1 : pilier, accroche, corps, variante de moins de 600 caractères, visuel, CTA unique | 1,5 h | T-159-01 | Claude | 🔲 |
-| T-159-03 | [TEST] | `charter_check.py --post` sur le post 1 ; chaque chiffre rattaché à une source publique | 0,5 h | T-159-02 | Claude | 🔲 |
+| T-159-01 | [DOC] | Cadrage : relecture charte v2, profil v2 et posts du lot 1 ; liste des formules de consultant à retirer ; angle des trois posts | 0,75 h | - | Claude | ✅ |
+| T-159-02 | [DOC] | Post de suite n°1 : pilier, accroche, corps, variante de moins de 600 caractères, visuel, CTA unique | 1,5 h | T-159-01 | Claude | ✅ |
+| T-159-03 | [TEST] | `charter_check.py --post` sur le post 1 ; chaque chiffre rattaché à une source publique | 0,5 h | T-159-02 | Claude | ✅ |
 | T-159-04 | [REV] | Thibaut relit et ajuste le post 1 | 0,5 h | T-159-03 | Thibaut | 🔲 |
 | T-159-05 | [OPS] | Thibaut publie le post 1 avant le 2026-10-26 et épingle le commentaire | 0,5 h | T-159-04 | Thibaut | 🔲 |
-| T-159-06 | [DOC] | Posts 2 et 3 réécrits avec variantes et légendes du kit média (US-120) | 2 h | T-159-03 | Claude | 🔲 |
-| T-159-07 | [DOC] | Calendrier de huit semaines : 3 posts delivery et IA, 2 qualité, 2 coulisses, 1 leadership ; au plus 2 mentions de disponibilité | 1,5 h | T-159-01 | Claude | 🔲 |
-| T-159-08 | [TEST] | `charter_check.py` sur posts 2 et 3 et calendrier ; chiffres invérifiables retirés | 0,5 h | T-159-06, T-159-07 | Claude | 🔲 |
-| T-159-09 | [DOC] | Registre `communication/INDEX.md` à jour (livrables du sprint 18) | 0,25 h | T-159-08, T-161-11 | Claude | 🔲 |
+| T-159-06 | [DOC] | Posts 2 et 3 réécrits avec variantes et légendes du kit média (US-120) | 2 h | T-159-03 | Claude | ✅ |
+| T-159-07 | [DOC] | Calendrier de huit semaines : 3 posts delivery et IA, 2 qualité, 2 coulisses, 1 leadership ; au plus 2 mentions de disponibilité | 1,5 h | T-159-01 | Claude | ✅ |
+| T-159-08 | [TEST] | `charter_check.py` sur posts 2 et 3 et calendrier ; chiffres invérifiables retirés | 0,5 h | T-159-06, T-159-07 | Claude | ✅ |
+| T-159-09 | [DOC] | Registre `communication/INDEX.md` à jour (livrables du sprint 18) | 0,25 h | T-159-08, T-161-11 | Claude | ✅ |
 | T-159-10 | [REV] | Thibaut relit le calendrier et les posts 2 et 3 | 0,5 h | T-159-08 | Thibaut | 🔲 |
 | T-159-11 | [OPS] | Thibaut publie les posts 2 et 3 aux dates du calendrier | 0,5 h | T-159-10 | Thibaut | 🔲 |
 

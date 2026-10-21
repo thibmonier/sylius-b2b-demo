@@ -1,12 +1,18 @@
 {# US-105: the journey needs another account: one-click sign-in (a standard login form, no bypass). #}
+{# US-160: an anonymous visitor gets no name nor role of the account (generic message and button); the signed-in one is told which account to use. #}
 {% set role = ('role.' ~ account.role)|trans({}, 'theme_demo') %}
 <div class="alert alert-warning" role="alert" data-journey-wrong-account>
-    <p class="mb-3">{{ (signed_in ? 'account.wrong' : 'account.anonymous')|trans({'%name%': account.fullName, '%role%': role}, 'journeys') }}</p>
+    {% if signed_in %}
+        <p class="mb-3">{{ 'account.wrong'|trans({'%name%': account.fullName, '%role%': role}, 'journeys') }}</p>
+    {% else %}
+        <p class="mb-3">{{ 'account.anonymous'|trans({}, 'journeys') }}</p>
+    {% endif %}
     {% include 'demo/_login_form.html.twig' with {
         account,
         check_route: 'sylius_shop_login_check',
         csrf_field: '_csrf_shop_security_token',
         csrf_id: 'shop_authenticate',
-        list: true,
+        list: signed_in,
+        generic: not signed_in,
     } only %}
 </div>

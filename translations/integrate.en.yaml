@@ -1,73 +1,58 @@
-title: "Integrate these plugins in your project"
-intro: "These plugins install on a Sylius 2.3 project, existing or planned. This page describes the three possible formulas, the questions to settle before starting, a typical architecture and indicative lead times."
+title: "Plugin integration guide"
+intro: "A self-service technical guide for developers and integrators: prerequisites, typical plugin installation, typical architecture, questions to settle before starting and GitHub repositories. Each plugin has its own README, which is authoritative."
 cta:
-    label: "Discuss your project"
-    text: "Describe your context in a few lines: you get a first reading of your needs."
-formulas:
-    title: "Three formulas"
-    deliverable: "What you receive"
-    scoping:
-        name: "Scoping"
-        summary: "Decide before building."
-        items:
-            1: "A review of your catalogue, your customer accounts and your existing flows."
-            2: "A choice of the plugins your business needs, and of those it does not."
-            3: "A target architecture and an implementation plan."
-        deliverable: "A scoping note and an implementation plan."
-    integration:
-        name: "Integration"
-        summary: "Put the plugins into service in your project."
-        items:
-            1: "Installation and configuration of the chosen plugins on your shop."
-            2: "Connection to your ERP, your purchasing platforms (PunchOut) and your invoicing."
-            3: "Tests, acceptance with your teams and go-live."
-        deliverable: "A shop that works with your data, accepted with you."
-    support:
-        name: "Support"
-        summary: "Stay available after go-live."
-        items:
-            1: "Fixes and evolutions of the installed plugins."
-            2: "Sylius version upgrades."
-            3: "Knowledge transfer to your team."
-        deliverable: "A project that keeps up with Sylius versions and your team's needs."
-    support_note: "A support contract can be agreed for projects in production; its terms are defined together."
+    title: "A question?"
+    text: "A question about a plugin or about this guide?"
+prerequisites:
+    title: "Prerequisites"
+    sylius: "Sylius 2.3 (2.2.9 at least for most plugins: earlier 2.2 versions are affected by cart and payment security advisories)."
+    php: "PHP 8.2 or later (8.3 or later with Sylius 2.3); the demo requires PHP 8.4 or later."
+    symfony: "Symfony 6.4, 7.4 or 8.0 depending on the plugin; the demo runs on Symfony 8.1."
+    composer: "Composer, a database managed by Doctrine, and Node with yarn to rebuild the admin assets."
+install:
+    title: "Typical plugin installation"
+    intro: "Example with the quick order plugin. The others follow the same pattern; bundle, resource and table names change, and the plugin README gives the exact list."
+    require:
+        title: "Require the package"
+    bundle:
+        title: "Register the bundle in config/bundles.php"
+    config:
+        title: "Import the configuration in config/packages/tmonier_sylius_quick_order.yaml"
+    routes:
+        title: "Import the routes in config/routes/tmonier_sylius_quick_order.yaml"
+    migrations:
+        title: "Run the migrations"
+        text: "The quick order plugin has no table, hence no migration. Most of the other plugins have some (PunchOut, quote requests): run the command after reading it through."
+    assets:
+        title: "Install the assets, then clear the cache"
+        text: "Needed for the plugins that ship CSS or JavaScript to the admin panel or the shop (the command palette, for example). Then rebuild the application assets (yarn install && yarn build)."
 questions:
     title: "Questions to settle before starting"
     erp:
         summary: "Which ERP, and which data must flow?"
-        text: "Which ERP do you use? Must prices, stock, customers and orders be exchanged one way or both ways, and how often? The answer sets the architecture and a large part of the lead time."
+        text: "Must prices, stock, customers and orders be exchanged one way or both ways, and how often? The answer sets the architecture and a large part of the integration work."
     punchout:
-        summary: "Do your customers order from their procurement system?"
-        text: "PunchOut cXML or OCI: which platforms, which buyers, which information to carry into the order? A test account at the customer makes acceptance easier."
+        summary: "Do buyers order from their procurement system?"
+        text: "PunchOut cXML or OCI: which platforms, which buyers, which information to carry into the order? A test account at the buyer makes acceptance testing easier."
     e-invoicing:
-        summary: "What are your e-invoicing obligations?"
-        text: "Which invoice format (Factur-X, for example), which transmission platform, which deadline for your company? The demo produces Factur-X invoices; the choice of the transmission platform is yours."
+        summary: "What are the e-invoicing obligations?"
+        text: "Which invoice format (Factur-X, for example), which transmission platform, which deadline for the company? The demo produces Factur-X invoices; the choice of the transmission platform is still to be made."
     volume:
-        summary: "What is your volume?"
-        text: "Number of products, customer companies and users, orders per day, catalogue import: these figures size the hosting and the load tests."
+        summary: "What is the volume?"
+        text: "Number of references, customer companies and users, orders per day, catalogue import: these figures size the hosting and the load tests."
 architecture:
     title: "Typical architecture"
-    intro: "The plugins add to the Sylius shop. Exchanges with the outside go through standard interfaces."
+    intro: "The plugins are added to the Sylius shop. Exchanges with the outside go through standard interfaces."
     figure_title: "Typical architecture diagram"
-    figure_desc: "The Sylius 2 shop with its B2B plugins receives the carts from your customers' purchasing platforms (PunchOut cXML or OCI) and the requests of AI assistants (MCP). It exchanges catalogues, prices, stock and orders with your ERP, and produces Factur-X invoices for your e-invoicing."
+    figure_desc: "The Sylius 2 shop with its B2B plugins receives the carts of the buyers' procurement platforms (PunchOut cXML or OCI) and the requests of AI assistants (MCP). It exchanges catalogues, prices, stock and orders with the ERP, and produces Factur-X invoices for e-invoicing."
     shop: "Sylius 2 shop + B2B plugins"
-    punchout: "Purchasing platforms (PunchOut)"
+    punchout: "Procurement platforms (PunchOut)"
     mcp: "AI assistants (MCP)"
-    erp: "Your ERP"
+    erp: "ERP"
     invoicing: "E-invoicing"
-    caption: "Inputs: PunchOut cXML or OCI and AI assistants (MCP). Exchanges with the ERP: catalogue, prices, stock, orders. Output: Factur-X invoices."
-delays:
-    title: "Indicative lead times"
-    intro: "These lead times are orders of magnitude; they are confirmed after the scoping."
-    scoping:
-        name: "Scoping"
-        duration: "1 to 2 weeks"
-        text: "Depending on how many people need to be brought together."
-    integration:
-        name: "Integration"
-        duration: "4 to 12 weeks"
-        text: "Depending on the number of chosen plugins and of interfaces to connect (ERP, PunchOut, invoicing)."
-    support:
-        name: "Support"
-        duration: "Duration agreed together"
-        text: "After go-live, at your pace."
+    caption: "Inputs: PunchOut cXML or OCI and AI assistants (MCP). ERP exchanges: catalogue, prices, stock, orders. Output: Factur-X invoices."
+repositories:
+    title: "Repositories and READMEs"
+    intro: "Each plugin is an independent GitHub repository, with its README (installation, configuration, tests) and its Composer package."
+    github: "GitHub repository"
+    readme: "README"

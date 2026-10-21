@@ -1,0 +1,14 @@
+{#
+    One fact of the technical proof (US-111): the figure as a link to its public source with the check date, or the plain
+    statement that it is not published, not measured or not available. Never an estimate.
+    Usage: {% include 'demo/proof/_fact.html.twig' with { fact: fact, text: 'text shown when verified' } only %}
+#}
+{% if fact.status == 'verified' %}
+    <a href="{{ fact.source }}" rel="noopener">{{ text }}</a>
+    <small class="d-block text-muted">{{ 'checked'|trans({}, 'proof') }} <time datetime="{{ fact.checkedAt|slice(0, 10) }}">{{ fact.checkedAt|slice(0, 10) }}</time>{% if fact.stale %} <span data-proof-stale>{{ 'stale'|trans({}, 'proof') }}</span>{% endif %}</small>
+{% elseif fact.status == 'unpublished' %}
+    <span data-proof-state="unpublished">{{ 'status.unpublished'|trans({}, 'proof') }}</span>
+    <small class="d-block text-muted">{{ 'checked'|trans({}, 'proof') }} <time datetime="{{ fact.checkedAt|slice(0, 10) }}">{{ fact.checkedAt|slice(0, 10) }}</time></small>
+{% else %}
+    <span data-proof-state="{{ fact.status }}">{{ ('status.' ~ fact.status)|trans({}, 'proof') }}</span>
+{% endif %}

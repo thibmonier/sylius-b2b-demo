@@ -2,12 +2,12 @@
 
 Application d'US-030. Les étapes pour l'utilisateur sont sur la page **`/{locale}/mcp`** de la démo (FR/EN, mêmes étapes, même bloc de configuration, mêmes liens), liée depuis la carte « B2B MCP » de la page des plugins. Cette page est la source : ce document ne la répète pas, il donne le contexte d'exploitation.
 
-- Code : `src/Demo/Controller/McpGuideController.php`, `templates/demo/mcp.html.twig`, `translations/mcp_guide.{fr,en}.yaml`.
-- Tests : `tests/Functional/Demo/McpGuideTest.php` (page, parité FR/EN, métadonnées OAuth, commandes de Claire seules, refus sans jeton ou avec jeton expiré, compte non approuvé), `McpOutboundGuardTest.php` (hôte non autorisé).
+- Code : `src/Demo/Controller/McpGuideController.php`, `templates/demo/mcp.html.twig`, `translations/mcp_guide.{fr,en}.yaml`, `src/Demo/Mcp/` (`McpServerUrl`, `TranscriptLoader`).
+- Tests : `tests/Functional/Demo/McpGuideTest.php` (page, parité FR/EN, métadonnées OAuth, commandes de Claire seules, refus sans jeton ou avec jeton expiré, compte non approuvé), `McpOutboundGuardTest.php` (hôte non autorisé), `McpTranscriptTest.php` (bloc transcript, adresse du site public), `tests/Unit/Demo/Mcp/` (chargeur du transcript, adresse).
 
 ## Ce que le serveur fait
 
-- Un seul point d'entrée : `https://<hôte>/_mcp`, où `<hôte>` est le domaine Railway ou le sous-domaine de la démo ([sous-domaine-demo.md](sous-domaine-demo.md)) ; la page du guide affiche l'hôte de la requête (serveur MCP officiel de Sylius + outils du plugin `tmonier/sylius-b2b-mcp-plugin`).
+- Un seul point d'entrée : `https://<hôte>/_mcp`, où `<hôte>` est le domaine Railway ou le sous-domaine de la démo ([sous-domaine-demo.md](sous-domaine-demo.md)) ; la page du guide affiche l'adresse du **site public** (`DEFAULT_URI`, quand c'est une adresse https qui n'est ni `localhost`, ni une adresse de boucle locale ni un nom `.local`), quelle que soit l'adresse par laquelle la page a été ouverte (`App\Demo\Mcp\McpServerUrl`, US-103) ; en local et dans les tests, l'adresse de la requête est conservée (serveur MCP officiel de Sylius + outils du plugin `tmonier/sylius-b2b-mcp-plugin`).
 - Connexion OAuth 2.1 avec PKCE (S256) ; l'assistant s'enregistre lui-même (enregistrement dynamique, pas d'identifiant client) ; métadonnées : `/.well-known/oauth-authorization-server` et `/.well-known/oauth-protected-resource/_mcp`.
 - Portées : `b2b:read` (commandes, devis, crédit), `b2b:cart` (réassort, commande rapide, demande de devis). `b2b:approve` n'existe pas dans la démo (`approvals.allow_decisions` est à faux).
 - Aucune commande ni paiement dans l'assistant.
@@ -38,3 +38,28 @@ L'API REST Sylius (`/api/v2/*`) est désactivée en prod et répond `404`. Le MC
 1. Suivre la page `/fr_FR/mcp` à froid, de l'ajout du connecteur à « Liste mes dernières commandes ».
 2. Vérifier que seules les commandes de `claire@acme.example` sont listées.
 3. Se déconnecter (Mon compte > Assistants IA) et vérifier que l'assistant n'obtient plus rien.
+
+## Transcript d'une vraie conversation (US-103)
+
+La page du guide peut afficher, avant les étapes, un bloc « Une vraie conversation avec un assistant » : 4 à 6 échanges réels, datés, les outils MCP appelés, le rappel que l'assistant ne paie jamais, et une vidéo ou une animation facultative. **Le bloc reste masqué tant que `config/demo/mcp-transcript.yaml` n'existe pas** (la conversation réelle est faite par Thibaut, voir `communication/sprint-18/assistants-ia/script-conversation.md`, hors dépôt public).
+
+Format du fichier (variable `DEMO_MCP_TRANSCRIPT_FILE` pour pointer un autre fichier, utilisée par les tests) :
+
+```yaml
+recorded_at: '2026-11-05'      # date entre guillemets
+locale: fr                     # langue du transcript : fr ou en (attribut lang des messages)
+assistant: Claude
+exchanges:                     # 4 à 6
+    - user: "Liste mes dernières commandes."
+      tools: [list_my_orders]  # facultatif
+      assistant: "Voici vos dernières commandes : ..."
+media:                         # facultatif
+    kind: video                # video (mp4, webm) ou gif
+    src: /demo-media/conversation.mp4
+    poster: /demo-media/conversation.png   # obligatoire pour un gif (image fixe), facultatif pour une vidéo
+    description: "Capture de la conversation"   # alternative textuelle, obligatoire
+```
+
+- **Contrôle au chargement** (`TranscriptLoader`, ligne par ligne sur le fichier brut) : un jeton (`Bearer …`, JWT, `access_token=…`, chaîne opaque de 32 caractères ou plus avec un chiffre), une adresse e-mail ou une adresse locale (`localhost`, `127.x`, `0.0.0.0`, `[::1]`, `*.local`) **refuse tout le transcript** en nommant la ligne et le motif (`InvalidTranscript`) ; la page journalise l'erreur (niveau error) et masque le bloc, le guide reste. Les lignes de commentaire (`#`) ne sont pas contrôlées.
+- **Médias** : fichiers dans `public/demo-media/` uniquement (chemin `/demo-media/<nom>`, extension `mp4`/`webm` pour une vidéo, `gif` pour une animation, `png`/`jpg`/`webp` pour l'image fixe). Un fichier absent est abandonné sans bruit : le transcript est affiché seul, sans lecteur vide ni lien cassé. Une vidéo a ses commandes, `preload="none"`, jamais de lecture automatique ; une animation part de son image fixe et ne joue qu'au clic sur un bouton (`aria-pressed`), le texte du transcript étant son alternative.
+- **Vérification** : `tests/Unit/Demo/Mcp/TranscriptLoaderTest.php`, `tests/Functional/Demo/McpTranscriptTest.php`.

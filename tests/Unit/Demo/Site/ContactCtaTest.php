@@ -13,19 +13,19 @@ final class ContactCtaTest extends TestCase
 {
     public function testBothTargetsCarryTheUtmOfTheirPlacement(): void
     {
-        $cta = $this->cta('https://exemple.test/rdv', 'https://exemple.test/contact');
+        $cta = $this->cta('https://exemple.test/profil', 'https://exemple.test/contact');
 
         self::assertSame([
-            ['kind' => 'booking', 'url' => 'https://exemple.test/rdv?utm_source=demo-b2b&utm_medium=cta&utm_content=home'],
+            ['kind' => 'profile', 'url' => 'https://exemple.test/profil?utm_source=demo-b2b&utm_medium=cta&utm_content=home'],
             ['kind' => 'contact', 'url' => 'https://exemple.test/contact?utm_source=demo-b2b&utm_medium=cta&utm_content=home'],
         ], $cta->targets('home'));
     }
 
     public function testExistingQueryAndFragmentAreKept(): void
     {
-        $targets = $this->cta('https://exemple.test/rdv?a=1#top', '')->targets('plugins-top');
+        $targets = $this->cta('https://exemple.test/profil?a=1#top', '')->targets('plugins-top');
 
-        self::assertSame('https://exemple.test/rdv?a=1&utm_source=demo-b2b&utm_medium=cta&utm_content=plugins-top#top', $targets[0]['url']);
+        self::assertSame('https://exemple.test/profil?a=1&utm_source=demo-b2b&utm_medium=cta&utm_content=plugins-top#top', $targets[0]['url']);
     }
 
     public function testASingleConfiguredTargetIsTheOnlyOne(): void
@@ -43,20 +43,20 @@ final class ContactCtaTest extends TestCase
 
     public function testAnInvalidUrlIsHidden(): void
     {
-        $targets = $this->cta('http://exemple.test/rdv', 'https://user:pass@exemple.test/')->targets('home');
+        $targets = $this->cta('http://exemple.test/profil', 'https://user:pass@exemple.test/')->targets('home');
 
         self::assertSame([], $targets);
     }
 
     public function testThePlacementCannotInjectIntoTheQuery(): void
     {
-        $url = $this->cta('https://exemple.test/rdv', '')->targets('a&b=c d')[0]['url'];
+        $url = $this->cta('https://exemple.test/profil', '')->targets('a&b=c d')[0]['url'];
 
-        self::assertSame('https://exemple.test/rdv?utm_source=demo-b2b&utm_medium=cta&utm_content=abcd', $url);
+        self::assertSame('https://exemple.test/profil?utm_source=demo-b2b&utm_medium=cta&utm_content=abcd', $url);
     }
 
-    private function cta(string $booking, string $contact): ContactCta
+    private function cta(string $profile, string $contact): ContactCta
     {
-        return new ContactCta(new SiteLinks('', $contact, $booking));
+        return new ContactCta(new SiteLinks('', $contact, $profile));
     }
 }

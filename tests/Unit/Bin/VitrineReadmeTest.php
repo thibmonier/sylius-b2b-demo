@@ -6,8 +6,10 @@ namespace App\Tests\Unit\Bin;
 
 use App\Demo\Vitrine\DirectorySource;
 use App\Demo\Vitrine\Finding;
+use App\Demo\Vitrine\LinkProbe;
 use App\Demo\Vitrine\ReadmeApplier;
 use App\Demo\Vitrine\ReadmeChecker;
+use App\Demo\Vitrine\StandardBlock;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -17,6 +19,8 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class VitrineReadmeTest extends TestCase
 {
+    private const PROFILE = 'https://www.linkedin.com/in/example-author/';
+
     private const ENGLISH = <<<'MD'
         # Sylius Foo Plugin
 
@@ -90,7 +94,7 @@ final class VitrineReadmeTest extends TestCase
     {
         $this->write(self::ENGLISH, self::FRENCH);
 
-        self::assertTrue((new ReadmeApplier())->apply($this->dir));
+        self::assertTrue((new ReadmeApplier())->apply($this->dir, self::PROFILE));
 
         $english = $this->read('README.md');
         $french = $this->read('README.fr.md');
@@ -106,11 +110,11 @@ final class VitrineReadmeTest extends TestCase
     public function testApplyIsIdempotent(): void
     {
         $this->write(self::ENGLISH, self::FRENCH);
-        (new ReadmeApplier())->apply($this->dir);
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
         $english = $this->read('README.md');
         $french = $this->read('README.fr.md');
 
-        self::assertFalse((new ReadmeApplier())->apply($this->dir));
+        self::assertFalse((new ReadmeApplier())->apply($this->dir, self::PROFILE));
 
         self::assertSame($english, $this->read('README.md'));
         self::assertSame($french, $this->read('README.fr.md'));
@@ -125,7 +129,7 @@ final class VitrineReadmeTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('README.fr.md');
 
-        (new ReadmeApplier())->apply($this->dir);
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
     }
 
     public function testThePluginAbsentFromTheDemoSaysSoAndPromisesNothing(): void
@@ -135,7 +139,7 @@ final class VitrineReadmeTest extends TestCase
         file_put_contents($dir . '/README.md', self::ENGLISH);
         file_put_contents($dir . '/README.fr.md', self::FRENCH);
 
-        (new ReadmeApplier())->apply($dir);
+        (new ReadmeApplier())->apply($dir, self::PROFILE);
 
         self::assertStringContainsString('not present in the demo', (string) file_get_contents($dir . '/README.md'));
         self::assertStringContainsString('non présent dans la démo', (string) file_get_contents($dir . '/README.fr.md'));
@@ -146,7 +150,7 @@ final class VitrineReadmeTest extends TestCase
     {
         $this->write("# Foo\n\nIntro.\n\n## Usage\n\nText.\n", "# Foo\n\nIntro.\n\n## Utilisation\n\nTexte.\n");
 
-        (new ReadmeApplier())->apply($this->dir);
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
 
         self::assertStringEndsWith("<!-- vitrine:demo-b2b:end -->\n", $this->read('README.md'));
         self::assertSame([], $this->errors($this->check()));
@@ -205,7 +209,7 @@ final class VitrineReadmeTest extends TestCase
         $english = str_replace("# Install\n", "# Install\n## not a heading\n", self::ENGLISH);
         $french = str_replace("# Install\n", "# Install\n## not a heading\n", self::FRENCH);
         $this->write($english, $french);
-        (new ReadmeApplier())->apply($this->dir);
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
 
         self::assertSame([], $this->errors($this->check()));
     }
@@ -264,7 +268,7 @@ final class VitrineReadmeTest extends TestCase
         $messages = $this->messages($this->check());
 
         self::assertContains('README.md: the standard B2B demo block differs from the reference text (run bin/vitrine-readme apply)', $messages);
-        self::assertTrue($this->hasMessageContaining($messages, 'link outside the demo repository'));
+        self::assertTrue($this->hasMessageContaining($messages, 'link outside the demo repository, the online demo and the author profile'));
     }
 
     public function testAComparisonWithPlusInExistingTextIsAWarningUnlessStrict(): void
@@ -273,13 +277,13 @@ final class VitrineReadmeTest extends TestCase
             str_replace('**Foo for Sylius 2.**', '**Foo for Sylius 2.** An MIT alternative for merchants without Sylius Plus.', self::ENGLISH),
             self::FRENCH,
         );
-        (new ReadmeApplier())->apply($this->dir);
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
 
         $findings = $this->check();
 
         self::assertSame([], $this->errors($findings));
         self::assertCount(1, array_filter($findings, static fn (Finding $finding): bool => 'warning' === $finding->severity && 7 === $finding->line));
-        self::assertNotSame([], $this->errors((new ReadmeChecker(true))->check(new DirectorySource($this->dir), 'sylius-foo-plugin')));
+        self::assertNotSame([], $this->errors((new ReadmeChecker(true))->check(new DirectorySource($this->dir), 'sylius-foo-plugin', self::PROFILE)));
     }
 
     public function testSylusPlusInTheBlockIsAnError(): void
@@ -290,10 +294,139 @@ final class VitrineReadmeTest extends TestCase
         self::assertTrue($this->hasMessageContaining($this->messages($this->check()), 'forbidden'));
     }
 
+    public function testBothReadmesCarryTheSameDemoAndProfileLinks(): void
+    {
+        $this->treated();
+
+        foreach (['README.md' => ['Online demo: [sylius-b2b.thibaut-monier.fr]', 'Author: [Thibaut Monier]'], 'README.fr.md' => ['Démo en ligne : [sylius-b2b.thibaut-monier.fr]', 'Auteur : [Thibaut Monier]']] as $file => $labels) {
+            $content = $this->read($file);
+            self::assertStringContainsString($labels[0] . '(https://sylius-b2b.thibaut-monier.fr)', $content);
+            self::assertStringContainsString($labels[1] . '(' . self::PROFILE . ')', $content);
+        }
+        self::assertSame([], $this->check());
+    }
+
+    public function testThePluginAbsentFromTheDemoGetsTheProfileLinkOnly(): void
+    {
+        $dir = dirname($this->dir) . '/sylius-customer-asset-management-plugin';
+        (new Filesystem())->mkdir($dir);
+        file_put_contents($dir . '/README.md', self::ENGLISH);
+        file_put_contents($dir . '/README.fr.md', self::FRENCH);
+
+        (new ReadmeApplier())->apply($dir, self::PROFILE);
+
+        foreach (['README.md', 'README.fr.md'] as $file) {
+            $content = (string) file_get_contents($dir . '/' . $file);
+            self::assertStringContainsString('(' . self::PROFILE . ')', $content);
+            self::assertStringNotContainsString('https://sylius-b2b.thibaut-monier.fr', $content);
+        }
+    }
+
+    public function testAMissingProfileUrlRefusesToTouchAnything(): void
+    {
+        $this->write(self::ENGLISH, self::FRENCH);
+
+        foreach (['', 'http://insecure.example/in/x', 'not a url', 'https://example.com/a b'] as $url) {
+            try {
+                (new ReadmeApplier())->apply($this->dir, $url);
+                self::fail('The URL "' . $url . '" should be refused.');
+            } catch (\RuntimeException) {
+            }
+        }
+
+        self::assertSame(self::ENGLISH, $this->read('README.md'));
+        self::assertSame(self::FRENCH, $this->read('README.fr.md'));
+    }
+
+    public function testTheProfileUrlOfATreatedReadmeCanBeRead(): void
+    {
+        $this->treated();
+
+        self::assertSame(self::PROFILE, StandardBlock::profileUrlOf($this->read('README.md')));
+        self::assertSame(self::PROFILE, StandardBlock::profileUrlOf($this->read('README.fr.md')));
+        self::assertNull(StandardBlock::profileUrlOf(self::ENGLISH));
+    }
+
+    public function testAnotherProfileUrlInOneRepositoryFailsTheCheck(): void
+    {
+        $this->treated();
+        file_put_contents($this->dir . '/README.fr.md', str_replace(self::PROFILE, 'https://www.linkedin.com/in/someone-else/', $this->read('README.fr.md')));
+
+        $messages = $this->messages($this->check());
+
+        self::assertContains('README.fr.md: the standard B2B demo block differs from the reference text (run bin/vitrine-readme apply)', $messages);
+        self::assertTrue($this->hasMessageContaining($messages, 'link outside the demo repository'));
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('commercialTerms')]
+    public function testACommercialTermInTheBlockFailsTheCheck(string $term): void
+    {
+        $this->treated();
+        file_put_contents($this->dir . '/README.md', str_replace('<!-- vitrine:demo-b2b:end -->', "Open to $term.\n<!-- vitrine:demo-b2b:end -->", $this->read('README.md')));
+
+        self::assertTrue($this->hasMessageContaining($this->messages($this->check()), 'forbidden commercial wording'));
+    }
+
+    /** @return iterable<string, array{string}> */
+    public static function commercialTerms(): iterable
+    {
+        yield 'mission' => ['a mission'];
+        yield 'devis' => ['un devis'];
+        yield 'prestation' => ['une prestation'];
+        yield 'calendly' => ['calendly.com/x'];
+    }
+
+    public function testTheWordDevisOutsideTheBlockIsNotACommercialTerm(): void
+    {
+        $this->write(self::ENGLISH, str_replace('Voir', 'Un devis se demande ainsi. Voir', self::FRENCH));
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
+
+        self::assertSame([], $this->errors($this->check()));
+    }
+
+    public function testADeadLinkIsAnErrorAndARobotWallIsAWarning(): void
+    {
+        $this->treated();
+        $probe = new class() implements LinkProbe {
+            public function status(string $url): int
+            {
+                return match (true) {
+                    str_contains($url, 'linkedin') => 999,
+                    str_contains($url, 'thibaut-monier.fr') => 404,
+                    default => 200,
+                };
+            }
+        };
+
+        $findings = (new ReadmeChecker(false, $probe))->check(new DirectorySource($this->dir), 'sylius-foo-plugin', self::PROFILE);
+
+        self::assertTrue($this->hasMessageContaining($this->messages($findings), 'does not answer: https://sylius-b2b.thibaut-monier.fr (HTTP 404)'));
+        self::assertCount(2, array_filter($findings, static fn (Finding $finding): bool => 'warning' === $finding->severity && str_contains($finding->message, 'cannot be verified')));
+    }
+
+    public function testALinkSharedByTwoReadmesIsProbedOnce(): void
+    {
+        $this->treated();
+        $probe = new class() implements LinkProbe {
+            public int $calls = 0;
+
+            public function status(string $url): int
+            {
+                ++$this->calls;
+
+                return 200;
+            }
+        };
+
+        (new ReadmeChecker(false, $probe))->check(new DirectorySource($this->dir), 'sylius-foo-plugin', self::PROFILE);
+
+        self::assertSame(3, $probe->calls, 'Repository, online demo and profile, once each for both READMEs.');
+    }
+
     private function treated(): void
     {
         $this->write(self::ENGLISH, self::FRENCH);
-        (new ReadmeApplier())->apply($this->dir);
+        (new ReadmeApplier())->apply($this->dir, self::PROFILE);
     }
 
     private function write(string $english, string $french): void
@@ -317,7 +450,7 @@ final class VitrineReadmeTest extends TestCase
      */
     private function check(?string $dir = null, string $plugin = 'sylius-foo-plugin'): array
     {
-        return (new ReadmeChecker())->check(new DirectorySource($dir ?? $this->dir), $plugin);
+        return (new ReadmeChecker())->check(new DirectorySource($dir ?? $this->dir), $plugin, self::PROFILE);
     }
 
     /**

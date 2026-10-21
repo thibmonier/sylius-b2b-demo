@@ -28,10 +28,10 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-068-01 | [TEST] | Tests rouges de l'outil (`VitrineReadmeTest`) : deux liens EN et FR identiques partout, relance sans diff, plugin sans démo (profil seul), URL absente refusée, terme commercial ou lien mort signalé | 1 h | - | Claude | 🔲 |
-| T-068-02 | [BE] | `bin/vitrine-readme apply` : liens démo et profil (argument d'URL), refus sans URL, détection du plugin sans démo | 1 h | T-068-01, T-158-09 | Claude | 🔲 |
-| T-068-03 | [BE] | `--check` : termes « mission », « devis », « prestation », liens morts, cohérence des liens entre les 24 dépôts | 0,75 h | T-068-01 | Claude | 🔲 |
-| T-068-04 | [OPS] | Application aux 24 dépôts (`git fetch`, branche courante vérifiée, une branche par dépôt), `--check` avant et après, aucun push | 1 h | T-068-02, T-068-03 | Claude | 🔲 |
+| T-068-01 | [TEST] | Tests rouges de l'outil (`VitrineReadmeTest`) : deux liens EN et FR identiques partout, relance sans diff, plugin sans démo (profil seul), URL absente refusée, terme commercial ou lien mort signalé | 1 h | - | Claude | ✅ |
+| T-068-02 | [BE] | `bin/vitrine-readme apply` : liens démo et profil (argument d'URL), refus sans URL, détection du plugin sans démo | 1 h | T-068-01, T-158-09 | Claude | ✅ |
+| T-068-03 | [BE] | `--check` : termes « mission », « devis », « prestation », liens morts, cohérence des liens entre les 24 dépôts | 0,75 h | T-068-01 | Claude | ✅ |
+| T-068-04 | [OPS] | Application aux 24 dépôts (`git fetch`, branche courante vérifiée, une branche par dépôt), `--check` avant et après, aucun push | 1 h | T-068-02, T-068-03 | Claude | 🔄 |
 | T-068-05 | [OPS] | Thibaut donne le GO unique : push des 24 branches, 24 PR, merge quand les CI sont vertes | 0,25 h | T-068-04 | Thibaut | 🔲 |
 | T-068-06 | [OPS] | 24 PR (une par dépôt) et suivi de chaque CI | 1,25 h | T-068-05 | Claude | 🔲 |
 | T-068-07 | [OPS] | Merge des 24 PR après run terminé de chacune (branche principale protégée) | 0,75 h | T-068-06 | Claude | 🔲 |

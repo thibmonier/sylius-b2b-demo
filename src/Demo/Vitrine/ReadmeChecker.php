@@ -26,12 +26,18 @@ final class ReadmeChecker
 
     private const COMPARISON = '/alternative|paid|payant|proprietary|propriétaire|without|sans |only part|compar/i';
 
-    public function __construct(private readonly bool $strict = false)
+    /** Commercial or availability wording the standard block must never carry (US-068). */
+    private const COMMERCIAL = '/\bmissions?\b|\bdevis\b|\bprestations?\b|calendly|freelance|available for|disponible pour/i';
+
+    /** @var array<string, int> status per URL, so a link shared by 24 repositories is probed once */
+    private array $probed = [];
+
+    public function __construct(private readonly bool $strict = false, private readonly ?LinkProbe $probe = null)
     {
     }
 
     /** @return list<Finding> */
-    public function check(FileSource $source, string $plugin): array
+    public function check(FileSource $source, string $plugin, string $profileUrl): array
     {
         $english = $source->read(self::ENGLISH);
         $french = $source->read(self::FRENCH);
@@ -45,7 +51,7 @@ final class ReadmeChecker
 
         $englishDocument = new MarkdownDocument($english);
         $inDemo = StandardBlock::isInDemo($plugin);
-        $findings = [...$findings, ...$this->checkFile(self::ENGLISH, $englishDocument, 'en', $inDemo)];
+        $findings = [...$findings, ...$this->checkFile(self::ENGLISH, $englishDocument, 'en', $inDemo, $profileUrl)];
         if (null === $french) {
             return $findings;
         }
@@ -53,17 +59,17 @@ final class ReadmeChecker
 
         return [
             ...$findings,
-            ...$this->checkFile(self::FRENCH, $frenchDocument, 'fr', $inDemo),
+            ...$this->checkFile(self::FRENCH, $frenchDocument, 'fr', $inDemo, $profileUrl),
             ...$this->compare($englishDocument, $frenchDocument),
         ];
     }
 
     /** @return list<Finding> */
-    private function checkFile(string $file, MarkdownDocument $document, string $language, bool $inDemo): array
+    private function checkFile(string $file, MarkdownDocument $document, string $language, bool $inDemo, string $profileUrl): array
     {
         return [
             ...$this->checkLanguageLink($file, $document, $language),
-            ...$this->checkBlock($file, $document, $language, $inDemo),
+            ...$this->checkBlock($file, $document, $language, $inDemo, $profileUrl),
             ...$this->checkWording($file, $document),
             ...$this->checkAnchors($file, $document),
         ];
@@ -83,7 +89,7 @@ final class ReadmeChecker
     }
 
     /** @return list<Finding> */
-    private function checkBlock(string $file, MarkdownDocument $document, string $language, bool $inDemo): array
+    private function checkBlock(string $file, MarkdownDocument $document, string $language, bool $inDemo, string $profileUrl): array
     {
         $block = $document->block();
         if (null === $block) {
@@ -94,28 +100,52 @@ final class ReadmeChecker
         if ($document->blockCount() > 1) {
             $findings[] = new Finding($file, $line, 'error', 'the standard B2B demo block appears more than once');
         }
-        if ($block !== StandardBlock::render($language, $inDemo)) {
+        if ($block !== StandardBlock::render($language, $inDemo, $profileUrl)) {
             $findings[] = new Finding($file, $line, 'error', 'the standard B2B demo block differs from the reference text (run bin/vitrine-readme apply)');
         }
         foreach (\explode("\n", $block) as $offset => $text) {
-            $findings = [...$findings, ...$this->checkBlockLine($file, $line + $offset, $text)];
+            $findings = [...$findings, ...$this->checkBlockLine($file, $line + $offset, $text, $profileUrl)];
+        }
+
+        return [...$findings, ...$this->probeLinks($file, $line, $block)];
+    }
+
+    /** @return list<Finding> */
+    private function checkBlockLine(string $file, int $line, string $text, string $profileUrl): array
+    {
+        $findings = [];
+        \preg_match_all('#https?://[^\s)>\]]+#', $text, $matches);
+        foreach ($matches[0] as $url) {
+            if (!\in_array(\rtrim($url, '.,;'), [StandardBlock::DEMO_URL, StandardBlock::LIVE_URL, $profileUrl], true)) {
+                $findings[] = new Finding($file, $line, 'error', \sprintf('link outside the demo repository, the online demo and the author profile in the standard block: %s', $url));
+            }
+        }
+        if (1 === \preg_match('/sylius plus/i', $text)) {
+            $findings[] = new Finding($file, $line, 'error', 'forbidden wording in the standard block: Sylius Plus must not be named');
+        }
+
+        if (1 === \preg_match(self::COMMERCIAL, $text, $match)) {
+            $findings[] = new Finding($file, $line, 'error', \sprintf('forbidden commercial wording "%s" in the standard block', $match[0]));
         }
 
         return $findings;
     }
 
     /** @return list<Finding> */
-    private function checkBlockLine(string $file, int $line, string $text): array
+    private function probeLinks(string $file, int $line, string $block): array
     {
-        $findings = [];
-        \preg_match_all('#https?://[^\s)>\]]+#', $text, $matches);
-        foreach ($matches[0] as $url) {
-            if (StandardBlock::DEMO_URL !== \rtrim($url, '.,;')) {
-                $findings[] = new Finding($file, $line, 'error', \sprintf('link outside the demo repository in the standard block: %s', $url));
-            }
+        if (null === $this->probe) {
+            return [];
         }
-        if (1 === \preg_match('/sylius plus/i', $text)) {
-            $findings[] = new Finding($file, $line, 'error', 'forbidden wording in the standard block: Sylius Plus must not be named');
+        \preg_match_all('#https?://[^\s)>\]]+#', $block, $matches);
+        $findings = [];
+        foreach (\array_unique($matches[0]) as $url) {
+            $status = $this->probed[$url] ??= $this->probe->status($url);
+            if ($status >= 200 && $status < 400) {
+                continue;
+            }
+            $unverifiable = \in_array($status, [403, 429, 999], true);
+            $findings[] = new Finding($file, $line, $unverifiable ? 'warning' : 'error', \sprintf('link %s: %s', $unverifiable ? 'cannot be verified (the site refuses robots)' : 'does not answer', $url . ' (HTTP ' . $status . ')'));
         }
 
         return $findings;

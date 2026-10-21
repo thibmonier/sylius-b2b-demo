@@ -20,28 +20,48 @@ declare(strict_types=1);
  * Exit code 1 when a repository has an error, 2 on a usage error. See docs/vitrine-plugins.md for the tone charter.
  */
 
+use App\Demo\Vitrine\CurlLinkProbe;
 use App\Demo\Vitrine\DirectorySource;
 use App\Demo\Vitrine\Finding;
 use App\Demo\Vitrine\FileSource;
 use App\Demo\Vitrine\GitRefSource;
 use App\Demo\Vitrine\ReadmeApplier;
 use App\Demo\Vitrine\ReadmeChecker;
+use App\Demo\Vitrine\StandardBlock;
 
 require \dirname(__DIR__) . '/vendor/autoload.php';
 
 $arguments = \array_slice($argv, 1);
-$usage = "usage: php bin/vitrine-readme apply <plugin-dir>...\n       php bin/vitrine-readme --check [--root=DIR] [--ref=REF] [--strict] [plugin-name...]\n";
+$usage = "usage: php bin/vitrine-readme apply --profile-url=https://... <plugin-dir>...\n       php bin/vitrine-readme --check [--profile-url=https://...] [--links] [--root=DIR] [--ref=REF] [--strict] [plugin-name...]\n";
 
 if (['apply'] === \array_slice($arguments, 0, 1)) {
-    $directories = \array_slice($arguments, 1);
+    $profileUrl = null;
+    $directories = [];
+    foreach (\array_slice($arguments, 1) as $argument) {
+        if (\str_starts_with($argument, '--profile-url=')) {
+            $profileUrl = \substr($argument, 14);
+        } else {
+            $directories[] = $argument;
+        }
+    }
     if ([] === $directories) {
         \fwrite(\STDERR, $usage);
+        exit(2);
+    }
+    if (null === $profileUrl) {
+        \fwrite(\STDERR, "Nothing modified: the profile URL is required (--profile-url=https://...).\n");
+        exit(2);
+    }
+    try {
+        StandardBlock::assertProfileUrl($profileUrl);
+    } catch (\RuntimeException $exception) {
+        \fwrite(\STDERR, 'Nothing modified: ' . $exception->getMessage() . "\n");
         exit(2);
     }
     $failed = false;
     foreach ($directories as $directory) {
         try {
-            \printf("%s %s\n", (new ReadmeApplier())->apply($directory) ? 'CHANGED  ' : 'UNCHANGED', \basename(\rtrim($directory, '/')));
+            \printf("%s %s\n", (new ReadmeApplier())->apply($directory, $profileUrl) ? 'CHANGED  ' : 'UNCHANGED', \basename(\rtrim($directory, '/')));
         } catch (\RuntimeException $exception) {
             \fwrite(\STDERR, 'KO        ' . $exception->getMessage() . "\n");
             $failed = true;
@@ -58,6 +78,8 @@ if (!\in_array('--check', $arguments, true)) {
 $root = \dirname(__DIR__, 2);
 $ref = null;
 $strict = false;
+$links = false;
+$profileUrl = null;
 $names = [];
 foreach ($arguments as $argument) {
     if ('--check' === $argument) {
@@ -67,6 +89,10 @@ foreach ($arguments as $argument) {
         $root = \rtrim(\substr($argument, 7), '/');
     } elseif (\str_starts_with($argument, '--ref=')) {
         $ref = \substr($argument, 6);
+    } elseif (\str_starts_with($argument, '--profile-url=')) {
+        $profileUrl = \substr($argument, 14);
+    } elseif ('--links' === $argument) {
+        $links = true;
     } elseif ('--strict' === $argument) {
         $strict = true;
     } elseif (\str_starts_with($argument, '--')) {
@@ -87,12 +113,29 @@ if ([] === $names) {
     exit(2);
 }
 
-$checker = new ReadmeChecker($strict);
+$source = static fn (string $directory): FileSource => null === $ref ? new DirectorySource($directory) : new GitRefSource($directory, $ref);
+
+// Without --profile-url, the first repository that carries one sets the reference: the others must match it.
+if (null === $profileUrl) {
+    foreach ($names as $name) {
+        $profileUrl = StandardBlock::profileUrlOf((string) $source($root . '/' . $name)->read('README.md'));
+        if (null !== $profileUrl) {
+            break;
+        }
+    }
+}
+try {
+    StandardBlock::assertProfileUrl((string) $profileUrl);
+} catch (\RuntimeException) {
+    \fwrite(\STDERR, "No profile URL: pass --profile-url=https://... (no repository carries one yet).\n");
+    exit(2);
+}
+
+$checker = new ReadmeChecker($strict, $links ? new CurlLinkProbe() : null);
 $errors = 0;
 $warnings = 0;
 foreach ($names as $name) {
-    $source = static fn (string $directory): FileSource => null === $ref ? new DirectorySource($directory) : new GitRefSource($directory, $ref);
-    $findings = $checker->check($source($root . '/' . $name), $name);
+    $findings = $checker->check($source($root . '/' . $name), $name, (string) $profileUrl);
     $pluginErrors = \array_filter($findings, static fn (Finding $finding): bool => 'error' === $finding->severity);
     $errors += \count($pluginErrors);
     $warnings += \count($findings) - \count($pluginErrors);

@@ -6,7 +6,7 @@
 #   steps     : 4 to 6 steps; route (+ route_parameters), optional scenario (cart, quote) with scenario_options (list: name of a purchase list)
 # A route that does not exist or an unknown account is refused when the journeys are loaded, naming the journey and the step.
 parameters:
-    # Route of the page "Intégrer ces plugins dans votre projet" (US-107), target of "En savoir plus" on the exit screen.
+    # Route of the page "Guide d'intégration des plugins" (US-107), target of "En savoir plus" on the exit screen.
     demo.journeys_integrate_route: app_demo_integrate
     demo.journeys:
         buyer:

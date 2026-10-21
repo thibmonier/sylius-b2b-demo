@@ -8,5 +8,6 @@ description:
     app_demo_legal_notice: 'Legal notice of the Fournitures Pro demo: non-commercial demonstration, fictional data, no real payment.'
     sylius_shop_login: 'Sign in to the Fournitures Pro demo: demonstration accounts for company, buyer and approver, no registration needed.'
     app_demo_accounts: 'Demo journeys and accounts of Fournitures Pro: pick a role to browse the B2B shop.'
-    app_demo_integrate: 'Integrate the Sylius B2B plugins of Thibaut Monier in your project: three formulas, questions to settle first, typical architecture and indicative lead times.'
+    app_demo_integrate: 'Integration guide for the Sylius B2B plugins of Thibaut Monier: prerequisites, installation, typical architecture, questions to settle, repositories.'
     app_demo_mcp_guide: 'Guide to connect an AI assistant to the demo shop through the Sylius MCP server.'
+    app_demo_proof: 'Technical proof for the Sylius plugins of Thibaut Monier: version published on Packagist, Sylius compatibility, CI, PHPStan and tests, each value with its source.'

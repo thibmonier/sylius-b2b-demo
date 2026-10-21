@@ -1,0 +1,7 @@
+# Data files of the evidence blocks (versioned, never written by a page). The variables only exist so the tests can aim at
+# another file.
+parameters:
+    # US-111: written by bin/proof-refresh, read by App\Demo\Proof\ProofReader.
+    env(DEMO_PROOF_FILE): '%kernel.project_dir%/config/demo/proof.json'
+    # US-103: the transcript of a real conversation with an assistant; absent file = the block is hidden.
+    env(DEMO_MCP_TRANSCRIPT_FILE): '%kernel.project_dir%/config/demo/mcp-transcript.yaml'

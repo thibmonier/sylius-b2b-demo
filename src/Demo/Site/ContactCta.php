@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Demo\Site;
 
 /**
- * US-142: the targets of the "contact me" call to action (booking page, contact form), tagged with UTM parameters
+ * US-142: the targets of the "contact me" call to action (LinkedIn profile, contact form), tagged with UTM parameters
  * naming the placement they come from (no cookie). A target that is not configured (or not a plain https URL) is absent.
  */
 final readonly class ContactCta
@@ -14,11 +14,11 @@ final readonly class ContactCta
     {
     }
 
-    /** @return list<array{kind: 'booking'|'contact', url: string}> */
+    /** @return list<array{kind: 'profile'|'contact', url: string}> */
     public function targets(string $placement): array
     {
         $targets = [];
-        foreach (['booking' => $this->links->bookingUrl(), 'contact' => $this->links->contactUrl()] as $kind => $url) {
+        foreach (['profile' => $this->links->profileUrl(), 'contact' => $this->links->contactUrl()] as $kind => $url) {
             if (null !== $url) {
                 $targets[] = ['kind' => $kind, 'url' => self::tagged($url, $placement)];
             }

@@ -77,7 +77,8 @@ final class JourneyTest extends WebTestCase
         self::assertCount(0, $step1->filter('[data-journey-previous]'), 'No previous step before the first.');
         self::assertCount(1, $step1->filter('[data-journey-open]'));
 
-        $step2 = $client->click($step1->filter('[data-journey-next]')->link());
+        $client->submit($step1->filter('[data-journey-next]')->form(), [], ['HTTP_ORIGIN' => 'http://localhost']);
+        $step2 = $client->followRedirect();
         self::assertSame('/' . $locale . '/guides/buyer/2', parse_url($client->getRequest()->getUri(), \PHP_URL_PATH));
         self::assertCount(1, $step2->filter('[data-journey-previous]'));
         self::assertCount(0, $step2->filter('[data-journey-launch]'), 'Step 2 has no scenario.');
@@ -95,7 +96,8 @@ final class JourneyTest extends WebTestCase
         $step4 = $client->request('GET', '/fr_FR/guides/buyer/4');
         self::assertStringContainsString('Terminer le parcours', $step4->filter('[data-journey-next]')->text());
 
-        $exit = $client->click($step4->filter('[data-journey-next]')->link());
+        $client->submit($step4->filter('[data-journey-next]')->form(), [], ['HTTP_ORIGIN' => 'http://localhost']);
+        $exit = $client->followRedirect();
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $exit->filter('[data-journey-exit]'));
@@ -112,7 +114,7 @@ final class JourneyTest extends WebTestCase
         self::assertCount(1, $contact);
         self::assertStringStartsWith(self::CONTACT . '?', (string) $contact->attr('href'));
         self::assertStringContainsString('utm_content=journey-exit', (string) $contact->attr('href'));
-        self::assertStringContainsString('Échanger sur votre projet', $contact->text());
+        self::assertStringContainsString('Écrire un message', $contact->text());
         self::assertSame('/fr_FR/integrer', $with->filter('[data-journey-integrate]')->attr('href'), 'The exit screen links to the page "Intégrer".');
 
         $this->setEnvironment(['DEMO_CONTACT_URL' => '']);
@@ -223,8 +225,7 @@ final class JourneyTest extends WebTestCase
     {
         $client = self::createClient();
         $this->login($client, self::CLAIRE);
-        $client->request('GET', '/fr_FR/guides/buyer/3');
-        self::assertResponseIsSuccessful();
+        $client->submit($client->request('GET', '/fr_FR/guides/buyer/2')->filter('[data-journey-next]')->form(), [], ['HTTP_ORIGIN' => 'http://localhost']);
 
         $markerFile = self::getContainer()->getParameter('demo.reset_marker_file');
         self::assertIsString($markerFile);
@@ -237,15 +238,16 @@ final class JourneyTest extends WebTestCase
         self::assertCount(1, $page->filter('[data-journey-reset-notice]'));
         self::assertStringContainsString('remise à zéro', $page->filter('[data-journey-reset-notice]')->text());
         self::assertSame('Étape 1 sur 4', trim($page->filter('[data-journey-counter]')->text()));
+        $client->submit($page->filter('[data-journey-next]')->form(), [], ['HTTP_ORIGIN' => 'http://localhost']);
         $again = $client->request('GET', '/fr_FR/guides/buyer/1');
-        self::assertCount(0, $again->filter('[data-journey-reset-notice]'), 'The message is shown once.');
+        self::assertCount(0, $again->filter('[data-journey-reset-notice]'), 'The message goes away once the visitor acts.');
     }
 
     public function testTheListOffersToResumeAtTheLastStepSeen(): void
     {
         $client = self::createClient();
         $this->login($client, self::CLAIRE);
-        $client->request('GET', '/fr_FR/guides/buyer/3');
+        $client->submit($client->request('GET', '/fr_FR/guides/buyer/2')->filter('[data-journey-next]')->form(), [], ['HTTP_ORIGIN' => 'http://localhost']);
 
         $list = $client->request('GET', '/fr_FR/guides');
 
@@ -272,7 +274,7 @@ final class JourneyTest extends WebTestCase
 
     public function testTheContactOfAnyPageIsTaggedWithTheCampaignOfTheUrl(): void
     {
-        $this->setEnvironment(['DEMO_CONTACT_URL' => self::CONTACT, 'DEMO_BOOKING_URL' => '']);
+        $this->setEnvironment(['DEMO_CONTACT_URL' => self::CONTACT, 'DEMO_PROFILE_URL' => '']);
 
         $page = self::createClient()->request('GET', '/fr_FR/a-propos?utm_campaign=ouverture-demo');
 

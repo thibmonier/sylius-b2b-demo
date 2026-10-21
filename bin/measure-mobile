@@ -26,6 +26,9 @@ const PAGES = [
     { name: 'panier', path: 'cart/', signedIn: true },
     { name: 'devis', path: 'quote-request', signedIn: true },
     { name: 'plugins', path: 'plugins' },
+    // US-111 / US-103: the technical proof, and the assistant guide with the transcript of a real conversation.
+    { name: 'preuve', path: 'preuve' },
+    { name: 'guide MCP', path: 'mcp' },
     // US-105/US-106: the guided journeys (the journey of Claire, the first one-click account).
     { name: 'parcours', path: 'guides' },
     { name: 'parcours étape', path: 'guides/buyer/3', signedIn: true },

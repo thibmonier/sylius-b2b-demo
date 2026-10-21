@@ -1,0 +1,51 @@
+#!/bin/sh
+# Disk check before a batch of tests (US-161 / T-161-02): shows the free space of the machine and, below the alert
+# threshold, whether the shortage comes from the project (private caches var/cache-*, test databases of the local MySQL
+# container) or from the machine. Informative: bin/run-tests keeps its own freeze at MIN_FREE_GB and never lowers it.
+#
+#   bin/check-disk                       # alert below 15 GB
+#   CHECK_DISK_WARN_GB=20 bin/check-disk
+#
+# Exit codes: 0 enough room, 3 alert (below CHECK_DISK_WARN_GB), 1 frozen (below MIN_FREE_GB).
+# On an alert, warn Thibaut at once, then diagnose before cleaning anything. See docs/tests-locaux.md.
+set -eu
+cd "$(dirname "$0")/.."
+
+WARN_GB="${CHECK_DISK_WARN_GB:-15}"
+MIN_FREE_GB="${MIN_FREE_GB:-5}"
+CONTAINER="${MYSQL_CONTAINER:-sylius-b2b-demo-mysql-1}"
+
+FREE_KB=$(df -Pk . | awk 'NR==2 {print $4}')
+FREE_GB=$((FREE_KB / 1024 / 1024))
+echo "Disk: ${FREE_GB} GB free (alert below ${WARN_GB} GB, bin/run-tests refuses to start below ${MIN_FREE_GB} GB)"
+
+if [ "$FREE_KB" -ge $((WARN_GB * 1024 * 1024)) ]; then
+    exit 0
+fi
+
+CACHE_KB=0
+for dir in var/cache-*; do
+    [ -d "$dir" ] || continue
+    KB=$(du -sk "$dir" 2>/dev/null | awk '{print $1}')
+    CACHE_KB=$((CACHE_KB + ${KB:-0}))
+done
+
+DB_BYTES=$(docker exec "$CONTAINER" mysql -uroot -N -B -e "SELECT COALESCE(SUM(data_length + index_length), 0) FROM information_schema.tables WHERE table_schema REGEXP '^(sylius_test_|b2b_|sylius_b2b_demo_test)'" 2>/dev/null | tr -cd '0-9' || true)
+DB_KB=$(( ${DB_BYTES:-0} / 1024 ))
+
+PROJECT_KB=$((CACHE_KB + DB_KB))
+MISSING_KB=$((WARN_GB * 1024 * 1024 - FREE_KB))
+
+echo "ALERT: less than ${WARN_GB} GB free: warn Thibaut now, before any cleaning."
+echo "Project footprint: caches var/cache-* $((CACHE_KB / 1024 / 1024)) GB, test databases $((DB_KB / 1024 / 1024)) GB (Docker volumes: docker system df)."
+if [ "$PROJECT_KB" -ge "$MISSING_KB" ]; then
+    echo "Origin: project (its caches and test databases cover the $((MISSING_KB / 1024 / 1024)) GB missing): bin/clean-test-caches --dry-run, then clean your own resources."
+else
+    echo "Origin: machine (the project holds $((PROJECT_KB / 1024 / 1024)) GB of the $((MISSING_KB / 1024 / 1024)) GB missing): the space is used outside the project, cleaning its caches will not be enough."
+fi
+
+if [ "$FREE_KB" -lt $((MIN_FREE_GB * 1024 * 1024)) ]; then
+    echo "FROZEN: bin/run-tests refuses to start below ${MIN_FREE_GB} GB; this threshold is never lowered."
+    exit 1
+fi
+exit 3

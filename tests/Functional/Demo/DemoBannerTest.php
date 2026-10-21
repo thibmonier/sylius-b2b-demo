@@ -20,8 +20,8 @@ final class DemoBannerTest extends WebTestCase
     /** @return iterable<string, array{string, list<string>, list<string>, string}> */
     public static function locales(): iterable
     {
-        yield 'French' => ['fr_FR', self::FRENCH, self::ENGLISH, 'Un projet B2B ? Parlons-en'];
-        yield 'English' => ['en_US', self::ENGLISH, self::FRENCH, "A B2B project? Let's talk"];
+        yield 'French' => ['fr_FR', self::FRENCH, self::ENGLISH, 'Cette démo vous parle ? Échangeons'];
+        yield 'English' => ['en_US', self::ENGLISH, self::FRENCH, 'Does this demo speak to you? Get in touch'];
     }
 
     /**
@@ -68,8 +68,8 @@ final class DemoBannerTest extends WebTestCase
     /** @return iterable<string, array{string, string}> */
     public static function contacts(): iterable
     {
-        yield 'French' => ['fr_FR', 'Un projet B2B ? Parlons-en'];
-        yield 'English' => ['en_US', "A B2B project? Let's talk"];
+        yield 'French' => ['fr_FR', 'Cette démo vous parle ? Échangeons'];
+        yield 'English' => ['en_US', 'Does this demo speak to you? Get in touch'];
     }
 
     #[DataProvider('contacts')]
@@ -101,7 +101,7 @@ final class DemoBannerTest extends WebTestCase
         $bar = $this->bar('fr_FR');
 
         self::assertCount(0, $bar->filter('[data-contact-link]'));
-        self::assertStringNotContainsString('Parlons-en', $bar->text());
+        self::assertStringNotContainsString('Échangeons', $bar->text());
     }
 
     private function bar(string $locale): Crawler

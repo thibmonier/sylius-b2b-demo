@@ -50,6 +50,8 @@ services:
             - '../src/Demo/Images/Fetch/'
             # Manual tooling (bin/vitrine-readme), never part of the running application.
             - '../src/Demo/Vitrine/'
+            # Manual tooling (bin/proof-refresh), never part of the running application (US-111).
+            - '../src/Demo/Proof/Refresh/'
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

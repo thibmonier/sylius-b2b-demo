@@ -27,17 +27,17 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-124-01 | [DOC] | Angles des six posts rattachés aux piliers, sources publiques vérifiées (sans détail de sécurité) | 1 h | T-159-07 | Claude | 🔲 |
-| T-124-02 | [DOC] | Tranche 1 : posts des semaines 3 et 4 (accroche, corps, CTA unique, visuel, lien UTM, variante < 600 caractères) | 2 h | T-124-01 | Claude | 🔲 |
-| T-124-03 | [TEST] | `charter_check.py --post` sur la tranche 1 | 0,5 h | T-124-02 | Claude | 🔲 |
+| T-124-01 | [DOC] | Angles des six posts rattachés aux piliers, sources publiques vérifiées (sans détail de sécurité) | 1 h | T-159-07 | Claude | ✅ |
+| T-124-02 | [DOC] | Tranche 1 : posts des semaines 3 et 4 (accroche, corps, CTA unique, visuel, lien UTM, variante < 600 caractères) | 2 h | T-124-01 | Claude | ✅ |
+| T-124-03 | [TEST] | `charter_check.py --post` sur la tranche 1 | 0,5 h | T-124-02 | Claude | ✅ |
 | T-124-04 | [REV] | Thibaut relit la tranche 1 | 0,5 h | T-124-03 | Thibaut | 🔲 |
 | T-124-05 | [OPS] | Thibaut relève les chiffres des semaines 1 et 2 (vues du profil, messages reçus) | 0,5 h | T-124-04 | Thibaut | 🔲 |
-| T-124-06 | [DOC] | Révision de la tranche 2 d'après les retours (angles conservés ou abandonnés, justification notée) ⚠️ | 1 h | T-124-05 | Claude | 🔲 |
-| T-124-07 | [DOC] | Posts des semaines 5 et 6 ⚠️ | 2 h | T-124-06 | Claude | 🔲 |
-| T-124-08 | [DOC] | Posts des semaines 7 et 8 ⚠️ | 2 h | T-124-06 | Claude | 🔲 |
-| T-124-09 | [TEST] | `charter_check.py --post` sur la tranche 2 ; au plus 2 mentions de disponibilité sur les six posts ; aucune date de sortie ⚠️ | 0,5 h | T-124-07, T-124-08 | Claude | 🔲 |
+| T-124-06 | [DOC] | Révision de la tranche 2 d'après les retours (angles conservés ou abandonnés, justification notée) ⚠️ | 1 h | T-124-05 | Claude | 🔄 |
+| T-124-07 | [DOC] | Posts des semaines 5 et 6 ⚠️ | 2 h | T-124-06 | Claude | ✅ |
+| T-124-08 | [DOC] | Posts des semaines 7 et 8 ⚠️ | 2 h | T-124-06 | Claude | ✅ |
+| T-124-09 | [TEST] | `charter_check.py --post` sur la tranche 2 ; au plus 2 mentions de disponibilité sur les six posts ; aucune date de sortie ⚠️ | 0,5 h | T-124-07, T-124-08 | Claude | ✅ |
 | T-124-10 | [REV] | Thibaut relit la tranche 2 ⚠️ | 0,5 h | T-124-09 | Thibaut | 🔲 |
-| T-124-11 | [DOC] | Registre `communication/INDEX.md` à jour | 0,25 h | T-124-03 | Claude | 🔲 |
+| T-124-11 | [DOC] | Registre `communication/INDEX.md` à jour | 0,25 h | T-124-03 | Claude | ✅ |
 
 **Total estimé : 10,75 h** (11 tâches, dont 3 de Thibaut, soit 1,5 h).
 

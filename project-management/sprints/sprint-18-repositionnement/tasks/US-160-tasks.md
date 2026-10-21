@@ -28,13 +28,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-160-01 | [TEST] | Test de concurrence rouge : deux runs reprennent un verrou périmé en même temps, une seule obtient le verrou, 20 itérations ; verrou orphelin repris et journalisé | 1 h | - | Claude | 🔲 |
-| T-160-02 | [OPS] | `bin/run-tests` : reprise atomique du verrou périmé (renommage vers un nom unique puis `mkdir`), message journalisé | 1 h | T-160-01 | Claude | 🔲 |
-| T-160-03 | [TEST] | Tests fonctionnels rouges : GET d'étape répété ou préchargé sans modification de session ; avancement par POST avec jeton CSRF | 1 h | T-158-08 | Claude | 🔲 |
-| T-160-04 | [BE] | `JourneyController` et `JourneyProgress` : GET sans effet de bord, avancement par POST, formulaire « Suivant » | 1,5 h | T-160-03 | Claude | 🔲 |
-| T-160-05 | [TEST] | Tests rouges : menu compte au nom accessible FR et EN ; nom et rôle du compte non rendus aux anonymes | 1 h | T-158-08 | Claude | 🔲 |
-| T-160-06 | [FE-WEB] | Surcharge du gabarit du menu compte (nom accessible), information réduite pour les anonymes, libellés FR et EN | 2 h | T-160-05 | Claude | 🔲 |
-| T-160-07 | [TEST] | Suite complète sur trois graines aléatoires, ECS, PHPStan ; pa11y WCAG2AAA accueil FR et EN (connecté et anonyme) ; `bin/measure-mobile` | 1,5 h | T-160-02, T-160-04, T-160-06 | Claude | 🔲 |
+| T-160-01 | [TEST] | Test de concurrence rouge : deux runs reprennent un verrou périmé en même temps, une seule obtient le verrou, 20 itérations ; verrou orphelin repris et journalisé | 1 h | - | Claude | ✅ |
+| T-160-02 | [OPS] | `bin/run-tests` : reprise atomique du verrou périmé (renommage vers un nom unique puis `mkdir`), message journalisé | 1 h | T-160-01 | Claude | ✅ |
+| T-160-03 | [TEST] | Tests fonctionnels rouges : GET d'étape répété ou préchargé sans modification de session ; avancement par POST avec jeton CSRF | 1 h | T-158-08 | Claude | ✅ |
+| T-160-04 | [BE] | `JourneyController` et `JourneyProgress` : GET sans effet de bord, avancement par POST, formulaire « Suivant » | 1,5 h | T-160-03 | Claude | ✅ |
+| T-160-05 | [TEST] | Tests rouges : menu compte au nom accessible FR et EN ; nom et rôle du compte non rendus aux anonymes | 1 h | T-158-08 | Claude | ✅ |
+| T-160-06 | [FE-WEB] | Surcharge du gabarit du menu compte (nom accessible), information réduite pour les anonymes, libellés FR et EN | 2 h | T-160-05 | Claude | ✅ |
+| T-160-07 | [TEST] | Suite complète sur trois graines aléatoires, ECS, PHPStan ; pa11y WCAG2AAA accueil FR et EN (connecté et anonyme) ; `bin/measure-mobile` | 1,5 h | T-160-02, T-160-04, T-160-06 | Claude | 🔄 |
 | T-160-08 | [REV] | Revue (GET réellement sans effet de bord, aucun détail exploitable, verrou testé 20 fois) | 1 h | T-160-07 | Claude | 🔲 |
 
 **Total estimé : 10 h** (8 tâches, dont 0 de Thibaut, soit 0 h).
@@ -61,3 +61,9 @@ graph TD
 ```
 
 Dépendances hors story : T-158-08.
+
+## Suivi de réalisation (worker F, 2026-10-21)
+
+- T-160-01 à T-160-06 : faits. Reprise de verrou : renommage atomique vers un nom propre au run puis `mkdir` ; test de concurrence rejoué 20 fois (`RunTestsLockTest`), vérifié rouge sur l'ancienne version (20 itérations sur 20 à deux détenteurs) et vert sur la nouvelle (0 sur 20), puis sous Linux/dash (image `sylius-b2b-demo-web`, dépôt monté en lecture seule, copie dans `/tmp`). GET d'étape et liste sans aucune écriture en session (jetons CSRF des parcours rendus sans état, `demo_framework.yaml`) ; avancement par `POST /{_locale}/guides/{id}/{step}/advance`. Menu compte : surcharge `templates/bundles/SyliusShopBundle/.../mobile/menu.html.twig` (`aria-label`). Anonyme : message et bouton génériques, sans nom ni rôle.
+- T-160-07 : en cours. ECS, PHPStan, lint Twig/YAML/conteneur et pa11y WCAG2AAA (accueil et parcours, FR et EN, connecté et anonyme) faits ; suite complète sur une graine (11) seulement, voir le rapport de fin ; `bin/measure-mobile` : pages de parcours OK, KO sans rapport (images absentes, barre de démo) sur le serveur PHP intégré sans médias.
+- T-160-08 : revue indépendante à faire.

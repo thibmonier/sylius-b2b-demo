@@ -26,16 +26,18 @@ step:
     finish: "Finish the journey"
 account:
     wrong: "This journey uses the account of %name% (%role%). You are not signed in with it: switch account in one click."
-    anonymous: "This journey uses the account of %name% (%role%). Sign in with it in one click."
+    anonymous: "This journey uses a dedicated demo account. Sign in with it in one click."
+    sign_in: "Sign in with the demo account"
+    unavailable: "The demo account of this journey is unavailable"
 reset:
     notice: "The demo has just been reset: your demo data was restored and the journey starts again at step 1."
 launch:
     failed: "The scenario could not be prepared (the demo purchase list was not found). You can still open the screen of this step."
 exit:
-    title: "What you have seen can be deployed in your own project"
-    text: "Every screen of this journey comes from a Sylius plugin that is installed separately, in an existing project. See how to integrate them, or talk about your own situation."
-    learn_more: "Learn more"
-    contact: "Talk about your project"
+    title: "What you have seen comes from installable plugins"
+    text: "Every screen of this journey comes from a Sylius plugin that is installed separately, in an existing project. The integration guide describes their installation and the typical architecture; you can also write to me."
+    learn_more: "Read the integration guide"
+    contact: "Write a message"
     restart: "Replay this journey"
     others: "See the other journeys"
 journey:

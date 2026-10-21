@@ -17,4 +17,5 @@ framework:
     # 127.0.0.1: the webhook outbox delivers to the receiver of this container on the loopback (US-029).
     trusted_hosts: ['%env(TRUSTED_HOSTS)%', '%env(demo_host_pattern:DEMO_PUBLIC_HOST)%', '^healthcheck\.railway\.app$', '^127\.0\.0\.1$']
     csrf_protection:
-        stateless_token_ids: ['shop_authenticate', 'admin_authenticate']
+        # The journeys (US-160) are stateless too: rendering their forms on a GET must not write a token in the session.
+        stateless_token_ids: ['shop_authenticate', 'admin_authenticate', 'demo_journey_launch', 'demo_journey_advance']

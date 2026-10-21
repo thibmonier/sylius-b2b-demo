@@ -13,14 +13,14 @@ final class UmamiEventTest extends TestCase
 {
     public function testTheEventIsPrefixed(): void
     {
-        self::assertSame(' data-umami-event="demo-cta-rendez-vous"', UmamiEvent::attributes('cta-rendez-vous'));
+        self::assertSame(' data-umami-event="demo-cta-profil"', UmamiEvent::attributes('cta-profil'));
     }
 
     public function testPropertiesBecomeDataAttributes(): void
     {
         self::assertSame(
-            ' data-umami-event="demo-cta-rendez-vous" data-umami-event-emplacement="fiche-produit"',
-            UmamiEvent::attributes('cta-rendez-vous', ['emplacement' => 'fiche-produit']),
+            ' data-umami-event="demo-cta-profil" data-umami-event-emplacement="fiche-produit"',
+            UmamiEvent::attributes('cta-profil', ['emplacement' => 'fiche-produit']),
         );
     }
 

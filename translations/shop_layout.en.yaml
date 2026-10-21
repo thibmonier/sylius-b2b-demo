@@ -9,7 +9,7 @@ footer:
         plugins: 'Plugins'
         journeys: 'Journeys and demo accounts'
         integrate: 'Integrate (MCP)'
-        integrate_project: 'Integrate in your project'
+        integrate_project: 'Plugin integration guide'
         contact: 'Contact'
         fictional: 'Demo shop: fictional data, no order is fulfilled.'
         made_by_prefix: 'Built by'
