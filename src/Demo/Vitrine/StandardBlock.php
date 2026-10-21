@@ -68,7 +68,7 @@ final class StandardBlock
             return "## B2B demo\n\nStatus: **not present in the demo** yet. The {$demo} does not include this plugin, and no demo page or data exists for it.\n\n- Author: [" . self::AUTHOR . "]({$profileUrl})";
         }
 
-        return "## B2B demo\n\nThis plugin is used in the {$demo}: a Sylius 2.3 shop with fictitious sample data where the B2B plugins work together. The source code, setup and fixtures of the demo are in that repository.\n\n- Online demo: [" . self::LIVE_LABEL . "](" . self::LIVE_URL . ")\n- Author: [" . self::AUTHOR . "]({$profileUrl})\n\nThe demo is an example, not a production setup.";
+        return "## B2B demo\n\nThis plugin is used in the {$demo}: a Sylius 2.3 shop with fictitious sample data where the B2B plugins work together. The source code, setup and fixtures of the demo are in that repository.\n\n- Online demo: [" . self::LIVE_LABEL . '](' . self::LIVE_URL . ")\n- Author: [" . self::AUTHOR . "]({$profileUrl})\n\nThe demo is an example, not a production setup.";
     }
 
     private static function french(bool $inDemo, string $profileUrl): string
@@ -78,6 +78,6 @@ final class StandardBlock
             return "## Démo B2B\n\nStatut : **non présent dans la démo** pour l'instant. La {$demo} n'intègre pas ce plugin, et aucune page ni donnée de démo n'existe pour lui.\n\n- Auteur : [" . self::AUTHOR . "]({$profileUrl})";
         }
 
-        return "## Démo B2B\n\nCe plugin est utilisé dans la {$demo} : une boutique Sylius 2.3 avec des données d'exemple fictives, où les plugins B2B fonctionnent ensemble. Le code source, l'installation et les fixtures de la démo sont dans ce dépôt.\n\n- Démo en ligne : [" . self::LIVE_LABEL . "](" . self::LIVE_URL . ")\n- Auteur : [" . self::AUTHOR . "]({$profileUrl})\n\nLa démo est un exemple, pas une configuration de production.";
+        return "## Démo B2B\n\nCe plugin est utilisé dans la {$demo} : une boutique Sylius 2.3 avec des données d'exemple fictives, où les plugins B2B fonctionnent ensemble. Le code source, l'installation et les fixtures de la démo sont dans ce dépôt.\n\n- Démo en ligne : [" . self::LIVE_LABEL . '](' . self::LIVE_URL . ")\n- Auteur : [" . self::AUTHOR . "]({$profileUrl})\n\nLa démo est un exemple, pas une configuration de production.";
     }
 }
