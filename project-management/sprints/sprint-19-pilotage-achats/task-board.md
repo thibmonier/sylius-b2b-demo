@@ -5,6 +5,8 @@
 
 Total : 83 tâches, 89,25 h (1,75 h d'actions de Thibaut). État à la décomposition du 2026-10-21 : 79 🔲, 4 🚫, aucune commencée. Ordre de sacrifice : US-121, US-099, US-146 (voir [tasks/README.md](./tasks/README.md)).
 
+**Ajustement du 2026-10-21 (capacité 75,8 h)** : US-121 (12 tâches, 10,5 h) et US-099 (7 tâches, 6,5 h) sont sacrifiées et reportées au sprint 20. Leurs tâches `T-121-*` et `T-099-*` restent listées ci-dessous pour mémoire, **hors périmètre**. Périmètre engagé : 64 tâches, 72,25 h.
+
 ## 🔲 À Faire
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |

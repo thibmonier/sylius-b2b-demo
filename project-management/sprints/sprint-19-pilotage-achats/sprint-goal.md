@@ -8,7 +8,7 @@
 | Début | 2027-03-05 (revue et rétro du sprint 18 ; démarrage effectif le 2027-03-08) |
 | Fin | 2027-03-19 |
 | Durée | 10 jours ouvrés (2027-03-08 au 2027-03-19) |
-| Capacité | 33 points (20 Must, 13 Should), contre 36 au sprint 18 ; les heures seront fixées par la décomposition en tâches (`/project:decompose-tasks 019`) |
+| Capacité | 25 points (20 Must, 5 Should) après ajustement du 2026-10-21 : la décomposition donnait 89,25 h pour 75,8 h de capacité ; US-121 et US-099 sacrifiées (72,25 h restantes) |
 | Branche | `feature/sprint-19-pilotage-achats` |
 
 Périmètre issu de la section « Sprint 19 » de la [feuille de route](../../backlog/roadmap-ouverture-et-communication.md).
@@ -25,11 +25,11 @@ Périmètre issu de la section « Sprint 19 » de la [feuille de route](../../ba
 | US-150 | Company-insights : achats par mois sur 12 mois, comparés à l'année précédente | 5 | Must | ready-for-dev |
 | US-151 | Company-insights : tops acheteurs, produits et catégories | 5 | Must | ready-for-dev |
 | US-155 | Company-insights : historique d'achats de 12 mois et intégration à la démo | 5 | Must | ready-for-dev |
-| US-121 | Kit média (2/2) : approbation, MCP, container-fill et visite complète | 5 | Should | backlog |
+| US-121 | Kit média (2/2) : approbation, MCP, container-fill et visite complète | 5 | Should | sacrifiée (sprint 20) |
 | US-146 | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | 5 | Should | ready-for-dev |
-| US-099 | Simulateur PunchOut habillé et expliqué | 3 | Should | ready-for-dev |
+| US-099 | Simulateur PunchOut habillé et expliqué | 3 | Should | sacrifiée (sprint 20) |
 
-Total : 33 points (20 Must, 13 Should).
+Total engagé : 25 points (20 Must, 5 Should) ; 33 points au cadrage, US-121 (5) et US-099 (3) sacrifiées le 2026-10-21.
 
 **Statuts à surveiller** :
 - US-121 reste en `backlog` : elle dépend d'US-103, qui attend T-103-03 (conversation réelle de Thibaut), et n'a que 3 scénarios Gherkin (1 nominal, 1 alternatif, 1 erreur) contre le minimum 1 + 2 + 2. À compléter au planning, puis passage en `ready-for-dev` si T-103-03 est livrée.

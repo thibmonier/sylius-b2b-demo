@@ -302,16 +302,16 @@ sprints:
     sprint_id: "sprint-19"
     start_date: "2027-03-05"
     end_date: "2027-03-19"
-    capacity_points: 33  # 20 Must + 13 Should ; heures à fixer par la décomposition en tâches
+    capacity_points: 25  # 20 Must + 5 Should (US-146) ; 72,25 h après sacrifice d'US-121 et US-099 (décomposition : 89,25 h pour 75,8 h de capacité), 2026-10-21
     goal: "Livrer en démo le tableau de bord des achats d'EPIC-15 (plugin company-insights 0.1.0), compléter le kit média et rendre le simulateur PunchOut lisible"
     stories:
       - {id: US-149, title: "Company-insights : squelette du plugin et indicateurs de la période", points: 5, status: ready-for-dev}  # sprint 19 ; EPIC-15, Must  # nouveau plugin company-insights 0.1.0, soumis à Packagist par Thibaut ; classe Plus provisoire : hors périmètre (à confirmer), ton neutre
       - {id: US-150, title: "Company-insights : achats par mois sur 12 mois, comparés à l'année précédente", points: 5, status: ready-for-dev}  # sprint 19 ; EPIC-15, Must
       - {id: US-151, title: "Company-insights : tops acheteurs, produits et catégories", points: 5, status: ready-for-dev}  # sprint 19 ; EPIC-15, Must
       - {id: US-155, title: "Company-insights : historique d'achats de 12 mois et intégration à la démo", points: 5, status: ready-for-dev}  # sprint 19 ; EPIC-15, Must
-      - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-13, Should  # reste backlog : dépend d'US-103 (T-103-03, conversation réelle de Thibaut) et 3 scénarios Gherkin seulement (sous le minimum 1+2+2), à compléter au planning ; sacrifice n°1
+      - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # sacrifiée le 2026-10-21 (capacité et T-103-03), reportée au sprint 20  # sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-13, Should  # reste backlog : dépend d'US-103 (T-103-03, conversation réelle de Thibaut) et 3 scénarios Gherkin seulement (sous le minimum 1+2+2), à compléter au planning ; sacrifice n°1
       - {id: US-146, title: "Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client", points: 5, status: ready-for-dev}  # sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-07, Should ; enhancement du plugin admin-order-creation, demande de Thibaut du 2026-10-18  # dépôt sylius-admin-order-creation-plugin ; lire la matrice CI au cadrage ; sacrifice n°3
-      - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: ready-for-dev}  # sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should  # 4 scénarios Gherkin : une erreur à ajouter au planning ; sacrifice n°2
+      - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: backlog}  # sacrifiée le 2026-10-21 (capacité), reportée au sprint 20  # sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should  # 4 scénarios Gherkin : une erreur à ajouter au planning ; sacrifice n°2
     notes: "Ordre de sacrifice : US-121, US-099, puis US-146 ; les 4 Must d'EPIC-15 (20 pts) ne se sacrifient pas. Risques : T-103-03 (conversation réelle de Thibaut) bloque US-121 ; US-146 dans le dépôt admin-order-creation ; un seul worker à la fois, disque ~7 Go ; Railway en incident (redéploiements bloqués) ; PR #46 (PHP 8.5.12) en attente du merge de Thibaut. Actions de Thibaut : conversation T-103-03, soumission Packagist de company-insights, merge de la PR #46. Actions de la rétro S18 : check-disk VM Docker, matrice CI au cadrage, ECS/PHPStan avant push, secrets fictifs recomposés, scripts pour Thibaut."
 
 # Stories prêtes pour un sprint futur, à planifier.
