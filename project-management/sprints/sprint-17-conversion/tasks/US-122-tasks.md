@@ -26,10 +26,10 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-122-01 | [DOC] | Cadrage : date d'ancrage, cadence proposée, répartition piliers et plugins, visuels disponibles | 0,5 h | T-116-01 | Claude | 🔲 |
-| T-122-02 | [DOC] | Tableau de 8 semaines (date, pilier, plugin ou thème, visuel, lien UTM, objectif clic ou échange) ; semaine 1 = suite de l'annonce | 2,5 h | T-122-01, T-116-02 | Claude | 🔲 |
-| T-122-03 | [DOC] | Règle de recalage (dates en J+n, procédure de décalage conservant l'ordre) | 1 h | T-122-02 | Claude | 🔲 |
-| T-122-04 | [TEST] | Contrôle de charte sur le calendrier (une ligne visant un canal Sylius est refusée) | 0,5 h | T-122-02, T-116-05 | Claude | 🔲 |
+| T-122-01 | [DOC] | Cadrage : date d'ancrage, cadence proposée, répartition piliers et plugins, visuels disponibles | 0,5 h | T-116-01 | Claude | ✅ |
+| T-122-02 | [DOC] | Tableau de 8 semaines (date, pilier, plugin ou thème, visuel, lien UTM, objectif clic ou échange) ; semaine 1 = suite de l'annonce | 2,5 h | T-122-01, T-116-02 | Claude | ✅ |
+| T-122-03 | [DOC] | Règle de recalage (dates en J+n, procédure de décalage conservant l'ordre) | 1 h | T-122-02 | Claude | ✅ |
+| T-122-04 | [TEST] | Contrôle de charte sur le calendrier (une ligne visant un canal Sylius est refusée) (`charter_check.py`) | 0,5 h | T-122-02, T-116-05 | Claude | ✅ |
 | T-122-05 | [REV] | Thibaut choisit la cadence et valide le calendrier | 0,5 h | T-122-03, T-122-04 | Thibaut | 🔲 |
 
 **Total estimé : 5 h** (5 tâches, dont 1 de Thibaut, soit 0,5 h).

@@ -27,10 +27,10 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
 | T-129-01 | [DOC] | Thibaut fournit le texte actuel du profil (titre, À propos, bannière, À la une) pour partir de l'existant | 0,5 h | - | Thibaut | 🔲 |
-| T-129-02 | [DOC] | Titre et « À propos » FR et EN (offre, démo, prise de rendez-vous ; ton neutre, aucun résultat promis ni comparaison) | 1,5 h | T-129-01, T-116-01 | Claude | 🔲 |
-| T-129-03 | [DOC] | Bannière 1584×396 (depuis le modèle `visuel.html`), lisible sur mobile | 1,5 h | T-129-02 | Claude | 🔲 |
-| T-129-04 | [DOC] | Liste « À la une » (ordre, titres, liens UTM : démo, parcours, rendez-vous) et texte du commentaire épinglé | 0,5 h | T-129-02, T-116-02 | Claude | 🔲 |
-| T-129-05 | [TEST] | Contrôle de charte sur les textes (`app:charter:check`) | 0,5 h | T-129-02, T-116-05 | Claude | 🔲 |
+| T-129-02 | [DOC] | Titre et « À propos » FR et EN (offre, démo, prise de rendez-vous ; ton neutre, aucun résultat promis ni comparaison) | 1,5 h | T-129-01, T-116-01 | Claude | ✅ |
+| T-129-03 | [DOC] | Bannière 1584×396 (depuis le modèle `visuel.html`), lisible sur mobile | 1,5 h | T-129-02 | Claude | ✅ |
+| T-129-04 | [DOC] | Liste « À la une » (ordre, titres, liens UTM : démo, parcours, rendez-vous) et texte du commentaire épinglé | 0,5 h | T-129-02, T-116-02 | Claude | ✅ |
+| T-129-05 | [TEST] | Contrôle de charte sur les textes (`app:charter:check`) (`charter_check.py`) | 0,5 h | T-129-02, T-116-05 | Claude | ✅ |
 | T-129-06 | [REV] | Thibaut relit textes, bannière et liste | 0,5 h | T-129-03, T-129-04, T-129-05 | Thibaut | 🔲 |
 | T-129-07 | [OPS] | Thibaut met à jour son profil (texte, bannière, À la une) et épingle le commentaire | 0,5 h | T-129-06 | Thibaut | 🔲 |
 

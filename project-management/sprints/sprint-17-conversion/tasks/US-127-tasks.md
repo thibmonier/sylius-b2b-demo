@@ -26,11 +26,11 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-127-01 | [DOC] | Plan de suivi J+1 à J+30 : actions, responsable, échéance, indicateur ; modèles de réponse aux commentaires avec lien UTM ; gabarit du journal privé et règle sans nominatif | 2,5 h | T-116-02 | Claude | 🔲 |
-| T-127-02 | [DOC] | Gabarits des bilans J+7 et J+30 (réactions, vues du profil, visites par campagne, clics rendez-vous, messages ; anomalie « 0 visite » avec vérifications UTM, CSP, script) | 1 h | T-127-01 | Claude | 🔲 |
+| T-127-01 | [DOC] | Plan de suivi J+1 à J+30 : actions, responsable, échéance, indicateur ; modèles de réponse aux commentaires avec lien UTM ; gabarit du journal privé et règle sans nominatif | 2,5 h | T-116-02 | Claude | ✅ |
+| T-127-02 | [DOC] | Gabarits des bilans J+7 et J+30 (réactions, vues du profil, visites par campagne, clics rendez-vous, messages ; anomalie « 0 visite » avec vérifications UTM, CSP, script) | 1 h | T-127-01 | Claude | ✅ |
 | T-127-03 | [REV] | Thibaut relit le plan de suivi | 0,5 h | T-127-02 | Thibaut | 🔲 |
 | T-127-04 | [OPS] | Thibaut relève les chiffres LinkedIn et Umami à J+7 (2026-10-26) | 0,5 h | T-127-03, T-117-05 | Thibaut | 🔲 |
-| T-127-05 | [DOC] | Bilan J+7 avec les chiffres réels et proposition d'ajustement | 1 h | T-127-04 | Claude | 🔲 |
+| T-127-05 | [DOC] | Bilan J+7 avec les chiffres réels et proposition d'ajustement (gabarit prêt à remplir avec la base J+1 ; chiffres de J+7 à relever par Thibaut) | 1 h | T-127-04 | Claude | 🔄 |
 | T-127-06 | [OPS] | Thibaut relève les chiffres LinkedIn et Umami à J+30 (2026-11-18) | 0,5 h | T-127-05 | Thibaut | 🔲 |
 | T-127-07 | [DOC] | Bilan J+30 et ajustements reportés dans le calendrier (US-122) | 1 h | T-127-06, T-122-03 | Claude | 🔲 |
 

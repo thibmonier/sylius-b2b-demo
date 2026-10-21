@@ -27,14 +27,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-120-01 | [DOC] | Scénario de chaque séquence (PunchOut, devis, commande rapide) : plan, compte, 30 à 60 s, sous-titres FR | 1,5 h | - | Claude | 🔲 |
-| T-120-02 | [OPS] | Préparer la démo locale : remise à zéro propre, comptes, fenêtre de captation ; contrôle d'absence de donnée sensible, d'URL privée et de marque tierce | 1 h | T-120-01 | Claude | 🔲 |
-| T-120-03 | [OPS] | Captation de la séquence PunchOut (simulateur) | 1,5 h | T-120-02 | Claude (repli Thibaut) | 🔲 |
-| T-120-04 | [OPS] | Captation de la séquence devis | 1,5 h | T-120-02 | Claude (repli Thibaut) | 🔲 |
-| T-120-05 | [OPS] | Captation de la séquence commande rapide ⚠️ | 1 h | T-120-02 | Claude (repli Thibaut) | 🔲 |
-| T-120-06 | [OPS] | Export : sous-titres FR incrustés, version carrée 1080×1080, MP4 et GIF de moins de 10 Mo (`export.sh`) | 2 h | T-120-03, T-120-04, T-120-05 | Claude | 🔲 |
-| T-120-07 | [DOC] | Textes alternatifs, descriptions et fiche du kit (`kit-media/README.md`) | 1 h | T-120-06 | Claude | 🔲 |
-| T-120-08 | [TEST] | Contrôle de durée, poids et dimensions (`ffprobe`) et relecture d'images extraites de chaque séquence (données sensibles, marques) | 0,5 h | T-120-06 | Claude | 🔲 |
+| T-120-01 | [DOC] | Scénario de chaque séquence (PunchOut, devis, commande rapide) : plan, compte, 30 à 60 s, sous-titres FR | 1,5 h | - | Claude | ✅ |
+| T-120-02 | [OPS] | Préparer la démo locale : remise à zéro propre, comptes, fenêtre de captation ; contrôle d'absence de donnée sensible, d'URL privée et de marque tierce | 1 h | T-120-01 | Claude | ✅ |
+| T-120-03 | [OPS] | Captation de la séquence PunchOut (simulateur) (bloqué : retour HTTPS exigé par le plugin sur une démo locale en HTTP ; repli de Thibaut documenté dans `kit-media/README.md`) | 1,5 h | T-120-02 | Claude (repli Thibaut) | 🚫 |
+| T-120-04 | [OPS] | Captation de la séquence devis | 1,5 h | T-120-02 | Claude (repli Thibaut) | ✅ |
+| T-120-05 | [OPS] | Captation de la séquence commande rapide ⚠️ | 1 h | T-120-02 | Claude (repli Thibaut) | ✅ |
+| T-120-06 | [OPS] | Export : sous-titres FR incrustés, version carrée 1080×1080, MP4 et GIF de moins de 10 Mo (`export.sh`) (2 séquences sur 3 exportées ; PunchOut en attente du repli) | 2 h | T-120-03, T-120-04, T-120-05 | Claude | 🔄 |
+| T-120-07 | [DOC] | Textes alternatifs, descriptions et fiche du kit (`kit-media/README.md`) (README du kit fait ; textes PunchOut à confirmer) | 1 h | T-120-06 | Claude | 🔄 |
+| T-120-08 | [TEST] | Contrôle de durée, poids et dimensions (`ffprobe`) et relecture d'images extraites de chaque séquence (données sensibles, marques) (`check.sh` : devis et commande rapide OK) | 0,5 h | T-120-06 | Claude | 🔄 |
 | T-120-09 | [REV] | Thibaut valide les trois séquences (sinon séquence refaite) | 0,5 h | T-120-07, T-120-08 | Thibaut | 🔲 |
 
 **Total estimé : 10,5 h** (9 tâches, dont 1 de Thibaut, soit 0,5 h).
