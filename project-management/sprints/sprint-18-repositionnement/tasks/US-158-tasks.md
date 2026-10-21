@@ -37,7 +37,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-158-07 | [TEST] | pa11y WCAG2AAA sur les pages modifiées, FR et EN (0 erreur) — *Clôture 2026-10-21 : pa11y non rejoué à la clôture* | 0,5 h | T-158-05 | Claude | 🔲 |
 | T-158-08 | [REV] | Revue : aucun libellé commercial, aucun secret, `DEMO_BOOKING_URL` absente, fichiers partagés libérés pour US-160 et US-111 | 1 h | T-158-06, T-158-07 | Claude | 🔲 |
 | T-158-09 | [OPS] | Thibaut fournit l'URL de son profil LinkedIn (`DEMO_PROFILE_URL`, https) par message ; elle ne va pas dans le dépôt — *Clôture 2026-10-21 : URL fournie hors dépôt* | 0,25 h | - | Thibaut | ✅ |
-| T-158-10 | [OPS] | Thibaut valide les libellés exacts et pose `DEMO_PROFILE_URL` sur Railway après le merge (commande Railway par Thibaut) — *Clôture 2026-10-21 : à faire après le merge : `railway variables --set DEMO_PROFILE_URL=…`, puis retrait de `DEMO_BOOKING_URL`* | 0,25 h | T-158-08, T-158-09 | Thibaut | 🔲 |
+| T-158-10 | [OPS] | Thibaut valide les libellés exacts et pose `DEMO_PROFILE_URL` sur Railway après le merge (commande Railway par Thibaut) — *2026-10-21 : variables posées par Thibaut (`DEMO_PROFILE_URL` posée, `DEMO_BOOKING_URL` retirée) ; redéploiement bloqué par l'incident Railway (builds en pause), la démo en ligne pointe encore vers Calendly ; vérification en ligne à faire après le redéploiement* | 0,25 h | T-158-08, T-158-09 | Thibaut | 🔄 |
 
 **Total estimé : 12 h** (10 tâches, dont 2 de Thibaut, soit 0,5 h) ; reste à faire : 4 h (le reste est ✅).
 

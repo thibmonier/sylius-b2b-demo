@@ -29,7 +29,7 @@ Total : 101 tâches, 92,5 h (6,5 h d'actions de Thibaut). État à la clôture d
 | T-158-06 | US-158 | TEST | Rendu réel FR et EN : accueil, fiche produit, écran de sortie d'un parcours, `/integrer`, avec URL renseignée puis vide ; `bin/measure-mobile` (23 pages sans débordement) — *Clôture 2026-10-21 : rendu réel et `bin/measure-mobile` non rejoués à la clôture* | 1 h | Claude |
 | T-158-07 | US-158 | TEST | pa11y WCAG2AAA sur les pages modifiées, FR et EN (0 erreur) — *Clôture 2026-10-21 : pa11y non rejoué à la clôture* | 0,5 h | Claude |
 | T-158-08 | US-158 | REV | Revue : aucun libellé commercial, aucun secret, `DEMO_BOOKING_URL` absente, fichiers partagés libérés pour US-160 et US-111 | 1 h | Claude |
-| T-158-10 | US-158 | OPS | Thibaut valide les libellés exacts et pose `DEMO_PROFILE_URL` sur Railway après le merge (commande Railway par Thibaut) — *Clôture 2026-10-21 : à faire après le merge : `railway variables --set DEMO_PROFILE_URL=…`, puis retrait de `DEMO_BOOKING_URL`* | 0,25 h | Thibaut |
+| T-158-10 | US-158 | OPS | Thibaut valide les libellés exacts et pose `DEMO_PROFILE_URL` sur Railway après le merge (commande Railway par Thibaut) — *2026-10-21 : variables posées par Thibaut (`DEMO_PROFILE_URL` posée, `DEMO_BOOKING_URL` retirée) ; redéploiement bloqué par l'incident Railway (builds en pause), la démo en ligne pointe encore vers Calendly ; vérification en ligne à faire après le redéploiement* | 0,25 h | Thibaut |
 | T-159-04 | US-159 | REV | Thibaut relit et ajuste le post 1 | 0,5 h | Thibaut |
 | T-159-05 | US-159 | OPS | Thibaut publie le post 1 avant le 2026-10-26 et épingle le commentaire | 0,5 h | Thibaut 📅 |
 | T-159-10 | US-159 | REV | Thibaut relit le calendrier et les posts 2 et 3 | 0,5 h | Thibaut |
