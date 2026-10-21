@@ -29,17 +29,17 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-148-01 | [BE] | punchout-cxml : test rouge (aucun `RateLimiterFactory` hors instanciation), puis 10 occurrences typées `RateLimiterFactoryInterface` | 1,5 h | - | Claude | 🔲 |
-| T-148-02 | [BE] | quote-request : idem (8 à 10 occurrences) ; branche vérifiée après `git fetch` | 0,75 h | - | Claude | 🔲 |
-| T-148-03 | [BE] | quick-order : idem | 0,75 h | - | Claude | 🔲 |
-| T-148-04 | [BE] | b2b-mcp : idem (`RateLimit/RateLimiter`, `RequestQuoteTool`) | 0,75 h | - | Claude | 🔲 |
-| T-148-05 | [BE] | command-palette : idem | 0,5 h | - | Claude | 🔲 |
-| T-148-06 | [TEST] | Dans chaque plugin : ECS, PHPStan max, Rector, tests ; compilation du conteneur en autowiring (service surchargé avec `autowire: true`) sur Symfony 8.1 et 7.4 (Docker) | 1 h | T-148-01, T-148-02, T-148-03, T-148-04, T-148-05 | Claude | 🔲 |
-| T-148-07 | [DOC] | `CHANGELOG.md` de chaque plugin (créé pour quote-request et command-palette), numéro de version patch | 0,5 h | T-148-06 | Claude | 🔲 |
-| T-148-08 | [OPS] | Thibaut donne le GO unique : push des 5 branches, 5 PR, merge quand les CI sont vertes, tag des 5 versions patch | 0,25 h | T-148-07 | Thibaut | 🔲 |
-| T-148-09 | [OPS] | 5 commits, 5 PR, suivi des CI (matrices 7.4 et 8.1), merges après run terminé | 1 h | T-148-08 | Claude | 🔲 |
-| T-148-10 | [OPS] | Tags et releases patch des cinq plugins après merge ; vérification Packagist | 0,5 h | T-148-09 | Claude | 🔲 |
-| T-148-11 | [BE] | Démo : montée des cinq versions (`composer update` ciblé), tests de limitation de débit existants verts, aucun limiteur contourné | 1 h | T-148-10, T-147-03 | Claude | 🔲 |
+| T-148-01 | [BE] | punchout-cxml : test rouge (aucun `RateLimiterFactory` hors instanciation), puis 10 occurrences typées `RateLimiterFactoryInterface` — *Clôture 2026-10-21 : test `RateLimiterTypeTest` et typage par l'interface* | 1,5 h | - | Claude | ✅ |
+| T-148-02 | [BE] | quote-request : idem (8 à 10 occurrences) ; branche vérifiée après `git fetch` | 0,75 h | - | Claude | ✅ |
+| T-148-03 | [BE] | quick-order : idem | 0,75 h | - | Claude | ✅ |
+| T-148-04 | [BE] | b2b-mcp : idem (`RateLimit/RateLimiter`, `RequestQuoteTool`) | 0,75 h | - | Claude | ✅ |
+| T-148-05 | [BE] | command-palette : idem | 0,5 h | - | Claude | ✅ |
+| T-148-06 | [TEST] | Dans chaque plugin : ECS, PHPStan max, Rector, tests ; compilation du conteneur en autowiring (service surchargé avec `autowire: true`) sur Symfony 8.1 et 7.4 (Docker) — *Clôture 2026-10-21 : ECS, PHPStan et tests passés par la CI des plugins (matrices Symfony 7.4 et 8.0 vertes) ; cellule Symfony 6.4 retirée ; test d'autowiring d'un service surchargé non écrit* | 1 h | T-148-01, T-148-02, T-148-03, T-148-04, T-148-05 | Claude | 🔄 |
+| T-148-07 | [DOC] | `CHANGELOG.md` de chaque plugin (créé pour quote-request et command-palette), numéro de version patch — *Clôture 2026-10-21 : versions mineures pour quatre plugins (Symfony 6.4 abandonné), patch pour b2b-mcp* | 0,5 h | T-148-06 | Claude | ✅ |
+| T-148-08 | [OPS] | Thibaut donne le GO unique : push des 5 branches, 5 PR, merge quand les CI sont vertes, tag des 5 versions patch — *Clôture 2026-10-21 : GO le 2026-10-21, avec la décision d'abandonner Symfony 6.4 (`RateLimiterFactoryInterface` existe depuis Symfony 7.3)* | 0,25 h | T-148-07 | Thibaut | ✅ |
+| T-148-09 | [OPS] | 5 commits, 5 PR, suivi des CI (matrices 7.4 et 8.1), merges après run terminé — *Clôture 2026-10-21 : premier run rouge sur la cellule Symfony 6.4 des quatre plugins, vert après retrait ; 5 PR fusionnées* | 1 h | T-148-08 | Claude | ✅ |
+| T-148-10 | [OPS] | Tags et releases patch des cinq plugins après merge ; vérification Packagist — *Clôture 2026-10-21 : punchout-cxml v1.3.0, quote-request v1.1.0, quick-order v1.3.0, command-palette v1.1.0, b2b-mcp v1.2.2 ; Packagist vérifié* | 0,5 h | T-148-09 | Claude | ✅ |
+| T-148-11 | [BE] | Démo : montée des cinq versions (`composer update` ciblé), tests de limitation de débit existants verts, aucun limiteur contourné — *Clôture 2026-10-21 : 586e2bb ; suite complète verte (1 633 tests, graine 3131)* | 1 h | T-148-10, T-147-03 | Claude | ✅ |
 | T-148-12 | [REV] | Revue (aucune occurrence du type concret hors instanciation, 5 CHANGELOG, matrices vertes) | 0,5 h | T-148-11 | Claude | 🔲 |
 
 **Total estimé : 9 h** (12 tâches, dont 1 de Thibaut, soit 0,25 h).

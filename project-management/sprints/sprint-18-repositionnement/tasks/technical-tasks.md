@@ -6,8 +6,8 @@ Tâches **sans points** : elles comptent dans les heures, pas dans les 36 points
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-TECH-01 | [OPS] | Reconstruction de l'image et démarrage du conteneur (`/healthz`) par l'orchestrateur avant la revue, puis après tout correctif touchant l'image | 1 h | T-147-05, T-160-08, T-111-06, T-103-08 | Orchestrateur | 🔲 |
-| T-TECH-02 | [DOC] | Bilan des cinq indicateurs de la rétro S17 (blocage disque, fichiers écrasés, écarts « vert annoncé », workers bloqués, prérequis découverts) préparé pour la rétro du 2027-03-05 | 0,5 h | T-161-13 | Orchestrateur | 🔲 |
+| T-TECH-01 | [OPS] | Reconstruction de l'image et démarrage du conteneur (`/healthz`) par l'orchestrateur avant la revue, puis après tout correctif touchant l'image — *Clôture 2026-10-21 : image construite par la CI de la PR #43 (check « Docker image » vert) ; reconstruction locale et `/healthz` non rejoués (VM OrbStack saturée pendant le sprint)* | 1 h | T-147-05, T-160-08, T-111-06, T-103-08 | Orchestrateur | 🔲 |
+| T-TECH-02 | [DOC] | Bilan des cinq indicateurs de la rétro S17 (blocage disque, fichiers écrasés, écarts « vert annoncé », workers bloqués, prérequis découverts) préparé pour la rétro du 2027-03-05 — *Clôture 2026-10-21 : bilan partiel dans [sprint-retro.md](../sprint-retro.md)* | 0,5 h | T-161-13 | Orchestrateur | ✅ |
 
 **Total estimé : 1,5 h** (2 tâches, aucune de Thibaut).
 

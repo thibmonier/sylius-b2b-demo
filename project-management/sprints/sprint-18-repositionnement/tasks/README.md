@@ -6,19 +6,21 @@
 
 | US | Titre | Points | Tâches | Heures | Statut |
 |----|-------|--------|--------|--------|--------|
-| [US-158](./US-158-tasks.md) | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | 3 | 10 | 12 h | 🔄 |
-| [US-147](./US-147-tasks.md) | Démo en PHP 8.5 (image, CI et plateforme Composer) | 3 | 9 | 8 h | 🔲 |
-| [US-148](./US-148-tasks.md) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | 3 | 12 | 9 h | 🔲 |
-| [US-160](./US-160-tasks.md) | Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé | 5 | 8 | 10 h | 🔲 |
-| [US-161](./US-161-tasks.md) | Actions de la rétrospective du sprint 17 | 5 | 13 | 11 h | 🔲 |
-| [US-159](./US-159-tasks.md) | Contenu LinkedIn réaligné sur la recherche d'emploi : calendrier et posts de suite | 3 | 11 | 9 h | 🔲 |
-| [US-124](./US-124-tasks.md) | Posts LinkedIn rédigés, lot 2 : semaines 3 à 8 | 5 | 11 | 10,75 h | 🔲 |
-| [US-111](./US-111-tasks.md) | Bloc de preuve technique : qualité, compatibilité, versions | 3 | 8 | 7,5 h | 🔄 |
+| [US-158](./US-158-tasks.md) | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | 3 | 10 | 12 h | 👀 |
+| [US-147](./US-147-tasks.md) | Démo en PHP 8.5 (image, CI et plateforme Composer) | 3 | 9 | 8 h | ↪️ Reportée |
+| [US-148](./US-148-tasks.md) | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | 3 | 12 | 9 h | 👀 |
+| [US-160](./US-160-tasks.md) | Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé | 5 | 8 | 10 h | 👀 |
+| [US-161](./US-161-tasks.md) | Actions de la rétrospective du sprint 17 | 5 | 13 | 11 h | 🔄 |
+| [US-159](./US-159-tasks.md) | Contenu LinkedIn réaligné sur la recherche d'emploi : calendrier et posts de suite | 3 | 11 | 9 h | 👀 |
+| [US-124](./US-124-tasks.md) | Posts LinkedIn rédigés, lot 2 : semaines 3 à 8 | 5 | 11 | 10,75 h | 👀 |
+| [US-111](./US-111-tasks.md) | Bloc de preuve technique : qualité, compatibilité, versions | 3 | 8 | 7,5 h | 👀 |
 | [US-103](./US-103-tasks.md) | Assistants IA : page utile avec transcript d'une vraie conversation | 3 | 9 | 7,25 h | 🔄 |
-| [US-068](./US-068-tasks.md) | Liens vers la démo et le profil de l'auteur dans les 24 README | 3 | 8 | 6,5 h | 🔲 |
-| [Transverse](./technical-tasks.md) | Clôture et bilan de l'orchestrateur (sans points) | 0 | 2 | 1,5 h | 🔲 |
+| [US-068](./US-068-tasks.md) | Liens vers la démo et le profil de l'auteur dans les 24 README | 3 | 8 | 6,5 h | 👀 |
+| [Transverse](./technical-tasks.md) | Clôture et bilan de l'orchestrateur (sans points) | 0 | 2 | 1,5 h | 🔄 |
 
 **Total décomposé** : 101 tâches | **92,5 h** pour 36 points (+ 2 tâches transverses sans points), dont 8,5 h déjà réalisées (✅ : code d'US-158 et fiche d'US-103), 6,5 h d'actions de Thibaut (14 tâches), soit **77,5 h de charge restante pour Claude** (orchestrateur compris).
+
+> **Clôture du 2026-10-21** (PR #43 fusionnée, 9a4c461) : 64 tâches ✅, 5 🔄, 32 🔲. 👀 = livré sur `main`, vérifications ou validations de Thibaut restantes. US-147 sort du sprint : le correctif de sécurité PHP 8.5 n'était pas publié ; elle sera livrée dans une PR séparée dès que l'image FrankenPHP corrigée sort (sinon au sprint 19). Détail : [../sprint-review.md](../sprint-review.md).
 
 ## Capacité
 
