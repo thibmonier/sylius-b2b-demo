@@ -8,6 +8,7 @@ use App\Demo\DataFixtures\PunchoutDemoFixture;
 use App\Demo\Http\InternalRequestToken;
 use App\Demo\PunchOutSimulator\OciCredentials;
 use App\Demo\PunchOutSimulator\SignedState;
+use App\Tests\Support\IsolatesSharedAccounts;
 use App\Tests\Support\OciPostedBody;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,6 +22,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
 {
     use DatabaseAccess;
     use EnvironmentSwitch;
+    use IsolatesSharedAccounts;
 
     private const RETURN = '/demo/punchout-simulator/oci/return';
 
@@ -199,6 +201,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
     public function testTheCartTransferredByTheShopComesBackToTheSimulator(): void
     {
         $client = self::createClient();
+        $this->isolateSharedAccounts($client);
         $client->request('POST', '/punchout/oci/' . PunchoutDemoFixture::OCI_BUYER_CODE, $this->entryFields());
         self::assertResponseRedirects();
         $this->addFirstAtelierItemToTheCart($client);

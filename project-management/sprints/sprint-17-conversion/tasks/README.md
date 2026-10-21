@@ -92,7 +92,7 @@ Sont aussi en partie de Thibaut : le choix de la cadence (T-122-05), la validati
 
 **Tâches de fond (action 3 de la rétro S16)** : arrêter explicitement (TaskStop) toute tâche de fond avant d'en relancer une et vérifier l'arrêt.
 
-**Comptes de démo partagés (action 2 de la rétro S16)** : tout test qui modifie un compte partagé (panier de Claire, etc.) l'isole (transaction ou copie) ou annule ses effets.
+**Comptes de démo partagés (action 2 de la rétro S16)** : tout test qui modifie un compte partagé (panier de Claire, etc.) l'isole (transaction ou copie) ou annule ses effets. Règle détaillée et trait `IsolatesSharedAccounts` : [docs/tests-locaux.md](../../../../docs/tests-locaux.md) (section « Comptes de démo partagés »). Les assertions sur les données vivantes restent strictes.
 
 **Échec sur un test partagé** : mettre à jour la branche et relancer ce test avant de le signaler.
 

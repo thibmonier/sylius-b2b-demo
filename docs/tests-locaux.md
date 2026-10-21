@@ -47,7 +47,8 @@ bin/run-tests tests/Functional --filter Quote   # les arguments vont à PHPUnit
 - `TEST_CACHE_DIR=var/cache-mon-nom` impose un dossier : il est vidé avant et supprimé après ; le script refuse `var/cache`, `var/` et la racine du dépôt ;
 - **seuil disque** : sous 5 Go libres (`MIN_FREE_GB`, 5 par défaut), il s'arrête avec un message avant de créer quoi que ce soit ;
 - la base reste `sylius_b2b_demo_test` (ou `TEST_DB_NAME`) ; la base de développement `sylius_b2b_demo` est refusée ;
-- le code de sortie est celui de PHPUnit.
+- le code de sortie est celui de PHPUnit ;
+- **verrou** (`var/run-tests.lock`, ou `RUN_TESTS_LOCK=`) : `bin/run-tests` crée à l'entrée un répertoire de verrou (`mkdir`, atomique) qui contient son PID, et le retire à la sortie, y compris sur échec, Ctrl-C ou `kill`. Un second run lancé pendant le premier s'arrête aussitôt (code de sortie **4**, message « already running » avec le PID). Un verrou dont le processus n'existe plus (`kill -0`) est périmé : il est repris avec un message. Pour attendre la fin d'un run, attendre la disparition de ce répertoire, **jamais** `pgrep -f bin/run-tests` (la recherche se détecte elle-même). `bin/clean-test-caches` s'appuie sur le même verrou. Test : `tests/Unit/Bin/RunTestsLockTest.php`.
 
 ## Lancer les tests
 
@@ -69,6 +70,15 @@ vendor/bin/phpstan analyse -c phpstan.dist.neon --no-progress --memory-limit=1G
 `tests/Fixtures/bin/fake-wkhtmltopdf` copie `blank.pdf` (une page vierge valide) vers le fichier de sortie : ni moteur de navigateur, ni bibliothèque système. Le plugin Factur-X embarque `factur-x.xml` dans ce PDF au moment de la génération de la facture, donc **l'assertion Factur-X d'`OrderHistorySmokeTest` passe en local** (décision du 2026-10-17 ; l'ancien faux binaire de 14 octets la faisait échouer, le PDF n'étant pas lisible par le plugin). Elle n'est pas exclue.
 
 Les PDF des factures sont écrits au chargement des fixtures : après un changement de faux binaire, **recharger la base** (`bin/prepare-test-db`).
+
+## Comptes de démo partagés : isolation des tests
+
+Les comptes de la démo (panier de Claire, panier de Paul, listes partagées d'Acme…) sont communs à tous les tests, qui tournent contre la même base. **Un test qui modifie un compte partagé l'isole ou annule ses effets**, sinon les tests qui suivent dépendent de l'ordre.
+
+- Isolation par transaction : `use App\Tests\Support\IsolatesSharedAccounts;` puis `$this->isolateSharedAccounts($client)` juste après `createClient()`. Le client garde un seul noyau (`disableReboot()`), une transaction s'ouvre et le `tearDown` l'annule (modèle : `ContainerFillDemoTest`, `PunchOutSimulatorSmokeTest`).
+- Un test qui ne peut pas passer en transaction annule lui-même ses effets en fin de test.
+- Les assertions sur les données vivantes sont **strictes** (quantités exactes, un seul panier) : ne pas les assouplir (« au moins ») pour absorber le désordre d'un autre test, corriger le test qui salit.
+- Contrôle : la suite doit rester verte en ordre aléatoire, `bin/run-tests --order-by=random --random-order-seed=<graine>` (deux graines différentes avant une revue).
 
 ## Pièges connus
 

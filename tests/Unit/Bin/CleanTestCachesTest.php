@@ -34,8 +34,6 @@ final class CleanTestCachesTest extends TestCase
             SH);
         $fs->chmod($this->root . '/stub/docker', 0o755);
         // No test run is active unless a test says so (STUB_RUN_TESTS=1).
-        file_put_contents($this->root . '/stub/pgrep', "#!/bin/sh\n[ \"\${STUB_RUN_TESTS:-0}\" = 1 ]\n");
-        $fs->chmod($this->root . '/stub/pgrep', 0o755);
     }
 
     protected function tearDown(): void
@@ -78,17 +76,36 @@ final class CleanTestCachesTest extends TestCase
 
     public function testARealRunIsRefusedWhileTheTestsRunButADryRunIsNot(): void
     {
-        $refused = $this->clean([], ['STUB_RUN_TESTS' => '1']);
+        $this->lockWithPid((string) getmypid());
+        $refused = $this->clean([]);
 
         self::assertSame(3, $refused->getExitCode());
         self::assertDirectoryExists($this->root . '/var/cache-a');
         self::assertSame('', $this->log());
-        self::assertSame(0, $this->clean(['--dry-run'], ['STUB_RUN_TESTS' => '1'])->getExitCode());
+        self::assertSame(0, $this->clean(['--dry-run'])->getExitCode());
+    }
+
+    public function testAStaleLockDoesNotBlockARealRun(): void
+    {
+        $dead = new Process(['true']);
+        $dead->start();
+        $pid = $dead->getPid();
+        $dead->wait();
+        $this->lockWithPid((string) $pid);
+
+        self::assertSame(0, $this->clean([])->getExitCode());
+        self::assertDirectoryDoesNotExist($this->root . '/var/cache-a');
     }
 
     public function testAnUnknownOptionIsRefused(): void
     {
         self::assertSame(2, $this->clean(['--force'])->getExitCode());
+    }
+
+    private function lockWithPid(string $pid): void
+    {
+        mkdir($this->root . '/var/run-tests.lock');
+        file_put_contents($this->root . '/var/run-tests.lock/pid', $pid);
     }
 
     /**

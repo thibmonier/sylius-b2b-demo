@@ -143,7 +143,7 @@ final class OrderHistorySmokeTest extends WebTestCase
     }
 
     /**
-     * Other smoke tests leave carts behind (PunchOut sessions, wishlist to cart): only placed orders make the history.
+     * A cart is not a placed order: only placed orders make the history.
      *
      * @return list<OrderInterface>
      */
@@ -151,9 +151,7 @@ final class OrderHistorySmokeTest extends WebTestCase
     {
         return array_values(array_filter(
             $em->getRepository(OrderInterface::class)->findAll(),
-            // Other smoke tests leave carts and PunchOut orders (PunchOutSimulatorSmokeTest end to end) behind.
-            static fn (OrderInterface $order): bool => OrderInterface::STATE_CART !== $order->getState() &&
-                !str_starts_with((string) $order->getNotes(), 'PunchOut purchase order '),
+            static fn (OrderInterface $order): bool => OrderInterface::STATE_CART !== $order->getState(),
         ));
     }
 

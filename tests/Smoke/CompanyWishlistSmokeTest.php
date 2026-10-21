@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use App\Tests\Support\RestoresDemoCarts;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -16,6 +17,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class CompanyWishlistSmokeTest extends WebTestCase
 {
+    use RestoresDemoCarts;
+
     private const INDEX = '/fr_FR/account/company-wishlists';
 
     public function testAVisitorIsSentToTheLogin(): void
