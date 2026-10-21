@@ -100,6 +100,36 @@ final class PriceBreaksAndHomeSmokeTest extends WebTestCase
         self::assertStringContainsString('Promotions négociées', $html);
     }
 
+    public function testTheSignedInHeroOffersTheJourneysAndASwitchOfAccountNotALogin(): void
+    {
+        $crawler = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/');
+        $hero = $crawler->filter('[data-b2b-home="hero"]');
+
+        self::assertStringNotContainsString('Se connecter avec un compte de démo', $hero->text());
+        self::assertCount(1, $hero->filter('a.btn-primary[href="/fr_FR/guides"]'));
+        self::assertStringContainsString('Changer de compte de démo', $hero->filter('a.btn-outline-primary')->text());
+        self::assertStringContainsString('Changer de compte de démo', $crawler->filter('[data-b2b-home="quick-access"]')->text());
+    }
+
+    public function testTheAnonymousHeroStillOffersTheDemoLogin(): void
+    {
+        self::ensureKernelShutdown();
+        $client = self::createClient();
+        $hero = $client->request('GET', '/fr_FR/')->filter('[data-b2b-home="hero"]');
+
+        self::assertStringContainsString('Se connecter avec un compte de démo', $hero->filter('a.btn-primary')->text());
+        self::assertCount(0, $hero->filter('a[href="/fr_FR/guides"]'));
+    }
+
+    public function testThePriceOfACardComesBeforeItsFavouriteButton(): void
+    {
+        $crawler = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/');
+        $html = $crawler->filter('[data-b2b-home="usual"] .products-grid > div')->first()->html();
+
+        self::assertStringContainsString('Ajouter aux favoris', $html);
+        self::assertLessThan(strpos($html, 'Ajouter aux favoris'), strpos($html, '€'), 'The price is read first, the favourite is a secondary action.');
+    }
+
     public function testTheHomeIsLocalised(): void
     {
         $client = $this->signedIn('claire@acme.example');

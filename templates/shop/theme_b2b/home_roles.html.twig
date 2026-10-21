@@ -4,7 +4,7 @@
     <p class="mb-4">{{ 'app.home_b2b.buyer.roles.intro'|trans }}</p>
     <ul class="row row-cols-1 row-cols-md-3 g-4 list-unstyled">
         {% for block in ['usual', 'restock', 'negotiated'] %}
-            <li class="col"><div class="card h-100 b2b-tile"><div class="card-body">
+            <li class="col"><div class="card h-100 b2b-tile b2b-tile--info"><div class="card-body">
                 <h3 class="b2b-tile__title">{{ ('app.home_b2b.buyer.roles.' ~ block)|trans }}</h3>
                 <p class="card-text mb-0">{{ ('app.home_b2b.buyer.' ~ block ~ '.intro')|trans }}</p>
             </div></div></li>

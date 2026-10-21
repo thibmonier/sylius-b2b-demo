@@ -145,6 +145,38 @@
     }
 }
 
+// Small screens: logo, account, favourites and menu stay on one line (the core row wraps the icons under the logo).
+.row:has(> .col > .b2b-logo) {
+    flex-wrap: nowrap;
+    --bs-gutter-x: .75rem;
+
+    > .col {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 399.98px) {
+    .b2b-logo__name {
+        font-size: 1rem;
+    }
+}
+
+// Home hero: the title carries the brand, as strong as the section titles below it.
+.b2b-home-hero {
+    &__title {
+        color: $b2b-navy;
+        font-weight: 700;
+        letter-spacing: -.02em;
+        text-wrap: balance;
+    }
+
+    &__lead {
+        max-width: 48rem;
+        margin-inline: auto;
+        text-wrap: pretty;
+    }
+}
+
 // Catalogue: dense cards with a SKU line and an explicit "excl. VAT" mention.
 .b2b-meta,
 .b2b-from-price {
@@ -256,6 +288,18 @@
 
     &__links a {
         font-weight: 600;
+    }
+}
+
+// Information tiles (roles of the anonymous home): no link inside, so no lift on hover and no clickable look.
+.b2b-tile--info {
+    border-top-color: $b2b-navy;
+    background: rgba(var(--b2b-navy-rgb), .03);
+
+    &:hover,
+    &:focus-within {
+        box-shadow: none;
+        transform: none;
     }
 }
 

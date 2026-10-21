@@ -6,7 +6,7 @@
                 <span class="b2b-tile__icon">{{ ux_icon('tabler:users', { 'aria-hidden': 'true' }) }}</span>
                 <h3 class="b2b-tile__title">{{ 'app.home_b2b.quick_access.accounts'|trans }}</h3>
                 <p class="card-text flex-grow-1">{{ 'app.home_b2b.quick_access.accounts_text'|trans }}</p>
-                <a class="b2b-tile__cta stretched-link" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.quick_access.accounts_link'|trans }}{{ ux_icon('tabler:arrow-right', { 'aria-hidden': 'true' }) }}</a>
+                <a class="b2b-tile__cta stretched-link" href="{{ path('app_demo_accounts') }}">{{ (app.user ? 'app.home_b2b.quick_access.accounts_link_signed_in' : 'app.home_b2b.quick_access.accounts_link')|trans }}{{ ux_icon('tabler:arrow-right', { 'aria-hidden': 'true' }) }}</a>
             </div></div>
         </div>
         {# US-019: the categories are catalogue content, hidden on a closed channel from visitors who are not signed in. #}

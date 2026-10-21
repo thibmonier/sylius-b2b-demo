@@ -3,6 +3,11 @@
 # PunchOut template wins and the checkout button is never disabled by the fill rules.
 sylius_twig_hooks:
     hooks:
+        # Cards: the price is read first, the favourite button comes after it. Loaded after sylius_wishlist.yaml,
+        # which declares it at priority 50 (between the details, 100, and the prices, 0).
+        'sylius_shop.shared.product.card':
+            add_to_wishlist:
+                priority: -10
         'sylius_shop.cart.index.content.form.sections.general#right':
             checkout:
                 template: 'shop/container_fill/cart_checkout.html.twig'
