@@ -111,11 +111,12 @@ final class RunTestsLockTest extends TestCase
      */
     private function process(array $env): Process
     {
+        // A hung run fails the test instead of blocking the whole suite (the CI waited hours on a deferred trap).
         return new Process(['sh', $this->root . '/bin/run-tests'], $this->root, [
             'PATH' => $this->root . '/stub:' . getenv('PATH'),
             'MIN_FREE_GB' => '0',
             'TEST_CACHE_DIR' => $this->root . '/var/cache-lock-test',
-        ] + $env);
+        ] + $env, null, 30);
     }
 
     private function waitForLock(): void
