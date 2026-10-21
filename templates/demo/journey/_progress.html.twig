@@ -1,0 +1,18 @@
+{# US-105: visible progress (bar + numbered list) and announced progress (polite live region). #}
+{% set total = journey.stepCount %}
+{% set done = exit ? total : number - 1 %}
+<p class="fw-semibold mb-2" role="status" aria-live="polite" data-journey-counter>
+    {% if exit %}{{ 'step.done'|trans({'%total%': total}, 'journeys') }}{% else %}{{ 'step.counter'|trans({'%current%': number, '%total%': total}, 'journeys') }}{% endif %}
+</p>
+<div class="progress mb-3" role="progressbar" aria-label="{{ 'step.progress'|trans({}, 'journeys') }}" aria-valuemin="0" aria-valuemax="{{ total }}" aria-valuenow="{{ done }}" data-journey-progress>
+    <div class="progress-bar" style="width: {{ (done * 100 / total)|round }}%"></div>
+</div>
+<nav aria-label="{{ 'nav.steps'|trans({}, 'journeys') }}">
+    <ol class="list-group list-group-numbered mb-4" data-journey-steps>
+        {% for s in journey.steps %}
+            <li class="list-group-item{{ s.number == number ? ' fw-bold' : '' }}" data-journey-step-item="{{ s.number }}">
+                <a class="d-inline-block py-2"{% if s.number == number %} aria-current="step"{% endif %} href="{{ path('app_demo_journey_step', {_locale: app.request.locale, id: journey.id, step: s.number}) }}">{{ ('journey.' ~ journey.id ~ '.step.' ~ s.number ~ '.title')|trans({}, 'journeys') }}</a>
+            </li>
+        {% endfor %}
+    </ol>
+</nav>

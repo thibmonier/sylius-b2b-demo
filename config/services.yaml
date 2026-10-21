@@ -9,6 +9,7 @@
 imports:
     - { resource: demo/accounts.yaml }
     - { resource: demo/analytics.yaml }
+    - { resource: demo/journeys.yaml }
     - { resource: demo/legal.yaml }
     - { resource: demo/plugins.yaml }
     - { resource: demo/site.yaml }

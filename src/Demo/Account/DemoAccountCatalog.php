@@ -77,16 +77,22 @@ final class DemoAccountCatalog
         return [...$accounts, ...$this->consumers()];
     }
 
-    /** Whether the e-mail is one of the storefront logins published on /demo/accounts (shared by every visitor). */
-    public function isSharedShopAccount(string $email): bool
+    /** The storefront login with this e-mail (company member or B2C shopper), null when there is none. */
+    public function findShopAccount(string $email): ?DemoAccount
     {
         foreach ($this->shopAccounts() as $account) {
             if (0 === strcasecmp($account->email, trim($email))) {
-                return true;
+                return $account;
             }
         }
 
-        return false;
+        return null;
+    }
+
+    /** Whether the e-mail is one of the storefront logins published on /demo/accounts (shared by every visitor). */
+    public function isSharedShopAccount(string $email): bool
+    {
+        return null !== $this->findShopAccount($email);
     }
 
     private function assertUniqueEmails(): void

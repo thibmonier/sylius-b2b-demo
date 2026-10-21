@@ -1,0 +1,121 @@
+list:
+    title: "Guided journeys"
+    intro: "Five journeys of a few minutes, one per role. Each one takes you from screen to screen with the right demo account, and can prepare the scenario for you."
+    duration: "%minutes% min · %steps% steps"
+    start: "Start the journey"
+    resume: "Resume at step %step%"
+    persona_label: "For"
+nav:
+    list: "All journeys"
+    steps: "Journey steps"
+    pager: "Journey navigation"
+persona:
+    buyer: "Buyer"
+    approver: "Approver"
+    finance: "Finance director"
+    ecommerce: "E-commerce director"
+    it: "IT manager"
+step:
+    counter: "Step %current% of %total%"
+    done: "Journey completed: %total% steps seen"
+    progress: "Journey progress"
+    open: "Open this screen"
+    launch: "Run this scenario"
+    previous: "Previous step"
+    next: "Next step"
+    finish: "Finish the journey"
+account:
+    wrong: "This journey uses the account of %name% (%role%). You are not signed in with it: switch account in one click."
+    anonymous: "This journey uses the account of %name% (%role%). Sign in with it in one click."
+reset:
+    notice: "The demo has just been reset: your demo data was restored and the journey starts again at step 1."
+launch:
+    failed: "The scenario could not be prepared (the demo purchase list was not found). You can still open the screen of this step."
+exit:
+    title: "What you have seen can be deployed in your own project"
+    text: "Every screen of this journey comes from a Sylius plugin that is installed separately, in an existing project. See how to integrate them, or talk about your own situation."
+    learn_more: "Learn more"
+    contact: "Talk about your project"
+    restart: "Replay this journey"
+    others: "See the other journeys"
+journey:
+    buyer:
+        title: "Place a restocking order"
+        goal: "Find the usual items, fill a cart in one click and ask for a quote on the same lines."
+        step:
+            1:
+                title: "Enter references and quantities"
+                text: "Quick order takes a list of references and quantities, typed or pasted from a file. Each line is checked (known reference, packaging, stock) before it goes to the cart."
+            2:
+                title: "Find the company purchase list"
+                text: "The \"Atelier\" list gathers the company's usual items. Colleagues can read it; Claire, who created it, and the company admin can edit it."
+            3:
+                title: "Fill the cart from the list"
+                text: "The scenario empties Claire's cart then adds the lines of the \"Atelier\" list. The cart shows the loading plan (cartons and pallets) computed by the container-fill plugin."
+            4:
+                title: "Ask for a quote on the same lines"
+                text: "The scenario prepares a quote request with the lines of the list. You can complete and send it: the supplier's answer comes back to the buyer's account."
+    approver:
+        title: "Approve the orders above a limit"
+        goal: "See the queue of pending orders, what the approver can consult and the make-up of the team."
+        step:
+            1:
+                title: "The approval queue"
+                text: "An order above its author's limit waits here. Paul, the company approver, opens each request, then approves or rejects it."
+            2:
+                title: "The company orders"
+                text: "The approver sees the orders of the whole company, including those placed by buyer colleagues."
+            3:
+                title: "The team"
+                text: "The members of the company and their role: buyer, approver or admin."
+            4:
+                title: "The company record"
+                text: "The details of the company linked to the account: company name, VAT number and registration."
+    finance:
+        title: "Follow limits, outstanding balance and invoices"
+        goal: "Check what can be ordered, what is owed and what has been invoiced."
+        step:
+            1:
+                title: "Purchase limits"
+                text: "Isabelle, the company admin, sets the limits above which an approval is requested."
+            2:
+                title: "Outstanding balance and statement"
+                text: "The statement shows the credit limit granted to the company, the balance used and the upcoming due dates."
+            3:
+                title: "Orders and their invoices"
+                text: "The list of company orders gives access to the detail of each one and to its invoice."
+            4:
+                title: "The company record"
+                text: "The legal details of the company (VAT number, registration) are used for invoices and exchanges with accounting."
+    ecommerce:
+        title: "Run the catalogue and the logistics"
+        goal: "See what the buyer sees: catalogue, loading plan, active plugins and delivery addresses."
+        step:
+            1:
+                title: "The B2B catalogue"
+                text: "The home page shows the selections of the signed-in buyer: usual items, restocking and negotiated promotions."
+            2:
+                title: "The loading plan of the cart"
+                text: "The scenario fills the cart with the \"Atelier\" list. The container-fill plugin computes the number of cartons and pallets, and the fill rate."
+            3:
+                title: "The plugins of the demo"
+                text: "The plugins installed in this shop, with what each one brings."
+            4:
+                title: "The company addresses"
+                text: "The shared address book saves re-typing delivery addresses on every order."
+    it:
+        title: "Connect the shop to the company's tools"
+        goal: "See how a procurement system or an AI assistant connects to the shop."
+        step:
+            1:
+                title: "The PunchOut simulator"
+                text: "The simulator plays a procurement system: it opens a session in the shop, then fetches the cart in cXML or OCI format."
+            2:
+                title: "Connect an AI assistant (MCP)"
+                text: "The guide explains how to link Claude or ChatGPT to a buyer's account, with the limits that apply."
+            3:
+                title: "Connected assistants"
+                text: "Each buyer sees the assistants allowed on their account and can revoke an access."
+            4:
+                title: "The plugins involved"
+                text: "The list of the demo plugins, including PunchOut and MCP, with their repository."

@@ -1,0 +1,53 @@
+{# US-105: one step of a guided journey (or, one past the last, the exit screen). Server-rendered: no JavaScript needed. #}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% set journey_title = ('journey.' ~ journey.id ~ '.title')|trans({}, 'journeys') %}
+
+{% block title %}{{ journey_title }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-page="journey" data-journey="{{ journey.id }}" data-journey-step="{{ number }}">
+        <p class="mb-2"><a href="{{ path('app_demo_journeys', {_locale: app.request.locale}) }}">{{ 'nav.list'|trans({}, 'journeys') }}</a></p>
+        <h1>{{ journey_title }}</h1>
+
+        {% if reset_notice %}
+            {% include 'demo/journey/_reset_notice.html.twig' %}
+        {% endif %}
+
+        {% include 'demo/journey/_progress.html.twig' %}
+
+        {% if exit %}
+            {% include 'demo/journey/_exit.html.twig' %}
+        {% else %}
+            <section aria-labelledby="journey-step-title" data-journey-body>
+                <h2 class="h4" id="journey-step-title">{{ ('journey.' ~ journey.id ~ '.step.' ~ number ~ '.title')|trans({}, 'journeys') }}</h2>
+                <p>{{ ('journey.' ~ journey.id ~ '.step.' ~ number ~ '.text')|trans({}, 'journeys') }}</p>
+
+                {% if wrong_account %}
+                    {% include 'demo/journey/_wrong_account.html.twig' with { account, signed_in: app.user is not null } only %}
+                {% else %}
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <a class="btn btn-outline-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ target_url }}" data-journey-open>{{ 'step.open'|trans({}, 'journeys') }}</a>
+                        {% if step.hasScenario %}
+                            <form method="post" action="{{ path('app_demo_journey_launch', {_locale: app.request.locale, id: journey.id, step: number}) }}" class="d-inline-block">
+                                <input type="hidden" name="_token" value="{{ launch_token }}">
+                                <button type="submit" class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" data-journey-launch{{ app_umami_event('journey-launch', { parcours: journey.id, etape: number }, true) }}>{{ 'step.launch'|trans({}, 'journeys') }}</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </section>
+        {% endif %}
+
+        <nav aria-label="{{ 'nav.pager'|trans({}, 'journeys') }}" class="d-flex flex-wrap justify-content-between gap-2 mt-4">
+            {% if previous_url %}
+                <a class="btn btn-outline-secondary d-inline-flex align-items-center" style="min-height: 2.75rem" rel="prev" href="{{ previous_url }}" data-journey-previous>{{ 'step.previous'|trans({}, 'journeys') }}</a>
+            {% else %}
+                <span></span>
+            {% endif %}
+            {% if next_url %}
+                <a class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" rel="next" href="{{ next_url }}" data-journey-next>{{ (number == journey.stepCount ? 'step.finish' : 'step.next')|trans({}, 'journeys') }}</a>
+            {% endif %}
+        </nav>
+    </div>
+{% endblock %}

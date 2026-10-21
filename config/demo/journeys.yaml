@@ -1,0 +1,56 @@
+# Guided journeys (US-105, US-106): one entry per journey, in the order of the list page. Texts are in
+# translations/journeys.{fr,en}.yaml under journey.<id>.* (title, goal, step.<n>.title, step.<n>.text).
+#   persona   : the role the journey is written for (translation key persona.<persona>)
+#   account   : the demo account that shows the steps best (must exist in accounts.yaml and be enabled)
+#   minutes   : estimated duration
+#   steps     : 4 to 6 steps; route (+ route_parameters), optional scenario (cart, quote) with scenario_options (list: name of a purchase list)
+# A route that does not exist or an unknown account is refused when the journeys are loaded, naming the journey and the step.
+parameters:
+    # Route of the page "Intégrer ces plugins dans votre projet" (US-107), target of "En savoir plus" on the exit screen.
+    demo.journeys_integrate_route: app_demo_integrate
+    demo.journeys:
+        buyer:
+            persona: buyer
+            account: claire@acme.example
+            minutes: 6
+            steps:
+                - { route: tmonier_quick_order_shop_index }
+                - { route: app_shop_company_wishlist_index }
+                - { route: sylius_shop_cart_summary, scenario: cart, scenario_options: { list: Atelier } }
+                - { route: tmonier_quote_request_shop_new, scenario: quote, scenario_options: { list: Atelier } }
+        approver:
+            persona: approver
+            account: paul@acme.example
+            minutes: 4
+            steps:
+                - { route: tmonier_purchase_approval_shop_approvals }
+                - { route: tmonier_company_accounts_shop_company_orders }
+                - { route: tmonier_company_accounts_shop_company_members }
+                - { route: tmonier_company_accounts_shop_company_show }
+        finance:
+            persona: finance
+            account: isabelle@acme.example
+            minutes: 5
+            steps:
+                - { route: tmonier_purchase_approval_shop_limits }
+                - { route: tmonier_trade_credit_shop_statement }
+                - { route: tmonier_company_accounts_shop_company_orders }
+                - { route: tmonier_company_accounts_shop_company_show }
+        ecommerce:
+            persona: ecommerce
+            account: isabelle@acme.example
+            minutes: 6
+            steps:
+                - { route: sylius_shop_homepage }
+                - { route: sylius_shop_cart_summary, scenario: cart, scenario_options: { list: Atelier } }
+                - { route: app_demo_plugins }
+                - { route: tmonier_company_accounts_shop_company_addresses }
+        it:
+            persona: it
+            account: isabelle@acme.example
+            minutes: 6
+            steps:
+                - { route: app_demo_punchout_simulator }
+                - { route: app_demo_mcp_guide }
+                - { route: tmonier_b2b_mcp_shop_connections }
+                - { route: app_demo_plugins }

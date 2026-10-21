@@ -27,13 +27,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-106-01 | [DOC] | Trame des cinq parcours : objectif, compte conseillé, 4 à 6 étapes, plugins montrés, durée estimée | 2 h | T-105-03 | Claude | 🔲 |
-| T-106-02 | [TEST] | Tests rouges : cinq parcours listés avec durée, écran de sortie avec et sans URL de contact, étape cassée nommée, clés FR et EN présentes | 1,5 h | T-106-01 | Claude | 🔲 |
-| T-106-03 | [BE] | Les cinq parcours dans `journeys.yaml` (routes, comptes, préparateurs) ⚠️ | 2 h | T-106-02, T-105-08 | Claude | 🔲 |
-| T-106-04 | [FE-WEB] | Écran de sortie : « En savoir plus » (page Intégrer) et « Échanger sur votre projet » (masqué sans URL), événements Umami | 1 h | T-106-03, T-107-04 | Claude | 🔲 |
-| T-106-05 | [DOC] | Textes FR et EN des cinq parcours et de l'écran de sortie (domaine `journeys`) ⚠️ | 2 h | T-106-03 | Claude | 🔲 |
-| T-106-06 | [TEST] | Fumée sur tous les parcours avec le bon compte, rendu réel FR et EN (375 px), pa11y AAA ⚠️ | 1,5 h | T-106-04, T-106-05 | Claude | 🔲 |
-| T-106-07 | [REV] | Thibaut relit les textes (ton, exactitude) ; revue de code | 1 h | T-106-06 | Thibaut + Claude | 🔲 |
+| T-106-01 | [DOC] | Trame des cinq parcours : objectif, compte conseillé, 4 à 6 étapes, plugins montrés, durée estimée | 2 h | T-105-03 | Claude | ✅ |
+| T-106-02 | [TEST] | Tests rouges : cinq parcours listés avec durée, écran de sortie avec et sans URL de contact, étape cassée nommée, clés FR et EN présentes | 1,5 h | T-106-01 | Claude | ✅ |
+| T-106-03 | [BE] | Les cinq parcours dans `journeys.yaml` (routes, comptes, préparateurs) ⚠️ | 2 h | T-106-02, T-105-08 | Claude | ✅ |
+| T-106-04 | [FE-WEB] | Écran de sortie : « En savoir plus » (page Intégrer) et « Échanger sur votre projet » (masqué sans URL), événements Umami | 1 h | T-106-03, T-107-04 | Claude | ✅ |
+| T-106-05 | [DOC] | Textes FR et EN des cinq parcours et de l'écran de sortie (domaine `journeys`) ⚠️ | 2 h | T-106-03 | Claude | ✅ |
+| T-106-06 | [TEST] | Fumée sur tous les parcours avec le bon compte, rendu réel FR et EN (375 px), pa11y AAA ⚠️ | 1,5 h | T-106-04, T-106-05 | Claude | ✅ |
+| T-106-07 | [REV] | Thibaut relit les textes (ton, exactitude) ; revue de code | 1 h | T-106-06 | Thibaut + Claude | 👀 |
 
 **Total estimé : 11 h** (7 tâches, dont 1 de Thibaut, soit 1 h).
 

@@ -124,6 +124,22 @@ final class ContactCtaTest extends WebTestCase
         self::assertSame(self::CONTACT . '?utm_source=demo-b2b&utm_medium=cta&utm_content=demo-bar', $link->attr('href'));
     }
 
+    /**
+     * The bar contact link shows from md only: a bare `d-inline-flex` next to `d-none` wins over it in the utilities
+     * order and the link then overflows the 375 and 320 px bar (measured with bin/measure-mobile).
+     */
+    public function testTheDemoBarLinkIsHiddenBelowTheMdWidth(): void
+    {
+        $this->setEnvironment(['DEMO_BOOKING_URL' => '', 'DEMO_CONTACT_URL' => self::CONTACT]);
+
+        $classes = preg_split('/\s+/', trim((string) $this->page('/fr_FR/')->filter('[data-demo-banner] a[data-contact-link]')->attr('class')));
+
+        self::assertIsArray($classes);
+        self::assertContains('d-none', $classes);
+        self::assertContains('d-md-inline-flex', $classes);
+        self::assertNotContains('d-inline-flex', $classes);
+    }
+
     public function testTheComponentNeverBuildsAnIntrusiveWidget(): void
     {
         $this->setEnvironment(['DEMO_BOOKING_URL' => self::BOOKING, 'DEMO_CONTACT_URL' => self::CONTACT]);

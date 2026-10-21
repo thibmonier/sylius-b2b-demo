@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Mobile layout check on the real rendering (US-071 / T-071-01): Puppeteer in mobile emulation (`isMobile`; headless
-// Chrome alone never goes below ~500 px), document width at 375 and 320 px on the 7 pages of the opening path,
+// Chrome alone never goes below ~500 px), document width at 375 and 320 px on the 7 pages of the opening path and the 3 pages of the guided journeys,
 // then the demo bar on one line at 375, 320 and 1280 px.
 // Prints one OK/KO line per page and width, naming the page and the widest elements of a failing page.
 //
@@ -26,6 +26,10 @@ const PAGES = [
     { name: 'panier', path: 'cart/', signedIn: true },
     { name: 'devis', path: 'quote-request', signedIn: true },
     { name: 'plugins', path: 'plugins' },
+    // US-105/US-106: the guided journeys (the journey of Claire, the first one-click account).
+    { name: 'parcours', path: 'guides' },
+    { name: 'parcours étape', path: 'guides/buyer/3', signedIn: true },
+    { name: 'parcours sortie', path: 'guides/buyer/5', signedIn: true },
 ];
 
 const args = process.argv.slice(2);

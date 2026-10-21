@@ -1,0 +1,121 @@
+list:
+    title: "Parcours guidés"
+    intro: "Cinq parcours de quelques minutes, un par rôle. Chacun vous emmène d'écran en écran avec le compte de démo qui convient, et peut préparer le scénario à votre place."
+    duration: "%minutes% min · %steps% étapes"
+    start: "Commencer le parcours"
+    resume: "Reprendre à l'étape %step%"
+    persona_label: "Pour"
+nav:
+    list: "Tous les parcours"
+    steps: "Étapes du parcours"
+    pager: "Navigation du parcours"
+persona:
+    buyer: "Acheteuse"
+    approver: "Approbateur"
+    finance: "Directeur financier"
+    ecommerce: "Directeur e-commerce"
+    it: "Responsable informatique"
+step:
+    counter: "Étape %current% sur %total%"
+    done: "Parcours terminé : %total% étapes vues"
+    progress: "Avancement du parcours"
+    open: "Voir cet écran"
+    launch: "Je lance ce scénario"
+    previous: "Étape précédente"
+    next: "Étape suivante"
+    finish: "Terminer le parcours"
+account:
+    wrong: "Ce parcours se déroule avec le compte de %name% (%role%). Vous n'êtes pas connecté avec ce compte : changez de compte en un clic."
+    anonymous: "Ce parcours se déroule avec le compte de %name% (%role%). Connectez-vous avec ce compte en un clic."
+reset:
+    notice: "La démo vient d'être remise à zéro : vos données de démo ont été restaurées et le parcours reprend à l'étape 1."
+launch:
+    failed: "Le scénario n'a pas pu être préparé (la liste d'achat de démonstration est introuvable). Vous pouvez tout de même ouvrir l'écran de cette étape."
+exit:
+    title: "Ce que vous avez vu peut être déployé chez vous"
+    text: "Chaque écran de ce parcours est fourni par un plugin Sylius qui s'installe séparément, dans un projet existant. Vous pouvez voir comment les intégrer, ou en parler à partir de votre situation."
+    learn_more: "En savoir plus"
+    contact: "Échanger sur votre projet"
+    restart: "Rejouer ce parcours"
+    others: "Voir les autres parcours"
+journey:
+    buyer:
+        title: "Passer une commande de réassort"
+        goal: "Retrouver ses références habituelles, remplir un panier en un clic et demander un devis sur les mêmes lignes."
+        step:
+            1:
+                title: "Saisir des références et des quantités"
+                text: "La commande rapide accepte une liste de références et de quantités, saisies ou collées depuis un fichier. Chaque ligne est contrôlée (référence connue, conditionnement, stock) avant d'être ajoutée au panier."
+            2:
+                title: "Retrouver la liste d'achat de l'entreprise"
+                text: "La liste « Atelier » regroupe les références habituelles de l'entreprise. Les collègues la consultent ; Claire, qui l'a créée, et l'administratrice la modifient."
+            3:
+                title: "Remplir le panier depuis la liste"
+                text: "Le scénario vide le panier de Claire puis y ajoute les lignes de la liste « Atelier ». Le panier affiche le plan de chargement (cartons et palettes) calculé par le plugin container-fill."
+            4:
+                title: "Demander un devis sur les mêmes lignes"
+                text: "Le scénario prépare une demande de devis avec les lignes de la liste. Vous pouvez la compléter et l'envoyer : la réponse du fournisseur revient dans le compte de l'acheteur."
+    approver:
+        title: "Valider les commandes qui dépassent un plafond"
+        goal: "Voir la file des commandes en attente, ce que l'approbateur peut consulter et la composition de l'équipe."
+        step:
+            1:
+                title: "La file des approbations"
+                text: "Une commande qui dépasse le plafond de son auteur attend ici. Paul, approbateur de l'entreprise, ouvre chaque demande, puis l'approuve ou la refuse."
+            2:
+                title: "Les commandes de l'entreprise"
+                text: "L'approbateur voit les commandes de toute l'entreprise, y compris celles passées par ses collègues acheteurs."
+            3:
+                title: "L'équipe"
+                text: "Les membres de l'entreprise et leur rôle : acheteur, approbateur ou administrateur."
+            4:
+                title: "La fiche de l'entreprise"
+                text: "Les informations de l'entreprise rattachée au compte : raison sociale, numéro de TVA et immatriculation."
+    finance:
+        title: "Suivre les plafonds, l'encours et les factures"
+        goal: "Contrôler ce qui peut être commandé, ce qui est dû et ce qui a été facturé."
+        step:
+            1:
+                title: "Les plafonds d'achat"
+                text: "Isabelle, administratrice de l'entreprise, fixe les plafonds au-delà desquels une approbation est demandée."
+            2:
+                title: "L'encours et le relevé de compte"
+                text: "Le relevé présente le plafond de crédit accordé à l'entreprise, l'encours consommé et les échéances à venir."
+            3:
+                title: "Les commandes et leurs factures"
+                text: "La liste des commandes de l'entreprise donne accès au détail de chacune et à sa facture."
+            4:
+                title: "La fiche de l'entreprise"
+                text: "Les informations légales de l'entreprise (numéro de TVA, immatriculation) servent aux factures et aux échanges avec la comptabilité."
+    ecommerce:
+        title: "Piloter le catalogue et la logistique"
+        goal: "Voir ce que l'acheteur voit : catalogue, plan de chargement, plugins actifs et adresses de livraison."
+        step:
+            1:
+                title: "Le catalogue B2B"
+                text: "La page d'accueil présente les sélections de l'acheteur connecté : références habituelles, réassort et promotions négociées."
+            2:
+                title: "Le plan de chargement du panier"
+                text: "Le scénario remplit le panier avec la liste « Atelier ». Le plugin container-fill calcule le nombre de cartons et de palettes, et le taux de remplissage."
+            3:
+                title: "Les plugins de la démo"
+                text: "La liste des plugins installés dans cette boutique, avec ce que chacun apporte."
+            4:
+                title: "Les adresses de l'entreprise"
+                text: "Le carnet d'adresses partagé évite de ressaisir les adresses de livraison à chaque commande."
+    it:
+        title: "Brancher la boutique aux outils de l'entreprise"
+        goal: "Voir comment un système d'achat ou un assistant IA se connecte à la boutique."
+        step:
+            1:
+                title: "Le simulateur PunchOut"
+                text: "Le simulateur joue le rôle d'un système d'achat : il ouvre une session dans la boutique, puis récupère le panier au format cXML ou OCI."
+            2:
+                title: "Connecter un assistant IA (MCP)"
+                text: "Le guide explique comment relier Claude ou ChatGPT au compte d'un acheteur, avec les limites appliquées."
+            3:
+                title: "Les assistants connectés"
+                text: "Chaque acheteur voit les assistants autorisés sur son compte et peut révoquer un accès."
+            4:
+                title: "Les plugins concernés"
+                text: "La liste des plugins de la démo, dont PunchOut et MCP, avec leur dépôt."

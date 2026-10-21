@@ -29,18 +29,18 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-105-01 | [DOC] | Inventaire (scénarios existants de `home_journeys` et `accounts.html.twig`, comptes, connexion en un clic, marqueur de reset) et décisions de conception consignées dans la story | 0,5 h | - | Claude | 🔲 |
-| T-105-02 | [TEST] | Tests unitaires rouges : modèle `Journey`/`JourneyStep`, catalogue validé au chargement (étape sans route, compte inconnu refusés), précédent et suivant, bornes | 2 h | T-105-01 | Claude | 🔲 |
-| T-105-03 | [BE] | `Journey`, `JourneyStep`, `JourneyCatalog` et `config/demo/journeys.yaml` (un parcours d'essai de 4 étapes) | 1,5 h | T-105-02 | Claude | 🔲 |
-| T-105-04 | [BE] | `JourneyProgress` en session (étape courante, empreinte du dernier reset) : retour à l'étape 1 après un reset | 1,5 h | T-105-03 | Claude | 🔲 |
-| T-105-05 | [TEST] | Tests fonctionnels rouges : liste et étape, avancer et reculer, « Je lance ce scénario » (préparation puis redirection), mauvais compte, reset en cours de parcours | 2 h | T-105-03 | Claude | 🔲 |
-| T-105-06 | [BE] | `JourneyController` (liste, étape, lancement) et routes `/{_locale}/guides…`, événements Umami `demo-journey-*` | 2 h | T-105-04, T-105-05 | Claude | 🔲 |
-| T-105-07 | [BE] | `ScenarioPreparer` (interface, registre par étiquette de service) et préparateur de panier (lignes d'une liste d'achat du compte) | 2 h | T-105-05 | Claude | 🔲 |
-| T-105-08 | [BE] | Préparateur de devis (brouillon de demande de devis pré-rempli via le plugin quote-request) | 1,5 h | T-105-07 | Claude | 🔲 |
-| T-105-09 | [FE-WEB] | Gabarits : liste ordonnée des étapes, progression visible et annoncée (`aria-live`), précédent et suivant, bouton de lancement, message de changement de compte en un clic, message de reset ; styles (cibles 44 px, contraste AAA, 320 px) ; libellés FR et EN | 2,5 h | T-105-06 | Claude | 🔲 |
-| T-105-10 | [TEST] | Accessibilité et rendu réel : clavier seul, pa11y WCAG2AAA, `bin/measure-mobile`, FR et EN | 1,5 h | T-105-09, T-105-08 | Claude | 🔲 |
-| T-105-11 | [DOC] | `docs/parcours-guides.md` (format du fichier, ajout d'un parcours, préparateurs) ⚠️ | 0,5 h | T-105-10 | Claude | 🔲 |
-| T-105-12 | [REV] | Revue (accessibilité, compte partagé non altéré, aucun détail exploitable) | 1 h | T-105-11 | Claude | 🔲 |
+| T-105-01 | [DOC] | Inventaire (scénarios existants de `home_journeys` et `accounts.html.twig`, comptes, connexion en un clic, marqueur de reset) et décisions de conception consignées dans la story | 0,5 h | - | Claude | ✅ |
+| T-105-02 | [TEST] | Tests unitaires rouges : modèle `Journey`/`JourneyStep`, catalogue validé au chargement (étape sans route, compte inconnu refusés), précédent et suivant, bornes | 2 h | T-105-01 | Claude | ✅ |
+| T-105-03 | [BE] | `Journey`, `JourneyStep`, `JourneyCatalog` et `config/demo/journeys.yaml` (un parcours d'essai de 4 étapes) | 1,5 h | T-105-02 | Claude | ✅ |
+| T-105-04 | [BE] | `JourneyProgress` en session (étape courante, empreinte du dernier reset) : retour à l'étape 1 après un reset | 1,5 h | T-105-03 | Claude | ✅ |
+| T-105-05 | [TEST] | Tests fonctionnels rouges : liste et étape, avancer et reculer, « Je lance ce scénario » (préparation puis redirection), mauvais compte, reset en cours de parcours | 2 h | T-105-03 | Claude | ✅ |
+| T-105-06 | [BE] | `JourneyController` (liste, étape, lancement) et routes `/{_locale}/guides…`, événements Umami `demo-journey-*` | 2 h | T-105-04, T-105-05 | Claude | ✅ |
+| T-105-07 | [BE] | `ScenarioPreparer` (interface, registre par étiquette de service) et préparateur de panier (lignes d'une liste d'achat du compte) | 2 h | T-105-05 | Claude | ✅ |
+| T-105-08 | [BE] | Préparateur de devis (brouillon de demande de devis pré-rempli via le plugin quote-request) | 1,5 h | T-105-07 | Claude | ✅ |
+| T-105-09 | [FE-WEB] | Gabarits : liste ordonnée des étapes, progression visible et annoncée (`aria-live`), précédent et suivant, bouton de lancement, message de changement de compte en un clic, message de reset ; styles (cibles 44 px, contraste AAA, 320 px) ; libellés FR et EN | 2,5 h | T-105-06 | Claude | ✅ |
+| T-105-10 | [TEST] | Accessibilité et rendu réel : clavier seul, pa11y WCAG2AAA, `bin/measure-mobile`, FR et EN | 1,5 h | T-105-09, T-105-08 | Claude | ✅ |
+| T-105-11 | [DOC] | `docs/parcours-guides.md` (format du fichier, ajout d'un parcours, préparateurs) ⚠️ | 0,5 h | T-105-10 | Claude | ✅ |
+| T-105-12 | [REV] | Revue (accessibilité, compte partagé non altéré, aucun détail exploitable) | 1 h | T-105-11 | Claude | 👀 |
 
 **Total estimé : 18,5 h** (12 tâches, dont 0 de Thibaut, soit 0 h).
 
