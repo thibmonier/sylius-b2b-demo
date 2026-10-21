@@ -70,7 +70,7 @@ Justification : les 10 stories engagées sont en review, sans sacrifice. Parcour
 
 ## Vérification finale (Scrum Master)
 
-- CI de la PR #42 : en cours au moment de la rédaction (à compléter).
+- CI de la PR #42 : verte au commit 642a757 (Quality and smoke tests, Docker image, Image scan and SBOM, Dependency audit). Deux incidents corrigés en route : CVE-2026-98621 (CRITICAL) dans `linux-libc-dev` de l’image de base, mise à niveau ciblée (413a525) ; job de tests bloqué 3 h 25 par le test SIGTERM du verrou (dash diffère le trap tant que l’enfant au premier plan vit), PHPUnit lancé en arrière-plan avec `wait` (18312a6) et `timeout-minutes` sur chaque job (642a757).
 - Suite complète : 1 424 tests verts, en ordre aléatoire sur trois graines (avant correctif, la graine 2 faisait échouer 2 tests de `PagesTest`). ECS, PHPStan, lint Twig (85 fichiers), YAML (117) et conteneur : OK. pa11y WCAG2AAA : 0 erreur sur les nouveaux gabarits (`/integrer`, parcours) en FR et EN ; une erreur Sylius hors sprint (menu compte). `bin/measure-mobile` : 23 pages OK en FR et EN, avec et sans `DEMO_CONTACT_URL`.
 - PHPStan était rouge à l'intégration (trait `RestoresDemoCarts`) : corrigé par l'orchestrateur.
 - Revue indépendante (symfony-reviewer, partielle) : aucun bloquant. Majeur corrigé : un lancement de parcours « panier » sans ligne ajoutable vidait le panier du visiteur (`CartScenarioPreparer`, test `CartScenarioPreparerTest`). Écarté : script Umami inline sans nonce (la CSP autorise `unsafe-inline`). Dette mineure pour le sprint 18 : reprise non atomique d’un verrou périmé de `bin/run-tests` (course entre deux runs), écriture en session sur le GET d’une étape de parcours, nom et rôle du compte de démo affichés aux anonymes (comptes déjà publics sur la page de connexion).
@@ -82,6 +82,8 @@ Justification : les 10 stories engagées sont en review, sans sacrifice. Parcour
 - Deux workers ont partagé le même dossier scratchpad : fichiers écrasés.
 - Deux smoke tests en échec n'ont pas été reproduits ; une vraie dépendance d'ordre a été trouvée dans `DemoResetCommandTest`.
 - PHPStan rouge à l'intégration (trait `RestoresDemoCarts`), corrigé par l'orchestrateur.
+- CI bloquée 3 h 25 sur le test SIGTERM du verrou (comportement de dash, invisible sous macOS) : corrigé et borné par `timeout-minutes`.
+- Nouvelle CVE critique de l’image de base publiée pendant le sprint : mise à niveau ciblée de `linux-libc-dev`.
 
 ## Métriques
 
