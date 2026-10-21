@@ -1,10 +1,10 @@
 # US-074: author's site and contact page, linked from the shop footer (and the demo bar, US-076).
 # Empty or not a plain https URL = no link (the author mention stays plain text). Set them in the environment:
-# DEMO_SITE_URL, DEMO_CONTACT_URL, and (US-142) DEMO_BOOKING_URL, the booking page (Calendly) of the call to action.
+# DEMO_SITE_URL, DEMO_CONTACT_URL, and (US-142) DEMO_PROFILE_URL, the LinkedIn profile of the call to action.
 parameters:
     env(DEMO_SITE_URL): ''
     env(DEMO_CONTACT_URL): ''
-    env(DEMO_BOOKING_URL): ''
+    env(DEMO_PROFILE_URL): ''
     demo.site_url: '%env(DEMO_SITE_URL)%'
     demo.contact_url: '%env(DEMO_CONTACT_URL)%'
-    demo.booking_url: '%env(DEMO_BOOKING_URL)%'
+    demo.profile_url: '%env(DEMO_PROFILE_URL)%'

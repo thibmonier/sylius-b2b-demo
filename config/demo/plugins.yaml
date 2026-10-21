@@ -29,7 +29,6 @@ parameters:
               fr: "Générez un flux produits Google Merchant ou OpenAI pour le canal B2B et consultez son rapport de validation."
               en: "Generate a Google Merchant or OpenAI product feed for the B2B channel and read its validation report."
           advised_account: sophie@fournitures-pro.example
-          published: false
         - slug: sylius-ai-catalog-copilot-plugin
           name: 'AI Catalog Copilot'
           category: catalog

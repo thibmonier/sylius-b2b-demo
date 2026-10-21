@@ -45,8 +45,8 @@ Le tableau de bord sera un **nouveau plugin, `tmonier/sylius-company-insights-pl
 | [US-151](../user-stories/US-151.md) | Company-insights : tops acheteurs, produits et catégories | Must | 5 | 19 |
 | [US-152](../user-stories/US-152.md) | Company-insights : ventilation par site et centre de coût, export CSV | Should | 5 | 20 |
 | [US-153](../user-stories/US-153.md) | Company-insights : indicateurs des approbations et de l'encours | Should | 5 | 20 |
-| [US-154](../user-stories/US-154.md) | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 | 22 |
-| [US-155](../user-stories/US-155.md) | Company-insights : historique d'achats de 12 mois et intégration à la démo | Must | 5 | 20 |
+| [US-154](../user-stories/US-154.md) | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 | 21 |
+| [US-155](../user-stories/US-155.md) | Company-insights : historique d'achats de 12 mois et intégration à la démo | Must | 5 | 19 |
 
 ## Dépendances
 

@@ -20,16 +20,16 @@ banner:
     accounts: 'Demo accounts'
     channel: 'Channel'
     mails: 'Demo e-mails'
-    contact: "A B2B project? Let's talk"
+    contact: 'Does this demo speak to you? Get in touch'
     reset:
         today: 'Next reset: today %time% (Paris time)'
         tomorrow: 'Next reset: tomorrow %time% (Paris time)'
 cta:
-    booking: 'Book a meeting'
+    profile: 'Contact me on LinkedIn'
     contact: 'Write a message'
     new_window: '(opens in a new window)'
     banner:
-        title: "A B2B project on Sylius? Let's talk"
+        title: "Does this demo speak to you? Get in touch"
     card:
-        title: 'These features in your shop?'
-        text: 'Let us talk about your project.'
+        title: 'Does this demo speak to you?'
+        text: 'Let us discuss what you saw in it.'

@@ -8,12 +8,38 @@
 #   TEST_CACHE_DIR=var/cache-mine bin/run-tests    # your own cache directory (emptied before, removed after)
 #
 # Holds a lock (RUN_TESTS_LOCK, default var/run-tests.lock): a second run is refused at once (exit 4) while the first one
-# lives; a lock left by a dead process is taken over. Wait for the end of a run by its lock, never with pgrep.
+# lives; a lock left by a dead process is taken over atomically (renamed away, then recreated) and logged in
+# var/run-tests.log. The lock records the PID and, when set, WORKER_ID (read by bin/clean-test-caches).
 #
-# Stops without creating anything when less than MIN_FREE_GB (5) GB are free. Prepares the database through
-# bin/prepare-test-db, so it never touches the development database (sylius_b2b_demo). See docs/tests-locaux.md.
+#   bin/run-tests --wait                           # waits for the end of the current run, runs nothing
+#
+# --wait reads the lock (never pgrep): it returns 0 at once when no live run holds it, and gives up with exit 5 and a
+# report after RUN_TESTS_WAIT_TIMEOUT seconds (default 1800 = 30 min), polling every RUN_TESTS_WAIT_INTERVAL seconds (5).
+#
+# Stops without creating anything when less than MIN_FREE_GB (5) GB are free (never lowered); bin/check-disk shows the
+# free space and alerts below 15 GB. Prepares the database through bin/prepare-test-db, so it never touches the
+# development database (sylius_b2b_demo). See docs/tests-locaux.md.
 set -eu
 cd "$(dirname "$0")/.."
+
+LOCK_DIR="${RUN_TESTS_LOCK:-var/run-tests.lock}"
+
+if [ "${1:-}" = "--wait" ]; then
+    TIMEOUT="${RUN_TESTS_WAIT_TIMEOUT:-1800}"
+    INTERVAL="${RUN_TESTS_WAIT_INTERVAL:-5}"
+    START=$(date +%s)
+    while :; do
+        HOLDER=$(cat "$LOCK_DIR/pid" 2>/dev/null || true)
+        if [ ! -d "$LOCK_DIR" ] || { [ -n "$HOLDER" ] && ! kill -0 "$HOLDER" 2>/dev/null; }; then
+            exit 0
+        fi
+        if [ $(($(date +%s) - START)) -ge "$TIMEOUT" ]; then
+            echo "Gave up after ${TIMEOUT}s: bin/run-tests is still running (PID ${HOLDER:-unknown}, lock $LOCK_DIR). Report it, do not retry blindly." >&2
+            exit 5
+        fi
+        sleep "$INTERVAL"
+    done
+fi
 
 MIN_FREE_GB="${MIN_FREE_GB:-5}"
 FREE_KB=$(df -Pk . | awk 'NR==2 {print $4}')
@@ -28,8 +54,9 @@ case "$DB_NAME" in
     sylius_b2b_demo) echo "Refusing to use the development database \"sylius_b2b_demo\"." >&2; exit 1 ;;
 esac
 
+[ ! -x bin/check-disk ] || bin/check-disk || true
+
 CACHE_DIR=""
-LOCK_DIR="${RUN_TESTS_LOCK:-var/run-tests.lock}"
 LOCK_HELD=0
 cleanup() {
     [ -z "$CACHE_DIR" ] || rm -rf "$CACHE_DIR"
@@ -39,7 +66,10 @@ trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
-# Atomic: mkdir either creates the lock or fails. A lock whose PID is gone is stale and taken over once.
+# Atomic: mkdir either creates the lock or fails. A lock whose PID is gone is stale: it is renamed to a name unique to
+# this run (a rename is atomic, only one run can move it), then the lock is created again with mkdir. A run that moved a
+# lock which is no longer the one it judged stale (another run took it over in between) puts it back.
+LOG_FILE="${RUN_TESTS_LOG:-var/run-tests.log}"
 mkdir -p "$(dirname "$LOCK_DIR")"
 if ! mkdir "$LOCK_DIR" 2>/dev/null; then
     HOLDER=$(cat "$LOCK_DIR/pid" 2>/dev/null || true)
@@ -47,8 +77,18 @@ if ! mkdir "$LOCK_DIR" 2>/dev/null; then
         echo "bin/run-tests is already running (PID ${HOLDER:-unknown}, lock $LOCK_DIR): wait for it to finish, then retry." >&2
         exit 4
     fi
-    echo "Stale lock of PID $HOLDER taken over." >&2
-    rm -rf "$LOCK_DIR"
+    ASIDE="$LOCK_DIR.stale.$$"
+    if mv "$LOCK_DIR" "$ASIDE" 2>/dev/null; then
+        MOVED=$(cat "$ASIDE/pid" 2>/dev/null || true)
+        if [ "$MOVED" != "$HOLDER" ]; then
+            [ -e "$LOCK_DIR" ] || mv "$ASIDE" "$LOCK_DIR" 2>/dev/null || true
+            echo "bin/run-tests is already running (lock $LOCK_DIR taken over by another run): wait for it to finish, then retry." >&2
+            exit 4
+        fi
+        rm -rf "$ASIDE"
+        echo "Stale lock of PID $HOLDER taken over." >&2
+        echo "$(date '+%Y-%m-%dT%H:%M:%S') stale lock taken over (previous PID $HOLDER, new PID $$)" >> "$LOG_FILE"
+    fi
     if ! mkdir "$LOCK_DIR" 2>/dev/null; then
         echo "bin/run-tests is already running (lock $LOCK_DIR taken by another run): wait for it to finish, then retry." >&2
         exit 4
@@ -56,6 +96,7 @@ if ! mkdir "$LOCK_DIR" 2>/dev/null; then
 fi
 LOCK_HELD=1
 echo "$$" > "$LOCK_DIR/pid"
+[ -z "${WORKER_ID:-}" ] || echo "$WORKER_ID" > "$LOCK_DIR/worker"
 
 if [ -n "${TEST_CACHE_DIR:-}" ]; then
     CACHE_DIR="$TEST_CACHE_DIR"

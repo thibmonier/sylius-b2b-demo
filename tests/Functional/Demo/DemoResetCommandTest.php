@@ -97,7 +97,8 @@ final class DemoResetCommandTest extends KernelTestCase
 
         self::assertSame(0, $tester->getStatusCode(), $tester->getDisplay() . $tester->getErrorOutput());
         self::assertSame(0, $this->intValue("SELECT COUNT(*) FROM sylius_order WHERE number LIKE 'SIM-%'"));
-        self::assertSame($before['orders'], $this->counts()['orders']);
+        // The fixture count, not $before: orders leaked by other tests are removed by the reset too.
+        self::assertSame(\count(DemoOrderPlan::all()) + self::LIVE_CARTS, $this->counts()['orders']);
         // Back to the open items of the demo (US-097), not to zero: the committed amount is what the reservations hold.
         $acme = (string) $this->intValue('SELECT id FROM tmonier_company WHERE code = ?', ['ACME_IND']);
         $committed = $this->intValue('SELECT committed_amount FROM tmonier_trade_credit_account WHERE owner_identifier = ?', [$acme]);

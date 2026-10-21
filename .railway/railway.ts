@@ -82,9 +82,9 @@ export default defineRailway(() => {
       DEMO_UMAMI_SCRIPT_URL: preserve(),
       DEMO_UMAMI_WEBSITE_ID: preserve(),
       DEMO_UMAMI_COLLECT_URL: preserve(),
-      // US-142 / US-074: the owner's links (booking page, contact form, site), set in Railway. An undeclared variable is
+      // US-142 / US-074: the owner's links (LinkedIn profile, contact form, site), set in Railway. An undeclared variable is
       // deleted by `railway config apply` (2026-10-19 plan): they must stay listed here.
-      DEMO_BOOKING_URL: preserve(),
+      DEMO_PROFILE_URL: preserve(),
       DEMO_CONTACT_URL: preserve(),
       DEMO_SITE_URL: preserve(),
       MAILER_DSN: "smtp://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:1025",

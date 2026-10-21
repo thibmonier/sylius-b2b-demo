@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 16
+current_sprint: 17
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -245,7 +245,7 @@ sprints:
     goal: "Rendre la démo crédible avant de la montrer : images produit persistantes sur Railway, photos cohérentes avec les produits et crédits visibles, données vivantes (panier, historique, approbation, devis, crédit, journal d'audit), appel à l'action « Me contacter » partout et mesure d'audience sans cookie"
     stories:
       - {id: US-145, title: "Images produit persistantes sur Railway", points: 3, status: done}  # Must ; nouvelle ; prérequis bloquant du dossier de GO (ligne 14) ; volume Railway sur public/media (D2) ; application par Thibaut (T-145-08)
-      - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: done}  # Must ; URL vides par défaut, valeurs factices en test (D3) ; absorbe US-115
+      - {id: US-142, title: "Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly)", points: 5, status: done}  # Must ; URL vides par défaut, valeurs factices en test (D3) ; absorbe US-115  # recadrée le 2026-10-21 par US-158 : cible = profil LinkedIn (DEMO_PROFILE_URL), plus de Calendly
       - {id: US-143, title: "Mesure d'audience de la démo avec Umami", points: 3, status: done}  # Must ; après US-142 ; paramètres vides par défaut (D3)
       - {id: US-092, title: "Catalogue crédible, tranche 1 : photos cohérentes avec les produits", points: 5, status: done}  # Must ; relecture de Thibaut sur 20 produits (T-092-10)
       - {id: US-096, title: "Données vivantes (1/2) : panier de départ, historique et approbation en attente", points: 5, status: done}  # Must
@@ -265,62 +265,88 @@ sprints:
     goal: "Transformer l'élan de l'annonce du 2026-10-19 en visites et en échanges (profil, posts de suite, suivi à J+7 et J+30, mesure par campagne, charte, calendrier, kit média) et livrer la conversion dans la démo : parcours guidés complets par persona et page « Intégrer ces plugins dans votre projet »"
     stories:
       - {id: US-105, title: "Parcours guidés : moteur de visite par étapes", points: 8, status: review}  # sprint 17 ; EPIC-12, Must
-      - {id: US-106, title: "Parcours guidés : contenu par persona et écran de sortie vers le contact", points: 5, status: review}  # sprint 17 ; EPIC-12, Must
-      - {id: US-107, title: "Page « Intégrer ces plugins dans votre projet »", points: 5, status: review}  # sprint 17 ; EPIC-12, Must
-      - {id: US-116, title: "Charte éditoriale LinkedIn et messages clés", points: 2, status: review}  # sprint 17 ; EPIC-13, Must
+      - {id: US-106, title: "Parcours guidés : contenu par persona et écran de sortie vers le contact", points: 5, status: review}  # sprint 17 ; EPIC-12, Must  # recadrage du 2026-10-21 : recadrée par US-158 (CTA neutre vers le profil)
+      - {id: US-107, title: "Page « Intégrer ces plugins dans votre projet »", points: 5, status: review}  # sprint 17 ; EPIC-12, Must  # recadrage du 2026-10-21 : recadrée par US-158 : guide technique, plus de formules ni de délais
+      - {id: US-116, title: "Charte éditoriale LinkedIn et messages clés", points: 2, status: review}  # sprint 17 ; EPIC-13, Must  # recadrage du 2026-10-21 : charte v2 (recherche d'emploi) rédigée le 2026-10-21
       - {id: US-120, title: "Kit média (1/2) : GIF courts de PunchOut, devis et commande rapide", points: 5, status: review}  # sprint 17 ; EPIC-13, Must
-      - {id: US-122, title: "Calendrier éditorial LinkedIn sur huit semaines", points: 3, status: review}  # sprint 17 ; EPIC-13, Must
-      - {id: US-123, title: "Posts LinkedIn rédigés, lot 1 : trois posts de suite à l'annonce", points: 3, status: review}  # sprint 17 ; EPIC-13, Must ; recadrée le 2026-10-20 (annonce déjà publiée)
-      - {id: US-127, title: "Suivi de l'annonce d'ouverture, de J+1 à J+30", points: 2, status: review}  # sprint 17 ; EPIC-13, Must ; recadrée le 2026-10-20 (annonce déjà publiée)
-      - {id: US-129, title: "Profil LinkedIn : texte, bannière et section « À la une »", points: 2, status: review}  # sprint 17 ; EPIC-13, Must ; recadrée le 2026-10-20 (annonce déjà publiée)
+      - {id: US-122, title: "Calendrier éditorial LinkedIn sur huit semaines", points: 3, status: review}  # sprint 17 ; EPIC-13, Must  # recadrage du 2026-10-21 : à réaligner sur la charte v2 (US-159, sprint 18)
+      - {id: US-123, title: "Posts LinkedIn rédigés, lot 1 : trois posts de suite à l'annonce", points: 3, status: review}  # sprint 17 ; EPIC-13, Must ; recadrée le 2026-10-20 (annonce déjà publiée)  # recadrage du 2026-10-21 : à réaligner sur la charte v2 (US-159, sprint 18)
+      - {id: US-127, title: "Suivi de l'annonce d'ouverture, de J+1 à J+30", points: 2, status: review}  # sprint 17 ; EPIC-13, Must ; recadrée le 2026-10-20 (annonce déjà publiée)  # recadrage du 2026-10-21 : indicateurs recadrés (messages de recruteurs, entretiens) ; bilan J+30 repris au sprint 18
+      - {id: US-129, title: "Profil LinkedIn : texte, bannière et section « À la une »", points: 2, status: review}  # sprint 17 ; EPIC-13, Must ; recadrée le 2026-10-20 (annonce déjà publiée)  # recadrage du 2026-10-21 : profil v2 (recherche d'emploi) rédigé le 2026-10-21
       - {id: US-117, title: "Mesure de la communication : visites par campagne sans cookie (Umami, US-143)", points: 3, status: review}  # sprint 17 ; EPIC-13, Should ; recadrée le 2026-10-20 (annonce déjà publiée)
     notes: "Échéances réelles : premier post de suite publié au plus tard le 2026-10-26, profil à jour avant lui, bilan à J+7 le 2026-10-26. 10 jours ouvrés, planning le 2027-02-08, point d'étape le 2027-02-12, affinage S18 le 2027-02-15, revue et rétro le 2027-02-19."
+  sprint-18:
+    name: sprint-18-repositionnement
+    status: planned  # branche feature/sprint-18-repositionnement ; planning le 2027-02-22 ; périmètre validé par Thibaut le 2026-10-21
+    sprint_id: "sprint-18"
+    start_date: "2027-02-19"
+    end_date: "2027-03-05"
+    capacity_points: 36  # 22 Must + 14 Should ; heures à fixer par la décomposition en tâches
+    goal: "Aligner la démo, les plugins et le contenu LinkedIn sur la recherche d'emploi de Thibaut (CTA vers le profil, guide technique, preuve de qualité), passer en PHP 8.5 (faille critique PHP du 2026-10-21) et solder les dettes et actions de rétro du sprint 17"
+    stories:
+      - {id: US-158, title: "Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique", points: 3, status: in-progress}  # sprint 18 ; EPIC-12, Must ; en cours de réalisation sur feature/demo-positionnement-emploi ; DEMO_PROFILE_URL remplace DEMO_BOOKING_URL
+      - {id: US-147, title: "Démo en PHP 8.5 (image, CI et plateforme Composer)", points: 3, status: ready-for-dev}  # sprint 18 ; EPIC-01, Must ; PRIORITAIRE (faille critique PHP, CVSS 9.2, 2026-10-21) ; peut être livrée avant le sprint par la veille programmée dès que l'image FrankenPHP PHP 8.5 corrigée sort
+      - {id: US-148, title: "Plugins : limiteurs de débit typés RateLimiterFactoryInterface (Symfony 8)", points: 3, status: ready-for-dev}  # sprint 18 ; EPIC-07, Must
+      - {id: US-160, title: "Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé", points: 5, status: ready-for-dev}  # sprint 18 ; EPIC-01, Must ; créée le 2026-10-21 (revue du sprint 17)
+      - {id: US-161, title: "Actions de la rétrospective du sprint 17", points: 5, status: ready-for-dev}  # sprint 18 ; EPIC-01, Must ; créée le 2026-10-21 (rétro du sprint 17, 5 actions SMART) ; disque ~4,5 Go libres = risque majeur
+      - {id: US-159, title: "Contenu LinkedIn réaligné sur la recherche d'emploi : calendrier et posts de suite", points: 3, status: ready-for-dev}  # sprint 18 ; EPIC-13, Must ; premier post de suite avant le 2026-10-26
+      - {id: US-124, title: "Posts LinkedIn rédigés, lot 2 : semaines 3 à 8", points: 5, status: ready-for-dev}  # sprint 18 ; EPIC-13, Should ; livrée par tranches de deux semaines ; seconde tranche sacrifiable
+      - {id: US-111, title: "Bloc de preuve technique : qualité, compatibilité, versions", points: 3, status: ready-for-dev}  # sprint 18 ; EPIC-12, Should ; sacrifice n°3
+      - {id: US-103, title: "Assistants IA : page utile avec transcript d'une vraie conversation", points: 3, status: ready-for-dev}  # sprint 18 ; EPIC-11, Should ; sacrifice n°2 ; 3 scénarios Gherkin seulement (sous le minimum 1+2+2), à compléter au planning
+      - {id: US-068, title: "Liens vers la démo et le profil de l'auteur dans les 24 README", points: 3, status: ready-for-dev}  # sprint 18 ; EPIC-09, Should ; sacrifice n°1 ; GO unique de merge des 24 PR README par Thibaut ; URL du profil requise
+    notes: "Ordre de sacrifice : US-068, US-103, US-111, puis la seconde tranche d'US-124 ; les Must (22 pts) ne se sacrifient pas, US-147 en tête si la veille programmée ne l'a pas livrée. Échéance : premier post de suite avant le 2026-10-26 ; bilan J+30 le 2026-11-18. Actions de Thibaut : URL du profil (DEMO_PROFILE_URL), GO de merge des 24 README. Risque majeur : disque ~4,5 Go libres (rétro S17). 10 jours ouvrés (2027-02-22 au 2027-03-05), planning 2027-02-22, point d'étape 2027-02-26, affinage S19 2027-03-01, revue et rétro 2027-03-05."
 
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
-  - {id: US-146, title: "Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client", points: 5, status: backlog}  # cible sprint 19 ; EPIC-07, Should ; enhancement du plugin admin-order-creation, demande de Thibaut du 2026-10-18
+  # --- Recadrage du 2026-10-21 (décision de Thibaut : la démo et les plugins servent la recherche d'emploi, plus la vente de conseil) : sprints 18 à 23 redistribués, voir la feuille de route (roadmap-ouverture-et-communication.md). Section sprint-18 créée le 2026-10-21 par la commande de démarrage. Sprint 18 : 36 points (US-158, US-147, US-148, US-160, US-161, US-159, US-124, US-111, US-103, US-068).
+  - {id: US-149, title: "Company-insights : squelette du plugin et indicateurs de la période", points: 5, status: backlog}  # cible sprint 19 ; EPIC-15, Must
+  - {id: US-150, title: "Company-insights : achats par mois sur 12 mois, comparés à l'année précédente", points: 5, status: backlog}  # cible sprint 19 ; EPIC-15, Must
+  - {id: US-151, title: "Company-insights : tops acheteurs, produits et catégories", points: 5, status: backlog}  # cible sprint 19 ; EPIC-15, Must
+  - {id: US-155, title: "Company-insights : historique d'achats de 12 mois et intégration à la démo", points: 5, status: backlog}  # cible sprint 19 ; EPIC-15, Must
+  - {id: US-152, title: "Company-insights : ventilation par site et centre de coût, export CSV", points: 5, status: backlog}  # cible sprint 20 ; EPIC-15, Should
+  - {id: US-153, title: "Company-insights : indicateurs des approbations et de l'encours", points: 5, status: backlog}  # cible sprint 20 ; EPIC-15, Should
+  - {id: US-154, title: "Company-insights : conversion des devis et économies des prix dégressifs", points: 3, status: backlog}  # cible sprint 21 ; EPIC-15, Could
+  - {id: US-156, title: "Purchase-approval : approbations en attente signalées dans l'en-tête", points: 3, status: backlog}  # cible sprint 20 ; EPIC-07, Should
+  - {id: US-157, title: "Purchase-approval : aperçu des approbations en attente depuis l'en-tête", points: 2, status: backlog}  # cible sprint 21 ; EPIC-07, Could
+  - {id: US-146, title: "Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client", points: 5, status: backlog}  # cible sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-07, Should ; enhancement du plugin admin-order-creation, demande de Thibaut du 2026-10-18
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
-  - {id: US-056, title: "Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin)", points: 5, status: backlog}  # suite d'US-054 ; dépôt sylius-customer-asset-management-plugin ; cible sprint 20 (roadmap ouverture-communication)
-  - {id: US-057, title: "Plugin équipements : parc du client dans l'espace client (CRUD)", points: 5, status: backlog}  # suite d'US-054 ; un client ne voit que son parc ; cible sprint 20 (roadmap ouverture-communication)
-  - {id: US-058, title: "Plugin équipements : filtre « pièces compatibles » au catalogue", points: 5, status: backlog}  # suite d'US-054 ; repli si parc vide ; cible sprint 20 (roadmap ouverture-communication)
-  - {id: US-059, title: "Plugin équipements : publication 0.1.0 (tag, Packagist, README)", points: 2, status: backlog}  # actions de l'utilisateur ; pas de promotion si Sylius Plus couvre le besoin ; cible sprint 21 (roadmap ouverture-communication)
-  - {id: US-060, title: "Plugin équipements : intégration à la démo (données, config/demo/plugins.yaml)", points: 3, status: backlog}  # seulement si la tranche 1 est terminée et le plugin publié ; cible sprint 21 (roadmap ouverture-communication)
-  - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked) ; cible sprint 19 (roadmap ouverture-communication)
-  - {id: US-068, title: "Liens vers le site et la page contact dans les 24 README", points: 5, status: backlog}  # seconde passe de D1 ; attend l'URL du site et de la page contact ; cible sprint 18 (décalée par la décision « démo d'abord » du 2026-10-18) (roadmap ouverture-communication)
-  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: backlog}  # attend l'URL du site ; URL en configuration, bloc masqué sinon ; cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) (roadmap ouverture-communication)
+  - {id: US-056, title: "Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin)", points: 5, status: backlog}  # suite d'US-054 ; dépôt sylius-customer-asset-management-plugin ; cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi »)
+  - {id: US-057, title: "Plugin équipements : parc du client dans l'espace client (CRUD)", points: 5, status: backlog}  # suite d'US-054 ; un client ne voit que son parc ; cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi »)
+  - {id: US-058, title: "Plugin équipements : filtre « pièces compatibles » au catalogue", points: 5, status: backlog}  # suite d'US-054 ; repli si parc vide ; cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi »)
+  - {id: US-059, title: "Plugin équipements : publication 0.1.0 (tag, Packagist, README)", points: 2, status: backlog}  # actions de l'utilisateur ; pas de promotion si Sylius Plus couvre le besoin ; cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi »)
+  - {id: US-060, title: "Plugin équipements : intégration à la démo (données, config/demo/plugins.yaml)", points: 3, status: backlog}  # seulement si la tranche 1 est terminée et le plugin publié ; cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi »)
+  - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # limite de pixels et Content-Length, gestion du 429, image principale conservée si le manifeste change ; mineurs de revue S10 (127.0.0.1 dans trusted_hosts, corps chunked) ; cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi »)
+  - {id: US-069, title: "La page Plugins de la démo renvoie vers le site", points: 2, status: removed}  # RETIRÉE le 2026-10-21 (repositionnement « recherche d'emploi ») : absorbée par US-158 (CTA neutre vers le profil) ; fiche conservée avec status: removed
   # --- Backlog ouverture publique et communication (2026-10-18, issu de l'audit fonctionnel B2B et des audits accessibilité/UX/UI/sécurité/qualité) : EPIC-10 à EPIC-14 ; voir project-management/backlog/roadmap-ouverture-et-communication.md ; reprises sans doublon : US-052, US-056 à US-062, US-068 à US-070
-  - {id: US-084, title: "Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société", points: 5, status: backlog}  # cible sprint 20 ; EPIC-10, Could
-  - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: backlog}  # cible sprint 19 ; EPIC-11, Should
-  - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-11, Should
-  - {id: US-094, title: "Stock et délais indicatifs sur la fiche produit (données de démonstration)", points: 5, status: backlog}  # cible sprint 19 ; EPIC-11, Should
-  - {id: US-095, title: "Fiches techniques PDF fictives", points: 3, status: backlog}  # cible sprint 20 ; EPIC-11, Could
-  - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-11, Should
-  - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-11, Should
-  - {id: US-100, title: "Les 403 expliqués et les menus inaccessibles masqués", points: 3, status: backlog}  # cible sprint 20 ; EPIC-11, Should
-  - {id: US-101, title: "Factures PDF et relevé de compte côté acheteur", points: 5, status: backlog}  # cible sprint 21 ; EPIC-11, Should
-  - {id: US-102, title: "Suivi de commande côté acheteur", points: 3, status: backlog}  # cible sprint 21 ; EPIC-11, Could
-  - {id: US-103, title: "Assistants IA : page utile avec transcript d'une vraie conversation", points: 3, status: backlog}  # cible sprint 18 ; EPIC-11, Should
-  - {id: US-108, title: "Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants", points: 3, status: backlog}  # cible sprint 19 ; EPIC-12, Should
-  - {id: US-109, title: "Cas d'usage sectoriels : quatre pages avec appel à l'action", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
-  - {id: US-110, title: "Mini-diagnostic en six questions", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
-  - {id: US-111, title: "Bloc de preuve technique : qualité, compatibilité, versions", points: 3, status: backlog}  # cible sprint 19 ; EPIC-12, Should
-  - {id: US-112, title: "Mode « présentation commerciale »", points: 5, status: backlog}  # cible sprint 19 ; EPIC-12, Should
-  - {id: US-113, title: "Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue", points: 3, status: backlog}  # cible sprint 19 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-12, Should
-  - {id: US-114, title: "Études de cas fictives signalées", points: 3, status: backlog}  # cible sprint 21 ; EPIC-12, Could
+  - {id: US-084, title: "Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société", points: 5, status: backlog}  # cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-10, Could
+  - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: backlog}  # cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: backlog}  # cible sprint 20 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-094, title: "Stock et délais indicatifs sur la fiche produit (données de démonstration)", points: 5, status: backlog}  # cible sprint 20 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-095, title: "Fiches techniques PDF fictives", points: 3, status: backlog}  # cible sprint 23 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Could
+  - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: backlog}  # cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-099, title: "Simulateur PunchOut habillé et expliqué", points: 3, status: backlog}  # cible sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-100, title: "Les 403 expliqués et les menus inaccessibles masqués", points: 3, status: backlog}  # cible sprint 20 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-101, title: "Factures PDF et relevé de compte côté acheteur", points: 5, status: backlog}  # cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Should
+  - {id: US-102, title: "Suivi de commande côté acheteur", points: 3, status: backlog}  # cible sprint 23 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-11, Could
+  - {id: US-108, title: "Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants", points: 3, status: backlog}  # cible sprint 20 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-12, Should
+  - {id: US-109, title: "Cas d'usage sectoriels : quatre pages avec appel à l'action", points: 5, status: removed}  # RETIRÉE le 2026-10-21 (repositionnement « recherche d'emploi ») : vente de conseil (pages sectorielles avec appel à l'action) ; fiche conservée avec status: removed
+  - {id: US-110, title: "Mini-diagnostic en six questions", points: 5, status: removed}  # RETIRÉE le 2026-10-21 (repositionnement « recherche d'emploi ») : qualification de prospect, sans objet pour la recherche d'emploi ; fiche conservée avec status: removed
+  - {id: US-112, title: "Mode « présentation commerciale »", points: 5, status: removed}  # RETIRÉE le 2026-10-21 (repositionnement « recherche d'emploi ») : mode de présentation commerciale ; fiche conservée avec status: removed
+  - {id: US-113, title: "Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue", points: 3, status: backlog}  # cible sprint 20 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-12, Should
+  - {id: US-114, title: "Études de cas fictives signalées", points: 3, status: removed}  # RETIRÉE le 2026-10-21 (repositionnement « recherche d'emploi ») : études de cas fictives, chiffres non vérifiables ; fiche conservée avec status: removed
   - {id: US-115, title: "Appels à l'action cohérents : cartes de plugins, À propos et composant partagé", points: 2, status: cancelled}  # absorbée par US-142 (demande de Thibaut du 2026-10-18)
-  - {id: US-118, title: "Fiches plugins pour le site : gabarit et six plugins phares", points: 5, status: backlog}  # cible sprint 18 (décalée au sprint 18 par le plan du 2026-10-20) ; EPIC-13, Must
-  - {id: US-119, title: "Fiches plugins pour le site : les dix-huit autres plugins", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
-  - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
-  - {id: US-124, title: "Posts LinkedIn rédigés, lot 2 : semaines 3 à 8", points: 5, status: backlog}  # cible sprint 18 ; EPIC-13, Should
-  - {id: US-125, title: "Page « démo » du site personnel", points: 3, status: backlog}  # cible sprint 18 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Must
-  - {id: US-126, title: "Pages « services » et « contact » du site : offres bankables", points: 5, status: backlog}  # cible sprint 18 (décalée par la décision « démo d'abord » du 2026-10-18) ; EPIC-13, Should
-  - {id: US-128, title: "Bilan de communication : retours, échanges et rétrospective", points: 2, status: backlog}  # cible sprint 20 ; EPIC-13, Could
-  - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: backlog}  # cible sprint 19 ; EPIC-14, Should
-  - {id: US-131, title: "Spike P3 : assortiments et prix par société", points: 3, status: backlog}  # cible sprint 20 ; EPIC-14, Should
-  - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: backlog}  # cible sprint 19 ; EPIC-14, Should
-  - {id: US-133, title: "Spike P2 : contrats-cadres", points: 3, status: backlog}  # cible sprint 20 ; EPIC-14, Could
-  - {id: US-134, title: "Spike P4 : stock multi-entrepôts et délais", points: 3, status: backlog}  # cible sprint 20 ; EPIC-14, Could
-  - {id: US-135, title: "Spike P8 : budgets et centres de coût", points: 2, status: backlog}  # cible sprint 20 ; EPIC-14, Could
-  - {id: US-136, title: "Connecteur ERP, tranche 1 : export des commandes et contrat d'événements", points: 5, status: backlog}  # cible sprint 21 ; EPIC-14, Should
-  - {id: US-137, title: "Connecteur ERP, tranche 2 : import des prix et du stock", points: 5, status: backlog}  # cible sprint 21 ; EPIC-14, Could
-  - {id: US-138, title: "Assortiments par société, tranche 1", points: 8, status: backlog}  # cible sprint 21 ; EPIC-14, Could
+  - {id: US-118, title: "Fiches plugins pour le site : gabarit et six plugins phares", points: 5, status: backlog}  # EN RÉSERVE le 2026-10-21 (décision de Thibaut : site personnel en cours de développement, à replanifier et réaligner sur la recherche d’emploi quand il sera en ligne) ; motif initial du retrait (repositionnement « recherche d'emploi ») : fiches pour un site personnel inexistant (doublon des README) ; fiche conservée avec status: removed
+  - {id: US-119, title: "Fiches plugins pour le site : les dix-huit autres plugins", points: 5, status: backlog}  # EN RÉSERVE le 2026-10-21 (décision de Thibaut : site personnel en cours de développement, à replanifier et réaligner sur la recherche d’emploi quand il sera en ligne) ; motif initial du retrait (repositionnement « recherche d'emploi ») : idem US-118 ; fiche conservée avec status: removed
+  - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # cible sprint 19 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-13, Should
+  - {id: US-125, title: "Page « démo » du site personnel", points: 3, status: backlog}  # EN RÉSERVE le 2026-10-21 (décision de Thibaut : site personnel en cours de développement, à replanifier et réaligner sur la recherche d’emploi quand il sera en ligne) ; motif initial du retrait (repositionnement « recherche d'emploi ») : page d'un site personnel inexistant ; fiche conservée avec status: removed
+  - {id: US-126, title: "Pages « services » et « contact » du site : offres bankables", points: 5, status: removed}  # RETIRÉE le 2026-10-21 (repositionnement « recherche d'emploi ») : offres bankables : vente de missions de conseil ; fiche conservée avec status: removed
+  - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-13, Could
+  - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: backlog}  # cible sprint 21 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-14, Should
+  - {id: US-131, title: "Spike P3 : assortiments et prix par société", points: 3, status: backlog}  # cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-14, Should
+  - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: backlog}  # cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-14, Should
+  - {id: US-133, title: "Spike P2 : contrats-cadres", points: 3, status: backlog}  # cible sprint 22 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-14, Could
+  - {id: US-134, title: "Spike P4 : stock multi-entrepôts et délais", points: 3, status: backlog}  # cible sprint 23 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-14, Could
+  - {id: US-135, title: "Spike P8 : budgets et centres de coût", points: 2, status: backlog}  # cible sprint 23 (replanifiée le 2026-10-21, repositionnement « recherche d'emploi ») ; EPIC-14, Could
+  - {id: US-136, title: "Connecteur ERP, tranche 1 : export des commandes et contrat d'événements", points: 5, status: backlog}  # EN RÉSERVE (décision de Thibaut du 2026-10-21) ; non planifié (arbitrage de Thibaut, replanifiée le 2026-10-21 : plugins nés des offres bankables) ; EPIC-14, Should
+  - {id: US-137, title: "Connecteur ERP, tranche 2 : import des prix et du stock", points: 5, status: backlog}  # EN RÉSERVE (décision de Thibaut du 2026-10-21) ; non planifié (arbitrage de Thibaut, replanifiée le 2026-10-21 : plugins nés des offres bankables) ; EPIC-14, Could
+  - {id: US-138, title: "Assortiments par société, tranche 1", points: 8, status: backlog}  # EN RÉSERVE (décision de Thibaut du 2026-10-21) ; non planifié (arbitrage de Thibaut, replanifiée le 2026-10-21 : plugins nés des offres bankables) ; EPIC-14, Could

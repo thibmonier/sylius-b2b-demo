@@ -21,6 +21,10 @@
 - Contrôle de charte : un test lit les traductions de la page avec `EditorialCharterCheck` (US-116). Les délais et les formules sont des informations de Thibaut (T-107-02).
 - Règles du sprint : voir [README.md](./README.md) (contrat de fin de worker, gel disque, `bin/run-tests` seulement, aucun détail exploitable dans le dépôt public, aucune action externe sans GO). Les livrables rédactionnels sont dans `../communication/` (hors dépôt public), les livrables de code dans le dépôt de la démo.
 
+## Décision du 2026-10-21 (repositionnement « recherche d'emploi »)
+
+La démo sert la recherche d'emploi de Thibaut (Delivery Manager / CTO), pas la vente de missions. La page devient un guide technique en libre-service : prérequis, installation type, architecture type, questions à régler, dépôts GitHub et README. Les trois formules, les délais indicatifs et la mention du support sous contrat sont retirés ; le fichier `US-107-cadrage.md`, qui ne contenait que ces éléments, est supprimé (T-107-02, validation des formules et délais, sans objet).
+
 ## Vue d'ensemble des tâches
 
 La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thibaut** (action de sa part), ou les deux. ⚠️ = sacrifiable (voir [README.md](./README.md)).

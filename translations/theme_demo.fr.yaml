@@ -20,16 +20,16 @@ banner:
     accounts: 'Comptes de démo'
     channel: 'Canal'
     mails: 'E-mails de la démo'
-    contact: 'Un projet B2B ? Parlons-en'
+    contact: 'Cette démo vous parle ? Échangeons'
     reset:
         today: "Prochaine remise à zéro : aujourd'hui %time% (heure de Paris)"
         tomorrow: 'Prochaine remise à zéro : demain %time% (heure de Paris)'
 cta:
-    booking: 'Prendre rendez-vous'
+    profile: 'Me contacter sur LinkedIn'
     contact: 'Écrire un message'
     new_window: '(nouvelle fenêtre)'
     banner:
-        title: "Un projet B2B sur Sylius ? Parlons-en"
+        title: "Cette démo vous parle ? Échangeons"
     card:
-        title: 'Ces fonctionnalités dans votre boutique ?'
-        text: 'Échangeons sur votre projet.'
+        title: 'Cette démo vous parle ?'
+        text: 'Échangeons sur ce que vous y avez vu.'

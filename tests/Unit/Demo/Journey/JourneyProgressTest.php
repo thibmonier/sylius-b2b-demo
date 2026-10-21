@@ -32,11 +32,11 @@ final class JourneyProgressTest extends TestCase
         self::assertFalse($progress->hasStarted('buyer'));
     }
 
-    public function testTheLastStepVisitedIsRemembered(): void
+    public function testTheLastStepReachedIsRemembered(): void
     {
         $progress = new JourneyProgress($this->requests);
 
-        $progress->moveTo('buyer', 3);
+        $progress->advance('buyer', 3, 'aaa');
 
         self::assertSame(3, $progress->step('buyer'));
         self::assertTrue($progress->hasStarted('buyer'));
@@ -47,40 +47,64 @@ final class JourneyProgressTest extends TestCase
     {
         $progress = new JourneyProgress($this->requests);
 
-        self::assertFalse($progress->syncWithReset(''));
-        self::assertFalse($progress->syncWithReset(''));
-        self::assertFalse($progress->consumeResetNotice());
+        self::assertFalse($progress->hasBeenReset(''));
+        self::assertFalse($progress->hasBeenReset(''));
     }
 
-    public function testAResetDropsTheProgressAndTheNoticeIsShownOnce(): void
+    public function testAResetIsSeenWithoutWritingAnythingAndStaysSeenUntilTheVisitorActs(): void
     {
         $progress = new JourneyProgress($this->requests);
-        $progress->syncWithReset('aaa');
-        $progress->moveTo('buyer', 3);
+        $progress->advance('buyer', 3, 'aaa');
+        $before = $this->requests->getSession()->all();
 
-        self::assertTrue($progress->syncWithReset('bbb'));
+        self::assertTrue($progress->hasBeenReset('bbb'));
+        self::assertTrue($progress->hasBeenReset('bbb'), 'Reading does not consume the notice.');
 
-        self::assertSame(1, $progress->step('buyer'));
-        self::assertTrue($progress->consumeResetNotice());
-        self::assertFalse($progress->consumeResetNotice());
-        self::assertFalse($progress->syncWithReset('bbb'), 'The same reset is not announced twice.');
+        self::assertSame($before, $this->requests->getSession()->all(), 'A read leaves the session as it was.');
+    }
+
+    public function testActingAfterAResetDropsTheOldProgressAndAcknowledgesIt(): void
+    {
+        $progress = new JourneyProgress($this->requests);
+        $progress->advance('buyer', 3, 'aaa');
+        $progress->advance('approver', 2, 'aaa');
+
+        $progress->advance('buyer', 2, 'bbb');
+
+        self::assertSame(2, $progress->step('buyer'));
+        self::assertFalse($progress->hasStarted('approver'), 'The progress of before the reset is gone.');
+        self::assertFalse($progress->hasBeenReset('bbb'));
     }
 
     public function testAResetWithoutProgressIsSilent(): void
     {
         $progress = new JourneyProgress($this->requests);
-        $progress->syncWithReset('aaa');
 
-        self::assertFalse($progress->syncWithReset('bbb'));
-        self::assertFalse($progress->consumeResetNotice());
+        self::assertFalse($progress->hasBeenReset('bbb'));
     }
 
     public function testWithoutSessionNothingIsRemembered(): void
     {
         $progress = new JourneyProgress(new RequestStack());
 
-        $progress->moveTo('buyer', 3);
+        $progress->advance('buyer', 3, 'aaa');
 
         self::assertSame(1, $progress->step('buyer'));
+        self::assertFalse($progress->hasBeenReset('bbb'));
+    }
+
+    public function testReadingNeverStartsASessionForAVisitorWithoutOne(): void
+    {
+        $session = new Session(new MockArraySessionStorage());
+        $request = new Request();
+        $request->setSession($session);
+        $requests = new RequestStack();
+        $requests->push($request);
+        $progress = new JourneyProgress($requests);
+
+        self::assertSame(1, $progress->step('buyer'));
+        self::assertFalse($progress->hasBeenReset('aaa'));
+
+        self::assertFalse($session->isStarted());
     }
 }

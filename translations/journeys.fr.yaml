@@ -26,16 +26,18 @@ step:
     finish: "Terminer le parcours"
 account:
     wrong: "Ce parcours se déroule avec le compte de %name% (%role%). Vous n'êtes pas connecté avec ce compte : changez de compte en un clic."
-    anonymous: "Ce parcours se déroule avec le compte de %name% (%role%). Connectez-vous avec ce compte en un clic."
+    anonymous: "Ce parcours se déroule avec un compte de démonstration dédié. Connectez-vous avec ce compte en un clic."
+    sign_in: "Se connecter avec le compte de démonstration"
+    unavailable: "Le compte de démonstration de ce parcours est indisponible"
 reset:
     notice: "La démo vient d'être remise à zéro : vos données de démo ont été restaurées et le parcours reprend à l'étape 1."
 launch:
     failed: "Le scénario n'a pas pu être préparé (la liste d'achat de démonstration est introuvable). Vous pouvez tout de même ouvrir l'écran de cette étape."
 exit:
-    title: "Ce que vous avez vu peut être déployé chez vous"
-    text: "Chaque écran de ce parcours est fourni par un plugin Sylius qui s'installe séparément, dans un projet existant. Vous pouvez voir comment les intégrer, ou en parler à partir de votre situation."
-    learn_more: "En savoir plus"
-    contact: "Échanger sur votre projet"
+    title: "Ce que vous avez vu vient de plugins installables"
+    text: "Chaque écran de ce parcours est fourni par un plugin Sylius qui s'installe séparément, dans un projet existant. Le guide d'intégration décrit leur installation et l'architecture type ; vous pouvez aussi m'écrire."
+    learn_more: "Lire le guide d'intégration"
+    contact: "Écrire un message"
     restart: "Rejouer ce parcours"
     others: "Voir les autres parcours"
 journey:

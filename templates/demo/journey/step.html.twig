@@ -45,8 +45,11 @@
             {% else %}
                 <span></span>
             {% endif %}
-            {% if next_url %}
-                <a class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" rel="next" href="{{ next_url }}" data-journey-next>{{ (number == journey.stepCount ? 'step.finish' : 'step.next')|trans({}, 'journeys') }}</a>
+            {% if advance_url %}
+                <form method="post" action="{{ advance_url }}" class="d-inline-block" data-journey-next-form>
+                    <input type="hidden" name="_token" value="{{ advance_token }}">
+                    <button type="submit" class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" data-journey-next>{{ (number == journey.stepCount ? 'step.finish' : 'step.next')|trans({}, 'journeys') }}</button>
+                </form>
             {% endif %}
         </nav>
     </div>

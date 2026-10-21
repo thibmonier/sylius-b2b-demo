@@ -1,33 +1,34 @@
-# EPIC-12 — Conversion et contenu commercial
+# EPIC-12 — La démo comme preuve : parcours, guide technique et preuve de qualité
 
-> Exigences : Objectif 2 de la démo (faire solliciter le consultant) · 14 stories · 53 points (US-115 absorbée par US-142) (dont 1 reprises de stories existantes)
+> Exigences : décision de Thibaut du 2026-10-21 (la démo sert la recherche d'emploi, plus la vente de conseil) · 9 stories actives · 36 points · 4 stories retirées le 2026-10-21 (US-069, US-109, US-110, US-112, US-114 : 21 points) · titre d'origine : « Conversion et contenu commercial »
 
 ## Description
 
-Transformer la démo en outil de conversion : parcours guidés par persona, page « Intégrer ces plugins », cas d'usage sectoriels, mini-diagnostic, preuve technique, mode présentation. Ton neutre, jamais de comparaison avec une offre éditeur.
+Faire de la démo une **preuve vérifiable** de ce qu'affirme le profil de Thibaut : 25 ans de delivery, IA générative intégrée au delivery avec qualité, sécurité et conformité intactes, expertise Symfony, Sylius et e-commerce B2B. Parcours guidés par persona, guide technique en libre-service (page « Intégrer »), bloc de preuve de qualité, accueil qui dit qui a conçu la démo et comment. Ton neutre, aucune sollicitation commerciale, jamais de comparaison avec une offre éditeur. Le point d'arrivée des appels à l'action est le profil LinkedIn (`DEMO_PROFILE_URL`).
 
 ## MMF (Minimum Marketable Feature)
 
-**Plus petite version livrable** : Un visiteur qui termine un parcours sait ce que l'on peut déployer chez lui et comment contacter Thibaut.
-**US incluses** : US-104, US-105, US-106, US-107 (Must) ; le reste en Should et Could.
+**Plus petite version livrable** : Un visiteur (recruteur, dirigeant, pair) qui termine un parcours a vu la démo fonctionner, sait comment elle est construite et atteint le profil de l'auteur en un clic.
+**US incluses** : US-104, US-105, US-106, US-107 (livrées), US-158 (repositionnement, sprint 18) ; le reste en Should.
 
 ## Stories
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
-| [US-069](../user-stories/US-069.md) | La page Plugins de la démo renvoie vers le site | Could | 2 | 19 |
-| [US-104](../user-stories/US-104.md) | Retirer l'encart « Sylius Plus » de la page Plugins | Must | 1 | 14 |
+| [US-104](../user-stories/US-104.md) | Retirer l'encart « Sylius Plus » de la page Plugins | Must | 1 | 14 (fait) |
 | [US-105](../user-stories/US-105.md) | Parcours guidés : moteur de visite par étapes | Must | 8 | 17 |
-| [US-106](../user-stories/US-106.md) | Parcours guidés : contenu par persona et écran de sortie vers le contact | Must | 5 | 17 |
-| [US-107](../user-stories/US-107.md) | Page « Intégrer ces plugins dans votre projet » | Must | 5 | 17 |
-| [US-108](../user-stories/US-108.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 | 20 |
-| [US-109](../user-stories/US-109.md) | Cas d'usage sectoriels : quatre pages avec appel à l'action | Should | 5 | 22 |
-| [US-110](../user-stories/US-110.md) | Mini-diagnostic en six questions | Should | 5 | 21 |
-| [US-111](../user-stories/US-111.md) | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 | 20 |
-| [US-112](../user-stories/US-112.md) | Mode « présentation commerciale » | Should | 5 | 22 |
+| [US-106](../user-stories/US-106.md) | Parcours guidés : contenu par persona et écran de sortie (CTA neutre) | Must | 5 | 17 |
+| [US-107](../user-stories/US-107.md) | Page « Intégrer » : guide technique en libre-service | Must | 5 | 17 (recadrée par US-158) |
+| [US-142](../user-stories/US-142.md) | Appel à l'action vers l'auteur dans toute la démo (cible : profil LinkedIn) | Must | 5 | 16 (recadrée par US-158) |
+| [US-158](../user-stories/US-158.md) | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | Must | 3 | 18 (en cours) |
+| [US-111](../user-stories/US-111.md) | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 | 18 |
 | [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 20 |
-| [US-114](../user-stories/US-114.md) | Études de cas fictives signalées | Could | 3 | 23 |
-| [US-115](../user-stories/US-115.md) | Appels à l'action cohérents : cartes de plugins, À propos et composant partagé | Should | 2 | absorbée par US-142 |
-| [US-142](../user-stories/US-142.md) | Appel à l'action « Me contacter » mis en avant dans toute la démo (formulaire et Calendly) | Must | 5 | 16 |
+| [US-108](../user-stories/US-108.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 | 20 |
+| ~~US-069~~ | La page Plugins renvoie vers le site | retirée (absorbée par US-158) | 2 | - |
+| ~~US-109~~ | Cas d'usage sectoriels avec appel à l'action | retirée | 5 | - |
+| ~~US-110~~ | Mini-diagnostic en six questions | retirée | 5 | - |
+| ~~US-112~~ | Mode « présentation commerciale » | retirée | 5 | - |
+| ~~US-114~~ | Études de cas fictives signalées | retirée | 3 | - |
+| ~~US-115~~ | Appels à l'action cohérents | annulée (absorbée par US-142) | 2 | - |
 
-**Notes** : Les URL du site et du contact sont des paramètres de configuration (voir US-068, US-069). US-104 attend une décision de Thibaut.
+**Notes** : `DEMO_SITE_URL` et `DEMO_CONTACT_URL` restent facultatives (liens masqués quand elles sont vides). `DEMO_BOOKING_URL` est supprimée au profit de `DEMO_PROFILE_URL`.

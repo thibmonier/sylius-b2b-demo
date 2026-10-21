@@ -23,20 +23,27 @@ final class IntegratePageTest extends WebTestCase
     /** @return iterable<string, array{string, string, string}> */
     public static function locales(): iterable
     {
-        yield 'French' => ['fr_FR', 'Échanger sur votre projet', 'Cadrage'];
-        yield 'English' => ['en_US', 'Discuss your project', 'Scoping'];
+        yield 'French' => ['fr_FR', 'Écrire un message', 'Sylius 2.3'];
+        yield 'English' => ['en_US', 'Write a message', 'Sylius 2.3'];
     }
 
     #[DataProvider('locales')]
-    public function testThePageShowsFormulasQuestionsArchitectureAndLeadTimes(string $locale, string $button, string $firstFormula): void
+    public function testThePageIsASelfServiceGuideWithPrerequisitesInstallationQuestionsAndArchitecture(string $locale, string $button, string $firstPrerequisite): void
     {
         $page = $this->page('/' . $locale . '/integrer');
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $page->filter('h1'));
-        $formulas = $page->filter('[data-integrate-formula]');
-        self::assertSame(['scoping', 'integration', 'support'], $formulas->each(static fn (Crawler $node): string => (string) $node->attr('data-integrate-formula')));
-        self::assertStringContainsString($firstFormula, $formulas->first()->text());
+        $prerequisites = $page->filter('[data-integrate-prerequisites] li');
+        self::assertCount(4, $prerequisites);
+        self::assertStringContainsString($firstPrerequisite, $prerequisites->first()->text());
+        $steps = $page->filter('ol[data-integrate-install] > li');
+        self::assertSame(['require', 'bundle', 'config', 'routes', 'migrations', 'assets'], $steps->each(static fn (Crawler $node): string => (string) $node->attr('data-integrate-step')));
+        $commands = $page->filter('[data-integrate-install] pre')->each(static fn (Crawler $node): string => $node->text());
+        $code = implode("\n", $commands);
+        foreach (['composer require tmonier/sylius-quick-order-plugin', 'TmonierSyliusQuickOrderPlugin::class', '@TmonierSyliusQuickOrderPlugin/config/routes.yaml', 'bin/console doctrine:migrations:migrate', 'bin/console assets:install'] as $expected) {
+            self::assertStringContainsString($expected, $code);
+        }
         $questions = $page->filter('details[data-integrate-question]');
         self::assertSame(['erp', 'punchout', 'e-invoicing', 'volume'], $questions->each(static fn (Crawler $node): string => (string) $node->attr('data-integrate-question')));
         foreach ($questions as $question) {
@@ -45,14 +52,25 @@ final class IntegratePageTest extends WebTestCase
         $architecture = $page->filter('svg[data-integrate-architecture][role="img"]');
         self::assertCount(1, $architecture);
         self::assertNotSame('', trim($architecture->filter('title')->text()));
-        self::assertCount(3, $page->filter('[data-integrate-delay]'));
-        self::assertCount(1, $page->filter('[data-integrate-support-note]'));
+    }
+
+    #[DataProvider('locales')]
+    public function testEveryPluginLinksToItsRepositoryAndItsReadme(string $locale): void
+    {
+        $repositories = $this->page('/' . $locale . '/integrer')->filter('[data-integrate-repository]');
+
+        self::assertGreaterThanOrEqual(20, $repositories->count());
+        $first = $repositories->first();
+        $slug = (string) $first->attr('data-integrate-repository');
+        self::assertSame('https://github.com/thibmonier/' . $slug, $first->filter('a[data-integrate-github]')->attr('href'));
+        self::assertSame('https://github.com/thibmonier/' . $slug . '#readme', $first->filter('a[data-integrate-readme]')->attr('href'));
+        self::assertStringContainsString('tmonier/' . $slug, $first->filter('code')->text());
     }
 
     #[DataProvider('locales')]
     public function testTheContactButtonLeadsToTheContactPageWithTheTrackingOfThePage(string $locale, string $button): void
     {
-        $this->setEnvironment(['DEMO_BOOKING_URL' => '', 'DEMO_CONTACT_URL' => self::CONTACT]);
+        $this->setEnvironment(['DEMO_PROFILE_URL' => '', 'DEMO_CONTACT_URL' => self::CONTACT]);
 
         $link = $this->page('/' . $locale . '/integrer')->filter('a[data-integrate-contact]');
 
@@ -64,13 +82,13 @@ final class IntegratePageTest extends WebTestCase
 
     public function testWithoutContactUrlTheButtonIsHiddenAndTheRestOfThePageStays(): void
     {
-        $this->setEnvironment(['DEMO_BOOKING_URL' => '', 'DEMO_CONTACT_URL' => '']);
+        $this->setEnvironment(['DEMO_PROFILE_URL' => '', 'DEMO_CONTACT_URL' => '']);
 
         $page = $this->page('/fr_FR/integrer');
 
         self::assertResponseIsSuccessful();
         self::assertCount(0, $page->filter('[data-integrate-contact]'));
-        self::assertCount(3, $page->filter('[data-integrate-formula]'));
+        self::assertCount(6, $page->filter('[data-integrate-step]'));
         self::assertCount(4, $page->filter('[data-integrate-question]'));
     }
 
@@ -134,7 +152,7 @@ final class IntegratePageTest extends WebTestCase
      */
     private function forbiddenIn(array $texts): array
     {
-        $forbidden = ['sylius plus', 'elesto', 'moins cher', 'cheaper', 'meilleur que', 'better than', 'leader', 'gratuit', 'free of charge', 'garanti', 'guaranteed', '€', 'tarif', 'pricing'];
+        $forbidden = ['votre projet', 'your project', 'formule', 'formula', 'sous contrat', 'under contract', 'délai', 'lead time', 'prestation', 'sylius plus', 'elesto', 'moins cher', 'cheaper', 'meilleur que', 'better than', 'leader', 'gratuit', 'free of charge', 'garanti', 'guaranteed', '€', 'tarif', 'pricing'];
         $found = [];
         foreach ($texts as $key => $text) {
             foreach ($forbidden as $term) {

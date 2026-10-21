@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 
 /**
  * US-143: `app_umami_enabled()` is true on a measured page of a configured demo; `app_umami_script_url()` and
- * `app_umami_website_id()` feed the script tag; `app_umami_event('cta-rendez-vous', {emplacement: 'fiche-produit'})`
+ * `app_umami_website_id()` feed the script tag; `app_umami_event('cta-profil', {emplacement: 'fiche-produit'})`
  * prints the event attributes (a `demo-` prefix is added; a third argument `true` adds the visitor's campaign, US-117). The attributes are inert without the script.
  */
 final class UmamiTwigExtension extends AbstractExtension

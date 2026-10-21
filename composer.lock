@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5eff58dc47d070aedf505219db2adee1",
+    "content-hash": "d044ded1ed33f6dc5b787e944d0a2dce",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -16838,16 +16838,16 @@
         },
         {
             "name": "tmonier/sylius-b2b-mcp-plugin",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-mcp-plugin.git",
-                "reference": "8f9f2f612917318db3f7eb7f9a339e9fa807ed79"
+                "reference": "db6c0cb1dc2831c7957c8c69f8b203a892868140"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-mcp-plugin/zipball/8f9f2f612917318db3f7eb7f9a339e9fa807ed79",
-                "reference": "8f9f2f612917318db3f7eb7f9a339e9fa807ed79",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-mcp-plugin/zipball/db6c0cb1dc2831c7957c8c69f8b203a892868140",
+                "reference": "db6c0cb1dc2831c7957c8c69f8b203a892868140",
                 "shasum": ""
             },
             "require": {
@@ -16932,9 +16932,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/tree/v1.2.1"
+                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/tree/v1.2.2"
             },
-            "time": "2026-10-16T17:47:11+00:00"
+            "time": "2026-10-21T12:08:27+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",
@@ -17093,23 +17093,23 @@
         },
         {
             "name": "tmonier/sylius-command-palette-plugin",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-command-palette-plugin.git",
-                "reference": "2c18e207c4839953b09816b7e516963199b9abce"
+                "reference": "83a725c4012dfd6e13e17fcef29232c16351c093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-command-palette-plugin/zipball/2c18e207c4839953b09816b7e516963199b9abce",
-                "reference": "2c18e207c4839953b09816b7e516963199b9abce",
+                "url": "https://api.github.com/repos/thibmonier/sylius-command-palette-plugin/zipball/83a725c4012dfd6e13e17fcef29232c16351c093",
+                "reference": "83a725c4012dfd6e13e17fcef29232c16351c093",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
                 "sylius/sylius": "^2.2",
-                "symfony/lock": "^6.4 || ^7.4 || ^8.0",
-                "symfony/rate-limiter": "^6.4 || ^7.4 || ^8.0"
+                "symfony/lock": "^7.4 || ^8.0",
+                "symfony/rate-limiter": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "nyholm/psr7": "^1.8",
@@ -17120,15 +17120,15 @@
                 "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
-                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
-                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
-                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
-                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
-                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
-                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
-                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/browser-kit": "^7.4 || ^8.0",
+                "symfony/css-selector": "^7.4 || ^8.0",
+                "symfony/debug-bundle": "^7.4 || ^8.0",
+                "symfony/dom-crawler": "^7.4 || ^8.0",
+                "symfony/dotenv": "^7.4 || ^8.0",
+                "symfony/http-client": "^7.4 || ^8.0",
+                "symfony/intl": "^7.4 || ^8.0",
+                "symfony/runtime": "^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2"
             },
             "type": "sylius-plugin",
@@ -17167,9 +17167,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-command-palette-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/tree/v1.0.1"
+                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/tree/v1.1.0"
             },
-            "time": "2026-10-15T16:15:38+00:00"
+            "time": "2026-10-21T13:00:13+00:00"
         },
         {
             "name": "tmonier/sylius-company-accounts-plugin",
@@ -17580,16 +17580,16 @@
         },
         {
             "name": "tmonier/sylius-punchout-cxml-plugin",
-            "version": "v1.2.1",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-punchout-cxml-plugin.git",
-                "reference": "87603b82085ddcf87cbaae3767e9257110fa028e"
+                "reference": "5acacf9f91059db4bdfe2af4224bafbb1ade020c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-punchout-cxml-plugin/zipball/87603b82085ddcf87cbaae3767e9257110fa028e",
-                "reference": "87603b82085ddcf87cbaae3767e9257110fa028e",
+                "url": "https://api.github.com/repos/thibmonier/sylius-punchout-cxml-plugin/zipball/5acacf9f91059db4bdfe2af4224bafbb1ade020c",
+                "reference": "5acacf9f91059db4bdfe2af4224bafbb1ade020c",
                 "shasum": ""
             },
             "require": {
@@ -17597,8 +17597,8 @@
                 "ext-libxml": "*",
                 "php": "^8.2",
                 "sylius/sylius": "^2.2.9 || ^2.3",
-                "symfony/lock": "^6.4 || ^7.4 || ^8.0",
-                "symfony/rate-limiter": "^6.4 || ^7.4 || ^8.0"
+                "symfony/lock": "^7.4 || ^8.0",
+                "symfony/rate-limiter": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "nyholm/psr7": "^1.8",
@@ -17609,15 +17609,15 @@
                 "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
-                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
-                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
-                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
-                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
-                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
-                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
-                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/browser-kit": "^7.4 || ^8.0",
+                "symfony/css-selector": "^7.4 || ^8.0",
+                "symfony/debug-bundle": "^7.4 || ^8.0",
+                "symfony/dom-crawler": "^7.4 || ^8.0",
+                "symfony/dotenv": "^7.4 || ^8.0",
+                "symfony/http-client": "^7.4 || ^8.0",
+                "symfony/intl": "^7.4 || ^8.0",
+                "symfony/runtime": "^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2",
                 "tmonier/sylius-company-accounts-plugin": "^1.1",
                 "winzou/state-machine-bundle": "^0.6"
@@ -17662,9 +17662,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/tree/v1.2.1"
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/tree/v1.3.0"
             },
-            "time": "2026-10-18T09:55:04+00:00"
+            "time": "2026-10-21T12:59:50+00:00"
         },
         {
             "name": "tmonier/sylius-purchase-approval-plugin",
@@ -17754,23 +17754,23 @@
         },
         {
             "name": "tmonier/sylius-quick-order-plugin",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-quick-order-plugin.git",
-                "reference": "bdb1fa80a817a0fe85949d378b3adee7fb99a341"
+                "reference": "787046a4e376bbdd628925b4069465ba8a3d1812"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-quick-order-plugin/zipball/bdb1fa80a817a0fe85949d378b3adee7fb99a341",
-                "reference": "bdb1fa80a817a0fe85949d378b3adee7fb99a341",
+                "url": "https://api.github.com/repos/thibmonier/sylius-quick-order-plugin/zipball/787046a4e376bbdd628925b4069465ba8a3d1812",
+                "reference": "787046a4e376bbdd628925b4069465ba8a3d1812",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
                 "sylius/sylius": "^2.2.9 || ^2.3",
-                "symfony/lock": "^6.4 || ^7.4 || ^8.0",
-                "symfony/rate-limiter": "^6.4 || ^7.4 || ^8.0"
+                "symfony/lock": "^7.4 || ^8.0",
+                "symfony/rate-limiter": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "nyholm/psr7": "^1.8",
@@ -17781,15 +17781,15 @@
                 "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
-                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
-                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
-                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
-                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
-                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
-                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
-                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/browser-kit": "^7.4 || ^8.0",
+                "symfony/css-selector": "^7.4 || ^8.0",
+                "symfony/debug-bundle": "^7.4 || ^8.0",
+                "symfony/dom-crawler": "^7.4 || ^8.0",
+                "symfony/dotenv": "^7.4 || ^8.0",
+                "symfony/http-client": "^7.4 || ^8.0",
+                "symfony/intl": "^7.4 || ^8.0",
+                "symfony/runtime": "^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2"
             },
             "type": "sylius-plugin",
@@ -17829,29 +17829,29 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-quick-order-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/tree/v1.2.0"
+                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/tree/v1.3.0"
             },
-            "time": "2026-10-18T09:55:09+00:00"
+            "time": "2026-10-21T13:00:03+00:00"
         },
         {
             "name": "tmonier/sylius-quote-request-plugin",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-quote-request-plugin.git",
-                "reference": "07ede5536bed462049f2ddd8fde5c8e8e57de1f2"
+                "reference": "828b7497bee5c325df997bc9573fdaa6fc46f23c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-quote-request-plugin/zipball/07ede5536bed462049f2ddd8fde5c8e8e57de1f2",
-                "reference": "07ede5536bed462049f2ddd8fde5c8e8e57de1f2",
+                "url": "https://api.github.com/repos/thibmonier/sylius-quote-request-plugin/zipball/828b7497bee5c325df997bc9573fdaa6fc46f23c",
+                "reference": "828b7497bee5c325df997bc9573fdaa6fc46f23c",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
                 "sylius/sylius": "^2.2.9 || ^2.3",
-                "symfony/lock": "^6.4 || ^7.4 || ^8.0",
-                "symfony/rate-limiter": "^6.4 || ^7.4 || ^8.0"
+                "symfony/lock": "^7.4 || ^8.0",
+                "symfony/rate-limiter": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "knplabs/knp-snappy": "^1.5",
@@ -17860,17 +17860,18 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
-                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
-                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
-                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
-                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
-                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
-                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
-                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
-                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/browser-kit": "^7.4 || ^8.0",
+                "symfony/css-selector": "^7.4 || ^8.0",
+                "symfony/debug-bundle": "^7.4 || ^8.0",
+                "symfony/dom-crawler": "^7.4 || ^8.0",
+                "symfony/dotenv": "^7.4 || ^8.0",
+                "symfony/http-client": "^7.4 || ^8.0",
+                "symfony/intl": "^7.4 || ^8.0",
+                "symfony/runtime": "^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2",
                 "winzou/state-machine-bundle": "^0.6"
             },
@@ -17915,9 +17916,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-quote-request-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/tree/v1.0.0"
+                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/tree/v1.1.0"
             },
-            "time": "2026-10-12T01:26:56+00:00"
+            "time": "2026-10-21T12:59:57+00:00"
         },
         {
             "name": "tmonier/sylius-registration-approval-plugin",

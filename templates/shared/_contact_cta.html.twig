@@ -2,10 +2,10 @@
     US-142: the "contact me" call to action, one component for every placement. No widget, no pop-up, no sticky bar: plain links.
     Usage: {% include 'shared/_contact_cta.html.twig' with { variant: 'banner'|'card'|'link', placement: 'home', locale: app.request.locale, context: 'Plugin name' } only %}
     `context` (optional): visually hidden text appended to each label, so repeated links stay distinguishable (WCAG 2.4.4).
-    The targets (booking page, contact form) come from the configuration, https only, tagged with the placement (utm_content);
+    The targets (profile page, contact form) come from the configuration, https only, tagged with the placement (utm_content);
     none configured = nothing rendered. `locale` is only needed outside the shop layout (PunchOut simulator).
     Bootstrap utilities only: the pages also show on the B2C channel, where the B2B stylesheet is not loaded.
-    Banner and card are inverted (primary background, white text, white booking button turning primary on hover and
+    Banner and card are inverted (primary background, white text, white profile button turning primary on hover and
     focus) so that the block stands out from the page; the link variant stays discreet. Colours come from the Bootstrap
     variables only (on B2B, primary is the theme navy: white on it 11.1:1).
 #}
@@ -13,10 +13,10 @@
 {% if targets %}
     {% set locale = locale|default(app.request.locale) %}
     {% set title_id = 'cta-title-' ~ placement %}
-    {% set inverted_booking = '--bs-btn-color: var(--bs-primary); --bs-btn-bg: var(--bs-white); --bs-btn-border-color: var(--bs-white); --bs-btn-hover-color: var(--bs-white); --bs-btn-hover-bg: var(--bs-primary); --bs-btn-hover-border-color: var(--bs-white); --bs-btn-active-color: var(--bs-white); --bs-btn-active-bg: var(--bs-primary); --bs-btn-active-border-color: var(--bs-white); --bs-btn-focus-shadow-rgb: var(--bs-white-rgb); ' %}
+    {% set inverted_profile = '--bs-btn-color: var(--bs-primary); --bs-btn-bg: var(--bs-white); --bs-btn-border-color: var(--bs-white); --bs-btn-hover-color: var(--bs-white); --bs-btn-hover-bg: var(--bs-primary); --bs-btn-hover-border-color: var(--bs-white); --bs-btn-active-color: var(--bs-white); --bs-btn-active-bg: var(--bs-primary); --bs-btn-active-border-color: var(--bs-white); --bs-btn-focus-shadow-rgb: var(--bs-white-rgb); ' %}
     {% set buttons %}
         {% for target in targets %}
-            <a class="{{ variant == 'link' ? 'd-inline-flex align-items-center text-decoration-underline' : (target.kind == 'booking' ? 'btn d-inline-flex align-items-center fw-semibold' : 'btn btn-outline-light d-inline-flex align-items-center') }}" style="{{ variant != 'link' and target.kind == 'booking' ? inverted_booking : '' }}min-height: 2.75rem" href="{{ target.url }}" target="_blank" rel="noopener noreferrer" data-cta-{{ target.kind }}{{ app_umami_event(target.kind == 'booking' ? 'cta-rendez-vous' : 'cta-message', { emplacement: placement }, true) }}>{{ ('cta.' ~ target.kind)|trans({}, 'theme_demo', locale) }}{% if context is defined %}<span class="visually-hidden"> {{ context }}</span>{% endif %}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo', locale) }}</span></a>
+            <a class="{{ variant == 'link' ? 'd-inline-flex align-items-center text-decoration-underline' : (target.kind == 'profile' ? 'btn d-inline-flex align-items-center fw-semibold' : 'btn btn-outline-light d-inline-flex align-items-center') }}" style="{{ variant != 'link' and target.kind == 'profile' ? inverted_profile : '' }}min-height: 2.75rem" href="{{ target.url }}" target="_blank" rel="noopener noreferrer" data-cta-{{ target.kind }}{{ app_umami_event(target.kind == 'profile' ? 'cta-profil' : 'cta-message', { emplacement: placement }, true) }}>{{ ('cta.' ~ target.kind)|trans({}, 'theme_demo', locale) }}{% if context is defined %}<span class="visually-hidden"> {{ context }}</span>{% endif %}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo', locale) }}</span></a>
         {% endfor %}
     {% endset %}
     {% if variant == 'banner' %}

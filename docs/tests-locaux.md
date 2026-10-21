@@ -45,10 +45,19 @@ bin/run-tests tests/Functional --filter Quote   # les arguments vont à PHPUnit
 - chaque exécution a **son propre cache**, créé vide dans un dossier temporaire (`mktemp`), et **supprimé à la fin** (aussi sur Ctrl-C ou en cas d'échec) : rien n'est écrit dans le vrai `var/cache` ;
 - journaux (`APP_LOG_DIR`), pools partagés (`APP_SHARE_DIR`), compteurs des limiteurs (`demo-limiter-test`) et images de test (`media-test`) vivent dans ce même dossier : plus rien de test dans le vrai `var/`, et deux exécutions parallèles ne vident plus les compteurs l'une de l'autre (faux échec de `PublicOpeningHardeningTest`, constaté le 2026-10-17) ;
 - `TEST_CACHE_DIR=var/cache-mon-nom` impose un dossier : il est vidé avant et supprimé après ; le script refuse `var/cache`, `var/` et la racine du dépôt ;
-- **seuil disque** : sous 5 Go libres (`MIN_FREE_GB`, 5 par défaut), il s'arrête avec un message avant de créer quoi que ce soit ;
+- **seuil disque** : sous 5 Go libres (`MIN_FREE_GB`, 5 par défaut), il s'arrête avec un message avant de créer quoi que ce soit ; ce seuil n'est jamais abaissé. Avant, il appelle `bin/check-disk` (voir plus bas), qui affiche l'espace libre et alerte à 15 Go ;
 - la base reste `sylius_b2b_demo_test` (ou `TEST_DB_NAME`) ; la base de développement `sylius_b2b_demo` est refusée ;
 - le code de sortie est celui de PHPUnit ;
-- **verrou** (`var/run-tests.lock`, ou `RUN_TESTS_LOCK=`) : `bin/run-tests` crée à l'entrée un répertoire de verrou (`mkdir`, atomique) qui contient son PID, et le retire à la sortie, y compris sur échec, Ctrl-C ou `kill`. Un second run lancé pendant le premier s'arrête aussitôt (code de sortie **4**, message « already running » avec le PID). Un verrou dont le processus n'existe plus (`kill -0`) est périmé : il est repris avec un message. Pour attendre la fin d'un run, attendre la disparition de ce répertoire, **jamais** `pgrep -f bin/run-tests` (la recherche se détecte elle-même). `bin/clean-test-caches` s'appuie sur le même verrou. Test : `tests/Unit/Bin/RunTestsLockTest.php`.
+- **verrou** (`var/run-tests.lock`, ou `RUN_TESTS_LOCK=`) : `bin/run-tests` crée à l'entrée un répertoire de verrou (`mkdir`, atomique) qui contient son PID, et le retire à la sortie, y compris sur échec, Ctrl-C ou `kill`. Un second run lancé pendant le premier s'arrête aussitôt (code de sortie **4**, message « already running » avec le PID). Un verrou dont le processus n'existe plus (`kill -0`) est périmé : il est repris **de façon atomique** (le répertoire est renommé vers un nom propre au run, puis recréé par `mkdir` ; un seul des deux runs concurrents l'obtient, l'autre sort avec le code 4) avec un message et une ligne dans `var/run-tests.log`. Le verrou contient aussi `WORKER_ID` quand il est défini (fichier `worker`). `bin/clean-test-caches` s'appuie sur le même verrou. Tests : `tests/Unit/Bin/RunTestsLockTest.php` (reprise concurrente rejouée 20 fois, attente, délai).
+
+### Attendre la fin d'un run : `--wait`
+
+```bash
+bin/run-tests --wait                              # sort 0 dès que plus aucun run vivant ne tient le verrou
+RUN_TESTS_WAIT_TIMEOUT=600 bin/run-tests --wait   # délai en secondes (défaut 1800 = 30 min)
+```
+
+`--wait` ne lance aucun test : il lit le verrou (jamais `pgrep -f bin/run-tests`, la recherche se détecte elle-même), sort aussitôt avec 0 si le verrou est absent ou périmé, et sort avec le code **5** et un rapport (PID, verrou) quand le délai est dépassé. L'intervalle de lecture est `RUN_TESTS_WAIT_INTERVAL` (5 s). Un worker qui attend un run n'attend jamais plus de 30 minutes : il sort avec ce rapport.
 
 ## Lancer les tests
 
@@ -87,17 +96,37 @@ Les comptes de la démo (panier de Claire, panier de Paul, listes partagées d'A
 - **Base partagée** : plusieurs copies de travail peuvent utiliser le même MySQL ; leur donner chacune sa `TEST_DB_NAME` et son `TEST_CACHE_DIR`.
 - Les tests qui lancent `app:demo:reset` rechargent la suite entière dans la base (elle en ressort identique).
 
+## Plusieurs workers en parallèle : une identité, une base, un cache
+
+Chaque worker (session Claude, copie de travail) a **son identifiant** `WORKER_ID` (lettres et chiffres, sans `_`), **sa base** (`TEST_DB_NAME=b2b_<worker>`, ou `sylius_test_<worker>`), **son cache** (`TEST_CACHE_DIR=var/cache-<worker>`) et **son sous-dossier de scratchpad** (`<scratchpad>/<worker>/`, jamais de fichier de travail à la racine). Le gabarit de consigne est dans [project-management/templates/consigne-worker.md](../project-management/templates/consigne-worker.md).
+
+```bash
+WORKER_ID=wf TEST_DB_NAME=b2b_wf TEST_CACHE_DIR=var/cache-wf bin/run-tests --filter Quote
+WORKER_ID=wf bin/clean-test-caches      # ne touche que var/cache-wf*, b2b_wf*, sylius_test_wf*
+```
+
+Les tests restent lancés **un à la fois** (verrou) ; le nettoyage, lui, est limité à ce qui porte l'identifiant du worker.
+
+## Contrôler le disque : `bin/check-disk`
+
+```bash
+bin/check-disk                        # espace libre ; alerte sous 15 Go (CHECK_DISK_WARN_GB)
+```
+
+Le script affiche l'espace libre. Sous le seuil d'alerte, il demande de **prévenir Thibaut sans attendre**, chiffre l'empreinte du projet (caches `var/cache-*`, bases de test du conteneur MySQL ; les volumes Docker se lisent avec `docker system df`) et dit si le manque vient du **projet** (ses caches et ses bases couvrent l'espace manquant : nettoyer ses propres ressources) ou de la **machine** (l'espace est utilisé hors du projet : nettoyer le projet ne suffira pas). Codes de sortie : 0 assez de place, 3 alerte, 1 gel (sous `MIN_FREE_GB`). `bin/run-tests` l'appelle à chaque lancement, pour l'affichage seulement : son gel à 5 Go reste le seul blocage. Test : `tests/Unit/Bin/CheckDiskTest.php`.
+
 ## Libérer le disque : `bin/clean-test-caches`
 
 Chaque exécution laisse des caches (`var/cache-*`), des bases de test (`sylius_test_*`, `b2b_*`, `sylius_b2b_demo_test_*`) et des journaux binaires MySQL (plusieurs centaines de Mo). `bin/run-tests` refuse de démarrer sous `MIN_FREE_GB` (5 Go) : **ce seuil n'est jamais abaissé** ; on libère de l'espace, ou on demande de l'aide.
 
 ```bash
-df -h .                         # contrôle au démarrage de la session
-bin/clean-test-caches --dry-run # liste ce qui serait supprimé, ne supprime rien
-bin/clean-test-caches           # supprime, purge les journaux binaires, affiche df -h . avant et après
+df -h .                                        # contrôle au démarrage de la session et avant chaque lot
+WORKER_ID=wf bin/clean-test-caches --dry-run   # liste ce que le worker wf supprimerait, ne supprime rien
+WORKER_ID=wf bin/clean-test-caches             # supprime ses caches et ses bases, purge les journaux binaires, df -h . avant et après
+bin/clean-test-caches --all                    # orchestrateur seul, hors lots : toutes les ressources de tous les workers
 ```
 
-La base par défaut (`sylius_b2b_demo_test`) et la base de développement (`sylius_b2b_demo`) sont conservées. Le script supprime aussi les bases d'une autre session en cours : ne le lancer que lorsque personne d'autre n'utilise le MySQL local. Conteneur visé : `sylius-b2b-demo-mysql-1` (`MYSQL_CONTAINER=` pour un autre). Test : `tests/Unit/Bin/CleanTestCachesTest.php`.
+Sans `WORKER_ID` ni `--all`, le script refuse (code 2) ; `--all` avec `WORKER_ID` défini est refusé (code 5) : un worker ne nettoie jamais pour les autres. Un worker est aussi refusé (code 3) tant que **son propre** run tient le verrou. La base par défaut (`sylius_b2b_demo_test`) et la base de développement (`sylius_b2b_demo`) sont conservées. `--all` supprime les bases de tous les workers : ne le lancer que lorsque personne d'autre n'utilise le MySQL local. Conteneur visé : `sylius-b2b-demo-mysql-1` (`MYSQL_CONTAINER=` pour un autre). Test : `tests/Unit/Bin/CleanTestCachesTest.php`.
 
 ## Mesure mobile à froid : `bin/measure-mobile`
 

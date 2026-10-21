@@ -12,7 +12,7 @@ But : savoir quels contenus LinkedIn amènent des visites, des parcours lancés 
 
 ## Ce que le code ajoute
 
-- La propriété `campaign` sur les événements de **lancement de parcours** (`demo-journey-launch`), de **sortie vers « Intégrer »** et de **contact** (`demo-cta-message`, `demo-cta-rendez-vous`).
+- La propriété `campaign` sur les événements de **lancement de parcours** (`demo-journey-launch`), de **sortie vers « Intégrer »** et de **contact** (`demo-cta-message`, `demo-cta-profil`).
 - Origine de la valeur : le `utm_campaign` de l'URL courante, ou celui de l'arrivée sur `/{locale}/guides…` conservé en session (`CampaignContext`). Le stockage en session ne se fait que sur les pages des parcours (un visiteur qui n'ouvre jamais de parcours n'a pas de session pour cela) ; ensuite, la valeur retenue marque les lancements et les clics de contact des pages de la même session.
 - **Nettoyage** (`CampaignLabel`, même règle que les propriétés d'`UmamiEvent`) : minuscules, chiffres, `_` et `-`, 40 caractères au plus. Toute autre valeur (trop longue, adresse e-mail, balise, tableau) est ignorée et rien n'est stocké.
 
@@ -20,7 +20,7 @@ But : savoir quels contenus LinkedIn amènent des visites, des parcours lancés 
 
 1. **Visites par campagne** : rapport « UTM » (ou Filtres > Campagne UTM), période choisie.
 2. **Parcours lancés** : Événements > `demo-journey-launch`, propriété `campaign` ; `demo-journey-start` compte les ouvertures de parcours.
-3. **Clics vers le contact** : Événements > `demo-cta-message` (et `demo-cta-rendez-vous`), propriétés `emplacement` et `campaign`.
+3. **Clics vers le contact** : Événements > `demo-cta-message` (et `demo-cta-profil`, clic vers le profil LinkedIn), propriétés `emplacement` et `campaign`.
 
 Un lien de test : `https://<démo>/fr_FR/?utm_source=linkedin&utm_campaign=ouverture-demo` (T-117-05, à ouvrir par Thibaut).
 

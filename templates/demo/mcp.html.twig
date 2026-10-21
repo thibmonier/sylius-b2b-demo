@@ -15,6 +15,41 @@
 
         <p>{{ 'server'|trans({}, 'mcp_guide') }} <code data-mcp-server-url>{{ server_url }}</code></p>
 
+        {% if transcript %}
+            <section class="mt-4" data-mcp-transcript aria-labelledby="mcp-transcript-title">
+                <h2 class="h4" id="mcp-transcript-title">{{ 'transcript.title'|trans({}, 'mcp_guide') }}</h2>
+                <p>{{ 'transcript.intro'|trans({'%assistant%': transcript.assistant}, 'mcp_guide') }} {{ 'transcript.recorded'|trans({}, 'mcp_guide') }} <time datetime="{{ transcript.recordedAt }}">{{ transcript.recordedAt }}</time>.</p>
+                <p data-mcp-transcript-no-payment>{{ 'transcript.no_payment'|trans({}, 'mcp_guide') }}</p>
+                <ol class="list-unstyled d-grid gap-3">
+                    {% for exchange in transcript.exchanges %}
+                        <li class="border rounded p-3" data-mcp-exchange="{{ loop.index }}">
+                            <p class="mb-1 fw-bold">{{ 'transcript.buyer'|trans({}, 'mcp_guide') }}</p>
+                            <p class="mb-2" lang="{{ transcript.locale }}" style="white-space: pre-line; overflow-wrap: anywhere;">{{ exchange.user }}</p>
+                            {% if exchange.tools %}
+                                <p class="small mb-2" data-mcp-tools>{{ 'transcript.tools'|trans({}, 'mcp_guide') }} {% for tool in exchange.tools %}<code>{{ tool }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+                            {% endif %}
+                            <p class="mb-1 fw-bold">{{ transcript.assistant }}</p>
+                            <p class="mb-0" lang="{{ transcript.locale }}" style="white-space: pre-line; overflow-wrap: anywhere;">{{ exchange.assistant }}</p>
+                        </li>
+                    {% endfor %}
+                </ol>
+                {% if transcript.media %}
+                    <figure class="mt-3" data-mcp-transcript-media="{{ transcript.media.kind }}">
+                        {% if transcript.media.kind == 'video' %}
+                            <video controls preload="none" playsinline class="w-100"{% if transcript.media.poster %} poster="{{ transcript.media.poster }}"{% endif %}>
+                                <source src="{{ transcript.media.src }}">
+                                <a href="{{ transcript.media.src }}">{{ 'transcript.download'|trans({}, 'mcp_guide') }}</a>
+                            </video>
+                        {% else %}
+                            <img src="{{ transcript.media.poster }}" alt="{{ transcript.media.description }}" class="img-fluid" data-mcp-gif data-animation="{{ transcript.media.src }}" data-still="{{ transcript.media.poster }}">
+                            <button type="button" class="btn btn-outline-secondary mt-2" style="min-height: 44px; min-width: 44px;" data-mcp-gif-toggle aria-pressed="false" data-play="{{ 'transcript.play'|trans({}, 'mcp_guide') }}" data-pause="{{ 'transcript.pause'|trans({}, 'mcp_guide') }}">{{ 'transcript.play'|trans({}, 'mcp_guide') }}</button>
+                        {% endif %}
+                        <figcaption class="small mt-2">{{ transcript.media.description }} {{ 'transcript.alternative'|trans({}, 'mcp_guide') }}</figcaption>
+                    </figure>
+                {% endif %}
+            </section>
+        {% endif %}
+
         <ol class="mt-4 d-grid gap-3">
             {% for step in 1..6 %}
                 <li data-mcp-step="{{ step }}">
@@ -53,6 +88,18 @@
     </div>
 
     <script>
+        document.querySelectorAll('[data-mcp-gif-toggle]').forEach(function (button) {
+            var image = document.querySelector('[data-mcp-gif]');
+            if (!image) {
+                return;
+            }
+            button.addEventListener('click', function () {
+                var playing = button.getAttribute('aria-pressed') === 'true';
+                image.src = playing ? image.dataset.still : image.dataset.animation;
+                button.setAttribute('aria-pressed', playing ? 'false' : 'true');
+                button.textContent = playing ? button.dataset.play : button.dataset.pause;
+            });
+        });
         document.querySelectorAll('[data-mcp-copy]').forEach(function (button) {
             button.addEventListener('click', function () {
                 var source = document.querySelector(button.dataset.mcpCopy);
