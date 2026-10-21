@@ -52,11 +52,14 @@ app:
             title: 'Fournitures Pro, la démo B2B de Sylius'
             subtitle: "Devis, commande rapide, validation des achats, PunchOut : parcourez les plugins B2B open source sur une boutique d'équipements professionnels."
             cta: 'Se connecter avec un compte de démo'
+            cta_signed_in: 'Essayer un parcours guidé'
+            switch_account: 'Changer de compte de démo'
         quick_access:
             title: 'Accès rapide'
             accounts: 'Comptes de démo'
             accounts_text: 'Connexion en un clic avec les comptes acheteur, approbateur et administrateur.'
             accounts_link: 'Ouvrir les comptes de démo'
+            accounts_link_signed_in: 'Changer de compte de démo'
             catalogue: 'Catalogue'
             category:
                 epi: 'EPI'

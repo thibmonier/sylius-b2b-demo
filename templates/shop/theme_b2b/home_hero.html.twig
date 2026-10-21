@@ -1,7 +1,15 @@
+{# A signed-in visitor is offered the guided journeys and a switch of demo account, never the demo login again. #}
 <section class="b2b-home-hero py-5 mb-4 text-center" data-b2b-home="hero">
     <div class="container">
-        <h1 class="display-5">{{ 'app.home_b2b.hero.title'|trans }}</h1>
-        <p class="lead mb-4">{{ 'app.home_b2b.hero.subtitle'|trans }}</p>
-        <a class="btn btn-primary btn-lg" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.hero.cta'|trans }}</a>
+        <h1 class="display-5 b2b-home-hero__title">{{ 'app.home_b2b.hero.title'|trans }}</h1>
+        <p class="lead mb-4 b2b-home-hero__lead">{{ 'app.home_b2b.hero.subtitle'|trans }}</p>
+        {% if app.user %}
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a class="btn btn-primary btn-lg" href="{{ path('app_demo_journeys', {_locale: app.request.locale}) }}">{{ 'app.home_b2b.hero.cta_signed_in'|trans }}</a>
+                <a class="btn btn-outline-primary btn-lg" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.hero.switch_account'|trans }}</a>
+            </div>
+        {% else %}
+            <a class="btn btn-primary btn-lg" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.hero.cta'|trans }}</a>
+        {% endif %}
     </div>
 </section>
