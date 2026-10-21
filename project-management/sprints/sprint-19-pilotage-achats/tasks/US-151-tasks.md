@@ -28,12 +28,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-151-01 | [TEST] | Tests d'intégration rouges des trois requêtes : top acheteurs (parts 62 % et 38 %, membre désactivé), top produits (tri dépense et quantité, dernière date), top catégories (somme 100 %), autre entreprise exclue, produit sans traduction affiché par son code | 2 h | T-149-06 | Claude | 🔲 |
-| T-151-02 | [BE] | Trois requêtes d'agrégation SQL, objets de lecture, limite de 10 lignes et pages « Voir tout » paginées (tri et page en liste blanche) | 2,75 h | T-151-01 | Claude | 🔲 |
-| T-151-03 | [TEST] | Tests fonctionnels rouges : classements sur le tableau de bord, pages « Voir tout », tri par quantité, mention « désactivé », aucun e-mail dans le HTML, aucun achat d'une autre entreprise | 1 h | T-149-09 | Claude | 🔲 |
-| T-151-04 | [FE-WEB] | Blocs des trois classements, pages « Voir tout », anneau des catégories avec tableau équivalent, mention « désactivé », libellés FR et EN, contrastes AAA, mobile | 2,5 h | T-151-02, T-151-03, T-150-04 | Claude | 🔲 |
+| T-151-01 | [TEST] | Tests d'intégration rouges des trois requêtes : top acheteurs (parts 62 % et 38 %, membre désactivé), top produits (tri dépense et quantité, dernière date), top catégories (somme 100 %), autre entreprise exclue, produit sans traduction affiché par son code | 2 h | T-149-06 | Claude | ✅ |
+| T-151-02 | [BE] | Trois requêtes d'agrégation SQL, objets de lecture, limite de 10 lignes et pages « Voir tout » paginées (tri et page en liste blanche) | 2,75 h | T-151-01 | Claude | ✅ |
+| T-151-03 | [TEST] | Tests fonctionnels rouges : classements sur le tableau de bord, pages « Voir tout », tri par quantité, mention « désactivé », aucun e-mail dans le HTML, aucun achat d'une autre entreprise | 1 h | T-149-09 | Claude | ✅ |
+| T-151-04 | [FE-WEB] | Blocs des trois classements, pages « Voir tout », anneau des catégories avec tableau équivalent, mention « désactivé », libellés FR et EN, contrastes AAA, mobile | 2,5 h | T-151-02, T-151-03, T-150-04 | Claude | ✅ |
 | T-151-05 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA ; ECS, PHPStan max, Rector, couverture | 0,75 h | T-151-04 | Claude | 🔲 |
-| T-151-06 | [DOC] | README (classements, données personnelles) et `CHANGELOG.md` | 0,5 h | T-151-04 | Claude | 🔲 |
+| T-151-06 | [DOC] | README (classements, données personnelles) et `CHANGELOG.md` | 0,5 h | T-151-04 | Claude | ✅ |
 | T-151-07 | [REV] | Revue de sécurité (cloisonnement, aucune donnée personnelle au-delà du nom, paramètres en liste blanche) et matrice CI verte | 0,75 h | T-151-05, T-151-06 | Claude | 🔲 |
 
 **Total estimé : 10,25 h** (7 tâches, aucune de Thibaut).

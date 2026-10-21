@@ -24,7 +24,7 @@ Document interne de suivi (sprint 13). Il peut nommer Sylius Plus ; les textes p
 
 Conséquence : seule la documentation publique et marketing a pu être lue. « Non couvert » signifie « non documenté publiquement », pas « absent » (même réserve que `docs/plus-overlap.md` du plugin de parc d'équipements). La documentation technique de Plus (S9) reste à relire par l'utilisateur s'il y a accès.
 
-## 2. Inventaire et classement des 24 plugins
+## 2. Inventaire et classement des 25 plugins
 
 Classes : **concurrent** (une fonction de Plus décrite recoupe le plugin), **complémentaire** (le plugin prolonge un composant officiel ou voisin de Plus sans le recouper), **hors périmètre** (aucune fonction de Plus décrite ne recoupe), **à confirmer** (les pages ne tranchent pas ; traité comme « concurrent » pour le ton).
 
@@ -54,13 +54,14 @@ Classes : **concurrent** (une fonction de Plus décrite recoupe le plugin), **co
 | 22 | trade-credit | Paiement sur compte (net 30) avec plafond de crédit | admin, boutique | S2 ne mentionne pas de crédit | hors périmètre | S2 |
 | 23 | webhook-outbox | Webhooks sortants fiables (outbox, signatures, rejeu) | admin | couche d'import/export vers PIM/ERP (S2) : autre mécanisme | complémentaire | S2 |
 | 24 | withdrawal | Bouton de rétractation européen (directive 2023/2673) | boutique, admin | RMA (retours) ; le droit de rétractation n'est pas mentionné | **à confirmer** | S5 |
+| 25 | company-insights | Tableau de bord des achats d'une entreprise : dépenses sur 12 mois face à l'année précédente, classements des acheteurs, produits et catégories | boutique | Organization Management décrit un « historique » du compte maître (S2) sans tableau de bord des achats | hors périmètre (**à confirmer**) | S1, S2 |
 
-Totaux : concurrent 4 (1, 9, 17, 18), à confirmer 3 (16, 20, 24 ; traités comme concurrent), complémentaire 3 (5, 12, 23), hors périmètre 14 dont la ligne 11 reste « à confirmer » en attente de la documentation technique. Chaque classe cite au moins une source ci-dessus.
+Totaux : concurrent 4 (1, 9, 17, 18), à confirmer 3 (16, 20, 24 ; traités comme concurrent), complémentaire 3 (5, 12, 23), hors périmètre 15 dont les lignes 11 et 25 restent « à confirmer » en attente de la documentation technique. Chaque classe cite au moins une source ci-dessus.
 
 ### Questions ouvertes pour l'utilisateur
 
 1. **purchase-approval, tier-pricing, withdrawal** : les pages publiques ne tranchent pas (S2, S5). Traités comme « concurrent » pour le ton. Si vous avez accès à la documentation technique de Plus (S9), un coup d'œil lèverait le doute.
-2. **customer-asset-management** : reste « non couvert, à confirmer » tant que S9 n'est pas relue.
+2. **customer-asset-management** et **company-insights** (US-155, ajouté le 2026-10-21) : restent « non couvert, à confirmer » tant que S9 n'est pas relue. Pour company-insights, les pages publiques relues le 2026-10-17 (S1, S2) ne décrivent aucun tableau de bord ni reporting des achats ; ton neutre, aucune mention de Plus dans les textes publiés, aucune communication sur les canaux Sylius.
 3. **Phrases existantes qui comparent** : six README publics contiennent déjà une comparaison que la charte interdit (voir section 5). Les corriger est hors du périmètre de ce sprint tant que vous ne l'avez pas décidé ; l'outil les signale en avertissement.
 
 ## 3. Critères d'image et plugins sans image

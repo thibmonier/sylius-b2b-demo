@@ -183,6 +183,23 @@ railway ssh --service web -- sh -c 'su -s /bin/sh www-data -c "php -d memory_lim
 
 Ce relevé a révélé un défaut. Le reset lance `cache:clear` puis `cache:warmup` dans le même processus que le chargement des fixtures. Avec la limite PHP de 512 Mo de `docker/php.ini`, le réchauffage s'est arrêté (« Allowed memory size of 536870912 bytes exhausted ») : le reset sortait en erreur alors que les données étaient rechargées. Le reset nocturne (`docker/crontab`) et les commandes manuelles passent donc `-d memory_limit=1G`, comme le chargement initial de l'entrypoint. Le pic du conteneur reste très en dessous de la limite.
 
+## Historique d'achats de 12 mois (US-155)
+
+Le tableau de bord du plugin company-insights lit 18 mois de commandes d'Acme, sans que le reset s'allonge de plus de 20 %.
+
+- **Deux chemins.** Les 15 commandes d'origine (`DemoOrderPlan::core()` : approbation, encours échu, annulation) passent toujours par les services Sylius, à l'identique. Les 47 commandes de l'historique (`DemoOrderHistory`, 38 pour Acme, 6 pour TechParts, 3 pour BuildCo ; `DemoOrderPlan::history()`) sont écrites directement en base par `BulkOrderWriter` : quelques dizaines d'`INSERT` multi-lignes pour tout l'historique, commandes déjà dans leur état final (payées, expédiées au-delà de 14 jours), avec leurs lignes, unités, frais de port, paiement, expédition, adresses et rattachement à l'entreprise.
+- **Pourquoi.** Passées par les services, 47 commandes de plus triplaient le reset (de 6 s à 20 s) : environ 120 requêtes par commande, quelle que soit la quantité (promotions, limites d'achat, webhooks, chronologie, facture).
+- **Ce que l'historique n'a pas.** Pas de facture, pas d'entrée de chronologie, pas d'événement de webhook ni de journal d'audit. Les tests des factures (`OrderHistorySmokeTest`) ne portent donc que sur les commandes d'origine. Aucune approbation d'achat : les paniers des acheteurs soumis à une limite restent de toute façon sous 500 EUR.
+- **Déterminisme.** Aucun tirage au sort : tout vient de tables dans `DemoOrderHistory`. Les dates suivent le calendrier du jour du reset (le mois « il y a N mois », un jour fixe du mois), pour que le creux d'août et le pic de septembre restent à leur place quel que soit le jour. Deux resets du même mois donnent les mêmes commandes, acheteurs, produits et jours du mois ; seul l'âge en jours (`daysAgo`) change avec la date. Le mois en cours ne compte qu'une commande, le 1er.
+- **Contenu.** Acme : 4 acheteurs (Claire, Paul, Isabelle et Sébastien, parti il y a plus de 4 mois : membre désactivé, ses commandes restent dans le classement), 2 centres de coût, 2 sites de livraison (Lyon, Saint-Priest), 11 produits récurrents. TechParts et BuildCo achètent les mêmes produits : leurs commandes ne doivent jamais apparaître chez Acme.
+- **Mesure** (`bin/profile-reset 4`, deux séries, meilleure passe, MySQL 8.4 local, 2026-10-21) :
+
+| | `demo_orders` | reset complet (fixtures) |
+|---|---|---|
+| Avant (15 commandes) | 2,00 s | 6,09 s |
+| Après (15 + 47) | 2,16 s | 6,50 s |
+| Écart | +8 % | +7 % |
+
 ## Tests
 
 `tests/Functional/Demo/DemoResetCommandTest.php` (garde, succès, échec atomique, purge Acme), `tests/Unit/Demo/Command/DemoResetCommandTest.php` (options, garde, rollback). La bannière « prochaine remise à zéro » (T-033-05) est glissée au sprint 7.
