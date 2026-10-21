@@ -40,6 +40,8 @@ final class DeterministicOrderFactory extends OrderExampleFactory
 
     private ?string $company = null;
 
+    private ?string $deliverySite = null;
+
     /** @var RepositoryInterface<ProductVariantInterface>|null */
     private ?RepositoryInterface $variantRepository = null;
 
@@ -85,10 +87,13 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         $company = $options['company'] ?? null;
         /** @var string|null $paymentMethod */
         $paymentMethod = $options['payment_method'] ?? null;
+        /** @var string|null $deliverySite */
+        $deliverySite = $options['delivery_site'] ?? null;
+        $this->deliverySite = $deliverySite;
         $this->items = $items;
         $this->company = $company;
         $this->paymentMethodCode = $paymentMethod;
-        unset($options['items'], $options['po_reference'], $options['cost_center'], $options['company'], $options['payment_method']);
+        unset($options['items'], $options['po_reference'], $options['cost_center'], $options['company'], $options['payment_method'], $options['delivery_site']);
 
         $this->faker->seed(crc32((string) $poReference));
         $order = parent::create($options);
@@ -132,10 +137,11 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         $address->setFirstName((string) $customer?->getFirstName());
         $address->setLastName((string) $customer?->getLastName());
         $address->setCompany($this->company);
-        $address->setStreet('12 rue de l\'Industrie');
+        $saintPriest = DemoOrderSpec::SITE_SAINT_PRIEST === $this->deliverySite;
+        $address->setStreet($saintPriest ? '45 boulevard des Expositions' : '12 rue de l\'Industrie');
         $address->setCountryCode($countryCode);
-        $address->setCity('Lyon');
-        $address->setPostcode('69003');
+        $address->setCity($saintPriest ? 'Saint-Priest' : 'Lyon');
+        $address->setPostcode($saintPriest ? '69800' : '69003');
 
         $order->setShippingAddress($address);
         $order->setBillingAddress(clone $address);

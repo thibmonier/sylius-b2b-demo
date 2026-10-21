@@ -11,17 +11,31 @@ use PHPUnit\Framework\TestCase;
 
 final class DemoOrderPlanTest extends TestCase
 {
-    public function testThePlanHasBetweenEightAndFifteenOrders(): void
+    public function testTheCorePlanHasBetweenEightAndFifteenOrders(): void
     {
-        self::assertGreaterThanOrEqual(8, count(DemoOrderPlan::all()));
-        self::assertLessThanOrEqual(15, count(DemoOrderPlan::all()));
+        self::assertGreaterThanOrEqual(8, count(DemoOrderPlan::core()));
+        self::assertLessThanOrEqual(15, count(DemoOrderPlan::core()));
+    }
+
+    /** US-155: the 15 orders and their scenarios (approval, overdue open item, cancellation) stay identical. */
+    public function testTheCoreOrdersOpenThePlanUnchanged(): void
+    {
+        $now = new \DateTimeImmutable('2026-10-21 08:00:00');
+        $all = DemoOrderPlan::all($now);
+
+        self::assertEquals(DemoOrderPlan::core(), array_slice($all, 0, count(DemoOrderPlan::core())));
+        self::assertSame(
+            ['ACME-PO-2026-0412', 'ACME-PO-2026-0458', 'ACME-PO-2026-0503', 'ACME-PO-2026-0547', 'ACME-PO-2026-0591', 'ACME-PO-2026-0634', 'ACME-PO-2026-0568', 'ACME-PO-2026-0620'],
+            array_map(static fn ($spec): string => $spec->poReference, array_slice($all, 0, 8)),
+        );
+        self::assertSame([172, 131, 94, 61, 33, 4, 48, 11], array_map(static fn ($spec): int => $spec->daysAgo, array_slice($all, 0, 8)));
     }
 
     /** US-096: Claire's company shows 6 to 8 orders over six months. */
-    public function testAcmeHasSixToEightOrdersSpreadOverSixMonths(): void
+    public function testAcmeCoreHasSixToEightOrdersSpreadOverSixMonths(): void
     {
         $days = [];
-        foreach (DemoOrderPlan::all() as $spec) {
+        foreach (DemoOrderPlan::core() as $spec) {
             if (str_ends_with($spec->customerEmail, '@acme.example')) {
                 $days[] = $spec->daysAgo;
             }
@@ -35,7 +49,7 @@ final class DemoOrderPlanTest extends TestCase
     /** US-097: open items on the credit account, one of them overdue (net 30), one company above its limit. */
     public function testOpenItemsArePaidOnAccountAndOneIsOverdue(): void
     {
-        $onAccount = array_filter(DemoOrderPlan::all(), static fn ($spec): bool => DemoOrderPlan::ON_ACCOUNT === $spec->paymentMethod);
+        $onAccount = array_filter(DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')), static fn ($spec): bool => DemoOrderPlan::ON_ACCOUNT === $spec->paymentMethod);
 
         self::assertGreaterThanOrEqual(3, count($onAccount));
         self::assertNotSame([], array_filter($onAccount, static fn ($spec): bool => $spec->daysAgo > 30));
@@ -46,7 +60,7 @@ final class DemoOrderPlanTest extends TestCase
 
     public function testPoReferencesAreUniqueAndValid(): void
     {
-        $references = array_map(static fn ($spec): string => $spec->poReference, DemoOrderPlan::all());
+        $references = array_map(static fn ($spec): string => $spec->poReference, DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')));
 
         self::assertSame($references, array_values(array_unique($references)));
         foreach ($references as $reference) {
@@ -57,7 +71,7 @@ final class DemoOrderPlanTest extends TestCase
 
     public function testCostCentersAreValid(): void
     {
-        foreach (DemoOrderPlan::all() as $spec) {
+        foreach (DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')) as $spec) {
             if (null === $spec->costCenter) {
                 continue;
             }
@@ -68,7 +82,7 @@ final class DemoOrderPlanTest extends TestCase
 
     public function testEveryLineHasAKnownVariantCodeAndAPositiveQuantity(): void
     {
-        foreach (DemoOrderPlan::all() as $spec) {
+        foreach (DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')) as $spec) {
             self::assertNotSame([], $spec->items, $spec->poReference);
             foreach ($spec->items as $code => $quantity) {
                 self::assertMatchesRegularExpression('/^[A-Z]+(-[A-Z]+)?-\d{3}$/', (string) $code);
@@ -77,10 +91,10 @@ final class DemoOrderPlanTest extends TestCase
         }
     }
 
-    public function testOrdersSpanSixMonthsAndNeverLieInTheFuture(): void
+    public function testCoreOrdersSpanSixMonthsAndNeverLieInTheFuture(): void
     {
         /** @var non-empty-list<int> $days */
-        $days = array_map(static fn ($spec): int => $spec->daysAgo, DemoOrderPlan::all());
+        $days = array_map(static fn ($spec): int => $spec->daysAgo, DemoOrderPlan::core());
 
         self::assertGreaterThanOrEqual(0, min($days));
         self::assertGreaterThanOrEqual(150, max($days));
@@ -90,7 +104,7 @@ final class DemoOrderPlanTest extends TestCase
     public function testEveryCompanyShowsAtLeastThreeScenarios(): void
     {
         $byCompany = [];
-        foreach (DemoOrderPlan::all() as $spec) {
+        foreach (DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')) as $spec) {
             $byCompany[explode('@', $spec->customerEmail)[1]][$spec->scenario->value] = true;
         }
 
@@ -101,7 +115,7 @@ final class DemoOrderPlanTest extends TestCase
 
     public function testTheHistoryCoversTheMainStates(): void
     {
-        $scenarios = array_map(static fn ($spec): OrderScenario => $spec->scenario, DemoOrderPlan::all());
+        $scenarios = array_map(static fn ($spec): OrderScenario => $spec->scenario, DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')));
 
         foreach ([OrderScenario::Shipped, OrderScenario::Paid, OrderScenario::PendingApproval, OrderScenario::Cancelled, OrderScenario::Refunded] as $expected) {
             self::assertContains($expected, $scenarios);
@@ -110,7 +124,7 @@ final class DemoOrderPlanTest extends TestCase
 
     public function testAnApprovedOrderNamesItsApprover(): void
     {
-        foreach (DemoOrderPlan::all() as $spec) {
+        foreach (DemoOrderPlan::all(new \DateTimeImmutable('2026-10-21')) as $spec) {
             if (OrderScenario::ApprovedShipped === $spec->scenario) {
                 self::assertNotNull($spec->approverEmail, $spec->poReference);
             }

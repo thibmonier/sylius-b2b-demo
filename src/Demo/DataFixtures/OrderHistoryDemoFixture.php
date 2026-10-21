@@ -77,7 +77,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
 
         $this->removeStaleInvoiceFiles();
         $now = new \DateTimeImmutable();
-        $plan = DemoOrderPlan::all();
+        $plan = DemoOrderPlan::all($now);
         $this->preload($plan);
 
         try {
@@ -156,6 +156,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
             'po_reference' => $spec->poReference,
             'cost_center' => $spec->costCenter,
             'payment_method' => $spec->paymentMethod,
+            'delivery_site' => $spec->deliverySite,
         ]);
         $order->setCreatedAt(\DateTime::createFromImmutable($date));
         $this->entityManager->persist($order);
