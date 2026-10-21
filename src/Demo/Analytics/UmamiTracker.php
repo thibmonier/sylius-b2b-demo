@@ -14,10 +14,10 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 final readonly class UmamiTracker
 {
     /**
-     * Allow-list of the measured pages: the public shop pages and the PunchOut simulator. Everything else (back-office,
+     * Allow-list of the measured pages: the public shop pages, the guided journeys and the PunchOut simulator. Everything else (back-office,
      * accounts, login, password and e-mail verification, orders, quotes, any URL with a private token) is never measured.
      */
-    private const MEASURED_PAGES = '#^(/[a-z]{2}_[A-Z]{2}(/(products|taxons|plugins|mcp|a-propos|mentions-legales|quote-request)(/[A-Za-z0-9_./-]*)?)?/?|/demo/punchout-simulator(/[a-z/]*)?)$#';
+    private const MEASURED_PAGES = '#^(/[a-z]{2}_[A-Z]{2}(/(products|taxons|plugins|mcp|a-propos|mentions-legales|quote-request|guides)(/[A-Za-z0-9_./-]*)?)?/?|/demo/punchout-simulator(/[a-z/]*)?)$#';
 
     private ?string $scriptUrl;
 

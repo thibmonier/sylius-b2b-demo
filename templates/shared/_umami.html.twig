@@ -1,6 +1,6 @@
-{# US-143: Umami audience measurement. Nothing is rendered unless the demo is configured and the page is measured (only the allow-listed public pages, never account, token or back-office pages). #}
+{# US-143: Umami audience measurement. No data-exclude-search (US-117): Umami reads the utm_* of the URL sent by the script, stripping the query string would lose every campaign; the measured pages are the allow-listed public ones. Nothing is rendered unless the demo is configured and the page is measured (only the allow-listed public pages, never account, token or back-office pages). #}
 {% if app_umami_enabled() %}
-    <script defer src="{{ app_umami_script_url() }}" data-website-id="{{ app_umami_website_id() }}" data-do-not-track="true" data-exclude-search="true" data-exclude-hash="true"></script>
+    <script defer src="{{ app_umami_script_url() }}" data-website-id="{{ app_umami_website_id() }}" data-do-not-track="true" data-exclude-hash="true"></script>
     {# "demo-devis-envoye": the quote request form is the plugin's, without our attributes; its submit is caught here (no personal data sent). #}
     <script>document.addEventListener('submit',function(e){if(window.umami&&e.target.method==='post'&&/\/quote-request$/.test(location.pathname)){window.umami.track('demo-devis-envoye');}});</script>
 {% endif %}

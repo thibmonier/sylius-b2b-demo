@@ -27,13 +27,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Thiba
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-117-01 | [DOC] | Spike : ce qu'Umami enregistre nativement (UTM, référent, événements), limites du plan gratuit, décision sur le code nécessaire | 1 h | T-116-02 | Claude | 🔲 |
-| T-117-02 | [TEST] | Tests rouges : campagne inconnue ou trop longue ignorée, aucune donnée stockée, propriété `campaign` sur les événements de parcours et de contact, aucune requête externe sans configuration ⚠️ | 1 h | T-117-01 | Claude | 🔲 |
-| T-117-03 | [BE] | Nettoyage du paramètre de campagne (même règle que `UmamiEvent`) et propriété sur les événements de lancement de parcours et de contact ⚠️ | 1,5 h | T-117-02, T-105-06 | Claude | 🔲 |
-| T-117-04 | [DOC] | `docs/mesure-communication.md` : lecture du tableau Umami par campagne, vues enregistrées, anomalie « 0 visite » | 1 h | T-117-01 | Claude | 🔲 |
+| T-117-01 | [DOC] | Spike : ce qu'Umami enregistre nativement (UTM, référent, événements), limites du plan gratuit, décision sur le code nécessaire | 1 h | T-116-02 | Claude | ✅ |
+| T-117-02 | [TEST] | Tests rouges : campagne inconnue ou trop longue ignorée, aucune donnée stockée, propriété `campaign` sur les événements de parcours et de contact, aucune requête externe sans configuration ⚠️ | 1 h | T-117-01 | Claude | ✅ |
+| T-117-03 | [BE] | Nettoyage du paramètre de campagne (même règle que `UmamiEvent`) et propriété sur les événements de lancement de parcours et de contact ⚠️ | 1,5 h | T-117-02, T-105-06 | Claude | ✅ |
+| T-117-04 | [DOC] | `docs/mesure-communication.md` : lecture du tableau Umami par campagne, vues enregistrées, anomalie « 0 visite » | 1 h | T-117-01 | Claude | ✅ |
 | T-117-05 | [OPS] | Thibaut ouvre un lien de test `?utm_source=linkedin&utm_campaign=ouverture-demo` et vérifie la visite dans Umami (sinon : signaler) | 0,5 h | T-117-01 | Thibaut | 🔲 |
-| T-117-06 | [TEST] | Rendu réel : script présent sur une page mesurée, absent sans configuration, console sans erreur de CSP ⚠️ | 1 h | T-117-03 | Claude | 🔲 |
-| T-117-07 | [REV] | Revue (aucune donnée personnelle dans les événements, doc relue) | 0,5 h | T-117-04, T-117-06 | Claude | 🔲 |
+| T-117-06 | [TEST] | Rendu réel : script présent sur une page mesurée, absent sans configuration, console sans erreur de CSP ⚠️ | 1 h | T-117-03 | Claude | ✅ |
+| T-117-07 | [REV] | Revue (aucune donnée personnelle dans les événements, doc relue) | 0,5 h | T-117-04, T-117-06 | Claude | 👀 |
 
 **Total estimé : 6,5 h** (7 tâches, dont 1 de Thibaut, soit 0,5 h).
 

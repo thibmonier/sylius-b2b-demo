@@ -97,6 +97,8 @@ final class UmamiTrackerTest extends TestCase
         yield 'home' => ['/fr_FR/', true];
         yield 'product' => ['/en_US/products/stylo', true];
         yield 'plugins' => ['/fr_FR/plugins', true];
+        yield 'journey list' => ['/fr_FR/guides', true];
+        yield 'journey step' => ['/en_US/guides/buyer/2', true];
         yield 'simulator' => ['/demo/punchout-simulator', true];
         yield 'admin' => ['/admin/', false];
         yield 'admin sub page' => ['/admin/orders', false];

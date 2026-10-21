@@ -15,7 +15,13 @@ final class UmamiEvent
 
     private const LABEL = '/^[a-z0-9][a-z0-9_-]{0,39}$/';
 
-    /** @param array<string, string> $properties */
+    /** A plain lowercase label (letters, digits, `_`, `-`, 40 characters at most): the only shape a property value may take. */
+    public static function isLabel(string $value): bool
+    {
+        return 1 === preg_match(self::LABEL, $value);
+    }
+
+    /** @param array<string, string|int> $properties */
     public static function attributes(string $name, array $properties = []): string
     {
         $name = str_starts_with($name, self::PREFIX) ? $name : self::PREFIX . $name;
@@ -25,7 +31,8 @@ final class UmamiEvent
 
         $attributes = ' data-umami-event="' . $name . '"';
         foreach ($properties as $key => $value) {
-            if (1 === preg_match(self::LABEL, (string) $key) && 1 === preg_match(self::LABEL, $value)) {
+            $value = (string) $value;
+            if (self::isLabel((string) $key) && self::isLabel($value)) {
                 $attributes .= ' data-umami-event-' . $key . '="' . $value . '"';
             }
         }
