@@ -32,6 +32,8 @@ final class ResetStatus
 
     private const FAILED = 'failed';
 
+    private const STAMP_SUFFIX = '.last-success';
+
     private bool $reported = false;
 
     private bool $watching = false;
@@ -64,6 +66,18 @@ final class ResetStatus
         if (is_file($this->markerFile)) {
             unlink($this->markerFile);
         }
+        $this->stamp();
+    }
+
+    /**
+     * Identifies the last successful reset (empty before the first one): a guided journey (US-105) compares it with the one
+     * seen when the visitor started, to send them back to step 1 once the demo has been reset.
+     */
+    public function lastSuccess(): string
+    {
+        $content = @file_get_contents($this->markerFile . self::STAMP_SUFFIX);
+
+        return false === $content ? '' : trim($content);
     }
 
     public function hasFailed(): bool
@@ -80,6 +94,13 @@ final class ResetStatus
         $modifiedAt = @filemtime($this->markerFile);
 
         return false !== $modifiedAt && (time() - $modifiedAt) > self::MAX_RUN_SECONDS;
+    }
+
+    private function stamp(): void
+    {
+        $temporary = $this->markerFile . self::STAMP_SUFFIX . '.' . bin2hex(random_bytes(4)) . '.tmp';
+        file_put_contents($temporary, bin2hex(random_bytes(6)));
+        rename($temporary, $this->markerFile . self::STAMP_SUFFIX);
     }
 
     private function watchForDeathWithoutReport(): void

@@ -22,6 +22,31 @@ final class ResetStatusTest extends TestCase
     protected function tearDown(): void
     {
         @unlink($this->file);
+        @unlink($this->file . '.last-success');
+    }
+
+    public function testEachSuccessfulResetHasItsOwnFingerprint(): void
+    {
+        $status = new ResetStatus($this->file);
+        self::assertSame('', $status->lastSuccess(), 'No reset yet.');
+
+        $status->markSucceeded();
+        $first = new ResetStatus($this->file)->lastSuccess();
+        $status->markSucceeded();
+
+        self::assertNotSame('', $first);
+        self::assertNotSame($first, $status->lastSuccess());
+    }
+
+    public function testAFailureDoesNotChangeTheFingerprint(): void
+    {
+        $status = new ResetStatus($this->file);
+        $status->markSucceeded();
+        $before = $status->lastSuccess();
+
+        $status->markFailed();
+
+        self::assertSame($before, $status->lastSuccess());
     }
 
     public function testNoFailureIsRecordedAtFirst(): void

@@ -40,7 +40,7 @@
                 </ul>
             </details>
             {% if contact %}
-                <a class="{{ target }} ms-auto d-none d-md-inline-flex text-white text-nowrap" style="{{ target_height }}" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-contact-link{{ app_umami_event('cta-message', { emplacement: 'barre-demo' }) }}>{{ 'banner.contact'|trans({}, 'theme_demo') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                <a class="align-items-center ms-auto d-none d-md-inline-flex text-white text-nowrap" style="{{ target_height }}" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-contact-link{{ app_umami_event('cta-message', { emplacement: 'barre-demo' }, true) }}>{{ 'banner.contact'|trans({}, 'theme_demo') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
             {% endif %}
         </div>
     </div>

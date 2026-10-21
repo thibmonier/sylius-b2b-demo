@@ -1,6 +1,13 @@
 sylius_api:
     enabled: true
 
+services:
+    # US-105: the journey smoke test reads the catalogue and the launcher (private services).
+    # US-107: the tests that fill the cart of a demo account rebuild the cart of Claire with its fixture.
+    test.demo_cart_fixture: { alias: App\Demo\DataFixtures\CartDemoFixture, public: true }
+    test.demo_journey_catalog: { alias: App\Demo\Journey\JourneyCatalog, public: true }
+    test.demo_journey_launcher: { alias: App\Demo\Journey\JourneyLauncher, public: true }
+
 parameters:
     # After services.yaml (which sets the production path): each test cache directory keeps its own marker and lock.
     demo.reset_marker_file: '%kernel.cache_dir%/demo-reset-failed'

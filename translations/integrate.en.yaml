@@ -1,0 +1,73 @@
+title: "Integrate these plugins in your project"
+intro: "These plugins install on a Sylius 2.3 project, existing or planned. This page describes the three possible formulas, the questions to settle before starting, a typical architecture and indicative lead times."
+cta:
+    label: "Discuss your project"
+    text: "Describe your context in a few lines: you get a first reading of your needs."
+formulas:
+    title: "Three formulas"
+    deliverable: "What you receive"
+    scoping:
+        name: "Scoping"
+        summary: "Decide before building."
+        items:
+            1: "A review of your catalogue, your customer accounts and your existing flows."
+            2: "A choice of the plugins your business needs, and of those it does not."
+            3: "A target architecture and an implementation plan."
+        deliverable: "A scoping note and an implementation plan."
+    integration:
+        name: "Integration"
+        summary: "Put the plugins into service in your project."
+        items:
+            1: "Installation and configuration of the chosen plugins on your shop."
+            2: "Connection to your ERP, your purchasing platforms (PunchOut) and your invoicing."
+            3: "Tests, acceptance with your teams and go-live."
+        deliverable: "A shop that works with your data, accepted with you."
+    support:
+        name: "Support"
+        summary: "Stay available after go-live."
+        items:
+            1: "Fixes and evolutions of the installed plugins."
+            2: "Sylius version upgrades."
+            3: "Knowledge transfer to your team."
+        deliverable: "A project that keeps up with Sylius versions and your team's needs."
+    support_note: "A support contract can be agreed for projects in production; its terms are defined together."
+questions:
+    title: "Questions to settle before starting"
+    erp:
+        summary: "Which ERP, and which data must flow?"
+        text: "Which ERP do you use? Must prices, stock, customers and orders be exchanged one way or both ways, and how often? The answer sets the architecture and a large part of the lead time."
+    punchout:
+        summary: "Do your customers order from their procurement system?"
+        text: "PunchOut cXML or OCI: which platforms, which buyers, which information to carry into the order? A test account at the customer makes acceptance easier."
+    e-invoicing:
+        summary: "What are your e-invoicing obligations?"
+        text: "Which invoice format (Factur-X, for example), which transmission platform, which deadline for your company? The demo produces Factur-X invoices; the choice of the transmission platform is yours."
+    volume:
+        summary: "What is your volume?"
+        text: "Number of products, customer companies and users, orders per day, catalogue import: these figures size the hosting and the load tests."
+architecture:
+    title: "Typical architecture"
+    intro: "The plugins add to the Sylius shop. Exchanges with the outside go through standard interfaces."
+    figure_title: "Typical architecture diagram"
+    figure_desc: "The Sylius 2 shop with its B2B plugins receives the carts from your customers' purchasing platforms (PunchOut cXML or OCI) and the requests of AI assistants (MCP). It exchanges catalogues, prices, stock and orders with your ERP, and produces Factur-X invoices for your e-invoicing."
+    shop: "Sylius 2 shop + B2B plugins"
+    punchout: "Purchasing platforms (PunchOut)"
+    mcp: "AI assistants (MCP)"
+    erp: "Your ERP"
+    invoicing: "E-invoicing"
+    caption: "Inputs: PunchOut cXML or OCI and AI assistants (MCP). Exchanges with the ERP: catalogue, prices, stock, orders. Output: Factur-X invoices."
+delays:
+    title: "Indicative lead times"
+    intro: "These lead times are orders of magnitude; they are confirmed after the scoping."
+    scoping:
+        name: "Scoping"
+        duration: "1 to 2 weeks"
+        text: "Depending on how many people need to be brought together."
+    integration:
+        name: "Integration"
+        duration: "4 to 12 weeks"
+        text: "Depending on the number of chosen plugins and of interfaces to connect (ERP, PunchOut, invoicing)."
+    support:
+        name: "Support"
+        duration: "Duration agreed together"
+        text: "After go-live, at your pace."

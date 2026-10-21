@@ -27,8 +27,11 @@ final class DemoResetCommandTest extends KernelTestCase
     /** Carts that are not history orders (US-096 / US-097): the cart of Claire and the two drafts of the back office. */
     private const LIVE_CARTS = 3;
 
+    private ?string $originalChannelName = null;
+
     protected function tearDown(): void
     {
+        $this->restoreB2bChannelName();
         // A failed reset leaves a marker that turns /healthz to 503 (US-033): never leak it to the next tests.
         @unlink(self::resetFailedMarker());
         $this->setDemoMode('1');
@@ -140,7 +143,21 @@ final class DemoResetCommandTest extends KernelTestCase
 
     private function markB2bChannel(): void
     {
+        $this->originalChannelName ??= $this->channelName();
         $this->db()->executeStatement('UPDATE sylius_channel SET name = ? WHERE code = ?', [self::MARKER, 'B2B']);
+    }
+
+    // A refused or rolled back reset leaves the marker in the shared test database: later tests would read it.
+    private function restoreB2bChannelName(): void
+    {
+        if (null === $this->originalChannelName) {
+            return;
+        }
+        if (!self::$booted) {
+            self::bootKernel();
+        }
+        $this->db()->executeStatement('UPDATE sylius_channel SET name = ? WHERE code = ?', [$this->originalChannelName, 'B2B']);
+        $this->originalChannelName = null;
     }
 
     private function channelName(): string

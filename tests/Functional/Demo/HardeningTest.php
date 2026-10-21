@@ -8,6 +8,7 @@ use App\Demo\Http\InternalRequestToken;
 use App\Demo\PunchOutSimulator\BuyerCredentialsProvider;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
+use App\Tests\Support\RestoresDemoCarts;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -26,6 +27,7 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 final class HardeningTest extends WebTestCase
 {
     use EnvironmentSwitch;
+    use RestoresDemoCarts;
 
     private const PASSWORD = 'Demo1234!';
 

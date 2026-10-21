@@ -7,6 +7,9 @@
 #   TEST_DB_NAME=b2b_mine bin/run-tests
 #   TEST_CACHE_DIR=var/cache-mine bin/run-tests    # your own cache directory (emptied before, removed after)
 #
+# Holds a lock (RUN_TESTS_LOCK, default var/run-tests.lock): a second run is refused at once (exit 4) while the first one
+# lives; a lock left by a dead process is taken over. Wait for the end of a run by its lock, never with pgrep.
+#
 # Stops without creating anything when less than MIN_FREE_GB (5) GB are free. Prepares the database through
 # bin/prepare-test-db, so it never touches the development database (sylius_b2b_demo). See docs/tests-locaux.md.
 set -eu
@@ -25,18 +28,46 @@ case "$DB_NAME" in
     sylius_b2b_demo) echo "Refusing to use the development database \"sylius_b2b_demo\"." >&2; exit 1 ;;
 esac
 
+CACHE_DIR=""
+LOCK_DIR="${RUN_TESTS_LOCK:-var/run-tests.lock}"
+LOCK_HELD=0
+cleanup() {
+    [ -z "$CACHE_DIR" ] || rm -rf "$CACHE_DIR"
+    if [ "$LOCK_HELD" = 1 ]; then rm -rf "$LOCK_DIR"; fi
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+# Atomic: mkdir either creates the lock or fails. A lock whose PID is gone is stale and taken over once.
+mkdir -p "$(dirname "$LOCK_DIR")"
+if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+    HOLDER=$(cat "$LOCK_DIR/pid" 2>/dev/null || true)
+    if [ -z "$HOLDER" ] || kill -0 "$HOLDER" 2>/dev/null; then
+        echo "bin/run-tests is already running (PID ${HOLDER:-unknown}, lock $LOCK_DIR): wait for it to finish, then retry." >&2
+        exit 4
+    fi
+    echo "Stale lock of PID $HOLDER taken over." >&2
+    rm -rf "$LOCK_DIR"
+    if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+        echo "bin/run-tests is already running (lock $LOCK_DIR taken by another run): wait for it to finish, then retry." >&2
+        exit 4
+    fi
+fi
+LOCK_HELD=1
+echo "$$" > "$LOCK_DIR/pid"
+
 if [ -n "${TEST_CACHE_DIR:-}" ]; then
     CACHE_DIR="$TEST_CACHE_DIR"
     mkdir -p "$(dirname "$CACHE_DIR")"
     RESOLVED="$(cd "$(dirname "$CACHE_DIR")" && pwd)/$(basename "$CACHE_DIR")"
     case "$RESOLVED" in
-        "$PWD/var/cache"|"$PWD"|"$PWD/var"|"$HOME"|//*|/) echo "Refusing to empty \"$CACHE_DIR\": use a dedicated directory." >&2; exit 1 ;;
+        "$PWD/var/cache"|"$PWD"|"$PWD/var"|"$HOME"|//*|/) CACHE_DIR=""; echo "Refusing to empty \"$TEST_CACHE_DIR\": use a dedicated directory." >&2; exit 1 ;;
     esac
     rm -rf "$CACHE_DIR"
 else
     CACHE_DIR=$(mktemp -d "${TMPDIR:-/tmp}/b2b-test-cache.XXXXXX")
 fi
-trap 'rm -rf "$CACHE_DIR"' EXIT INT TERM
 
 export TEST_DB_NAME="$DB_NAME"
 export TEST_CACHE_DIR="$CACHE_DIR"
@@ -50,5 +81,11 @@ export APP_SHARE_DIR="$CACHE_DIR/share"
 export DATABASE_URL="${TEST_DATABASE_URL:-mysql://root@127.0.0.1:${MYSQL_PORT:-3340}/${DB_NAME}?serverVersion=8.4&charset=utf8mb4}"
 export WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf"
 
-# No exec: the trap must run after PHPUnit. Its exit code is the script's.
-php -d memory_limit=-1 vendor/bin/phpunit "$@"
+# No exec: the trap must run after PHPUnit. Its exit code is the script's. PHPUnit runs in the background and the
+# script waits for it: a POSIX shell (dash) runs a trap only once its foreground child ends, while `wait` is
+# interrupted by the signal, so a terminated run stops PHPUnit and removes its lock at once.
+php -d memory_limit=-1 vendor/bin/phpunit "$@" &
+PHPUNIT_PID=$!
+trap 'kill "$PHPUNIT_PID" 2>/dev/null || true; exit 130' INT
+trap 'kill "$PHPUNIT_PID" 2>/dev/null || true; exit 143' TERM
+wait "$PHPUNIT_PID"

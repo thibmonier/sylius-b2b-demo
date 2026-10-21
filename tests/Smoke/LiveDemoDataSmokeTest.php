@@ -43,21 +43,19 @@ final class LiveDemoDataSmokeTest extends WebTestCase
         self::assertStringContainsString('MSA V-Gard Hard Hat White', (string) $client->getResponse()->getContent());
     }
 
-    public function testTheCartOfClaireHoldsAtLeastTheAtelierQuantities(): void
+    public function testTheCartOfClaireHoldsExactlyTheAtelierQuantities(): void
     {
         self::bootKernel();
-        // Other tests of the suite add to her cart (PunchOut, quick order…): at least the Atelier list, never fewer.
-        $found = false;
-        foreach ($this->carts('claire@acme.example') as $cart) {
-            $quantities = [];
-            foreach ($cart->getItems() as $item) {
-                $quantities[(string) $item->getVariant()?->getCode()] = $item->getQuantity();
-            }
-            $found = $found || [] === array_filter(CompanyWishlistDemoFixture::ITEMS, static fn (int $quantity, string $code): bool => ($quantities[$code] ?? 0) < $quantity, \ARRAY_FILTER_USE_BOTH);
-            self::assertFalse($cart->isCreatedByGuest(), 'The shop resumes the cart of a customer only when it was not created by a guest.');
+        // The tests that change her cart (PunchOut, wishlist to cart…) run in a rolled back transaction: exact quantities.
+        $carts = $this->carts('claire@acme.example');
+        self::assertCount(1, $carts, 'Claire has one cart.');
+        $quantities = [];
+        foreach ($carts[0]->getItems() as $item) {
+            $quantities[(string) $item->getVariant()?->getCode()] = $item->getQuantity();
         }
 
-        self::assertTrue($found, 'Claire has a cart holding the Atelier list.');
+        self::assertEquals(CompanyWishlistDemoFixture::ITEMS, $quantities, 'Her cart holds the Atelier list, nothing more.');
+        self::assertFalse($carts[0]->isCreatedByGuest(), 'The shop resumes the cart of a customer only when it was not created by a guest.');
     }
 
     public function testPaulHasAnOrderToApprove(): void

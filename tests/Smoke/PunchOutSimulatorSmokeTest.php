@@ -15,6 +15,7 @@ use App\Demo\PunchOutSimulator\ReceivedLine;
 use App\Demo\PunchOutSimulator\ResponseParser;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
+use App\Tests\Support\IsolatesSharedAccounts;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -33,6 +34,8 @@ use Tmonier\SyliusPunchoutCxmlPlugin\Transfer\TransferLine;
  */
 final class PunchOutSimulatorSmokeTest extends WebTestCase
 {
+    use IsolatesSharedAccounts;
+
     public function testThePageIsServedAndNeverShowsTheSharedSecret(): void
     {
         $client = self::createClient();
@@ -121,6 +124,7 @@ final class PunchOutSimulatorSmokeTest extends WebTestCase
     public function testTheTransferredCartBecomesAnOrderThroughTheOrderRequest(): void
     {
         $client = self::createClient();
+        $this->isolateSharedAccounts($client);
         $setup = $this->requestSetup($client, 'https://erp.acme.example/demo/punchout-simulator/return');
         self::assertNotNull($setup->startToken(), $setup->message);
 

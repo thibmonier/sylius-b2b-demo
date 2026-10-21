@@ -8,7 +8,7 @@
 #   bin/clean-test-caches               # removes it
 #   MYSQL_CONTAINER=name bin/clean-test-caches   # default: sylius-b2b-demo-mysql-1
 #
-# Refuses a real run while a bin/run-tests is active (exit 3).
+# Refuses a real run while a bin/run-tests is active (exit 3): it reads the lock of bin/run-tests, a stale lock does not count.
 # Databases matched: sylius_test_*, b2b_*, sylius_b2b_demo_test_* (the ones TEST_DB_NAME=... creates). See docs/tests-locaux.md.
 set -eu
 cd "$(dirname "$0")/.."
@@ -23,7 +23,9 @@ esac
 CONTAINER="${MYSQL_CONTAINER:-sylius-b2b-demo-mysql-1}"
 KEEP_DB="sylius_b2b_demo_test"
 
-if [ "$DRY_RUN" = 0 ] && pgrep -f 'bin/run-tests' >/dev/null 2>&1; then
+LOCK_DIR="${RUN_TESTS_LOCK:-var/run-tests.lock}"
+RUN_PID=$(cat "$LOCK_DIR/pid" 2>/dev/null || true)
+if [ "$DRY_RUN" = 0 ] && [ -d "$LOCK_DIR" ] && { [ -z "$RUN_PID" ] || kill -0 "$RUN_PID" 2>/dev/null; }; then
     echo "bin/run-tests is running: its caches and database would be removed under it. Wait for it, or use --dry-run." >&2
     exit 3
 fi

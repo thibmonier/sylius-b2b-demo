@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use App\Tests\Support\RestoresDemoCarts;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -17,6 +18,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 final class CompanyAddressBookSmokeTest extends WebTestCase
 {
+    use RestoresDemoCarts;
+
     private const BOOK = '/fr_FR/account/company/addresses';
 
     private const CHECKOUT_ADDRESS = '/fr_FR/checkout/address';

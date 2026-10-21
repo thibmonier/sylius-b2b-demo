@@ -1,0 +1,12 @@
+{# US-105: the journey needs another account: one-click sign-in (a standard login form, no bypass). #}
+{% set role = ('role.' ~ account.role)|trans({}, 'theme_demo') %}
+<div class="alert alert-warning" role="alert" data-journey-wrong-account>
+    <p class="mb-3">{{ (signed_in ? 'account.wrong' : 'account.anonymous')|trans({'%name%': account.fullName, '%role%': role}, 'journeys') }}</p>
+    {% include 'demo/_login_form.html.twig' with {
+        account,
+        check_route: 'sylius_shop_login_check',
+        csrf_field: '_csrf_shop_security_token',
+        csrf_id: 'shop_authenticate',
+        list: true,
+    } only %}
+</div>

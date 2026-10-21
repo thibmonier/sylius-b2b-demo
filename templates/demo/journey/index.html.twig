@@ -1,0 +1,37 @@
+{# US-105/US-106: the list of the guided journeys. Bootstrap utilities only (the page also shows on the B2C channel). #}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'list.title'|trans({}, 'journeys') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-page="journeys">
+        <h1>{{ 'list.title'|trans({}, 'journeys') }}</h1>
+        <p class="lead">{{ 'list.intro'|trans({}, 'journeys') }}</p>
+
+        {% if reset_notice %}
+            {% include 'demo/journey/_reset_notice.html.twig' %}
+        {% endif %}
+
+        <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-4 mt-2" data-journey-list>
+            {% for journey in journeys %}
+                {% set resume = resumes[journey.id] %}
+                <li class="col" data-journey="{{ journey.id }}">
+                    <article class="card h-100" aria-labelledby="journey-{{ journey.id }}">
+                        <div class="card-body d-flex flex-column">
+                            <p class="small fw-semibold text-uppercase mb-1" data-journey-persona>{{ 'list.persona_label'|trans({}, 'journeys') }} {{ ('persona.' ~ journey.persona)|trans({}, 'journeys') }}</p>
+                            <h2 class="h5" id="journey-{{ journey.id }}">{{ ('journey.' ~ journey.id ~ '.title')|trans({}, 'journeys') }}</h2>
+                            <p>{{ ('journey.' ~ journey.id ~ '.goal')|trans({}, 'journeys') }}</p>
+                            <p class="small mb-3" data-journey-duration>{{ 'list.duration'|trans({'%minutes%': journey.minutes, '%steps%': journey.stepCount}, 'journeys') }}</p>
+                            <div class="d-flex flex-wrap gap-2 mt-auto">
+                                <a class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ path('app_demo_journey_step', {_locale: app.request.locale, id: journey.id, step: 1}) }}" data-journey-start{{ app_umami_event('journey-start', { parcours: journey.id }) }}>{{ 'list.start'|trans({}, 'journeys') }}<span class="visually-hidden"> — {{ ('journey.' ~ journey.id ~ '.title')|trans({}, 'journeys') }}</span></a>
+                                {% if resume and resume > 1 %}
+                                    <a class="btn btn-outline-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ path('app_demo_journey_step', {_locale: app.request.locale, id: journey.id, step: resume}) }}" data-journey-resume>{{ 'list.resume'|trans({'%step%': resume}, 'journeys') }}<span class="visually-hidden"> — {{ ('journey.' ~ journey.id ~ '.title')|trans({}, 'journeys') }}</span></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </article>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
