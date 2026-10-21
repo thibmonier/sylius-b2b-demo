@@ -17,6 +17,8 @@ jobs:
     tests:
         name: Quality and smoke tests
         runs-on: ubuntu-latest
+        # A hung test fails the job instead of holding the runner for hours (a deferred trap did it on 2026-10-21).
+        timeout-minutes: 30
         env:
             APP_ENV: test
             DATABASE_URL: mysql://root@127.0.0.1:3306/sylius_b2b_demo?serverVersion=8.4&charset=utf8mb4
@@ -98,6 +100,7 @@ jobs:
     image:
         name: Docker image
         runs-on: ubuntu-latest
+        timeout-minutes: 20
         steps:
             - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
@@ -174,6 +177,7 @@ jobs:
     audit:
         name: Dependency audit
         runs-on: ubuntu-latest
+        timeout-minutes: 20
         steps:
             - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
@@ -203,6 +207,7 @@ jobs:
     image-scan:
         name: Image scan and SBOM
         runs-on: ubuntu-latest
+        timeout-minutes: 20
         env:
             TRIVY_IMAGE: ghcr.io/aquasecurity/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
         steps:
