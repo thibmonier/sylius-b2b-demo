@@ -8,7 +8,8 @@ declare(strict_types=1);
  */
 $mode = getenv('DEMO_STUB_MODE') ?: 'public';
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
-$path = parse_url(\is_string($requestUri) ? $requestUri : '/', \PHP_URL_PATH);
+// A string key: PHP 8.5 deprecates null as an array offset (parse_url returns null or false on odd input).
+$path = (string) parse_url(\is_string($requestUri) ? $requestUri : '/', \PHP_URL_PATH);
 $broken = getenv('DEMO_STUB_BREAK') ?: null;
 
 $respond = static function (int $code, string $body = '', array $headers = []): void {
