@@ -29,7 +29,7 @@ Lever les bloquants avant l'ouverture publique de la démo : accessibilité mobi
 | [US-081](../user-stories/US-081.md) | Chaîne d'approvisionnement : Dependabot, scan d'image, SBOM et empreintes | Should | 5 | 15 |
 | [US-082](../user-stories/US-082.md) | Durcissement applicatif : en-têtes, fichiers servis, formulaire du simulateur, correctifs de dépendances | Should | 5 | 15 |
 | [US-083](../user-stories/US-083.md) | Relire la licence du plugin MCP tiers | Should | 1 | 15 |
-| [US-084](../user-stories/US-084.md) | Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société | Could | 5 | 23 |
+| [US-084](../user-stories/US-084.md) | Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société | Could | 5 | 22 |
 | [US-085](../user-stories/US-085.md) | Revue de sécurité de réouverture et dossier de GO | Must | 2 | 15 |
 | [US-139](../user-stories/US-139.md) | Plugins à jour dans la démo | Must | 2 | 15 |
 | [US-140](../user-stories/US-140.md) | Hôtes de confiance indépendants du domaine public Railway | Must | 1 | 15 |

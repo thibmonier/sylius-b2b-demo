@@ -26,16 +26,16 @@ Rendre la démo crédible pour un décideur métier : prix B2B visibles, catalog
 | [US-091](../user-stories/US-091.md) | Paliers et prix négocié au catalogue et au panier | Must | 3 | 15 |
 | [US-092](../user-stories/US-092.md) | Catalogue crédible, tranche 1 : photos cohérentes avec les produits | Must | 5 | 16 |
 | [US-093](../user-stories/US-093.md) | Catalogue crédible, tranche 2 : environ 150 références réalistes | Should | 8 | 20 |
-| [US-094](../user-stories/US-094.md) | Stock et délais indicatifs sur la fiche produit (données de démonstration) | Should | 5 | 21 |
+| [US-094](../user-stories/US-094.md) | Stock et délais indicatifs sur la fiche produit (données de démonstration) | Should | 5 | 20 |
 | [US-095](../user-stories/US-095.md) | Fiches techniques PDF fictives | Could | 3 | 23 |
 | [US-096](../user-stories/US-096.md) | Données vivantes (1/2) : panier de départ, historique et approbation en attente | Must | 5 | 16 |
 | [US-097](../user-stories/US-097.md) | Données vivantes (2/2) : devis en négociation, échéances de crédit, brouillons et suggestions IA | Must | 5 | 16 |
-| [US-098](../user-stories/US-098.md) | Jauge de remplissage condensée sur la fiche produit | Should | 2 | 22 |
-| [US-099](../user-stories/US-099.md) | Simulateur PunchOut habillé et expliqué | Should | 3 | 20 |
-| [US-100](../user-stories/US-100.md) | Les 403 expliqués et les menus inaccessibles masqués | Should | 3 | 22 |
-| [US-101](../user-stories/US-101.md) | Factures PDF et relevé de compte côté acheteur | Should | 5 | 22 |
+| [US-098](../user-stories/US-098.md) | Jauge de remplissage condensée sur la fiche produit | Should | 2 | 21 |
+| [US-099](../user-stories/US-099.md) | Simulateur PunchOut habillé et expliqué | Should | 3 | 19 |
+| [US-100](../user-stories/US-100.md) | Les 403 expliqués et les menus inaccessibles masqués | Should | 3 | 20 |
+| [US-101](../user-stories/US-101.md) | Factures PDF et relevé de compte côté acheteur | Should | 5 | 21 |
 | [US-102](../user-stories/US-102.md) | Suivi de commande côté acheteur | Could | 3 | 23 |
-| [US-103](../user-stories/US-103.md) | Assistants IA : page utile avec transcript d'une vraie conversation | Should | 3 | 19 |
+| [US-103](../user-stories/US-103.md) | Assistants IA : page utile avec transcript d'une vraie conversation | Should | 3 | 18 |
 | [US-144](../user-stories/US-144.md) | Bandeau du haut sans offre newsletter | Must | 1 | 15 |
 
 **Notes** : S'appuie sur US-047/061/062 pour les images. Les écrans vides se mesurent par un test de fumée.
