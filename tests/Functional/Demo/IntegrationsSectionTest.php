@@ -42,7 +42,8 @@ final class IntegrationsSectionTest extends WebTestCase
         self::assertSame($labels['available'], trim($portals->filter('[data-integration-state-label]')->text()));
         self::assertStringEndsWith('/sylius-punchout-cxml-plugin', (string) $portals->filter('a[data-integration-plugin]')->attr('href'));
         $fleet = $items->filter('[data-integration="equipment_fleet"]');
-        self::assertSame($labels['upcoming'], trim($fleet->filter('[data-integration-state-label]')->text()));
+        self::assertSame($labels['available'], trim($fleet->filter('[data-integration-state-label]')->text()));
+        self::assertStringEndsWith('/sylius-customer-asset-management-plugin', (string) $fleet->filter('a[data-integration-plugin]')->attr('href'));
     }
 
     #[DataProvider('locales')]

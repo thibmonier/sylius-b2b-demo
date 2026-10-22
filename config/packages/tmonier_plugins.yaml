@@ -13,6 +13,7 @@ imports:
     - { resource: "@TmonierSyliusBulkActionsPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusCommandPalettePlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusCompanyInsightsPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusCustomerAssetManagementPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusContainerFillPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusFacturXPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusGpsrPlugin/config/config.yaml" }

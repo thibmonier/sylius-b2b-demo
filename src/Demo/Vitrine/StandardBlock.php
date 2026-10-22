@@ -25,12 +25,10 @@ final class StandardBlock
 
     private const AUTHOR = 'Thibaut Monier';
 
-    /** Plugins the demo does not include (US-054, design stage). */
-    private const NOT_IN_DEMO = ['sylius-customer-asset-management-plugin'];
-
+    /** Every plugin of the catalogue is installed in the demo (customer-asset-management joined it in sprint 21). */
     public static function isInDemo(string $plugin): bool
     {
-        return !\in_array($plugin, self::NOT_IN_DEMO, true);
+        return '' !== $plugin;
     }
 
     /** @throws \RuntimeException when the URL is not an https address usable in a Markdown link */

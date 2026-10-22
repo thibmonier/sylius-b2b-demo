@@ -186,6 +186,11 @@ sylius_fixtures:
                 demo_company_wishlists:
                     priority: -40
 
+                # Sprint 21 — US-060: equipment models (compatible variants) and the fleet of Claire. Needs the products
+                # (-30) and the customers (-15); its own priority.
+                demo_equipment_fleet:
+                    priority: -45
+
                 # Sprint 5 — US-025: shared address book of Acme ("Usine de Lyon"…). Needs companies (-15).
                 demo_company_addresses:
                     priority: -40

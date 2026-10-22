@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-21T13:11:53Z",
+    "generated_at": "2026-10-22T17:06:38Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -380,29 +380,39 @@
         },
         "sylius-customer-asset-management-plugin": {
             "version": {
-                "state": "unpublished",
+                "value": "v0.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-customer-asset-management-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
+            },
+            "sylius_declared": {
+                "value": "^2.2.9 || ^2.3",
+                "source": "https://packagist.org/packages/tmonier/sylius-customer-asset-management-plugin",
+                "checked_at": "2026-10-22"
+            },
+            "sylius_23": {
+                "value": true,
+                "source": "https://packagist.org/packages/tmonier/sylius-customer-asset-management-plugin",
+                "checked_at": "2026-10-22"
             },
             "ci": {
                 "value": "success",
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/39052635654",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "sylius_tested": {
-                "value": "2.3",
+                "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "tests": {
-                "value": 2,
+                "value": 20,
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/main/tests",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             }
         },
         "sylius-facturx-plugin": {
@@ -555,39 +565,39 @@
         },
         "sylius-purchase-approval-plugin": {
             "version": {
-                "value": "v1.2.0",
+                "value": "v1.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
                 "checked_at": "2026-10-22"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/39597117198",
-                "checked_at": "2026-10-21"
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/39818503104",
+                "checked_at": "2026-10-22"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "tests": {
-                "value": 18,
+                "value": 24,
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/main/tests",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             }
         },
         "sylius-quick-order-plugin": {

@@ -132,20 +132,6 @@ final class VitrineReadmeTest extends TestCase
         (new ReadmeApplier())->apply($this->dir, self::PROFILE);
     }
 
-    public function testThePluginAbsentFromTheDemoSaysSoAndPromisesNothing(): void
-    {
-        $dir = dirname($this->dir) . '/sylius-customer-asset-management-plugin';
-        (new Filesystem())->mkdir($dir);
-        file_put_contents($dir . '/README.md', self::ENGLISH);
-        file_put_contents($dir . '/README.fr.md', self::FRENCH);
-
-        (new ReadmeApplier())->apply($dir, self::PROFILE);
-
-        self::assertStringContainsString('not present in the demo', (string) file_get_contents($dir . '/README.md'));
-        self::assertStringContainsString('non présent dans la démo', (string) file_get_contents($dir . '/README.fr.md'));
-        self::assertSame([], $this->errors($this->check($dir, 'sylius-customer-asset-management-plugin')));
-    }
-
     public function testTheBlockIsAppendedWhenThereIsNoLicenceSection(): void
     {
         $this->write("# Foo\n\nIntro.\n\n## Usage\n\nText.\n", "# Foo\n\nIntro.\n\n## Utilisation\n\nTexte.\n");
@@ -304,22 +290,6 @@ final class VitrineReadmeTest extends TestCase
             self::assertStringContainsString($labels[1] . '(' . self::PROFILE . ')', $content);
         }
         self::assertSame([], $this->check());
-    }
-
-    public function testThePluginAbsentFromTheDemoGetsTheProfileLinkOnly(): void
-    {
-        $dir = dirname($this->dir) . '/sylius-customer-asset-management-plugin';
-        (new Filesystem())->mkdir($dir);
-        file_put_contents($dir . '/README.md', self::ENGLISH);
-        file_put_contents($dir . '/README.fr.md', self::FRENCH);
-
-        (new ReadmeApplier())->apply($dir, self::PROFILE);
-
-        foreach (['README.md', 'README.fr.md'] as $file) {
-            $content = (string) file_get_contents($dir . '/' . $file);
-            self::assertStringContainsString('(' . self::PROFILE . ')', $content);
-            self::assertStringNotContainsString('https://sylius-b2b.thibaut-monier.fr', $content);
-        }
     }
 
     public function testAMissingProfileUrlRefusesToTouchAnything(): void
