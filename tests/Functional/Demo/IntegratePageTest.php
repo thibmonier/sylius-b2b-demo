@@ -67,20 +67,16 @@ final class IntegratePageTest extends WebTestCase
         self::assertStringContainsString('tmonier/' . $slug, $first->filter('code')->text());
     }
 
+    /** US-108 (2026-10-21): the page describes, it does not offer a service: no contact button, even when a contact URL is configured. */
     #[DataProvider('locales')]
-    public function testTheContactButtonLeadsToTheContactPageWithTheTrackingOfThePage(string $locale, string $button): void
+    public function testThePageHasNoContactButtonEvenWithAContactUrl(string $locale): void
     {
         $this->setEnvironment(['DEMO_PROFILE_URL' => '', 'DEMO_CONTACT_URL' => self::CONTACT]);
 
-        $link = $this->page('/' . $locale . '/integrer')->filter('a[data-integrate-contact]');
-
-        self::assertCount(1, $link);
-        self::assertSame($button, trim($link->filter('[data-integrate-contact-label]')->text()));
-        self::assertSame(self::CONTACT . '?utm_source=demo-b2b&utm_medium=cta&utm_content=integrate', $link->attr('href'));
-        self::assertSame('noopener noreferrer', $link->attr('rel'));
+        self::assertCount(0, $this->page('/' . $locale . '/integrer')->filter('[data-integrate-contact]'));
     }
 
-    public function testWithoutContactUrlTheButtonIsHiddenAndTheRestOfThePageStays(): void
+    public function testWithoutContactUrlTheRestOfThePageStays(): void
     {
         $this->setEnvironment(['DEMO_PROFILE_URL' => '', 'DEMO_CONTACT_URL' => '']);
 

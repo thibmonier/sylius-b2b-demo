@@ -29,13 +29,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-108-01 | [DOC] | Cadrage : page `integrate` et `plugins.yaml` relus, matrice intégration, plugin, état (ERP, PIM, transporteurs, PA/PDP, portails d'achat, assistants), confirmation que la page ne dépend pas d'US-130, textes FR et EN rédigés | 0,5 h | T-113-07 | Claude | 🔲 |
-| T-108-02 | [TEST] | Tests rouges : chaque intégration a un état et un lien vers son plugin, « à venir » ou « en cours » pour un plugin non publié, « non fourni » avec renvoi vers le contrat d'événements de webhook-outbox, cohérence d'état (plugin publié marqué à venir échoue), charte (formulations commerciales refusées) | 1,25 h | T-108-01 | Claude | 🔲 |
-| T-108-03 | [BE] | Source des états dérivée de `config/demo/plugins.yaml`, contrôle de cohérence, extension du contrôle de charte, route et contrôleur de la page | 1 h | T-108-02 | Claude | 🔲 |
-| T-108-04 | [FE-WEB] | Page « Intégrations » : schéma en SVG avec alternative textuelle, badges d'état, liens vers les plugins, entrée de menu ou de pied de page, aucun bouton de contact ; libellés FR et EN ; contrastes AAA, mobile | 1,75 h | T-108-03 | Claude | 🔲 |
-| T-108-05 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-108-04 | Claude | 🔲 |
-| T-108-06 | [DOC] | Documentation à jour (`docs/vitrine-plugins.md`, README de la démo) | 0,5 h | T-108-04 | Claude | 🔲 |
-| T-108-07 | [REV] | Revue (aucune formulation commerciale, états cohérents avec la vitrine, parité FR et EN) | 0,5 h | T-108-05, T-108-06 | Claude | 🔲 |
+| T-108-01 | [DOC] | Cadrage : page `integrate` et `plugins.yaml` relus, matrice intégration, plugin, état (ERP, PIM, transporteurs, PA/PDP, portails d'achat, assistants), confirmation que la page ne dépend pas d'US-130, textes FR et EN rédigés | 0,5 h | T-113-07 | Claude | ✅ |
+| T-108-02 | [TEST] | Tests rouges : chaque intégration a un état et un lien vers son plugin, « à venir » ou « en cours » pour un plugin non publié, « non fourni » avec renvoi vers le contrat d'événements de webhook-outbox, cohérence d'état (plugin publié marqué à venir échoue), charte (formulations commerciales refusées) | 1,25 h | T-108-01 | Claude | ✅ |
+| T-108-03 | [BE] | Source des états dérivée de `config/demo/plugins.yaml`, contrôle de cohérence, extension du contrôle de charte, route et contrôleur de la page | 1 h | T-108-02 | Claude | ✅ |
+| T-108-04 | [FE-WEB] | Page « Intégrations » : schéma en SVG avec alternative textuelle, badges d'état, liens vers les plugins, entrée de menu ou de pied de page, aucun bouton de contact ; libellés FR et EN ; contrastes AAA, mobile | 1,75 h | T-108-03 | Claude | ✅ |
+| T-108-05 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-108-04 | Claude | ✅ |
+| T-108-06 | [DOC] | Documentation à jour (`docs/vitrine-plugins.md`, README de la démo) | 0,5 h | T-108-04 | Claude | ✅ |
+| T-108-07 | [REV] | Revue (aucune formulation commerciale, états cohérents avec la vitrine, parité FR et EN) | 0,5 h | T-108-05, T-108-06 | Claude | ✅ |
 
 **Total estimé : 6,5 h** (7 tâches, aucune de Thibaut).
 

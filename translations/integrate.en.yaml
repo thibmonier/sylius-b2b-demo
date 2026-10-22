@@ -1,8 +1,5 @@
 title: "Plugin integration guide"
 intro: "A self-service technical guide for developers and integrators: prerequisites, typical plugin installation, typical architecture, questions to settle before starting and GitHub repositories. Each plugin has its own README, which is authoritative."
-cta:
-    title: "A question?"
-    text: "A question about a plugin or about this guide?"
 prerequisites:
     title: "Prerequisites"
     sylius: "Sylius 2.3 (2.2.9 at least for most plugins: earlier 2.2 versions are affected by cart and payment security advisories)."
@@ -22,7 +19,7 @@ install:
         title: "Import the routes in config/routes/tmonier_sylius_quick_order.yaml"
     migrations:
         title: "Run the migrations"
-        text: "The quick order plugin has no table, hence no migration. Most of the other plugins have some (PunchOut, quote requests): run the command after reading it through."
+        text: "The quick order plugin has no table, hence no migration. Most of the other plugins have some (PunchOut, price requests): run the command after reading it through."
     assets:
         title: "Install the assets, then clear the cache"
         text: "Needed for the plugins that ship CSS or JavaScript to the admin panel or the shop (the command palette, for example). Then rebuild the application assets (yarn install && yarn build)."
@@ -51,6 +48,45 @@ architecture:
     erp: "ERP"
     invoicing: "E-invoicing"
     caption: "Inputs: PunchOut cXML or OCI and AI assistants (MCP). ERP exchanges: catalogue, prices, stock, orders. Output: Factur-X invoices."
+integrations:
+    title: "Integrations and their state"
+    intro: "What the shop can connect to the outside and where each integration stands. A \"not provided\" integration has no plugin: the page says so and points to the event contract a developer can build on."
+    plugin: "Plugin:"
+    not_provided_note: "No plugin covers it."
+    contract: "Event contract: %plugin%"
+    state:
+        available: "Available"
+        in_progress: "In progress"
+        upcoming: "Upcoming"
+        not_provided: "Not provided"
+    items:
+        erp:
+            name: "ERP"
+            text: "Prices, stock, customers and orders exchanged with the company's management system."
+        pim:
+            name: "PIM"
+            text: "Product data enriched in an external tool and brought into the catalogue."
+        carriers:
+            name: "Carriers"
+            text: "Logistics data per variant and container fill rules, the basis of a freight calculation."
+        einvoicing_format:
+            name: "E-invoicing, format"
+            text: "Factur-X invoices: a readable PDF with structured data embedded."
+        einvoicing_platform:
+            name: "E-invoicing, transmission platform"
+            text: "Filing invoices with an accredited platform (PA or PDP)."
+        purchasing_portals:
+            name: "Purchasing portals"
+            text: "Opening the shop from the buyer's procurement system, returning the cart as cXML or OCI."
+        large_accounts:
+            name: "Large accounts"
+            text: "Customer companies, users, roles, addresses and spending limits."
+        ai_assistants:
+            name: "AI assistants"
+            text: "B2B tools exposed by the MCP server: list orders, order by reference."
+        equipment_fleet:
+            name: "Customer equipment fleet"
+            text: "Spare parts compatible with the machines a customer declares."
 repositories:
     title: "Repositories and READMEs"
     intro: "Each plugin is an independent GitHub repository, with its README (installation, configuration, tests) and its Composer package."

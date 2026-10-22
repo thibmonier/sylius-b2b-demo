@@ -1,8 +1,5 @@
 title: "Guide d'intégration des plugins"
 intro: "Guide technique en libre-service pour les développeurs et les intégrateurs : prérequis, installation type d'un plugin, architecture type, questions à régler avant de commencer et dépôts GitHub. Chaque plugin a son propre README, qui fait foi."
-cta:
-    title: "Une question ?"
-    text: "Une question sur un plugin ou sur ce guide ?"
 prerequisites:
     title: "Prérequis"
     sylius: "Sylius 2.3 (2.2.9 minimum pour la plupart des plugins : les versions 2.2 antérieures sont touchées par des avis de sécurité sur le panier et le paiement)."
@@ -22,7 +19,7 @@ install:
         title: "Importer les routes dans config/routes/tmonier_sylius_quick_order.yaml"
     migrations:
         title: "Exécuter les migrations"
-        text: "Le plugin de commande rapide n'a pas de table et n'a donc pas de migration. La plupart des autres plugins en ont (PunchOut, demandes de devis) : jouez la commande, après l'avoir relue."
+        text: "Le plugin de commande rapide n'a pas de table et n'a donc pas de migration. La plupart des autres plugins en ont (PunchOut, demandes de prix) : jouez la commande, après l'avoir relue."
     assets:
         title: "Installer les assets, puis vider le cache"
         text: "Nécessaire pour les plugins qui livrent du CSS ou du JavaScript côté administration ou boutique (palette de commandes, par exemple). Recompilez ensuite les assets de l'application (yarn install && yarn build)."
@@ -51,6 +48,45 @@ architecture:
     erp: "ERP"
     invoicing: "Facturation électronique"
     caption: "Entrées : PunchOut cXML ou OCI et assistants IA (MCP). Échanges avec l'ERP : catalogue, prix, stocks, commandes. Sortie : factures Factur-X."
+integrations:
+    title: "Intégrations et état"
+    intro: "Ce que la boutique sait connecter à l'extérieur et où en est chaque intégration. Une intégration « non fournie » n'a pas de plugin : la page le dit et renvoie vers le contrat d'événements sur lequel un développeur peut s'appuyer."
+    plugin: "Plugin :"
+    not_provided_note: "Aucun plugin ne la couvre."
+    contract: "Contrat d'événements : %plugin%"
+    state:
+        available: "Disponible"
+        in_progress: "En cours"
+        upcoming: "À venir"
+        not_provided: "Non fourni"
+    items:
+        erp:
+            name: "ERP"
+            text: "Prix, stocks, clients et commandes échangés avec le système de gestion de l'entreprise."
+        pim:
+            name: "PIM"
+            text: "Fiches produit enrichies dans un outil externe et reprises dans le catalogue."
+        carriers:
+            name: "Transporteurs"
+            text: "Données logistiques par variante et règles de remplissage par conteneur, base d'un calcul de transport."
+        einvoicing_format:
+            name: "Facture électronique, format"
+            text: "Factures Factur-X : PDF lisible et données structurées embarquées."
+        einvoicing_platform:
+            name: "Facture électronique, plateforme de transmission"
+            text: "Dépôt des factures auprès d'une plateforme agréée (PA ou PDP)."
+        purchasing_portals:
+            name: "Portails d'achat"
+            text: "Ouverture de la boutique depuis le système d'achat de l'acheteur, retour du panier en cXML ou OCI."
+        large_accounts:
+            name: "Grands comptes"
+            text: "Sociétés clientes, utilisateurs, rôles, adresses et plafonds."
+        ai_assistants:
+            name: "Assistants IA"
+            text: "Outils B2B exposés par le serveur MCP : lister les commandes, commander par référence."
+        equipment_fleet:
+            name: "Parc d'équipements du client"
+            text: "Pièces détachées compatibles avec les machines déclarées par le client."
 repositories:
     title: "Dépôts et README"
     intro: "Chaque plugin est un dépôt GitHub indépendant, avec son README (installation, configuration, tests) et son paquet Composer."

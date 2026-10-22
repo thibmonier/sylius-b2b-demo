@@ -4,8 +4,6 @@
 
 {% block content %}
     {# US-107: Bootstrap utilities only (the page also shows on the B2C channel). A self-service technical guide: no price, no comparison, no offer. #}
-    {% set contact = app_demo_cta_targets('integrate')|filter(target => target.kind == 'contact')|first
-        ?: app_demo_cta_targets('integrate')|first %}
     <div class="container my-5" data-page="integrate">
         <h1>{{ 'title'|trans({}, 'integrate') }}</h1>
         <p class="lead">{{ 'intro'|trans({}, 'integrate') }}</p>
@@ -89,6 +87,29 @@
         </section>
 
 
+        <section class="mt-5" aria-labelledby="integrate-integrations">
+            <h2 class="h4 border-bottom pb-2" id="integrate-integrations">{{ 'integrations.title'|trans({}, 'integrate') }}</h2>
+            <p>{{ 'integrations.intro'|trans({}, 'integrate') }}</p>
+            <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mb-0" data-integrations>
+                {% for integration in integrations %}
+                    <li class="col" data-integration="{{ integration.id }}" data-integration-state="{{ integration.state }}">
+                        <div class="border rounded p-3 h-100">
+                            <p class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                                <span class="fw-semibold">{{ ('integrations.items.' ~ integration.id ~ '.name')|trans({}, 'integrate') }}</span>
+                                <span class="badge bg-white text-dark border border-2 {{ {available: 'border-success', in_progress: 'border-primary', upcoming: 'border-primary', not_provided: 'border-dark'}[integration.state] }}" data-integration-state-label>{{ ('integrations.state.' ~ integration.state)|trans({}, 'integrate') }}</span>
+                            </p>
+                            <p class="mb-2">{{ ('integrations.items.' ~ integration.id ~ '.text')|trans({}, 'integrate') }}</p>
+                            {% if integration.plugin %}
+                                <p class="mb-0">{{ 'integrations.plugin'|trans({}, 'integrate') }} {% include 'shared/_external_link.html.twig' with { url: integration.plugin.githubUrl, label: integration.plugin.name, data_attribute: 'data-integration-plugin' } only %}</p>
+                            {% elseif integration.contract %}
+                                <p class="mb-0">{{ 'integrations.not_provided_note'|trans({}, 'integrate') }} {% include 'shared/_external_link.html.twig' with { url: integration.contract.githubUrl ~ '#readme', label: 'integrations.contract'|trans({'%plugin%': integration.contract.name}, 'integrate'), data_attribute: 'data-integration-contract' } only %}</p>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
         <section class="mt-5" aria-labelledby="integrate-repositories">
             <h2 class="h4 border-bottom pb-2" id="integrate-repositories">{{ 'repositories.title'|trans({}, 'integrate') }}</h2>
             <p>{{ 'repositories.intro'|trans({}, 'integrate') }}</p>
@@ -107,15 +128,5 @@
                 {% endfor %}
             </ul>
         </section>
-
-        {% if contact %}
-            <section class="mt-5" aria-labelledby="integrate-contact">
-                <h2 class="h4 border-bottom pb-2" id="integrate-contact">{{ 'cta.title'|trans({}, 'integrate') }}</h2>
-                <p>{{ 'cta.text'|trans({}, 'integrate') }}</p>
-                <p class="mb-0">
-                    <a class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-integrate-contact{{ app_umami_event('cta-message', { emplacement: 'integrer' }) }}><span data-integrate-contact-label>{{ ('cta.' ~ contact.kind)|trans({}, 'theme_demo') }}</span><span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>
-                </p>
-            </section>
-        {% endif %}
     </div>
 {% endblock %}
