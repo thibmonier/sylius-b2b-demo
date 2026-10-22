@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c71661d872d690b393a9e10e634d839",
+    "content-hash": "67f7b28b0befbd4851e8a9db85a0e785",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -1497,16 +1497,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.5.1",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "528948210cc46f967a4b98e83b19e76f2b504993"
+                "reference": "9dfce66f1e97360ea5e6d3e38ab14277e4cc591e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/528948210cc46f967a4b98e83b19e76f2b504993",
-                "reference": "528948210cc46f967a4b98e83b19e76f2b504993",
+                "url": "https://api.github.com/repos/composer/semver/zipball/9dfce66f1e97360ea5e6d3e38ab14277e4cc591e",
+                "reference": "9dfce66f1e97360ea5e6d3e38ab14277e4cc591e",
                 "shasum": ""
             },
             "require": {
@@ -1558,7 +1558,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.5.1"
+                "source": "https://github.com/composer/semver/tree/3.5.2"
             },
             "funding": [
                 {
@@ -1570,7 +1570,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-05T13:12:12+00:00"
+            "time": "2026-10-22T15:37:26+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -9758,16 +9758,16 @@
         },
         {
             "name": "sylius/sylius",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/Sylius.git",
-                "reference": "1f069b642aa4dbce68e4f3979a01cf1a2f0a0ad6"
+                "reference": "3e99f4b46051ad7a9f6b3f21ea4d06937a277a69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/Sylius/zipball/1f069b642aa4dbce68e4f3979a01cf1a2f0a0ad6",
-                "reference": "1f069b642aa4dbce68e4f3979a01cf1a2f0a0ad6",
+                "url": "https://api.github.com/repos/Sylius/Sylius/zipball/3e99f4b46051ad7a9f6b3f21ea4d06937a277a69",
+                "reference": "3e99f4b46051ad7a9f6b3f21ea4d06937a277a69",
                 "shasum": ""
             },
             "require": {
@@ -10033,7 +10033,7 @@
             "homepage": "https://sylius.com",
             "support": {
                 "issues": "https://github.com/Sylius/Sylius/issues",
-                "source": "https://github.com/Sylius/Sylius/tree/v2.3.1"
+                "source": "https://github.com/Sylius/Sylius/tree/v2.3.2"
             },
             "funding": [
                 {
@@ -10041,7 +10041,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-14T13:17:32+00:00"
+            "time": "2026-10-22T15:40:31+00:00"
         },
         {
             "name": "sylius/telemetry",
