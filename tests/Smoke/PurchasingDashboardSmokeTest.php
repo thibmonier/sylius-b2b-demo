@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -146,6 +147,17 @@ final class PurchasingDashboardSmokeTest extends WebTestCase
         self::assertStringContainsString('Claire', $rows->text());
         self::assertMatchesRegularExpression('/[34] jours/', $rows->text(), 'Placed four days ago at 10:00: three full days before 10:00, four after.');
         self::assertCount(1, $crawler->filter('[data-test-tmonier-insights-widget="approvals"] a[href*="/account/company/approvals"]'), 'Isabelle decides: the link to the approvals is shown.');
+    }
+
+    public function testNoApprovalIsDecidedBeforeItWasRequested(): void
+    {
+        $client = self::createClient();
+        $connection = $client->getContainer()->get('doctrine.dbal.default_connection');
+        self::assertInstanceOf(Connection::class, $connection);
+
+        $inverted = $connection->fetchOne('SELECT COUNT(*) FROM tmonier_purchase_approval_order_approval WHERE decided_at IS NOT NULL AND decided_at < created_at');
+
+        self::assertEquals(0, $inverted, 'The median decision time of the widget would be negative.');
     }
 
     public function testTheAcmeWidgetsLeaveOutTheOtherCompanies(): void

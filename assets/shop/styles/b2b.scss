@@ -28,6 +28,12 @@
     --bs-border-radius: .25rem;
 }
 
+// Active pill (periods, figures and sorts of the purchasing dashboard): the official theme draws white on mint (2.5:1).
+.nav-pills {
+    --bs-nav-pills-link-active-color: #{$b2b-white};
+    --bs-nav-pills-link-active-bg: #{$b2b-navy};
+}
+
 // The official theme draws mint buttons with black text (--bs-btn-*-color: #000): every text colour is set here,
 // otherwise the text turns black on navy on hover. Hover = brown of the logo, white text (7:1).
 .btn-primary {

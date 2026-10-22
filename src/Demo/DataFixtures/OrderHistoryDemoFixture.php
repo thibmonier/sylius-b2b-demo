@@ -181,7 +181,6 @@ final class OrderHistoryDemoFixture extends AbstractFixture
         }
         if (OrderScenario::PendingApproval === $spec->scenario) {
             $this->placeApproval($this->approvalOf($order), $date);
-            $this->entityManager->flush();
 
             return;
         }
@@ -221,6 +220,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
     private function placeApproval(OrderApprovalInterface $approval, \DateTimeImmutable $placedAt): void
     {
         $approval->setCreatedAt($placedAt);
+        $this->entityManager->flush(); // before a decision: the decision maker reloads the approval and would lose it
     }
 
     private function approve(OrderInterface $order, DemoOrderSpec $spec, \DateTimeImmutable $placedAt): void
