@@ -163,13 +163,15 @@
 
 *Clôture du 2026-10-22* : sprint clos (PR #47, 27148b7). Les 5 stories engagées (25 points : US-149, US-150, US-151, US-155, US-146) sont livrées et restent en review, la vérification en production attendant la reprise des builds Railway. US-121 et US-099 sont sacrifiées au planning (statut backlog) et reportées au sprint 20. Plugins publiés : company-insights v0.1.0, admin-order-creation v1.1.0, company-accounts v1.3.0.
 
-### Sprint 20 (2027-03-19 au 2027-04-02) : 35 points (dont 0 Must)
+### Sprint 20 (2027-03-19 au 2027-04-02) : 35 points à la feuille de route, **22 points engagés** (dont 0 Must)
+
+*Mise à jour du 2026-10-22* : périmètre validé à 30 points puis US-093 (8 points) sacrifiée au planning (86 h de charge Claude pour 71 h de capacité) et **reportée au sprint 21** ; engagement final : US-113, US-152, US-153, US-156, US-108, US-099 (22 points, ~69,5 h). US-094 (5) et US-100 (3) restent hors périmètre (backlog).
 
 **Objectif** : Rendre la démo plus riche et plus lisible (catalogue de 150 références, stock et délais, accueil, intégrations) et compléter le pilotage des achats.
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
-| US-093 | Catalogue crédible, tranche 2 : environ 150 références réalistes | Should | 8 |
+| ~~US-093~~ → sprint 21 | Catalogue crédible, tranche 2 : environ 150 références réalistes | Should | 8 |
 | US-094 | Stock et délais indicatifs sur la fiche produit (données de démonstration) | Should | 5 |
 | US-152 | Company-insights : ventilation par site et centre de coût, export CSV | Should | 5 |
 | US-153 | Company-insights : indicateurs des approbations et de l'encours | Should | 5 |
@@ -180,12 +182,13 @@
 
 *Jalon* : La décision « administratrice approbatrice » de US-156 est à prendre au planning.
 
-### Sprint 21 (2027-04-02 au 2027-04-16) : 33 points (dont 0 Must)
+### Sprint 21 (2027-04-02 au 2027-04-16) : 33 points + 8 reportés (US-093) = 41 points à arbitrer (dont 0 Must)
 
 **Objectif** : Livrer le cœur du plugin parc d'équipements, cadrer le connecteur ERP et compléter l'espace acheteur.
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
+| US-093 | Catalogue crédible, tranche 2 : environ 150 références réalistes (reportée du sprint 20, sacrifiée le 2026-10-22) | Should | 8 |
 | US-056 | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | Should | 5 |
 | US-057 | Plugin équipements : parc du client dans l'espace client (CRUD) | Should | 5 |
 | US-058 | Plugin équipements : filtre « pièces compatibles » au catalogue | Should | 5 |
@@ -345,7 +348,7 @@ Dépendances externes : l'URL du profil LinkedIn (`DEMO_PROFILE_URL`, fournie pa
 | Fêtes de fin d'année pendant le sprint 14 | Capacité réduite | Les Must du sprint 14 sont courts (US-104, US-086, US-080) ; reporter les Should en sprint 15 |
 | URL du profil non posée sur Railway | CTA masqué, démo sans point d'arrivée | `DEMO_PROFILE_URL` à fournir (action de Thibaut) ; `preserve()` dans l'IaC |
 | Licence du plugin MCP incompatible avec une démo publique | Retrait d'une fonction vitrine, contenus MCP à revoir | US-083 en sprint 15, avant le GO ; US-103 et US-121 dépendent du résultat |
-| Contenus non crédibles (photos, données) | Perte de crédibilité auprès des recruteurs | US-092 à US-097 livrées, US-093 et US-094 au sprint 20, relecture de Thibaut |
+| Contenus non crédibles (photos, données) | Perte de crédibilité auprès des recruteurs | US-092 à US-097 livrées, US-093 au sprint 21 et US-094 au sprint 20, relecture de Thibaut |
 | Dérive de ton (pitch de prestation, Calendly, comparaison avec une offre éditeur, promotion sur des canaux Sylius) | Message brouillé pour les recruteurs, atteinte au positionnement | Charte v2 (US-116), test de termes interdits en CI (US-158) et `charter_check.py` pour les contenus |
 | **Faille critique PHP (CVSS 9.2) publiée le 2026-10-21** | Démo publique exposée tant que PHP n'est pas à jour | US-147 en tête du sprint 18 ; veille programmée possible avant ; vérification de l'image après reconstruction |
 | Message incohérent entre profil, posts et démo | Perte de confiance d'un recruteur | US-159 et US-158 livrées ensemble au sprint 18 ; relecture croisée par Thibaut |
