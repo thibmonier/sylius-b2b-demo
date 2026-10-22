@@ -41,8 +41,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-155-09 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-company-insights-plugin:^0.1`, bundle, routes, configuration, migration et menu ; `composer.lock` écrit seul | 1,25 h | T-155-04, T-155-08, T-099-07 | Claude | 🔄 |
 | T-155-10 | [FE-WEB] | Scénario « Isabelle consulte le tableau de bord des achats » dans `config/demo/plugins.yaml` (FR et EN, compte conseillé `isabelle`) et badge du plugin | 0,5 h | T-155-09 | Claude | ✅ |
 | T-155-11 | [TEST] | Tests de la démo : 12 mois avec creux en août et comparaison, au moins 4 acheteurs et 10 produits dans les tops, TechParts absent des tops d'Acme, parcours de Claire, Paul et Isabelle inchangés, durée de remise à zéro ≤ +20 % ; suite complète via `bin/run-tests`, ECS (`src tests`), PHPStan | 2 h | T-155-04, T-155-09, T-155-10 | Claude | ✅ |
-| T-155-12 | [OPS] | Captures de la page Plugins et du tableau de bord (démo locale remise à zéro, données fictives, sans marque tierce) pour la page Plugins et le README | 1 h | T-155-11 | Claude | 🔲 |
-| T-155-13 | [DOC] | Documentation de la démo (`docs/remise-a-zero-demo.md`, `docs/vitrine-plugins.md`) et captures dans le README du plugin | 0,5 h | T-155-01, T-155-12 | Claude | 🔄 |
+| T-155-12 | [OPS] | Captures de la page Plugins et du tableau de bord (démo locale remise à zéro, données fictives, sans marque tierce) pour la page Plugins et le README | 1 h | T-155-11 | Claude | ✅ |
+| T-155-13 | [DOC] | Documentation de la démo (`docs/remise-a-zero-demo.md`, `docs/vitrine-plugins.md`) et captures dans le README du plugin | 0,5 h | T-155-01, T-155-12 | Claude | ✅ |
 | T-155-14 | [REV] | Thibaut relit la documentation technique de Sylius Plus (S9) s'il y a accès et confirme ou corrige la classe de company-insights (non bloquant) | 0,25 h | T-155-01 | Thibaut | 🔲 |
 | T-155-15 | [REV] | Revue (déterminisme, cloisonnement visible, durée de remise à zéro, ton neutre, aucun secret, `composer.lock`) | 0,75 h | T-155-11, T-155-12, T-155-13 | Claude | 🔲 |
 
