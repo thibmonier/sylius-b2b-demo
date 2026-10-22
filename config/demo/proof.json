@@ -336,7 +336,7 @@
         },
         "sylius-company-insights-plugin": {
             "version": {
-                "value": "v0.1.0",
+                "value": "v0.1.1",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
                 "checked_at": "2026-10-22"
             }
