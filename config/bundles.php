@@ -92,4 +92,6 @@ return [
     Sylius\WishlistPlugin\SyliusWishlistPlugin::class => ['all' => true],
     // company-insights (US-155): purchasing dashboard built on company-accounts, after it
     Tmonier\SyliusCompanyInsightsPlugin\TmonierSyliusCompanyInsightsPlugin::class => ['all' => true],
+    // customer-asset-management (US-056..058): equipment fleet and compatible-parts filter
+    Tmonier\SyliusCustomerAssetManagementPlugin\TmonierSyliusCustomerAssetManagementPlugin::class => ['all' => true],
 ];

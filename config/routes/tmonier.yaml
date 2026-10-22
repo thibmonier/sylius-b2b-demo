@@ -42,3 +42,5 @@ tmonier_webhook_outbox:
     resource: "@TmonierSyliusWebhookOutboxPlugin/config/routes.yaml"
 tmonier_withdrawal:
     resource: "@TmonierSyliusWithdrawalPlugin/config/routes.yaml"
+tmonier_customer_asset_management:
+    resource: "@TmonierSyliusCustomerAssetManagementPlugin/config/routes.yaml"
