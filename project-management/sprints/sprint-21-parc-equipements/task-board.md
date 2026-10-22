@@ -92,7 +92,7 @@ Les tâches de Thibaut sont marquées dans la colonne « Réalisé par ». Les t
 
 | ID | US | Raison | Action |
 |----|-----|--------|--------|
-| T-TECH-07 | Transverse | Railway suspendu (plans Hobby) : rien à vérifier en production | Reprise de la plateforme, puis déploiement groupé (T-TECH-08) |
+| T-TECH-07 | Transverse | ✅ Levé le 2026-10-22 : Railway rétabli, déploiement de a7ad872, sprints 18 à 20 vérifiés en production | Anomalies mineures en US-162 (sprint 22) |
 | T-TECH-08 | Transverse | Railway suspendu (plans Hobby) : aucun déploiement possible | Thibaut déploie à la reprise ; aucune commande Railway par Claude |
 
 ## 📅 Conditionnelles (hors total) : publication de la 0.1.0 du plugin parc d'équipements
