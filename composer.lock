@@ -17258,16 +17258,16 @@
         },
         {
             "name": "tmonier/sylius-company-insights-plugin",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-company-insights-plugin.git",
-                "reference": "2f21f7091cb86cf3c9b5a77b85d278db5e93c185"
+                "reference": "4bab81bf6e7abbd391c95c2a26e6557f275e8248"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-company-insights-plugin/zipball/2f21f7091cb86cf3c9b5a77b85d278db5e93c185",
-                "reference": "2f21f7091cb86cf3c9b5a77b85d278db5e93c185",
+                "url": "https://api.github.com/repos/thibmonier/sylius-company-insights-plugin/zipball/4bab81bf6e7abbd391c95c2a26e6557f275e8248",
+                "reference": "4bab81bf6e7abbd391c95c2a26e6557f275e8248",
                 "shasum": ""
             },
             "require": {
@@ -17338,9 +17338,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-company-insights-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/tree/v0.2.0"
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/tree/v0.2.1"
             },
-            "time": "2026-10-22T08:49:38+00:00"
+            "time": "2026-10-22T10:00:04+00:00"
         },
         {
             "name": "tmonier/sylius-container-fill-plugin",
