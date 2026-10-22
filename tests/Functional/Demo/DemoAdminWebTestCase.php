@@ -77,7 +77,10 @@ abstract class DemoAdminWebTestCase extends WebTestCase
      */
     protected function setValue(array &$values, string $path, mixed $value): void
     {
-        [$key, $rest] = array_pad(explode('.', $path, 2), 2, null);
+        // explode() always yields the first segment: a string key (PHP 8.5 deprecates null as an array offset).
+        $segments = explode('.', $path, 2);
+        $key = $segments[0];
+        $rest = $segments[1] ?? null;
         if (null === $rest) {
             $values[$key] = $value;
 

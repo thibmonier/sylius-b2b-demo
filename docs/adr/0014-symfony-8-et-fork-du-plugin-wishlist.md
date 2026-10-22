@@ -48,3 +48,20 @@ Le fork `thibmonier/WishlistPlugin` ne sert plus à la démo. Sa branche `symfon
 - ✅ Symfony 8 ignore toute surcharge de méthode vers `GET` (`_method=GET` sur un `POST`) : la requête reste un `POST`, que le routeur refuse en 405 avant la garde d'écriture de l'admin. Le test de contournement vérifie désormais ce 405 et l'absence d'écriture.
 - ❌ Un fork à suivre : les correctifs de sécurité du plugin officiel ne remontent pas tout seuls. La branche `symfony-8` doit être rebasée sur toute nouvelle version 1.x.
 - ❌ `sylius/fixtures-bundle` v1.10.1 déclare encore ses commandes sans `#[AsCommand]`. En Symfony 8, la console les instancie au démarrage, ce qui fait échouer `cache:warmup` dans l'environnement `test` (le warmer des métadonnées Doctrine). Sans effet sur les tests (`bin/prepare-test-db` vide le cache avec `--no-warmup`) ni sur l'image Docker (warmup `prod` vérifié).
+
+## Mise à jour du 2026-10-21 : PHP 8.5 (US-147)
+
+La démo passe de PHP 8.4 à **PHP 8.5**, au minimum la version de sécurité 8.5.12 publiée le 2026-10-21. Les mêmes versions partout :
+
+- image `dunglas/frankenphp:1-php8.5-bookworm`, épinglée par digest (`bin/check-pinned-refs`) ;
+- les deux jobs de la CI en `php-version: "8.5"` ;
+- `composer.json` : `"php": "^8.5"` et `config.platform.php` à `8.5.12`. Le lock ne change que sur ces contraintes, sans mise à jour de paquet ; toutes les dépendances acceptent PHP 8.5.
+
+Le test `tests/Unit/Docker/PhpVersionTest` vérifie l'alignement des trois.
+
+Dépréciations relevées sur la suite complète en PHP 8.5 : aucune ne vient du langage lui-même. Une seule venait de `src/` : des jointures arbitraires Doctrine écrites avec `WITH`, passées à `Join::ON` (`HomeSelectionProvider`). Celles des dépendances restent en l'état et ne sont pas corrigées ici :
+
+- `sylius/resource-bundle` : interfaces de ressource déclarées (128 occurrences) ;
+- `sylius/theme-bundle` : services `sylius.repository.theme` et `sylius.theme.hierarchy_provider` ;
+- macros Twig du thème Sylius appelées sans tous leurs arguments (Twig 3.29) ;
+- `symfony/dependency-injection` et `symfony/validator` 8.1, Doctrine ORM (`nullable` sur une jointure many-to-many du core), Payum, nyholm/psr7.

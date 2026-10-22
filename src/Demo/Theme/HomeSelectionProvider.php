@@ -6,6 +6,7 @@ namespace App\Demo\Theme;
 
 use App\Entity\Wishlist\CompanyWishlist;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
@@ -115,8 +116,8 @@ final class HomeSelectionProvider implements ResetInterface
     private function sharedList(CompanyInterface $company, ChannelInterface $channel, array $taken): array
     {
         $query = $this->enabledProducts($channel, $taken)
-            ->join(WishlistProduct::class, 'wp', 'WITH', 'wp.product = p')
-            ->join(CompanyWishlist::class, 'cw', 'WITH', 'cw.wishlist = wp.wishlist')
+            ->join(WishlistProduct::class, 'wp', Join::ON, 'wp.product = p')
+            ->join(CompanyWishlist::class, 'cw', Join::ON, 'cw.wishlist = wp.wishlist')
             ->andWhere('cw.company = :company')
             ->setParameter('company', $company)
             ->orderBy('wp.id', 'ASC');

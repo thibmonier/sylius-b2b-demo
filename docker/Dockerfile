@@ -2,7 +2,7 @@
 # Demo image (ADR-0002): FrankenPHP (Caddy) serves the shop, supercronic runs the scheduled tasks.
 
 # Base images are pinned by digest (US-081); Dependabot proposes the updates (tag and digest move together).
-ARG PHP_IMAGE=dunglas/frankenphp:1-php8.4-bookworm@sha256:14007e6207a57651cb402970a44e5f2df15bfeffcbdeb5bbb322271949878b07
+ARG PHP_IMAGE=dunglas/frankenphp:1-php8.5-bookworm@sha256:308b7dbf7e263a7200f17c1957c0ed1dfdcd01fd914e1b7e99eef7f92b06d4ae
 
 FROM ${PHP_IMAGE} AS base
 ARG TARGETARCH

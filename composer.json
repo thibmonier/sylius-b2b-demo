@@ -24,7 +24,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "dompdf/dompdf": "^3.1.6",
         "sylius/invoicing-plugin": "^2.3",
         "sylius/mcp-server-plugin": "^0.2",
@@ -93,7 +93,7 @@
         },
         "bump-after-update": true,
         "platform": {
-            "php": "8.4.15"
+            "php": "8.5.12"
         }
     },
     "extra": {
