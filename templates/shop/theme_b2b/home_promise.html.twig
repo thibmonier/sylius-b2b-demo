@@ -1,0 +1,12 @@
+{# US-113: what a visitor sees in five minutes, in three columns (buy, validate, integrate). The role choice is the button of the hero. #}
+<section class="container mb-5" data-home-promise aria-labelledby="b2b-home-promise">
+    <h2 class="h3 mb-4 b2b-section-title" id="b2b-home-promise">{{ 'app.home_b2b.promise.title'|trans }}</h2>
+    <ul class="row row-cols-1 row-cols-md-3 g-4 list-unstyled mb-0">
+        {% for column in ['buy', 'validate', 'integrate'] %}
+            <li class="col" data-promise-column="{{ column }}"><div class="card h-100 b2b-tile b2b-tile--info"><div class="card-body">
+                <h3 class="b2b-tile__title">{{ ('app.home_b2b.promise.' ~ column ~ '.title')|trans }}</h3>
+                <p class="card-text mb-0">{{ ('app.home_b2b.promise.' ~ column ~ '.text')|trans }}</p>
+            </div></div></li>
+        {% endfor %}
+    </ul>
+</section>

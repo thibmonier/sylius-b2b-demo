@@ -1,0 +1,6 @@
+{#
+    US-113: the author's name, linked to his profile (DEMO_PROFILE_URL, https only) and plain text without it.
+    Inline, Bootstrap utilities only: shown on the B2B home and on the About page, which also exists on the B2C channel.
+#}
+{% set profile = app_demo_profile_url() %}
+{% if profile %}<a class="fw-semibold text-decoration-underline" href="{{ profile }}" target="_blank" rel="noopener noreferrer" data-author-profile>Thibaut Monier<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>{% else %}<strong data-author-name>Thibaut Monier</strong>{% endif %}

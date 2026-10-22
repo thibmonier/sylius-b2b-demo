@@ -49,11 +49,32 @@ app:
                 negotiated: 'Promotions négociées'
                 cta: 'Choisir un compte de démo'
         hero:
-            title: 'Fournitures Pro, la démo B2B de Sylius'
-            subtitle: "Devis, commande rapide, validation des achats, PunchOut : parcourez les plugins B2B open source sur une boutique d'équipements professionnels."
+            title: 'Fournitures Pro, une démo B2B réalisée par Thibaut Monier'
+            subtitle: 'Offres négociées, commande rapide, validation des achats, PunchOut : parcourez les plugins B2B open source sur une boutique d''équipements professionnels.'
+            author_line: 'Démo B2B réalisée par %author%, 25 ans de delivery, avec %count% plugins open source.'
+            role_hint: 'Acheteur, approbateur ou administrateur : un compte par rôle, connexion en un clic.'
             cta: 'Se connecter avec un compte de démo'
             cta_signed_in: 'Essayer un parcours guidé'
             switch_account: 'Changer de compte de démo'
+        promise:
+            title: 'Ce que vous allez voir en cinq minutes'
+            buy:
+                title: 'Acheter'
+                text: 'Un catalogue de fournitures avec des prix négociés par société, des paliers de quantité et la commande rapide.'
+            validate:
+                title: 'Valider'
+                text: 'Des plafonds par acheteur, un approbateur qui décide, et le suivi de l''encours de la société.'
+            integrate:
+                title: 'S''intégrer'
+                text: 'PunchOut cXML et OCI, factures Factur-X, webhooks et assistant IA : les points de contact avec le système d''information du client.'
+        author:
+            title: 'Qui a conçu cette démo'
+            text: '%author% conçoit et livre des produits numériques depuis 25 ans, comme Delivery Manager et CTO. Cette boutique est une réalisation personnelle.'
+            why: 'Elle sert de preuve plutôt que de présentation : on peut la parcourir, la tester et lire son code.'
+            method_title: 'Comment elle a été faite'
+            method: 'Elle a été livrée avec l''IA générative, sous tests automatisés, analyse statique et scan de sécurité, exécutés par la CI publique du dépôt.'
+            repository: 'Voir le dépôt GitHub'
+            proof: 'Voir la preuve technique'
         quick_access:
             title: 'Accès rapide'
             accounts: 'Comptes de démo'

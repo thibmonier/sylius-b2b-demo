@@ -80,6 +80,11 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/home_hero.html.twig'
                 priority: 400
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            # US-113: the three columns (buy, validate, integrate) for a visitor who has not chosen a role yet.
+            b2b_promise:
+                template: 'shop/theme_b2b/home_promise.html.twig'
+                priority: 380
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and not is_granted('IS_AUTHENTICATED_REMEMBERED')"
             b2b_quick_access:
                 template: 'shop/theme_b2b/home_quick_access.html.twig'
                 priority: 350
@@ -87,6 +92,11 @@ sylius_twig_hooks:
             b2b_journeys:
                 template: 'shop/theme_b2b/home_journeys.html.twig'
                 priority: 320
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            # US-113: who designed the demo and how it was made, after the journeys, for every B2B visitor.
+            b2b_author:
+                template: 'shared/_author_method.html.twig'
+                priority: 300
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
             # US-089: signed in, three product blocks (usual references, restock, negotiated promotions); anonymous, the
             # roles presentation without product or price. Channel Access decides who sees prices (the categories stay visible to visitors).

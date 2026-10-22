@@ -1,15 +1,18 @@
 {# A signed-in visitor is offered the guided journeys and a switch of demo account, never the demo login again. #}
-<section class="b2b-home-hero py-5 mb-4 text-center" data-b2b-home="hero">
+<section class="b2b-home-hero py-4 mb-4 text-center" data-b2b-home="hero" data-home-hero>
     <div class="container">
         <h1 class="display-5 b2b-home-hero__title">{{ 'app.home_b2b.hero.title'|trans }}</h1>
-        <p class="lead mb-4 b2b-home-hero__lead">{{ 'app.home_b2b.hero.subtitle'|trans }}</p>
+        <p class="lead mb-2 b2b-home-hero__lead">{{ 'app.home_b2b.hero.subtitle'|trans }}</p>
+        {# US-113: who made it, in one line (name linked to the profile when DEMO_PROFILE_URL is set). #}
+        <p class="mb-3 b2b-home-hero__lead" data-home-author-line data-plugin-count="{{ demo_plugin_count() }}">{{ 'app.home_b2b.hero.author_line'|trans({'%author%': include('shared/_author_name.html.twig'), '%count%': demo_plugin_count()})|raw }}</p>
         {% if app.user %}
             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                 <a class="btn btn-primary btn-lg" href="{{ path('app_demo_journeys', {_locale: app.request.locale}) }}">{{ 'app.home_b2b.hero.cta_signed_in'|trans }}</a>
                 <a class="btn btn-outline-primary btn-lg" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.hero.switch_account'|trans }}</a>
             </div>
         {% else %}
-            <a class="btn btn-primary btn-lg" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.hero.cta'|trans }}</a>
+            <a class="btn btn-primary btn-lg" href="{{ path('app_demo_accounts') }}" data-home-role-choice>{{ 'app.home_b2b.hero.cta'|trans }}</a>
+            <p class="mt-2 mb-0 b2b-home-hero__lead">{{ 'app.home_b2b.hero.role_hint'|trans }}</p>
         {% endif %}
     </div>
 </section>

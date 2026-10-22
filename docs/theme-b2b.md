@@ -71,6 +71,13 @@ Bloc référence (SKU, conditionnement, mention HT). Les blocs des plugins (pali
 - **Accessibilité du total** : lignes visibles mises à jour à chaque frappe, une seule région `aria-live` annoncée après une pause de 500 ms ou à la sortie du champ ; total libellé « pour cette quantité » avec la mention HT/TTC du tableau.
 - **Visibilité (accueil)** : channel-access restreint par canal (catalogue, prix), pas par produit : les blocs ne s'affichent qu'aux comptes qui voient les prix, et les requêtes se limitent aux produits actifs du canal. Si le plugin gagne une restriction par produit, `HomeSelectionProvider` devra la reprendre.
 
+## Accueil : trois colonnes, auteur et méthode (US-113, sprint 20)
+
+- `home_hero` : titre « une démo B2B réalisée par Thibaut Monier », ligne d'auteur (`data-home-author-line`) et bouton de choix du rôle (`data-home-role-choice`).
+- `home_promise` : « Ce que vous allez voir en cinq minutes », trois colonnes Acheter, Valider, S'intégrer ; visiteur non connecté seulement.
+- `shared/_author_method.html.twig` : « Qui a conçu cette démo » et « Comment elle a été faite » (liens profil, dépôt public, preuve technique), repris dans À propos. Le nom est un lien si `DEMO_PROFILE_URL` est une URL https, du texte sinon.
+- Charte des textes publics : `App\Demo\Charter\PublicTextCharter` (titre d'éditeur, chiffre hors liste blanche, formulation commerciale), appliquée par `HomeAuthorTest`. Tout nouveau chiffre d'un texte public doit entrer dans `VERIFIABLE_FIGURES` avec sa source publique.
+
 ## Bloc de preuve technique (US-111, sprint 18)
 
 Page `/{locale}/preuve` (route `app_demo_proof`, `App\Demo\Controller\ProofController`, gabarits `templates/demo/proof.html.twig` et `templates/demo/proof/_fact.html.twig`, libellés FR et EN dans le domaine `proof`, description SEO dans `seo.*`). Liens : pied de page (« Preuve technique ») et page Plugins (`data-plugins-proof-link`). Elle montre la méthode de livraison et la qualité, jamais une offre : un tableau (une ligne par plugin du catalogue) et la ligne « Comment cette démo est livrée ».

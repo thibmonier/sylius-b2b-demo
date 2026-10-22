@@ -29,13 +29,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-113-01 | [DOC] | Cadrage : accueil actuel relu (`home_*.html.twig`), liste des chiffres vérifiables (source publique de chacun), wireframe des trois colonnes Acheter, Valider, S'intégrer et du choix de rôle, textes FR et EN rédigés | 0,75 h | T-TECH-03 | Claude | 🔲 |
-| T-113-02 | [TEST] | Tests rouges : trois colonnes, choix de rôle et auteur visibles à 1440 px, section auteur et méthode avec liens profil et dépôt, auteur non cliquable sans URL de profil, contrôle de charte (titre d'éditeur signalé, chiffre invérifiable refusé) | 1,25 h | T-113-01 | Claude | 🔲 |
-| T-113-03 | [BE] | Contrôle de charte des textes publics (formulations ambiguës, chiffres non sourcés par liste blanche) et lecture tolérante de `DEMO_PROFILE_URL` | 0,75 h | T-113-02 | Claude | 🔲 |
-| T-113-04 | [FE-WEB] | Bandeau en trois colonnes, section « Qui a conçu cette démo » et « Comment elle a été faite », mention dans À propos ; libellés FR et EN ; contrastes AAA, mobile | 1,75 h | T-113-02, T-113-03 | Claude | 🔲 |
-| T-113-05 | [TEST] | Rendu réel FR et EN à 1440 px et sur mobile, pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-113-04 | Claude | 🔲 |
+| T-113-01 | [DOC] | Cadrage : accueil actuel relu (`home_*.html.twig`), liste des chiffres vérifiables (source publique de chacun), wireframe des trois colonnes Acheter, Valider, S'intégrer et du choix de rôle, textes FR et EN rédigés | 0,75 h | T-TECH-03 | Claude | ✅ |
+| T-113-02 | [TEST] | Tests rouges : trois colonnes, choix de rôle et auteur visibles à 1440 px, section auteur et méthode avec liens profil et dépôt, auteur non cliquable sans URL de profil, contrôle de charte (titre d'éditeur signalé, chiffre invérifiable refusé) | 1,25 h | T-113-01 | Claude | ✅ |
+| T-113-03 | [BE] | Contrôle de charte des textes publics (formulations ambiguës, chiffres non sourcés par liste blanche) et lecture tolérante de `DEMO_PROFILE_URL` | 0,75 h | T-113-02 | Claude | ✅ |
+| T-113-04 | [FE-WEB] | Bandeau en trois colonnes, section « Qui a conçu cette démo » et « Comment elle a été faite », mention dans À propos ; libellés FR et EN ; contrastes AAA, mobile | 1,75 h | T-113-02, T-113-03 | Claude | ✅ |
+| T-113-05 | [TEST] | Rendu réel FR et EN à 1440 px et sur mobile, pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-113-04 | Claude | ✅ |
 | T-113-06 | [DOC] | Documentation à jour (`docs/theme-b2b.md`, README de la démo) et captures d'accueil pour le README | 0,5 h | T-113-04 | Claude | 🔲 |
-| T-113-07 | [REV] | Revue (ton neutre, aucune prestation ni Sylius Plus, chiffres vérifiables, parité FR et EN) | 0,5 h | T-113-05, T-113-06 | Claude | 🔲 |
+| T-113-07 | [REV] | Revue (ton neutre, aucune prestation ni Sylius Plus, chiffres vérifiables, parité FR et EN) | 0,5 h | T-113-05, T-113-06 | Claude | ✅ |
 
 **Total estimé : 6,5 h** (7 tâches, aucune de Thibaut).
 
