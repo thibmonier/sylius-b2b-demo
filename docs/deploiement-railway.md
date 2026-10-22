@@ -93,6 +93,15 @@ railway logs --service web                                                      
 
 Exploitation du reset nocturne : [`remise-a-zero-demo.md`](remise-a-zero-demo.md).
 
+## Builds suspendus par la plateforme
+
+Constaté du 2026-10-21 au 2026-10-22 : un incident Railway suspend les builds, les PR fusionnées sur `main` ne partent plus en production (le déploiement automatique reste activé mais rien n'est construit).
+
+1. **Constater** : page d'état de Railway (incident ouvert, plans concernés) et `railway deployment list --service web` (aucun déploiement après le dernier merge). Ne pas relancer de build en boucle.
+2. **Continuer à fusionner** : `main` reste protégée et testée par la CI, la production garde la dernière version saine. Noter dans le fichier de statut du sprint les PR fusionnées non déployées.
+3. **À la reprise** : un seul déploiement du dernier `main` (le déploiement automatique, ou `railway redeploy --service web` lancé par Thibaut), pas un déploiement par PR : les migrations sont additives et s'enchaînent dans l'ordre.
+4. **Vérifier** : les vérifications après déploiement ci-dessus, puis un contrôle par story livrée pendant la suspension ; les stories restent en `review` tant que ce contrôle n'est pas fait.
+
 ## Retour arrière
 
 ```bash
