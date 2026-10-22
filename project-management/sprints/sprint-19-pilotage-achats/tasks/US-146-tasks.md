@@ -40,8 +40,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-146-09 | [OPS] | Thibaut donne le GO unique : push des deux branches, deux PR, merge quand les CI sont vertes, tags v1.1.0 (admin-order-creation) et v1.3.0 (company-accounts) | 0,25 h | T-146-07, T-146-08 | Thibaut | ✅ |
 | T-146-10 | [OPS] | Deux PR, suivi des matrices CI, merges après run terminé, tags et releases dans l'ordre ; vérification Packagist (script du scratchpad à OK ou FAIL) | 1 h | T-146-09, T-TECH-07 | Claude | ✅ |
 | T-146-11 | [BE] | Démo : montée des versions (`composer update` ciblé avec `php -d memory_limit=1G`), `composer.lock` écrit seul | 0,5 h | T-146-10 | Claude | ✅ |
-| T-146-12 | [TEST] | Scénario « Sophie crée une commande pour Claire d'ACME et choisit une adresse de l'entreprise » dans `config/demo/plugins.yaml` ; rendu réel dans l'admin de la démo en FR et EN, accessibilité du choix ; suite via `bin/run-tests`, ECS, PHPStan | 1 h | T-146-11 | Claude | 🔲 |
-| T-146-13 | [REV] | Revue (aucune dépendance obligatoire vers company-accounts, refus d'une adresse étrangère, copie non liée, matrices vertes) | 0,5 h | T-146-12 | Claude | 🔲 |
+| T-146-12 | [TEST] | Scénario « Sophie crée une commande pour Claire d'ACME et choisit une adresse de l'entreprise » dans `config/demo/plugins.yaml` ; rendu réel dans l'admin de la démo en FR et EN, accessibilité du choix ; suite via `bin/run-tests`, ECS, PHPStan | 1 h | T-146-11 | Claude | ✅ |
+| T-146-13 | [REV] | Revue (aucune dépendance obligatoire vers company-accounts, refus d'une adresse étrangère, copie non liée, matrices vertes) | 0,5 h | T-146-12 | Claude | ✅ |
 
 **Total estimé : 14 h** (13 tâches, dont 1 de Thibaut, soit 0,25 h).
 

@@ -15,8 +15,8 @@ parameters:
               en: 'Create orders on behalf of customers (phone and back-office orders) from the Sylius 2 admin panel.'
           demo_route: null
           scenario:
-              fr: "Depuis la fiche d'un client, créez une commande téléphone au nom d'Acme Industries, puis rejouez une ancienne commande."
-              en: "From a customer page, create a phone order on behalf of Acme Industries, then replay a past order."
+              fr: "Sophie crée une commande pour Claire d'ACME et, à l'étape adresse, choisit une adresse de l'entreprise (Usine de Lyon, par exemple) ; rejouez ensuite une ancienne commande."
+              en: "Sophie creates an order for Claire of ACME and, at the address step, picks a company address (the Lyon plant, for instance); then replay a past order."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-agentic-feeds-plugin
           name: 'Agentic Feeds'
