@@ -34,10 +34,10 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-155-02 | [OPS] | Mesure de référence de la durée de `app:demo:reset` (trois runs, `bin/profile-reset`) avant toute modification du plan | 0,5 h | - | Claude | ✅ |
 | T-155-03 | [TEST] | Tests rouges du plan étendu : environ 45 commandes Acme sur 18 mois avec creux en août, 4 acheteurs dont un désactivé, 2 sites, 2 centres de coût, 10 produits récurrents, commandes de TechParts et BuildCo, mêmes commandes et dates relatives après deux remises à zéro, 8 commandes existantes inchangées | 1,5 h | - | Claude | ✅ |
 | T-155-04 | [BE] | Extension de `DemoOrderPlan` et de la fabrique déterministe (saisonnalité, acheteurs, sites, centres de coût, produits), scénarios existants conservés à l'identique | 2,75 h | T-155-02, T-155-03 | Claude | ✅ |
-| T-155-05 | [DOC] | Préparation de la 0.1.0 du plugin : `CHANGELOG.md`, numéro de version, matrice CI de `main` verte (run terminé), README à jour | 0,5 h | T-150-07, T-151-07 | Claude | 🔲 |
-| T-155-06 | [OPS] | Thibaut donne le GO du tag et de la release `v0.1.0` du plugin | 0,25 h | T-155-05 | Thibaut | 🔲 |
-| T-155-07 | [OPS] | Tag `v0.1.0` et release GitHub ; URL du dépôt remise à Thibaut avec le script de soumission (OK ou FAIL par élément) | 0,5 h | T-155-06, T-TECH-07 | Claude | 🔲 |
-| T-155-08 | [OPS] | Thibaut soumet le plugin à Packagist (nouveau paquet) et confirme l'indexation de la 0.1.0 | 0,25 h | T-155-07 | Thibaut | 🔲 |
+| T-155-05 | [DOC] | Préparation de la 0.1.0 du plugin : `CHANGELOG.md`, numéro de version, matrice CI de `main` verte (run terminé), README à jour | 0,5 h | T-150-07, T-151-07 | Claude | ✅ |
+| T-155-06 | [OPS] | Thibaut donne le GO du tag et de la release `v0.1.0` du plugin | 0,25 h | T-155-05 | Thibaut | ✅ |
+| T-155-07 | [OPS] | Tag `v0.1.0` et release GitHub ; URL du dépôt remise à Thibaut avec le script de soumission (OK ou FAIL par élément) | 0,5 h | T-155-06, T-TECH-07 | Claude | ✅ |
+| T-155-08 | [OPS] | Thibaut soumet le plugin à Packagist (nouveau paquet) et confirme l'indexation de la 0.1.0 | 0,25 h | T-155-07 | Thibaut | ✅ |
 | T-155-09 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-company-insights-plugin:^0.1`, bundle, routes, configuration, migration et menu ; `composer.lock` écrit seul | 1,25 h | T-155-04, T-155-08, T-099-07 | Claude | 🔄 |
 | T-155-10 | [FE-WEB] | Scénario « Isabelle consulte le tableau de bord des achats » dans `config/demo/plugins.yaml` (FR et EN, compte conseillé `isabelle`) et badge du plugin | 0,5 h | T-155-09 | Claude | ✅ |
 | T-155-11 | [TEST] | Tests de la démo : 12 mois avec creux en août et comparaison, au moins 4 acheteurs et 10 produits dans les tops, TechParts absent des tops d'Acme, parcours de Claire, Paul et Isabelle inchangés, durée de remise à zéro ≤ +20 % ; suite complète via `bin/run-tests`, ECS (`src tests`), PHPStan | 2 h | T-155-04, T-155-09, T-155-10 | Claude | ✅ |
