@@ -56,6 +56,7 @@ final class PluginsAndHomepageTest extends WebTestCase
                 $plugin->slug,
             );
         }
+        // customer-asset-management is neither installed nor on Packagist yet.
         self::assertCount(1, $client->getCrawler()->filter('[data-plugin-unpublished]'));
         self::assertCount(0, $client->getCrawler()->filter('[data-plugin-status="in_progress"]'));
         self::assertCount(1, $client->getCrawler()->filter('[data-plugin-status="upcoming"]'));

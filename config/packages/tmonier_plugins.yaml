@@ -12,6 +12,7 @@ imports:
     - { resource: "@TmonierSyliusB2bMcpPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusBulkActionsPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusCommandPalettePlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusCompanyInsightsPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusContainerFillPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusFacturXPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusGpsrPlugin/config/config.yaml" }
@@ -26,6 +27,8 @@ imports:
     - { resource: "@TmonierSyliusWithdrawalPlugin/config/config.yaml" }
 
 parameters:
+    # US-155: the months of the purchasing dashboard follow the time of the demo orders (placed at 10:00, Paris).
+    tmonier_company_insights.timezone: 'Europe/Paris'
     # Demo defaults of the environment variables read by the plugins (overridden on Railway).
     env(PUNCHOUT_SUPPLIER_DOMAIN): 'NetworkId'
     env(PUNCHOUT_SUPPLIER_IDENTITY): 'sylius-b2b-demo'

@@ -15,7 +15,13 @@ final class DemoOrderPlan
     public const ON_ACCOUNT = 'on_account';
 
     /** @return list<DemoOrderSpec> */
-    public static function all(): array
+    /**
+     * The 15 orders of the first demo history (US-011): the approval, overdue open item and cancellation scenarios the
+     * journeys and tests rely on. They do not depend on the date of the reset.
+     *
+     * @return list<DemoOrderSpec>
+     */
+    public static function core(): array
     {
         return [
             // Acme Industries: Claire (buyer, 500 EUR limit), Paul (approver)
@@ -40,6 +46,22 @@ final class DemoOrderPlan
             new DemoOrderSpec('henri@globalmaint.example', 52, ['VISS-002' => 12, 'EMBA-001' => 10], 'GM-8903', OrderScenario::Refunded, 'SITE-LYON'),
             new DemoOrderSpec('henri@globalmaint.example', 9, ['EPI-GANT-001' => 20], 'GM-8957', OrderScenario::AwaitingPayment, 'SITE-LYON'),
         ];
+    }
+
+    /**
+     * The 18-month purchase history of the purchasing dashboard (US-155), laid out on the calendar of `$now`.
+     *
+     * @return list<DemoOrderSpec>
+     */
+    public static function history(\DateTimeImmutable $now): array
+    {
+        return DemoOrderHistory::specs($now);
+    }
+
+    /** @return list<DemoOrderSpec> the core orders, then the history */
+    public static function all(\DateTimeImmutable $now): array
+    {
+        return [...self::core(), ...self::history($now)];
     }
 
     public static function completedAt(\DateTimeImmutable $now, int $daysAgo): \DateTimeImmutable

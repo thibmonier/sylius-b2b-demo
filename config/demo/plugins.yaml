@@ -15,8 +15,8 @@ parameters:
               en: 'Create orders on behalf of customers (phone and back-office orders) from the Sylius 2 admin panel.'
           demo_route: null
           scenario:
-              fr: "Depuis la fiche d'un client, créez une commande téléphone au nom d'Acme Industries, puis rejouez une ancienne commande."
-              en: "From a customer page, create a phone order on behalf of Acme Industries, then replay a past order."
+              fr: "Sophie crée une commande pour Claire d'ACME et, à l'étape adresse, choisit une adresse de l'entreprise (Usine de Lyon, par exemple) ; rejouez ensuite une ancienne commande."
+              en: "Sophie creates an order for Claire of ACME and, at the address step, picks a company address (the Lyon plant, for instance); then replay a past order."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-agentic-feeds-plugin
           name: 'Agentic Feeds'
@@ -105,6 +105,17 @@ parameters:
           scenario:
               fr: "Ouvrez l'espace société de votre compte : consultez les membres de la société, leurs rôles (admin, acheteur, approbateur) et les commandes de la société."
               en: "Open your account's company area: see the company members, their roles (admin, buyer, approver) and the company's orders."
+          advised_account: isabelle@acme.example
+        - slug: sylius-company-insights-plugin
+          name: 'Company Insights'
+          category: purchasing
+          description:
+              fr: "Tableau de bord des achats pour les comptes entreprise B2B : dépenses, commandes, panier moyen et acheteurs actifs de la période avec leur variation, achats mois par mois sur 12 mois face à l'année précédente, et classements des acheteurs, produits et catégories. Réservé aux administrateurs de la société."
+              en: 'Purchasing dashboard for B2B company accounts: spend, orders, average basket and active buyers of the period with their variation, purchases month by month over 12 months against the previous year, and rankings of buyers, products and categories. Reserved to the company administrators.'
+          demo_route: tmonier_company_insights_shop_insights
+          scenario:
+              fr: "Connectez-vous en Isabelle (administratrice d'Acme) et ouvrez l'onglet « Tableau de bord des achats » de l'espace société : douze mois d'achats avec le creux d'août et le pic de septembre, comparés à l'année précédente, puis les acheteurs, produits et catégories qui comptent. Les commandes de TechParts n'y figurent pas."
+              en: "Sign in as Isabelle (Acme administrator) and open the \"Purchasing dashboard\" tab of the company area: twelve months of purchases with the August trough and the September peak, compared with the previous year, then the buyers, products and categories that count. The orders of TechParts are not in it."
           advised_account: isabelle@acme.example
         - slug: sylius-container-fill-plugin
           name: 'Container Fill'

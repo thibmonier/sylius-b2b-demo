@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
+use App\Demo\Order\BulkOrderWriter;
 use App\Demo\Order\DemoOrderPlan;
 use App\Demo\Order\DemoOrderSpec;
 use App\Demo\Order\DeterministicOrderFactory;
@@ -36,6 +37,8 @@ use Tmonier\SyliusPurchaseApprovalPlugin\Repository\OrderApprovalRepositoryInter
  * approval above the buyer limit, invoicing creates the invoice and Factur-X turns it into a PDF/A-3.
  * The clock is frozen on each order date so that invoices are dated like their orders.
  *
+ * The 18-month history of the purchasing dashboard (US-155) is written in bulk, see {@see BulkOrderWriter}.
+ *
  * Depends on: products (-30), companies and customers (-15), limits (-40), quotes (-50). Priority: -60.
  */
 final class OrderHistoryDemoFixture extends AbstractFixture
@@ -51,6 +54,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly DeterministicOrderFactory $orderFactory,
+        private readonly BulkOrderWriter $bulkWriter,
         private readonly StateMachineInterface $stateMachine,
         #[Autowire(service: 'sylius.repository.channel')]
         private readonly RepositoryInterface $channelRepository,
@@ -77,7 +81,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
 
         $this->removeStaleInvoiceFiles();
         $now = new \DateTimeImmutable();
-        $plan = DemoOrderPlan::all();
+        $plan = DemoOrderPlan::core();
         $this->preload($plan);
 
         try {
@@ -87,6 +91,8 @@ final class OrderHistoryDemoFixture extends AbstractFixture
         } finally {
             Clock::set(new NativeClock());
         }
+
+        $this->bulkWriter->write(DemoOrderPlan::history($now), $now, (string) $channel->getCode());
     }
 
     public function getName(): string
@@ -156,6 +162,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
             'po_reference' => $spec->poReference,
             'cost_center' => $spec->costCenter,
             'payment_method' => $spec->paymentMethod,
+            'delivery_site' => $spec->deliverySite,
         ]);
         $order->setCreatedAt(\DateTime::createFromImmutable($date));
         $this->entityManager->persist($order);

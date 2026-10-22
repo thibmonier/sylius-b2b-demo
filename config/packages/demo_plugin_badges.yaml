@@ -65,3 +65,9 @@ sylius_twig_hooks:
                 configuration:
                     plugin: sylius-withdrawal-plugin
                 priority: -10
+        'tmonier_company_insights_shop.account.company.insights.index.content.main':
+            demo_badge_company_insights:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-company-insights-plugin
+                priority: -40

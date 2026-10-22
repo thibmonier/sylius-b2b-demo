@@ -1,5 +1,7 @@
 tmonier_company_accounts:
     resource: "@TmonierSyliusCompanyAccountsPlugin/config/routes.yaml"
+tmonier_company_insights:
+    resource: "@TmonierSyliusCompanyInsightsPlugin/config/routes.yaml"
 tmonier_admin_order_creation:
     resource: "@TmonierSyliusAdminOrderCreationPlugin/config/routes.yaml"
 tmonier_agentic_feeds:

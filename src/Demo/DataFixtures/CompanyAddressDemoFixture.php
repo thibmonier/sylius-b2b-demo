@@ -14,19 +14,26 @@ use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyAddressInterface;
 use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface;
 
 /**
- * Shared address book of Acme (US-025): the sites Isabelle (admin) manages and Claire (buyer) picks at the
+ * Shared address book of Acme (US-025, plus one BuildCo address for US-146): the sites Isabelle (admin) manages and Claire (buyer) picks at the
  * checkout. Built with the plugin's factory and checked with its validation rules, so an invalid demo address
  * fails the fixture load instead of breaking the checkout picker.
  */
 final class CompanyAddressDemoFixture extends AbstractFixture
 {
-    private const COMPANY_CODE = 'ACME_IND';
-
-    /** @var array<string, array{first_name: string, last_name: string, street: string, postcode: string, city: string}> */
+    /**
+     * Addresses by company code; BuildCo's one proves that the admin order address step never offers another company's addresses (US-146).
+     *
+     * @var array<string, array<string, array{first_name: string, last_name: string, street: string, postcode: string, city: string}>>
+     */
     private const ADDRESSES = [
-        'Usine de Lyon' => ['first_name' => 'Claire', 'last_name' => 'Dupont', 'street' => '12 rue de l\'Industrie', 'postcode' => '69003', 'city' => 'Lyon'],
-        'Entrepôt de Saint-Priest' => ['first_name' => 'Paul', 'last_name' => 'Martin', 'street' => '45 boulevard des Expositions', 'postcode' => '69800', 'city' => 'Saint-Priest'],
-        'Atelier de Grenoble' => ['first_name' => 'Isabelle', 'last_name' => 'Renard', 'street' => '8 avenue des Martyrs', 'postcode' => '38000', 'city' => 'Grenoble'],
+        'ACME_IND' => [
+            'Usine de Lyon' => ['first_name' => 'Claire', 'last_name' => 'Dupont', 'street' => '12 rue de l\'Industrie', 'postcode' => '69003', 'city' => 'Lyon'],
+            'Entrepôt de Saint-Priest' => ['first_name' => 'Paul', 'last_name' => 'Martin', 'street' => '45 boulevard des Expositions', 'postcode' => '69800', 'city' => 'Saint-Priest'],
+            'Atelier de Grenoble' => ['first_name' => 'Isabelle', 'last_name' => 'Renard', 'street' => '8 avenue des Martyrs', 'postcode' => '38000', 'city' => 'Grenoble'],
+        ],
+        'BUILDCO' => [
+            'Chantier de Nantes' => ['first_name' => 'Lucas', 'last_name' => 'Bernard', 'street' => '3 quai de la Fosse', 'postcode' => '44000', 'city' => 'Nantes'],
+        ],
     ];
 
     /**
@@ -45,15 +52,10 @@ final class CompanyAddressDemoFixture extends AbstractFixture
 
     public function load(array $options): void
     {
-        $company = $this->entityManager->getRepository(CompanyInterface::class)->findOneBy(['code' => self::COMPANY_CODE]);
-        if (!$company instanceof CompanyInterface) {
-            return;
-        }
-
-        $existing = $this->existingLabels($company);
-        foreach (self::ADDRESSES as $label => $fields) {
-            if (!in_array($label, $existing, true)) {
-                $this->entityManager->persist($this->companyAddress($company, $label, $fields));
+        foreach (self::ADDRESSES as $code => $addresses) {
+            $company = $this->entityManager->getRepository(CompanyInterface::class)->findOneBy(['code' => $code]);
+            if ($company instanceof CompanyInterface) {
+                $this->loadCompany($company, $addresses);
             }
         }
         $this->entityManager->flush();
@@ -62,6 +64,17 @@ final class CompanyAddressDemoFixture extends AbstractFixture
     public function getName(): string
     {
         return 'demo_company_addresses';
+    }
+
+    /** @param array<string, array{first_name: string, last_name: string, street: string, postcode: string, city: string}> $addresses */
+    private function loadCompany(CompanyInterface $company, array $addresses): void
+    {
+        $existing = $this->existingLabels($company);
+        foreach ($addresses as $label => $fields) {
+            if (!in_array($label, $existing, true)) {
+                $this->entityManager->persist($this->companyAddress($company, $label, $fields));
+            }
+        }
     }
 
     /**

@@ -50,7 +50,10 @@ final class CompanyDemoFixture extends AbstractFixture
 
             foreach ($demoCompany->members as $member) {
                 $customer = $this->createCustomer($member);
-                $company->addMember($this->memberFactory->createForCustomer($company, $customer, $member->role));
+                $companyMember = $this->memberFactory->createForCustomer($company, $customer, $member->role);
+                // A member who left is disabled as a member too: the purchasing dashboard marks his past orders (US-155).
+                $companyMember->setEnabled($member->enabled);
+                $company->addMember($companyMember);
             }
 
             $this->entityManager->flush();

@@ -729,6 +729,9 @@
     "tmonier/sylius-company-accounts-plugin": {
         "version": "v1.1.0"
     },
+    "tmonier/sylius-company-insights-plugin": {
+        "version": "dev-feature/walking-skeleton"
+    },
     "tmonier/sylius-container-fill-plugin": {
         "version": "v1.1.0"
     },

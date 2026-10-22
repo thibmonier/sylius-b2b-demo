@@ -51,7 +51,7 @@ final class OrderHistoryFixtureQueryCountTest extends KernelTestCase
     {
         $application = new Application(self::bootKernel());
         $before = $this->orders();
-        self::assertCount(\count(DemoOrderPlan::all()), $before);
+        self::assertCount(\count(DemoOrderPlan::all($this->demoResetDate())), $before);
 
         $tester = new CommandTester($application->find('app:demo:reset'));
         $tester->execute(['--no-media' => true, '--no-cache' => true, '--no-interaction' => true], ['capture_stderr_separately' => true]);
@@ -72,7 +72,7 @@ final class OrderHistoryFixtureQueryCountTest extends KernelTestCase
         return $this->db()->fetchAllAssociative(
             'SELECT po_reference, cost_center, state, payment_state, shipping_state, checkout_state, items_total, adjustments_total, total, checkout_completed_at
              FROM sylius_order WHERE po_reference IN (?) ORDER BY po_reference',
-            [array_map(static fn (DemoOrderSpec $spec): string => $spec->poReference, DemoOrderPlan::all())],
+            [array_map(static fn (DemoOrderSpec $spec): string => $spec->poReference, DemoOrderPlan::all($this->demoResetDate()))],
             [ArrayParameterType::STRING],
         );
     }

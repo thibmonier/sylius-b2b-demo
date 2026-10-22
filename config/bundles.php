@@ -90,4 +90,6 @@ return [
     Tmonier\SyliusWebhookOutboxPlugin\TmonierSyliusWebhookOutboxPlugin::class => ['all' => true],
     Tmonier\SyliusWithdrawalPlugin\TmonierSyliusWithdrawalPlugin::class => ['all' => true],
     Sylius\WishlistPlugin\SyliusWishlistPlugin::class => ['all' => true],
+    // company-insights (US-155): purchasing dashboard built on company-accounts, after it
+    Tmonier\SyliusCompanyInsightsPlugin\TmonierSyliusCompanyInsightsPlugin::class => ['all' => true],
 ];

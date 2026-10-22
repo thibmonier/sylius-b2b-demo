@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Demo\Order\DemoOrderPlan;
 use Doctrine\DBAL\Connection;
 
 /**
@@ -17,6 +18,18 @@ trait DatabaseAccess
         self::assertInstanceOf(Connection::class, $connection);
 
         return $connection;
+    }
+
+    /**
+     * The day the demo fixtures were loaded, read back from the first core order (placed a fixed number of days before
+     * the reset), so that a history recomputed after midnight or a change of month still matches the database.
+     */
+    protected function demoResetDate(): \DateTimeImmutable
+    {
+        $spec = DemoOrderPlan::core()[0];
+        $completedAt = $this->stringValue('SELECT checkout_completed_at FROM sylius_order WHERE po_reference = ?', [$spec->poReference]);
+
+        return (new \DateTimeImmutable($completedAt))->modify(\sprintf('+%d days', $spec->daysAgo));
     }
 
     /**

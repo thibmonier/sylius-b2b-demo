@@ -28,8 +28,8 @@ final class DemoAccountsTest extends KernelTestCase
         $members = array_merge(...array_map(static fn ($company): array => $company->members, $catalog->companies()));
 
         self::assertCount(5, $catalog->companies());
-        self::assertCount(11, $members);
-        self::assertSame(['thomas@buildco.example'], $this->emails(array_filter($members, static fn (DemoAccount $a): bool => !$a->enabled)));
+        self::assertCount(12, $members);
+        self::assertSame(['sebastien@acme.example', 'thomas@buildco.example'], $this->emails(array_filter($members, static fn (DemoAccount $a): bool => !$a->enabled)));
         self::assertSame(['lea@demo.example'], $this->emails($catalog->consumers()));
         self::assertSame(['sophie@fournitures-pro.example'], $this->emails($catalog->adminUsers()));
         self::assertSame($this->emails($members), array_values(array_unique($this->emails($members))), 'A customer belongs to one company only.');

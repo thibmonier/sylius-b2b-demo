@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "893990c2259aa098d1ececa341933c4d",
+    "content-hash": "03585785a917e82a5d29f4cb3a8aee47",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -16504,16 +16504,16 @@
         },
         {
             "name": "tmonier/sylius-admin-order-creation-plugin",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-admin-order-creation-plugin.git",
-                "reference": "267ad799189d1e9472c1ed2fb3954c4843de1c7b"
+                "reference": "cd3c2a711fbdecb8db83e89df5fe40fb24fc27c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-admin-order-creation-plugin/zipball/267ad799189d1e9472c1ed2fb3954c4843de1c7b",
-                "reference": "267ad799189d1e9472c1ed2fb3954c4843de1c7b",
+                "url": "https://api.github.com/repos/thibmonier/sylius-admin-order-creation-plugin/zipball/cd3c2a711fbdecb8db83e89df5fe40fb24fc27c2",
+                "reference": "cd3c2a711fbdecb8db83e89df5fe40fb24fc27c2",
                 "shasum": ""
             },
             "require": {
@@ -16526,6 +16526,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
@@ -16577,9 +16578,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/tree/v1.0.0"
+                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/tree/v1.1.0"
             },
-            "time": "2026-10-11T17:34:05+00:00"
+            "time": "2026-10-22T00:59:03+00:00"
         },
         {
             "name": "tmonier/sylius-agentic-feeds-plugin",
@@ -17173,16 +17174,16 @@
         },
         {
             "name": "tmonier/sylius-company-accounts-plugin",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-company-accounts-plugin.git",
-                "reference": "026b372c05c485c58c133f60e627c19cce503243"
+                "reference": "bfe8f1cff2c7a1ae24111dada9ec784263957e14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-company-accounts-plugin/zipball/026b372c05c485c58c133f60e627c19cce503243",
-                "reference": "026b372c05c485c58c133f60e627c19cce503243",
+                "url": "https://api.github.com/repos/thibmonier/sylius-company-accounts-plugin/zipball/bfe8f1cff2c7a1ae24111dada9ec784263957e14",
+                "reference": "bfe8f1cff2c7a1ae24111dada9ec784263957e14",
                 "shasum": ""
             },
             "require": {
@@ -17207,11 +17208,11 @@
                 "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2",
-                "tmonier/sylius-admin-order-creation-plugin": "^1.0",
+                "tmonier/sylius-admin-order-creation-plugin": "^1.1",
                 "tmonier/sylius-order-hold-plugin": "^1.0"
             },
             "suggest": {
-                "tmonier/sylius-admin-order-creation-plugin": "Orders created by staff for an active member count for the member's company",
+                "tmonier/sylius-admin-order-creation-plugin": "Orders created by staff for an active member count for the member's company; from 1.1, the shared addresses of the company are offered at the address step",
                 "tmonier/sylius-order-hold-plugin": "Makes the company the account owner of its members' orders (shared trade credit with tmonier/sylius-trade-credit-plugin)"
             },
             "type": "sylius-plugin",
@@ -17251,9 +17252,93 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-company-accounts-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/tree/v1.2.0"
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/tree/v1.3.0"
             },
-            "time": "2026-10-16T09:24:11+00:00"
+            "time": "2026-10-22T01:08:31+00:00"
+        },
+        {
+            "name": "tmonier/sylius-company-insights-plugin",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-company-insights-plugin.git",
+                "reference": "2e5761735ebddd51d9f147f4b7022a6a81780455"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-company-insights-plugin/zipball/2e5761735ebddd51d9f147f4b7022a6a81780455",
+                "reference": "2e5761735ebddd51d9f147f4b7022a6a81780455",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "sylius/sylius": "^2.2.9 || ^2.3",
+                "symfony/clock": "^6.4 || ^7.4 || ^8.0",
+                "tmonier/sylius-company-accounts-plugin": "^1.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
+                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
+                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
+                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
+                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2",
+                "tmonier/sylius-purchase-approval-plugin": "^1.1"
+            },
+            "suggest": {
+                "tmonier/sylius-purchase-approval-plugin": "Orders waiting for approval are shown apart and are not counted in the spend"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusCompanyInsightsPlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Purchasing dashboard for Sylius 2 B2B company accounts: spend, orders, average basket and active buyers of the period with the variation against the previous period, reserved to the company administrators",
+            "keywords": [
+                "analytics",
+                "b2b",
+                "company-accounts",
+                "dashboard",
+                "purchasing",
+                "reporting",
+                "sylius",
+                "sylius-plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-company-insights-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/tree/v0.1.0"
+            },
+            "time": "2026-10-21T21:30:19+00:00"
         },
         {
             "name": "tmonier/sylius-container-fill-plugin",
