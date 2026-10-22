@@ -33,7 +33,7 @@ services:
                 condition: service_started
 
     mysql:
-        image: mysql:8.4
+        image: mysql:8.4.13@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # local only, never published
             MYSQL_DATABASE: sylius_b2b_demo
@@ -48,7 +48,7 @@ services:
             - "127.0.0.1:${MYSQL_PORT:-3340}:3306"
 
     mailpit:
-        image: axllent/mailpit:v1.27
+        image: axllent/mailpit:v1.31.6@sha256:23fe39e81bde596a918000b3135c0f85dc8bb4c9ea6be274b051143f3e300387
         ports:
             - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
             - "127.0.0.1:${MAILPIT_SMTP_PORT:-1026}:1025"
