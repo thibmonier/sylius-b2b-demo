@@ -6,10 +6,10 @@
 
 | US | Titre | Points | Tâches | Heures | Statut |
 |----|-------|--------|--------|--------|--------|
-| [US-056](./US-056-tasks.md) | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | 5 | 12 | 14,75 h | 🔲 |
-| [US-057](./US-057-tasks.md) | Plugin équipements : parc du client dans l'espace client (CRUD) | 5 | 11 | 14,25 h | 🔲 |
-| [US-058](./US-058-tasks.md) | Plugin équipements : filtre « pièces compatibles » au catalogue | 5 | 11 | 12,5 h | 🔲 |
-| [US-157](./US-157-tasks.md) | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | 2 | 15 | 11 h | 🔲 |
+| [US-056](./US-056-tasks.md) | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | 5 | 12 | 14,75 h | 👀 |
+| [US-057](./US-057-tasks.md) | Plugin équipements : parc du client dans l'espace client (CRUD) | 5 | 11 | 14,25 h | 👀 |
+| [US-058](./US-058-tasks.md) | Plugin équipements : filtre « pièces compatibles » au catalogue | 5 | 11 | 12,5 h | 👀 |
+| [US-157](./US-157-tasks.md) | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | 2 | 15 | 11 h | 👀 |
 | [US-098](./US-098-tasks.md) | Jauge de remplissage condensée sur la fiche produit | 2 | 6 | 4 h | ↪️ sacrifiée (sprint 22) |
 | [US-088](./US-088-tasks.md) | Journal d'audit lisible : reset masqué et événements métier | 3 | 7 | 7,25 h | ↪️ sacrifiée (sprint 22) |
 | [US-154](./US-154-tasks.md) | Company-insights : conversion des devis et économies des prix dégressifs | 3 | 16 | 13,25 h | ↪️ sacrifiée (sprint 22) |

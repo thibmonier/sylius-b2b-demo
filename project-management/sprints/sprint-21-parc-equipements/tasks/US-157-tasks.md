@@ -28,15 +28,15 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-157-01 | [DOC] | Cadrage : `git fetch`, branche depuis `origin/main` (v1.2.0), branche vérifiée ; matrice CI et `composer.json` relus ; hooks de l'en-tête d'US-156, Turbo Frame ou composant Live ; contrat du panneau (5 plus anciennes décidables, échéance `expire_after_days`) | 0,75 h | T-TECH-01 | Claude | 🔲 |
-| T-157-02 | [TEST] | Tests rouges : 5 plus anciennes dans l'ordre, lien « Tout voir (N) », mention « expire dans N jours », cloisonnement par entreprise et par limite d'approbation, aucune requête sans clic, 403 sans la permission `APPROVAL_LIST` | 1,25 h | T-157-01 | Claude | 🔲 |
-| T-157-03 | [BE] | Contrôleur de fragment et requête (les 5 plus anciennes à décider par ce membre, total, échéance), permission, chargement différé | 1,5 h | T-157-02 | Claude | 🔲 |
-| T-157-04 | [FE-WEB] | Panneau d'en-tête : bouton `aria-expanded`, Turbo Frame chargé au premier clic, fermeture par Échap, focus rendu au bouton, repli sans JavaScript ; libellés FR et EN ; contraste AAA ; cible de 44 px | 1,75 h | T-157-03 | Claude | 🔲 |
-| T-157-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, ordinateur et mobile, pa11y WCAG2AAA ; lecture du code pour PHP 8.2 et Symfony 6.4 | 1 h | T-157-04 | Claude | 🔄 |
-| T-157-06 | [REV] | Revue (permission, cloisonnement, aucune donnée personnelle superflue) rapportée hors dépôt public, et revue de code | 0,5 h | T-157-05 | Claude | 🔲 |
-| T-157-07 | [DOC] | README EN et FR (panneau, versions supportées), `CHANGELOG.md` de la v1.3.0, captures de T-TECH-04 | 0,5 h | T-157-05, T-TECH-04 | Claude | 🔲 |
+| T-157-01 | [DOC] | Cadrage : `git fetch`, branche depuis `origin/main` (v1.2.0), branche vérifiée ; matrice CI et `composer.json` relus ; hooks de l'en-tête d'US-156, Turbo Frame ou composant Live ; contrat du panneau (5 plus anciennes décidables, échéance `expire_after_days`) | 0,75 h | T-TECH-01 | Claude | ✅ |
+| T-157-02 | [TEST] | Tests rouges : 5 plus anciennes dans l'ordre, lien « Tout voir (N) », mention « expire dans N jours », cloisonnement par entreprise et par limite d'approbation, aucune requête sans clic, 403 sans la permission `APPROVAL_LIST` | 1,25 h | T-157-01 | Claude | ✅ |
+| T-157-03 | [BE] | Contrôleur de fragment et requête (les 5 plus anciennes à décider par ce membre, total, échéance), permission, chargement différé | 1,5 h | T-157-02 | Claude | ✅ |
+| T-157-04 | [FE-WEB] | Panneau d'en-tête : bouton `aria-expanded`, Turbo Frame chargé au premier clic, fermeture par Échap, focus rendu au bouton, repli sans JavaScript ; libellés FR et EN ; contraste AAA ; cible de 44 px | 1,75 h | T-157-03 | Claude | ✅ |
+| T-157-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, ordinateur et mobile, pa11y WCAG2AAA ; lecture du code pour PHP 8.2 et Symfony 6.4 | 1 h | T-157-04 | Claude | ✅ |
+| T-157-06 | [REV] | Revue (permission, cloisonnement, aucune donnée personnelle superflue) rapportée hors dépôt public, et revue de code | 0,5 h | T-157-05 | Claude | ✅ |
+| T-157-07 | [DOC] | README EN et FR (panneau, versions supportées), `CHANGELOG.md` de la v1.3.0, captures de T-TECH-04 | 0,5 h | T-157-05, T-TECH-04 | Claude | ✅ |
 | T-157-08 | [OPS] | Thibaut donne le GO du tag et de la release `v1.3.0` de purchase-approval | 0,25 h | T-157-06, T-157-07 | Thibaut | 🔲 |
-| T-157-09 | [OPS] | Push, PR, matrice complète verte dont PHP 8.5 (run terminé), merge, tag `v1.3.0` et release GitHub ; script de vérification Packagist remis à Thibaut | 0,75 h | T-157-08, T-TECH-03, T-TECH-10 | Claude | 🔲 |
+| T-157-09 | [OPS] | Push, PR, matrice complète verte dont PHP 8.5 (run terminé), merge, tag `v1.3.0` et release GitHub ; script de vérification Packagist remis à Thibaut | 0,75 h | T-157-08, T-TECH-03, T-TECH-10 | Claude | 🔄 |
 | T-157-10 | [OPS] | Thibaut confirme que Packagist indexe la v1.3.0 | 0,25 h | T-157-09 | Thibaut | 🔲 |
 | T-157-11 | [OPS] | Vérification de la version publiée (script du scratchpad à OK ou FAIL) avant toute PR de la démo | 0,25 h | T-157-10 | Claude | 🔲 |
 | T-157-12 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-purchase-approval-plugin:^1.3` ; `composer.lock` écrit seul (avant T-154-14) | 0,5 h | T-157-11 | Claude | 🔲 |

@@ -29,17 +29,17 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-058-01 | [DOC] | Cadrage : `git fetch`, `feature/us-058-filtre-compatibilite` depuis `origin/main` (US-057 fusionnée) ; relevé du disque ; méthode de listing du dépôt de produits de Sylius 2.3 (taxons et recherche), hooks Twig des listes, état en session | 0,75 h | T-057-11 | Claude | 🔲 |
-| T-058-02 | [TEST] | Tests rouges : extension de requête (`EXISTS`, tout le parc ou une machine, parc vide, visiteur, machine d'un autre client ignorée), état en session et dans l'URL, message « aucune pièce compatible », nombre de requêtes sans filtre actif ; fixtures d'un catalogue de 40 produits dont 12 compatibles | 2 h | T-058-01 | Claude | 🔲 |
-| T-058-03 | [BE] | Extension de la requête de listing, état du filtre (session et requête, identifiant de machine validé et rattaché au client), décision « contrôle proposé » | 3 h | T-058-02 | Claude | 🔲 |
-| T-058-04 | [FE-WEB] | Contrôle « Compatible avec mon matériel » sur les listes de catégories et la recherche (hooks Twig), message vide et lien « Retirer le filtre » ; libellés FR et EN ; clavier ; contraste AAA ; mobile | 2 h | T-058-03 | Claude | 🔲 |
-| T-058-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, pa11y WCAG2AAA ; `EXPLAIN` de la requête sur MySQL, MariaDB et PostgreSQL (index utilisé) ; lecture du code pour PHP 8.2 et 8.5 | 1,5 h | T-058-04 | Claude | 🔲 |
+| T-058-01 | [DOC] | Cadrage : `git fetch`, `feature/us-058-filtre-compatibilite` depuis `origin/main` (US-057 fusionnée) ; relevé du disque ; méthode de listing du dépôt de produits de Sylius 2.3 (taxons et recherche), hooks Twig des listes, état en session | 0,75 h | T-057-11 | Claude | ✅ |
+| T-058-02 | [TEST] | Tests rouges : extension de requête (`EXISTS`, tout le parc ou une machine, parc vide, visiteur, machine d'un autre client ignorée), état en session et dans l'URL, message « aucune pièce compatible », nombre de requêtes sans filtre actif ; fixtures d'un catalogue de 40 produits dont 12 compatibles | 2 h | T-058-01 | Claude | ✅ |
+| T-058-03 | [BE] | Extension de la requête de listing, état du filtre (session et requête, identifiant de machine validé et rattaché au client), décision « contrôle proposé » | 3 h | T-058-02 | Claude | ✅ |
+| T-058-04 | [FE-WEB] | Contrôle « Compatible avec mon matériel » sur les listes de catégories et la recherche (hooks Twig), message vide et lien « Retirer le filtre » ; libellés FR et EN ; clavier ; contraste AAA ; mobile | 2 h | T-058-03 | Claude | ✅ |
+| T-058-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, pa11y WCAG2AAA ; `EXPLAIN` de la requête sur MySQL, MariaDB et PostgreSQL (index utilisé) ; lecture du code pour PHP 8.2 et 8.5 | 1,5 h | T-058-04 | Claude | ✅ |
 | T-058-06 | [OPS] | Captures du filtre (avec et sans filtre, ordinateur et mobile) pour le README ; relevé du disque avant ; **au plus tard le jour 5** | 0,5 h | T-058-04 | Claude | ✅ |
-| T-058-07 | [REV] | Revue de sécurité (identifiant de machine dans l'URL, cloisonnement, absence de fuite) rapportée hors dépôt public, et revue de code | 0,5 h | T-058-05 | Claude | 🔲 |
-| T-058-08 | [DOC] | README EN et FR complet (installation, configuration, usage, limites du listing, versions supportées, captures), `CHANGELOG.md` prêt pour la 0.1.0, statut des tranches dans `SPEC.md` | 1 h | T-058-05, T-058-06 | Claude | 🔲 |
-| T-058-09 | [OPS] | Push, PR vers `main`, matrice complète verte (run terminé), merge (GO de T-056-10) | 0,5 h | T-058-07, T-058-08 | Claude | 🔲 |
-| T-058-10 | [OPS] | Préparation de la release 0.1.0 : CI de `main` verte sur PHP 8.2 à 8.5, `composer validate --strict`, `branch-alias`, script du scratchpad à OK ou FAIL (tag et vérification Packagist) remis à Thibaut ; aucun tag | 0,5 h | T-058-09, T-TECH-10 | Claude | 🔲 |
-| T-058-11 | [OPS] | Fin de worker : suppression de `vendor`, des caches et de l'image Docker du plugin ; `df -h .` avant et après | 0,25 h | T-058-10 | Claude | 🔲 |
+| T-058-07 | [REV] | Revue de sécurité (identifiant de machine dans l'URL, cloisonnement, absence de fuite) rapportée hors dépôt public, et revue de code | 0,5 h | T-058-05 | Claude | ✅ |
+| T-058-08 | [DOC] | README EN et FR complet (installation, configuration, usage, limites du listing, versions supportées, captures), `CHANGELOG.md` prêt pour la 0.1.0, statut des tranches dans `SPEC.md` | 1 h | T-058-05, T-058-06 | Claude | ✅ |
+| T-058-09 | [OPS] | Push, PR vers `main`, matrice complète verte (run terminé), merge (GO de T-056-10) | 0,5 h | T-058-07, T-058-08 | Claude | 👀 |
+| T-058-10 | [OPS] | Préparation de la release 0.1.0 : CI de `main` verte sur PHP 8.2 à 8.5, `composer validate --strict`, `branch-alias`, script du scratchpad à OK ou FAIL (tag et vérification Packagist) remis à Thibaut ; aucun tag | 0,5 h | T-058-09, T-TECH-10 | Claude | 🔄 |
+| T-058-11 | [OPS] | Fin de worker : suppression de `vendor`, des caches et de l'image Docker du plugin ; `df -h .` avant et après | 0,25 h | T-058-10 | Claude | ✅ |
 
 **Total estimé : 12,5 h** (11 tâches, dont 0 de Thibaut, soit 0 h ; 12,5 h pour Claude).
 

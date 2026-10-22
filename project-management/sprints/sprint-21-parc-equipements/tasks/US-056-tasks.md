@@ -28,18 +28,18 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-056-01 | [DOC] | Cadrage : `git fetch`, branche vérifiée puis `feature/us-056-modeles-equipement` depuis `origin/main` ; relevé `df -h .` et `bin/check-disk` ; matrice CI et `composer.json` relus ; rubriques « versions supportées » et « ordre de publication » ; contrat des entités figé d'après l'ADR-0001 | 1 h | T-TECH-01 | Claude | 🔲 |
-| T-056-02 | [OPS] | Matrice CI : PHP 8.2 à 8.5 (Symfony `^6.4`, `^7.4`, `^8.0`, Sylius `~2.3.0`, MySQL 8.4, MariaDB 11.4, PostgreSQL 17), actions épinglées par SHA, `permissions: contents: read` ; `composer.json` en `php ^8.2` si Sylius 2.3 le permet (à vérifier) ; PHPStan toujours sauté sur Symfony 6.4 | 1,5 h | T-056-01 | Claude | 🔲 |
-| T-056-03 | [TEST] | Tests rouges : unitaires (modèle : code, traductions, ajout et retrait de variantes), intégration (schéma et index de la migration, suppression d'un modèle retire ses liens), fonctionnels d'administration (création, code en double, données invalides, 403 sans permission, fiche de variante) | 2 h | T-056-02 | Claude | 🔲 |
-| T-056-04 | [DB] | Entités `EquipmentModel` et traductions, relation many-to-many avec `ProductVariant` (côté propriétaire sur le modèle), dépôt, migration avec index `(equipment_model_id, variant_id)`, préfixe de la configuration des migrations | 2,5 h | T-056-03 | Claude | 🔲 |
-| T-056-05 | [BE] | Ressource Sylius des modèles : routes d'administration, grille, formulaire et validation (code unique ≤ 64, nom ≤ 255), permission dédiée, entrée de menu ; libellés FR et EN | 2,5 h | T-056-04 | Claude | 🔲 |
-| T-056-06 | [FE-WEB] | Extension du formulaire de variante (hook Twig) : champ « Modèles compatibles », gabarit ; nombre de variantes compatibles dans la liste des modèles | 2 h | T-056-05 | Claude | 🔲 |
-| T-056-07 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite complète ; rendu réel FR et EN des écrans, pa11y WCAG2AAA ; migration montée et descendue sur MySQL, MariaDB et PostgreSQL ; lecture du code pour les cellules PHP 8.2 et 8.5 et Symfony 6.4 | 1,25 h | T-056-06 | Claude | 🔲 |
-| T-056-08 | [REV] | Revue de sécurité (permission, CSRF, validation) rapportée hors dépôt public, et revue de code | 0,5 h | T-056-07 | Claude | 🔲 |
-| T-056-09 | [DOC] | README EN et FR (installation, administration des modèles), `CHANGELOG.md` [Unreleased], sans comparaison avec Sylius Plus | 0,5 h | T-056-07 | Claude | 🔲 |
+| T-056-01 | [DOC] | Cadrage : `git fetch`, branche vérifiée puis `feature/us-056-modeles-equipement` depuis `origin/main` ; relevé `df -h .` et `bin/check-disk` ; matrice CI et `composer.json` relus ; rubriques « versions supportées » et « ordre de publication » ; contrat des entités figé d'après l'ADR-0001 | 1 h | T-TECH-01 | Claude | ✅ |
+| T-056-02 | [OPS] | Matrice CI : PHP 8.2 à 8.5 (Symfony `^6.4`, `^7.4`, `^8.0`, Sylius `~2.3.0`, MySQL 8.4, MariaDB 11.4, PostgreSQL 17), actions épinglées par SHA, `permissions: contents: read` ; `composer.json` en `php ^8.2` si Sylius 2.3 le permet (à vérifier) ; PHPStan toujours sauté sur Symfony 6.4 | 1,5 h | T-056-01 | Claude | ✅ |
+| T-056-03 | [TEST] | Tests rouges : unitaires (modèle : code, traductions, ajout et retrait de variantes), intégration (schéma et index de la migration, suppression d'un modèle retire ses liens), fonctionnels d'administration (création, code en double, données invalides, 403 sans permission, fiche de variante) | 2 h | T-056-02 | Claude | ✅ |
+| T-056-04 | [DB] | Entités `EquipmentModel` et traductions, relation many-to-many avec `ProductVariant` (côté propriétaire sur le modèle), dépôt, migration avec index `(equipment_model_id, variant_id)`, préfixe de la configuration des migrations | 2,5 h | T-056-03 | Claude | ✅ |
+| T-056-05 | [BE] | Ressource Sylius des modèles : routes d'administration, grille, formulaire et validation (code unique ≤ 64, nom ≤ 255), permission dédiée, entrée de menu ; libellés FR et EN | 2,5 h | T-056-04 | Claude | ✅ |
+| T-056-06 | [FE-WEB] | Extension du formulaire de variante (hook Twig) : champ « Modèles compatibles », gabarit ; nombre de variantes compatibles dans la liste des modèles | 2 h | T-056-05 | Claude | ✅ |
+| T-056-07 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite complète ; rendu réel FR et EN des écrans, pa11y WCAG2AAA ; migration montée et descendue sur MySQL, MariaDB et PostgreSQL ; lecture du code pour les cellules PHP 8.2 et 8.5 et Symfony 6.4 | 1,25 h | T-056-06 | Claude | ✅ |
+| T-056-08 | [REV] | Revue de sécurité (permission, CSRF, validation) rapportée hors dépôt public, et revue de code | 0,5 h | T-056-07 | Claude | ✅ |
+| T-056-09 | [DOC] | README EN et FR (installation, administration des modèles), `CHANGELOG.md` [Unreleased], sans comparaison avec Sylius Plus | 0,5 h | T-056-07 | Claude | ✅ |
 | T-056-10 | [OPS] | Thibaut donne le GO de push, PR et merge des PR du plugin (US-056 à US-058) ; aucun tag | 0,25 h | T-056-08, T-056-09 | Thibaut | 🔲 |
-| T-056-11 | [OPS] | Push, PR vers `main`, matrice complète verte (run terminé), merge | 0,5 h | T-056-10 | Claude | 🔲 |
-| T-056-12 | [OPS] | Fin de worker : suppression de `vendor`, des caches et de l'image Docker du plugin ; `df -h .` avant et après dans le rapport | 0,25 h | T-056-11 | Claude | 🔲 |
+| T-056-11 | [OPS] | Push, PR vers `main`, matrice complète verte (run terminé), merge | 0,5 h | T-056-10 | Claude | 👀 |
+| T-056-12 | [OPS] | Fin de worker : suppression de `vendor`, des caches et de l'image Docker du plugin ; `df -h .` avant et après dans le rapport | 0,25 h | T-056-11 | Claude | ✅ |
 
 **Total estimé : 14,75 h** (12 tâches, dont 1 de Thibaut, soit 0,25 h ; 14,5 h pour Claude).
 
