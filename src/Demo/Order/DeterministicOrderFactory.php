@@ -137,11 +137,11 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         $address->setFirstName((string) $customer?->getFirstName());
         $address->setLastName((string) $customer?->getLastName());
         $address->setCompany($this->company);
-        $saintPriest = DemoOrderSpec::SITE_SAINT_PRIEST === $this->deliverySite;
-        $address->setStreet($saintPriest ? '45 boulevard des Expositions' : '12 rue de l\'Industrie');
+        $site = DemoOrderSpec::addressOf($this->deliverySite);
+        $address->setStreet($site['street']);
         $address->setCountryCode($countryCode);
-        $address->setCity($saintPriest ? 'Saint-Priest' : 'Lyon');
-        $address->setPostcode($saintPriest ? '69800' : '69003');
+        $address->setCity($site['city']);
+        $address->setPostcode($site['postcode']);
 
         $order->setShippingAddress($address);
         $order->setBillingAddress(clone $address);

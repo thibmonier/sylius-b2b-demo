@@ -7,6 +7,9 @@
         <h1>{{ 'about.title'|trans({}, 'legal') }}</h1>
         <p class="lead">{{ 'about.intro'|trans({}, 'legal') }}</p>
 
+        {# US-113: same mention as the home. #}
+        {% include 'shared/_author_method.html.twig' %}
+
         <h2>{{ 'about.fictional'|trans({}, 'legal') }}</h2>
         <ul>
             <li>{{ 'about.fictional_data'|trans({}, 'legal') }}</li>

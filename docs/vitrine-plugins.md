@@ -196,3 +196,8 @@ Chaque branche part de `origin/main` après `git fetch`, contient un commit (`do
 - **Avant l'ouverture des PR** : rien n'est poussé. Les captures (US-065, T-065-06) s'ajouteront sur ces mêmes branches.
 - **Dépôts écartés** : aucun. Quatre dépôts (`command-palette`, `gpsr`, `timeline`, `withdrawal`) contiennent des `.DS_Store` non suivis ; ils n'ont pas été touchés (le travail s'est fait dans un worktree séparé).
 - **À relire dans les PR** : les 6 dépôts de la section 5 (phrases retirées).
+
+## Intégrations et état (US-108, sprint 20)
+
+La page `/{locale}/integrer` (guide d'intégration) liste les intégrations (ERP, PIM, transporteurs, facture électronique, portails d'achat, grands comptes, assistants IA, parc d'équipements) avec leur état : disponible, en cours, à venir ou non fourni. Source : `config/demo/integrations.yaml`, chaque entrée pointant un plugin de `config/demo/plugins.yaml` ; l'état est déduit du statut du plugin (publié, installé), jamais saisi deux fois. `IntegrationMap::inconsistencies()` échoue si l'état déclaré s'écarte de celui du plugin (par exemple un plugin publié déclaré « à venir »). Une intégration sans plugin est « non fournie » et renvoie vers le README du plugin Webhook Outbox (contrat d'événements). Aucun bouton de contact ; textes dans `translations/integrate.{fr,en}.yaml`, contrôlés par `PublicTextCharter` (aucune formulation commerciale).
+

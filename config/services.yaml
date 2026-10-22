@@ -12,6 +12,7 @@ imports:
     - { resource: demo/journeys.yaml }
     - { resource: demo/legal.yaml }
     - { resource: demo/plugins.yaml }
+    - { resource: demo/integrations.yaml }
     - { resource: demo/site.yaml }
 
 parameters:

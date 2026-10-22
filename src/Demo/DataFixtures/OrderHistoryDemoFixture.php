@@ -180,13 +180,13 @@ final class OrderHistoryDemoFixture extends AbstractFixture
             throw new \LogicException(sprintf('Demo order %s is over the buyer limit: it would wait for an approval.', $spec->poReference));
         }
         if (OrderScenario::PendingApproval === $spec->scenario) {
-            $this->approvalOf($order);
+            $this->placeApproval($this->approvalOf($order), $date);
 
             return;
         }
         if (OrderScenario::ApprovedShipped === $spec->scenario) {
             Clock::set($afterPlacing(1));
-            $this->approve($order, $spec);
+            $this->approve($order, $spec, $date);
         }
 
         match ($spec->scenario) {
@@ -216,9 +216,17 @@ final class OrderHistoryDemoFixture extends AbstractFixture
         $this->stateMachine->apply($order, OrderTransitions::GRAPH, OrderTransitions::TRANSITION_CANCEL);
     }
 
-    private function approve(OrderInterface $order, DemoOrderSpec $spec): void
+    /** The plugin stamps an approval with the real time: it is requested when the order is placed, so that "waiting for 4 days" is true. */
+    private function placeApproval(OrderApprovalInterface $approval, \DateTimeImmutable $placedAt): void
+    {
+        $approval->setCreatedAt($placedAt);
+        $this->entityManager->flush(); // before a decision: the decision maker reloads the approval and would lose it
+    }
+
+    private function approve(OrderInterface $order, DemoOrderSpec $spec, \DateTimeImmutable $placedAt): void
     {
         $approval = $this->approvalOf($order);
+        $this->placeApproval($approval, $placedAt);
         $approver = $this->memberRepository->findOneByCustomer($this->customer((string) $spec->approverEmail));
         if (null === $approver) {
             throw new \LogicException(sprintf('Demo order %s: approver "%s" is not a company member.', $spec->poReference, $spec->approverEmail));
@@ -228,6 +236,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
         if (null !== $error) {
             throw new \LogicException(sprintf('Demo order %s: approval refused (%s).', $spec->poReference, $error));
         }
+        $approval->setDecidedAt($placedAt->modify('+1 day'));
     }
 
     private function approvalOf(OrderInterface $order): OrderApprovalInterface

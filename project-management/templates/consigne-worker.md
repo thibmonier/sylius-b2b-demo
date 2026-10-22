@@ -20,6 +20,10 @@
 4. **Attente bornée** : pour attendre la fin d'un run, `bin/run-tests --wait` (lit le verrou, jamais `pgrep`) ; il sort au bout de **30 minutes** (code 5) : le worker termine alors avec un rapport « partiel » qui dit sur quoi il attendait.
 5. **Arrêt d'une tâche de fond** : l'orchestrateur l'arrête explicitement (`TaskStop`), **vérifie** l'arrêt (verrou libre, processus absent), puis seulement relance.
 
+6. **Plugin publié** : lire la matrice CI du dépôt avant d'écrire du code (le code tourne sur la version de PHP la plus basse de la matrice) et respecter l'ordre de publication de la fiche ; ni tag ni merge par le worker.
+7. **Secrets fictifs** : aucun jeton ou clé au format réel dans les tests ; les recomposer à l'exécution (concaténation) pour ne pas déclencher les scanners.
+8. **Refus d'outil** : un refus n'arrête jamais le travail ; contourner proprement ou le noter dans le rapport et continuer le reste.
+
 ## Preuves attendues dans le rapport (action 3)
 
 Pour chacun de PHPStan, ECS (`src tests`), lint Twig, lint YAML et la suite : la **commande exacte** et la **dernière ligne de sortie**, ou « non exécuté » avec la raison. Un « vert » sans preuve est refusé.

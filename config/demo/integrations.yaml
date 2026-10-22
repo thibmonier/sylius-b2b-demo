@@ -1,0 +1,15 @@
+# US-108: the integrations shown on the guide page, each tied to the plugin that covers it. The state is derived from the plugin
+# catalogue (published or not, installed or not: same source as the plugin status, US-087) and `state` only declares what this file
+# expects, so that IntegrationMap::inconsistencies() fails when the two drift apart. An integration without plugin is "not_provided"
+# and names the plugin whose event contract (README) a developer builds on. Texts: translations/integrate.*.yaml (integrations.items.<id>).
+parameters:
+    demo.integrations:
+        - { id: erp, plugin: null, contract: sylius-webhook-outbox-plugin, state: not_provided }
+        - { id: pim, plugin: null, contract: sylius-webhook-outbox-plugin, state: not_provided }
+        - { id: carriers, plugin: sylius-container-fill-plugin, state: available }
+        - { id: einvoicing_format, plugin: sylius-facturx-plugin, state: available }
+        - { id: einvoicing_platform, plugin: null, contract: sylius-webhook-outbox-plugin, state: not_provided }
+        - { id: purchasing_portals, plugin: sylius-punchout-cxml-plugin, state: available }
+        - { id: large_accounts, plugin: sylius-company-accounts-plugin, state: available }
+        - { id: ai_assistants, plugin: sylius-b2b-mcp-plugin, state: available }
+        - { id: equipment_fleet, plugin: sylius-customer-asset-management-plugin, state: upcoming }

@@ -28,6 +28,13 @@ En tant que <persona>, je veux <capacité>, afin de <bénéfice>.
 |-----------|---------|--------------|-------------|----------|
 | <HTTPS, compte, jeton, outil, accès réseau, autorisation> | <PunchOut exige HTTPS> | oui / non / à confirmer | <Thibaut / Claude> | <date> |
 
+## Versions et publication
+
+<!-- Obligatoire pour une story qui touche un plugin publié. Mettre « sans objet » sinon. -->
+
+- **Versions supportées** : PHP, Symfony et Sylius de la matrice CI du dépôt, lue au cadrage (`.github/workflows/`) ; impact de version (patch, mineure, majeure) et ce qu'il casse chez les utilisateurs.
+- **Ordre de publication** : dépôts dans l'ordre des dépendances (plugin dépendu tagué et visible sur Packagist avant son dépendant), puis montée de la démo ; tags après le GO de Thibaut.
+
 ## Critères d'acceptation
 
 (Gherkin : au moins 1 nominal, 2 alternatifs, 2 erreurs.)

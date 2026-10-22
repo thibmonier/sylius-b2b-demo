@@ -1,17 +1,17 @@
 title: "Simulateur d'outil d'achat"
 switch_language: English
-intro: "Cette page joue le rôle de l'outil d'achat (Ariba, SAP…) d'Acme Industries : elle envoie une demande PunchOut cXML à la boutique, vous y arrivez connecté comme l'acheteur, puis le panier transféré s'affiche ici et peut être commandé (OrderRequest)."
+intro: "Cette page joue le rôle de l'outil d'achat d'Acme Industries : elle envoie une demande PunchOut cXML à la boutique, vous y arrivez connecté comme l'acheteur, puis le panier transféré s'affiche ici et peut être commandé (OrderRequest)."
 start: "Lancer une session PunchOut (cXML)"
 protocol:
     label: "Protocole PunchOut"
-    cxml: "cXML (Ariba, Coupa)"
-    oci: "SAP OCI"
+    cxml: "cXML"
+    oci: "OCI"
 oci:
-    intro: "Cette page joue le rôle d'un acheteur SAP : elle ouvre le catalogue de la boutique par un appel OCI (USERNAME, PASSWORD, HOOK_URL), vous y arrivez connecté comme l'acheteur, puis le panier transféré revient ici sous forme de champs NEW_ITEM-*. Le retour OCI ne crée aucune commande."
+    intro: "Cette page joue le rôle d'un acheteur OCI : elle ouvre le catalogue de la boutique par un appel OCI (USERNAME, PASSWORD, HOOK_URL), vous y arrivez connecté comme l'acheteur, puis le panier transféré revient ici sous forme de champs NEW_ITEM-*. Le retour OCI ne crée aucune commande."
     hook_url: "HOOK_URL (retour du panier)"
     hook_url_help: "Pré-remplie avec le retour de ce simulateur. Elle doit appartenir aux domaines de retour autorisés de l'acheteur, en HTTPS : toute autre adresse est refusée avant tout appel à la boutique."
     wrong_password: "Envoyer un mot de passe erroné"
-    start: "Ouvrir le catalogue (SAP OCI)"
+    start: "Ouvrir le catalogue (OCI)"
     received: "Panier reçu : champs NEW_ITEM-* lus. Aucune commande n'est créée par un retour OCI."
 buyer:
     info: "Acheteur simulé : Acme Industries (identifiants fictifs). Le secret partagé reste côté serveur. Domaines de retour autorisés pour cet acheteur : %domains%."
@@ -44,7 +44,7 @@ error:
     daily_cap: "Le plafond quotidien de commandes du simulateur est atteint sur cette démo publique. Aucune commande n'a été créée ; réessayez demain."
     forged_return: "Ce panier ne provient pas de la boutique : le retour est refusé. Aucune commande n'a été créée."
     return_replayed: "Ce panier a déjà été reçu : un retour ne peut être utilisé qu'une fois. Relancez une session ; aucune commande n'a été créée."
-    hook_url_not_allowed: "Cette HOOK_URL est refusée : elle doit être en HTTPS et appartenir aux domaines de retour de l'acheteur. Aucun appel n'a été émis vers la boutique."
+    hook_url_not_allowed: "Cette HOOK_URL est refusée : elle doit être en HTTPS et appartenir aux domaines de retour de l'acheteur : %domains%. Aucun appel n'a été émis vers la boutique."
     invalid_oci_return: "Les champs NEW_ITEM-* reçus sont invalides. Rien n'est affiché."
     session_expired: "Cette session du simulateur est expirée ou invalide. Relancez une session ; aucune commande n'a été créée."
     empty_cart: "Le panier renvoyé est vide : il n'y a rien à commander."
@@ -52,7 +52,48 @@ error:
     invalid_order_id: "Le numéro de commande d'achat doit comporter 1 à 64 lettres, chiffres ou tirets."
     status_400: "La boutique a refusé la demande (400)."
     status_401: "Secret partagé ou identité refusés par la boutique (401)."
-    status_403: "Domaine de retour refusé (403) : l'hôte %host% doit figurer dans les domaines de retour de l'acheteur."
+    status_403: "Domaine de retour refusé (403) : l'hôte %host% doit figurer dans les domaines de retour de l'acheteur (%domains%)."
     status_429: "Trop de requêtes, réessayez dans une minute (429)."
     status_other: "La boutique a refusé la demande."
 plugins_link: "Essayer le simulateur d'outil d'achat PunchOut"
+portal:
+    name: "Portail d'achat d'Acme Industries"
+    note: "Portail fictif, sans marque réelle : il joue le rôle de l'outil d'achat de l'acheteur."
+steps:
+    title: "Les quatre étapes"
+    done: "terminée"
+    s1:
+        title: "Lancer la session"
+        text: "Le portail demande à la boutique d'ouvrir une session pour l'acheteur."
+    s2:
+        title: "Parcourir la boutique"
+        text: "Vous arrivez dans la boutique, connecté comme l'acheteur, et vous remplissez un panier."
+    s3:
+        title: "Recevoir le panier"
+        text: "Le panier revient dans le portail, ligne par ligne, avec le total."
+    s4:
+        title: "Passer la commande"
+        text: "Le portail envoie la commande d'achat à la boutique, qui crée la commande."
+        text_oci: "Un retour OCI ne crée pas de commande : le panier reçu est seulement affiché."
+vocabulary:
+    title: "Vocabulaire :"
+    cxml:
+        label: "cXML"
+        definition: "Format d'échange de documents d'achat (demande de session, panier, commande) entre un portail d'achat et une boutique."
+    oci:
+        label: "OCI"
+        definition: "Autre protocole d'achat : la boutique renvoie le panier sous forme de champs de formulaire NEW_ITEM-*."
+    order_request:
+        label: "OrderRequest"
+        definition: "Le message cXML par lequel le portail envoie la commande d'achat à la boutique."
+    hook_url:
+        label: "HOOK_URL"
+        definition: "L'adresse du portail à laquelle la boutique renvoie le panier ; elle doit appartenir aux domaines autorisés de l'acheteur."
+flow:
+    title: "Flux d'une session PunchOut"
+    desc: "Quatre étapes en séquence : le portail lance la session, la boutique est parcourue par l'acheteur, le panier revient au portail, puis le portail envoie la commande à la boutique."
+    s1: "Portail : lancer"
+    s2: "Boutique : choisir"
+    s3: "Portail : panier reçu"
+    s4: "Boutique : commande"
+restart: "Relancer une session"

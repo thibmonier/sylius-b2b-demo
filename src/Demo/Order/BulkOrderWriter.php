@@ -192,11 +192,11 @@ final class BulkOrderWriter
      */
     private function address(int $id, array $customer, DemoOrderSpec $spec, \DateTimeImmutable $date): array
     {
-        $saintPriest = DemoOrderSpec::SITE_SAINT_PRIEST === $spec->deliverySite;
+        $site = DemoOrderSpec::addressOf($spec->deliverySite);
 
         return [
             $id, $customer['first_name'], $customer['last_name'], $customer['company_name'],
-            $saintPriest ? '45 boulevard des Expositions' : '12 rue de l\'Industrie', $saintPriest ? 'Saint-Priest' : 'Lyon', $saintPriest ? '69800' : '69003',
+            $site['street'], $site['city'], $site['postcode'],
             self::at($date), self::at($date), 'FR',
         ];
     }

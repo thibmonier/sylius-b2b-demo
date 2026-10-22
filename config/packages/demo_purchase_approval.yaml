@@ -1,0 +1,4 @@
+# US-156: the company administrator (Isabelle) decides too, within her own approval limit (decision of 2026-10-22).
+# The rule stays the plugin's: who can decide sees the pending count in the header. Buyers (Claire) never do.
+tmonier_sylius_purchase_approval:
+    approver_roles: [approver, admin]

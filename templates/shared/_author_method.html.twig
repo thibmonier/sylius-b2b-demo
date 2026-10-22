@@ -1,0 +1,22 @@
+{#
+    US-113: "who designed this demo" and "how it was made", with the proofs anyone can check (profile, public repository,
+    technical proof page). No offer, no contact request: the demo shows a skill. Also included by the About page.
+#}
+{% set author = include('shared/_author_name.html.twig') %}
+<section class="container mb-5" data-home-author aria-labelledby="home-author-title">
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <h2 class="h3 mb-3" id="home-author-title">{{ 'app.home_b2b.author.title'|trans }}</h2>
+            <p class="mb-2">{{ 'app.home_b2b.author.text'|trans({'%author%': author})|raw }}</p>
+            <p class="mb-0">{{ 'app.home_b2b.author.why'|trans }}</p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <h3 class="h4 mb-3">{{ 'app.home_b2b.author.method_title'|trans }}</h3>
+            <p class="mb-2" data-author-method>{{ 'app.home_b2b.author.method'|trans }}</p>
+            <ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">
+                <li><a class="d-inline-flex align-items-center text-decoration-underline" style="min-height: 2.75rem" href="{{ app_demo_repository_url() }}" target="_blank" rel="noopener noreferrer" data-author-repository>{{ 'app.home_b2b.author.repository'|trans }}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a></li>
+                <li><a class="d-inline-flex align-items-center text-decoration-underline" style="min-height: 2.75rem" href="{{ path('app_demo_proof', {_locale: app.request.locale}) }}" data-author-proof>{{ 'app.home_b2b.author.proof'|trans }}</a></li>
+            </ul>
+        </div>
+    </div>
+</section>

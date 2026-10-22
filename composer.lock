@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03585785a917e82a5d29f4cb3a8aee47",
+    "content-hash": "6fc10f965ddbda6e7817701a7d8ef763",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17258,16 +17258,16 @@
         },
         {
             "name": "tmonier/sylius-company-insights-plugin",
-            "version": "v0.1.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-company-insights-plugin.git",
-                "reference": "2e5761735ebddd51d9f147f4b7022a6a81780455"
+                "reference": "4bab81bf6e7abbd391c95c2a26e6557f275e8248"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-company-insights-plugin/zipball/2e5761735ebddd51d9f147f4b7022a6a81780455",
-                "reference": "2e5761735ebddd51d9f147f4b7022a6a81780455",
+                "url": "https://api.github.com/repos/thibmonier/sylius-company-insights-plugin/zipball/4bab81bf6e7abbd391c95c2a26e6557f275e8248",
+                "reference": "4bab81bf6e7abbd391c95c2a26e6557f275e8248",
                 "shasum": ""
             },
             "require": {
@@ -17294,10 +17294,12 @@
                 "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2",
-                "tmonier/sylius-purchase-approval-plugin": "^1.1"
+                "tmonier/sylius-purchase-approval-plugin": "^1.1",
+                "tmonier/sylius-trade-credit-plugin": "^1.1"
             },
             "suggest": {
-                "tmonier/sylius-purchase-approval-plugin": "Orders waiting for approval are shown apart and are not counted in the spend"
+                "tmonier/sylius-purchase-approval-plugin": "Orders waiting for approval are shown apart and are not counted in the spend, and the \"Approvals\" widget shows how the approvals go",
+                "tmonier/sylius-trade-credit-plugin": "The \"Credit\" widget shows the credit limit, the amount used and the overdue invoices of the company"
             },
             "type": "sylius-plugin",
             "extra": {
@@ -17306,7 +17308,7 @@
                 },
                 "public-dir": "vendor/sylius/test-application/public",
                 "branch-alias": {
-                    "dev-main": "0.1-dev"
+                    "dev-main": "0.2-dev"
                 }
             },
             "autoload": {
@@ -17336,9 +17338,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-company-insights-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/tree/v0.2.1"
             },
-            "time": "2026-10-21T21:30:19+00:00"
+            "time": "2026-10-22T10:00:04+00:00"
         },
         {
             "name": "tmonier/sylius-container-fill-plugin",
@@ -17753,16 +17755,16 @@
         },
         {
             "name": "tmonier/sylius-purchase-approval-plugin",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-purchase-approval-plugin.git",
-                "reference": "2027b62895825ab69f9ea9cd555dc1fe008c7d70"
+                "reference": "3e849ce64bf878898e2a8e60d0014985d7e4f561"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-purchase-approval-plugin/zipball/2027b62895825ab69f9ea9cd555dc1fe008c7d70",
-                "reference": "2027b62895825ab69f9ea9cd555dc1fe008c7d70",
+                "url": "https://api.github.com/repos/thibmonier/sylius-purchase-approval-plugin/zipball/3e849ce64bf878898e2a8e60d0014985d7e4f561",
+                "reference": "3e849ce64bf878898e2a8e60d0014985d7e4f561",
                 "shasum": ""
             },
             "require": {
@@ -17776,6 +17778,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/invoicing-plugin": "^2.0",
                 "sylius/test-application": "^2.0.0@alpha",
@@ -17803,7 +17806,7 @@
                 },
                 "public-dir": "vendor/sylius/test-application/public",
                 "branch-alias": {
-                    "dev-main": "1.1-dev"
+                    "dev-main": "1.2-dev"
                 }
             },
             "autoload": {
@@ -17833,9 +17836,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-purchase-approval-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/v1.1.0"
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/v1.2.0"
             },
-            "time": "2026-10-12T20:13:47+00:00"
+            "time": "2026-10-22T08:44:25+00:00"
         },
         {
             "name": "tmonier/sylius-quick-order-plugin",

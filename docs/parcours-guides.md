@@ -46,3 +46,8 @@ Un préparateur n'agit que pour le visiteur connecté. Si rien n'est à prépare
 ## Mesure
 
 Événements Umami (préfixe `demo-`, étiquettes simples uniquement) : `journey-start`, `journey-launch`, `journey-exit-integrate`, `cta-message` (emplacement `journey-exit`). Le lancement et le contact portent la propriété `campaign` : voir [mesure-communication.md](./mesure-communication.md).
+
+## Simulateur PunchOut habillé (US-099, sprint 20)
+
+`/demo/punchout-simulator` (cXML) et `/demo/punchout-simulator/oci` se présentent comme un portail d'achat fictif d'Acme Industries (monogramme neutre, aucune marque réelle) : les quatre étapes numérotées (lancer, parcourir la boutique, recevoir le panier, passer la commande ; `SimulatorStep` calcule l'étape courante, `aria-current="step"`), un vocabulaire (cXML, OCI, OrderRequest, HOOK_URL) dont chaque définition s'affiche au survol et au focus clavier, un schéma du flux en SVG avec titre et description, le panier reçu en tableau, et un lien « Relancer une session » sur les erreurs de session. Une URL de retour hors des domaines autorisés est refusée avant tout appel à la boutique (HOOK_URL OCI) et le message rappelle les domaines autorisés. Textes : `translations/simulator.{fr,en}.yaml` (mêmes clés, testé).
+

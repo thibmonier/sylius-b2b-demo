@@ -13,6 +13,7 @@ use App\Demo\PunchOutSimulator\OciHookUrl;
 use App\Demo\PunchOutSimulator\OciReturnGate;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Demo\PunchOutSimulator\SimulatorException;
+use App\Demo\PunchOutSimulator\SimulatorStep;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -139,6 +140,7 @@ final readonly class PunchOutOciSimulatorController
     {
         $lang = 'en' === $request->query->get('lang') ? 'en' : 'fr';
         $response = new Response($this->twig->render('demo/punchout_simulator/simulator.html.twig', $parameters + [
+            'step' => SimulatorStep::of($parameters),
             'protocol' => 'oci',
             'locale' => $lang,
             'csrf' => $this->csrfTokenManager->getToken(self::CSRF_START)->getValue(),

@@ -110,12 +110,12 @@ parameters:
           name: 'Company Insights'
           category: purchasing
           description:
-              fr: "Tableau de bord des achats pour les comptes entreprise B2B : dépenses, commandes, panier moyen et acheteurs actifs de la période avec leur variation, achats mois par mois sur 12 mois face à l'année précédente, et classements des acheteurs, produits et catégories. Réservé aux administrateurs de la société."
-              en: 'Purchasing dashboard for B2B company accounts: spend, orders, average basket and active buyers of the period with their variation, purchases month by month over 12 months against the previous year, and rankings of buyers, products and categories. Reserved to the company administrators.'
+              fr: "Tableau de bord des achats pour les comptes entreprise B2B : dépenses, commandes, panier moyen et acheteurs actifs de la période avec leur variation, achats mois par mois sur 12 mois face à l'année précédente, classements des acheteurs, produits et catégories, répartition par site de livraison et par centre de coût, export CSV du détail, et indicateurs des approbations et de l'encours. Réservé aux administrateurs de la société."
+              en: 'Purchasing dashboard for B2B company accounts: spend, orders, average basket and active buyers of the period with their variation, purchases month by month over 12 months against the previous year, rankings of buyers, products and categories, a split per delivery site and per cost centre, a CSV export of the detail, and indicators for approvals and outstanding credit. Reserved to the company administrators.'
           demo_route: tmonier_company_insights_shop_insights
           scenario:
-              fr: "Connectez-vous en Isabelle (administratrice d'Acme) et ouvrez l'onglet « Tableau de bord des achats » de l'espace société : douze mois d'achats avec le creux d'août et le pic de septembre, comparés à l'année précédente, puis les acheteurs, produits et catégories qui comptent. Les commandes de TechParts n'y figurent pas."
-              en: "Sign in as Isabelle (Acme administrator) and open the \"Purchasing dashboard\" tab of the company area: twelve months of purchases with the August trough and the September peak, compared with the previous year, then the buyers, products and categories that count. The orders of TechParts are not in it."
+              fr: "Connectez-vous en Isabelle (administratrice d'Acme) et ouvrez l'onglet « Tableau de bord des achats » de l'espace société : douze mois d'achats avec le creux d'août et le pic de septembre, comparés à l'année précédente, puis les acheteurs, produits et catégories qui comptent. Plus bas, les achats par site de livraison (Usine de Lyon, Entrepôt de Saint-Priest, Atelier de Grenoble) et par centre de coût (ATELIER-01, MAINT-02), puis les blocs Approbations (la commande de Claire attend une décision depuis plusieurs jours) et Encours. Le bouton d'export télécharge le détail en CSV, référence PO comprise. Les commandes de TechParts n'y figurent pas."
+              en: "Sign in as Isabelle (Acme administrator) and open the \"Purchasing dashboard\" tab of the company area: twelve months of purchases with the August trough and the September peak, compared with the previous year, then the buyers, products and categories that count. Further down, purchases per delivery site (Lyon plant, Saint-Priest warehouse, Grenoble workshop) and per cost centre (ATELIER-01, MAINT-02), then the Approvals block (Claire's order has waited several days for a decision) and the Outstanding credit block. The export button downloads the detail as CSV, PO reference included. The orders of TechParts are not in it."
           advised_account: isabelle@acme.example
         - slug: sylius-container-fill-plugin
           name: 'Container Fill'
@@ -193,8 +193,8 @@ parameters:
               en: 'Purchase approval for company accounts: order and approval limits per member, pending orders held until a company approver approves them (no payment, shipment or invoice before), acknowledgement e-mail, expiry.'
           demo_route: tmonier_purchase_approval_shop_approvals
           scenario:
-              fr: "Passez une commande au-dessus de votre limite d'achat, puis connectez-vous en Paul (approbateur) pour la valider."
-              en: "Place an order above your spending limit, then sign in as Paul (approver) to approve it."
+              fr: "Passez une commande au-dessus de votre limite d'achat, puis connectez-vous en Paul (approbateur) : l'entrée « Approbations » de l'en-tête affiche le nombre de commandes qui l'attendent, et mène à la liste à décider. Isabelle (administratrice) a la même entrée : elle décide aussi, dans la limite de son propre plafond. Claire (acheteuse) ne l'a jamais."
+              en: "Place an order above your spending limit, then sign in as Paul (approver): the \"Approvals\" entry of the header shows how many orders wait for him and leads to the list to decide. Isabelle (administrator) has the same entry: she decides too, within her own limit. Claire (buyer) never has it."
           advised_account: claire@acme.example
         - slug: sylius-quick-order-plugin
           name: 'Quick Order'

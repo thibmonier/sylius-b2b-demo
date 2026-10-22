@@ -18,6 +18,7 @@ use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Demo\PunchOutSimulator\SimulatorException;
 use App\Demo\PunchOutSimulator\SimulatorOrderGate;
+use App\Demo\PunchOutSimulator\SimulatorStep;
 use App\Order\OrderPoReferenceAwareInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -273,6 +274,7 @@ final readonly class PunchOutSimulatorController
     {
         $locale = $this->locale($request);
         $response = new Response($this->twig->render('demo/punchout_simulator/simulator.html.twig', $parameters + [
+            'step' => SimulatorStep::of($parameters),
             'locale' => $locale,
             'csrf' => $this->csrfTokenManager->getToken(self::CSRF_START)->getValue(),
             'csrf_order' => $this->csrfTokenManager->getToken(self::CSRF_ORDER)->getValue(),

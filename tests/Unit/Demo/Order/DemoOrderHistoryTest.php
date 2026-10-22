@@ -61,14 +61,14 @@ final class DemoOrderHistoryTest extends TestCase
         self::assertSame(max($perMonth), $perMonth['2026-09']);
     }
 
-    public function testFourBuyersOfAcmeIncludingOneDisabledTwoCostCentersAndTwoSites(): void
+    public function testFourBuyersOfAcmeIncludingOneDisabledTwoCostCentersAndThreeSites(): void
     {
         $acme = $this->acme(DemoOrderPlan::all($this->now));
 
         self::assertCount(4, array_unique(array_map(static fn (DemoOrderSpec $spec): string => $spec->customerEmail, $acme)));
         self::assertContains('sebastien@acme.example', array_map(static fn (DemoOrderSpec $spec): string => $spec->customerEmail, $acme));
         self::assertEqualsCanonicalizing(['ATELIER-01', 'MAINT-02'], array_values(array_unique(array_filter(array_map(static fn (DemoOrderSpec $spec): ?string => $spec->costCenter, $acme)))));
-        self::assertSame([null, DemoOrderSpec::SITE_SAINT_PRIEST], $this->sorted(array_unique(array_map(static fn (DemoOrderSpec $spec): ?string => $spec->deliverySite, DemoOrderPlan::history($this->now)))));
+        self::assertSame([null, DemoOrderSpec::SITE_GRENOBLE, DemoOrderSpec::SITE_SAINT_PRIEST], $this->sorted(array_unique(array_map(static fn (DemoOrderSpec $spec): ?string => $spec->deliverySite, DemoOrderPlan::history($this->now)))));
     }
 
     public function testTheDisabledBuyerOrdersNothingAfterHeLeft(): void

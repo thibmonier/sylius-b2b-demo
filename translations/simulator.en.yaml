@@ -1,17 +1,17 @@
 title: "Procurement tool simulator"
 switch_language: Français
-intro: "This page plays the role of Acme Industries' procurement tool (Ariba, SAP…): it sends a cXML PunchOut request to the shop, you arrive logged in as the buyer, then the transferred cart is shown here and can be ordered (OrderRequest)."
+intro: "This page plays the role of Acme Industries' procurement tool: it sends a cXML PunchOut request to the shop, you arrive logged in as the buyer, then the transferred cart is shown here and can be ordered (OrderRequest)."
 start: "Start a PunchOut session (cXML)"
 protocol:
     label: "PunchOut protocol"
-    cxml: "cXML (Ariba, Coupa)"
-    oci: "SAP OCI"
+    cxml: "cXML"
+    oci: "OCI"
 oci:
-    intro: "This page plays the role of an SAP buyer: it opens the shop catalog with an OCI call (USERNAME, PASSWORD, HOOK_URL), you arrive logged in as the buyer, then the transferred cart comes back here as NEW_ITEM-* fields. An OCI return creates no order."
+    intro: "This page plays the role of an OCI buyer: it opens the shop catalog with an OCI call (USERNAME, PASSWORD, HOOK_URL), you arrive logged in as the buyer, then the transferred cart comes back here as NEW_ITEM-* fields. An OCI return creates no order."
     hook_url: "HOOK_URL (cart return)"
     hook_url_help: "Pre-filled with the return of this simulator. It must belong to the buyer's allowed return domains, over HTTPS: any other address is refused before the shop is called."
     wrong_password: "Send a wrong password"
-    start: "Open the catalog (SAP OCI)"
+    start: "Open the catalog (OCI)"
     received: "Cart received: NEW_ITEM-* fields read. An OCI return creates no order."
 buyer:
     info: "Simulated buyer: Acme Industries (fictitious identities). The shared secret stays on the server. Return domains allowed for this buyer: %domains%."
@@ -44,7 +44,7 @@ error:
     daily_cap: "The daily limit of simulator orders is reached on this public demo. No order was created; please try again tomorrow."
     forged_return: "This cart did not come from the shop: the return is refused. No order was created."
     return_replayed: "This cart was already received: a return can only be used once. Start a new session; no order was created."
-    hook_url_not_allowed: "This HOOK_URL is refused: it must use HTTPS and belong to the buyer's return domains. No call was made to the shop."
+    hook_url_not_allowed: "This HOOK_URL is refused: it must use HTTPS and belong to the buyer's return domains: %domains%. No call was made to the shop."
     invalid_oci_return: "The NEW_ITEM-* fields received are invalid. Nothing is shown."
     session_expired: "This simulator session has expired or is invalid. Start a new session; no order was created."
     empty_cart: "The returned cart is empty: nothing to order."
@@ -52,7 +52,48 @@ error:
     invalid_order_id: "The purchase order number must be 1 to 64 letters, digits or dashes."
     status_400: "The shop refused the request (400)."
     status_401: "Shared secret or identity refused by the shop (401)."
-    status_403: "Return domain refused (403): host %host% must be in the buyer's return domains."
+    status_403: "Return domain refused (403): host %host% must be in the buyer's return domains (%domains%)."
     status_429: "Too many requests, try again in a minute (429)."
     status_other: "The shop refused the request."
 plugins_link: "Try the PunchOut procurement tool simulator"
+portal:
+    name: "Acme Industries purchasing portal"
+    note: "Fictional portal, no real brand: it plays the buyer's procurement tool."
+steps:
+    title: "The four steps"
+    done: "done"
+    s1:
+        title: "Start the session"
+        text: "The portal asks the shop to open a session for the buyer."
+    s2:
+        title: "Browse the shop"
+        text: "You arrive in the shop, signed in as the buyer, and fill a cart."
+    s3:
+        title: "Receive the cart"
+        text: "The cart comes back to the portal, line by line, with its total."
+    s4:
+        title: "Place the order"
+        text: "The portal sends the purchase order to the shop, which creates the order."
+        text_oci: "An OCI return creates no order: the cart received is only displayed."
+vocabulary:
+    title: "Vocabulary:"
+    cxml:
+        label: "cXML"
+        definition: "Document exchange format for purchasing (session request, cart, order) between a purchasing portal and a shop."
+    oci:
+        label: "OCI"
+        definition: "Another purchasing protocol: the shop returns the cart as NEW_ITEM-* form fields."
+    order_request:
+        label: "OrderRequest"
+        definition: "The cXML message with which the portal sends the purchase order to the shop."
+    hook_url:
+        label: "HOOK_URL"
+        definition: "The portal address the shop returns the cart to; it must belong to the buyer's allowed domains."
+flow:
+    title: "Flow of a PunchOut session"
+    desc: "Four steps in sequence: the portal starts the session, the buyer browses the shop, the cart comes back to the portal, then the portal sends the order to the shop."
+    s1: "Portal: start"
+    s2: "Shop: choose"
+    s3: "Portal: cart received"
+    s4: "Shop: order"
+restart: "Restart a session"

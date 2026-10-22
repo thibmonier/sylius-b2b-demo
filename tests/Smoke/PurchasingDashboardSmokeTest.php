@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -81,6 +82,94 @@ final class PurchasingDashboardSmokeTest extends WebTestCase
         $client->request('GET', self::PAGE);
 
         self::assertResponseStatusCodeSame(403);
+    }
+
+    public function testPurchasesAreSplitPerDeliverySiteOfTheCompany(): void
+    {
+        $client = self::createClient();
+        $this->login($client, 'isabelle@acme.example');
+
+        $block = $client->request('GET', self::PAGE)->filter('[data-test-tmonier-insights-breakdown="sites-EUR"]');
+
+        self::assertCount(1, $block);
+        $labels = $block->filter('[data-test-tmonier-insights-breakdown-row] th')->each(static fn (Crawler $cell): string => trim($cell->text()));
+        foreach (['Usine de Lyon', 'Entrepôt de Saint-Priest', 'Atelier de Grenoble'] as $site) {
+            self::assertContains($site, $labels);
+        }
+    }
+
+    public function testPurchasesAreSplitPerCostCentreWithoutTheCostCentresOfOtherCompanies(): void
+    {
+        $client = self::createClient();
+        $this->login($client, 'isabelle@acme.example');
+
+        $block = $client->request('GET', self::PAGE)->filter('[data-test-tmonier-insights-breakdown="cost-center-EUR"]');
+
+        self::assertCount(1, $block);
+        self::assertStringContainsString('Centre de coût', $block->text());
+        $labels = $block->filter('[data-test-tmonier-insights-breakdown-row] th')->each(static fn (Crawler $cell): string => trim($cell->text()));
+        sort($labels);
+        self::assertSame(['ATELIER-01', 'MAINT-02'], $labels);
+    }
+
+    public function testTheExportCarriesThePurchaseOrderReferenceAndTheCostCentreOfAcmeOnly(): void
+    {
+        $client = self::createClient();
+        $this->login($client, 'isabelle@acme.example');
+
+        $client->request('GET', '/fr_FR/account/company/insights/export?period=last_12_months');
+
+        self::assertResponseIsSuccessful();
+        $csv = (string) $client->getInternalResponse()->getContent();
+        self::assertStringStartsWith("\xEF\xBB\xBF", $csv);
+        self::assertStringContainsString('ACME-PO-H-', $csv, 'The PO reference comes from the order.');
+        self::assertStringContainsString('ATELIER-01', $csv);
+        self::assertStringContainsString('MAINT-02', $csv);
+        foreach (['TP-2026', 'BC-2026', 'GM-8', 'SITE-LYON'] as $foreign) {
+            self::assertStringNotContainsString($foreign, $csv);
+        }
+    }
+
+    public function testTheApprovalsAndCreditWidgetsAreOnTheDashboardOfTheAdministrator(): void
+    {
+        $client = self::createClient();
+        $this->login($client, 'isabelle@acme.example');
+
+        $crawler = $client->request('GET', self::PAGE);
+
+        foreach (['approvals', 'credit'] as $widget) {
+            $node = $crawler->filter('[data-test-tmonier-insights-widget="' . $widget . '"]');
+            self::assertCount(1, $node, $widget . ' widget');
+            self::assertCount(0, $node->filter('[data-test-tmonier-insights-widget-unavailable]'), $widget . ' must have its figures');
+        }
+        $rows = $crawler->filter('[data-test-tmonier-insights-approvals-pending-row]');
+        self::assertCount(1, $rows, 'The order of Claire waiting for approval is listed.');
+        self::assertStringContainsString('Claire', $rows->text());
+        self::assertMatchesRegularExpression('/[34] jours/', $rows->text(), 'Placed four days ago at 10:00: three full days before 10:00, four after.');
+        self::assertCount(1, $crawler->filter('[data-test-tmonier-insights-widget="approvals"] a[href*="/account/company/approvals"]'), 'Isabelle decides: the link to the approvals is shown.');
+    }
+
+    public function testNoApprovalIsDecidedBeforeItWasRequested(): void
+    {
+        $client = self::createClient();
+        $connection = $client->getContainer()->get('doctrine.dbal.default_connection');
+        self::assertInstanceOf(Connection::class, $connection);
+
+        $inverted = $connection->fetchOne('SELECT COUNT(*) FROM tmonier_purchase_approval_order_approval WHERE decided_at IS NOT NULL AND decided_at < created_at');
+
+        self::assertEquals(0, $inverted, 'The median decision time of the widget would be negative.');
+    }
+
+    public function testTheAcmeWidgetsLeaveOutTheOtherCompanies(): void
+    {
+        $client = self::createClient();
+        $this->login($client, 'isabelle@acme.example');
+
+        $content = $client->request('GET', self::PAGE)->filter('[data-test-tmonier-insights-widget]')->each(static fn (Crawler $node): string => $node->text());
+
+        foreach (['Marc', 'Antoine', 'BuildCo', 'TechParts', 'BC-2026-031'] as $foreign) {
+            self::assertStringNotContainsString($foreign, implode(' ', $content));
+        }
     }
 
     /** @return array<string, int> month (Y-m) => count, oldest first */
