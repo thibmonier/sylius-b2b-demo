@@ -6,14 +6,14 @@
 
 | US | Titre | Points | Tâches | Heures | Statut |
 |----|-------|--------|--------|--------|--------|
-| [US-113](./US-113-tasks.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | 3 | 7 | 6,5 h | 🔲 |
-| [US-152](./US-152-tasks.md) | Company-insights : ventilation par site et centre de coût, export CSV | 5 | 17 | 16,5 h | 🔲 |
-| [US-153](./US-153-tasks.md) | Company-insights : indicateurs des approbations et de l'encours | 5 | 12 | 14,25 h | 🔲 |
-| [US-156](./US-156-tasks.md) | Purchase-approval : approbations en attente signalées dans l'en-tête | 3 | 15 | 12,25 h | 🔲 |
-| [US-108](./US-108-tasks.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | 3 | 7 | 6,5 h | 🔲 |
-| [US-099](./US-099-tasks.md) | Simulateur PunchOut habillé et expliqué | 3 | 7 | 6,5 h | 🔲 |
+| [US-113](./US-113-tasks.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | 3 | 7 | 6,5 h | 👀 (T-113-06 restante) |
+| [US-152](./US-152-tasks.md) | Company-insights : ventilation par site et centre de coût, export CSV | 5 | 17 | 16,5 h | 👀 |
+| [US-153](./US-153-tasks.md) | Company-insights : indicateurs des approbations et de l'encours | 5 | 12 | 14,25 h | 👀 |
+| [US-156](./US-156-tasks.md) | Purchase-approval : approbations en attente signalées dans l'en-tête | 3 | 15 | 12,25 h | 👀 (T-156-06 restante) |
+| [US-108](./US-108-tasks.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | 3 | 7 | 6,5 h | 👀 |
+| [US-099](./US-099-tasks.md) | Simulateur PunchOut habillé et expliqué | 3 | 7 | 6,5 h | 👀 |
 | [US-093](./US-093-tasks.md) | Catalogue crédible, tranche 2 : environ 150 références réalistes | 8 | 11 | 16,5 h | ↪️ sprint 21 (sacrifiée le 2026-10-22) |
-| [Transverse](./technical-tasks.md) | Lock company-insights, actions de la rétro S19, vérification en production, clôture de l'orchestrateur (sans points) | 0 | 12 | 8,5 h | 🔲 |
+| [Transverse](./technical-tasks.md) | Lock company-insights, actions de la rétro S19, vérification en production, clôture de l'orchestrateur (sans points) | 0 | 12 | 8,5 h | 🔄 (4 ✅, 1 🚫, 7 🔲) |
 
 **Total décomposé** : 88 tâches | **87,5 h** pour 30 points (**après le sacrifice d'US-093 du 2026-10-22 : 77 tâches, 71 h, 22 points, soit 69,5 h de charge pour Claude**) (+ 12 tâches transverses sans points), dont 1,5 h d'actions de Thibaut (5 tâches), soit **86 h de charge pour Claude** (orchestrateur compris). Aucune tâche n'est bloquée au départ ; T-TECH-06 attend la reprise de Railway (calendaire).
 
@@ -31,6 +31,8 @@
 | [REV] | 7 | 4,25 h | 5 % |
 | [OPS] | 20 | 12,5 h | 14 % |
 | **Total** | **88** | **87,5 h** | 100 % |
+
+**État à la clôture du 2026-10-22** : sur les 77 tâches du périmètre engagé, 67 ✅, 1 🚫 (T-TECH-06, vérification en production : Railway suspendu), 9 🔲 (T-113-06, T-156-06, T-TECH-02, 04, 05, 08, 09, 10, 11). Les 6 stories sont 👀 en review : vérification en production en attente (incident Railway). Voir [sprint-review.md](../sprint-review.md).
 
 ## Capacité
 

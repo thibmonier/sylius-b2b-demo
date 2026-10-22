@@ -5,11 +5,37 @@
 
 Total décomposé : 88 tâches, 87,5 h (1,5 h d'actions de Thibaut, 5 tâches). **Périmètre engagé après le sacrifice d'US-093 : 77 tâches, 71 h (1,5 h de Thibaut)**. État à la décomposition du 2026-10-22 : 77 🔲 engagées, aucune commencée. Périmètre validé par Thibaut le 2026-10-22 : 30 points, ramenés à 22 par le sacrifice d'US-093. Ordre de sacrifice restant : US-099, US-108, US-156, US-153 (voir [tasks/README.md](./tasks/README.md)).
 
+**Clôture du 2026-10-22** : sur les 77 tâches du périmètre engagé, 67 ✅, 1 🚫 (T-TECH-06, vérification en production : Railway suspendu), 9 🔲 (T-113-06 captures d'accueil du README ; T-156-06 captures de purchase-approval ; T-TECH-02, 04, 05, 08, 09, 10, 11, faites en partie ou non faites, voir [sprint-review.md](./sprint-review.md)). Les 6 stories restent 👀 en review : vérification en production en attente (incident Railway).
+
 **Capacité** : 71 h (30 points × 2,1 h + 8 h de tâches transverses) ; charge de Claude 86 h ; excès 15 h résorbé par le sacrifice d'US-093 (16,5 h) le 2026-10-22 : reste 69,5 h pour Claude, 22 points. Point d'étape le 2027-03-26.
 
 ## 🔲 À Faire
 
 US-093 est sacrifiée le 2026-10-22 : ses 11 tâches sont listées en fin de fichier, hors périmètre. Les tâches de Thibaut (📅) sont marquées dans la colonne « Réalisé par ».
+
+| ID | US | Type | Tâche | Estimation | Réalisé par |
+|----|-----|------|-------|------------|-------------|
+| T-156-06 | US-156 | OPS | Captures de l'en-tête (ordinateur et mobile) pour le README (application de test, données fictives) ; relevé du disque avant ; à faire au plus tard le jour 5 | 0,5 h | Claude |
+| T-113-06 | US-113 | DOC | Documentation à jour (`docs/theme-b2b.md`, README de la démo) et captures d'accueil pour le README | 0,5 h | Claude |
+| T-TECH-02 | Transverse | OPS | Budget d'espace disque (action 1 de la rétro S19) : relevé `df -h .` et `bin/check-disk` au planning, `bin/clean-test-caches`, captures des plugins planifiées avant le jour 5, relevé noté dans le sprint-goal | 0,5 h | Orchestrateur |
+| T-TECH-04 | Transverse | DOC | Gabarit de l'orchestrateur : gate recoupé avec la somme des points du fichier de statut (écart affiché), et « un refus d'outil n'arrête jamais le sprint » (action 3 de la rétro S19) | 0,5 h | Orchestrateur |
+| T-TECH-05 | Transverse | OPS | Thibaut déploie d'un coup les PR #43 à #48 sur Railway à la reprise (échéance 2027-03-26, action 5 de la rétro S19) ; aucune commande Railway par Claude | 0,5 h | Thibaut |
+| T-TECH-08 | Transverse | OPS | Gabarit de CI d'un nouveau plugin (action 4 de la rétro S19) : PHP 8.4 et 8.5, actions épinglées par SHA, `permissions` minimal ; documenté et vérifié sur company-insights avant la 0.2.0 (CI verte sur PHP 8.5 ; déjà présents au cadrage) ; écarts de purchase-approval consignés | 1 h | Claude |
+| T-TECH-09 | Transverse | OPS | ECS et PHPStan rejoués sur l'arbre exact avant chaque push (démo et dépôts de plugins, dans Docker) ; dernière ligne de sortie citée dans le rapport | 0,5 h | Orchestrateur |
+| T-TECH-10 | Transverse | OPS | Scripts du scratchpad pour les commandes de Thibaut, à OK ou FAIL par élément : tag v0.2.0 de company-insights, tag v1.2.0 de purchase-approval, vérification Packagist, `composer` avec `php -d memory_limit=1G` | 0,75 h | Orchestrateur |
+| T-TECH-11 | Transverse | OPS | Reconstruction de l'image et démarrage du conteneur (`/healthz`) par l'orchestrateur avant la revue, puis après tout correctif touchant l'image (un seul build à la fois) | 0,75 h | Orchestrateur |
+
+## 🔄 En Cours
+
+| ID | US | Type | Tâche | Estimation | Réalisé par |
+|----|-----|------|-------|------------|-------------|
+
+## 👀 En Review
+
+| ID | US | Type | Tâche | Estimation | Réalisé par |
+|----|-----|------|-------|------------|-------------|
+
+## ✅ Terminé
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
@@ -47,7 +73,6 @@ US-093 est sacrifiée le 2026-10-22 : ses 11 tâches sont listées en fin de fic
 | T-156-03 | US-156 | BE | Service de comptage par membre, mémoïsé pour la requête, fonction Twig, option de configuration `header_badge` (true par défaut) | 1,5 h | Claude |
 | T-156-04 | US-156 | FE-WEB | Composant d'en-tête sur les hooks Twig ordinateur et mobile : icône, libellé, pastille, libellé accessible « Aucune approbation en attente », lien vers la liste à décider ; libellés FR et EN ; contraste AAA, cible de 44 px | 1,5 h | Claude |
 | T-156-05 | US-156 | TEST | Dans Docker : ECS, PHPStan max, Rector, tests ; rendu réel FR et EN, ordinateur et mobile, pa11y WCAG2AAA dans l'application de test ; lecture du code pour les cellules PHP 8.2 et Symfony 6.4 | 1 h | Claude |
-| T-156-06 | US-156 | OPS | Captures de l'en-tête (ordinateur et mobile) pour le README (application de test, données fictives) ; relevé du disque avant ; à faire au plus tard le jour 5 | 0,5 h | Claude |
 | T-156-07 | US-156 | DOC | README EN et FR (en-tête, option `header_badge`, versions supportées), `CHANGELOG.md` de la v1.2.0, captures | 0,5 h | Claude |
 | T-156-08 | US-156 | REV | Revue (permission, aucune requête pour un visiteur, cloisonnement, absence de donnée personnelle) rapportée hors dépôt public, et revue de code | 0,5 h | Claude |
 | T-156-09 | US-156 | OPS | Thibaut donne le GO du tag et de la release `v1.2.0` de purchase-approval | 0,25 h | Thibaut |
@@ -62,7 +87,6 @@ US-093 est sacrifiée le 2026-10-22 : ses 11 tâches sont listées en fin de fic
 | T-113-03 | US-113 | BE | Contrôle de charte des textes publics (formulations ambiguës, chiffres non sourcés par liste blanche) et lecture tolérante de `DEMO_PROFILE_URL` | 0,75 h | Claude |
 | T-113-04 | US-113 | FE-WEB | Bandeau en trois colonnes, section « Qui a conçu cette démo » et « Comment elle a été faite », mention dans À propos ; libellés FR et EN ; contrastes AAA, mobile | 1,75 h | Claude |
 | T-113-05 | US-113 | TEST | Rendu réel FR et EN à 1440 px et sur mobile, pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | Claude |
-| T-113-06 | US-113 | DOC | Documentation à jour (`docs/theme-b2b.md`, README de la démo) et captures d'accueil pour le README | 0,5 h | Claude |
 | T-113-07 | US-113 | REV | Revue (ton neutre, aucune prestation ni Sylius Plus, chiffres vérifiables, parité FR et EN) | 0,5 h | Claude |
 | T-108-01 | US-108 | DOC | Cadrage : page `integrate` et `plugins.yaml` relus, matrice intégration, plugin, état (ERP, PIM, transporteurs, PA/PDP, portails d'achat, assistants), confirmation que la page ne dépend pas d'US-130, textes FR et EN rédigés | 0,5 h | Claude |
 | T-108-02 | US-108 | TEST | Tests rouges : chaque intégration a un état et un lien vers son plugin, « à venir » ou « en cours » pour un plugin non publié, « non fourni » avec renvoi vers le contrat d'événements de webhook-outbox, cohérence d'état (plugin publié marqué à venir échoue), charte (formulations commerciales refusées) | 1,25 h | Claude |
@@ -79,32 +103,9 @@ US-093 est sacrifiée le 2026-10-22 : ses 11 tâches sont listées en fin de fic
 | T-099-06 | US-099 | DOC | Documentation à jour (guide des parcours `docs/parcours-guides.md`, page du simulateur) et mention du simulateur habillé dans le kit média | 0,5 h | Claude |
 | T-099-07 | US-099 | REV | Revue (aucune marque réelle comme logo, ton de la charte, parité FR et EN) | 0,5 h | Claude |
 | T-TECH-01 | Transverse | OPS | Démo : monter le lock sur company-insights 0.1.1 (`php -d memory_limit=1G composer update tmonier/sylius-company-insights-plugin`, lock actuellement sur v0.1.0, contrainte `^0.1` inchangée) ; seul ce paquet change dans `composer.lock` ; ECS, PHPStan et tests de fumée via `bin/run-tests` | 0,75 h | Claude |
-| T-TECH-02 | Transverse | OPS | Budget d'espace disque (action 1 de la rétro S19) : relevé `df -h .` et `bin/check-disk` au planning, `bin/clean-test-caches`, captures des plugins planifiées avant le jour 5, relevé noté dans le sprint-goal | 0,5 h | Orchestrateur |
 | T-TECH-03 | Transverse | DOC | Rubriques « ordre de publication » et « versions supportées (PHP, Symfony, Sylius) et impact de version, matrice CI lue au cadrage » dans `project-management/templates/user-story.md` et le gabarit de consigne de worker (action 2 de la rétro S19 ; absorbe T-TECH-03 du sprint 19) | 0,5 h | Claude |
-| T-TECH-04 | Transverse | DOC | Gabarit de l'orchestrateur : gate recoupé avec la somme des points du fichier de statut (écart affiché), et « un refus d'outil n'arrête jamais le sprint » (action 3 de la rétro S19) | 0,5 h | Orchestrateur |
-| T-TECH-05 | Transverse | OPS | Thibaut déploie d'un coup les PR #43 à #48 sur Railway à la reprise (échéance 2027-03-26, action 5 de la rétro S19) ; aucune commande Railway par Claude | 0,5 h | Thibaut |
-| T-TECH-06 | Transverse | TEST | Vérification en production des sprints 18 et 19 dès la reprise de Railway : checks du runbook (`docs/ouverture-publique.md`, `docs/deploiement-railway.md`) et un contrôle par story livrée (US-149, US-150, US-151, US-155, US-146, stories du sprint 18) ; anomalies ouvertes en backlog, rien de sensible dans le dépôt public | 1,5 h | Claude |
 | T-TECH-07 | Transverse | DOC | Note au runbook : plan de déploiement de repli quand les builds Railway sont suspendus (état de la plateforme, ordre de déploiement des PR en attente) — action 5 de la rétro S19 | 0,75 h | Claude |
-| T-TECH-08 | Transverse | OPS | Gabarit de CI d'un nouveau plugin (action 4 de la rétro S19) : PHP 8.4 et 8.5, actions épinglées par SHA, `permissions` minimal ; documenté et vérifié sur company-insights avant la 0.2.0 (CI verte sur PHP 8.5 ; déjà présents au cadrage) ; écarts de purchase-approval consignés | 1 h | Claude |
-| T-TECH-09 | Transverse | OPS | ECS et PHPStan rejoués sur l'arbre exact avant chaque push (démo et dépôts de plugins, dans Docker) ; dernière ligne de sortie citée dans le rapport | 0,5 h | Orchestrateur |
-| T-TECH-10 | Transverse | OPS | Scripts du scratchpad pour les commandes de Thibaut, à OK ou FAIL par élément : tag v0.2.0 de company-insights, tag v1.2.0 de purchase-approval, vérification Packagist, `composer` avec `php -d memory_limit=1G` | 0,75 h | Orchestrateur |
-| T-TECH-11 | Transverse | OPS | Reconstruction de l'image et démarrage du conteneur (`/healthz`) par l'orchestrateur avant la revue, puis après tout correctif touchant l'image (un seul build à la fois) | 0,75 h | Orchestrateur |
 | T-TECH-12 | Transverse | DOC | Bilan des indicateurs de la rétro S19 (captures reportées pour le disque, CI rouge d'ordre de publication, écart de gate, arrêts non demandés, workers morts) préparé pour la rétro du 2027-04-02 | 0,5 h | Orchestrateur |
-
-## 🔄 En Cours
-
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
-
-## 👀 En Review
-
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
-
-## ✅ Terminé
-
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
 
 ## 🚫 Bloqué
 
@@ -112,6 +113,7 @@ Aucune tâche bloquée à la décomposition. T-TECH-06 attend la reprise de Rail
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
+| T-TECH-06 | Transverse | TEST | Vérification en production des sprints 18 et 19 dès la reprise de Railway : checks du runbook (`docs/ouverture-publique.md`, `docs/deploiement-railway.md`) et un contrôle par story livrée (US-149, US-150, US-151, US-155, US-146, stories du sprint 18) ; anomalies ouvertes en backlog, rien de sensible dans le dépôt public | 1,5 h | Claude |
 
 ## ⏸ Reprises conditionnelles du sprint 19 (hors total)
 
