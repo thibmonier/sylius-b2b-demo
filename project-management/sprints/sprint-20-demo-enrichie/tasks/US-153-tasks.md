@@ -80,3 +80,11 @@ graph TD
 ```
 
 Dépendances hors fichier : T-152-01, T-152-06, T-TECH-02, T-152-15.
+
+## Écarts consignés au cadrage (T-153-01, worker plugin, 2026-10-22)
+
+- **purchase-approval 1.1.0** : seul le compteur d'attente (`countPendingByCompany`) et les listes du dépôt public (`createListQueryBuilderByCompany`) sont fournis. **Aucun service ne fournit** le délai médian, le taux de refus ni les acheteurs les plus souvent soumis : le pont les calcule à partir des approbations de la période lues par ce dépôt (2 000 au plus, entités `OrderApprovalInterface`), sans toucher aux tables. Taux de refus = refusées / (approuvées + refusées), les demandes expirées ou annulées n'étant pas des décisions ; part d'un acheteur = approbations / commandes validées par lui dans la période (requête sur les tables du plugin company-insights uniquement). Montants des demandes TTC (total de l'approbation). Aucune modification de purchase-approval.
+- **Visibilité** : `ApprovalPermissions::APPROVAL_LIST` n'est accordée qu'aux rôles de `approver_roles` (par défaut `approver` seul, pas `admin`). Le widget reste visible de tout administrateur du tableau de bord ; **son lien vers les approbations n'apparaît que si le membre a APPROVAL_LIST**. Pour que le lien s'affiche pour Isabelle dans la démo, il faut `approver_roles: [approver, admin]` côté démo (à vérifier par l'orchestrateur).
+- **trade-credit 1.1.0** : tout vient de `StatementBuilder::forCustomer()` (limite, encours, disponible, échu, factures échues, prochaine échéance) ; aucun écart. Le relevé est celui du compte de l'entreprise résolu depuis le client du membre connecté.
+- **Port `OrderReferenceProviderInterface`** (non prévu à la fiche US-152) : la colonne « Référence PO » de l'export a besoin d'une source ; le plugin n'a pas de notion de PO. La démo doit implémenter ce port (colonne `sylius_order.po_reference`) en plus de `OrderDimensionProviderInterface` (centre de coût).
+- Contrat `OrderDimensionProviderInterface` : `code()`, `label()`, `values(list<int> $orderIds): array<int, ?string>` (appel groupé, 1 000 identifiants au plus à la fois).
