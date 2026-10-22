@@ -34,7 +34,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-058-03 | [BE] | Extension de la requête de listing, état du filtre (session et requête, identifiant de machine validé et rattaché au client), décision « contrôle proposé » | 3 h | T-058-02 | Claude | 🔲 |
 | T-058-04 | [FE-WEB] | Contrôle « Compatible avec mon matériel » sur les listes de catégories et la recherche (hooks Twig), message vide et lien « Retirer le filtre » ; libellés FR et EN ; clavier ; contraste AAA ; mobile | 2 h | T-058-03 | Claude | 🔲 |
 | T-058-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, pa11y WCAG2AAA ; `EXPLAIN` de la requête sur MySQL, MariaDB et PostgreSQL (index utilisé) ; lecture du code pour PHP 8.2 et 8.5 | 1,5 h | T-058-04 | Claude | 🔲 |
-| T-058-06 | [OPS] | Captures du filtre (avec et sans filtre, ordinateur et mobile) pour le README ; relevé du disque avant ; **au plus tard le jour 5** | 0,5 h | T-058-04 | Claude | 🔲 |
+| T-058-06 | [OPS] | Captures du filtre (avec et sans filtre, ordinateur et mobile) pour le README ; relevé du disque avant ; **au plus tard le jour 5** | 0,5 h | T-058-04 | Claude | ✅ |
 | T-058-07 | [REV] | Revue de sécurité (identifiant de machine dans l'URL, cloisonnement, absence de fuite) rapportée hors dépôt public, et revue de code | 0,5 h | T-058-05 | Claude | 🔲 |
 | T-058-08 | [DOC] | README EN et FR complet (installation, configuration, usage, limites du listing, versions supportées, captures), `CHANGELOG.md` prêt pour la 0.1.0, statut des tranches dans `SPEC.md` | 1 h | T-058-05, T-058-06 | Claude | 🔲 |
 | T-058-09 | [OPS] | Push, PR vers `main`, matrice complète verte (run terminé), merge (GO de T-056-10) | 0,5 h | T-058-07, T-058-08 | Claude | 🔲 |

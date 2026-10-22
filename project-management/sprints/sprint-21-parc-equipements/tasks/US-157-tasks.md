@@ -32,7 +32,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-157-02 | [TEST] | Tests rouges : 5 plus anciennes dans l'ordre, lien « Tout voir (N) », mention « expire dans N jours », cloisonnement par entreprise et par limite d'approbation, aucune requête sans clic, 403 sans la permission `APPROVAL_LIST` | 1,25 h | T-157-01 | Claude | 🔲 |
 | T-157-03 | [BE] | Contrôleur de fragment et requête (les 5 plus anciennes à décider par ce membre, total, échéance), permission, chargement différé | 1,5 h | T-157-02 | Claude | 🔲 |
 | T-157-04 | [FE-WEB] | Panneau d'en-tête : bouton `aria-expanded`, Turbo Frame chargé au premier clic, fermeture par Échap, focus rendu au bouton, repli sans JavaScript ; libellés FR et EN ; contraste AAA ; cible de 44 px | 1,75 h | T-157-03 | Claude | 🔲 |
-| T-157-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, ordinateur et mobile, pa11y WCAG2AAA ; lecture du code pour PHP 8.2 et Symfony 6.4 | 1 h | T-157-04 | Claude | 🔲 |
+| T-157-05 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, suite ; rendu réel FR et EN, ordinateur et mobile, pa11y WCAG2AAA ; lecture du code pour PHP 8.2 et Symfony 6.4 | 1 h | T-157-04 | Claude | 🔄 |
 | T-157-06 | [REV] | Revue (permission, cloisonnement, aucune donnée personnelle superflue) rapportée hors dépôt public, et revue de code | 0,5 h | T-157-05 | Claude | 🔲 |
 | T-157-07 | [DOC] | README EN et FR (panneau, versions supportées), `CHANGELOG.md` de la v1.3.0, captures de T-TECH-04 | 0,5 h | T-157-05, T-TECH-04 | Claude | 🔲 |
 | T-157-08 | [OPS] | Thibaut donne le GO du tag et de la release `v1.3.0` de purchase-approval | 0,25 h | T-157-06, T-157-07 | Thibaut | 🔲 |
