@@ -1,6 +1,6 @@
 # Sprint Review - Sprint 19 (Pilotage des achats)
 
-> Préparée le 2026-10-22 à partir de la PR #47 (https://github.com/thibmonier/sylius-b2b-demo/pull/47, avant merge), du journal git de la branche, de `.bmad/sprint-status.yaml` et des tâches du sprint. Aucun détail de vulnérabilité n'est consigné dans ce dépôt public.
+> Préparée le 2026-10-22 à partir de la PR #47 (https://github.com/thibmonier/sylius-b2b-demo/pull/47, mergée le 2026-10-22 en 27148b7), du journal git de la branche, de `.bmad/sprint-status.yaml` et des tâches du sprint. Aucun détail de vulnérabilité n'est consigné dans ce dépôt public.
 
 ## Informations
 
@@ -8,7 +8,7 @@
 |----------|--------|
 | Date prévue | 2027-03-19 |
 | Durée | 1 h |
-| Branche / PR | `feature/sprint-19-pilotage-achats` / PR #47 (ouverte, CI verte, merge à venir) |
+| Branche / PR | `feature/sprint-19-pilotage-achats` / PR #47 (mergée en squash le 2026-10-22, commit 27148b7, CI verte) |
 | Commits du sprint | 10 sur la branche de la démo (764e817, 339d451, 3d26d44, 8c3c3b8, d3a4b49, a01595c, 3e5ffc0, 8593f30, 3d985d0, 18cdbdd) |
 | Releases de plugins | company-insights v0.1.0 (nouveau dépôt public, Packagist le 2026-10-22), admin-order-creation v1.1.0, company-accounts v1.3.0 |
 | Animateur | Scrum Master (Claude) |
@@ -34,7 +34,7 @@ Justification : les 5 stories engagées (25 points) sont livrées. Les 2 stories
 | US-149 | Company-insights : squelette du plugin et indicateurs de la période | 5 | ✅ | 👀 En review |
 | US-150 | Company-insights : achats par mois sur 12 mois, comparés à l'année précédente | 5 | ✅ | 👀 En review |
 | US-151 | Company-insights : tops acheteurs, produits et catégories | 5 | ✅ | 👀 En review (plugin v0.1.0 publié sur Packagist) |
-| US-155 | Company-insights : historique d'achats et intégration à la démo | 5 | ✅ | 👀 En review (captures T-155-12/13 et relecture T-155-14 restantes) |
+| US-155 | Company-insights : historique d'achats et intégration à la démo | 5 | ✅ | 👀 En review (captures T-155-12/13 faites ; relecture T-155-14 restante) |
 | US-146 | Création de commande admin : adresse de l'entreprise ou du carnet du client | 5 | ✅ | 👀 En review |
 | US-121 | Kit média (2/2) | 5 | - | ↪️ Sacrifiée, reportée au sprint 20 |
 | US-099 | Simulateur PunchOut habillé et expliqué | 3 | - | ↪️ Sacrifiée, reportée au sprint 20 |
@@ -45,13 +45,13 @@ Justification : les 5 stories engagées (25 points) sont livrées. Les 2 stories
 
 | Élément | Avancement | Raison | Action |
 |---------|-----------|--------|--------|
-| T-155-12 : captures de la page Plugins et du tableau de bord | Non faites | Disque chroniquement sous 7 Go, démo locale impossible à remettre à zéro | À faire avant le merge, dès que l'espace le permet |
-| T-155-13 : captures dans le README du plugin | Documentation écrite, captures absentes | Dépend de T-155-12 | Même échéance |
+| T-155-12 : captures de la page Plugins et du tableau de bord | Faites après la revue (clôture) | Reportées d'abord pour cause de disque sous 7 Go | Aucune |
+| T-155-13 : captures dans le README du plugin | Faites : PR #2 de company-insights mergée (65b1243), lien corrigé | Dépendait de T-155-12 | Aucune |
 | T-155-14 : relecture de la documentation technique de référence | Non faite | Action de Thibaut, non bloquante | Thibaut relit s'il a accès et confirme ou corrige la classe du plugin |
 | US-121, US-099 | Non démarrées | Sacrifiées au planning (capacité) | Sprint 20 ; T-103-03 bloque toujours US-121 |
 | Cellule PHP 8.5 de la matrice CI de company-insights | Absente | Mineur de la revue, reporté | Ajout au sprint 20 |
 | Actions CI non épinglées par SHA, sans bloc `permissions` | À faire | Mineur de la revue, reporté | Durcissement du workflow au sprint 20 |
-| Déploiement en production | Bloqué | Builds Railway suspendus : la production n'a pas encore reçu le sprint 18, #45 et #46 | Reprise dès la levée de l'incident |
+| Déploiement et vérification en production | Bloqués | Builds Railway suspendus : la production n'a reçu aucune des PR #43 à #47 | Vérification en production après la reprise ; c'est pourquoi les 5 stories restent en review |
 
 ## Détail par story
 
@@ -82,8 +82,8 @@ Justification : les 5 stories engagées (25 points) sont livrées. Les 2 stories
 - Arrêt erroné du sprint par l'orchestrateur après un appel d'outil refusé ; Thibaut : « Je n'ai pas demandé d'arrêt ». Le sprint a été repris.
 - CI de company-accounts rouge tant qu'admin-order-creation 1.1.0 n'était pas publié : ordre de publication à respecter.
 - Conflit `composer.lock` au rebase après US-147 (PHP 8.5).
-- Disque chroniquement sous 7 Go : captures T-155-12/13 non faites, suite locale impossible sous 5 Go.
-- Incident Railway : builds suspendus, la production n'a pas reçu le sprint 18, #45 et #46.
+- Disque chroniquement sous 7 Go : captures T-155-12/13 d'abord reportées (faites ensuite), suite locale impossible sous 5 Go.
+- Incident Railway : builds suspendus, la production n'a reçu aucune des PR #43 à #47.
 
 ## Métriques
 
@@ -142,12 +142,14 @@ Décisions prises :
 | Reportée | US-099 | Sprint 20 ; ajouter l'erreur manquante aux scénarios Gherkin |
 | Nouvelle tâche | company-insights | Cellule PHP 8.5 dans la matrice CI |
 | Nouvelle tâche | company-insights | Actions épinglées par SHA et bloc `permissions` |
-| En attente | T-155-12/13/14 | Captures puis relecture de Thibaut, avant le merge |
+| Faites | T-155-12/13 | Captures réalisées (PR #2 de company-insights, 65b1243) |
+| En attente | T-155-14 | Relecture de Thibaut, non bloquante |
+| En attente | Production | Vérification des 5 stories après la reprise de Railway |
 
 ## Prochaines étapes
 
-1. Faire les captures T-155-12/13 dès que le disque le permet.
+1. Captures T-155-12/13 : faites.
 2. Thibaut relit la documentation de référence (T-155-14), non bloquant.
-3. Merger la PR #47 après attente du run de CI (branche `main` protégée).
-4. Déployer sur Railway dès la reprise des builds, avec le sprint 18, #45 et #46.
+3. PR #47 mergée le 2026-10-22 (27148b7).
+4. Déployer sur Railway dès la reprise des builds (PR #43 à #47) puis vérifier en production.
 5. Tenir la rétrospective : [sprint-retro.md](./sprint-retro.md).

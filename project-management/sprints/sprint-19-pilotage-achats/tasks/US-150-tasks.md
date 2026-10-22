@@ -32,9 +32,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-150-02 | [BE] | Requête mensuelle (regroupement par mois dans le fuseau du canal et par devise), constructeur de série qui comble les mois vides, bascule montant / nombre | 2,5 h | T-150-01 | Claude | ✅ |
 | T-150-03 | [TEST] | Tests fonctionnels rouges : somme des 12 barres égale à la dépense de l'indicateur « 12 derniers mois », bascule vers le nombre de commandes, tableau équivalent avec en-têtes (`th scope`), deux séries pour deux devises | 1 h | T-149-09 | Claude | ✅ |
 | T-150-04 | [FE-WEB] | Graphique en barres apexcharts embarqué (sans CDN), tableau de données équivalent, motifs sans couleur seule, mois en cours marqué, bascule (Stimulus), libellés FR et EN | 3 h | T-150-02, T-150-03 | Claude | ✅ |
-| T-150-05 | [TEST] | Rendu réel mobile et ordinateur en FR et EN, pa11y WCAG2AAA, contrôle qu'aucune ressource externe n'est chargée ; ECS, PHPStan max, Rector, couverture | 1 h | T-150-04 | Claude | 🔄 |
+| T-150-05 | [TEST] | Rendu réel mobile et ordinateur en FR et EN, pa11y WCAG2AAA, contrôle qu'aucune ressource externe n'est chargée ; ECS, PHPStan max, Rector, couverture | 1 h | T-150-04 | Claude | 👀 |
 | T-150-06 | [DOC] | README (graphique, fuseau, devises, accessibilité) et `CHANGELOG.md` | 0,5 h | T-150-04 | Claude | ✅ |
-| T-150-07 | [REV] | Revue (somme mensuelle égale à l'indicateur, aucun mois manquant, aucune ressource externe, matrice CI verte) | 0,5 h | T-150-05, T-150-06 | Claude | 🔄 |
+| T-150-07 | [REV] | Revue (somme mensuelle égale à l'indicateur, aucun mois manquant, aucune ressource externe, matrice CI verte) | 0,5 h | T-150-05, T-150-06 | Claude | ✅ |
 
 **Total estimé : 10 h** (7 tâches, aucune de Thibaut).
 

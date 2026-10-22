@@ -131,7 +131,7 @@
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
 | US-158 (nouvelle, en cours) | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | Must | 3 |
-| US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) ; **prioritaire : faille critique PHP (CVSS 9.2) publiée le 2026-10-21** ; peut être livrée avant par la veille programmée ; **reportée le 2026-10-21** (correctif non publié à la clôture du sprint) : PR séparée dès l'image FrankenPHP corrigée, sinon sprint 19 | Must | 3 |
+| US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) ; **prioritaire : faille critique PHP (CVSS 9.2) publiée le 2026-10-21** ; peut être livrée avant par la veille programmée ; **reportée le 2026-10-21** (correctif non publié à la clôture du sprint) : PR séparée dès l'image FrankenPHP corrigée, sinon sprint 19 ; **livrée hors sprint le 2026-10-22** (PR #46, dc60b56) | Must | 3 |
 | US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
 | US-160 (nouvelle) | Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé | Must | 5 |
 | US-161 (nouvelle) | Actions de la rétrospective du sprint 17 (disque, isolation, vérification croisée, attente bornée, prérequis) | Must | 5 |
@@ -160,6 +160,8 @@
 | US-099 | Simulateur PunchOut habillé et expliqué | Should | 3 |
 
 *Jalon* : MMF d'EPIC-15 en démo (Isabelle) ; plugin company-insights 0.1.0, soumis à Packagist par Thibaut. US-121 dépend de US-103 (sprint 18).
+
+*Clôture du 2026-10-22* : sprint clos (PR #47, 27148b7). Les 5 stories engagées (25 points : US-149, US-150, US-151, US-155, US-146) sont livrées et restent en review, la vérification en production attendant la reprise des builds Railway. US-121 et US-099 sont sacrifiées au planning (statut backlog) et reportées au sprint 20. Plugins publiés : company-insights v0.1.0, admin-order-creation v1.1.0, company-accounts v1.3.0.
 
 ### Sprint 20 (2027-03-19 au 2027-04-02) : 35 points (dont 0 Must)
 

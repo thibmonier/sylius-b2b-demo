@@ -44,9 +44,9 @@ Sprint Goal partiellement atteint : les 5 stories engagées (25 points) sont en 
 ## Thèmes et analyse
 
 ### Thème 1 : disque chroniquement bas (priorité haute)
-Faits : espace libre sous 7 Go pendant tout le sprint ; captures T-155-12/13 non faites, suite locale impossible sous 5 Go, rendu réel et pa11y non rejoués.
+Faits : espace libre sous 7 Go pendant tout le sprint ; captures T-155-12/13 d'abord reportées (faites après la revue), suite locale impossible sous 5 Go, rendu réel et pa11y non rejoués.
 5 Pourquoi :
-1. Pourquoi les captures ne sont-elles pas faites ? → la démo locale ne peut pas être remise à zéro avec si peu d'espace.
+1. Pourquoi les captures ont-elles été reportées ? → la démo locale ne peut pas être remise à zéro avec si peu d'espace.
 2. Pourquoi si peu d'espace ? → images Docker, volumes et caches s'accumulent sur le même disque.
 3. Pourquoi le nettoyage n'a-t-il pas suffi ? → il se fait en réaction, pas selon un budget d'espace.
 Cause racine : pas de budget d'espace disque ni de nettoyage planifié ; les contrôles dépendants du disque sont placés en fin de sprint.
@@ -64,7 +64,7 @@ Faits : company-insights est publié sans PHP 8.5 dans la matrice CI, avec des a
 Cause racine : aucun gabarit de CI pour un nouveau plugin ; la revue a repéré les points sans pouvoir les corriger avant la publication.
 
 ### Thème 5 : déploiement bloqué (priorité basse, hors équipe)
-Faits : builds Railway suspendus, la production n'a pas reçu le sprint 18, #45 et #46.
+Faits : builds Railway suspendus, la production n'a reçu aucune des PR #43 à #47.
 Cause racine : incident de la plateforme ; aucun moyen de déploiement de remplacement documenté.
 
 ## Actions (SMART)
@@ -75,7 +75,7 @@ Cause racine : incident de la plateforme ; aucun moyen de déploiement de rempla
 | Description | Au planning, relever l'espace libre de la machine et de la VM Docker ; planifier les tâches de captures et de rendu réel dans la première semaine ; nettoyer images et volumes inutilisés avant chaque tâche de captures. |
 | Responsable | Scrum Master (Claude) |
 | Deadline | Planning du sprint 20 |
-| DoD | Relevé noté dans le sprint-goal ; captures planifiées avant le jour 5 ; T-155-12/13 faites avant le merge ; 0 tâche de captures reportée pour manque d'espace au sprint 20 (2 au sprint 19). |
+| DoD | Relevé noté dans le sprint-goal ; captures planifiées avant le jour 5 ; T-155-12/13 faites tôt ; 0 tâche de captures reportée pour manque d'espace au sprint 20 (2 au sprint 19). |
 | Priorité | Haute |
 
 ### Action 2 : Ordre de publication dans les fiches de story
@@ -108,10 +108,10 @@ Cause racine : incident de la plateforme ; aucun moyen de déploiement de rempla
 ### Action 5 : Plan de déploiement de repli
 | Attribut | Valeur |
 |----------|--------|
-| Description | Documenter ce que Thibaut fait quand les builds Railway sont suspendus (vérification de l'état, ordre de déploiement des PR en attente) et déployer d'un coup le sprint 18, #45, #46 et le sprint 19 à la reprise. |
+| Description | Documenter ce que Thibaut fait quand les builds Railway sont suspendus (vérification de l'état, ordre de déploiement des PR en attente) et déployer d'un coup les PR #43 à #47 à la reprise. |
 | Responsable | Thibaut (déploiement), Scrum Master (note) |
 | Deadline | 2027-03-26 (fin de la première semaine du sprint 20) |
-| DoD | Note dans le runbook ; production à jour avec les 4 lots ; vérifications du runbook rejouées. |
+| DoD | Note dans le runbook ; production à jour avec les PR #43 à #47 ; vérifications du runbook rejouées. |
 | Priorité | Basse |
 
 ## Suivi des actions de la rétrospective du sprint 18
@@ -132,7 +132,7 @@ Données partielles : valeurs tirées des rapports du sprint, aucun compteur ten
 
 | Indicateur | Cible | Sprint 19 | Source |
 |------------|-------|-----------|--------|
-| Tâches de captures ou de rendu reportées pour cause de disque | 0 | 2 (T-155-12 et T-155-13) | task-board |
+| Tâches de captures ou de rendu reportées pour cause de disque | 0 | 2 (T-155-12 et T-155-13, faites après la revue) | task-board |
 | Écarts « vert annoncé / rouge à l'intégration » | 0 | 1 (company-accounts, ordre de publication) | CI des PR |
 | Erreurs de calcul du gate | 0 | 1 (23 au lieu de 25) | gate de planning |
 | Arrêts du sprint non demandés | 0 | 1 | journal de session |
