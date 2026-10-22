@@ -336,7 +336,7 @@
         },
         "sylius-company-insights-plugin": {
             "version": {
-                "value": "v0.1.1",
+                "value": "v0.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
                 "checked_at": "2026-10-22"
             }
@@ -555,9 +555,9 @@
         },
         "sylius-purchase-approval-plugin": {
             "version": {
-                "value": "v1.1.0",
+                "value": "v1.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
