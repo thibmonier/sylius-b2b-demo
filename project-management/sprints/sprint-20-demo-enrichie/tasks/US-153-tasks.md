@@ -44,8 +44,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-153-07 | [TEST] | Dans Docker : ECS, PHPStan max, Rector, couverture ; matrice locale avec et sans chaque compagnon ; rendu réel FR et EN et pa11y WCAG2AAA dans l'application de test | 1 h | T-153-06 | Claude | 🔲 |
 | T-153-08 | [OPS] | Captures des deux widgets pour le README (application de test, données fictives, sans marque tierce) ; relevé du disque avant ; **à faire avant le jour 5** | 0,5 h | T-153-06, T-TECH-02 | Claude | 🔲 |
 | T-153-09 | [REV] | Revue de sécurité (cloisonnement, aucune donnée personnelle au-delà du nom, aucune dépendance obligatoire) rapportée hors dépôt public, et revue de code | 0,75 h | T-153-07 | Claude | 🔲 |
-| T-153-10 | [BE] | Démo : widgets pour Isabelle ; ajustement minimal du plan de commandes si une donnée manque (commande de Claire en attente depuis 4 jours, facture échue depuis 18 jours), parcours existants inchangés | 0,75 h | T-152-15 | Claude | 🔲 |
-| T-153-11 | [TEST] | Tests de la démo : widgets d'Isabelle (approbations, encours), autre entreprise exclue, durée de remise à zéro ≤ +20 % ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-153-10 | Claude | 🔲 |
+| T-153-10 | [BE] | Démo : widgets pour Isabelle ; ajustement minimal du plan de commandes si une donnée manque (commande de Claire en attente depuis 4 jours, facture échue depuis 18 jours), parcours existants inchangés | 0,75 h | T-152-15 | Claude | ✅ |
+| T-153-11 | [TEST] | Tests de la démo : widgets d'Isabelle (approbations, encours), autre entreprise exclue, durée de remise à zéro ≤ +20 % ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-153-10 | Claude | ✅ |
 | T-153-12 | [DOC] | README EN et FR (interface de widget, intégrations optionnelles), entrée du `CHANGELOG.md` de la 0.2.0, captures | 0,5 h | T-153-08 | Claude | 🔲 |
 
 **Total estimé : 14,25 h** (12 tâches, aucune de Thibaut).

@@ -46,9 +46,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-156-10 | [OPS] | Push de la branche, PR, matrice CI complète verte (run terminé), merge, tag `v1.2.0` et release GitHub ; script de vérification Packagist remis à Thibaut | 0,75 h | T-156-09, T-TECH-10 | Claude | 🔲 |
 | T-156-11 | [OPS] | Thibaut confirme que Packagist indexe la v1.2.0 | 0,25 h | T-156-10 | Thibaut | 🔲 |
 | T-156-12 | [OPS] | Vérification de la version publiée (script du scratchpad à OK ou FAIL) avant toute PR de la démo | 0,25 h | T-156-11 | Claude | 🔲 |
-| T-156-13 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-purchase-approval-plugin:^1.2`, `approver_roles` = `[approver, admin]` (limite d'approbation d'Isabelle inchangée) ; `composer.lock` écrit seul | 0,75 h | T-156-12 | Claude | 🔲 |
-| T-156-14 | [TEST] | Tests de la démo : pastille de Paul, entrée d'Isabelle selon la décision, aucune entrée pour Claire ni pour un visiteur, parcours d'Isabelle inchangés (commandes sur compte, e-mails « approbation demandée »), en-tête et barre de démo du thème ; rendu réel ordinateur et mobile, pa11y ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1,5 h | T-156-13 | Claude | 🔲 |
-| T-156-15 | [DOC] | Parcours guidé de Paul et d'Isabelle (`config/demo/plugins.yaml`) et `docs/vitrine-plugins.md` mis à jour | 0,25 h | T-156-14 | Claude | 🔲 |
+| T-156-13 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-purchase-approval-plugin:^1.2`, `approver_roles` = `[approver, admin]` (limite d'approbation d'Isabelle inchangée) ; `composer.lock` écrit seul | 0,75 h | T-156-12 | Claude | ✅ |
+| T-156-14 | [TEST] | Tests de la démo : pastille de Paul, entrée d'Isabelle selon la décision, aucune entrée pour Claire ni pour un visiteur, parcours d'Isabelle inchangés (commandes sur compte, e-mails « approbation demandée »), en-tête et barre de démo du thème ; rendu réel ordinateur et mobile, pa11y ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1,5 h | T-156-13 | Claude | ✅ |
+| T-156-15 | [DOC] | Parcours guidé de Paul et d'Isabelle (`config/demo/plugins.yaml`) et `docs/vitrine-plugins.md` mis à jour | 0,25 h | T-156-14 | Claude | ✅ |
 
 **Total estimé : 12,25 h** (15 tâches, dont 2 de Thibaut, soit 0,5 h).
 

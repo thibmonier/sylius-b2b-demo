@@ -49,9 +49,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-152-12 | [OPS] | Push de la branche, PR, matrice CI complète verte (run terminé), merge, tag `v0.2.0` et release GitHub ; script de vérification Packagist remis à Thibaut | 0,75 h | T-152-11, T-TECH-10 | Claude | 🔲 |
 | T-152-13 | [OPS] | Thibaut confirme que Packagist indexe la 0.2.0 (mise à jour du paquet déjà soumis) | 0,25 h | T-152-12 | Thibaut | 🔲 |
 | T-152-14 | [OPS] | Vérification de la version publiée (script du scratchpad à OK ou FAIL) avant toute PR de la démo | 0,25 h | T-152-13 | Claude | 🔲 |
-| T-152-15 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-company-insights-plugin:^0.2`, migration éventuelle ; `composer.lock` écrit seul (jamais en parallèle d'une autre montée de version) | 0,5 h | T-152-14 | Claude | 🔲 |
-| T-152-16 | [BE] | Démo : implémentation « Centre de coût » du fournisseur de dimension (`ATELIER-01`, `MAINT-02`) et enregistrement du service | 0,75 h | T-152-15 | Claude | 🔲 |
-| T-152-17 | [TEST] | Tests de la démo : ventilation d'Acme (Atelier de Lyon, Dépôt de Grenoble), centres de coût, export CSV, TechParts absent des chiffres d'Acme ; scénario d'Isabelle dans `config/demo/plugins.yaml` et `docs/vitrine-plugins.md` ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-152-16 | Claude | 🔲 |
+| T-152-15 | [BE] | Démo : `php -d memory_limit=1G composer require tmonier/sylius-company-insights-plugin:^0.2`, migration éventuelle ; `composer.lock` écrit seul (jamais en parallèle d'une autre montée de version) | 0,5 h | T-152-14 | Claude | ✅ |
+| T-152-16 | [BE] | Démo : implémentation « Centre de coût » du fournisseur de dimension (`ATELIER-01`, `MAINT-02`) et enregistrement du service | 0,75 h | T-152-15 | Claude | ✅ |
+| T-152-17 | [TEST] | Tests de la démo : ventilation d'Acme (Atelier de Lyon, Dépôt de Grenoble), centres de coût, export CSV, TechParts absent des chiffres d'Acme ; scénario d'Isabelle dans `config/demo/plugins.yaml` et `docs/vitrine-plugins.md` ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-152-16 | Claude | ✅ |
 
 **Total estimé : 16,5 h** (17 tâches, dont 2 de Thibaut, soit 0,5 h).
 
