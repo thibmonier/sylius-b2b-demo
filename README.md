@@ -4,6 +4,13 @@ B2B demo of Sylius 2.3 with the [tmonier plugins](https://packagist.org/packages
 
 > Work in progress. Specification and roadmap: [`project-management/`](project-management/) ; decisions: [`docs/adr/`](docs/adr/).
 
+## Aperçu / Preview
+
+| Visiteur / Visitor | Acheteuse connectée / Signed-in buyer |
+|---|---|
+| ![Accueil de la démo pour un visiteur : trois colonnes Acheter, Valider, S'intégrer](docs/images/home-visitor-fr.jpg) | ![Accueil de la démo pour Claire, acheteuse : accès rapide et parcours B2B](docs/images/home-buyer-fr.jpg) |
+| ![Demo home page for a visitor: three columns Buy, Approve, Integrate](docs/images/home-visitor-en.jpg) | ![Demo home page for Claire, a buyer: quick access and B2B journeys](docs/images/home-buyer-en.jpg) |
+
 ## Comptes de démo / Demo accounts
 
 Page `/demo/accounts` liste tous les identifiants en temps réel.

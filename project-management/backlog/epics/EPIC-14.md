@@ -15,12 +15,12 @@
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
-| US-056 (fiche à créer au planning) | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | Should | 5 | 21 |
-| US-057 (fiche à créer au planning) | Plugin équipements : parc du client dans l'espace client (CRUD) | Should | 5 | 21 |
-| US-058 (fiche à créer au planning) | Plugin équipements : filtre « pièces compatibles » au catalogue | Should | 5 | 21 |
+| [US-056](../user-stories/US-056.md) | Plugin équipements : modèles d'équipement liés aux variantes compatibles (admin) | Should | 5 | 21 |
+| [US-057](../user-stories/US-057.md) | Plugin équipements : parc du client dans l'espace client (CRUD) | Should | 5 | 21 |
+| [US-058](../user-stories/US-058.md) | Plugin équipements : filtre « pièces compatibles » au catalogue | Should | 5 | 21 |
 | US-059 (fiche à créer au planning) | Plugin équipements : publication 0.1.0 (tag, Packagist, README) | Should | 2 | 22 |
 | US-060 (fiche à créer au planning) | Plugin équipements : intégration à la démo | Should | 3 | 22 |
-| [US-130](../user-stories/US-130.md) | Spike P5 : connecteur ERP de référence | Should | 3 | 21 |
+| [US-130](../user-stories/US-130.md) | Spike P5 : connecteur ERP de référence | Should | 3 | 22+ |
 | [US-131](../user-stories/US-131.md) | Spike P3 : assortiments et prix par société | Should | 3 | 22 |
 | [US-132](../user-stories/US-132.md) | Spike P7 : facture électronique France (PA/PDP) et e-reporting | Should | 3 | 22 |
 | [US-133](../user-stories/US-133.md) | Spike P2 : contrats-cadres | Could | 3 | 22 |

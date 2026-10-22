@@ -193,15 +193,17 @@
 | US-057 | Plugin équipements : parc du client dans l'espace client (CRUD) | Should | 5 |
 | US-058 | Plugin équipements : filtre « pièces compatibles » au catalogue | Should | 5 |
 | US-101 | Factures PDF et relevé de compte côté acheteur | Should | 5 |
-| US-088 | Journal d'audit lisible : reset masqué et événements métier | Should | 3 |
+| US-088 | Journal d'audit lisible : reset masqué et événements métier (sacrifiée le 2026-10-22, sprint 22) | Should | 3 |
 | US-130 | Spike P5 : connecteur ERP de référence | Should | 3 |
-| US-154 | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 |
-| US-098 | Jauge de remplissage condensée sur la fiche produit | Should | 2 |
+| US-154 | Company-insights : conversion des devis et économies des prix dégressifs (sacrifiée le 2026-10-22, sprint 22) | Could | 3 |
+| US-098 | Jauge de remplissage condensée sur la fiche produit (sacrifiée le 2026-10-22, sprint 22) | Should | 2 |
 | US-157 | Purchase-approval : aperçu des approbations en attente depuis l'en-tête | Could | 2 |
 
-*Jalon* : Les posts peuvent évoquer le plugin équipements en cours, sans date.
+*Jalon* : Les posts peuvent évoquer le plugin équipements en cours, sans date. **Décision de Thibaut du 2026-10-22 : la suspension de promotion du plugin est levée** (aucun recoupement avec Sylius Plus documenté), **sans aucune comparaison avec Sylius Plus dans les textes publics** ; l'ancien verdict de `docs/plus-overlap.md` (dépôt du plugin) n'est plus une condition de promotion.
 
-### Sprint 22 (2027-04-16 au 2027-04-30) : 22 points (dont 0 Must)
+**Planning du 2026-10-22 : périmètre B validé, 25 points** (US-056, US-057, US-058, US-157, US-098, US-088, US-154 ; ordre de sacrifice US-154, US-088, US-098, US-157 ; plancher MMF 15 points). **Sacrifices appliqués le même jour (capacité : 85 h de charge Claude pour 60,5 h) : US-154 (3), US-088 (3) et US-098 (2), reportées au sprint 22 ; engagement final 17 points (US-056, US-057, US-058, US-157), ~61 h.** US-093, US-101 et US-130 retournent au backlog : reportées, sprint 22+.
+
+### Sprint 22 (2027-04-16 au 2027-04-30) : 22 points + 8 reportés du sprint 21 (US-154, US-088, US-098) = 30 points à arbitrer (dont 0 Must)
 
 **Objectif** : Publier le parc d'équipements, cadrer les derniers plugins (assortiments, facture électronique, contrats-cadres), mesurer la qualité et faire le bilan de la communication.
 
@@ -215,6 +217,9 @@
 | US-084 | Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société | Could | 5 |
 | US-128 (réécrite) | Bilan de communication (indicateurs de recrutement) | Could | 2 |
 | US-062 | Mineurs du script d'images | Could | 1 |
+| US-154 | Company-insights : conversion des devis et économies des prix dégressifs (reportée du sprint 21, sacrifiée le 2026-10-22) | Could | 3 |
+| US-088 | Journal d'audit lisible : reset masqué et événements métier (reportée du sprint 21, sacrifiée le 2026-10-22) | Should | 3 |
+| US-098 | Jauge de remplissage condensée sur la fiche produit (reportée du sprint 21, sacrifiée le 2026-10-22) | Should | 2 |
 
 *Jalon* : Packagist : Thibaut soumet le plugin parc d'équipements (US-059). Capacité volontairement réduite : tampon pour les entretiens éventuels.
 

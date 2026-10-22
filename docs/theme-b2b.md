@@ -78,6 +78,10 @@ Bloc référence (SKU, conditionnement, mention HT). Les blocs des plugins (pali
 - `shared/_author_method.html.twig` : « Qui a conçu cette démo » et « Comment elle a été faite » (liens profil, dépôt public, preuve technique), repris dans À propos. Le nom est un lien si `DEMO_PROFILE_URL` est une URL https, du texte sinon.
 - Charte des textes publics : `App\Demo\Charter\PublicTextCharter` (titre d'éditeur, chiffre hors liste blanche, formulation commerciale), appliquée par `HomeAuthorTest`. Tout nouveau chiffre d'un texte public doit entrer dans `VERIFIABLE_FIGURES` avec sa source publique.
 
+- **Captures** : `docs/images/home-visitor-{fr,en}.jpg` (visiteur) et `docs/images/home-buyer-{fr,en}.jpg` (Claire connectée), 1440 px, reprises dans le README (« Aperçu »). Prises sur une instance locale de vitrine (`DEMO_MODE=1`, données fictives) ; jamais le classement des produits les plus achetés. À refaire quand l'accueil change.
+- **Accessibilité vérifiée au rendu réel (22 octobre 2026)** : axe-core 4.10.2 (WCAG 2 A, AA, AAA, 2.1 AA, 2.2 AA) sur l'accueil du visiteur et de l'acheteuse, FR et EN, à 1440 et 390 px : aucune violation, sauf `aria-required-parent` sur `#register-page-button` (visiteur, ordinateur), préexistante et hors périmètre ; aucun débordement horizontal.
+- **Compteur et panneau d'approbations de l'en-tête** : fournis par le plugin purchase-approval (compteur dès 1.2, panneau d'aperçu en 1.3). Sur mobile l'entrée est dans le menu du compte (liste déroulante Bootstrap) : le plugin gère le clic et Échap pour que le panneau y reste ouvert.
+
 ## Bloc de preuve technique (US-111, sprint 18)
 
 Page `/{locale}/preuve` (route `app_demo_proof`, `App\Demo\Controller\ProofController`, gabarits `templates/demo/proof.html.twig` et `templates/demo/proof/_fact.html.twig`, libellés FR et EN dans le domaine `proof`, description SEO dans `seo.*`). Liens : pied de page (« Preuve technique ») et page Plugins (`data-plugins-proof-link`). Elle montre la méthode de livraison et la qualité, jamais une offre : un tableau (une ligne par plugin du catalogue) et la ligne « Comment cette démo est livrée ».

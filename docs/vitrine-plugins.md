@@ -40,7 +40,7 @@ Classes : **concurrent** (une fonction de Plus décrite recoupe le plugin), **co
 | 8 | command-palette | Palette de commandes Ctrl+K dans l'admin | admin | aucun | hors périmètre | S1 |
 | 9 | company-accounts | Comptes d'entreprise : acheteurs, rôles, espace entreprise | admin, boutique | Organization Management | **concurrent** | S2 |
 | 10 | container-fill | Palettes et camions : règles de remplissage au paiement, jauge | admin, boutique | aucun | hors périmètre | S2 |
-| 11 | customer-asset-management | Parc d'équipements du client (conception ; rien de fonctionnel) | aucun | verdict US-054 repris : non couvert, sous réserve de la doc technique | hors périmètre (**à confirmer**) | S2, S9 ; `docs/plus-overlap.md` du dépôt |
+| 11 | customer-asset-management | Parc d'équipements du client (cœur fonctionnel au sprint 21, première release 0.1.0 à venir) | aucun | verdict US-054 repris : non couvert, sous réserve de la doc technique | hors périmètre (**à confirmer**) ; **promotion levée par Thibaut le 2026-10-22** (aucun recoupement documenté), sans comparaison avec Sylius Plus dans les textes publics | S2, S9 ; `docs/plus-overlap.md` du dépôt |
 | 12 | facturx | Factures Factur-X / ZUGFeRD sur le plugin de facturation officiel | admin (fichiers de facture) | s'appuie sur le plugin officiel ; Plus ne documente pas la facture électronique | complémentaire | S1 |
 | 13 | gpsr | Informations GPSR sur les fiches produit | admin, boutique | aucun | hors périmètre | S1 |
 | 14 | order-hold | Noyau partagé : commandes impayées retenues sans annulation | aucun | aucun | hors périmètre | S2 |
@@ -142,6 +142,8 @@ Règles de traduction : accents obligatoires ; guillemets français « » en pro
 | quote-request | 11 | « …the only quote feature is the paid Sylius Plus RFQ module… » |
 | tier-pricing | 10 et 285 | « …the Sylius Plus / Elesto engines are proprietary » ; limite sur les listes de prix de Plus |
 | customer-asset-management | 10 et 17 | « Promotion … suspended … Sylius Plus » ; lien vers `docs/plus-overlap.md` (« comparison with Sylius Plus ») |
+
+> **Mise à jour du 2026-10-22 (décision de Thibaut)** : la suspension de promotion du plugin parc d'équipements est levée (aucun recoupement avec Sylius Plus documenté). Les textes publics ne comparent pas avec Sylius Plus : la mention « Promotion … suspended » du README du plugin et `docs/plus-overlap.md` sont à neutraliser par la tâche T-TECH-06 du sprint 21 (le dépôt du plugin n'a pas été modifié au planning).
 
 Les traductions françaises restent fidèles au texte anglais. Si vous décidez de neutraliser ces phrases, ce sera une modification des README anglais (et des traductions) dans la même branche `docs/readme-fr-demo`.
 
