@@ -117,7 +117,6 @@ parameters:
               fr: "Connectez-vous en Isabelle (administratrice d'Acme) et ouvrez l'onglet « Tableau de bord des achats » de l'espace société : douze mois d'achats avec le creux d'août et le pic de septembre, comparés à l'année précédente, puis les acheteurs, produits et catégories qui comptent. Les commandes de TechParts n'y figurent pas."
               en: "Sign in as Isabelle (Acme administrator) and open the \"Purchasing dashboard\" tab of the company area: twelve months of purchases with the August trough and the September peak, compared with the previous year, then the buyers, products and categories that count. The orders of TechParts are not in it."
           advised_account: isabelle@acme.example
-          published: false
         - slug: sylius-container-fill-plugin
           name: 'Container Fill'
           category: purchasing

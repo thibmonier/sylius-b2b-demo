@@ -6,6 +6,7 @@ namespace App\Tests\Smoke;
 
 use App\Demo\Order\DemoOrderPlan;
 use App\Order\OrderPoReferenceAwareInterface;
+use App\Tests\Functional\Demo\DatabaseAccess;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -21,6 +22,8 @@ use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyOrderInterface;
  */
 final class OrderHistorySmokeTest extends WebTestCase
 {
+    use DatabaseAccess;
+
     private const COMPANIES_WITH_HISTORY = ['ACME_IND', 'TECHPARTS', 'GLOBALMAINT'];
 
     public function testEverySeededCompanyHasOrdersInAtLeastThreeStates(): void
@@ -45,11 +48,12 @@ final class OrderHistorySmokeTest extends WebTestCase
         self::bootKernel();
         $em = $this->entityManager();
 
-        foreach (DemoOrderPlan::all() as $spec) {
+        $plan = DemoOrderPlan::all($this->demoResetDate());
+        foreach ($plan as $spec) {
             $order = $em->getRepository(OrderInterface::class)->findOneBy(['poReference' => $spec->poReference]);
             self::assertInstanceOf(OrderInterface::class, $order, sprintf('Demo order %s is missing.', $spec->poReference));
         }
-        self::assertCount(count(DemoOrderPlan::all()), $this->placedOrders($em));
+        self::assertCount(count($plan), $this->placedOrders($em));
     }
 
     public function testEveryCoreOrderHasItsInvoiceExceptTheOneWaitingForAnApproval(): void

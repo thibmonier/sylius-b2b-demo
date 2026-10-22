@@ -59,9 +59,9 @@ final class DemoOrderPlan
     }
 
     /** @return list<DemoOrderSpec> the core orders, then the history */
-    public static function all(?\DateTimeImmutable $now = null): array
+    public static function all(\DateTimeImmutable $now): array
     {
-        return [...self::core(), ...self::history($now ?? new \DateTimeImmutable())];
+        return [...self::core(), ...self::history($now)];
     }
 
     public static function completedAt(\DateTimeImmutable $now, int $daysAgo): \DateTimeImmutable

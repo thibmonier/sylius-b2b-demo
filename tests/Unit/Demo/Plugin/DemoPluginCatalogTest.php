@@ -123,12 +123,9 @@ final class DemoPluginCatalogTest extends TestCase
         $catalog = self::catalog();
         $unpublished = array_values(array_filter($catalog->all(), static fn ($plugin): bool => !$plugin->published));
 
-        // company-insights (US-155) is installed from GitHub until its 0.1.0 is on Packagist.
-        self::assertSame(['sylius-company-insights-plugin', 'sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
+        self::assertSame(['sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
         self::assertNull($unpublished[0]->packagistUrl());
-        self::assertSame('in_progress', $unpublished[0]->status());
-        self::assertNull($unpublished[1]->packagistUrl());
-        self::assertSame('upcoming', $unpublished[1]->status());
+        self::assertSame('upcoming', $unpublished[0]->status());
         self::assertNull(self::catalog()->get('sylius-quick-order-plugin')?->status());
     }
 

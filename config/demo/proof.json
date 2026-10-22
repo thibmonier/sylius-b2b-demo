@@ -3,9 +3,9 @@
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
-                "value": "v1.0.0",
+                "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-admin-order-creation-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "sylius_declared": {
                 "value": "^2.2",
@@ -299,9 +299,9 @@
         },
         "sylius-company-accounts-plugin": {
             "version": {
-                "value": "v1.2.0",
+                "value": "v1.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-accounts-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
@@ -336,9 +336,9 @@
         },
         "sylius-company-insights-plugin": {
             "version": {
-                "state": "unpublished",
+                "value": "v0.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
-                "checked_at": "2026-10-21"
+                "checked_at": "2026-10-22"
             }
         },
         "sylius-container-fill-plugin": {

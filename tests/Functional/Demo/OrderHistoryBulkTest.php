@@ -19,7 +19,7 @@ final class OrderHistoryBulkTest extends KernelTestCase
 
     public function testEveryHistoryOrderOfThePlanIsInTheDatabase(): void
     {
-        $expected = \count(DemoOrderPlan::history(new \DateTimeImmutable()));
+        $expected = \count(DemoOrderPlan::history($this->demoResetDate()));
 
         self::assertGreaterThanOrEqual(45, $expected);
         self::assertSame($expected, $this->intValue('SELECT COUNT(*) FROM sylius_order WHERE ' . self::HISTORY));
