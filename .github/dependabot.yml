@@ -32,3 +32,12 @@ updates:
       directory: /docker
       schedule:
           interval: weekly
+      ignore:
+          # Node LTS lines only (even majors once they reach LTS): Node 26 is not LTS yet and its slim image has no yarn.
+          - dependency-name: node
+            versions: [">=25"]
+
+    - package-ecosystem: docker-compose
+      directory: /
+      schedule:
+          interval: weekly
