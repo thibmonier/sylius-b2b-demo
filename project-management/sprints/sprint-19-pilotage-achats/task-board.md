@@ -7,6 +7,8 @@ Total : 83 tâches, 89,25 h (1,75 h d'actions de Thibaut). État à la décompos
 
 **Ajustement du 2026-10-21 (capacité 75,8 h)** : US-121 (12 tâches, 10,5 h) et US-099 (7 tâches, 6,5 h) sont sacrifiées et reportées au sprint 20. Leurs tâches `T-121-*` et `T-099-*` restent listées ci-dessous pour mémoire, **hors périmètre**. Périmètre engagé : 64 tâches, 72,25 h.
 
+**Clôture du 2026-10-22** : les 5 stories engagées (US-149, US-150, US-151, US-155, US-146) sont livrées en review (PR #47). Le détail par tâche des sections ci-dessous reflète l'état à la décomposition ; restent ouvertes T-155-12, T-155-13 (captures) et T-155-14 (relecture de Thibaut). Voir [sprint-review.md](./sprint-review.md).
+
 ## 🔲 À Faire
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |
