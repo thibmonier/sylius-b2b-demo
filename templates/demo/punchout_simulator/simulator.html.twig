@@ -23,6 +23,21 @@
         button { background: #1f3a5f; color: #fff; border: 0; padding: .6rem 1.2rem; border-radius: 4px; font-size: 1rem; cursor: pointer; }
         button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
         .num { text-align: right; }
+        .portal { display: flex; align-items: center; gap: .75rem; background: #1f3a5f; color: #fff; padding: .75rem 1rem; border-radius: 4px; margin-bottom: 1rem; }
+        .portal strong { font-size: 1.1rem; }
+        .portal small { display: block; }
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .75rem; list-style: none; padding: 0; margin: 1rem 0; counter-reset: step; }
+        .steps li { border: 2px solid #5b6b7f; border-radius: 4px; padding: .75rem; counter-increment: step; background: #fff; }
+        .steps li::before { content: counter(step); display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #1f3a5f; color: #fff; font-weight: 700; margin-right: .5rem; }
+        .steps li[aria-current="step"] { border-color: #1f3a5f; border-width: 4px; background: #f0f4f8; }
+        .steps p { margin: .25rem 0 0; }
+        .help { position: relative; display: inline-block; border-bottom: 2px dotted #1f3a5f; cursor: help; font-weight: 600; margin-right: 1rem; }
+        .help .def { display: none; position: absolute; left: 0; top: 100%; z-index: 2; width: 18rem; max-width: 80vw; background: #1f3a5f; color: #fff; padding: .5rem .75rem; border-radius: 4px; font-size: .9rem; font-weight: 400; }
+        .help:hover .def, .help:focus .def, .help:focus-within .def { display: block; }
+        .help:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+        input[type="url"], input[name="orderId"] { width: 100%; max-width: 100%; box-sizing: border-box; min-height: 2.75rem; }
+        .vh { position: absolute; left: -9999px; }
+        .flow { width: 100%; max-width: 46rem; height: auto; color: #1a1a1a; }
         .cta a { display: inline-flex; align-items: center; min-height: 2.75rem; margin-right: 1.5rem; color: #1f3a5f; }
     </style>
 </head>
@@ -31,6 +46,11 @@
 <main>
 <p><a href="{{ path(home, {lang: locale == 'fr' ? 'en' : 'fr'}) }}" lang="{{ locale == 'fr' ? 'en' : 'fr' }}">{{ 'switch_language'|trans({}, 'simulator', locale) }}</a></p>
 
+<div class="portal" data-simulator-portal>
+    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect width="40" height="40" rx="8" fill="#fff"/><path d="M10 28V12h9a6 6 0 0 1 0 12h-5" fill="none" stroke="#1f3a5f" stroke-width="3"/></svg>
+    <div><strong>{{ 'portal.name'|trans({}, 'simulator', locale) }}</strong><small>{{ 'portal.note'|trans({}, 'simulator', locale) }}</small></div>
+</div>
+
 <h1>{{ 'title'|trans({}, 'simulator', locale) }}</h1>
 <nav aria-label="{{ 'protocol.label'|trans({}, 'simulator', locale) }}">
     <a href="{{ path('app_demo_punchout_simulator', {lang: locale}) }}"{% if protocol == 'cxml' %} aria-current="page"{% endif %}>{{ 'protocol.cxml'|trans({}, 'simulator', locale) }}</a> ·
@@ -38,10 +58,40 @@
 </nav>
 <p>{{ (protocol == 'oci' ? 'oci.intro' : 'intro')|trans({}, 'simulator', locale) }}</p>
 
+<h2>{{ 'steps.title'|trans({}, 'simulator', locale) }}</h2>
+<ol class="steps" data-simulator-steps>
+    {% for number in 1..4 %}
+        <li{% if number == step %} aria-current="step"{% endif %}>
+            <strong>{{ ('steps.s' ~ number ~ '.title')|trans({}, 'simulator', locale) }}</strong>{% if number < step %}<span class="vh"> ({{ 'steps.done'|trans({}, 'simulator', locale) }})</span>{% endif %}
+            <p>{{ ('steps.s' ~ number ~ '.text' ~ (number == 4 and protocol == 'oci' ? '_oci' : ''))|trans({}, 'simulator', locale) }}</p>
+        </li>
+    {% endfor %}
+</ol>
+
+<p><strong>{{ 'vocabulary.title'|trans({}, 'simulator', locale) }}</strong>
+    {% for term in ['cxml', 'oci', 'order_request', 'hook_url'] %}
+        <span class="help" tabindex="0" data-simulator-term="{{ term }}" aria-describedby="simulator-def-{{ term }}">{{ ('vocabulary.' ~ term ~ '.label')|trans({}, 'simulator', locale) }}<span class="def" role="tooltip" id="simulator-def-{{ term }}">{{ ('vocabulary.' ~ term ~ '.definition')|trans({}, 'simulator', locale) }}</span></span>
+    {% endfor %}
+</p>
+
+<svg class="flow" viewBox="0 0 760 110" role="img" aria-labelledby="simulator-flow-title simulator-flow-desc" data-simulator-flow xmlns="http://www.w3.org/2000/svg">
+    <title id="simulator-flow-title">{{ 'flow.title'|trans({}, 'simulator', locale) }}</title>
+    <desc id="simulator-flow-desc">{{ 'flow.desc'|trans({}, 'simulator', locale) }}</desc>
+    <defs><marker id="simulator-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+        {% for index in 0..3 %}<rect x="{{ 5 + index * 190 }}" y="20" width="150" height="70" rx="6"/>{% endfor %}
+        {% for index in 0..2 %}<line x1="{{ 155 + index * 190 }}" y1="55" x2="{{ 193 + index * 190 }}" y2="55" marker-end="url(#simulator-arrow)"/>{% endfor %}
+    </g>
+    <g fill="currentColor" font-size="14" text-anchor="middle">
+        {% for index in 0..3 %}<text x="{{ 80 + index * 190 }}" y="60">{{ ('flow.s' ~ (index + 1))|trans({}, 'simulator', locale) }}</text>{% endfor %}
+    </g>
+</svg>
+
 {% if error is defined %}
     <div class="error" role="alert">
-        <strong>{{ ('error.' ~ error.key)|trans({'%host%': host}, 'simulator', locale) }}</strong>
+        <strong>{{ ('error.' ~ error.key)|trans({'%host%': host, '%domains%': domains|join(', ')}, 'simulator', locale) }}</strong>
         {% if error.detail is defined and error.detail != '' %}<br><code>{{ error.status }} — {{ error.detail }}</code>{% endif %}
+        {% if error.key in ['session_expired', 'already_sent', 'return_replayed', 'csrf'] %}<br><a href="{{ path(home, {lang: locale}) }}" data-simulator-restart>{{ 'restart'|trans({}, 'simulator', locale) }}</a>{% endif %}
     </div>
 {% endif %}
 

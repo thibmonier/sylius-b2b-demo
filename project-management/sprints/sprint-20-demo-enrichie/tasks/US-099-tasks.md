@@ -28,13 +28,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-099-01 | [DOC] | Fiche : 5e scénario (URL de retour hors domaines autorisés) et aide au clavier confirmés ou retirés avec Thibaut ; plan des quatre étapes numérotées, glossaire (cXML, OCI, OrderRequest, HOOK_URL) en une phrase chacun, schéma du flux | 0,75 h | T-108-07 | Claude | 🔲 |
-| T-099-02 | [TEST] | Tests rouges : quatre étapes numérotées (liste ordonnée) et retour de panier lisible, aide lisible au survol et au focus clavier, parité des clés FR et EN, session expirée avec lien pour relancer, URL de retour refusée avec explication | 1 h | T-099-01 | Claude | 🔲 |
-| T-099-03 | [BE] | Étape courante calculée par le contrôleur (lancement, boutique, panier reçu, commande), message de session expirée avec action « relancer », explication du refus de domaine avec les domaines autorisés | 0,75 h | T-099-02 | Claude | 🔲 |
-| T-099-04 | [FE-WEB] | Habillage du portail fictif (sans marque réelle), étapes numérotées, aides du jargon, schéma du flux en SVG avec alternative textuelle, retour de panier lisible, protocoles cXML et OCI ; libellés FR et EN (`simulator.*.yaml`) ; contrastes AAA | 2 h | T-099-03 | Claude | 🔲 |
-| T-099-05 | [TEST] | Rendu réel FR et EN (cXML et OCI), pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`) et PHPStan | 1 h | T-099-04 | Claude | 🔲 |
-| T-099-06 | [DOC] | Documentation à jour (guide des parcours `docs/parcours-guides.md`, page du simulateur) et mention du simulateur habillé dans le kit média | 0,5 h | T-099-04 | Claude | 🔲 |
-| T-099-07 | [REV] | Revue (aucune marque réelle comme logo, ton de la charte, parité FR et EN) | 0,5 h | T-099-05, T-099-06 | Claude | 🔲 |
+| T-099-01 | [DOC] | Fiche : 5e scénario (URL de retour hors domaines autorisés) et aide au clavier confirmés ou retirés avec Thibaut ; plan des quatre étapes numérotées, glossaire (cXML, OCI, OrderRequest, HOOK_URL) en une phrase chacun, schéma du flux | 0,75 h | T-108-07 | Claude | ✅ |
+| T-099-02 | [TEST] | Tests rouges : quatre étapes numérotées (liste ordonnée) et retour de panier lisible, aide lisible au survol et au focus clavier, parité des clés FR et EN, session expirée avec lien pour relancer, URL de retour refusée avec explication | 1 h | T-099-01 | Claude | ✅ |
+| T-099-03 | [BE] | Étape courante calculée par le contrôleur (lancement, boutique, panier reçu, commande), message de session expirée avec action « relancer », explication du refus de domaine avec les domaines autorisés | 0,75 h | T-099-02 | Claude | ✅ |
+| T-099-04 | [FE-WEB] | Habillage du portail fictif (sans marque réelle), étapes numérotées, aides du jargon, schéma du flux en SVG avec alternative textuelle, retour de panier lisible, protocoles cXML et OCI ; libellés FR et EN (`simulator.*.yaml`) ; contrastes AAA | 2 h | T-099-03 | Claude | ✅ |
+| T-099-05 | [TEST] | Rendu réel FR et EN (cXML et OCI), pa11y WCAG2AAA, `bin/measure-mobile`, suite via `bin/run-tests`, ECS (`src tests`) et PHPStan | 1 h | T-099-04 | Claude | ✅ |
+| T-099-06 | [DOC] | Documentation à jour (guide des parcours `docs/parcours-guides.md`, page du simulateur) et mention du simulateur habillé dans le kit média | 0,5 h | T-099-04 | Claude | ✅ |
+| T-099-07 | [REV] | Revue (aucune marque réelle comme logo, ton de la charte, parité FR et EN) | 0,5 h | T-099-05, T-099-06 | Claude | ✅ |
 
 **Total estimé : 6,5 h** (7 tâches, aucune de Thibaut).
 
