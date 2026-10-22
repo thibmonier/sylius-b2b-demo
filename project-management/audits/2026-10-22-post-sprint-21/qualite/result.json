@@ -1,0 +1,42 @@
+{
+  "tech": "symfony",
+  "score": 67,
+  "score_sur_75": 50,
+  "base": "main @ 4a4dcfc (Sylius 2.3.2, Symfony 8.1, PHP 8.5)",
+  "architecture": {
+    "score": 15,
+    "findings": [
+      {"severity": "high", "file": "src/Controller/CompanyWishlistController.php:106", "message": "Dette du 2026-10-18 non corrigée : removeItem() appelle toujours EntityManagerInterface::flush() depuis le contrôleur.", "recommendation": "Déplacer la suppression dans un service applicatif (ex. CompanyWishlistManager)."},
+      {"severity": "medium", "file": "src/Demo/PunchOutSimulator/OciBuyerProvider.php:7 ; BuyerCredentialsProvider.php:7", "message": "Dette non corrigée : le simulateur (runtime) importe PunchoutDemoFixture pour BUYER_CODE, OCI_BUYER_CODE et DEMO_SECRET (dépendance inversée vers la couche fixtures).", "recommendation": "Extraire ces constantes dans DemoBuyerCodes ou config/demo/accounts.yaml."},
+      {"severity": "medium", "file": "src/Demo/Controller/PunchOutSimulatorController.php (306 lignes)", "message": "cartFromState() toujours dans le contrôleur ; la classe dépasse 200 lignes.", "recommendation": "Créer ReceivedCart::fromState ou un service SignedCartState."},
+      {"severity": "medium", "file": "src/ (11 classes > 200 lignes)", "message": "ProductCsvFixture 347, DemoResetCommand 328, PunchOutSimulatorController 306, ProofCollector 296 (nouveau, sprint 18), MarkdownDocument 281, OrderHistoryDemoFixture 271, ReadmeChecker 253, VariantLogisticsSeeder 249, BulkOrderWriter 237 (nouveau, sprint 19), HomeSelectionProvider 235, JourneyController 211.", "recommendation": "Découper ProofCollector (une collecte par source) et BulkOrderWriter en priorité."},
+      {"severity": "low", "file": "config/services.yaml:50-53", "message": "Dette non corrigée : les outils manuels src/Demo/Vitrine et src/Demo/Images/Fetch restent dans src/ et sont exclus du conteneur.", "recommendation": "Les sortir vers tools/ avec leur autoload."},
+      {"severity": "low", "file": "src/Demo/Controller/WebhookReceiverController.php (101 lignes)", "message": "Dette du 2026-10-18 partiellement résorbée : __invoke() passe de 31 à 29 lignes, mais la réception reste dans le contrôleur.", "recommendation": "Extraire un WebhookReceiver renvoyant un résultat typé."},
+      {"severity": "info", "file": "src/Demo/Order, src/Demo/Proof", "message": "Points positifs : séparation Proof/Refresh avec interfaces (GitHubApi, PackagistApi) et doubles de test ; DemoOrderPlan/DemoOrderSpec/BulkOrderWriter bien découpés ; lint:container, lint:twig (98 fichiers), lint:yaml (94 fichiers) OK.", "recommendation": "Maintenir."}
+    ]
+  },
+  "code_quality": {
+    "score": 15,
+    "findings": [
+      {"severity": "info", "file": "phpstan.dist.neon", "message": "PHPStan niveau 9 : 0 erreur, sans baseline ni @phpstan-ignore. ECS : 0 erreur. Rien n'a régressé malgré +~50 fichiers de src depuis le 18/10.", "recommendation": "Maintenir."},
+      {"severity": "medium", "file": "src/Demo/Vitrine/StandardBlock.php:29", "message": "Code mort : isInDemo() renvoie vrai pour tout plugin non vide. Les branches « absent de la démo » restent dans ReadmeApplier.php:31/41, ReadmeChecker.php:53 et StandardBlock::render($language, $inDemo, ...).", "recommendation": "Supprimer isInDemo, le paramètre $inDemo et la variante de texte correspondante."},
+      {"severity": "medium", "file": "src/ (22 méthodes > 30 lignes, 83 > 20)", "message": "Quasi inchangé depuis 23 méthodes > 30 lignes le 18/10. Pires : ProductCsvFixture::createOrUpdateVariant 72, OrderPoReferenceTypeExtension::buildForm 62, CsvProductReader::parseHandle 56, PunchoutDemoFixture::loadCxmlBuyer 56, ProductCsvFixture::importProduct 53, DemoResetCommand::reset 46.", "recommendation": "Découper ces six méthodes (effort ~1 jour)."},
+      {"severity": "low", "file": "rector.php", "message": "Rector en dry-run : 78 fichiers modifiables (61 le 18/10) ; Rector n'est toujours pas exécuté en CI (ci.yaml).", "recommendation": "Appliquer les règles, puis ajouter rector --dry-run à la CI."},
+      {"severity": "low", "file": "bin/audit-js-dependencies, check-pinned-refs, proof-refresh, vitrine-readme, fetch-product-images", "message": "Scripts bin/ : les scripts shell ont set -eu, les scripts PHP et Node n'ont pas de garde équivalente (declare(strict_types) à vérifier). Les scripts shell de test (run-tests, clean-test-caches, check-disk) sont couverts par des tests unitaires dans tests/Unit/Bin.", "recommendation": "Vérifier strict_types et la gestion d'erreur des 5 scripts PHP/Node."},
+      {"severity": "low", "file": "src/Demo/DataFixtures (24 fixtures)", "message": "Duplication modérée : lookups findOneBy/getRepository répétés dans 20 fixtures (8 dans PunchoutDemoFixture et OrderHistoryDemoFixture), createCustomer défini deux fois, pas de trait ou service de résolution partagé.", "recommendation": "Introduire un DemoReferenceResolver (règle des 3 atteinte)."},
+      {"severity": "low", "file": "config/demo/proof.json", "message": "Le compteur de tests de la page preuve (161, vérifié le 2026-10-21) est en retard : 188 fichiers *Test.php et 1787 tests aujourd'hui. plugins.yaml, proof.json et composer.json sont cohérents (25 plugins chacun) ; docs/vitrine-plugins.md indique bien 25 ; ADR-0001 dit 21 (historique, daté).", "recommendation": "Relancer bin/proof-refresh avant chaque publication."}
+    ]
+  },
+  "testing": {
+    "score": 20,
+    "findings": [
+      {"severity": "info", "file": "tests/", "message": "Suite exécutée une fois (bin/run-tests, worker wa) : 1787 tests, 12483 assertions, 1 skipped, 212 deprecations, OK en 6 min 30. CI de main verte (run 39850167843). Répartition par fichiers : Unit 105, Functional 60, Smoke 30, Support 7.", "recommendation": "Maintenir."},
+      {"severity": "info", "file": "tests/Unit/Demo/Proof, tests/Unit/Demo/Mcp, tests/Functional/Demo/OrderHistoryBulkTest.php", "message": "Code des sprints 18 à 21 bien testé : ProofCollector, ProofReader, TranscriptLoader, McpServerUrl, BulkOrderWriter, EquipmentFleetSmokeTest, scripts bin (CheckDisk, CleanTestCaches, RunTestsLock).", "recommendation": "Maintenir."},
+      {"severity": "medium", "file": "src/Controller/CompanyWishlistController.php, src/Wishlist/Menu/CompanyWishlistMenuListener.php", "message": "Aucun test ne nomme ces classes (seul le smoke CompanyWishlistSmokeTest les traverse) : dette du 18/10 non corrigée. 88 classes de src/ sur 310 ne sont citées par aucun test, la plupart couvertes indirectement par smoke/fonctionnel (fixtures, listeners HTTP).", "recommendation": "Ajouter un test fonctionnel dédié à la suppression d'article de la wishlist."},
+      {"severity": "medium", "file": ".github/workflows/ci.yaml:84-96", "message": "La couverture (pcov) est publiée mais sans seuil bloquant ; la décision sur le seuil de 80 % reste en attente depuis le 18/10.", "recommendation": "Fixer un seuil (ex. celui mesuré moins 2 points)."},
+      {"severity": "low", "file": "tests/Unit/Bin/RunTestsLockTest.php:155 ; tests/Functional/Demo/HardeningTest.php:636 ; WebhookDeliveryTest.php:218 ; McpOutboundGuardTest.php:65 ; VerifyPublicModeTest.php:102", "message": "Dette non corrigée : 7 usleep dans les tests (attentes temporelles).", "recommendation": "Injecter une horloge ou attendre une condition."},
+      {"severity": "low", "file": "tests/Smoke/LegalPagesTest.php:68", "message": "Test sauté sans DEMO_LEGAL_REQUIRED=1 (1 test skipped à l'exécution) ; 2 autres skips conditionnels (root) dans MediaDirectoryPreparationTest et ResetMediaTest.", "recommendation": "Définir DEMO_LEGAL_REQUIRED=1 en CI."},
+      {"severity": "low", "file": "suite PHPUnit", "message": "212 deprecations signalées à l'exécution, non triées.", "recommendation": "Les lister (phpunit --display-deprecations) et traiter celles de src/."}
+    ]
+  }
+}
