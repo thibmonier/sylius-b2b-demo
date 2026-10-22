@@ -6,14 +6,16 @@
 
 | US | Titre | Points | Tâches | Heures | Statut |
 |----|-------|--------|--------|--------|--------|
-| [US-149](./US-149-tasks.md) | Company-insights : squelette du plugin et indicateurs de la période | 5 | 13 | 18,25 h | 🔲 |
-| [US-150](./US-150-tasks.md) | Company-insights : achats par mois sur 12 mois, comparés à l'année précédente | 5 | 7 | 10 h | 🔲 |
-| [US-151](./US-151-tasks.md) | Company-insights : tops acheteurs, produits et catégories | 5 | 7 | 10,25 h | 🔲 |
-| [US-155](./US-155-tasks.md) | Company-insights : historique d'achats de 12 mois et intégration à la démo | 5 | 15 | 13,25 h | 🔲 |
-| [US-146](./US-146-tasks.md) | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | 5 | 13 | 14 h | 🔲 |
-| [US-099](./US-099-tasks.md) | Simulateur PunchOut habillé et expliqué | 3 | 7 | 6,5 h | 🔲 |
-| [US-121](./US-121-tasks.md) | Kit média (2/2) : approbation, MCP, container-fill et visite complète | 5 | 12 | 10,5 h | 🚫 partielle |
-| [Transverse](./technical-tasks.md) | Actions de la rétro S18 et clôture de l'orchestrateur (sans points) | 0 | 9 | 6,5 h | 🔲 |
+| [US-149](./US-149-tasks.md) | Company-insights : squelette du plugin et indicateurs de la période | 5 | 13 | 18,25 h | 👀 |
+| [US-150](./US-150-tasks.md) | Company-insights : achats par mois sur 12 mois, comparés à l'année précédente | 5 | 7 | 10 h | 👀 |
+| [US-151](./US-151-tasks.md) | Company-insights : tops acheteurs, produits et catégories | 5 | 7 | 10,25 h | 👀 |
+| [US-155](./US-155-tasks.md) | Company-insights : historique d'achats de 12 mois et intégration à la démo | 5 | 15 | 13,25 h | 👀 |
+| [US-146](./US-146-tasks.md) | Création de commande admin : choisir une adresse de l'entreprise ou du carnet du client | 5 | 13 | 14 h | 👀 |
+| [US-099](./US-099-tasks.md) | Simulateur PunchOut habillé et expliqué | 3 | 7 | 6,5 h | ↪️ sprint 20 |
+| [US-121](./US-121-tasks.md) | Kit média (2/2) : approbation, MCP, container-fill et visite complète | 5 | 12 | 10,5 h | ↪️ sprint 20 (🚫 partielle) |
+| [Transverse](./technical-tasks.md) | Actions de la rétro S18 et clôture de l'orchestrateur (sans points) | 0 | 9 | 6,5 h | 🔄 (3 ✅, 6 🔲) |
+
+**État à la clôture du 2026-10-22** : 53 ✅, 4 👀, 7 🔲 sur les 64 tâches du périmètre engagé (voir [task-board.md](../task-board.md)) ; US-099 et US-121 reportées au sprint 20.
 
 **Total décomposé** : 83 tâches | **89,25 h** pour 33 points (+ 9 tâches transverses sans points), dont 1,75 h d'actions de Thibaut (6 tâches), soit **87,5 h de charge pour Claude** (orchestrateur compris). 4 tâches (2,75 h) sont bloquées (🚫) par T-103-03 dans US-121.
 

@@ -41,8 +41,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 | T-149-09 | [BE] | Voter `COMPANY_VIEW_INSIGHTS` (administrateur du membre courant), contrôleur et route `/account/company/insights`, entrée du menu du compte entreprise, refus expliqué | 2 h | T-149-06, T-149-08 | Claude | ✅ |
 | T-149-10 | [FE-WEB] | Page « Tableau de bord des achats » : sélecteur de période, cinq indicateurs avec variation, bloc « En attente d'approbation » à part, message « Aucune commande sur la période » ; libellés FR et EN ; contrastes AAA ; mobile | 2 h | T-149-09 | Claude | ✅ |
 | T-149-11 | [DOC] | README EN et FR (installation, permission, matrice et versions supportées, captures), ADR du choix d'apexcharts sans CDN, `CHANGELOG.md` | 1,25 h | T-149-10 | Claude | ✅ |
-| T-149-12 | [TEST] | ECS, PHPStan max, Rector, couverture ≥ 80 %, `lint:container`, validation Doctrine ; rendu réel FR et EN dans l'application de test et pa11y WCAG2AAA sur la page ; matrice CI de la PR verte (run terminé) | 1,5 h | T-149-04, T-149-07, T-149-10 | Claude | 🔄 |
-| T-149-13 | [REV] | Revue de sécurité (voter, cloisonnement entre entreprises sur chaque requête, paramètres en liste blanche) et de la matrice CI | 0,75 h | T-149-11, T-149-12 | Claude | 🔲 |
+| T-149-12 | [TEST] | ECS, PHPStan max, Rector, couverture ≥ 80 %, `lint:container`, validation Doctrine ; rendu réel FR et EN dans l'application de test et pa11y WCAG2AAA sur la page ; matrice CI de la PR verte (run terminé) | 1,5 h | T-149-04, T-149-07, T-149-10 | Claude | 👀 |
+| T-149-13 | [REV] | Revue de sécurité (voter, cloisonnement entre entreprises sur chaque requête, paramètres en liste blanche) et de la matrice CI | 0,75 h | T-149-11, T-149-12 | Claude | ✅ |
 
 **Total estimé : 18,25 h** (13 tâches, dont 1 de Thibaut, soit 0,25 h).
 
