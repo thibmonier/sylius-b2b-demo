@@ -115,8 +115,18 @@ final class DemoOrderHistory
             sprintf('ACME-PO-H-%03d', $sequence),
             $daysAgo > self::SHIPPED_AFTER_DAYS ? OrderScenario::Shipped : OrderScenario::Paid,
             'paul' === $buyer || ('isabelle' === $buyer && 0 === $sequence % 2) ? 'MAINT-02' : 'ATELIER-01',
-            deliverySite: 0 === $sequence % 3 ? DemoOrderSpec::SITE_SAINT_PRIEST : null,
+            deliverySite: self::deliverySite($sequence),
         );
+    }
+
+    /** Lyon by default, one order in three at Saint-Priest, one of the others in five at Grenoble. */
+    private static function deliverySite(int $sequence): ?string
+    {
+        if (0 === $sequence % 3) {
+            return DemoOrderSpec::SITE_SAINT_PRIEST;
+        }
+
+        return 1 === $sequence % 5 ? DemoOrderSpec::SITE_GRENOBLE : null;
     }
 
     private static function otherCompanyOrder(\DateTimeImmutable $now, string $email, string $prefix, int $number, int $slot): DemoOrderSpec
