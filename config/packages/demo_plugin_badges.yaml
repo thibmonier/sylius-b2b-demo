@@ -71,3 +71,9 @@ sylius_twig_hooks:
                 configuration:
                     plugin: sylius-company-insights-plugin
                 priority: -40
+        'tmonier_equipment_shop.account.equipment_list.index.content.main.header':
+            demo_badge_customer_asset_management:
+                template: 'demo/plugin_badge.html.twig'
+                configuration:
+                    plugin: sylius-customer-asset-management-plugin
+                priority: 90

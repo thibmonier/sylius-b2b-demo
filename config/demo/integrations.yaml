@@ -12,4 +12,4 @@ parameters:
         - { id: purchasing_portals, plugin: sylius-punchout-cxml-plugin, state: available }
         - { id: large_accounts, plugin: sylius-company-accounts-plugin, state: available }
         - { id: ai_assistants, plugin: sylius-b2b-mcp-plugin, state: available }
-        - { id: equipment_fleet, plugin: sylius-customer-asset-management-plugin, state: upcoming }
+        - { id: equipment_fleet, plugin: sylius-customer-asset-management-plugin, state: available }

@@ -132,15 +132,13 @@ parameters:
           name: 'Customer Asset Management'
           category: catalog
           description:
-              fr: "Parc d'équipements du client : le client déclare ses machines et le catalogue se limite aux pièces compatibles. Plugin en conception, pas encore installé dans la démo."
-              en: 'Customer equipment fleet: customers declare their machines and the catalogue narrows down to the compatible spare parts. Plugin in design, not installed in the demo yet.'
-          demo_route: null
+              fr: "Parc d'équipements du client : le client déclare ses machines dans son espace client (modèle, libellé, plaque ou numéro de série) et le catalogue se limite aux pièces compatibles avec son matériel. Les modèles d'équipement et leur compatibilité par variante se gèrent en administration."
+              en: 'Customer equipment fleet: customers declare their machines in their account (model, label, plate or serial number) and the catalogue narrows down to the parts compatible with their equipment. Equipment models and their compatibility per variant are managed in the administration.'
+          demo_route: tmonier_equipment_shop_fleet_index
           scenario:
-              fr: "À venir : un client déclare son parc d'équipements, puis ne voit que les pièces détachées compatibles."
-              en: "Coming soon: a customer declares their equipment fleet, then only sees the compatible spare parts."
-          advised_account: sophie@fournitures-pro.example
-          published: false
-          installed: false
+              fr: "Connectez-vous en Claire (acheteuse d'Acme) et ouvrez « Mon matériel » dans votre compte : trois machines fictives sont déclarées (chariot, transpalette, perceuse à colonne), partagées avec les membres de la société. Ouvrez ensuite la catégorie Outillage : le contrôle « Compatible avec mon matériel » limite la liste aux pièces compatibles, pour tout le parc ou pour une machine. Dans une catégorie sans pièce compatible, la page le dit et propose de retirer le filtre."
+              en: "Sign in as Claire (Acme buyer) and open \"My equipment\" in your account: three fictional machines are declared (forklift, pallet truck, drill press), shared with the members of the company. Then open the Tools category: the \"Compatible with my equipment\" control narrows the list to the compatible parts, for the whole fleet or for one machine. In a category with no compatible part, the page says so and offers to remove the filter."
+          advised_account: claire@acme.example
         - slug: sylius-facturx-plugin
           name: 'Factur-X'
           category: billing

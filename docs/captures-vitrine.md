@@ -27,7 +27,7 @@ Audit du 2026-10-17 (branches locales des dépôts, lecture seule) et protocole 
 | withdrawal | 4 | oui | oui | |
 | channel-access, registration-approval, punchout-cxml | 0 | | | prises dans ce lot |
 | order-hold | 0 | | | purement technique (D7) |
-| customer-asset-management | 0 | | | reporté (D3, pas encore d'écran) |
+| customer-asset-management | 5 | | | captures dans le README du plugin (Mon matériel, filtre, état vide, mobile), sprint 21 |
 
 Aucun manque de face (boutique ou admin) hors de ces cas : pas de capture de comblement (T-065-05). La fraîcheur n'a pas été comparée écran par écran : aucune image n'a été signalée comme obsolète.
 

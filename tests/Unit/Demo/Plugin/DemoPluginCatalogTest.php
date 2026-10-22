@@ -33,10 +33,7 @@ final class DemoPluginCatalogTest extends TestCase
         self::assertSame($expected, $slugs);
         self::assertCount(25, self::catalog()->all());
         self::assertSame(25, self::catalog()->count());
-        self::assertSame(['sylius-customer-asset-management-plugin'], array_values(array_map(
-            static fn ($plugin): string => $plugin->slug,
-            array_filter(self::catalog()->all(), static fn ($plugin): bool => !$plugin->installed),
-        )));
+        self::assertSame([], array_values(array_filter(self::catalog()->all(), static fn ($plugin): bool => !$plugin->installed)));
     }
 
     public function testEveryPluginHasBothDescriptionsAndAKnownCategory(): void
@@ -121,12 +118,13 @@ final class DemoPluginCatalogTest extends TestCase
     public function testAnUnpublishedPluginHasNoPackagistLink(): void
     {
         $catalog = self::catalog();
-        $unpublished = array_values(array_filter($catalog->all(), static fn ($plugin): bool => !$plugin->published));
-
-        self::assertSame(['sylius-customer-asset-management-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $unpublished));
-        self::assertNull($unpublished[0]->packagistUrl());
-        self::assertSame('upcoming', $unpublished[0]->status());
+        self::assertSame([], array_values(array_filter($catalog->all(), static fn ($plugin): bool => !$plugin->published)));
         self::assertNull(self::catalog()->get('sylius-quick-order-plugin')?->status());
+
+        $draft = new DemoPluginCatalog([self::entry('sylius-draft-plugin', ['published' => false, 'installed' => false])], self::accounts())->get('sylius-draft-plugin');
+        self::assertNotNull($draft);
+        self::assertNull($draft->packagistUrl());
+        self::assertSame('upcoming', $draft->status());
     }
 
     public function testAnInstalledButUnpublishedPluginIsInProgress(): void
