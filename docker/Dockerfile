@@ -47,12 +47,14 @@ FROM vendor AS autoload
 COPY . .
 RUN composer dump-autoload --classmap-authoritative --no-dev
 
-FROM node:22-bookworm-slim@sha256:c3de60bf2f9dd0ac6370e6117950ff62d6e339527e7472301c9c78a017978392 AS assets
+# Node LTS only: from Node 26 on, the slim image no longer ships yarn, hence the guard below.
+FROM node:24-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 AS assets
 WORKDIR /app
 COPY --from=vendor /app/vendor vendor
 COPY package.json yarn.lock webpack.config.mjs .babelrc ./
 COPY assets assets
-RUN yarn install --frozen-lockfile --network-timeout 600000 && yarn build:prod
+RUN (command -v yarn >/dev/null || npm install --global yarn@1.22.22) \
+    && yarn install --frozen-lockfile --network-timeout 600000 && yarn build:prod
 
 FROM base AS final
 ENV APP_ENV=prod APP_DEBUG=0 TZ=Europe/Paris

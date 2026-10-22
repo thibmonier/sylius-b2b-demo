@@ -26,7 +26,7 @@ jobs:
             WKHTMLTOPDF_BINARY: /usr/local/bin/wkhtmltopdf
         services:
             mysql:
-                image: mysql:8.4@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70
+                image: mysql:8.4.13@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
                 ports: ["3306:3306"]
@@ -52,7 +52,7 @@ jobs:
 
             - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
-                  node-version: "22"
+                  node-version: "24"
                   cache: yarn
 
             - run: yarn install --frozen-lockfile && yarn build
@@ -129,7 +129,7 @@ jobs:
               run: |
                   docker network create demo
                   docker run -d --name mysql --network demo -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=demo \
-                    --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=3s --health-retries=40 mysql:8.4@sha256:24989179f58856db763f418010c1169fecc944e3ec1ea7e921572d83eb070f70
+                    --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=3s --health-retries=40 mysql:8.4.13@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69
                   for i in $(seq 1 40); do
                     [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" = healthy ] && break
                     sleep 3
@@ -199,7 +199,7 @@ jobs:
 
             - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
-                  node-version: "22"
+                  node-version: "24"
 
             - name: JavaScript dependencies (production group, dated exceptions)
               run: bin/audit-js-dependencies
