@@ -153,3 +153,8 @@ TEST_DB_NAME=ma_base bin/profile-reset 3
 ```
 
 Requêtes SQL et durée de chaque fixture, sur 3 passes ; résultats et objectifs : [remise-a-zero-demo.md](./remise-a-zero-demo.md).
+
+## Rector et seuil de couverture dans la CI (US-084)
+
+- **Rector** : `composer rector-dry-run` doit afficher 0 fichier modifiable (la CI l'exécute après ECS et PHPStan et échoue sinon) ; `composer rector-apply` applique. `rector.php` garde les classes globales en nom pleinement qualifié (`\DateTimeImmutable`), comme l'impose ECS, et exclut `ParamAndEnvAttributeRector` pour deux `#[Autowire('/%sylius_admin.path_name%')]` dont le préfixe `/` serait perdu.
+- **Couverture** : pcov n'existe qu'en CI. `bin/check-coverage build/coverage.xml 90` lit le Clover et échoue sous le seuil (`COVERAGE_MIN_LINES` dans `.github/workflows/ci.yaml`, 90 % de lignes pour 92,73 % mesurés sur `main` le 2026-10-23). Le taux et le seuil sont dans le résumé du job. Remonter le seuil avec le taux, ne jamais l'abaisser pour faire passer un build.

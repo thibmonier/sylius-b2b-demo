@@ -21,6 +21,7 @@ jobs:
         timeout-minutes: 30
         env:
             APP_ENV: test
+            COVERAGE_MIN_LINES: "90"
             DATABASE_URL: mysql://root@127.0.0.1:3306/sylius_b2b_demo?serverVersion=8.4&charset=utf8mb4
             # Invoice PDFs (invoicing-plugin via KnpSnappy) need wkhtmltopdf; same binary as the image.
             WKHTMLTOPDF_BINARY: /usr/local/bin/wkhtmltopdf
@@ -61,6 +62,7 @@ jobs:
               run: |
                   vendor/bin/ecs check src tests
                   vendor/bin/phpstan analyse -c phpstan.dist.neon --no-progress --memory-limit=1G
+                  vendor/bin/rector process --dry-run --no-progress-bar
 
             # wkhtmltox publishes no checksum (recorded at first download); jammy build, no noble build.
             - name: Install wkhtmltopdf (invoice PDFs)
@@ -83,7 +85,8 @@ jobs:
                   php bin/console doctrine:schema:validate --skip-sync
                   php bin/console sylius:fixtures:load demo --no-interaction
 
-            # Coverage is measured and displayed only (no threshold yet: target >= 80 %, decision pending)
+            # Line coverage gate: COVERAGE_MIN_LINES sits below the rate of main (92.73 % on 2026-10-23) to absorb noise;
+            # raise it with the rate, never lower it to make a build pass.
             # bash -eo pipefail: without it, `phpunit | tee` exits with tee's status and hides failures
             - name: PHPUnit with coverage
               shell: bash
@@ -91,11 +94,12 @@ jobs:
                   mkdir -p build
                   vendor/bin/phpunit --coverage-text --coverage-clover build/coverage.xml | tee build/coverage.txt
                   {
-                    echo '### Code coverage (target >= 80 %, non-blocking)'
+                    echo "### Code coverage (blocking below ${COVERAGE_MIN_LINES} % of lines)"
                     echo '```'
                     grep -E '^ *(Classes|Methods|Lines):' build/coverage.txt
                     echo '```'
                   } >> "$GITHUB_STEP_SUMMARY"
+                  php bin/check-coverage build/coverage.xml "${COVERAGE_MIN_LINES}" | tee -a "$GITHUB_STEP_SUMMARY"
 
     image:
         name: Docker image
