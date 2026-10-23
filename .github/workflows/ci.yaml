@@ -94,11 +94,12 @@ jobs:
             # Line coverage gate: COVERAGE_MIN_LINES sits below the rate of main (92.73 % on 2026-10-23) to absorb noise;
             # raise it with the rate, never lower it to make a build pass.
             # bash -eo pipefail: without it, `phpunit | tee` exits with tee's status and hides failures
+            # --colors=never: PHPUnit 13 colours the coverage text, and the summary below greps its rows
             - name: PHPUnit with coverage
               shell: bash
               run: |
                   mkdir -p build
-                  vendor/bin/phpunit --coverage-text --coverage-clover build/coverage.xml | tee build/coverage.txt
+                  vendor/bin/phpunit --colors=never --coverage-text --coverage-clover build/coverage.xml | tee build/coverage.txt
                   {
                     echo "### Code coverage (blocking below ${COVERAGE_MIN_LINES} % of lines)"
                     echo '```'
