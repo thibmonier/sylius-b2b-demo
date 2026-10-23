@@ -52,8 +52,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-171-05 | [FE-WEB] | Gabarit : tableau (PHP, Sylius, Symfony, base de données ; « testé par la CI du plugin » et « testé ensemble dans la démo »), graphe accessible (titre, description, trait plein ou pointillé et légende), textes FR et EN, lien depuis la page Plugins | 1,5 h | T-171-04 | Claude | ✅ |
 | T-171-06 | [OPS] | Première génération réelle (`php bin/compat-refresh`, lecture seule, réseau via `gh`), jeu de données commité ; `php bin/proof-refresh` puis `php bin/proof-check` (nouveaux fichiers de tests ; le rafraîchissement de `proof.json` est fait par l'orchestrateur en fin de sprint) | 0,5 h | T-171-05 | Claude | ✅ |
 | T-171-07 | [TEST] | Suite ciblée via `bin/run-tests` (`WORKER_ID=w171 …`), ECS (`src tests`), PHPStan max, Rector, lint Twig et YAML | 0,5 h | T-171-06 | Claude | ✅ |
-| T-171-08 | [TEST] | Rendu en production après déploiement : pa11y WCAG2AAA en FR et en EN, 360 px sans défilement horizontal, graphe lisible ; story en review jusque-là | 0,75 h | T-171-07, T-TECH-24-09 | Claude | 🔲 |
-| T-171-09 | [REV] | Revue (ton neutre, aucune formule « validés ensemble » hors démo, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-171-08 | Claude | 🔲 |
+| T-171-08 | [TEST] | Rendu en production après déploiement : pa11y WCAG2AAA en FR et en EN, 360 px sans défilement horizontal, graphe lisible ; story en review jusque-là | 0,75 h | T-171-07, T-TECH-24-09 | Claude | ✅ |
+| T-171-09 | [REV] | Revue (ton neutre, aucune formule « validés ensemble » hors démo, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-171-08 | Claude | ✅ |
 
 **Total estimé : 7,25 h** (9 tâches, dont 0 h de Thibaut ; 7,25 h pour Claude et l'orchestrateur).
 
@@ -80,3 +80,10 @@ Le rendu en production (T-171-08) reste à faire après le déploiement : la sto
 - **Route et accès** : `/{locale}/compatibilite` (`app_demo_compatibility`), lien depuis la page Plugins (pas depuis l'Architecture, réservée à US-179).
 - **Forme du graphe** : SVG rendu sur le serveur, sans bibliothèque JavaScript, colonnes calculées par profondeur de dépendance, trait plein (obligatoire) ou pointillé (optionnel) avec légende en texte, plus la liste des liens en texte (seule forme affichée sous 768 px).
 - **Colonne « Testé ensemble dans la démo »** : la version du plugin installée dans le `composer.lock` de la démo avec le Sylius et le Symfony de ce fichier ; elle ne vaut que pour cette configuration et le dit. « Non installé dans la démo » pour un plugin absent du `composer.lock`.
+
+## Vérification en production (2026-10-23, lecture seule, sans connexion)
+
+- Déploiement automatique de `main` par Railway (T-TECH-24-09 sans objet : Thibaut confirme le déploiement automatique).
+- pa11y 9, WCAG2AAA : « No issues found! » sur `/fr_FR/compatibilite` et `/en_US/compatibilite`.
+- 360 px (puppeteer-core, Chromium) : `scrollWidth` = 360 en FR et en EN, aucun élément qui dépasse.
+

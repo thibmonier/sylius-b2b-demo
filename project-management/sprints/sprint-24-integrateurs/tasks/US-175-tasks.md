@@ -48,7 +48,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-175-07 | [TEST] | `composer validate --strict` et résolution Composer dans un projet jetable hors dépôt (`composer update --no-install --no-scripts --no-plugins`), dernière ligne citée ; projet supprimé avec `/bin/rm` | 0,5 h | T-175-06 | Claude | ✅ |
 | T-175-08 | [REV] | Revue (composition conforme à l'ADR, aucune mention d'offre commerciale, parité FR et EN) et table « scénario → preuve » remplie | 0,25 h | T-175-07 | Claude | ✅ |
 | T-175-09 | [OPS] | Après GO explicite : création des deux dépôts GitHub avec leurs topics (ecommerce, sylius, sylius-plugin, symfony et topics du pack), push, CI verte, tag | 0,5 h | T-175-08 | Claude | ✅ |
-| T-175-10 | [OPS] | 📅 Thibaut soumet les deux paquets à Packagist | 0,25 h | T-175-09 | Thibaut | 📅 |
+| T-175-10 | [OPS] | 📅 Thibaut soumet les deux paquets à Packagist | 0,25 h | T-175-09 | Thibaut | ✅ |
 
 **Total estimé : 6,25 h** (10 tâches, dont 0,5 h de Thibaut ; 5,75 h pour Claude et l'orchestrateur).
 
@@ -67,5 +67,5 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 ## Livraison (2026-10-23, worker w175)
 
 - Dépôts créés avec le GO de Thibaut : [thibmonier/sylius-pack-ai-headless](https://github.com/thibmonier/sylius-pack-ai-headless) (`8a45e7b`, commit rouge `c49dbd1`, 15 tests) et [thibmonier/sylius-pack-compliance-tooling](https://github.com/thibmonier/sylius-pack-compliance-tooling) (`d5b7b80`, commit rouge `078c2c9`, 12 tests) ; CI verte (3 jobs chacun) ; topics `ecommerce sylius sylius-plugin symfony metapackage` et 4 topics par pack.
-- **Aucun tag, aucune release** : T-175-09 est faite sans son tag, qui attend le GO de Thibaut, comme la soumission à Packagist (T-175-10).
+- Tag et release **v0.1.0** posés le 2026-10-23 après le GO de Thibaut, sur les commits vérifiés (`8a45e7b`, `d5b7b80`) : [ai-headless](https://github.com/thibmonier/sylius-pack-ai-headless/releases/tag/v0.1.0), [compliance-tooling](https://github.com/thibmonier/sylius-pack-compliance-tooling/releases/tag/v0.1.0). Reste la soumission à Packagist par Thibaut (T-175-10).
 - `etc/composition.json` (public) liste les plugins exclus des packs, sans motif ni mention d'une offre commerciale : c'est la donnée du vérificateur.
