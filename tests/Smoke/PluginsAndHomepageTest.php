@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
-use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Plugin\DemoPluginCatalog;
+use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Yaml\Yaml;
 
 /** US-014 — Plugins page (both channels, both locales) and the B2B homepage. */
 final class PluginsAndHomepageTest extends WebTestCase
@@ -132,16 +131,6 @@ final class PluginsAndHomepageTest extends WebTestCase
 
     private static function catalog(): DemoPluginCatalog
     {
-        $config = Yaml::parseFile(\dirname(__DIR__, 2) . '/config/demo/plugins.yaml');
-        self::assertIsArray($config);
-
-        $accounts = Yaml::parseFile(\dirname(__DIR__, 2) . '/config/demo/accounts.yaml');
-        self::assertIsArray($accounts);
-        $p = $accounts['parameters'];
-
-        return new DemoPluginCatalog(
-            $config['parameters']['demo.plugin_catalog'],
-            new DemoAccountCatalog($p['demo.password'], $p['demo.companies'], $p['demo.consumers'], $p['demo.admin_users']),
-        );
+        return DemoCatalogs::plugins();
     }
 }
