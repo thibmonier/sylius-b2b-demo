@@ -40,13 +40,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-167-01 | [DOC] | Cadrage : appelants de `main_image`, boucle de la liste produits, bloc `@static` du Caddyfile lus ; mesure initiale du LCP mobile du catalogue (`bin/measure-mobile`) consignée | 0,75 h | - | Claude | 🔲 |
-| T-167-02 | [TEST] | Tests rouges : vignettes du haut sans `loading="lazy"` et première avec `fetchpriority="high"`, vignettes du bas différées, catégorie vide ou à une vignette sans erreur, règle `/build/*` immutable et `/media/*`, `/bundles/*` inchangés | 1 h | T-167-01 | Claude | 🔲 |
-| T-167-03 | [FE-WEB] | Composant d'image : paramètre de position (chargement immédiat des premières vignettes, priorité haute pour la première) ; liste produits : transmission de l'indice ; repli inchangé sans image | 1,25 h | T-167-02 | Claude | 🔲 |
-| T-167-04 | [OPS] | Caddyfile : cache long immutable sur `/build/*` seulement ; `/media/*` et `/bundles/*` conservent 7 jours | 0,5 h | T-167-02 | Claude | 🔲 |
-| T-167-05 | [TEST] | Rendu réel du catalogue FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` après modification (LCP consigné) ; suite ciblée via `bin/run-tests`, ECS, PHPStan ; construction de l'image laissée à la CI | 1 h | T-167-03, T-167-04 | Claude | 🔲 |
-| T-167-06 | [DOC] | `docs/seo-et-vitesse.md` : règle de cache, chargement des vignettes, mesures avant/après | 0,25 h | T-167-05 | Claude | 🔲 |
-| T-167-07 | [REV] | Revue (aucun `immutable` hors `/build/*`, accessibilité des images inchangée) | 0,25 h | T-167-05 | Claude | 🔲 |
+| T-167-01 | [DOC] | Cadrage : appelants de `main_image`, boucle de la liste produits, bloc `@static` du Caddyfile lus ; mesure initiale du LCP mobile du catalogue (`bin/measure-mobile`) consignée | 0,75 h | - | Claude | ✅ |
+| T-167-02 | [TEST] | Tests rouges : vignettes du haut sans `loading="lazy"` et première avec `fetchpriority="high"`, vignettes du bas différées, catégorie vide ou à une vignette sans erreur, règle `/build/*` immutable et `/media/*`, `/bundles/*` inchangés | 1 h | T-167-01 | Claude | ✅ |
+| T-167-03 | [FE-WEB] | Composant d'image : paramètre de position (chargement immédiat des premières vignettes, priorité haute pour la première) ; liste produits : transmission de l'indice ; repli inchangé sans image | 1,25 h | T-167-02 | Claude | ✅ |
+| T-167-04 | [OPS] | Caddyfile : cache long immutable sur `/build/*` seulement ; `/media/*` et `/bundles/*` conservent 7 jours | 0,5 h | T-167-02 | Claude | ✅ |
+| T-167-05 | [TEST] | Rendu réel du catalogue FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` après modification (LCP consigné) ; suite ciblée via `bin/run-tests`, ECS, PHPStan ; construction de l'image laissée à la CI | 1 h | T-167-03, T-167-04 | Claude | ✅ |
+| T-167-06 | [DOC] | `docs/seo-et-vitesse.md` : règle de cache, chargement des vignettes, mesures avant/après | 0,25 h | T-167-05 | Claude | ✅ |
+| T-167-07 | [REV] | Revue (aucun `immutable` hors `/build/*`, accessibilité des images inchangée) | 0,25 h | T-167-05 | Claude | ✅ |
 
 **Total estimé : 5 h** (7 tâches, dont 0 de Thibaut, soit 0 h ; 5 h pour Claude et l'orchestrateur).
 
