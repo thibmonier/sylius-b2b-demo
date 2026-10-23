@@ -39,6 +39,7 @@ final class CompanyWishlistItemRemoverTest extends TestCase
     public function testAFailedWriteClearsTheUnitOfWorkAndIsReported(): void
     {
         $wishlist = $this->wishlist($this->item(7));
+        $wishlist->expects(self::once())->method('removeProduct');
         $entityManager = $this->createMock(EntityManagerInterface::class);
         $entityManager->method('flush')->willThrowException(new \RuntimeException('database down'));
         $entityManager->expects(self::once())->method('clear');

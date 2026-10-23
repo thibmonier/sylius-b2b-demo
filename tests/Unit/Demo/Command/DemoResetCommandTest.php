@@ -11,6 +11,7 @@ use App\Demo\Command\ResetStatus;
 use App\Demo\Media\ImagePathSource;
 use App\Demo\Media\OrphanImagePurger;
 use Doctrine\DBAL\Connection;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -35,7 +36,11 @@ use Symfony\Component\Filesystem\Filesystem;
  *
  * The test also verifies command metadata (name, options) to guarantee correct
  * registration in the Symfony DI container.
+ *
+ * The doubles are built once in setUp() and only some tests set expectations on them, hence the opt-out of the
+ * PHPUnit 13 check on mocks without expectations (US-174).
  */
+#[AllowMockObjectsWithoutExpectations]
 final class DemoResetCommandTest extends TestCase
 {
     /** @var SuiteRegistryInterface&MockObject */

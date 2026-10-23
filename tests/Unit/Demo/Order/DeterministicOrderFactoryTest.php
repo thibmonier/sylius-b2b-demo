@@ -26,12 +26,12 @@ final class DeterministicOrderFactoryTest extends TestCase
     public function testItBuildsExactlyTheRequestedLinesInOrder(): void
     {
         $quantities = [];
-        $modifier = $this->createMock(OrderItemQuantityModifierInterface::class);
+        $modifier = $this->createStub(OrderItemQuantityModifierInterface::class);
         $modifier->method('modify')->willReturnCallback(static function (OrderItem $item, int $quantity) use (&$quantities): void {
             $quantities[(string) $item->getVariant()?->getCode()] = $quantity;
         });
         $variants = $this->variantRepository(['EPI-GANT-001', 'VISS-001']);
-        $orderItemFactory = $this->createMock(FactoryInterface::class);
+        $orderItemFactory = $this->createStub(FactoryInterface::class);
         $orderItemFactory->method('createNew')->willReturnCallback(static fn (): OrderItem => new OrderItem());
 
         $factory = $this->factory($modifier, $orderItemFactory, $variants);
@@ -46,28 +46,28 @@ final class DeterministicOrderFactoryTest extends TestCase
     public function testAnUnknownVariantFailsLoudly(): void
     {
         $factory = $this->factory(
-            $this->createMock(OrderItemQuantityModifierInterface::class),
-            $this->createMock(FactoryInterface::class),
+            $this->createStub(OrderItemQuantityModifierInterface::class),
+            $this->createStub(FactoryInterface::class),
             $this->variantRepository([]),
         );
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('NOPE-001');
 
-        $this->generate($factory, ['NOPE-001' => 1], $this->createMock(OrderInterface::class));
+        $this->generate($factory, ['NOPE-001' => 1], $this->createStub(OrderInterface::class));
     }
 
     public function testAnOrderWithoutLinesIsRefused(): void
     {
         $factory = $this->factory(
-            $this->createMock(OrderItemQuantityModifierInterface::class),
-            $this->createMock(FactoryInterface::class),
+            $this->createStub(OrderItemQuantityModifierInterface::class),
+            $this->createStub(FactoryInterface::class),
             $this->variantRepository([]),
         );
 
         $this->expectException(\LogicException::class);
 
-        $this->generate($factory, [], $this->createMock(OrderInterface::class));
+        $this->generate($factory, [], $this->createStub(OrderInterface::class));
     }
 
     /** @param array<string, int> $items */
@@ -85,12 +85,12 @@ final class DeterministicOrderFactoryTest extends TestCase
      */
     private function variantRepository(array $codes): RepositoryInterface
     {
-        $repository = $this->createMock(RepositoryInterface::class);
+        $repository = $this->createStub(RepositoryInterface::class);
         $repository->method('findOneBy')->willReturnCallback(function (array $criteria) use ($codes): ?ProductVariantInterface {
             if (!in_array($criteria['code'], $codes, true)) {
                 return null;
             }
-            $variant = $this->createMock(ProductVariantInterface::class);
+            $variant = $this->createStub(ProductVariantInterface::class);
             $variant->method('getCode')->willReturn($criteria['code']);
 
             return $variant;
@@ -106,20 +106,20 @@ final class DeterministicOrderFactoryTest extends TestCase
     private function factory(OrderItemQuantityModifierInterface $modifier, FactoryInterface $orderItemFactory, RepositoryInterface $variants): DeterministicOrderFactory
     {
         $factory = new DeterministicOrderFactory(
-            $this->createMock(FactoryInterface::class),
+            $this->createStub(FactoryInterface::class),
             $orderItemFactory,
             $modifier,
-            $this->createMock(ObjectManager::class),
-            $this->createMock(RepositoryInterface::class),
-            $this->createMock(RepositoryInterface::class),
-            $this->createMock(ProductRepositoryInterface::class),
-            $this->createMock(RepositoryInterface::class),
-            $this->createMock(PaymentMethodRepositoryInterface::class),
-            $this->createMock(ShippingMethodRepositoryInterface::class),
-            $this->createMock(FactoryInterface::class),
-            $this->createMock(StateMachineInterface::class),
-            $this->createMock(OrderShippingMethodSelectionRequirementCheckerInterface::class),
-            $this->createMock(OrderPaymentMethodSelectionRequirementCheckerInterface::class),
+            $this->createStub(ObjectManager::class),
+            $this->createStub(RepositoryInterface::class),
+            $this->createStub(RepositoryInterface::class),
+            $this->createStub(ProductRepositoryInterface::class),
+            $this->createStub(RepositoryInterface::class),
+            $this->createStub(PaymentMethodRepositoryInterface::class),
+            $this->createStub(ShippingMethodRepositoryInterface::class),
+            $this->createStub(FactoryInterface::class),
+            $this->createStub(StateMachineInterface::class),
+            $this->createStub(OrderShippingMethodSelectionRequirementCheckerInterface::class),
+            $this->createStub(OrderPaymentMethodSelectionRequirementCheckerInterface::class),
         );
         $factory->setVariantRepository($variants);
 
