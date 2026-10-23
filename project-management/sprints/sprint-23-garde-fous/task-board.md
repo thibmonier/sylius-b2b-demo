@@ -3,7 +3,7 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut | ⚠️ Sacrifiable
 
-Total décomposé : **39 tâches, 29 h** pour 12 points ; **28 h pour Claude**, 1 h d'actions de Thibaut. État au lancement (2026-10-23) : toutes les tâches 🔲. Voir [tasks/README.md](./tasks/README.md).
+Total décomposé : **40 tâches, 28,25 h** pour 11 points ; **27,5 h pour Claude**, 0,75 h d'actions de Thibaut. État au 2026-10-23 : T-TECH-23-01b ✅ (5,9 Go libres), toutes les autres 🔲. US-170 et US-173 ont remplacé US-132 et US-130 le jour du lancement (critique d'un architecte Sylius et d'un client B2B, décision de Thibaut). Voir [tasks/README.md](./tasks/README.md).
 
 Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre.
 
@@ -31,20 +31,20 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-169-04 | US-169 | DOC | Rapport : blocages, erreurs par cause, changements de code, estimation en points et recommandation | 1 h | Claude |
 | T-169-05 | US-169 | REV | 📅 Thibaut lit le rapport et décide (story de montée ou fermeture de la PR #54) | 0,25 h | Thibaut |
 | T-169-06 | US-169 | DOC | Décision consignée dans `.bmad/sprint-status.yaml` ; story de montée créée ou PR #54 fermée avec Dependabot réglé pour ignorer les versions majeures | 0,25 h | Orchestrateur |
-| T-132-01 | US-132 | DOC | Sources officielles relevées (calendrier, formats, annuaire des plateformes, e-reporting), avec URL et date de consultation | 1,5 h | Claude |
-| T-132-02 | US-132 | DOC | Couverture du plugin facturx relevée dans son dépôt (formats produits, profils) et manques pour la transmission et l'e-reporting | 0,75 h | Claude |
-| T-132-03 | US-132 | DOC | Note datée : flux de transmission, e-reporting, démonstration vers une plateforme fictive ; règles non confirmées marquées « à vérifier » | 1,5 h | Claude |
-| T-132-04 | US-132 | DOC | ADR et découpage en stories de 8 points au plus | 1 h | Claude |
-| T-132-05 | US-132 | REV | Relecture : chaque affirmation sourcée ou marquée, pas d'avis juridique, ton neutre ; table « scénario → preuve » remplie | 0,5 h | Claude |
-| T-132-06 | US-132 | REV | 📅 Thibaut relit la note et décide de la suite (stories à planifier ou non) | 0,25 h | Thibaut |
-| T-130-01 | US-130 | DOC | Contrat d'événements existant du plugin webhook-outbox relevé (événements, charge utile, rejeu, journal) | 0,75 h | Claude |
-| T-130-02 | US-130 | DOC | Documentation publique des 5 ERP cibles : formats d'import et d'export, API, avec URL et date de consultation | 1,5 h | Claude |
-| T-130-03 | US-130 | DOC | ADR : format de fichier plat, contrats, API, journal des échanges, périmètre (ou no-go avec périmètre réduit), schéma Mermaid | 1,5 h | Claude |
-| T-130-04 | US-130 | DOC | Découpage en stories de 8 points au plus et démonstration avec un ERP fictif nommé comme tel | 0,75 h | Claude |
-| T-130-05 | US-130 | REV | Relecture : sources citées ou « à vérifier », temps du spike consigné ; table « scénario → preuve » remplie | 0,5 h | Claude |
-| T-130-06 | US-130 | REV | 📅 Thibaut relit l'ADR et décide (stories à planifier ou non) | 0,25 h | Thibaut |
+| T-170-01 | US-170 | DOC | Cadrage : sources de chaque rubrique (`docs/*.md`, `Dockerfile`, `docker/Caddyfile`, configuration, workflows), route et liens d'accès, chiffres lus dans `pr … | 0,75 h | Claude |
+| T-170-02 | US-170 | TEST | Tests rouges, commités seuls et cités dans la PR : page FR et EN avec ses six rubriques, liens depuis Intégrer et le pied de page, SVG avec titre et descript … | 1 h | Claude |
+| T-170-03 | US-170 | BE | Route localisée et contrôleur ; chiffres fournis par `ProofReader` | 0,75 h | Claude |
+| T-170-04 | US-170 | FE-WEB | Gabarit et schéma SVG d'ensemble (thème clair et sombre), textes FR et EN des six rubriques avec leurs liens vers le dépôt | 2 h | Claude |
+| T-170-05 | US-170 | FE-WEB | Liens : section « Architecture type » de la page Intégrer et pied de page de la boutique | 0,5 h | Claude |
+| T-170-06 | US-170 | TEST | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` (360 px sans défilement horizontal) ; suite via `bin/run-tests`, ECS, PHPStan max, Rector | 0,75 h | Claude |
+| T-170-07 | US-170 | REV | Revue (aucun détail de sécurité, ton neutre, parité FR et EN) et table « scénario → test » remplie | 0,25 h | Claude |
+| T-173-01 | US-173 | DOC | Relevé : classement US-063, `require` et `suggest` des 18 plugins sans recoupement, dépendances internes entre eux | 0,5 h | Claude |
+| T-173-02 | US-173 | OPS | Essai d'un métapaquet « IA et headless » dans un projet jetable (dépôt de type `path`) : ce qui reste à faire à la main (bundles, configuration, routes, migr … | 1,25 h | Claude |
+| T-173-03 | US-173 | DOC | Comparaison des trois formes (métapaquet, recettes Flex sur `recipes-contrib`, squelette de projet) : effet, maintenance, publication | 0,75 h | Claude |
+| T-173-04 | US-173 | DOC | ADR : forme retenue, composition des packs, découpage de la réalisation en stories de 8 points au plus ; table « scénario → preuve » remplie | 1 h | Claude |
+| T-173-05 | US-173 | REV | 📅 Thibaut relit l'ADR et décide (forme, packs, stories à planifier) | 0,25 h | Thibaut |
+| T-173-06 | US-173 | DOC | Décision consignée dans `.bmad/sprint-status.yaml` et stories de réalisation créées au backlog | 0,25 h | Orchestrateur |
 | T-TECH-23-01 | Transverse | OPS | Ressources avant chaque lot : `df -h .`, `bin/check-disk` et mémoire libre relevés ; un seul serveur lourd à la fois (démo locale ou MySQL de test), arrêté d … | 0,5 h | Orchestrateur |
-| T-TECH-23-01b | Transverse | OPS | 📅 Thibaut libère de l'espace disque pour atteindre au moins 5 Go libres (3,4 Go au lancement du 2026-10-23) | 0,25 h | Thibaut |
 | T-TECH-23-02 | Transverse | OPS | ECS (`src tests`), PHPStan max et Rector rejoués sur l'arbre exact avant chaque push ; dernière ligne de sortie citée | 0,75 h | Orchestrateur |
 | T-TECH-23-03 | Transverse | OPS | PR du sprint : CI verte (« Quality and smoke tests », « Docker image »), run terminé avant le merge ; si la CI de la PR ne démarre pas, `gh workflow run ci.y … | 0,5 h | Orchestrateur |
 | T-TECH-23-04 | Transverse | REV | Avant chaque passage en done : table « scénario → test ou preuve » complète dans le fichier de tâches (action 1) et commit de tests rouges cité dans la PR po … | 0,75 h | Orchestrateur |
@@ -61,4 +61,6 @@ _Aucune._
 
 ## ✅ Terminé
 
-_Aucune._
+| ID | US | Type | Tâche | Estimation | Réalisé par |
+|----|-----|------|-------|------------|-------------|
+| T-TECH-23-01b | Transverse | OPS | Thibaut libère de l'espace disque pour atteindre au moins 5 Go libres (3,4 Go au lancement ; 5,9 Go le 2026-10-23 après son action) | 0,25 h | Thibaut |
