@@ -28,6 +28,12 @@ final class TypedTest extends TestCase
         Typed::at(['parameters' => []], 'parameters', 'demo.missing');
     }
 
+    public function testFindGivesNullForAMissingKey(): void
+    {
+        self::assertNull(Typed::find(['result' => []], 'result', 'content', 0, 'text'));
+        self::assertSame('ok', Typed::find(['result' => ['content' => [['text' => 'ok']]]], 'result', 'content', 0, 'text'));
+    }
+
     public function testAListOfMapsIsCheckedEntryByEntry(): void
     {
         self::assertSame([['code' => 'A']], Typed::listOfMaps([['code' => 'A']], 'companies'));

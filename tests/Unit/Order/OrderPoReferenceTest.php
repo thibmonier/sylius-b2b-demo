@@ -131,9 +131,8 @@ final class OrderPoReferenceTest extends TestCase
             ->method('addError')
             ->with(self::isInstanceOf(FormError::class));
 
-        /** @var FormInterface&MockObject $form */
-        $form = $this->createMock(FormInterface::class);
-        $form->method('get')->with('poReference')->willReturn($poRefField);
+        $form = $this->createStub(FormInterface::class);
+        $form->method('get')->willReturnMap([['poReference', $poRefField]]);
 
         $formEvent = new FormEvent($form, $order);
 

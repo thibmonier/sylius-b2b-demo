@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Docker;
 
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -37,8 +38,8 @@ final class PhpVersionTest extends TestCase
         $composer = json_decode($this->read('composer.json'), true, flags: \JSON_THROW_ON_ERROR);
         self::assertIsArray($composer);
 
-        self::assertSame('^' . self::MINOR, $composer['require']['php'] ?? null);
-        $platform = (string) ($composer['config']['platform']['php'] ?? '');
+        self::assertSame('^' . self::MINOR, Typed::at($composer, 'require', 'php'));
+        $platform = Typed::string(Typed::at($composer, 'config', 'platform', 'php'), 'config.platform.php');
         self::assertStringStartsWith(self::MINOR . '.', $platform);
         self::assertTrue(version_compare($platform, self::FIXED_RELEASE, '>='), $platform . ' is older than the security release.');
     }

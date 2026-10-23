@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\Typed;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -69,7 +70,7 @@ final class McpGuideTest extends WebTestCase
 
         $config = json_decode(trim($crawler->filter('[data-mcp-config]')->text()), true, 512, \JSON_THROW_ON_ERROR);
         self::assertIsArray($config);
-        self::assertSame('http://localhost/_mcp', $config['mcpServers']['fournitures-pro-demo']['args'][2] ?? null);
+        self::assertSame('http://localhost/_mcp', Typed::at($config, 'mcpServers', 'fournitures-pro-demo', 'args', 2));
     }
 
     public function testEveryLocalLinkOfTheGuideLeadsSomewhere(): void
@@ -94,7 +95,7 @@ final class McpGuideTest extends WebTestCase
         self::assertIsArray($server);
         self::assertSame(['S256'], $server['code_challenge_methods_supported'] ?? null);
         self::assertArrayHasKey('registration_endpoint', $server, 'no client ID to type: the assistant registers itself');
-        self::assertStringEndsWith('/mcp-oauth/authorize', (string) ($server['authorization_endpoint'] ?? ''));
+        self::assertStringEndsWith('/mcp-oauth/authorize', Typed::string(Typed::at($server, 'authorization_endpoint'), 'authorization_endpoint'));
 
         $client->request('GET', '/.well-known/oauth-protected-resource/_mcp');
         self::assertResponseIsSuccessful();

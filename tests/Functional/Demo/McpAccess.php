@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\Typed;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -90,7 +91,7 @@ trait McpAccess
         self::assertResponseIsSuccessful();
         $answer = json_decode((string) $client->getResponse()->getContent(), true, 512, \JSON_THROW_ON_ERROR);
         self::assertIsArray($answer);
-        $text = $answer['result']['content'][0]['text'] ?? null;
+        $text = Typed::find($answer, 'result', 'content', 0, 'text');
         self::assertIsString($text, 'a tool answer: ' . json_encode($answer));
         $data = json_decode($text, true, 512, \JSON_THROW_ON_ERROR);
         self::assertIsArray($data);

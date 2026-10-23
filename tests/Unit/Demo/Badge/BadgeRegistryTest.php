@@ -26,7 +26,7 @@ final class BadgeRegistryTest extends KernelTestCase
     public function testEveryBadgeSitsOnAHookThePluginItselfRegisters(): void
     {
         foreach (self::entries() as $badge) {
-            $files = glob(self::ROOT . '/vendor/tmonier/' . $badge['plugin'] . '/config/twig_hooks/*.yaml');
+            $files = glob(self::ROOT . '/vendor/tmonier/' . $badge['plugin'] . '/config/twig_hooks/*.yaml') ?: [];
             self::assertNotEmpty($files, $badge['plugin']);
             $hooks = [];
             foreach ($files as $file) {

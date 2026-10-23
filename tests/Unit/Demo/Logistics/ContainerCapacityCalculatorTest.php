@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Demo\Logistics;
 use App\Demo\Logistics\ContainerCapacityCalculator;
 use App\Demo\Logistics\ContainerSpace;
 use App\Demo\Logistics\LogisticUnit;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -77,7 +78,7 @@ final class ContainerCapacityCalculatorTest extends TestCase
         self::assertSame(0, $this->calculator()->capacity($unit, $this->space(self::CARTON_S)));
     }
 
-    /** @dataProvider unusableUnits */
+    #[DataProvider('unusableUnits')]
     public function testAnUnknownWeightOrDimensionGivesNoCapacityAndNoDivisionByZero(float $kg, float $w, float $h, float $d): void
     {
         $unit = LogisticUnit::fromCatalog($kg, $w, $h, $d);

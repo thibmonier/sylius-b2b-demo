@@ -24,6 +24,16 @@ final class Typed
         return $data;
     }
 
+    /** Like at(), but null when a key is missing, for an assertion that reports the whole document. */
+    public static function find(mixed $data, string|int ...$keys): mixed
+    {
+        try {
+            return self::at($data, ...$keys);
+        } catch (\UnexpectedValueException) {
+            return null;
+        }
+    }
+
     /** @return array<string, mixed> */
     public static function map(mixed $value, string $what): array
     {
