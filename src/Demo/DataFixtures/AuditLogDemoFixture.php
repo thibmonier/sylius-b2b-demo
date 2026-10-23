@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
+use App\Entity\Customer\Customer;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Core\Model\AdminUserInterface;
@@ -15,6 +16,12 @@ use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Tmonier\SyliusAuditLogPlugin\Entity\AuditLogEntryInterface;
 use Tmonier\SyliusAuditLogPlugin\Recorder\AuditLogWriter;
+use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyMember;
+use Tmonier\SyliusPurchaseApprovalPlugin\Entity\MemberLimit;
+use Tmonier\SyliusPurchaseApprovalPlugin\Entity\OrderApproval;
+use Tmonier\SyliusPurchaseApprovalPlugin\Entity\OrderApprovalInterface;
+use Tmonier\SyliusRegistrationApprovalPlugin\Approval\ApprovalDecision;
+use Tmonier\SyliusRegistrationApprovalPlugin\Approval\ApprovalStatus;
 
 /**
  * US-097 (T-097-06): a few business events in the audit log. The reset runs in a command the audit log ignores (its
@@ -36,7 +43,15 @@ final class AuditLogDemoFixture extends AbstractFixture
     private const REDUCED_PRICES = ['EPI-GANT-001' => 106, 'OUTI-001' => 104];
 
     /** Customer e-mail => phone number entered by the team. */
-    private const PHONES = ['claire@acme.example' => '+33 4 72 00 01 10', 'isabelle@acme.example' => '+33 4 72 00 01 11'];
+    private const REGISTERED_CUSTOMER = 'isabelle@acme.example';
+
+    private const REGISTRATION_REASON = 'Extrait Kbis vérifié, compte rattaché à Acme Industrie.';
+
+    private const LIMITED_BUYER = 'claire@acme.example';
+
+    private const PREVIOUS_ORDER_LIMIT = 30_000;
+
+    private const APPROVED_ORDER = 'ACME-PO-2026-0458';
 
     /** @param FactoryInterface<AuditLogEntryInterface> $entryFactory */
     public function __construct(
@@ -55,7 +70,7 @@ final class AuditLogDemoFixture extends AbstractFixture
             return;
         }
 
-        $entries = [...$this->priceEntries($admin), ...$this->phoneEntries($admin), ...$this->noteEntries($admin)];
+        $entries = [...$this->priceEntries($admin), ...$this->registrationEntries($admin), ...$this->ceilingEntries($admin), ...$this->approvalEntries(), ...$this->noteEntries($admin)];
         $this->entityManager->flush();
         $this->writer->write($this->entityManager, $entries);
     }
@@ -65,6 +80,7 @@ final class AuditLogDemoFixture extends AbstractFixture
         return 'demo_audit_log';
     }
 
+    /** @return list<AuditLogEntryInterface> */
     /** @return list<AuditLogEntryInterface> */
     private function priceEntries(AdminUserInterface $admin): array
     {
@@ -89,24 +105,60 @@ final class AuditLogDemoFixture extends AbstractFixture
     }
 
     /** @return list<AuditLogEntryInterface> */
-    private function phoneEntries(AdminUserInterface $admin): array
+    /** @return list<AuditLogEntryInterface> */
+    private function registrationEntries(AdminUserInterface $admin): array
     {
-        $entries = [];
-        $days = 8;
-        foreach (self::PHONES as $email => $phone) {
-            $customer = $this->entityManager->getRepository(CustomerInterface::class)->findOneBy(['emailCanonical' => $email]);
-            if (!$customer instanceof CustomerInterface) {
-                continue;
-            }
-
-            $customer->setPhoneNumber($phone);
-            $entry = $this->entry($admin, AuditLogEntryInterface::ACTION_UPDATE, 'customer', $customer->getId(), (string) $customer->getEmail(), $days, 'sylius_admin_customer_update');
-            $entry->setChanges(['phoneNumber' => ['old' => null, 'new' => $phone]]);
-            $entries[] = $entry;
-            --$days;
+        $customer = $this->entityManager->getRepository(CustomerInterface::class)->findOneBy(['emailCanonical' => self::REGISTERED_CUSTOMER]);
+        if (!$customer instanceof Customer) {
+            return [];
         }
 
-        return $entries;
+        $entry = $this->entry($admin, AuditLogEntryInterface::ACTION_UPDATE, 'customer', $customer->getId(), (string) $customer->getEmail(), 6, 'sylius_admin_customer_update');
+        $customer->decideApproval(ApprovalStatus::Approved, new ApprovalDecision($entry->getCreatedAt() ?? new \DateTimeImmutable(), $entry->getActorName() ?? '', self::REGISTRATION_REASON));
+        $entry->setChanges(['approvalStatus' => ['old' => ApprovalStatus::Pending->value, 'new' => ApprovalStatus::Approved->value]]);
+
+        return [$entry];
+    }
+
+    /** @return list<AuditLogEntryInterface> */
+    private function ceilingEntries(AdminUserInterface $admin): array
+    {
+        $customer = $this->entityManager->getRepository(CustomerInterface::class)->findOneBy(['emailCanonical' => self::LIMITED_BUYER]);
+        $member = $customer instanceof CustomerInterface ? $this->entityManager->getRepository(CompanyMember::class)->findOneBy(['customer' => $customer]) : null;
+        $limit = null === $member ? null : $this->entityManager->getRepository(MemberLimit::class)->findOneBy(['member' => $member]);
+        if (null === $limit || null === $limit->getOrderLimit()) {
+            return [];
+        }
+
+        $entry = $this->entry($admin, AuditLogEntryInterface::ACTION_UPDATE, 'member_limit', $limit->getId(), (string) $customer->getEmail(), 5, 'sylius_admin_member_limit_update');
+        $entry->setChanges(['orderLimit' => ['old' => self::PREVIOUS_ORDER_LIMIT, 'new' => $limit->getOrderLimit()]]);
+
+        return [$entry];
+    }
+
+    /**
+     * The approval was really decided by the approver when the order history was loaded: the event replays that decision.
+     *
+     * @return list<AuditLogEntryInterface>
+     */
+    private function approvalEntries(): array
+    {
+        $order = $this->entityManager->getRepository(OrderInterface::class)->findOneBy(['poReference' => self::APPROVED_ORDER]);
+        $approval = null === $order ? null : $this->entityManager->getRepository(OrderApproval::class)->findOneBy(['order' => $order]);
+        $approver = $approval?->getDecidedBy();
+        if (null === $approval || null === $approver || null === $approval->getDecidedAt()) {
+            return [];
+        }
+
+        $entry = $this->entry(null, AuditLogEntryInterface::ACTION_UPDATE, 'order_approval', $approval->getId(), '#' . $order->getNumber(), 0, 'tmonier_purchase_approval_shop_approval_approve');
+        $entry->setCreatedAt($approval->getDecidedAt());
+        $entry->setActorType(AuditLogEntryInterface::ACTOR_CUSTOMER);
+        $entry->setActorId($approver->getId());
+        $entry->setActorName(trim($approver->getFirstName() . ' ' . $approver->getLastName()));
+        $entry->setSource(AuditLogEntryInterface::SOURCE_SHOP);
+        $entry->setChanges(['state' => ['old' => OrderApprovalInterface::STATE_PENDING, 'new' => OrderApprovalInterface::STATE_APPROVED]]);
+
+        return [$entry];
     }
 
     /** @return list<AuditLogEntryInterface> */
@@ -124,7 +176,7 @@ final class AuditLogDemoFixture extends AbstractFixture
         return [$entry];
     }
 
-    private function entry(AdminUserInterface $admin, string $action, string $resource, mixed $id, string $label, int $daysAgo, string $route): AuditLogEntryInterface
+    private function entry(?AdminUserInterface $admin, string $action, string $resource, mixed $id, string $label, int $daysAgo, string $route): AuditLogEntryInterface
     {
         $entry = $this->entryFactory->createNew();
         $entry->setCreatedAt((new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->modify(sprintf('-%d days', $daysAgo))->setTime(8 + $daysAgo % 8, 15 + $daysAgo));
@@ -136,8 +188,8 @@ final class AuditLogDemoFixture extends AbstractFixture
         $entry->setOwnerType($resource);
         $entry->setOwnerId(is_scalar($id) ? (string) $id : null);
         $entry->setActorType(AuditLogEntryInterface::ACTOR_ADMIN);
-        $entry->setActorId($admin->getId());
-        $entry->setActorName(trim($admin->getFirstName() . ' ' . $admin->getLastName()));
+        $entry->setActorId($admin?->getId());
+        $entry->setActorName(null === $admin ? null : trim($admin->getFirstName() . ' ' . $admin->getLastName()));
         $entry->setSource(AuditLogEntryInterface::SOURCE_ADMIN);
         $entry->setIpAddress('203.0.113.' . (20 + $daysAgo));
         $entry->setRequestId(substr(md5($resource . $label . $daysAgo), 0, 16));
@@ -151,6 +203,8 @@ final class AuditLogDemoFixture extends AbstractFixture
         $interface = match ($resource) {
             'channel_pricing' => ChannelPricingInterface::class,
             'customer' => CustomerInterface::class,
+            'member_limit' => MemberLimit::class,
+            'order_approval' => OrderApproval::class,
             default => OrderInterface::class,
         };
 

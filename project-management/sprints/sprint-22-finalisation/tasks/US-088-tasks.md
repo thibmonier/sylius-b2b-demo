@@ -38,13 +38,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-088-01 | [DOC] | Cadrage : état réel relevé (configuration d'exclusion, tests existants, 3 types d'événements déjà rejoués, types manquants), décompte des lignes « Création » après un reset local consigné ; choix « exclure » ou « purger » confirmé | 0,75 h | - | Claude | 🔲 |
-| T-088-02 | [TEST] | Tests rouges : journal sans ligne de reset après deux resets de suite, 5 à 6 événements datés et attribués couvrant prix, validation d'inscription, plafond et approbation, modification réelle journalisée, échec explicite si le filtre est désactivé | 1,5 h | T-088-01 | Claude | 🔲 |
-| T-088-03 | [BE] | Exclusion confirmée ou complétée (configuration ou purge en fin de reset) sans toucher aux écritures des visiteurs | 1,25 h | T-088-02 | Claude | 🔲 |
-| T-088-04 | [BE] | Événements métier manquants dans `AuditLogDemoFixture` (validation d'inscription, plafond modifié, approbation), attribués à des comptes de démo, dates cohérentes, cohérents avec les données chargées | 1,5 h | T-088-03 | Claude | 🔲 |
+| T-088-01 | [DOC] | Cadrage : état réel relevé (configuration d'exclusion, tests existants, 3 types d'événements déjà rejoués, types manquants), décompte des lignes « Création » après un reset local consigné ; choix « exclure » ou « purger » confirmé | 0,75 h | - | Claude | ✅ |
+| T-088-02 | [TEST] | Tests rouges : journal sans ligne de reset après deux resets de suite, 5 à 6 événements datés et attribués couvrant prix, validation d'inscription, plafond et approbation, modification réelle journalisée, échec explicite si le filtre est désactivé | 1,5 h | T-088-01 | Claude | ✅ |
+| T-088-03 | [BE] | Exclusion confirmée ou complétée (configuration ou purge en fin de reset) sans toucher aux écritures des visiteurs | 1,25 h | T-088-02 | Claude | ✅ |
+| T-088-04 | [BE] | Événements métier manquants dans `AuditLogDemoFixture` (validation d'inscription, plafond modifié, approbation), attribués à des comptes de démo, dates cohérentes, cohérents avec les données chargées | 1,5 h | T-088-03 | Claude | ✅ |
 | T-088-05 | [TEST] | Reset réel exécuté deux fois ; rendu réel du journal FR et EN, pa11y WCAG2AAA ; suite via `bin/run-tests`, ECS (`src tests`), PHPStan | 1 h | T-088-04 | Claude | 🔲 |
-| T-088-06 | [DOC] | `docs/remise-a-zero-demo.md` mis à jour (journal propre, événements rejoués) | 0,25 h | T-088-05 | Claude | 🔲 |
-| T-088-07 | [REV] | Revue (aucun secret, chiffres vérifiables, parité FR et EN) | 0,25 h | T-088-05 | Claude | 🔲 |
+| T-088-06 | [DOC] | `docs/remise-a-zero-demo.md` mis à jour (journal propre, événements rejoués) | 0,25 h | T-088-05 | Claude | ✅ |
+| T-088-07 | [REV] | Revue (aucun secret, chiffres vérifiables, parité FR et EN) | 0,25 h | T-088-05 | Claude | ✅ |
 
 **Total estimé : 6,5 h** (7 tâches, dont 0 de Thibaut, soit 0 h ; 6,5 h pour Claude et l'orchestrateur).
 

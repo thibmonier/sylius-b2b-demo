@@ -85,7 +85,7 @@ Chaque écran clé montre un état « vivant » : les dates sont **relatives au 
 | Mes devis | `demo_quotes` (-50) | `Q-AAAA-001` d'Acme en négociation (demande, proposition, contre-proposition, réponse, palier sur les gants), `Q-AAAA-002` reçu, `Q-AAAA-003` en étude |
 | Commandes en préparation (admin) | `demo_draft_orders` (-72) | Deux brouillons de Sophie pour Henri et Marc |
 | Suggestions IA (admin) | `tmonier_ai_copilot_demo_suggestions` (-73) | Fixture du plugin, générateur de démonstration (aucun fournisseur d'IA appelé) : suggestions en attente, acceptées et refusées |
-| Journal d'audit (admin) | `demo_audit_log` (-74) | 5 événements métier de l'équipe sur deux semaines (deux baisses de prix, deux numéros de téléphone, une note de commande) ; les lignes techniques du reset restent exclues (US-087), les valeurs écrites sont réellement en base |
+| Journal d'audit (admin) | `demo_audit_log` (-74) | 6 événements métier datés et attribués à des comptes de démo (deux baisses de prix, la validation d'une inscription, un plafond de commande relevé, une approbation d'achat, une note de commande) ; les lignes techniques du reset restent exclues (US-087), les valeurs écrites sont réellement en base |
 
 Les fixtures du panier, des brouillons, des suggestions et du journal passent **avant** le point d'accès webhook (-80) : elles ne mettent aucun webhook en file. Contrôles : `tests/Smoke/LiveDemoDataSmokeTest.php` (un écran vide est nommé dans le message d'échec ; `App\Demo\Check\QuoteNumberingCheck` refuse un numéro de devis d'une autre année que sa date), `tests/Functional/Demo/LiveAdminScreensTest.php` (écrans d'administration, FR et EN).
 
