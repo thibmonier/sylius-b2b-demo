@@ -52,8 +52,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-172-05 | [TEST] | Suite ciblée via `bin/run-tests` (`WORKER_ID=w172 …`), ECS (`src tests`), PHPStan max, Rector ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,75 h | T-172-04 | Claude | 🔄 |
 | T-172-06 | [TEST] | Rendu en production après déploiement : pa11y WCAG2AAA en FR et en EN, 360 px ; story en review jusque-là | 0,75 h | T-172-05, T-TECH-24-09 | Claude | 🔲 |
 | T-172-07 | [DOC] | Texte du lien vers le guide pour chaque README concerné (FR et EN selon le dépôt) et diff préparé en local, **sans push** | 1 h | T-172-04 | Claude | ✅ |
-| T-172-08 | [REV] | 📅 Thibaut relit les diffs des README et donne son GO pour les PR (une par dépôt, sans tag) | 0,25 h | T-172-07 | Thibaut | 📅 |
-| T-172-09 | [OPS] | PR des README après GO, CI de chaque dépôt verte avant le merge | 0,5 h | T-172-08 | Orchestrateur | 🔲 |
+| T-172-08 | [REV] | 📅 Thibaut relit les diffs des README et donne son GO pour les PR (une par dépôt, sans tag) | 0,25 h | T-172-07 | Thibaut | ✅ |
+| T-172-09 | [OPS] | PR des README après GO, CI de chaque dépôt verte avant le merge | 0,5 h | T-172-08 | Orchestrateur | ✅ |
 | T-172-10 | [REV] | Revue (exemples réels et à jour, ton neutre, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-172-06, T-172-09 | Claude | 🔲 |
 
 **Total estimé : 7,75 h** (10 tâches, dont 0,25 h de Thibaut ; 7,5 h pour Claude et l'orchestrateur).
@@ -87,3 +87,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | Renvoi depuis un README de plugin (alternatif) | `OverrideGuidePageTest::testTheIntegrationGuideLinksToTheOverrideGuide` pour la page Intégrer ; README : diffs préparés (T-172-07), PR après GO de Thibaut (T-172-08, T-172-09), en attente |
 | Exemple devenu faux (erreur) | `OverrideGuideExamplesTest::testARenamedFileIsReportedWithItsPath` (« missing file: <chemin> ») et `::testALineRangePastTheEndOfTheFileIsReported` |
 | Surcharge qui casse une mise à jour (erreur) | `OverrideGuidePageTest::testCopyingATemplateIsPresentedLastAsALastResortAfterTheHookAndTheExtension` ; texte « dernier recours » dans `translations/override_guide.*.yaml` |
+
+## README des plugins (T-172-08 et T-172-09, 2026-10-23)
+
+- GO de Thibaut pour trois dépôts, **sans tier-pricing** (plugin qui recoupe une offre commerciale : pas de mise en avant) : [facturx #5](https://github.com/thibmonier/sylius-facturx-plugin/pull/5), [registration-approval #5](https://github.com/thibmonier/sylius-registration-approval-plugin/pull/5), [container-fill #5](https://github.com/thibmonier/sylius-container-fill-plugin/pull/5), en anglais et en français, sans tag.
+- Les phrases préparées pour registration-approval (entité client) et container-fill (hook `checkout`) annonçaient des exemples que le guide ne montre pas (son exemple d'entité est la commande, son exemple de gabarit un hook de tier-pricing) : reformulées de façon générale avant publication.
+

@@ -41,17 +41,17 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-174-01 | [OPS] | Branche de la PR #54 récupérée dans une branche d'essai (`gh pr checkout 54`) et rebasée sur `main` (`composer.lock` régénéré, pas fusionné à la main) ; nombre de tests exécutés par la CI de `main` relevé (« avant ») ; ressources relevées | 0,5 h | - | Claude | 🔲 |
-| T-174-02 | [TEST] | Garde rouge, commitée seule et citée dans la PR : `NoDocblockAnnotationsInTestsTest` (aucun `@dataProvider` en docblock, 16 occurrences listées) ; sortie PHPStan de la branche (59 erreurs) conservée comme état rouge | 0,75 h | T-174-01 | Claude | 🔲 |
-| T-174-03 | [TEST] | Assistant `tests/Support/TestArrays` (`map()`, `list()`) et son test d'abord (types réels, échec explicite sur une valeur non conforme), sur le modèle de `BadgeRegistryTest::map()` | 0,75 h | T-174-02 | Claude | 🔲 |
-| T-174-04 | [TEST] | Typage, lot 1 (tests fonctionnels et de fumée : trait `McpAccess`, `ContainerFillFixturesTest`, `PluginsAndHomepageTest`, …) : accès par clé via l'assistant, PHPStan max sans nouvelle ignorance | 1,25 h | T-174-03 | Claude | 🔲 |
-| T-174-05 | [TEST] | Typage, lot 2 (tests unitaires : `IntegrationMapTest`, `DemoPluginCatalogTest`, `ProofDataFileTest`, `ThemeHooksTest`, `AuditLogIgnoresDemoResetTest`, `BadgeRegistryTest`, `RailwayTrustedHostsTest`) | 1,25 h | T-174-03 | Claude | 🔲 |
-| T-174-06 | [TEST] | API de PHPUnit 13 : `OrderPoReferenceTest` (`with()` sans `expects()` devient un stub avec `willReturnMap`), 16 `@dataProvider` passés en `#[DataProvider]` (la garde de T-174-02 devient verte), `DemoResetCommandTest:181` vérifié | 1,25 h | T-174-02 | Claude | 🔲 |
-| T-174-07 | [TEST] | Passe de CI sur la branche : suite complète sous PHPUnit 13 avec `failOnNotice` ; mocks sans attente convertis en `createStub()` (simulateurs PunchOut et autres) ; nombre de tests exécutés relevé (« après »). Plus de 10 échecs de comportement hors typage : arrêt, repli (T-174-11) | 1 h | T-174-04, T-174-05, T-174-06 | Claude | 🔲 |
-| T-174-08 | [TEST] | `php bin/proof-refresh` puis `php bin/proof-check` (nouveaux fichiers de tests), ECS (`src tests`), PHPStan max et Rector rejoués sur l'arbre exact ; diff de `phpstan.dist.neon` relu : aucune entrée `ignoreErrors` ajoutée | 0,5 h | T-174-07 | Claude | 🔲 |
-| T-174-09 | [REV] | Revue (aucun attendu de test modifié hors typage, aucun commentaire supprimé par erreur, règle 9) et table « scénario → test » remplie | 0,25 h | T-174-08 | Claude | 🔲 |
-| T-174-10 | [OPS] | CI verte de la PR #54 (« Quality and smoke tests », « Docker image »), run terminé, puis merge **en dernier** de la liste des PR du sprint (voir la matrice des chevauchements) ; rebase et `proof-refresh` rejoués si `main` a bougé | 0,25 h | T-174-09 | Orchestrateur | 🔲 |
-| T-174-11 | [REV] | 📅 Thibaut donne son accord seulement en cas de repli (fermeture de la PR #54 et Dependabot réglé pour ignorer les majeures de `phpunit/phpunit`) ; sans objet si la montée réussit | 0,25 h | T-174-07 | Thibaut | 📅 |
+| T-174-01 | [OPS] | Branche de la PR #54 récupérée dans une branche d'essai (`gh pr checkout 54`) et rebasée sur `main` (`composer.lock` régénéré, pas fusionné à la main) ; nombre de tests exécutés par la CI de `main` relevé (« avant ») ; ressources relevées | 0,5 h | - | Claude | ✅ |
+| T-174-02 | [TEST] | Garde rouge, commitée seule et citée dans la PR : `NoDocblockAnnotationsInTestsTest` (aucun `@dataProvider` en docblock, 16 occurrences listées) ; sortie PHPStan de la branche (59 erreurs) conservée comme état rouge | 0,75 h | T-174-01 | Claude | 🚫 |
+| T-174-03 | [TEST] | Assistant `tests/Support/TestArrays` (`map()`, `list()`) et son test d'abord (types réels, échec explicite sur une valeur non conforme), sur le modèle de `BadgeRegistryTest::map()` | 0,75 h | T-174-02 | Claude | ✅ |
+| T-174-04 | [TEST] | Typage, lot 1 (tests fonctionnels et de fumée : trait `McpAccess`, `ContainerFillFixturesTest`, `PluginsAndHomepageTest`, …) : accès par clé via l'assistant, PHPStan max sans nouvelle ignorance | 1,25 h | T-174-03 | Claude | ✅ |
+| T-174-05 | [TEST] | Typage, lot 2 (tests unitaires : `IntegrationMapTest`, `DemoPluginCatalogTest`, `ProofDataFileTest`, `ThemeHooksTest`, `AuditLogIgnoresDemoResetTest`, `BadgeRegistryTest`, `RailwayTrustedHostsTest`) | 1,25 h | T-174-03 | Claude | ✅ |
+| T-174-06 | [TEST] | API de PHPUnit 13 : `OrderPoReferenceTest` (`with()` sans `expects()` devient un stub avec `willReturnMap`), 16 `@dataProvider` passés en `#[DataProvider]` (la garde de T-174-02 devient verte), `DemoResetCommandTest:181` vérifié | 1,25 h | T-174-02 | Claude | ✅ |
+| T-174-07 | [TEST] | Passe de CI sur la branche : suite complète sous PHPUnit 13 avec `failOnNotice` ; mocks sans attente convertis en `createStub()` (simulateurs PunchOut et autres) ; nombre de tests exécutés relevé (« après »). Plus de 10 échecs de comportement hors typage : arrêt, repli (T-174-11) | 1 h | T-174-04, T-174-05, T-174-06 | Claude | ✅ |
+| T-174-08 | [TEST] | `php bin/proof-refresh` puis `php bin/proof-check` (nouveaux fichiers de tests), ECS (`src tests`), PHPStan max et Rector rejoués sur l'arbre exact ; diff de `phpstan.dist.neon` relu : aucune entrée `ignoreErrors` ajoutée | 0,5 h | T-174-07 | Claude | ✅ |
+| T-174-09 | [REV] | Revue (aucun attendu de test modifié hors typage, aucun commentaire supprimé par erreur, règle 9) et table « scénario → test » remplie | 0,25 h | T-174-08 | Claude | ✅ |
+| T-174-10 | [OPS] | CI verte de la PR #54 (« Quality and smoke tests », « Docker image »), run terminé, puis merge **en dernier** de la liste des PR du sprint (voir la matrice des chevauchements) ; rebase et `proof-refresh` rejoués si `main` a bougé | 0,25 h | T-174-09 | Orchestrateur | ✅ |
+| T-174-11 | [REV] | 📅 Thibaut donne son accord seulement en cas de repli (fermeture de la PR #54 et Dependabot réglé pour ignorer les majeures de `phpunit/phpunit`) ; sans objet si la montée réussit | 0,25 h | T-174-07 | Thibaut | ✅ |
 
 **Total estimé : 8 h** (11 tâches, dont 0,25 h de Thibaut ; 7,75 h pour Claude et l'orchestrateur).
 
@@ -61,8 +61,17 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Montée réussie (nominal) | |
-| Fournisseurs de données conservés (alternatif) | |
-| Doubles sans attente (alternatif) | |
-| Échecs de comportement nombreux (erreur) | |
-| Typage contourné (erreur) | |
+| Montée réussie (nominal) | PR #76 fusionnée (0ce1199) : CI du commit 85701b1 verte, `Tests: 1976, Assertions: 16292` sous PHPUnit 13.4.3, couverture de lignes 93,31 % ; PHPStan max `[OK] No errors`, ECS et Rector verts |
+| Fournisseurs de données conservés (alternatif) | Dernier build de `main` sous PHPUnit 10 : 1 968 tests ; run local sous PHPUnit 13 : 1 975 (les 1 968 + 7 de `TypedTest`) ; CI : 1 976 (+ `DataSetsTest`) : aucun cas perdu. 16 `@dataProvider` passés en attributs (937769c) |
+| Doubles sans attente (alternatif) | 38 notices dans 7 classes (CI du commit fb5003d) → 0 : stubs (8d0f882), `#[AllowMockObjectsWithoutExpectations]` justifié sur `DemoResetCommandTest` ; `bin/run-tests tests/Unit` : 1 070 tests, code 0, aucune notice |
+| Échecs de comportement nombreux (erreur) | Repli non déclenché : premier run complet sous PHPUnit 13, 0 échec et 0 erreur de comportement (20 avertissements et 38 notices de PHPUnit, corrigés ensuite) |
+| Typage contourné (erreur) | `phpstan.dist.neon` inchangé, aucune entrée `ignoreErrors` ni `@phpstan-ignore` ; lectures typées par `tests/Support/Typed.php` et `DemoCatalogs` (72e11e3 rouge, ec63645) |
+
+## Réalisation (2026-10-23, orchestrateur)
+
+- La PR Dependabot #54 a été fermée le 2026-10-23 avant le sprint et sa branche supprimée : la montée est faite sur `chore/phpunit-13` depuis `main`, PR #76 (accord de Thibaut pour une réalisation par l'orchestrateur, après le refus de `git` dans le worktree isolé du worker w174).
+- Commit rouge : f8c4d2c (la montée seule, PHPStan max à 59 erreurs) ; tests rouges des assistants : 72e11e3 ; test rouge du workflow : 27c5c6c.
+- **Écart T-174-02 (🚫)** : la garde `NoDocblockAnnotationsInTestsTest` n'a pas été écrite. PHPUnit 13 ignore une annotation `@dataProvider` en docblock et la méthode, qui attend ses arguments, échoue : la régression est déjà détectée par la suite.
+- Le helper prévu `TestArrays` s'appelle `Typed` ; s'y ajoutent `DemoCatalogs` (catalogues construits à un seul endroit au lieu de trois) et `DataSets` (fournisseur partagé réduit aux N premiers arguments, 20 avertissements de PHPUnit levés).
+- Trouvé en CI : PHPUnit 13 colore le rapport de couverture texte ; le résumé du job ne trouvait plus ses lignes et l'étape échouait alors que tous les tests passaient. Correction : `--colors=never` dans `ci.yaml` (27c5c6c rouge, 85701b1).
+- Écarts de processus : une exécution directe de `phpunit` (rejouée ensuite par `bin/run-tests`) ; le test de `DataSets` commité avec son code et non seul.

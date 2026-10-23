@@ -67,5 +67,5 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 ## Livraison (2026-10-23, worker w175)
 
 - Dépôts créés avec le GO de Thibaut : [thibmonier/sylius-pack-ai-headless](https://github.com/thibmonier/sylius-pack-ai-headless) (`8a45e7b`, commit rouge `c49dbd1`, 15 tests) et [thibmonier/sylius-pack-compliance-tooling](https://github.com/thibmonier/sylius-pack-compliance-tooling) (`d5b7b80`, commit rouge `078c2c9`, 12 tests) ; CI verte (3 jobs chacun) ; topics `ecommerce sylius sylius-plugin symfony metapackage` et 4 topics par pack.
-- **Aucun tag, aucune release** : T-175-09 est faite sans son tag, qui attend le GO de Thibaut, comme la soumission à Packagist (T-175-10).
+- Tag et release **v0.1.0** posés le 2026-10-23 après le GO de Thibaut, sur les commits vérifiés (`8a45e7b`, `d5b7b80`) : [ai-headless](https://github.com/thibmonier/sylius-pack-ai-headless/releases/tag/v0.1.0), [compliance-tooling](https://github.com/thibmonier/sylius-pack-compliance-tooling/releases/tag/v0.1.0). Reste la soumission à Packagist par Thibaut (T-175-10).
 - `etc/composition.json` (public) liste les plugins exclus des packs, sans motif ni mention d'une offre commerciale : c'est la donnée du vérificateur.
