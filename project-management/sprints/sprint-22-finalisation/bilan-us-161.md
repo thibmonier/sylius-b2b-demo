@@ -8,4 +8,4 @@ Préparé le 2026-10-23 pour la rétrospective du sprint 22 ; les cases « à co
 | 2 | Isolation des workers | `WORKER_ID`, `bin/clean-test-caches` ciblé, `--all` réservé | 0 fichier écrasé, 0 base supprimée par un autre worker | à confirmer à la rétro |
 | 3 | Vérification croisée | `project-management/templates/checklist-integration.md` | 0 écart « vert annoncé / rouge à l'intégration » | checklist livrée (T-161-06) ; à confirmer |
 | 4 | Attente bornée | `bin/run-tests --wait` (30 min), `TaskStop` vérifié | 0 worker bloqué sur un run terminé | à confirmer |
-| 5 | Prérequis et registre | rubrique du gabarit de story, `communication/INDEX.md` | 0 prérequis découvert en cours de sprint | format du registre à valider par Thibaut (T-161-12) |
+| 5 | Prérequis et registre | rubrique du gabarit de story, `communication/INDEX.md` | 0 prérequis découvert en cours de sprint | format du registre validé par Thibaut le 2026-10-23 (T-161-12) |

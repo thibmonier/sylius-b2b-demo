@@ -34,6 +34,6 @@
 | US-084 | done | Rector et seuil de couverture actifs dans la CI de `main`. |
 | US-165 | done | CI de `main` verte. |
 
-Restent en review hors de cette vérification : les stories de communication (US-116, US-120, US-122, US-123, US-124, US-127, US-129, US-159), qui attendent la relecture de Thibaut (T-TECH-22-01g), ainsi que US-161 (validation du format du registre par Thibaut, T-161-12).
+Restent en review hors de cette vérification : les stories de communication (US-116, US-120, US-122, US-123, US-124, US-127, US-129, US-159), qui attendent la relecture de Thibaut (T-TECH-22-01g). US-161 passe en done : format du registre validé par Thibaut le 2026-10-23 (T-161-12).
 
 US-148 passe en done : le 2026-10-23, les cinq services à limiteurs (quote-request, quick-order, b2b-mcp, punchout-cxml, command-palette) ont été redéclarés en `autowire: true` dans la démo, limiteurs laissés à l'autowiring par liaisons typées `RateLimiterFactoryInterface $argument` ; `lint:container` passe et chaque service reçoit ses limiteurs nommés. Aucun type concret `RateLimiterFactory` ne reste dans le code des cinq plugins (T-148-06).
