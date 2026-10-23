@@ -4,7 +4,7 @@
 
 - **Epic** : EPIC-10
 - **Persona** : Thibaut (mainteneur)
-- **Story Points** : 2 (Could, non sacrifiable (décision de Thibaut du 2026-10-23))
+- **Story Points** : 2 (Could, n°1)
 - **Sprint** : sprint-23-garde-fous
 - **Story** : [US-169](../../../backlog/user-stories/US-169.md)
 
