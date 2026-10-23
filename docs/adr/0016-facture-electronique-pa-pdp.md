@@ -1,6 +1,6 @@
 # ADR-0016 — Facture électronique France : plateformes agréées (PA) et e-reporting
 
-- **Statut** : Proposé (2026-10-23), décision de Thibaut attendue
+- **Statut** : Accepté (2026-10-24) pour la story A, réalisée au sprint 25 ([US-180](../../project-management/backlog/user-stories/US-180.md)) ; stories B à E au backlog
 - **Contexte projet** : sylius-b2b-demo, sprint 24, spike US-132 (borné à 4 h)
 
 > Ce document est un cadrage technique. Il ne constitue pas un avis juridique ni fiscal : les obligations d'une entreprise donnée se vérifient auprès de l'administration ou d'un conseil.
@@ -142,3 +142,7 @@ Un module de plus à maintenir si la décision est acceptée. Les stories A à C
 ## Décision (2026-10-23)
 
 Thibaut ne planifie aucune réalisation au sprint 24. L'ADR reste proposé ; la décision sur le périmètre et les stories est reportée au planning du sprint 25.
+
+## Décision (2026-10-24)
+
+Thibaut planifie la story A au sprint 25 (US-180) : nouveau plugin `tmonier/sylius-einvoice-transmission-plugin`, dépôt et publication sur son GO. Les stories B à E restent au backlog, non créées.

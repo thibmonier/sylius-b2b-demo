@@ -102,6 +102,7 @@ Les workers ont suivi la règle des commits rouges seuls ; l'orchestrateur, en r
 | Responsable | Orchestrateur (Claude) |
 | Deadline | Planning du sprint 25 (checklist), puis chaque lot |
 | DoD | Espace libre minimal au moins 5 Go au sprint 25 (4,0 Go au sprint 24). |
+| Statut | ✅ Ligne ajoutée à `checklist-integration.md` au planning du sprint 25 (2026-10-24) ; l'indicateur se mesure au sprint 25. |
 | Priorité | Haute |
 
 ### Action 2 : Vérifier les capacités d'un worker isolé avant de lui confier une story
@@ -111,6 +112,7 @@ Les workers ont suivi la règle des commits rouges seuls ; l'orchestrateur, en r
 | Responsable | Orchestrateur (Claude) |
 | Deadline | Planning du sprint 25 |
 | DoD | 0 worker bloqué par un refus prévisible au sprint 25 (1 au sprint 24). |
+| Statut | ✅ Règle 10 ajoutée à `consigne-worker.md` au planning du sprint 25 (2026-10-24). |
 | Priorité | Moyenne |
 
 ### Action 3 : Relire la source avant tout texte public
@@ -120,6 +122,7 @@ Les workers ont suivi la règle des commits rouges seuls ; l'orchestrateur, en r
 | Responsable | Orchestrateur (Claude) |
 | Deadline | Planning du sprint 25 |
 | DoD | 0 texte public inexact au sprint 25, publié ou corrigé en revue. |
+| Statut | ✅ Ligne ajoutée à `checklist-integration.md` au planning du sprint 25 (2026-10-24). |
 | Priorité | Moyenne |
 
 ### Action 4 : Mêmes règles de test pour l'orchestrateur
@@ -129,6 +132,7 @@ Les workers ont suivi la règle des commits rouges seuls ; l'orchestrateur, en r
 | Responsable | Orchestrateur (Claude) |
 | Deadline | Sprint 25 |
 | DoD | 0 exécution directe de `phpunit` et 100 % de commits rouges seuls au sprint 25 (1 écart de chaque au sprint 24). |
+| Statut | ✅ Règle 11 ajoutée à `consigne-worker.md` au planning du sprint 25 (2026-10-24) ; l'indicateur se mesure au sprint 25. |
 | Priorité | Basse |
 
 ## Points positifs à conserver

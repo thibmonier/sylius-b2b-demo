@@ -24,6 +24,8 @@
 7. **Secrets fictifs** : aucun jeton ou clé au format réel dans les tests ; les recomposer à l'exécution (concaténation) pour ne pas déclencher les scanners.
 8. **Refus d'outil** : ne jamais contourner un refus par un autre chemin (autre commande, autre binaire, autre outil). Le noter dans le rapport, avec la commande refusée, et continuer le reste du travail.
 9. **Lecture sans filtrage** (action 1 de la rétro du sprint 23) : un fichier à modifier se lit avec l'outil Read ou `rtk proxy cat`, jamais avec `cat`, `sed` ou `head` réécrits par RTK, qui masquent commentaires et docblocks. Le diff d'un refactoring est relu pour les commentaires supprimés.
+10. **Pas de `git` dans un worktree isolé** (action 2 de la rétro du sprint 24) : une tâche qui change de branche, commite ou pousse se fait dans l'arbre principal, séquencée par l'orchestrateur ; un worker lancé avec un worktree isolé ne reçoit que du travail sans `git`.
+11. **Mêmes règles pour l'orchestrateur** (action 4 de la rétro du sprint 24) : quand l'orchestrateur code, tests uniquement par `bin/run-tests` et test rouge commité seul avant le code.
 
 ## Preuves attendues dans le rapport (action 3)
 

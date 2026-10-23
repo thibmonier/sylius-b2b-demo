@@ -35,4 +35,6 @@ Un contrôle « non exécuté » donne la raison (disque, durée, hors périmèt
 - [ ] Une tâche de fond (run, attente) est **arrêtée explicitement (`TaskStop`)**, l'arrêt **vérifié** (verrou `var/run-tests.lock` libre, processus absent), puis seulement relancée.
 - [ ] **Image reconstruite après correctif** : si un correctif touche `Dockerfile`, `docker/`, `config/`, les assets ou les dépendances, l'orchestrateur (seul) reconstruit l'image, la démarre et valide les pages clés avant la clôture de la revue ; un « vert » sur le code seul ne suffit pas.
 - [ ] **Preuve publiée** (action 3 de la rétro du sprint 23) : si la PR ajoute ou supprime un fichier de tests, `php bin/proof-refresh` puis `php bin/proof-check` avant le push ; sinon le build de `main` échoue à l'étape « Published proof is up to date ».
+- [ ] **Bases de test nettoyées après chaque lot** (action 1 de la rétro du sprint 24) : aucun run actif, `bin/clean-test-caches --all`, puis `df -h .` ; sous 6 Go libres, prévenir Thibaut avant le lot suivant.
+- [ ] **Texte public relu contre sa source** (action 3 de la rétro du sprint 24) : un README, une note de release ou une page relus par l'orchestrateur contre le fichier, la page ou le registre qu'ils décrivent, avant le commit.
 - [ ] Espace libre contrôlé (`bin/check-disk`) avant de lancer le lot suivant ; alerte sous 15 Go, jamais de seuil abaissé.
