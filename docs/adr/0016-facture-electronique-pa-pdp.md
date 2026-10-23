@@ -138,3 +138,7 @@ Un module de plus à maintenir si la décision est acceptée. Les stories A à C
 | [AIFE, facturation électronique B2B](https://aife.economie.gouv.fr/nos-applications/facturation-electronique-b2b/) | 2026-10-23 | Calendrier, PPF, annuaire, nombre de plateformes |
 | [FNFE-MPE, ressources](https://fnfe-mpe.org/ressources/) | 2026-10-23 | Normes XP Z12-012 v1.4.0, schematrons Factur-X |
 | Dépôt `sylius-facturx-plugin` (lecture seule) | 2026-10-23 | Couverture du plugin |
+
+## Décision (2026-10-23)
+
+Thibaut ne planifie aucune réalisation au sprint 24. L'ADR reste proposé ; la décision sur le périmètre et les stories est reportée au planning du sprint 25.

@@ -101,3 +101,7 @@ Retenu : A, B, C = 18 points. Chaque story reste à 8 points ou moins.
 
 - Positives : périmètre tenable, aucun faux engagement sur un éditeur, preuve démontrable sans ERP, réutilisation de l'outbox.
 - Négatives : pas de preuve d'intégration réelle ; le contrat neutre peut demander une adaptation par ERP.
+
+## Décision (2026-10-23)
+
+Thibaut ne planifie aucune réalisation au sprint 24. L'ADR reste proposé ; la décision sur le périmètre et les stories est reportée au planning du sprint 25.
