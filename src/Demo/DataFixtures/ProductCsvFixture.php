@@ -147,34 +147,8 @@ final class ProductCsvFixture extends AbstractFixture
 
         $product->setEnabled(true);
 
-        // Translations
-        $slug = \strtolower(\str_replace(['_', ' '], '-', $sku));
-        foreach (['fr_FR' => 'name_fr', 'en_US' => 'name_en'] as $locale => $nameKey) {
-            $descKey = ($locale === 'fr_FR') ? 'description_fr' : 'description_en';
-            $product->setCurrentLocale($locale);
-            $product->setFallbackLocale($locale);
-            $product->setName(\trim($row[$nameKey]));
-            $product->setSlug($slug . '-' . ($locale === 'fr_FR' ? 'fr' : 'en'));
-            $description = \trim($row[$descKey] ?? '');
-            if ($description !== '') {
-                $product->setDescription($description);
-                $product->setShortDescription(\mb_strimwidth($description, 0, 255, '…'));
-            }
-        }
-
-        // Main taxon
-        $taxonCode = \trim($row['taxon']);
-        $taxon = $this->taxon($taxonCode);
-        if ($taxon !== null) {
-            $product->setMainTaxon($taxon);
-            // Shop taxon listings query product_taxon, not the main taxon.
-            if (!$product->hasTaxon($taxon)) {
-                /** @var ProductTaxonInterface $productTaxon */
-                $productTaxon = $this->productTaxonFactory->createNew();
-                $productTaxon->setTaxon($taxon);
-                $product->addProductTaxon($productTaxon);
-            }
-        }
+        $this->translateProduct($product, $row, $sku);
+        $this->assignMainTaxon($product, \trim($row['taxon']));
 
         // Channels
         $this->assignChannels($product);
@@ -190,6 +164,41 @@ final class ProductCsvFixture extends AbstractFixture
         $this->objectManager->persist($product);
     }
 
+    /** @param array<string, string> $row */
+    private function translateProduct(ProductInterface $product, array $row, string $sku): void
+    {
+        $slug = \strtolower(\str_replace(['_', ' '], '-', $sku));
+        foreach (['fr_FR' => 'name_fr', 'en_US' => 'name_en'] as $locale => $nameKey) {
+            $descKey = ($locale === 'fr_FR') ? 'description_fr' : 'description_en';
+            $product->setCurrentLocale($locale);
+            $product->setFallbackLocale($locale);
+            $product->setName(\trim($row[$nameKey]));
+            $product->setSlug($slug . '-' . ($locale === 'fr_FR' ? 'fr' : 'en'));
+            $description = \trim($row[$descKey] ?? '');
+            if ($description !== '') {
+                $product->setDescription($description);
+                $product->setShortDescription(\mb_strimwidth($description, 0, 255, '…'));
+            }
+        }
+    }
+
+    private function assignMainTaxon(ProductInterface $product, string $taxonCode): void
+    {
+        $taxon = $this->taxon($taxonCode);
+        if ($taxon === null) {
+            return;
+        }
+
+        $product->setMainTaxon($taxon);
+        // Shop taxon listings query product_taxon, not the main taxon.
+        if (!$product->hasTaxon($taxon)) {
+            /** @var ProductTaxonInterface $productTaxon */
+            $productTaxon = $this->productTaxonFactory->createNew();
+            $productTaxon->setTaxon($taxon);
+            $product->addProductTaxon($productTaxon);
+        }
+    }
+
     private function assignChannels(ProductInterface $product): void
     {
         foreach ($this->channels() as $channel) {
@@ -202,27 +211,7 @@ final class ProductCsvFixture extends AbstractFixture
     /** @param array<string, string> $row */
     private function createOrUpdateVariant(ProductInterface $product, array $row): void
     {
-        $sku = \trim($row['sku']);
-
-        // Try to find an existing variant by code.
-        // $product->getVariants() yields the base ProductVariantInterface from the
-        // Product component; the actual runtime type is always the Core variant,
-        // so assert to narrow PHPStan's view to the Core interface (no @var workaround).
-        $variant = null;
-        foreach ($product->getVariants() as $v) {
-            if ($v->getCode() === $sku) {
-                \assert($v instanceof ProductVariantInterface);
-                $variant = $v;
-
-                break;
-            }
-        }
-
-        if ($variant === null) {
-            $variant = $this->productVariantFactory->createNew();
-            $variant->setCode($sku);
-            $product->addVariant($variant);
-        }
+        $variant = $this->variantOf($product, \trim($row['sku']));
 
         // Translations
         foreach (['fr_FR' => 'name_fr', 'en_US' => 'name_en'] as $locale => $nameKey) {
@@ -231,6 +220,36 @@ final class ProductCsvFixture extends AbstractFixture
             $variant->setName(\trim($row[$nameKey]));
         }
 
+        $this->applyDimensions($variant, $row);
+        $this->applyPrice($variant, (int) \round((float) ($row['price_eur_ht'] ?? 0) * 100));
+
+        $this->objectManager->persist($variant);
+    }
+
+    private function variantOf(ProductInterface $product, string $sku): ProductVariantInterface
+    {
+        // Try to find an existing variant by code.
+        // $product->getVariants() yields the base ProductVariantInterface from the
+        // Product component; the actual runtime type is always the Core variant,
+        // so assert to narrow PHPStan's view to the Core interface (no @var workaround).
+        foreach ($product->getVariants() as $variant) {
+            if ($variant->getCode() === $sku) {
+                \assert($variant instanceof ProductVariantInterface);
+
+                return $variant;
+            }
+        }
+
+        $variant = $this->productVariantFactory->createNew();
+        $variant->setCode($sku);
+        $product->addVariant($variant);
+
+        return $variant;
+    }
+
+    /** @param array<string, string> $row */
+    private function applyDimensions(ProductVariantInterface $variant, array $row): void
+    {
         // Physical dimensions
         $weight = (float) ($row['weight_kg'] ?? 0);
         if ($weight > 0) {
@@ -248,11 +267,11 @@ final class ProductCsvFixture extends AbstractFixture
         if ($depth > 0) {
             $variant->setDepth($depth);
         }
+    }
 
+    private function applyPrice(ProductVariantInterface $variant, int $priceInCents): void
+    {
         // Channel pricing
-        $priceHt = (float) ($row['price_eur_ht'] ?? 0);
-        $priceInCents = (int) \round($priceHt * 100);
-
         foreach ($this->channels() as $channel) {
             $channelCode = $channel->getCode();
             if ($channelCode === null) {
@@ -270,8 +289,6 @@ final class ProductCsvFixture extends AbstractFixture
                 $variant->addChannelPricing($pricing);
             }
         }
-
-        $this->objectManager->persist($variant);
     }
 
     /** @param array<string, string> $row */
