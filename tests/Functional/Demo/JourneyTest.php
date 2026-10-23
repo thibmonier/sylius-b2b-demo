@@ -27,6 +27,8 @@ final class JourneyTest extends WebTestCase
 
     private const CONTACT = 'https://exemple.test/contact';
 
+    private const PROFILE = 'https://exemple.test/profil';
+
     private ?Connection $transaction = null;
 
     protected function tearDown(): void
@@ -252,6 +254,19 @@ final class JourneyTest extends WebTestCase
         $list = $client->request('GET', '/fr_FR/guides');
 
         self::assertSame('/fr_FR/guides/buyer/3', $list->filter('li[data-journey="buyer"] a[data-journey-resume]')->attr('href'));
+    }
+
+    public function testTheExitScreenOffersTheProfileFirstWhenItIsConfigured(): void
+    {
+        $this->setEnvironment(['DEMO_PROFILE_URL' => self::PROFILE, 'DEMO_CONTACT_URL' => '']);
+        $exit = self::createClient()->request('GET', '/fr_FR/guides/buyer/5');
+
+        $profile = $exit->filter('[data-journey-contact]');
+        self::assertCount(1, $profile);
+        self::assertStringStartsWith(self::PROFILE . '?', (string) $profile->attr('href'));
+        self::assertStringContainsString('utm_content=journey-exit', (string) $profile->attr('href'));
+        self::assertStringContainsString('Me contacter sur LinkedIn', $profile->text());
+        self::assertSame('demo-cta-profil', $profile->attr('data-umami-event'));
     }
 
     // ---- US-117: the campaign tags the launch of a journey and the contact clicks, nothing else ----
