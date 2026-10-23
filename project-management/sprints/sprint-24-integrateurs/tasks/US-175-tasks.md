@@ -48,7 +48,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-175-07 | [TEST] | `composer validate --strict` et résolution Composer dans un projet jetable hors dépôt (`composer update --no-install --no-scripts --no-plugins`), dernière ligne citée ; projet supprimé avec `/bin/rm` | 0,5 h | T-175-06 | Claude | ✅ |
 | T-175-08 | [REV] | Revue (composition conforme à l'ADR, aucune mention d'offre commerciale, parité FR et EN) et table « scénario → preuve » remplie | 0,25 h | T-175-07 | Claude | ✅ |
 | T-175-09 | [OPS] | Après GO explicite : création des deux dépôts GitHub avec leurs topics (ecommerce, sylius, sylius-plugin, symfony et topics du pack), push, CI verte, tag | 0,5 h | T-175-08 | Claude | ✅ |
-| T-175-10 | [OPS] | 📅 Thibaut soumet les deux paquets à Packagist | 0,25 h | T-175-09 | Thibaut | 📅 |
+| T-175-10 | [OPS] | 📅 Thibaut soumet les deux paquets à Packagist | 0,25 h | T-175-09 | Thibaut | ✅ |
 
 **Total estimé : 6,25 h** (10 tâches, dont 0,5 h de Thibaut ; 5,75 h pour Claude et l'orchestrateur).
 

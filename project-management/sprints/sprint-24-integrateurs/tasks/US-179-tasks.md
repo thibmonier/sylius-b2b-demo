@@ -44,8 +44,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-179-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : conteneur focusable au nom du schéma, police rendue d'au moins 11 px CSS calculée à 360 px, rendu à 1280 px inchangé, libellés de la barre qui peuvent passer à la ligne | 0,5 h | T-179-01 | Claude | ✅ |
 | T-179-03 | [FE-WEB] | Schéma dans son conteneur à défilement propre ; barre de la démo sans dépassement en français | 0,75 h | T-179-02 | Claude | ✅ |
 | T-179-04 | [TEST] | Suite ciblée via `bin/run-tests` (`WORKER_ID=w179 …`), ECS (`src tests`), PHPStan max, Rector ; `php bin/proof-check` (aucun fichier de test ajouté) | 0,25 h | T-179-03 | Claude | ✅ |
-| T-179-05 | [TEST] | Rendu en production après déploiement : pa11y WCAG2AAA en FR et en EN, 360 px (libellés du schéma et éléments de la barre), 1280 px ; story en review jusque-là | 0,5 h | T-179-04, T-TECH-24-09 | Claude | 🔲 |
-| T-179-06 | [REV] | Revue (aucune régression sur grand écran) et table « scénario → test » remplie | 0,25 h | T-179-05 | Claude | 🔲 |
+| T-179-05 | [TEST] | Rendu en production après déploiement : pa11y WCAG2AAA en FR et en EN, 360 px (libellés du schéma et éléments de la barre), 1280 px ; story en review jusque-là | 0,5 h | T-179-04, T-TECH-24-09 | Claude | ✅ |
+| T-179-06 | [REV] | Revue (aucune régression sur grand écran) et table « scénario → test » remplie | 0,25 h | T-179-05 | Claude | ✅ |
 
 **Total estimé : 2,5 h** (6 tâches, dont 0 h de Thibaut ; 2,5 h pour Claude et l'orchestrateur).
 
@@ -61,8 +61,16 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Schéma lisible à 360 px (nominal) | `ArchitecturePageTest::testTheDiagramLabelsAreAtLeastElevenCssPixelsOnAPhoneAndTheDesktopRenderingIsUnchanged` (calcul 11,2 px) ; mesure à 360 px en production : T-179-05, en attente du déploiement |
+| Schéma lisible à 360 px (nominal) | `ArchitecturePageTest::testTheDiagramLabelsAreAtLeastElevenCssPixelsOnAPhoneAndTheDesktopRenderingIsUnchanged` (calcul 11,2 px) ; production à 360 px : libellés de 13 px |
 | Schéma au clavier (alternatif) | `ArchitecturePageTest::testTheDiagramScrollsInItsOwnFocusableRegionNamedAfterTheDiagram` (`tabindex`, `role`, nom = titre du schéma) |
-| Grand écran inchangé (alternatif) | même test que le nominal (`viewBox`, police, `max-width` inchangés) ; mesure à 1280 px en production : T-179-05 |
-| Barre de démo trop large (erreur) | `DemoBannerTest::testTheMenuPanelsLetTheirLabelsWrapInsteadOfOverflowing` (FR et EN) ; mesure à 360 px en production : T-179-05 |
-| Régression d'accessibilité (erreur) | pa11y WCAG2AAA FR et EN en production : T-179-05, en attente du déploiement ; suite `tests/Functional/Demo` verte (658 tests) |
+| Grand écran inchangé (alternatif) | même test que le nominal (`viewBox`, police, `max-width` inchangés) ; production à 1280 px : schéma de 704 px, libellés de 19 px |
+| Barre de démo trop large (erreur) | `DemoBannerTest::testTheMenuPanelsLetTheirLabelsWrapInsteadOfOverflowing` (FR et EN) ; production à 360 px : aucun élément au-delà du bord en FR et en EN |
+| Régression d'accessibilité (erreur) | pa11y WCAG2AAA en production : « No issues found! » en FR et en EN ; suite `tests/Functional/Demo` verte (658 tests) |
+
+## Vérification en production (2026-10-23, lecture seule, sans connexion)
+
+- Déploiement automatique de `main` par Railway (T-TECH-24-09 sans objet : Thibaut confirme le déploiement automatique).
+- pa11y 9, WCAG2AAA : « No issues found! » sur `/fr_FR/architecture` et `/en_US/architecture`.
+- 360 px (puppeteer-core, Chromium) : `scrollWidth` = 360 en FR et en EN, aucun élément qui dépasse.
+- Schéma : libellés de 13 px à 360 px (11 px minimum demandés) ; à 1280 px, schéma de 704 px de large (44 rem, inchangé), libellés de 19 px. Barre de démo : plus aucun élément au-delà du bord droit en FR (4 px de dépassement avant).
+
