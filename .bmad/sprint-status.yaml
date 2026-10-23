@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 22
+current_sprint: 23
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -377,26 +377,29 @@ sprints:
     notes: "Plan du 2026-10-23, 27 points. Ordre de sacrifice : US-062, US-154, US-098, US-088, US-165 ; les Must (clôture des reviews, US-163, US-164, US-162, solde d'US-161) et US-084, US-167 ne se sacrifient pas. Décomposition faite le 2026-10-23 (tasks/, 90 tâches, 77 h dont 2,5 h de Thibaut). Point d'étape le 2026-10-30. Dates réelles : 2026-10-26 au 2026-11-06 (10 jours ouvrés). Capacité volontairement contenue : tampon pour d'éventuels entretiens. Sécurité : aucune route, valeur ni seuil dans le dépôt public."
 
   sprint-23:
-    name: sprint-23-vitrine
-    status: planned  # avancé le 2026-10-23 (clôture anticipée du sprint 22, décision de Thibaut) ; US-168 et US-169 ajoutées ; esquisse du 2026-10-23, à confirmer au bilan J+30 (2026-11-18) ; repli « vitrine passive » (remise à zéro et mises à jour de versions seulement) si Thibaut est embauché
+    name: sprint-23-garde-fous
+    status: in-progress  # lancé le 2026-10-23 juste après la clôture anticipée du sprint 22 (décision de Thibaut) ; périmètre de 12 points validé par Thibaut le 2026-10-23 ; décomposé en 39 tâches / 29 h (tasks/) ; US-128 sortie (données du 2026-11-18 et du 2026-12-15), US-103 et US-121 hors périmètre tant que le transcript T-103-03 manque
     sprint_id: "sprint-23"
-    start_date: "2026-11-09"  # prévisionnel ; US-128 exige la fin du calendrier éditorial (2026-12-15) : sprint à décaler ou story à reporter au besoin
-    end_date: "2026-11-20"  # prévisionnel
-    capacity_points: 14  # 14 points inconditionnels (US-128, US-166, US-132, US-130, US-168, US-169) ; US-103 (3) et US-121 (5) conditionnelles au transcript T-103-03
-    goal: "Faire le bilan de la communication, solder les finitions optionnelles de qualité et de cadrage, et décider de la suite selon la situation professionnelle de Thibaut"
+    start_date: "2026-10-23"
+    end_date: "2026-11-06"  # au plus tard ; clôture dès le périmètre vérifié (action 6 de la rétro du sprint 22)
+    capacity_points: 12  # 33,2 h de capacité (12 × 2,1 h + 8 h transverses) pour 28 h de charge de Claude ; vélocité de référence : S18 25, S19 25, S20 22, S21 17, S22 23
+    goal: "Rendre automatiques les garde-fous qui ont manqué au sprint 22 (preuve en retard, tests sans attente, méthodes courtes), décider de PHPUnit 13, puis cadrer la facture électronique et le connecteur ERP par deux spikes"
     stories:
-      - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # sprint 23 ; EPIC-13, Should ; nécessite les bilans J+30 (2026-11-18) et la fin du calendrier (2026-12-15)
-      - {id: US-103, title: "Assistants IA : page utile avec transcript d'une vraie conversation", points: 3, status: in-progress}  # sprint 23 ; EPIC-11, Should ; CONDITIONNÉE au transcript T-103-03 fourni par Thibaut (bloc livré au sprint 18)
-      - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # sprint 23 ; EPIC-13, Should ; CONDITIONNÉE au transcript T-103-03 ; emplacement unique (retirée des sprints 19 et 20)
-      - {id: US-166, title: "Méthodes longues découpées et suppression des usleep des tests", points: 3, status: backlog}  # sprint 23 ; EPIC-10, Could ; fiche écrite le 2026-10-23 (Gherkin 1+2+2)
-      - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: backlog}  # sprint 23 ; EPIC-14, Could ; lien avec Factur-X
-      - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: backlog}  # sprint 23 ; EPIC-14, Could ; la page Intégrations existe déjà
-      - {id: US-168, title: "Contrôle de retard de la preuve publiée (proof.json)", points: 1, status: backlog}  # sprint 23 ; EPIC-10, Should ; créée le 2026-10-23 (scénario « Preuve en retard » d'US-084 non livré au sprint 22, décision de Thibaut : story de 1 point)
-      - {id: US-169, title: "Spike : passage de la démo à PHPUnit 13", points: 2, status: backlog}  # sprint 23 ; EPIC-10, Could ; créée le 2026-10-23 (PR Dependabot #54 : Composer résout la 13, 59 erreurs PHPStan dans les tests) ; décision de Thibaut : évaluer
-    notes: "Esquisse du 2026-10-23. US-103 et US-121 sont conditionnées au transcript T-103-03 (conversation réelle avec un assistant IA, par Thibaut) ; sans lui, elles restent au backlog. Abandonnées le 2026-10-23 (valeur de preuve faible / sans demande) : US-094, US-100, US-095, US-102, US-131, US-133 à US-138, US-093, US-101. US-118, US-119, US-125 : en réserve jusqu'à la mise en ligne du site personnel."
+      - {id: US-168, title: "Contrôle de retard de la preuve publiée (proof.json)", points: 1, status: ready-for-dev}  # sprint 23 ; EPIC-10, Should, non sacrifiable ; créée le 2026-10-23 (scénario « Preuve en retard » d'US-084 non livré au sprint 22) ; alignée au lancement sur le contenu réel de proof.json (fichiers de tests et plugins)
+      - {id: US-166, title: "Méthodes longues découpées et suppression des usleep des tests", points: 3, status: ready-for-dev}  # sprint 23 ; EPIC-10, Could, non sacrifiable (cause du test instable RunTestsLockTest) ; relevé du 2026-10-23 : 6 méthodes de plus de 45 lignes, 7 usleep dans 5 fichiers
+      - {id: US-169, title: "Spike : passage de la démo à PHPUnit 13", points: 2, status: ready-for-dev}  # sprint 23 ; EPIC-10, Could, non sacrifiable ; créée le 2026-10-23 (PR Dependabot #54 : Composer résout la 13, 59 erreurs PHPStan dans les tests)
+      - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: ready-for-dev}  # sprint 23 ; EPIC-14, Could, sacrifice n°2 ; Gherkin complété à 1+2+2 au lancement ; lien avec Factur-X
+      - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: ready-for-dev}  # sprint 23 ; EPIC-14, Could, sacrifice n°1 ; Gherkin complété à 1+2+2 au lancement ; US-136 et US-137 abandonnées, le spike propose de nouvelles stories
+    sprint_tasks:
+      - {id: T-TECH-23, title: "Transverses : ressources, contrôles avant push et avant done, statuts, revue et rétro", points: 0, status: ready-for-dev}  # tasks/technical-tasks.md, 7 tâches, 4 h ; applique les actions 1, 2, 3 et 5 de la rétro du sprint 22
+    notes: "Lancé le 2026-10-23. Ordre de sacrifice : US-130, US-132. Disque : 3,4 Go libres au lancement (bin/run-tests refuse sous 5 Go, la CI fait foi) ; action de Thibaut T-TECH-23-01b. Si le transcript T-103-03 arrive, US-103 (3) et US-121 (5) peuvent entrer après accord de Thibaut. Abandonnées le 2026-10-23 (valeur de preuve faible / sans demande) : US-094, US-100, US-095, US-102, US-131, US-133 à US-138, US-093, US-101. US-118, US-119, US-125 : en réserve jusqu'à la mise en ligne du site personnel."
 
 # Stories prêtes pour un sprint futur, à planifier.
 backlog:
+  # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
+  - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15
+  - {id: US-103, title: "Assistants IA : page utile avec transcript d'une vraie conversation", points: 3, status: in-progress}  # EPIC-11, Should ; CONDITIONNÉE au transcript T-103-03 fourni par Thibaut (bloc livré au sprint 18) ; peut entrer au sprint 23 s'il arrive
+  - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # EPIC-13, Should ; CONDITIONNÉE au transcript T-103-03 ; peut entrer au sprint 23 s'il arrive
   # --- Recadrage du 2026-10-21 (décision de Thibaut : la démo et les plugins servent la recherche d'emploi, plus la vente de conseil) : sprints 18 à 23 redistribués, voir la feuille de route (roadmap-ouverture-et-communication.md). Section sprint-18 créée le 2026-10-21 par la commande de démarrage. Sprint 18 : 36 points (US-158, US-147, US-148, US-160, US-161, US-159, US-124, US-111, US-103, US-068).
   - {id: US-045, title: "Accueil B2B sans le bloc « Nouvelle collection »", points: 1, status: done}  # faite hors sprint le 2026-10-17 (demande utilisateur)
   - {id: US-093, title: "Catalogue crédible, tranche 2 : environ 150 références réalistes", points: 8, status: removed}  # ABANDONNÉE le 2026-10-23 : valeur de preuve faible / sans demande, décision du 2026-10-23 ; fiche conservée avec status: removed

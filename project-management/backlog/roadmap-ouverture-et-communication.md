@@ -224,7 +224,9 @@
 
 *Ordre de sacrifice* : US-062, US-154, US-098, US-088, US-165. *Jalon* : plugin parc d'équipements publié (US-059 faite) et monté en démo (US-060, vérification en production). Capacité volontairement contenue : tampon pour les entretiens éventuels. Décomposition en tâches au lancement du sprint.
 
-### Sprint 23 (avancé le 2026-10-23 après la clôture anticipée du sprint 22 ; esquisse d'origine 2026-11-09 au 2026-11-20) : 14 points inconditionnels + 8 conditionnels
+### Sprint 23 (lancé le 2026-10-23 après la clôture anticipée du sprint 22, au plus tard jusqu'au 2026-11-06) : 12 points engagés
+
+> **Lancement du 2026-10-23** (validé par Thibaut) : engagés US-168, US-166, US-169, US-132 et US-130 (12 points) ; US-128 sortie (à planifier après le 2026-12-15) ; US-103 et US-121 hors périmètre tant que le transcript T-103-03 manque. Voir [sprint-23-garde-fous](../sprints/sprint-23-garde-fous/sprint-goal.md). Le tableau ci-dessous garde l'esquisse d'origine.
 
 **Objectif** : Faire le bilan de la communication, solder les finitions optionnelles et décider de la suite selon le bilan et la situation professionnelle de Thibaut.
 
