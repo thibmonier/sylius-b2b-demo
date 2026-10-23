@@ -56,47 +56,48 @@ final class OrderPoReferenceTypeExtension extends AbstractTypeExtension
         ]);
 
         if ($this->isCostCenterEnabled()) {
-            $builder->add('costCenter', TextType::class, [
-                'label' => 'app.form.checkout.cost_center',
-                'required' => false,
-                'attr' => ['maxlength' => OrderPoReferenceAwareInterface::COST_CENTER_MAX_LENGTH],
-                'constraints' => [
-                    new Length(max: OrderPoReferenceAwareInterface::COST_CENTER_MAX_LENGTH, groups: self::VALIDATION_GROUPS),
-                    new Regex(
-                        pattern: OrderPoReferenceAwareInterface::COST_CENTER_PATTERN,
-                        message: 'app.checkout.cost_center.invalid_characters',
-                        groups: self::VALIDATION_GROUPS,
-                    ),
-                ],
-            ]);
+            $this->addCostCenter($builder);
         }
 
-        $builder
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
-                $form = $event->getForm();
-                $order = $event->getData();
+        $builder->addEventListener(FormEvents::POST_SUBMIT, $this->requirePoReference(...));
+    }
 
-                if (!$order instanceof OrderPoReferenceAwareInterface) {
-                    return;
-                }
+    private function addCostCenter(FormBuilderInterface $builder): void
+    {
+        $builder->add('costCenter', TextType::class, [
+            'label' => 'app.form.checkout.cost_center',
+            'required' => false,
+            'attr' => ['maxlength' => OrderPoReferenceAwareInterface::COST_CENTER_MAX_LENGTH],
+            'constraints' => [
+                new Length(max: OrderPoReferenceAwareInterface::COST_CENTER_MAX_LENGTH, groups: self::VALIDATION_GROUPS),
+                new Regex(
+                    pattern: OrderPoReferenceAwareInterface::COST_CENTER_PATTERN,
+                    message: 'app.checkout.cost_center.invalid_characters',
+                    groups: self::VALIDATION_GROUPS,
+                ),
+            ],
+        ]);
+    }
 
-                $channel = $this->channelContext->getChannel();
-                if (!$channel instanceof Channel) {
-                    return;
-                }
+    /** The channel may make the PO reference mandatory: an empty one is then an error on the field. */
+    private function requirePoReference(FormEvent $event): void
+    {
+        $order = $event->getData();
+        if (!$order instanceof OrderPoReferenceAwareInterface) {
+            return;
+        }
 
-                if (!$channel->isPoReferenceRequired()) {
-                    return;
-                }
+        $channel = $this->channelContext->getChannel();
+        if (!$channel instanceof Channel || !$channel->isPoReferenceRequired()) {
+            return;
+        }
 
-                $poReference = $order->getPoReference();
-                if (null === $poReference || '' === trim($poReference)) {
-                    $form->get('poReference')->addError(
-                        new FormError($this->translator->trans('app.checkout.po_reference.required', [], 'validators')),
-                    );
-                }
-            })
-        ;
+        $poReference = $order->getPoReference();
+        if (null === $poReference || '' === trim($poReference)) {
+            $event->getForm()->get('poReference')->addError(
+                new FormError($this->translator->trans('app.checkout.po_reference.required', [], 'validators')),
+            );
+        }
     }
 
     private function isCostCenterEnabled(): bool

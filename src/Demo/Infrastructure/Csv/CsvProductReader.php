@@ -88,6 +88,16 @@ final class CsvProductReader
     {
         $this->skipByteOrderMark($handle, $filePath);
 
+        return $this->parseRows($handle, $this->readHeader($handle, $filePath), $filePath);
+    }
+
+    /**
+     * @param resource $handle
+     *
+     * @return list<string>
+     */
+    private function readHeader($handle, string $filePath): array
+    {
         $headerRaw = \fgetcsv($handle, null, ',', '"', '');
         if ($headerRaw === false) {
             throw new \RuntimeException(\sprintf('CSV file "%s" is empty.', $filePath));
@@ -105,6 +115,17 @@ final class CsvProductReader
             }
         }
 
+        return $header;
+    }
+
+    /**
+     * @param resource     $handle
+     * @param list<string> $header
+     *
+     * @return list<array{line: int, row: array<string, string>}>
+     */
+    private function parseRows($handle, array $header, string $filePath): array
+    {
         /** @var array<string, int> $skuToLine map SKU → first line number it was seen on */
         $skuToLine = [];
         /** @var list<array{line: int, row: array<string, string>}> $rows */
