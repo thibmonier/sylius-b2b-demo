@@ -18,7 +18,7 @@ final class AuditLogBusinessEventsTest extends WebTestCase
     {
         self::bootKernel();
 
-        $creations = $this->intValue("SELECT COUNT(*) FROM tmonier_audit_log_entry WHERE action = 'create'");
+        $creations = $this->intValue("SELECT COUNT(*) FROM tmonier_audit_log_entry WHERE action = 'create' AND created_at < ?", [$this->suiteStart()]);
         self::assertSame(0, $creations, sprintf('The audit log must hold no "create" line of the reset, found %d.', $creations));
     }
 
@@ -26,7 +26,7 @@ final class AuditLogBusinessEventsTest extends WebTestCase
     {
         self::bootKernel();
 
-        $rows = $this->db()->fetchAllAssociative('SELECT actor_name, actor_type, created_at, resource_type, changes FROM tmonier_audit_log_entry');
+        $rows = $this->db()->fetchAllAssociative('SELECT actor_name, actor_type, created_at, resource_type, changes FROM tmonier_audit_log_entry WHERE created_at < ?', [$this->suiteStart()]);
         self::assertGreaterThanOrEqual(5, \count($rows));
         self::assertLessThanOrEqual(6, \count($rows));
         foreach ($rows as $row) {
@@ -53,5 +53,17 @@ final class AuditLogBusinessEventsTest extends WebTestCase
 
         self::assertSame(50_000, $this->intValue("SELECT ml.order_limit FROM tmonier_audit_log_entry e JOIN tmonier_purchase_approval_member_limit ml ON ml.id = e.resource_id WHERE e.resource_type = 'member_limit'"));
         self::assertSame('approved', $this->stringValue("SELECT oa.state FROM tmonier_audit_log_entry e JOIN tmonier_purchase_approval_order_approval oa ON oa.id = e.resource_id WHERE e.resource_type = 'order_approval'"));
+    }
+
+    /**
+     * The suite shares the reset database without rollback: other functional
+     * tests write audit lines, all dated after the PHPUnit process started.
+     */
+    private function suiteStart(): string
+    {
+        $start = $_SERVER['REQUEST_TIME'] ?? null;
+        self::assertIsInt($start);
+
+        return gmdate('Y-m-d H:i:s', $start);
     }
 }
