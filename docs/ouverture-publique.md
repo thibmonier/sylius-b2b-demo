@@ -65,10 +65,10 @@ Réponse attendue : « GO » explicite. Sans elle, la démo reste privée et la 
 
 À faire avant de répondre « GO » : ce sont des actions sur l'hébergement et sur le dépôt, que Claude ne peut pas faire à ta place. Le dépôt étant public, note ici les **conclusions seulement** (conforme ou action corrective), jamais de valeur, de nom de service ni de chemin.
 
-- [ ] **Exposition des services.** Dans la console de l'hébergement, seul le service web de la démo a un domaine public. Aucun autre service (base de données, courriels de test, tâches planifiées) n'a de domaine public ni de port ouvert depuis Internet. Conclusion : _conforme / action corrective_.
-- [ ] **Configuration versionnée.** Relire les fichiers de configuration du dépôt (exemples d'environnement, fichiers de déploiement, compose) : toutes les valeurs sont factices ou fournies par l'hébergement au déploiement, aucune ne sert en production. Conclusion : _conforme / action corrective_.
-- [ ] **Clé de chiffrement des paiements.** La clé de production est propre à l'environnement : définie dans l'hébergement, jamais dans le dépôt. Conclusion : _conforme / action corrective_.
-- [ ] **Protection de `main`.** Pull request obligatoire (0 revue exigée), contrôles « Quality and smoke tests » et « Docker image » requis, ni force-push ni suppression. Appliquée par Claude après ton accord ; contrôle en lecture seule : `gh api repos/thibmonier/sylius-b2b-demo/branches/main/protection`.
+- [x] **Exposition des services.** Dans la console de l'hébergement, seul le service web de la démo a un domaine public. Aucun autre service (base de données, courriels de test, tâches planifiées) n'a de domaine public ni de port ouvert depuis Internet. Conclusion : **conforme** (confirmé par Thibaut le 2026-10-23).
+- [x] **Configuration versionnée.** Relire les fichiers de configuration du dépôt (exemples d'environnement, fichiers de déploiement, compose) : toutes les valeurs sont factices ou fournies par l'hébergement au déploiement, aucune ne sert en production. Conclusion : **conforme** (confirmé par Thibaut le 2026-10-23).
+- [x] **Clé de chiffrement des paiements.** La clé de production est propre à l'environnement : définie dans l'hébergement, jamais dans le dépôt. Conclusion : **conforme** (confirmé par Thibaut le 2026-10-23).
+- [x] **Protection de `main`.** Pull request obligatoire (0 revue exigée), contrôles « Quality and smoke tests » et « Docker image » requis, ni force-push ni suppression. Appliquée par Claude après ton accord ; contrôle en lecture seule : `gh api repos/thibmonier/sylius-b2b-demo/branches/main/protection`. Conclusion : **conforme** (contrôlé le 2026-10-23).
 
 ## Prérequis
 
