@@ -86,6 +86,8 @@ final class PacksDataFileTest extends TestCase
             foreach ($pack->plugins as $plugin) {
                 $published[$plugin->slug] = $plugin->bound;
             }
+            ksort($expected);
+            ksort($published);
             self::assertSame($expected, $published, $pack->repository . ': the page would list other plugins than the composer.json of the pack');
             ++$compared;
         }

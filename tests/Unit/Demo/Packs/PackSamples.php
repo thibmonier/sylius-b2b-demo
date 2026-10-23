@@ -7,6 +7,9 @@ namespace App\Tests\Unit\Demo\Packs;
 /**
  * US-178: a small pack, as its repository would publish it (composer.json and the two READMEs), and the data file entry
  * the refresh must produce from them. Shared by the unit tests and by the tests of the page.
+ *
+ * @phpstan-type Localized array{en: string, fr: string}
+ * @phpstan-type PackShape array{composer: string, command: string, title: Localized, summary: Localized, plugins: list<array{slug: string, bound: string, role: Localized}>, suggests: list<array{slug: string, reason: Localized}>, steps: list<array{slug: string, bundles: list<string>, config: list<string>, routes: list<string>, migrations: bool, other: Localized}>, source: string, composer_source: string, checked_at: string, fingerprint: string}
  */
 final class PackSamples
 {
@@ -100,7 +103,7 @@ final class PackSamples
             MD;
     }
 
-    /** @return array<string, mixed> the entry of the data file for the sample pack, as the refresh writes it */
+    /** @return PackShape the entry of the data file for the sample pack, as the refresh writes it */
     public static function pack(): array
     {
         return [
@@ -143,7 +146,7 @@ final class PackSamples
         ];
     }
 
-    /** @return array<string, mixed> a second pack, so that the page lists more than one */
+    /** @return PackShape a second pack, so that the page lists more than one */
     public static function otherPack(): array
     {
         $pack = self::pack();
@@ -167,7 +170,7 @@ final class PackSamples
         return $pack;
     }
 
-    /** @return array<string, mixed> the whole data file for the two sample packs */
+    /** @return array{generated_at: string, packs: array<string, PackShape>} the whole data file for the two sample packs */
     public static function data(): array
     {
         return [

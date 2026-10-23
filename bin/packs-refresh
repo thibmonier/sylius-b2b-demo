@@ -1,0 +1,83 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * MANUAL SCRIPT, run by a developer, never by the reset, the Docker build, the CI or the page (US-178).
+ *
+ * Regenerates config/demo/packs.json, the data of the packs page (/{locale}/packs): for each pack repository the plugins
+ * and bounds of its composer.json, the install command, the role of each plugin and the steps left to do by hand (both
+ * READMEs). Nothing is written by hand. Public sources only: the GitHub REST API through `gh`, which carries its own
+ * authentication; it only reads. No token is read from, or written to, any file; `.env` is never read.
+ *
+ *   php bin/packs-refresh [--only=repository,repository] [--dry-run] [--file=PATH]
+ *
+ * --only      refresh these packs only (the others keep their entry)
+ * --dry-run   print the new content, write nothing
+ * --file      another output file (default config/demo/packs.json)
+ *
+ * A repository that fails, or whose README disagrees with its composer.json, keeps the last verified entry, marked stale,
+ * with its old date. Exit code 1 when a source failed (the file is written anyway), 2 on a usage error.
+ */
+
+use App\Demo\Packs\PackCollector;
+use App\Demo\Packs\PackRepositories;
+use App\Demo\Packs\PacksRefresher;
+use App\Demo\Proof\Refresh\GhCliApi;
+use Symfony\Component\Clock\NativeClock;
+
+require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$usage = "usage: php bin/packs-refresh [--only=repository,repository] [--dry-run] [--file=PATH]\n";
+$root = \dirname(__DIR__);
+$only = [];
+$dryRun = false;
+$file = $root . '/config/demo/packs.json';
+$arguments = \is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], \is_string(...))) : [];
+foreach (\array_slice($arguments, 1) as $argument) {
+    if ('--dry-run' === $argument) {
+        $dryRun = true;
+    } elseif (str_starts_with($argument, '--only=')) {
+        $only = array_values(array_filter(explode(',', substr($argument, 7))));
+    } elseif (str_starts_with($argument, '--file=')) {
+        $file = substr($argument, 7);
+    } else {
+        fwrite(\STDERR, $usage);
+        exit(2);
+    }
+}
+
+$unknown = array_diff($only, PackRepositories::ALL);
+if ([] !== $unknown) {
+    fwrite(\STDERR, 'Unknown pack: ' . implode(', ', $unknown) . "\n" . $usage);
+    exit(2);
+}
+
+$current = [];
+if (is_file($file)) {
+    $decoded = json_decode((string) file_get_contents($file), true);
+    $current = \is_array($decoded) ? $decoded : [];
+}
+
+$clock = new NativeClock();
+$refresher = new PacksRefresher(new PackCollector(new GhCliApi(), $clock), $clock);
+$result = $refresher->refresh(
+    $current,
+    static function (string $subject, array $failed): void {
+        printf("%-8s %s%s\n", [] === $failed ? 'OK' : 'STALE', $subject, [] === $failed ? '' : ' (' . implode(', ', $failed) . ' unavailable, last verified entry kept)');
+    },
+    $only,
+);
+
+$json = json_encode($result->data(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR) . "\n";
+if ($dryRun) {
+    echo $json;
+    exit([] === $result->failures ? 0 : 1);
+}
+$temporary = $file . '.tmp' . getmypid();
+file_put_contents($temporary, $json);
+rename($temporary, $file);
+printf("Written: %s\n", $file);
+
+exit([] === $result->failures ? 0 : 1);

@@ -113,12 +113,7 @@ final class PacksPageTest extends WebTestCase
     #[DataProvider('localesWith1Argument')]
     public function testThePageOfTheCommittedFileListsExactlyThePluginsOfTheFile(string $locale): void
     {
-        $file = \dirname(__DIR__, 3) . '/config/demo/packs.json';
-        $decoded = json_decode((string) file_get_contents($file), true, 512, \JSON_THROW_ON_ERROR);
-        $expected = [];
-        foreach (Path::get(\is_array($decoded) ? $decoded : [], 'packs') as $name => $pack) {
-            $expected[(string) $name] = array_column(Path::get(\is_array($pack) ? $pack : [], 'plugins'), 'slug');
-        }
+        $expected = self::committedPlugins();
         self::ensureKernelShutdown();
 
         $page = self::createClient()->request('GET', '/' . $locale . '/packs');
@@ -269,6 +264,20 @@ final class PacksPageTest extends WebTestCase
         foreach (['HttpClient', 'curl_', 'file_get_contents(\'http', 'Process'] as $call) {
             self::assertStringNotContainsString($call, $source);
         }
+    }
+
+    /** @return array<string, list<string>> the plugins of each pack of config/demo/packs.json, read apart from the reader the page uses */
+    private static function committedPlugins(): array
+    {
+        $decoded = json_decode((string) file_get_contents(\dirname(__DIR__, 3) . '/config/demo/packs.json'), true, 512, \JSON_THROW_ON_ERROR);
+        $packs = \is_array($decoded) && \is_array($decoded['packs'] ?? null) ? $decoded['packs'] : [];
+        $plugins = [];
+        foreach ($packs as $name => $pack) {
+            $listed = \is_array($pack) && \is_array($pack['plugins'] ?? null) ? $pack['plugins'] : [];
+            $plugins[(string) $name] = array_values(array_filter(array_map(static fn (mixed $plugin): mixed => \is_array($plugin) ? ($plugin['slug'] ?? null) : null, $listed), \is_string(...)));
+        }
+
+        return $plugins;
     }
 
     /** @return array{plugins: list<string>, steps: list<string>, links: list<string>} */

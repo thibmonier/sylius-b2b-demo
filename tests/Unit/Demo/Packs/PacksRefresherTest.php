@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
 
 /**
+ * @phpstan-import-type PackShape from PackSamples
+ *
  * US-178: the whole generation of config/demo/packs.json. A pack whose repository fails keeps its last verified entry,
  * marked stale with its date; the others carry on; the exit status of the command follows the failures.
  */
@@ -81,7 +83,7 @@ final class PacksRefresherTest extends TestCase
         return new FakeSources([], $unavailable + $json, $files);
     }
 
-    /** @param array<string, mixed> $pack */
+    /** @param PackShape $pack */
     private static function readme(array $pack, string $locale): string
     {
         $rows = '';
