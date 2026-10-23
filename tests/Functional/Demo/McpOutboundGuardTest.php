@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Demo\Http\OutboundRequestRefused;
+use App\Tests\Support\Await;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -61,9 +62,7 @@ final class McpOutboundGuardTest extends KernelTestCase
         self::assertIsResource($process);
 
         try {
-            for ($try = 0; $try < 50 && false === @fsockopen('127.0.0.1', $port); ++$try) {
-                usleep(100_000);
-            }
+            Await::listening('127.0.0.1', $port, 5);
 
             $status = $this->client($service)->request('GET', 'http://127.0.0.1:' . $port . '/redirect')->getStatusCode();
 

@@ -10,6 +10,7 @@ footer:
         journeys: 'Parcours et comptes de démo'
         integrate: 'Intégrer (MCP)'
         integrate_project: "Guide d'intégration des plugins"
+        architecture: "Architecture de la démo"
         contact: 'Contact'
         fictional: 'Boutique de démonstration : données fictives, aucune commande honorée.'
         made_by_prefix: 'Réalisé par'

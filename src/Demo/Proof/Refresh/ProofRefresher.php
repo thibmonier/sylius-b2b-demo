@@ -18,8 +18,9 @@ final readonly class ProofRefresher
      * @param list<string>                                $slugs          the plugins to refresh; the others keep their facts
      * @param string|null                                 $demoRepository "owner/name" of the demo, refreshed too when given
      * @param (callable(string, list<string>): void)|null $report         called per subject with its failed sources
+     * @param int|null                                    $localTests     the test files of the local checkout (US-168)
      */
-    public function refresh(array $current, array $slugs, ?string $demoRepository, ?callable $report = null): RefreshResult
+    public function refresh(array $current, array $slugs, ?string $demoRepository, ?callable $report = null, ?int $localTests = null): RefreshResult
     {
         $plugins = [];
         $currentPlugins = \is_array($current['plugins'] ?? null) ? $current['plugins'] : [];
@@ -34,7 +35,7 @@ final readonly class ProofRefresher
             $this->note($failures, $report, $slug, $collected->failures);
         }
         if (null !== $demoRepository) {
-            $collected = $this->collector->delivery($demoRepository, $delivery);
+            $collected = $this->collector->delivery($demoRepository, $delivery, $localTests);
             $delivery = $collected->facts;
             $this->note($failures, $report, 'delivery', $collected->failures);
         }

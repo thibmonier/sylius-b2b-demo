@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Demo\Proof\Refresh;
 
 use App\Demo\Proof\ProofReader;
+use App\Demo\Proof\TestFileRule;
 use Composer\Semver\Semver;
 use Symfony\Component\Clock\ClockInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -57,11 +58,20 @@ final readonly class ProofCollector
         return new CollectedFacts($facts, $failures);
     }
 
-    /** @param array<string, mixed> $previous the delivery facts of the current proof file */
-    public function delivery(string $repository, array $previous = []): CollectedFacts
+    /**
+     * @param array<string, mixed> $previous   the delivery facts of the current proof file
+     * @param int|null             $localTests the test files of the local checkout (US-168): the demo publishes the count
+     *                                         of the code it ships, so a pull request can carry a proof bin/proof-check accepts
+     */
+    public function delivery(string $repository, array $previous = [], ?int $localTests = null): CollectedFacts
     {
         try {
-            return new CollectedFacts($this->repositoryFacts($repository, true), []);
+            $facts = $this->repositoryFacts($repository, true);
+            if (null !== $localTests && \is_array($facts['tests'] ?? null)) {
+                $facts['tests']['value'] = $localTests;
+            }
+
+            return new CollectedFacts($facts, []);
         } catch (SourceUnavailable) {
             return new CollectedFacts(self::kept($previous, self::DELIVERY_REPOSITORY_KEYS), ['github']);
         }
@@ -260,7 +270,7 @@ final readonly class ProofCollector
         }
         $count = 0;
         foreach ($tree['tree'] as $entry) {
-            if (\is_array($entry) && 'blob' === ($entry['type'] ?? null) && \is_string($entry['path'] ?? null) && 1 === preg_match('#^tests/.*(?:Test\.php|\.feature)$#', $entry['path'])) {
+            if (\is_array($entry) && 'blob' === ($entry['type'] ?? null) && \is_string($entry['path'] ?? null) && TestFileRule::matches($entry['path'])) {
                 ++$count;
             }
         }

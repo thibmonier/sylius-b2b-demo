@@ -98,13 +98,28 @@ final class PunchoutDemoFixture extends AbstractFixture
             return;
         }
 
+        $buyer = $this->newCxmlBuyer($b2bChannel, $claire);
+        $this->addCxmlIdentities($buyer);
+
+        // Shared secret (hashed — non-sensitive demo value)
+        $credential = new BuyerCredential();
+        $credential->setLabel('demo');
+        $credential->setPasswordHash($this->credentialHasher->hash(self::DEMO_SECRET));
+        $buyer->addCredential($credential);
+
+        $this->entityManager->persist($buyer);
+        $this->entityManager->flush();
+    }
+
+    private function newCxmlBuyer(ChannelInterface $channel, ?CustomerInterface $customer): Buyer
+    {
         $buyer = new Buyer();
         $buyer->setCode(DemoBuyerCodes::CXML);
         $buyer->setName('Acme Industries — PunchOut B2B');
         $buyer->setProtocol('cxml');
         $buyer->setEnabled(true);
-        $buyer->setChannel($b2bChannel);
-        $buyer->setCustomer($claire);
+        $buyer->setChannel($channel);
+        $buyer->setCustomer($customer);
         $buyer->setCompanyId('ACME_IND');
         // Strict allowlist: the ERP domain and the public HTTPS host of the demo (no localhost: avoids an
         // SSRF/open-redirect shape).
@@ -115,6 +130,11 @@ final class PunchoutDemoFixture extends AbstractFixture
         $buyer->setOrderPaymentMethod(TradeCreditDemoFixture::ON_ACCOUNT_PAYMENT_METHOD);
         $buyer->setOrderShippingMethod('carrier');
 
+        return $buyer;
+    }
+
+    private function addCxmlIdentities(Buyer $buyer): void
+    {
         // Identities (cXML From / Sender)
         foreach ([
             BuyerIdentity::ROLE_FROM => ['domain' => 'DUNS', 'identity' => '123456789'],
@@ -126,15 +146,6 @@ final class PunchoutDemoFixture extends AbstractFixture
             $identity->setIdentity($data['identity']);
             $buyer->addIdentity($identity);
         }
-
-        // Shared secret (hashed — non-sensitive demo value)
-        $credential = new BuyerCredential();
-        $credential->setLabel('demo');
-        $credential->setPasswordHash($this->credentialHasher->hash(self::DEMO_SECRET));
-        $buyer->addCredential($credential);
-
-        $this->entityManager->persist($buyer);
-        $this->entityManager->flush();
     }
 
     /**

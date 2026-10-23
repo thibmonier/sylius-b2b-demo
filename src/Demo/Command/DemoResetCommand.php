@@ -114,32 +114,9 @@ final class DemoResetCommand extends Command
         $this->logger->info('app:demo:reset started', ['dry_run' => $dryRun]);
 
         try {
-            $this->stepLoadFixtures($io, $dryRun, (bool) $input->getOption('simulate-failure'));
-
-            if (!$input->getOption('no-media')) {
-                $this->stepPurgeMediaCache($io, $output, $dryRun);
-            }
-
-            if (!$input->getOption('no-cache')) {
-                $this->stepClearWarmUpCache($io, $output, $dryRun);
-            }
-
-            $this->stepPurgeOrphanImages($io, $dryRun);
+            $this->runSteps($io, $output, $input, $dryRun);
         } catch (Throwable $e) {
-            $this->logger->error('app:demo:reset failed', [
-                'exception' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            $errors->writeln(\sprintf(
-                'DEMO_RESET_FAILED cause=%s duration=%ss',
-                \json_encode($e->getMessage(), \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
-                $this->elapsedSince($startedAt),
-            ));
-            if (!$dryRun) {
-                $this->resetStatus->markFailed();
-            }
-
-            return Command::FAILURE;
+            return $this->fail($e, $errors, $dryRun, $startedAt);
         }
 
         $elapsed = $this->elapsedSince($startedAt);
@@ -150,6 +127,39 @@ final class DemoResetCommand extends Command
         }
 
         return Command::SUCCESS;
+    }
+
+    private function runSteps(SymfonyStyle $io, OutputInterface $output, InputInterface $input, bool $dryRun): void
+    {
+        $this->stepLoadFixtures($io, $dryRun, (bool) $input->getOption('simulate-failure'));
+
+        if (!$input->getOption('no-media')) {
+            $this->stepPurgeMediaCache($io, $output, $dryRun);
+        }
+
+        if (!$input->getOption('no-cache')) {
+            $this->stepClearWarmUpCache($io, $output, $dryRun);
+        }
+
+        $this->stepPurgeOrphanImages($io, $dryRun);
+    }
+
+    private function fail(Throwable $e, OutputInterface $errors, bool $dryRun, float $startedAt): int
+    {
+        $this->logger->error('app:demo:reset failed', [
+            'exception' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+        $errors->writeln(\sprintf(
+            'DEMO_RESET_FAILED cause=%s duration=%ss',
+            \json_encode($e->getMessage(), \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
+            $this->elapsedSince($startedAt),
+        ));
+        if (!$dryRun) {
+            $this->resetStatus->markFailed();
+        }
+
+        return Command::FAILURE;
     }
 
     private function elapsedSince(float $startedAt): float

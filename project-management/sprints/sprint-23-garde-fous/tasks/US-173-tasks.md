@@ -35,10 +35,10 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-173-01 | [DOC] | Relevé : classement US-063, `require` et `suggest` des 18 plugins sans recoupement, dépendances internes entre eux | 0,5 h | - | Claude | 🔲 |
-| T-173-02 | [OPS] | Essai d'un métapaquet « IA et headless » dans un projet jetable (dépôt de type `path`) : ce qui reste à faire à la main (bundles, configuration, routes, migrations) | 1,25 h | T-173-01 | Claude | 🔲 |
-| T-173-03 | [DOC] | Comparaison des trois formes (métapaquet, recettes Flex sur `recipes-contrib`, squelette de projet) : effet, maintenance, publication | 0,75 h | T-173-02 | Claude | 🔲 |
-| T-173-04 | [DOC] | ADR : forme retenue, composition des packs, découpage de la réalisation en stories de 8 points au plus ; table « scénario → preuve » remplie | 1 h | T-173-03 | Claude | 🔲 |
+| T-173-01 | [DOC] | Relevé : classement US-063, `require` et `suggest` des 18 plugins sans recoupement, dépendances internes entre eux | 0,5 h | - | Claude | ✅ |
+| T-173-02 | [OPS] | Essai d'un métapaquet « IA et headless » dans un projet jetable (dépôt de type `path`) : ce qui reste à faire à la main (bundles, configuration, routes, migrations) | 1,25 h | T-173-01 | Claude | ✅ |
+| T-173-03 | [DOC] | Comparaison des trois formes (métapaquet, recettes Flex sur `recipes-contrib`, squelette de projet) : effet, maintenance, publication | 0,75 h | T-173-02 | Claude | ✅ |
+| T-173-04 | [DOC] | ADR : forme retenue, composition des packs, découpage de la réalisation en stories de 8 points au plus ; table « scénario → preuve » remplie | 1 h | T-173-03 | Claude | ✅ |
 | T-173-05 | [REV] | 📅 Thibaut relit l'ADR et décide (forme, packs, stories à planifier) | 0,25 h | T-173-04 | Thibaut | 🔲 |
 | T-173-06 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml` et stories de réalisation créées au backlog | 0,25 h | T-173-05 | Orchestrateur | 🔲 |
 
@@ -50,8 +50,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| ADR et découpage (nominal) | |
-| Plusieurs formes combinées (alternatif) | |
-| Pack avec dépendances internes (alternatif) | |
-| Plugin qui recoupe Sylius Plus (erreur) | |
-| Spike hors budget (erreur) | |
+| ADR et découpage (nominal) | [ADR-0015](../../../../docs/adr/0015-distributions-de-plugins.md), sections « Décision proposée » (forme, composition) et « Réalisation proposée » (4 stories de 2 à 5 points) ; essai : section « Essai », 3 résolutions Composer vertes (`composer update --no-install --no-scripts --no-plugins`, dernière ligne `Writing lock file`) |
+| Plusieurs formes combinées (alternatif) | ADR-0015, « Décision proposée » point 1 : métapaquet puis recette Flex sur le métapaquet, squelette écarté avec son coût de maintenance (tableau « Comparaison des trois formes ») |
+| Pack avec dépendances internes (alternatif) | ADR-0015, « Relevé des dépendances internes » et « Décision proposée » point 3 ; essai 3 : trade-credit tire order-hold (`Locking tmonier/sylius-order-hold-plugin (1.0.0)`), registration-approval tire channel-access ; company-insights (exige company-accounts, exclu) reste hors pack |
+| Plugin qui recoupe Sylius Plus (erreur) | ADR-0015, « Contexte » (7 plugins exclus, en termes neutres) et « Décision proposée » point 2 : aucun des 10 plugins des deux packs n'est classé « concurrent » ou « à confirmer » dans `docs/vitrine-plugins.md` ; `grep -c "Plus" docs/adr/0015-distributions-de-plugins.md` ne trouve aucune occurrence |
+| Spike hors budget (erreur) | Non déclenché : spike mené en bien moins de 4 h ; questions ouvertes consignées en fin d'ADR-0015 |

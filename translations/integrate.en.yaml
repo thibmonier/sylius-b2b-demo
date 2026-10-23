@@ -48,6 +48,7 @@ architecture:
     erp: "ERP"
     invoicing: "E-invoicing"
     caption: "Inputs: PunchOut cXML or OCI and AI assistants (MCP). ERP exchanges: catalogue, prices, stock, orders. Output: Factur-X invoices."
+    demo_link: "The demo itself is described on a page of its own: Architecture of the demo."
 integrations:
     title: "Integrations and their state"
     intro: "What the shop can connect to the outside and where each integration stands. A \"not provided\" integration has no plugin: the page says so and points to the event contract a developer can build on."
