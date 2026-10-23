@@ -1,5 +1,6 @@
-{# US-106: the exit screen. "Learn more" is internal (page Integrate); the contact link only exists when a contact URL is configured. #}
-{% set contact = app_demo_cta_targets('journey-exit')|filter(target => target.kind == 'contact')|first %}
+{# US-106: the exit screen. "Learn more" is internal (page Integrate); the outbound link only exists when a profile or contact URL is
+   configured, the profile first (US-158: the demo points to the author's profile). #}
+{% set contact = app_demo_cta_targets('journey-exit')|first %}
 <section aria-labelledby="journey-exit-title" data-journey-exit>
     <h2 class="h4" id="journey-exit-title">{{ 'exit.title'|trans({}, 'journeys') }}</h2>
     <p>{{ 'exit.text'|trans({}, 'journeys') }}</p>
@@ -8,7 +9,7 @@
             <a class="btn btn-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ integrate_url }}" data-journey-integrate{{ app_umami_event('journey-exit-integrate', { parcours: journey.id }, true) }}>{{ 'exit.learn_more'|trans({}, 'journeys') }}</a>
         {% endif %}
         {% if contact %}
-            <a class="btn btn-outline-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-journey-contact{{ app_umami_event('cta-message', { emplacement: 'journey-exit' }, true) }}>{{ 'exit.contact'|trans({}, 'journeys') }}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>
+            <a class="btn btn-outline-primary d-inline-flex align-items-center" style="min-height: 2.75rem" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-journey-contact{{ app_umami_event(contact.kind == 'profile' ? 'cta-profil' : 'cta-message', { emplacement: 'journey-exit' }, true) }}>{{ contact.kind == 'profile' ? 'cta.profile'|trans({}, 'theme_demo') : 'exit.contact'|trans({}, 'journeys') }}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>
         {% endif %}
     </div>
     <p class="d-flex flex-wrap gap-3">
