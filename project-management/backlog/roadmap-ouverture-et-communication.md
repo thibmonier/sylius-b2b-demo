@@ -228,6 +228,8 @@
 
 > **Remaniement du 2026-10-23** (critique d'un architecte Sylius et d'un client B2B, décisions de Thibaut) : engagés US-168, US-166, US-169, US-170 (page d'architecture) et US-173 (spike distributions, packs sans recoupement avec Sylius Plus), 11 points ; US-132 et US-130 passent au sprint 24 avec US-171 (matrice de compatibilité) et US-172 (guide de surcharge) ; volet commercial de la critique écarté (licences, SLA, Packagist privé, place de marché payante). Lancement initial : US-168, US-166, US-169, US-132 et US-130 (12 points) ; US-128 sortie (à planifier après le 2026-12-15) ; US-103 et US-121 hors périmètre tant que le transcript T-103-03 manque. Voir [sprint-23-garde-fous](../sprints/sprint-23-garde-fous/sprint-goal.md). Le tableau ci-dessous garde l'esquisse d'origine.
 
+> **Décisions des spikes (2026-10-23, Thibaut)** : US-169 → montée à PHPUnit 13 retenue, story **US-174** (3 points) au **sprint 24** ; US-173 → ADR 0015 accepté, réalisation en quatre stories au backlog : US-175 (métapaquets, 3), US-176 (installation réelle en CI, 5), US-177 (recettes Flex, 5), US-178 (page dans la démo, 2). Candidats du sprint 24 : US-174, US-171, US-172, US-132, US-130, puis US-175 selon la capacité.
+
 **Objectif** : Faire le bilan de la communication, solder les finitions optionnelles et décider de la suite selon le bilan et la situation professionnelle de Thibaut.
 
 | Story | Titre | MoSCoW | Pts |

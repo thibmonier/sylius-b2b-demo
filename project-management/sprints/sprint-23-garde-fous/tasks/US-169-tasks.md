@@ -39,8 +39,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-169-02 | [TEST] | PHPStan sur la branche : les 59 erreurs classées par cause (types de l'API de PHPUnit 13, extension PHPStan de PHPUnit, code de test) | 1 h | T-169-01 | Claude | ✅ |
 | T-169-03 | [TEST] | Suite sur la branche (CI) : échecs et dépréciations de PHPUnit 13 listés (attributs, mocks, `TestCase`) | 1 h | T-169-01 | Claude | ✅ |
 | T-169-04 | [DOC] | Rapport : blocages, erreurs par cause, changements de code, estimation en points et recommandation | 1 h | T-169-02, T-169-03 | Claude | ✅ |
-| T-169-05 | [REV] | 📅 Thibaut lit le rapport et décide (story de montée ou fermeture de la PR #54) | 0,25 h | T-169-04 | Thibaut | 🔲 |
-| T-169-06 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml` ; story de montée créée ou PR #54 fermée avec Dependabot réglé pour ignorer les versions majeures | 0,25 h | T-169-05 | Orchestrateur | 🔲 |
+| T-169-05 | [REV] | 📅 Thibaut lit le rapport et décide (story de montée ou fermeture de la PR #54) | 0,25 h | T-169-04 | Thibaut | ✅ |
+| T-169-06 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml` ; story de montée créée ou PR #54 fermée avec Dependabot réglé pour ignorer les versions majeures | 0,25 h | T-169-05 | Orchestrateur | ✅ |
 
 **Total estimé : 4 h** (6 tâches, dont 0,25 h de Thibaut ; 3,75 h pour Claude et l'orchestrateur).
 
@@ -55,3 +55,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | Montée coûteuse (alternatif) | non déclenché (estimation 3 points) ; condition de repli en section 6 du rapport |
 | Blocage de dépendance (erreur) | rapport section 2 : aucun paquet ne borne `phpunit/phpunit` (`jq` sur le `composer.lock` de la PR) |
 | Spike hors budget (erreur) | rapport section 7 : budget respecté, état et questions ouvertes consignés |
+
+## Décision (T-169-05, 2026-10-23)
+
+Thibaut retient la montée : story [US-174](../../../backlog/user-stories/US-174.md) (3 points) au sprint 24, sur la branche de la PR #54, qui reste ouverte. Repli prévu dans la story : plus de 10 échecs de comportement au premier run, alors fermeture de la PR #54 et Dependabot réglé pour ignorer les majeures de phpunit, avec son accord.

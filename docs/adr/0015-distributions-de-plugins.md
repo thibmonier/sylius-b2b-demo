@@ -1,6 +1,6 @@
 # ADR-0015 — Distributions de plugins (packs clé en main)
 
-- **Statut** : Proposé (2026-10-23), décision de Thibaut attendue
+- **Statut** : Accepté (2026-10-23) par Thibaut : forme, composition des deux packs et découpage en quatre stories (US-175 à US-178)
 - **Contexte projet** : sylius-b2b-demo, sprint 23, spike US-173 (borné à 4 h)
 
 ## Contexte
@@ -138,3 +138,7 @@ Total : 15 points, dont 5 conditionnés à une décision de publication. L'ordre
 4. Les pull requests sur `symfony/recipes-contrib` sont publiques : y a-t-il un accord pour les ouvrir sous le nom de Thibaut ?
 5. Ouvrir un troisième pack (accès et inscription : channel-access, registration-approval) quand les deux plugins passent en 1.0 ?
 6. Le spike n'a pas essayé d'installation réelle (voir « Ce que l'essai ne prouve pas ») : accepter de le reporter à la story 2 ?
+
+## Décision (2026-10-23)
+
+Thibaut accepte la décision proposée : métapaquet d'abord, recette Flex ensuite ; les deux packs tels que composés ci-dessus ; la réalisation en quatre stories, créées au backlog : [US-175](../../project-management/backlog/user-stories/US-175.md) (métapaquets, 3), [US-176](../../project-management/backlog/user-stories/US-176.md) (installation réelle en CI, 5), [US-177](../../project-management/backlog/user-stories/US-177.md) (recettes Flex, 5), [US-178](../../project-management/backlog/user-stories/US-178.md) (page dans la démo, 2). Les questions ouvertes 1 (noms des paquets) et 4 (pull request sur recipes-contrib) restent à trancher au cadrage d'US-175 et d'US-177 ; toute création de dépôt, tag, publication ou pull request publique attend le GO de Thibaut.
