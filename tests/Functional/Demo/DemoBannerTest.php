@@ -54,6 +54,24 @@ final class DemoBannerTest extends WebTestCase
         self::assertCount(1, $bar->filter('[data-demo-next-reset]'));
     }
 
+    /** US-179: in French the menu rows overflowed a 360 px screen; their labels may now wrap and the panel never grows past its column. */
+    #[DataProvider('locales')]
+    public function testTheMenuPanelsLetTheirLabelsWrapInsteadOfOverflowing(string $locale): void
+    {
+        $panels = $this->bar($locale)->filter('[data-demo-menu-panel]');
+
+        self::assertCount(2, $panels, 'quick login and demo menu');
+        foreach ($panels as $panel) {
+            $panel = new Crawler($panel);
+            self::assertStringContainsString('text-break', (string) $panel->attr('class'), 'long labels break');
+            self::assertStringContainsString('grid-template-columns: minmax(0, 1fr)', (string) $panel->attr('style'), 'rows may shrink below their content');
+            self::assertCount(0, $panel->filter('.text-nowrap'), 'no label that refuses to wrap');
+        }
+        $channel = $panels->filter('[data-demo-channel]');
+        self::assertCount(1, $channel);
+        self::assertStringContainsString('flex-wrap', (string) $channel->attr('class'), 'the channel row folds onto two lines');
+    }
+
     public function testTheMenusAreWiredToTheCloserController(): void
     {
         $bar = $this->bar('fr_FR');
