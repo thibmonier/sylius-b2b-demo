@@ -32,6 +32,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `DEMO_RATE_LIMIT_PUNCHOUT_ORDER` | `10` (par heure) | `10` |
 | `DEMO_RATE_LIMIT_GATE` | `20` (échecs par 10 min) | `20` |
 | `DEMO_RATE_LIMIT_HEALTH` | `30` (par minute) | `30` : `/health` et `/healthz`, par IP visiteur ; un moniteur toutes les 10 s fait 6 appels |
+| `DEMO_RATE_LIMIT_EXPORT`, `DEMO_RATE_LIMIT_JOURNEY`, `DEMO_RATE_LIMIT_FLEET` | voir `config/packages/demo_hardening.yaml` | seaux dédiés, par IP visiteur, pour l'export CSV, les actions des visites guidées et les écritures du parc d'équipements |
 | `DEMO_REGISTRATION_OPEN` | `1` | `1` tant que la démo est privée (inscriptions validées par Sophie), **`0` avant l'ouverture publique** ; ferme aussi la commande invité (étape adresse) et le devis invité (`allow_guests`). Le preflight refuse de démarrer porte ouverte avec `1` |
 | `DEMO_PUNCHOUT_DAILY_ORDERS` | `50` | `50` |
 | `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0` | `0` (le preflight refuse `1` porte ouverte) |
@@ -56,6 +57,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | M4 images orphelines (US-040) | Corrigé | Étape 4 du reset (`OrphanImagePurger`) : tout fichier de `public/media/image` sans ligne d'image est supprimé ; un échec est journalisé et fait échouer le reset (`/healthz` 503 `reset failed`). |
 | M5 clients HTTP du serveur MCP (US-040) | Corrigé | Le garde sortant décore aussi `http_client.transport` ; les redirections ne sont plus suivies. |
 | M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
+| US-164 durcissement des routes récentes | Corrigé | Routes récentes rattachées à des seaux de limitation dédiés ; parc d'équipements en lecture seule pour les comptes de démo partagés (la visite guidée n'écrit pas dans le parc). |
 | US-053 simulateur OCI | Corrigé | Entrée OCI relayée par le serveur (mot de passe jamais dans une page ni une URL), `HOOK_URL` limitée aux domaines de retour de l'acheteur et vérifiée avant tout appel, `POST /punchout/oci/<code>` réservé au simulateur (`PunchOutEndpointGuard`), limiteurs par IP, retour à usage unique (`OciReturnGate`). Pas de plafond quotidien : un retour OCI ne crée pas de commande (décision du Tech Lead, 2026-10-17). |
 | M8 retour du simulateur PunchOut (US-040) | Corrigé | Le panier n'est cru que s'il est, octet pour octet, un `PunchOutOrderMessage` du journal du plugin ; usage unique, dans l'heure (`ReturnAuthenticator`). |
 | US-082 en-têtes cross-origin | Corrigé (COEP volontairement absent) | `Cross-Origin-Opener-Policy` et `Cross-Origin-Resource-Policy` en `same-origin`, posés par Caddy (fichiers statiques compris) et par l'application. Pas de `Cross-Origin-Embedder-Policy` : toutes les ressources sont déjà de même origine (CSP) et rien n'a besoin de l'isolation cross-origin ; le risque de casser un contenu embarqué par un plugin l'emporte. |

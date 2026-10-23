@@ -40,14 +40,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-164-01 | [DOC] | Cadrage : rapport d'audit de sécurité lu hors dépôt, routes récentes et parc d'équipements repérés dans le code, choix du lieu du plafond (démo ou plugin) consigné sans valeur ; `df -h .` et `bin/check-disk` | 0,75 h | - | Claude | 🔲 |
-| T-164-02 | [TEST] | Tests rouges, formulés en termes généraux : ajout refusé au plafond avec parc inchangé, ajout accepté sous le plafond, réponse de limitation avec en-tête d'attente sur les routes récentes, requête renouvelée avant la fin de la fenêtre sans effet de bord, compteur réinitialisé par la remise à zéro | 1,5 h | T-164-01 | Claude | 🔲 |
-| T-164-03 | [BE] | Garde de plafond des écritures du parc pour les comptes de démo partagés (service injectable, valeur par paramètre d'environnement) et message clair FR et EN | 2 h | T-164-02 | Claude | 🔲 |
-| T-164-04 | [BE] | Rattachement des routes récentes aux seaux de limitation existants (table des règles et configuration), sans créer d'exception à la règle « clé = IP du visiteur » | 1,25 h | T-164-02 | Claude | 🔲 |
-| T-164-05 | [BE] | Remise à zéro nocturne : le compteur du plafond est réinitialisé avec les données (un compte bloqué est libéré) | 0,5 h | T-164-03 | Claude | 🔲 |
-| T-164-06 | [TEST] | Suite ciblée puis complète via `bin/run-tests`, ECS (`src tests`), PHPStan max rejoués sur l'arbre exact ; dernière ligne de sortie citée | 1 h | T-164-04, T-164-05 | Claude | 🔲 |
-| T-164-07 | [DOC] | Rapport détaillé remis à Thibaut hors dépôt ; `docs/durcissement-demo.md` complété en termes généraux (existence d'un plafond et d'une limitation, sans valeur) | 0,5 h | T-164-06 | Claude | 🔲 |
-| T-164-08 | [REV] | Revue : relecture du diff et des messages de commit à la recherche de tout détail exploitable (route, seuil, valeur) ; parité FR et EN | 0,5 h | T-164-06 | Claude | 🔲 |
+| T-164-01 | [DOC] | Cadrage : rapport d'audit de sécurité lu hors dépôt, routes récentes et parc d'équipements repérés dans le code, choix du lieu du plafond (démo ou plugin) consigné sans valeur ; `df -h .` et `bin/check-disk` | 0,75 h | - | Claude | ✅ |
+| T-164-02 | [TEST] | Tests rouges, formulés en termes généraux : ajout refusé au plafond avec parc inchangé, ajout accepté sous le plafond, réponse de limitation avec en-tête d'attente sur les routes récentes, requête renouvelée avant la fin de la fenêtre sans effet de bord, compteur réinitialisé par la remise à zéro | 1,5 h | T-164-01 | Claude | ✅ |
+| T-164-03 | [BE] | Garde de plafond des écritures du parc pour les comptes de démo partagés (service injectable, valeur par paramètre d'environnement) et message clair FR et EN | 2 h | T-164-02 | Claude | ✅ |
+| T-164-04 | [BE] | Rattachement des routes récentes aux seaux de limitation existants (table des règles et configuration), sans créer d'exception à la règle « clé = IP du visiteur » | 1,25 h | T-164-02 | Claude | ✅ |
+| T-164-05 | [BE] | Remise à zéro nocturne : le compteur du plafond est réinitialisé avec les données (un compte bloqué est libéré) | 0,5 h | T-164-03 | Claude | ✅ |
+| T-164-06 | [TEST] | Suite ciblée puis complète via `bin/run-tests`, ECS (`src tests`), PHPStan max rejoués sur l'arbre exact ; dernière ligne de sortie citée | 1 h | T-164-04, T-164-05 | Claude | ✅ |
+| T-164-07 | [DOC] | Rapport détaillé remis à Thibaut hors dépôt ; `docs/durcissement-demo.md` complété en termes généraux (existence d'un plafond et d'une limitation, sans valeur) | 0,5 h | T-164-06 | Claude | ✅ |
+| T-164-08 | [REV] | Revue : relecture du diff et des messages de commit à la recherche de tout détail exploitable (route, seuil, valeur) ; parité FR et EN | 0,5 h | T-164-06 | Claude | ✅ |
 
 **Total estimé : 8 h** (8 tâches, dont 0 de Thibaut, soit 0 h ; 8 h pour Claude et l'orchestrateur).
 

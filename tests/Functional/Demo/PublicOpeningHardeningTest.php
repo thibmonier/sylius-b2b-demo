@@ -109,6 +109,51 @@ final class PublicOpeningHardeningTest extends WebTestCase
         self::assertSame(1, $this->intValue('SELECT COUNT(*) FROM sylius_customer WHERE email = ?', [self::CLAIRE]));
     }
 
+    public function testASharedDemoCustomerSeesTheEquipmentFleetReadOnly(): void
+    {
+        $this->publicMode();
+        $client = self::createClient();
+        $this->login($client, self::CLAIRE);
+        $assets = $this->intValue('SELECT COUNT(*) FROM customer_asset');
+
+        $client->request('GET', '/fr_FR/account/equipment');
+        self::assertResponseIsSuccessful();
+
+        $client->followRedirects();
+        $client->request('POST', '/fr_FR/account/equipment/new');
+
+        self::assertStringContainsString('lecture seule', mb_strtolower((string) $client->getResponse()->getContent()));
+        self::assertSame($assets, $this->intValue('SELECT COUNT(*) FROM customer_asset'));
+    }
+
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function recentRoutes(): iterable
+    {
+        yield 'export' => ['GET', '/fr_FR/account/company/insights/export', 'DEMO_RATE_LIMIT_EXPORT'];
+        yield 'guided tour' => ['POST', '/fr_FR/guides/unknown/1/advance', 'DEMO_RATE_LIMIT_JOURNEY'];
+        yield 'fleet' => ['POST', '/fr_FR/account/equipment/new', 'DEMO_RATE_LIMIT_FLEET'];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('recentRoutes')]
+    public function testTheRecentRoutesHaveTheirOwnRateLimit(string $method, string $path, string $variable): void
+    {
+        $this->publicMode();
+        $this->setEnvironment([$variable => '2']);
+        $client = self::createClient();
+        $visitor = ['HTTP_X_FORWARDED_FOR' => self::visitorIp()];
+
+        for ($attempt = 0; $attempt < 2; ++$attempt) {
+            $client->request($method, $path, server: $visitor);
+            self::assertNotSame(429, $client->getResponse()->getStatusCode());
+        }
+        $client->request($method, $path, server: $visitor);
+
+        self::assertResponseStatusCodeSame(429);
+        self::assertTrue($client->getResponse()->headers->has('Retry-After'));
+    }
+
     public function testThePreflightFailsOnRailwayWithoutTheDemoMode(): void
     {
         $this->setEnvironment(['DEMO_MODE' => '0', 'RAILWAY_ENVIRONMENT' => 'production']);

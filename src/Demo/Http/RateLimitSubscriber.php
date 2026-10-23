@@ -13,7 +13,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 /**
  * Per-visitor rate limits of the public demo (US-036): login, demo pages, registration and public forms,
- * PunchOut simulator, API token and sign-up endpoints, MCP, health probes. The key is the visitor IP resolved through the trusted proxies, never the proxy.
+ * PunchOut simulator, exports, guided tours, equipment fleet, API token and sign-up endpoints, MCP, health probes. The key is the visitor IP resolved through the trusted proxies, never the proxy.
  * A refused request answers 429 with Retry-After. Runs after the router (route name known) and before
  * the firewall (a login flood never reaches the authenticators).
  */
@@ -48,6 +48,12 @@ final readonly class RateLimitSubscriber
         'app_demo_punchout_simulator_order' => ['POST', 'punchout_order'],
         'app_demo_punchout_simulator_oci_start' => ['POST', 'punchout_start'],
         'app_demo_punchout_simulator_oci_return' => ['POST', 'punchout_oci_return'],
+        'tmonier_company_insights_shop_export' => ['GET', 'export'],
+        'app_demo_journey_advance' => ['POST', 'journey'],
+        'app_demo_journey_launch' => ['POST', 'journey'],
+        'tmonier_equipment_shop_fleet_create' => ['POST', 'fleet'],
+        'tmonier_equipment_shop_fleet_update' => ['POST', 'fleet'],
+        'tmonier_equipment_shop_fleet_delete' => ['POST', 'fleet'],
     ];
 
     public function __construct(
@@ -62,6 +68,9 @@ final readonly class RateLimitSubscriber
         private RateLimiterFactoryInterface $demoApiWriteLimiter,
         private RateLimiterFactoryInterface $demoMcpLimiter,
         private RateLimiterFactoryInterface $demoHealthLimiter,
+        private RateLimiterFactoryInterface $demoExportLimiter,
+        private RateLimiterFactoryInterface $demoJourneyLimiter,
+        private RateLimiterFactoryInterface $demoFleetLimiter,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {
@@ -100,6 +109,9 @@ final readonly class RateLimitSubscriber
             'api_write' => $this->demoApiWriteLimiter,
             'mcp' => $this->demoMcpLimiter,
             'health' => $this->demoHealthLimiter,
+            'export' => $this->demoExportLimiter,
+            'journey' => $this->demoJourneyLimiter,
+            'fleet' => $this->demoFleetLimiter,
             default => $this->demoPunchoutOrderLimiter,
         };
     }

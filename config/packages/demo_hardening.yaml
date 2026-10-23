@@ -29,6 +29,10 @@ parameters:
     env(DEMO_RATE_LIMIT_HEALTH): '30'
     # US-029: webhooks the demo receiver accepts per minute (all callers share it: the sender is the container itself).
     env(DEMO_RATE_LIMIT_WEBHOOK_RECEIVER): '60'
+    # Dedicated buckets of the more recent routes (CSV export, guided tours, equipment fleet), per visitor IP.
+    env(DEMO_RATE_LIMIT_EXPORT): '10'
+    env(DEMO_RATE_LIMIT_JOURNEY): '60'
+    env(DEMO_RATE_LIMIT_FLEET): '20'
 
     # 0 = the shop registration form and the shop API no longer create customers (US-040, M2): set it before the public opening.
     env(DEMO_REGISTRATION_OPEN): '1'
@@ -131,6 +135,21 @@ framework:
             cache_pool: cache.demo_rate_limiter
             limit: '%env(int:DEMO_RATE_LIMIT_WEBHOOK_RECEIVER)%'
             interval: '1 minute'
+        demo_export:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_EXPORT)%'
+            interval: '10 minutes'
+        demo_journey:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_JOURNEY)%'
+            interval: '10 minutes'
+        demo_fleet:
+            policy: sliding_window
+            cache_pool: cache.demo_rate_limiter
+            limit: '%env(int:DEMO_RATE_LIMIT_FLEET)%'
+            interval: '1 hour'
         demo_punchout_start:
             policy: sliding_window
             cache_pool: cache.demo_rate_limiter
