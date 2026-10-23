@@ -16,16 +16,16 @@ final readonly class OverrideGuideExamples
     private OverrideExample $lastResort;
 
     /**
-     * @param list<array{case: string, path: string, lines: array{int, int}, command: string, related?: list<string>}> $examples
-     * @param array{path: string, lines: array{int, int}, command: string}                                             $lastResort
+     * @param list<array{case: string, path: string, lines: array{int, int}, contains: string, command: string, related?: list<string>}> $examples
+     * @param array{path: string, lines: array{int, int}, contains: string, command: string}                                             $lastResort
      */
     public function __construct(array $examples, array $lastResort, private string $projectDir)
     {
         $this->examples = array_map(
-            static fn (array $example): OverrideExample => new OverrideExample($example['case'], $example['path'], $example['lines'][0], $example['lines'][1], $example['command'], $example['related'] ?? []),
+            static fn (array $example): OverrideExample => new OverrideExample($example['case'], $example['path'], $example['lines'][0], $example['lines'][1], $example['contains'], $example['command'], $example['related'] ?? []),
             $examples,
         );
-        $this->lastResort = new OverrideExample('last-resort', $lastResort['path'], $lastResort['lines'][0], $lastResort['lines'][1], $lastResort['command']);
+        $this->lastResort = new OverrideExample('last-resort', $lastResort['path'], $lastResort['lines'][0], $lastResort['lines'][1], $lastResort['contains'], $lastResort['command']);
     }
 
     /** @return list<OverrideExample> */
@@ -59,6 +59,9 @@ final readonly class OverrideGuideExamples
             $lines = $this->lines($example->path);
             if (null !== $lines && $example->lastLine > \count($lines)) {
                 $broken[] = \sprintf('lines %d-%d are past the end of %s', $example->firstLine, $example->lastLine, $example->path);
+            }
+            if (null !== $lines && !str_contains($this->excerpt($example), $example->contains)) {
+                $broken[] = \sprintf('%s lines %d-%d no longer contain "%s"', $example->path, $example->firstLine, $example->lastLine, $example->contains);
             }
         }
 
