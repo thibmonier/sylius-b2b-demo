@@ -64,6 +64,12 @@ jobs:
                   vendor/bin/phpstan analyse -c phpstan.dist.neon --no-progress --memory-limit=1G
                   vendor/bin/rector process --dry-run --no-progress-bar
 
+            # US-168: proof.json must not be behind the repository (test files, plugins). Informative on a pull request
+            # (gap and refresh command in the job summary), blocking on main. No network, never writes the proof.
+            - name: Published proof is up to date
+              continue-on-error: ${{ github.event_name == 'pull_request' }}
+              run: php bin/proof-check --summary="$GITHUB_STEP_SUMMARY"
+
             # wkhtmltox publishes no checksum (recorded at first download); jammy build, no noble build.
             - name: Install wkhtmltopdf (invoice PDFs)
               env:

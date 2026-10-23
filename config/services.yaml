@@ -53,6 +53,9 @@ services:
             - '../src/Demo/Vitrine/'
             # Manual tooling (bin/proof-refresh), never part of the running application (US-111).
             - '../src/Demo/Proof/Refresh/'
+            # Tooling of bin/proof-check and bin/proof-refresh (US-168), never part of the running application.
+            - '../src/Demo/Proof/Check/'
+            - '../src/Demo/Proof/TestFileRule.php'
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

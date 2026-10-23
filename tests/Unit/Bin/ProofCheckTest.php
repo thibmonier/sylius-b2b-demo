@@ -96,14 +96,6 @@ final class ProofCheckTest extends TestCase
         self::assertSame(2, $this->check('--write')->getExitCode());
     }
 
-    public function testTheRealProofOfTheRepositoryIsUpToDate(): void
-    {
-        $process = new Process(['php', \dirname(__DIR__, 3) . '/bin/proof-check']);
-        $process->run();
-
-        self::assertSame(0, $process->getExitCode(), $process->getErrorOutput());
-    }
-
     public function testTheWorkflowRunsTheCheckInformativeOnPullRequestsAndBlockingOnMain(): void
     {
         $workflow = (string) file_get_contents(\dirname(__DIR__, 3) . '/.github/workflows/ci.yaml');

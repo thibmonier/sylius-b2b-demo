@@ -9,7 +9,8 @@ declare(strict_types=1);
  * Refreshes config/demo/proof.json, the data of the technical proof page (/{locale}/preuve): for each plugin of
  * config/demo/plugins.yaml the published version and Sylius constraint (Packagist), the CI result, the Sylius
  * versions of the CI matrix, the PHPStan level, the number of test files and composer audit (GitHub), and for the demo
- * itself how it is delivered. Public sources only: Packagist's public API and the GitHub REST API through `gh`, which
+ * itself how it is delivered. The demo's own test count is the local one (US-168), so the file matches the code it ships
+ * and bin/proof-check passes in the same pull request. Public sources only: Packagist's public API and the GitHub REST API through `gh`, which
  * carries its own authentication. No token is read from, or written to, any file; `.env` is never read.
  *
  *   php bin/proof-refresh [--only=slug,slug] [--no-delivery] [--dry-run] [--file=PATH]
@@ -28,6 +29,7 @@ use App\Demo\Proof\Refresh\HttpPackagistApi;
 use App\Demo\Proof\Refresh\PluginCatalogFile;
 use App\Demo\Proof\Refresh\ProofCollector;
 use App\Demo\Proof\Refresh\ProofRefresher;
+use App\Demo\Proof\TestFileRule;
 use Symfony\Component\Clock\NativeClock;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -78,6 +80,7 @@ $result = $refresher->refresh(
     static function (string $subject, array $failed): void {
         printf("%-8s %s%s\n", [] === $failed ? 'OK' : 'STALE', $subject, [] === $failed ? '' : ' (' . implode(', ', $failed) . ' unavailable, last verified value kept)');
     },
+    TestFileRule::countIn($root),
 );
 
 $json = json_encode($result->data(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR) . "\n";

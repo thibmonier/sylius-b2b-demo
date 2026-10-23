@@ -1,0 +1,77 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Checks that config/demo/proof.json is not behind the repository (US-168): the test files of the demo and the plugins
+ * of config/demo/plugins.yaml, counted with the rule of the refresh. No network, never writes the proof.
+ *
+ *   php bin/proof-check [--root=PATH] [--file=PATH] [--summary=PATH]
+ *
+ * --root      the checkout to count (default: this repository)
+ * --file      the proof to check (default: <root>/config/demo/proof.json)
+ * --summary   appends the result in Markdown to this file (the CI passes $GITHUB_STEP_SUMMARY)
+ *
+ * Exit code 0 when up to date, 1 when a figure differs (each one printed with the refresh command), 2 when the proof is
+ * missing or malformed, or on a usage error. The CI runs it on every build: informative on a pull request, blocking on main.
+ */
+
+use App\Demo\Proof\Check\ProofFile;
+use App\Demo\Proof\Check\ProofFreshness;
+use App\Demo\Proof\Check\ProofGap;
+use App\Demo\Proof\Check\UnreadableProof;
+use App\Demo\Proof\Refresh\PluginCatalogFile;
+use App\Demo\Proof\TestFileRule;
+use Symfony\Component\Yaml\Exception\ParseException;
+
+require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$usage = "usage: php bin/proof-check [--root=PATH] [--file=PATH] [--summary=PATH]\n";
+$refresh = 'php bin/proof-refresh';
+$root = \dirname(__DIR__);
+$file = null;
+$summary = null;
+$arguments = \is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], \is_string(...))) : [];
+foreach (\array_slice($arguments, 1) as $argument) {
+    if (str_starts_with($argument, '--root=')) {
+        $root = rtrim(substr($argument, 7), '/');
+    } elseif (str_starts_with($argument, '--file=')) {
+        $file = substr($argument, 7);
+    } elseif (str_starts_with($argument, '--summary=')) {
+        $summary = substr($argument, 10);
+    } else {
+        fwrite(\STDERR, $usage);
+        exit(2);
+    }
+}
+$file ??= $root . '/config/demo/proof.json';
+
+$report = static function (string $text) use ($summary): void {
+    if (null !== $summary && '' !== $summary) {
+        file_put_contents($summary, "### Published proof (proof.json)\n\n" . $text . "\n", \FILE_APPEND);
+    }
+};
+
+try {
+    $proof = ProofFile::read($file);
+    $slugs = array_column(PluginCatalogFile::entries($root . '/config/demo/plugins.yaml'), 'slug');
+} catch (UnreadableProof|ParseException $exception) {
+    fwrite(\STDERR, 'Proof unreadable: ' . $exception->getMessage() . "\n");
+    $report('Proof unreadable: ' . $exception->getMessage());
+    exit(2);
+}
+
+$tests = TestFileRule::countIn($root);
+$gaps = ProofFreshness::gaps($proof, $tests, $slugs);
+if ([] === $gaps) {
+    $line = \sprintf('Proof up to date: %d test files, %d plugins.', $tests, \count($slugs));
+    echo $line . "\n";
+    $report($line);
+    exit(0);
+}
+
+$lines = array_map(static fn (ProofGap $gap): string => '- ' . $gap->describe(), $gaps);
+fwrite(\STDERR, "Proof behind the repository:\n" . implode("\n", $lines) . "\nRefresh it: " . $refresh . " (then commit config/demo/proof.json)\n");
+$report("Behind the repository:\n\n" . implode("\n", $lines) . "\n\nRefresh it: `" . $refresh . '` (then commit `config/demo/proof.json`).');
+exit(1);
