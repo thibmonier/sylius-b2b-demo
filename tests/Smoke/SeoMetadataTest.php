@@ -105,11 +105,12 @@ final class SeoMetadataTest extends WebTestCase
         $images = $this->open('/fr_FR/taxons/visserie')->filter('main img[src*="/media/cache/"]');
 
         self::assertGreaterThan(0, $images->count());
-        foreach ($images as $image) {
+        foreach ($images as $position => $image) {
             $img = new Crawler($image);
             self::assertMatchesRegularExpression('/^\d+$/', (string) $img->attr('width'));
             self::assertMatchesRegularExpression('/^\d+$/', (string) $img->attr('height'));
-            self::assertSame('lazy', $img->attr('loading'));
+            // The first row is visible on arrival (US-167): only the cards below wait for the screen.
+            self::assertSame($position < 4 ? 'eager' : 'lazy', $img->attr('loading'));
             self::assertSame('async', $img->attr('decoding'));
             self::assertStringContainsString('w,', (string) $img->attr('srcset'), 'Two widths are offered.');
             self::assertNotEmpty($img->attr('sizes'));
