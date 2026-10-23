@@ -374,7 +374,7 @@ sprints:
       - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # sprint 22 ; EPIC-11, Could ; fiche écrite le 2026-10-23 ; sacrifice n°1
     sprint_tasks:
       - {id: T-TECH-22-01, title: "Clôture des reviews : vérification en production des sprints 18 à 21 puis passage à done", points: 0, status: backlog}  # sprint 22 ; Must ; tâche de sprint sans points, à décomposer au lancement ; actions de Thibaut (GO, relectures) listées dans l'état du backlog du 2026-10-23
-    notes: "Plan du 2026-10-23, 27 points. Ordre de sacrifice : US-062, US-154, US-098, US-088, US-165 ; les Must (clôture des reviews, US-163, US-164, US-162, solde d'US-161) et US-084, US-167 ne se sacrifient pas. Pas de décomposition en tâches avant le lancement du sprint. Dates réelles : 2026-10-26 au 2026-11-06 (10 jours ouvrés). Capacité volontairement contenue : tampon pour d'éventuels entretiens. Sécurité : aucune route, valeur ni seuil dans le dépôt public. Politique : aucune comparaison à Sylius Plus dans les textes publics."
+    notes: "Plan du 2026-10-23, 27 points. Ordre de sacrifice : US-062, US-154, US-098, US-088, US-165 ; les Must (clôture des reviews, US-163, US-164, US-162, solde d'US-161) et US-084, US-167 ne se sacrifient pas. Pas de décomposition en tâches avant le lancement du sprint. Dates réelles : 2026-10-26 au 2026-11-06 (10 jours ouvrés). Capacité volontairement contenue : tampon pour d'éventuels entretiens. Sécurité : aucune route, valeur ni seuil dans le dépôt public."
 
   sprint-23:
     name: sprint-23-vitrine
