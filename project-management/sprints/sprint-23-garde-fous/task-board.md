@@ -3,21 +3,17 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut | ⚠️ Sacrifiable
 
-Total décomposé : **40 tâches, 28,25 h** pour 11 points ; **27,5 h pour Claude**, 0,75 h d'actions de Thibaut. État au 2026-10-23 (décisions des spikes prises) : 38 ✅, 1 🔄, 1 🔲. US-170 et US-173 ont remplacé US-132 et US-130 le jour du lancement (critique d'un architecte Sylius et d'un client B2B, décision de Thibaut). Voir [tasks/README.md](./tasks/README.md).
+Total décomposé : **40 tâches, 28,25 h** pour 11 points ; **27,5 h pour Claude**, 0,75 h d'actions de Thibaut. État au 2026-10-23 (revue et rétro préparées) : 40 ✅, 0 🔄, 0 🔲. US-170 et US-173 ont remplacé US-132 et US-130 le jour du lancement (critique d'un architecte Sylius et d'un client B2B, décision de Thibaut). Voir [tasks/README.md](./tasks/README.md).
 
 Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre.
 
 ## 🔲 À Faire
 
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
-| T-TECH-23-06 | Transverse | DOC | Revue et rétrospective du sprint 23 : indicateurs du sprint 22 (scénarios non livrés, commits rouges, plantages, espace minimal, tâches restées 🔲, con … | 1 h | Orchestrateur |
+_Aucune tâche._
 
 ## 🔄 En Cours
 
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
-| T-170-06 | US-170 | TEST | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` (360 px sans défilement horizontal) ; suite via `bin/run-tests`, ECS, PHPStan max, Rector | 0,75 h | Claude |
+_Aucune tâche._
 
 ## 👀 En Review
 
@@ -52,6 +48,7 @@ _Aucune tâche._
 | T-170-03 | US-170 | BE | Route localisée et contrôleur ; chiffres fournis par `ProofReader` | 0,75 h | Claude |
 | T-170-04 | US-170 | FE-WEB | Gabarit et schéma SVG d'ensemble (thème clair et sombre), textes FR et EN des six rubriques avec leurs liens vers le dépôt | 2 h | Claude |
 | T-170-05 | US-170 | FE-WEB | Liens : section « Architecture type » de la page Intégrer et pied de page de la boutique | 0,5 h | Claude |
+| T-170-06 | US-170 | TEST | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` (360 px sans défilement horizontal) ; suite via `bin/run-tests`, ECS, PHPStan max, Rector | 0,75 h | Claude |
 | T-170-07 | US-170 | REV | Revue (aucun détail de sécurité, ton neutre, parité FR et EN) et table « scénario → test » remplie | 0,25 h | Claude |
 | T-173-01 | US-173 | DOC | Relevé : classement US-063, `require` et `suggest` des 18 plugins sans recoupement, dépendances internes entre eux | 0,5 h | Claude |
 | T-173-02 | US-173 | OPS | Essai d'un métapaquet « IA et headless » dans un projet jetable (dépôt de type `path`) : ce qui reste à faire à la main (bundles, configuration, route … | 1,25 h | Claude |
@@ -65,3 +62,4 @@ _Aucune tâche._
 | T-TECH-23-03 | Transverse | OPS | PR du sprint : CI verte (« Quality and smoke tests », « Docker image »), run terminé avant le merge ; si la CI de la PR ne démarre pas, `gh workflow r … | 0,5 h | Orchestrateur |
 | T-TECH-23-04 | Transverse | REV | Avant chaque passage en done : table « scénario → test ou preuve » complète dans le fichier de tâches (action 1) et commit de tests rouges cité dans l … | 0,75 h | Orchestrateur |
 | T-TECH-23-05 | Transverse | DOC | Statuts : chaque tâche cochée dans le commit qui la livre ; tâches transverses revues à chaque merge (action 5) | 0,25 h | Orchestrateur |
+| T-TECH-23-06 | Transverse | DOC | Revue et rétrospective du sprint 23 : indicateurs du sprint 22 (scénarios non livrés, commits rouges, plantages, espace minimal, tâches restées 🔲, con … | 1 h | Orchestrateur |
