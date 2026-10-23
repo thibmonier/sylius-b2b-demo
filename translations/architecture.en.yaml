@@ -28,6 +28,7 @@ overview:
     caption: "A single container serves the shop and runs the scheduled tasks; the database and the media are persistent; the CI builds and checks the same image on every change."
 layers:
     title: "Layers"
+    packs_link: "Plugins install one by one or by pack: see the Install a pack page."
     core:
         name: "Sylius core"
         text: "Sylius %sylius% on Symfony %symfony% and PHP %php%, from the Sylius-Standard skeleton. The core is not modified: everything goes through configuration, events and extension points."
