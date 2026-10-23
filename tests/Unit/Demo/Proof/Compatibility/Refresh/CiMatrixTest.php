@@ -65,7 +65,8 @@ final class CiMatrixTest extends TestCase
                                   symfony: "^8.0"
             YAML);
 
-        self::assertSame(['7.4'], $axes['symfony'] ?? null);
+        self::assertNotNull($axes);
+        self::assertSame(['7.4'], $axes['symfony']);
     }
 
     public function testTheMatricesOfSeveralJobsAreMerged(): void
@@ -80,8 +81,9 @@ final class CiMatrixTest extends TestCase
                         matrix: { php: ["8.4"], sylius: ["~2.3.0"], symfony: ["^8.0"], database: ["mysql:8.4"] }
             YAML);
 
-        self::assertSame(['8.3', '8.4'], $axes['php'] ?? null);
-        self::assertSame(['2.2', '2.3'], $axes['sylius'] ?? null);
+        self::assertNotNull($axes);
+        self::assertSame(['8.3', '8.4'], $axes['php']);
+        self::assertSame(['2.2', '2.3'], $axes['sylius']);
     }
 
     public function testAnAxisTheWorkflowDoesNotDeclareIsEmptyNotInvented(): void

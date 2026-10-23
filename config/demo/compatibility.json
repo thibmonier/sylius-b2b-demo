@@ -1,0 +1,966 @@
+{
+    "generated_at": "2026-10-23T19:14:48Z",
+    "demo": {
+        "sylius": "2.3.2",
+        "symfony": "8.1.9",
+        "php": "^8.5",
+        "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+        "checked_at": "2026-10-23"
+    },
+    "plugins": {
+        "sylius-admin-order-creation-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "1d6ef798d3229fe225e05ad8b3a0335bf0973df53576c095591e2fe59f63b311",
+            "demo": {
+                "version": "v1.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-agentic-feeds-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-webhook-outbox-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "615db1a6be0f5c1986ca4ad86d30ac61926d64c22004dcf95bbd10033cdf0043",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-ai-catalog-copilot-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-audit-log-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "ecd0f91bc6902921e02a0cb484daee5a18d55ec5aa8fefb245ac2eb45cab2905",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-audit-log-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "d2612fe67121169c6394e767ff885d277a08aa741f56bf3669a8f49eb82ddd43",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-b2b-mcp-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-audit-log-plugin",
+                    "sylius-company-accounts-plugin",
+                    "sylius-purchase-approval-plugin",
+                    "sylius-quick-order-plugin",
+                    "sylius-quote-request-plugin",
+                    "sylius-trade-credit-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "77c0f1e9d3e6f655d56a71c68c2f49d8aedcf40142d017fbf902bde6edb3ce60",
+            "demo": {
+                "version": "v1.2.2",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-bulk-actions-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "4755004c8fa720eb8e3bf12b4561cd73b489142d1a4fec88656c1f1c93e2a229",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-channel-access-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "b590957aac7ac6ebd6e1b8f9997cf0ca29d2682de30ebd50394310331aec5ff8",
+            "demo": {
+                "version": "v0.2.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-command-palette-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "aac4bb8365e3b5d64ba1bb0b34d3aea163f9f36a58f7442b3c03a99f1d6acb47",
+            "demo": {
+                "version": "v1.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-company-accounts-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-admin-order-creation-plugin",
+                    "sylius-order-hold-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "d13e48e8e14f06df22ceacab0654bfaf3960bbb453e878e8a2f41de97ace4e7b",
+            "demo": {
+                "version": "v1.3.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-company-insights-plugin": {
+            "dependencies": {
+                "requires": [
+                    "sylius-company-accounts-plugin"
+                ],
+                "suggests": [
+                    "sylius-purchase-approval-plugin",
+                    "sylius-trade-credit-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4",
+                    "8.5"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "0b2dcbfa55e662d9b6fd94d27034f3c4a4aa923c840585dd13de07436abd0733",
+            "demo": {
+                "version": "v0.2.1",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-container-fill-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-quick-order-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "dc241a03053135fc7f37ebcce48536eebc31678fafbcc39f4b52dad7a9f8b8d1",
+            "demo": {
+                "version": "v1.1.1",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-customer-asset-management-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-company-accounts-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4",
+                    "8.5"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "0b2f890f7d181b4047e7dd1f4749515819f2f8e9325eba5115750c77b29f1dd0",
+            "demo": {
+                "version": "v0.1.1",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-facturx-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "b16cf3c230553735c4154acc175a8ca1a89e372254f80e07d26317bd82e81555",
+            "demo": {
+                "version": "v1.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-gpsr-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "b72d396f524866806281a35624a7e7608ec6622928600878f7fac33a8e78305c",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-order-hold-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "5a03f9e03451fe2e21dd7f9e70c10be003a88b5553aad732518704f1dfd32454",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-punchout-cxml-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [
+                    "sylius-company-accounts-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "3f81d21485bd845d6bd410e1c5c5e0b6c1804f0201427b3ab6e471c806a56709",
+            "demo": {
+                "version": "v1.3.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-purchase-approval-plugin": {
+            "dependencies": {
+                "requires": [
+                    "sylius-company-accounts-plugin",
+                    "sylius-order-hold-plugin"
+                ],
+                "suggests": [
+                    "sylius-webhook-outbox-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4",
+                    "8.5"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "ae6725dedf22b6bbb1a8967d72917fc87a1eb9bf7c367ac5486767e6d16a2672",
+            "demo": {
+                "version": "v1.3.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-quick-order-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "5d665768bb55bc7f4ada04cef7e8980b43f0295b2ded4541ce05629a32035dbd",
+            "demo": {
+                "version": "v1.3.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-quote-request-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "7d5ff540e45d9b8be00988baab970295d863b3083b23b6ec6b56e7e2c86ab5b7",
+            "demo": {
+                "version": "v1.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-registration-approval-plugin": {
+            "dependencies": {
+                "requires": [
+                    "sylius-channel-access-plugin"
+                ],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "d7648f81d5cb9927cd025aaf82803b8d56224467ab1e44c22c9ca6cdcf14234d",
+            "demo": {
+                "version": "v0.1.2",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-tier-pricing-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "e56da733cde18e9ef12c8f8d4baca9fc2771485f3154862160c9b11dd065f3f6",
+            "demo": {
+                "version": "v1.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-timeline-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-timeline-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-timeline-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "8f5c107e498c4ca5da0e5728885169730aed53eeab5e4734516722634e1e41d7",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-trade-credit-plugin": {
+            "dependencies": {
+                "requires": [
+                    "sylius-order-hold-plugin"
+                ],
+                "suggests": [
+                    "sylius-facturx-plugin"
+                ],
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "649470f5e00743f2b887692ee75780c627c76ddbe0776ff424b602174aac022c",
+            "demo": {
+                "version": "v1.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-webhook-outbox-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "6b88c9baeacb6cb806e414cedff73351bb76e8ddba065f67170a031196701d2d",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-withdrawal-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-23"
+            },
+            "fingerprint": "4d5744f762ba17b2590d8bd3282395eafe84209ab787f0cce98d186f5f6d06d2",
+            "demo": {
+                "version": "v1.0.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-23"
+            }
+        }
+    }
+}

@@ -1,0 +1,91 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * MANUAL SCRIPT, run by a developer, never by the reset, the Docker build, the CI or the page (US-171).
+ *
+ * Regenerates config/demo/compatibility.json, the data of the compatibility page (/{locale}/compatibilite): for each plugin
+ * of config/demo/plugins.yaml the plugins it requires or suggests (the "require" and "suggest" of its composer.json) and
+ * the PHP, Sylius, Symfony and database versions its CI runs (the build matrix of its workflow), and for the demo itself
+ * the combination its composer.lock installs. Nothing is written by hand. Public sources only: the GitHub REST API through
+ * `gh`, which carries its own authentication. No token is read from, or written to, any file; `.env` is never read.
+ *
+ *   php bin/compat-refresh [--only=slug,slug] [--dry-run] [--file=PATH] [--lock=PATH]
+ *
+ * --only      refresh these plugins only (the others keep their facts)
+ * --dry-run   print the new content, write nothing
+ * --file      another output file (default config/demo/compatibility.json)
+ * --lock      another composer.lock for the demo (default: the one of this repository, the code it ships)
+ *
+ * A repository that fails keeps the last verified value, marked stale, with its old date. Exit code 1 when a source failed
+ * (the file is written anyway), 2 on a usage error. See docs/theme-b2b.md ("Matrice de compatibilité").
+ */
+
+use App\Demo\Proof\Compatibility\Refresh\CompatibilityCollector;
+use App\Demo\Proof\Compatibility\Refresh\CompatibilityRefresher;
+use App\Demo\Proof\Refresh\GhCliApi;
+use App\Demo\Proof\Refresh\PluginCatalogFile;
+use Symfony\Component\Clock\NativeClock;
+
+require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$usage = "usage: php bin/compat-refresh [--only=slug,slug] [--dry-run] [--file=PATH] [--lock=PATH]\n";
+$root = \dirname(__DIR__);
+$only = [];
+$dryRun = false;
+$file = $root . '/config/demo/compatibility.json';
+$lockFile = $root . '/composer.lock';
+$arguments = \is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], \is_string(...))) : [];
+foreach (\array_slice($arguments, 1) as $argument) {
+    if ('--dry-run' === $argument) {
+        $dryRun = true;
+    } elseif (str_starts_with($argument, '--only=')) {
+        $only = array_values(array_filter(explode(',', substr($argument, 7))));
+    } elseif (str_starts_with($argument, '--file=')) {
+        $file = substr($argument, 7);
+    } elseif (str_starts_with($argument, '--lock=')) {
+        $lockFile = substr($argument, 7);
+    } else {
+        fwrite(\STDERR, $usage);
+        exit(2);
+    }
+}
+
+$slugs = array_column(PluginCatalogFile::entries($root . '/config/demo/plugins.yaml'), 'slug');
+$unknown = array_diff($only, $slugs);
+if ([] !== $unknown) {
+    fwrite(\STDERR, 'Unknown plugin: ' . implode(', ', $unknown) . "\n" . $usage);
+    exit(2);
+}
+
+$current = [];
+if (is_file($file)) {
+    $decoded = json_decode((string) file_get_contents($file), true);
+    $current = \is_array($decoded) ? $decoded : [];
+}
+$lock = is_file($lockFile) ? file_get_contents($lockFile) : false;
+
+$clock = new NativeClock();
+$refresher = new CompatibilityRefresher(new CompatibilityCollector(new GhCliApi(), $clock), $clock);
+$result = $refresher->refresh(
+    $current,
+    [] === $only ? $slugs : $only,
+    false === $lock ? null : $lock,
+    static function (string $subject, array $failed): void {
+        printf("%-8s %s%s\n", [] === $failed ? 'OK' : 'STALE', $subject, [] === $failed ? '' : ' (' . implode(', ', $failed) . ' unavailable, last verified value kept)');
+    },
+);
+
+$json = json_encode($result->data(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR) . "\n";
+if ($dryRun) {
+    echo $json;
+    exit([] === $result->failures ? 0 : 1);
+}
+$temporary = $file . '.tmp' . getmypid();
+file_put_contents($temporary, $json);
+rename($temporary, $file);
+printf("Written: %s\n", $file);
+
+exit([] === $result->failures ? 0 : 1);

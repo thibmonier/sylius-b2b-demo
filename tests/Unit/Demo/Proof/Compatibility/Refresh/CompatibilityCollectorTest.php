@@ -8,6 +8,7 @@ use App\Demo\Proof\Compatibility\Refresh\CompatibilityCollector;
 use App\Demo\Proof\Compatibility\Refresh\Fingerprint;
 use App\Demo\Proof\ProofReader;
 use App\Demo\Proof\Refresh\SourceUnavailable;
+use App\Tests\Support\Path;
 use App\Tests\Unit\Demo\Proof\Refresh\FakeSources;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
@@ -37,22 +38,22 @@ final class CompatibilityCollectorTest extends TestCase
     {
         $facts = $this->collector($this->healthy())->plugin(self::SLUG)->facts;
 
-        self::assertSame(['sylius-order-hold-plugin'], $facts['dependencies']['requires']);
-        self::assertSame(['sylius-facturx-plugin'], $facts['dependencies']['suggests']);
-        self::assertSame('https://github.com/' . self::REPO . '/blob/main/composer.json', $facts['dependencies']['source']);
-        self::assertSame('2026-10-23', $facts['dependencies']['checked_at']);
+        self::assertSame(['sylius-order-hold-plugin'], Path::get($facts, 'dependencies.requires'));
+        self::assertSame(['sylius-facturx-plugin'], Path::get($facts, 'dependencies.suggests'));
+        self::assertSame('https://github.com/' . self::REPO . '/blob/main/composer.json', Path::get($facts, 'dependencies.source'));
+        self::assertSame('2026-10-23', Path::get($facts, 'dependencies.checked_at'));
     }
 
     public function testTheTestedVersionsComeFromTheCiMatrix(): void
     {
         $facts = $this->collector($this->healthy())->plugin(self::SLUG)->facts;
 
-        self::assertSame(['8.3', '8.4'], $facts['ci']['php']);
-        self::assertSame(['2.2', '2.3'], $facts['ci']['sylius']);
-        self::assertSame(['7.4'], $facts['ci']['symfony']);
-        self::assertSame(['mysql:8.4'], $facts['ci']['database']);
-        self::assertSame('https://github.com/' . self::REPO . '/blob/main/.github/workflows/build.yaml', $facts['ci']['source']);
-        self::assertSame('2026-10-23', $facts['ci']['checked_at']);
+        self::assertSame(['8.3', '8.4'], Path::get($facts, 'ci.php'));
+        self::assertSame(['2.2', '2.3'], Path::get($facts, 'ci.sylius'));
+        self::assertSame(['7.4'], Path::get($facts, 'ci.symfony'));
+        self::assertSame(['mysql:8.4'], Path::get($facts, 'ci.database'));
+        self::assertSame('https://github.com/' . self::REPO . '/blob/main/.github/workflows/build.yaml', Path::get($facts, 'ci.source'));
+        self::assertSame('2026-10-23', Path::get($facts, 'ci.checked_at'));
     }
 
     public function testEverySourceIsPublicAndTheFingerprintCoversBothFiles(): void
@@ -60,9 +61,9 @@ final class CompatibilityCollectorTest extends TestCase
         $collected = $this->collector($this->healthy())->plugin(self::SLUG);
 
         self::assertSame([], $collected->failures);
-        self::assertTrue(ProofReader::isPublicSource($collected->facts['dependencies']['source']));
-        self::assertTrue(ProofReader::isPublicSource($collected->facts['ci']['source']));
-        self::assertSame(Fingerprint::of(self::composer(), self::WORKFLOW), $collected->facts['fingerprint']);
+        self::assertTrue(ProofReader::isPublicSource(Path::get($collected->facts, 'dependencies.source')));
+        self::assertTrue(ProofReader::isPublicSource(Path::get($collected->facts, 'ci.source')));
+        self::assertSame(Fingerprint::of(self::composer(), self::WORKFLOW), Path::get($collected->facts, 'fingerprint'));
     }
 
     public function testARepositoryWithoutMatrixStillGivesItsDependencies(): void
@@ -71,8 +72,8 @@ final class CompatibilityCollectorTest extends TestCase
 
         $facts = $this->collector($sources)->plugin(self::SLUG)->facts;
 
-        self::assertSame(['sylius-order-hold-plugin'], $facts['dependencies']['requires']);
-        self::assertArrayNotHasKey('ci', $facts, 'no matrix, no tested version: nothing is invented');
+        self::assertSame(['sylius-order-hold-plugin'], Path::get($facts, 'dependencies.requires'));
+        self::assertNull(Path::get($facts, 'ci'), 'no matrix, no tested version: nothing is invented');
     }
 
     public function testAnUnreadableRepositoryKeepsTheLastVerifiedValuesMarkedStaleWithTheirDate(): void
@@ -87,11 +88,11 @@ final class CompatibilityCollectorTest extends TestCase
         $collected = $this->collector($sources)->plugin(self::SLUG, $previous);
 
         self::assertSame(['github'], $collected->failures);
-        self::assertSame(['8.3'], $collected->facts['ci']['php']);
-        self::assertSame('2026-10-14', $collected->facts['ci']['checked_at'], 'the old date, not today');
-        self::assertTrue($collected->facts['ci']['stale']);
-        self::assertTrue($collected->facts['dependencies']['stale']);
-        self::assertSame('old', $collected->facts['fingerprint'], 'the fingerprint of the last verified state, so the check still sees the gap');
+        self::assertSame(['8.3'], Path::get($collected->facts, 'ci.php'));
+        self::assertSame('2026-10-14', Path::get($collected->facts, 'ci.checked_at'), 'the old date, not today');
+        self::assertTrue(Path::get($collected->facts, 'ci.stale'));
+        self::assertTrue(Path::get($collected->facts, 'dependencies.stale'));
+        self::assertSame('old', Path::get($collected->facts, 'fingerprint'), 'the fingerprint of the last verified state, so the check still sees the gap');
     }
 
     public function testAnUnreadableRepositoryNeverVerifiedBeforeHasNoFact(): void
@@ -111,7 +112,7 @@ final class CompatibilityCollectorTest extends TestCase
         $collected = $this->collector($sources)->plugin(self::SLUG);
 
         self::assertSame(['github'], $collected->failures);
-        self::assertArrayNotHasKey('dependencies', $collected->facts);
+        self::assertNull(Path::get($collected->facts, 'dependencies'));
     }
 
     private function collector(FakeSources $sources): CompatibilityCollector

@@ -8,6 +8,7 @@ use App\Demo\Proof\Compatibility\Refresh\CompatibilityCollector;
 use App\Demo\Proof\Compatibility\Refresh\CompatibilityRefresher;
 use App\Demo\Proof\ProofReader;
 use App\Demo\Proof\Refresh\SourceUnavailable;
+use App\Tests\Support\Path;
 use App\Tests\Unit\Demo\Proof\Refresh\FakeSources;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
@@ -23,14 +24,14 @@ final class CompatibilityRefresherTest extends TestCase
 
         $data = $result->data();
         self::assertSame([], $result->failures);
-        self::assertSame(['sylius-a-plugin', 'sylius-b-plugin'], array_keys($data['plugins']));
-        self::assertSame('v1.2.0', $data['plugins']['sylius-a-plugin']['demo']['version']);
-        self::assertSame(self::LOCK_SOURCE, $data['plugins']['sylius-a-plugin']['demo']['source']);
-        self::assertArrayNotHasKey('demo', $data['plugins']['sylius-b-plugin'], 'not installed in the demo: nothing is claimed');
-        self::assertSame('2.3.2', $data['demo']['sylius']);
-        self::assertSame('8.1.9', $data['demo']['symfony']);
-        self::assertTrue(ProofReader::isPublicSource($data['demo']['source']));
-        self::assertSame('2026-10-23T10:00:00Z', $data['generated_at']);
+        self::assertSame(['sylius-a-plugin', 'sylius-b-plugin'], Path::keys($data, 'plugins'));
+        self::assertSame('v1.2.0', Path::get($data, 'plugins.sylius-a-plugin.demo.version'));
+        self::assertSame(self::LOCK_SOURCE, Path::get($data, 'plugins.sylius-a-plugin.demo.source'));
+        self::assertNull(Path::get($data, 'plugins.sylius-b-plugin.demo'), 'not installed in the demo: nothing is claimed');
+        self::assertSame('2.3.2', Path::get($data, 'demo.sylius'));
+        self::assertSame('8.1.9', Path::get($data, 'demo.symfony'));
+        self::assertTrue(ProofReader::isPublicSource(Path::get($data, 'demo.source')));
+        self::assertSame('2026-10-23T10:00:00Z', Path::get($data, 'generated_at'));
     }
 
     public function testAFailingRepositoryDoesNotStopTheOthersAndKeepsItsLastValue(): void
@@ -46,9 +47,9 @@ final class CompatibilityRefresherTest extends TestCase
         $data = $result->data();
         self::assertSame(['sylius-b-plugin' => ['github']], $result->failures);
         self::assertSame(['sylius-a-plugin' => [], 'sylius-b-plugin' => ['github'], 'demo' => []], $notes);
-        self::assertSame(['8.3', '8.4'], $data['plugins']['sylius-a-plugin']['ci']['php']);
-        self::assertTrue($data['plugins']['sylius-b-plugin']['ci']['stale']);
-        self::assertSame('2026-10-14', $data['plugins']['sylius-b-plugin']['ci']['checked_at']);
+        self::assertSame(['8.3', '8.4'], Path::get($data, 'plugins.sylius-a-plugin.ci.php'));
+        self::assertTrue(Path::get($data, 'plugins.sylius-b-plugin.ci.stale'));
+        self::assertSame('2026-10-14', Path::get($data, 'plugins.sylius-b-plugin.ci.checked_at'));
     }
 
     public function testAnUnreadableLockKeepsTheLastDemoStack(): void
@@ -59,9 +60,9 @@ final class CompatibilityRefresherTest extends TestCase
 
         $data = $result->data();
         self::assertSame(['demo' => ['composer.lock']], $result->failures);
-        self::assertSame('2.3.1', $data['demo']['sylius']);
-        self::assertTrue($data['demo']['stale']);
-        self::assertSame('2026-10-14', $data['demo']['checked_at']);
+        self::assertSame('2.3.1', Path::get($data, 'demo.sylius'));
+        self::assertTrue(Path::get($data, 'demo.stale'));
+        self::assertSame('2026-10-14', Path::get($data, 'demo.checked_at'));
     }
 
     public function testThePluginsNotRefreshedKeepTheirFacts(): void
@@ -70,8 +71,8 @@ final class CompatibilityRefresherTest extends TestCase
 
         $data = $this->refresher($this->sources())->refresh($current, ['sylius-a-plugin'], $this->lock())->data();
 
-        self::assertSame('zzz', $data['plugins']['sylius-z-plugin']['fingerprint']);
-        self::assertNotSame('kept', $data['plugins']['sylius-a-plugin']['fingerprint']);
+        self::assertSame('zzz', Path::get($data, 'plugins.sylius-z-plugin.fingerprint'));
+        self::assertNotSame('kept', Path::get($data, 'plugins.sylius-a-plugin.fingerprint'));
     }
 
     private function refresher(FakeSources $sources): CompatibilityRefresher
