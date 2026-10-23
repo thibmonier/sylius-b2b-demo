@@ -1,0 +1,32 @@
+{# US-098: copy of the container-fill plugin preview (the plugin stays untouched); the rows are rendered by _preview_rows.html.twig, which folds the containers at 0 %. #}
+{# Indicative preview under the add to cart quantity: share of each container taken by the quantity typed, and the current fill of the cart (the cart stays the reference for mixed loads). #}
+{% if tmonier_container_fill_product_preview_enabled() %}
+    {% set form = hookable_metadata.context.form %}
+    {% set product = hookable_metadata.context.product %}
+    {% set variant = form.cartItem.vars.data.variant|default(null) %}
+    {% if variant is null and not product.enabledVariants.empty %}{% set variant = product.enabledVariants.first %}{% endif %}
+    {% if variant %}
+        {% set quantity = form.cartItem.quantity.vars.value|default(1) %}
+        {% set rows = tmonier_container_fill_preview(variant, quantity) %}
+        {% set logistics = tmonier_container_fill_logistics(variant) %}
+        {% if rows is not empty %}
+            <div class="small border rounded p-2 mb-3" {{ sylius_test_html_attribute('tmonier-container-fill-preview') }}>
+                <div class="fw-semibold mb-1">{{ 'tmonier_container_fill.ui.preview_title'|trans }}</div>
+                {% if logistics.unitsPerCase > 1 %}
+                    <div>{{ 'tmonier_container_fill.ui.sold_by_case'|trans({'%units%': logistics.unitsPerCase}) }}{% if logistics.caseMultipleRequired %} · {{ 'tmonier_container_fill.ui.case_multiple_required'|trans }}{% endif %}</div>
+                {% endif %}
+                {{ include('shop/container_fill/_preview_rows.html.twig', {rows: rows, quantity: quantity}) }}
+                {% set cart = form.vars.data.cart|default(null) %}
+                {% if cart is not null and not cart.empty %}
+                    {% for outcome in tmonier_container_fill_report(cart).plan %}
+                        {% set last = outcome.result.containers|last %}
+                        {% if last %}
+                            <div {{ sylius_test_html_attribute('tmonier-container-fill-preview-cart') }}>{{ 'tmonier_container_fill.ui.cart_fill_now'|trans({'%count%': outcome.result.containerCount, '%type%': outcome.result.container.name, '%percent%': last.percent}) }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <div class="text-body-secondary">{{ 'tmonier_container_fill.ui.preview_help'|trans }}</div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endif %}

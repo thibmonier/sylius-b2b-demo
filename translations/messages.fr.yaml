@@ -144,6 +144,7 @@ app:
             po_reference_required: 'Référence PO *'
             cost_center: 'Centre de coût'
     ui:
+        container_fill_other: 'Autres contenants (%count%)'
         po_reference: 'Référence PO'
         cost_center: 'Centre de coût'
     email:

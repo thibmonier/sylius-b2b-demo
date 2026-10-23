@@ -369,7 +369,7 @@ sprints:
       - {id: US-165, title: "Dettes qualité de l'audit : écriture en base, codes acheteurs du simulateur, code mort de la vitrine", points: 3, status: review}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sacrifice n°5
       - {id: US-167, title: "Performance à faible effort : vignettes du haut du catalogue et cache des fichiers versionnés", points: 2, status: review}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2)
       - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: review}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°4
-      - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: ready-for-dev}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°3
+      - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: review}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°3
       - {id: US-154, title: "Company-insights : conversion des devis et économies des prix dégressifs", points: 3, status: ready-for-dev}  # sprint 22 ; EPIC-15, Could ; reportée du sprint 21 ; plugin 0.3.0 ; sacrifice n°2
       - {id: US-062, title: "Mineurs du script d'images", points: 1, status: ready-for-dev}  # sprint 22 ; EPIC-11, Could ; fiche écrite le 2026-10-23 ; sacrifice n°1
     sprint_tasks:

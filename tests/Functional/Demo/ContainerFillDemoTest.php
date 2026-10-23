@@ -135,6 +135,17 @@ final class ContainerFillDemoTest extends WebTestCase
         self::assertStringNotContainsString('Vendu par cartons complets', $html);
     }
 
+    public function testTheProductPageFoldsTheContainersTheQuantityDoesNotFill(): void
+    {
+        $client = $this->clientOf(self::CLAIRE);
+
+        $html = $this->get($client, '/fr_FR/products/viss-001-fr');
+
+        self::assertStringContainsString('data-test-tmonier-container-fill-preview-details', $html, 'One box fills 0 % of a pallet: the containers are folded.');
+        self::assertMatchesRegularExpression('#<details(?![^>]*\bopen\b)[^>]*data-test-tmonier-container-fill-preview-details#', $html);
+        self::assertStringContainsString('data-test-tmonier-container-fill-preview-other', $html);
+    }
+
     public function testAnyNumberOfBoxesIsAccepted(): void
     {
         $client = $this->clientOf(self::CLAIRE);

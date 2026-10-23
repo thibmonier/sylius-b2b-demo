@@ -37,12 +37,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-098-01 | [DOC] | Cadrage : gabarit de la jauge de la fiche produit repéré (plugin ou démo), `docs/remplissage-contenants.md` lu, définition de « pertinent » confirmée, emplacement du rendu consigné | 0,5 h | - | Claude | 🔲 |
-| T-098-02 | [TEST] | Tests rouges : 2 contenants pertinents sur 9, détails repliables au clavier, 9 sur 9 sans contrôle « détails », aucune donnée de contenant (bloc masqué), `<details>` sans JavaScript | 1 h | T-098-01 | Claude | 🔲 |
-| T-098-03 | [FE-WEB] | Gabarit : filtre des contenants pertinents, `<details>` des autres, libellés FR et EN, contraste AAA | 1,25 h | T-098-02 | Claude | 🔲 |
+| T-098-01 | [DOC] | Cadrage : gabarit de la jauge de la fiche produit repéré (plugin ou démo), `docs/remplissage-contenants.md` lu, définition de « pertinent » confirmée, emplacement du rendu consigné | 0,5 h | - | Claude | ✅ |
+| T-098-02 | [TEST] | Tests rouges : 2 contenants pertinents sur 9, détails repliables au clavier, 9 sur 9 sans contrôle « détails », aucune donnée de contenant (bloc masqué), `<details>` sans JavaScript | 1 h | T-098-01 | Claude | ✅ |
+| T-098-03 | [FE-WEB] | Gabarit : filtre des contenants pertinents, `<details>` des autres, libellés FR et EN, contraste AAA | 1,25 h | T-098-02 | Claude | ✅ |
 | T-098-04 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` ; suite ciblée via `bin/run-tests`, ECS (`src tests`), PHPStan | 0,75 h | T-098-03 | Claude | 🔲 |
-| T-098-05 | [DOC] | `docs/remplissage-contenants.md` mis à jour | 0,25 h | T-098-04 | Claude | 🔲 |
-| T-098-06 | [REV] | Revue (ton neutre, parité FR et EN, accessibilité) | 0,25 h | T-098-04 | Claude | 🔲 |
+| T-098-05 | [DOC] | `docs/remplissage-contenants.md` mis à jour | 0,25 h | T-098-04 | Claude | ✅ |
+| T-098-06 | [REV] | Revue (ton neutre, parité FR et EN, accessibilité) | 0,25 h | T-098-04 | Claude | ✅ |
 
 **Total estimé : 4 h** (6 tâches, dont 0 de Thibaut, soit 0 h ; 4 h pour Claude et l'orchestrateur).
 

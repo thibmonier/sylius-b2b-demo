@@ -99,3 +99,9 @@ Les quantités qui supposaient des pièces comptent maintenant des boîtes :
 | Paliers (`demo_tier_pricing`) | −5 % dès 10, −10 % dès 50 | inchangé : 10 boîtes de 100 vis (1 000 vis) et 50 boîtes (5 000 vis) restent des paliers de gros crédibles |
 
 Plan de chargement du panier de Claire (liste d'achat envoyée au panier, règle Visserie, carton S : 28 boîtes de VISS-001 ou 23 de VISS-002) : avant, 200 « pièces » de colis de 35 kg dans un carton de 10 kg, surcharge à 357 % ; après, 5 boîtes VISS-001 (17,9 %) + 2 boîtes VISS-002 (8,7 %) = environ 26 % d'un carton S, sans surcharge.
+
+## Aperçu de la fiche produit condensé (US-098)
+
+L'aperçu « Remplissage palette et camion » de la fiche produit ne garde visibles que les contenants que la quantité remplit (taux strictement supérieur à 0 %). Les autres sont rangés dans un élément `<details>` natif « Autres contenants (N) », replié par défaut : accessible au clavier (Entrée, Espace) et sans JavaScript, le navigateur annonce l'état replié ou déplié. Si tous les contenants sont remplis, aucun contrôle n'apparaît ; sans donnée de contenant, le bloc est masqué.
+
+Le rendu vit dans la démo, le plugin reste intact : `templates/shop/container_fill/product_preview.html.twig` (copie du gabarit du plugin) remplace le gabarit du hook `sylius_shop.product.show.content.info.summary.add_to_cart` dans `config/packages/tmonier_plugins_overrides.yaml`, et délègue les lignes à `_preview_rows.html.twig` (testé par `ContainerFillPreviewRowsTest`). Libellé : `app.ui.container_fill_other` (FR et EN).
