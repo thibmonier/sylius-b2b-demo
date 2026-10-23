@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\DataSets;
 use App\Tests\Support\Path;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -44,7 +45,7 @@ final class CompatibilityPageTest extends WebTestCase
         yield 'English' => ['en_US', "Tested by the plugin's CI", 'Tested together in the demo', 'required', 'optional', 'not available', 'not installed in the demo'];
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith3Arguments')]
     public function testEveryPluginHasARowWithTheTwoDistinctColumns(string $locale, string $ciColumn, string $demoColumn): void
     {
         $page = $this->open($locale, $this->data());
@@ -78,7 +79,7 @@ final class CompatibilityPageTest extends WebTestCase
         self::assertStringNotContainsString('2.3.2', $other->text());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith5Arguments')]
     public function testTradeCreditRequiresOrderHoldAndOnlyOptionallyLinksFacturx(string $locale, string $ciColumn, string $demoColumn, string $required, string $optional): void
     {
         $page = $this->open($locale, $this->data());
@@ -93,7 +94,7 @@ final class CompatibilityPageTest extends WebTestCase
         self::assertStringContainsString($optional, $suggests->text());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith5Arguments')]
     public function testTheGraphTellsAMandatoryLinkFromAnOptionalOneByMoreThanColour(string $locale, string $ciColumn, string $demoColumn, string $required, string $optional): void
     {
         $page = $this->open($locale, $this->data());
@@ -116,7 +117,7 @@ final class CompatibilityPageTest extends WebTestCase
         self::assertCount(1, $page->filter('[data-compat-links] [data-compat-edge-from="' . self::TRADE . '"][data-compat-edge-to="' . self::FACTURX . '"]'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testThePageNeverSaysTheWholeCatalogueWasValidatedTogether(string $locale): void
     {
         $page = $this->open($locale, $this->data());
@@ -127,7 +128,7 @@ final class CompatibilityPageTest extends WebTestCase
         self::assertCount(1, $page->filter('[data-compat-scope]'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testALastValueKeptAfterAFailedGenerationIsServedWithItsDate(string $locale): void
     {
         $data = $this->data();
@@ -141,7 +142,7 @@ final class CompatibilityPageTest extends WebTestCase
         self::assertCount(1, $cell->filter('[data-compat-stale]'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith6Arguments')]
     public function testAMissingOrBrokenFileGivesANormalPageWithNothingAvailable(string $locale, string $ciColumn, string $demoColumn, string $required, string $optional, string $unavailable): void
     {
         foreach ([null, '{ not json'] as $content) {
@@ -268,5 +269,29 @@ final class CompatibilityPageTest extends WebTestCase
                 ],
             ],
         ];
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith3Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 3);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith5Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 5);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith6Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 6);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\DataSets;
 use App\Tests\Support\IsolatesSharedAccounts;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -38,7 +39,7 @@ final class AccountMenuTest extends WebTestCase
         self::assertSame($name, $toggle->attr('aria-label'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testEveryButtonOfTheHeaderIsNamed(string $locale): void
     {
         $client = self::createClient();
@@ -63,5 +64,11 @@ final class AccountMenuTest extends WebTestCase
         self::assertNotNull($user);
 
         $client->loginUser($user, 'shop');
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
     }
 }

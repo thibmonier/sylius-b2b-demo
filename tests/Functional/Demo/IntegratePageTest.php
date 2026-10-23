@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\DataSets;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -54,7 +55,7 @@ final class IntegratePageTest extends WebTestCase
         self::assertNotSame('', trim($architecture->filter('title')->text()));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testEveryPluginLinksToItsRepositoryAndItsReadme(string $locale): void
     {
         $repositories = $this->page('/' . $locale . '/integrer')->filter('[data-integrate-repository]');
@@ -68,7 +69,7 @@ final class IntegratePageTest extends WebTestCase
     }
 
     /** US-108 (2026-10-21): the page describes, it does not offer a service: no contact button, even when a contact URL is configured. */
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testThePageHasNoContactButtonEvenWithAContactUrl(string $locale): void
     {
         $this->setEnvironment(['DEMO_PROFILE_URL' => '', 'DEMO_CONTACT_URL' => self::CONTACT]);
@@ -115,7 +116,7 @@ final class IntegratePageTest extends WebTestCase
         self::assertCount(1, $this->page($path)->filter($selector), $selector);
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testThePageGivesNoPriceAndNoComparison(string $locale): void
     {
         $text = mb_strtolower($this->page('/' . $locale . '/integrer')->filter('main')->text());
@@ -194,5 +195,11 @@ final class IntegratePageTest extends WebTestCase
         self::ensureKernelShutdown();
 
         return self::createClient()->request('GET', $path);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
     }
 }

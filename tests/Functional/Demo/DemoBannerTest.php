@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\DataSets;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -55,7 +56,7 @@ final class DemoBannerTest extends WebTestCase
     }
 
     /** US-179: in French the menu rows overflowed a 360 px screen; their labels may now wrap and the panel never grows past its column. */
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheMenuPanelsLetTheirLabelsWrapInsteadOfOverflowing(string $locale): void
     {
         $panels = $this->bar($locale)->filter('[data-demo-menu-panel]');
@@ -132,5 +133,11 @@ final class DemoBannerTest extends WebTestCase
         self::assertCount(1, $bar);
 
         return $bar;
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
     }
 }
