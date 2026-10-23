@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 23
+current_sprint: 24
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -378,7 +378,7 @@ sprints:
 
   sprint-23:
     name: sprint-23-garde-fous  # garde-fous et lisibilité de l'architecture
-    status: in-progress  # lancé le 2026-10-23 juste après la clôture anticipée du sprint 22 (décision de Thibaut) ; périmètre de 12 points validé par Thibaut le 2026-10-23, remanié le même jour à 11 points (US-170 et US-173 remplacent US-132 et US-130, critique d'un architecte Sylius et d'un client B2B) ; décomposé en 40 tâches / 28,25 h (tasks/) ; US-128 sortie (données du 2026-11-18 et du 2026-12-15), US-103 et US-121 hors périmètre tant que le transcript T-103-03 manque
+    status: done  # CLOS le 2026-10-23 (validation de Thibaut) ; 11 points sur 11 en done, 40 tâches sur 40 ; revue et rétro : sprint-23-garde-fous/sprint-review.md, sprint-retro.md (PR #73) ; lancé le 2026-10-23 juste après la clôture anticipée du sprint 22 (décision de Thibaut) ; périmètre de 12 points validé par Thibaut le 2026-10-23, remanié le même jour à 11 points (US-170 et US-173 remplacent US-132 et US-130, critique d'un architecte Sylius et d'un client B2B) ; décomposé en 40 tâches / 28,25 h (tasks/) ; US-128 sortie (données du 2026-11-18 et du 2026-12-15), US-103 et US-121 hors périmètre tant que le transcript T-103-03 manque
     sprint_id: "sprint-23"
     start_date: "2026-10-23"
     end_date: "2026-11-06"  # au plus tard ; clôture dès le périmètre vérifié (action 6 de la rétro du sprint 22)
@@ -395,19 +395,30 @@ sprints:
     notes: "Lancé le 2026-10-23. Ordre de sacrifice : US-169, US-173. Disque : 3,4 Go libres au lancement, 5,9 Go le 2026-10-23 après l'action de Thibaut (T-TECH-23-01b faite). Critique du 2026-10-23 (architecte Sylius, client B2B) : volet commercial ÉCARTÉ par Thibaut (licences, SLA, Packagist privé, place de marché payante, nom en « Enterprise ») ; distributions limitées aux plugins sans recoupement avec Sylius Plus. Si le transcript T-103-03 arrive, US-103 (3) et US-121 (5) peuvent entrer après accord de Thibaut. Abandonnées le 2026-10-23 (valeur de preuve faible / sans demande) : US-094, US-100, US-095, US-102, US-131, US-133 à US-138, US-093, US-101. US-118, US-119, US-125 : en réserve jusqu'à la mise en ligne du site personnel."
 
 # Stories prêtes pour un sprint futur, à planifier.
+  sprint-24:
+    name: sprint-24-integrateurs  # outillage des intégrateurs, PHPUnit 13 et deux spikes
+    status: in-progress  # lancé le 2026-10-23 juste après la clôture du sprint 23 (GO de Thibaut : /workflow:auto-sprint 24) ; périmètre de 16 points choisi par l'orchestrateur (PO) parmi les candidats proposés à Thibaut ; US-175 (3) conditionnelle à son GO pour créer les dépôts des packs et à la validation des noms
+    sprint_id: "sprint-24"
+    start_date: "2026-10-23"
+    end_date: "2026-11-06"  # au plus tard ; clôture dès le périmètre vérifié
+    capacity_points: 16  # 41,6 h de capacité (16 × 2,1 h + 8 h transverses) ; vélocité de référence : S20 22, S21 17, S22 23, S23 11
+    goal: "Donner aux intégrateurs une matrice de compatibilité générée et un guide de surcharge tiré de la démo, monter la démo à PHPUnit 13, rendre le schéma d'architecture lisible sur mobile, et éclairer par deux spikes la facture électronique française et le connecteur ERP"
+    stories:
+      - {id: US-174, title: "Montée de la démo à PHPUnit 13", points: 3, status: ready-for-dev}  # EPIC-10, Could ; décision de Thibaut du 2026-10-23 (spike US-169) ; branche de la PR #54, PR séparée
+      - {id: US-171, title: "Matrice de compatibilité et graphe des dépendances des plugins", points: 3, status: ready-for-dev}  # EPIC-12, Should ; critique du 2026-10-23
+      - {id: US-172, title: "Guide de surcharge des plugins", points: 3, status: ready-for-dev}  # EPIC-12, Should ; critique du 2026-10-23
+      - {id: US-179, title: "Schéma d'architecture lisible sur mobile et barre de la démo sans dépassement", points: 1, status: ready-for-dev}  # EPIC-12, Could ; vérification en production d'US-170
+      - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: ready-for-dev}  # EPIC-14 ; sacrifice n°2
+      - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: ready-for-dev}  # EPIC-14 ; sacrifice n°1
+    notes: "Lancé le 2026-10-23. Ordre de sacrifice : US-130, US-132, puis US-175 si elle est entrée. US-175 (métapaquets, 3 points) entre seulement après le GO de Thibaut (dépôts, noms des paquets) ; sinon elle reste au backlog. Actions 1 à 4 de la rétro du sprint 23 appliquées au planning (consigne-worker règle 9, pièges du shell et vérification en production dans docs/tests-locaux.md, preuve dans checklist-integration.md). Disque : 5,9 Go libres au lancement."
+
 backlog:
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
-  - {id: US-174, title: "Montée de la démo à PHPUnit 13", points: 3, status: backlog}  # EPIC-10, Could ; cible sprint 24 (décision de Thibaut du 2026-10-23, spike US-169) ; branche de la PR #54 ; repli : fermeture de #54 si plus de 10 échecs de comportement
-  - {id: US-175, title: "Métapaquets des packs « IA et headless » et « Conformité et outillage »", points: 3, status: backlog}  # EPIC-14, Should ; ADR 0015 story 1 ; GO de Thibaut pour les dépôts et la publication
+  - {id: US-175, title: "Métapaquets des packs « IA et headless » et « Conformité et outillage »", points: 3, status: backlog}  # EPIC-14, Should ; ADR 0015 story 1 ; GO de Thibaut pour les dépôts et la publication ; CONDITIONNELLE au sprint 24 (entre après ce GO et la validation des noms)
   - {id: US-176, title: "Installation réelle d'un pack en CI", points: 5, status: backlog}  # EPIC-14, Should ; ADR 0015 story 2 ; après US-175
   - {id: US-177, title: "Recettes Symfony Flex des packs", points: 5, status: backlog}  # EPIC-14, Could ; ADR 0015 story 3 ; après la publication des packs ; pull request recipes-contrib sur GO
   - {id: US-178, title: "Page « Installer un pack » dans la démo", points: 2, status: backlog}  # EPIC-14, Should ; ADR 0015 story 4 ; après US-175
-  - {id: US-179, title: "Schéma d'architecture lisible sur mobile et barre de la démo sans dépassement", points: 1, status: backlog}  # EPIC-12, Could ; vérification en production d'US-170 (2026-10-23) : libellés du schéma d'environ 7 px à 360 px, barre de démo FR qui dépasse de 4 px
   # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
-  - {id: US-171, title: "Matrice de compatibilité et graphe des dépendances des plugins", points: 3, status: backlog}  # EPIC-12, Should ; cible sprint 24 ; créée le 2026-10-23 (critique d'un architecte Sylius et d'un client B2B) ; matrice générée depuis les composer.json et les matrices de CI
-  - {id: US-172, title: "Guide de surcharge des plugins", points: 3, status: backlog}  # EPIC-12, Should ; cible sprint 24 ; créée le 2026-10-23 (même critique) ; exemples réels de la démo
-  - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: backlog}  # cible sprint 24 (sortie du sprint 23 le 2026-10-23 au profit d'US-170 et US-173) ; EPIC-14, Could ; Gherkin complété à 1+2+2 au lancement ; lien avec Factur-X
-  - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: backlog}  # cible sprint 24 (sortie du sprint 23 le 2026-10-23 au profit d'US-170 et US-173) ; EPIC-14, Could ; Gherkin complété à 1+2+2 au lancement ; US-136 et US-137 abandonnées, le spike propose de nouvelles stories
   - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15
   - {id: US-103, title: "Assistants IA : page utile avec transcript d'une vraie conversation", points: 3, status: in-progress}  # EPIC-11, Should ; CONDITIONNÉE au transcript T-103-03 fourni par Thibaut (bloc livré au sprint 18) ; peut entrer au sprint 23 s'il arrive
   - {id: US-121, title: "Kit média (2/2) : approbation, MCP, container-fill et visite complète", points: 5, status: backlog}  # EPIC-13, Should ; CONDITIONNÉE au transcript T-103-03 ; peut entrer au sprint 23 s'il arrive

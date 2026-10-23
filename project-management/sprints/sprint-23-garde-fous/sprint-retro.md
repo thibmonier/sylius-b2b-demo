@@ -106,6 +106,7 @@ Avec 6 à 7 Go libres, construire l'image de la démo aurait fait passer le disq
 | Responsable | Scrum Master (Claude) |
 | Deadline | Planning du sprint 24 |
 | DoD | Règle ajoutée ; 0 commentaire supprimé par erreur dans les refactorings du sprint 24 (2 au sprint 23). |
+| Statut | ✅ Règle 9 ajoutée à `consigne-worker.md` au planning du sprint 24 (2026-10-23) ; l'indicateur se mesure au sprint 24. |
 | Priorité | Haute |
 
 ### Action 2 : Pièges du shell documentés
@@ -115,6 +116,7 @@ Avec 6 à 7 Go libres, construire l'image de la démo aurait fait passer le disq
 | Responsable | Scrum Master (Claude) |
 | Deadline | Planning du sprint 24 |
 | DoD | Section complétée ; 0 commande de fond bloquée au sprint 24 (1 au sprint 23). |
+| Statut | ✅ Section « Pièges connus » de `docs/tests-locaux.md` complétée au planning du sprint 24 (2026-10-23) ; l'indicateur se mesure au sprint 24. |
 | Priorité | Moyenne |
 
 ### Action 3 : Rafraîchir la preuve dans la PR
@@ -124,6 +126,7 @@ Avec 6 à 7 Go libres, construire l'image de la démo aurait fait passer le disq
 | Responsable | Orchestrateur (Claude) |
 | Deadline | Première PR du sprint 24 qui touche aux tests |
 | DoD | 0 build de `main` en échec à l'étape « Published proof is up to date » au sprint 24. |
+| Statut | ✅ Ligne ajoutée à `checklist-integration.md` au planning du sprint 24 (2026-10-23) ; l'indicateur se mesure au sprint 24. |
 | Priorité | Moyenne |
 
 ### Action 4 : Rendu vérifiable avant le merge
@@ -133,6 +136,7 @@ Avec 6 à 7 Go libres, construire l'image de la démo aurait fait passer le disq
 | Responsable | Orchestrateur (Claude), Thibaut (espace disque) |
 | Deadline | Planning du sprint 24 |
 | DoD | Chaque story d'interface du sprint 24 a son lieu de vérification écrit dans son fichier de tâches avant le développement. |
+| Statut | ✅ Procédure « Vérifier le rendu en production » ajoutée à `docs/tests-locaux.md` au planning du sprint 24 (2026-10-23) ; le lieu de vérification de chaque story d'interface est écrit dans ses tâches. |
 | Priorité | Basse |
 
 ## Points positifs à conserver

@@ -23,6 +23,7 @@
 6. **Plugin publié** : lire la matrice CI du dépôt avant d'écrire du code (le code tourne sur la version de PHP la plus basse de la matrice) et respecter l'ordre de publication de la fiche ; ni tag ni merge par le worker.
 7. **Secrets fictifs** : aucun jeton ou clé au format réel dans les tests ; les recomposer à l'exécution (concaténation) pour ne pas déclencher les scanners.
 8. **Refus d'outil** : ne jamais contourner un refus par un autre chemin (autre commande, autre binaire, autre outil). Le noter dans le rapport, avec la commande refusée, et continuer le reste du travail.
+9. **Lecture sans filtrage** (action 1 de la rétro du sprint 23) : un fichier à modifier se lit avec l'outil Read ou `rtk proxy cat`, jamais avec `cat`, `sed` ou `head` réécrits par RTK, qui masquent commentaires et docblocks. Le diff d'un refactoring est relu pour les commentaires supprimés.
 
 ## Preuves attendues dans le rapport (action 3)
 
