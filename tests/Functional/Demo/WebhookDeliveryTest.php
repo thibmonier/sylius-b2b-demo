@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Demo;
 use App\Demo\Http\OutboundRequestRefused;
 use App\Demo\Webhook\DemoWebhookTarget;
 use App\Demo\Webhook\ReceivedWebhookStore;
+use App\Tests\Support\Await;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
@@ -214,9 +215,7 @@ final class WebhookDeliveryTest extends DemoAdminWebTestCase
         );
         self::assertIsResource($server);
         $this->server = $server;
-        for ($try = 0; $try < 100 && false === @fsockopen('127.0.0.1', $port); ++$try) {
-            usleep(100_000);
-        }
+        Await::listening('127.0.0.1', $port, 10);
 
         return $port;
     }

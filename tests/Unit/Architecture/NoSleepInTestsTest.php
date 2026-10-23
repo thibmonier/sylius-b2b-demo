@@ -56,17 +56,17 @@ final class NoSleepInTestsTest extends TestCase
         return $found;
     }
 
-    /** @param list<\PhpToken> $tokens */
+    /** @param array<int, \PhpToken> $tokens */
     private function isFunctionCall(array $tokens, int $index): bool
     {
         $next = $this->neighbour($tokens, $index, 1);
         $previous = $this->neighbour($tokens, $index, -1);
 
-        return null !== $next && '(' === $next->text
-            && !($previous?->is([\T_OBJECT_OPERATOR, \T_NULLSAFE_OBJECT_OPERATOR, \T_DOUBLE_COLON, \T_FUNCTION, \T_NEW]) ?? false);
+        return null !== $next && '(' === $next->text &&
+            !($previous?->is([\T_OBJECT_OPERATOR, \T_NULLSAFE_OBJECT_OPERATOR, \T_DOUBLE_COLON, \T_FUNCTION, \T_NEW]) ?? false);
     }
 
-    /** @param list<\PhpToken> $tokens */
+    /** @param array<int, \PhpToken> $tokens */
     private function neighbour(array $tokens, int $index, int $step): ?\PhpToken
     {
         for ($i = $index + $step; isset($tokens[$i]); $i += $step) {

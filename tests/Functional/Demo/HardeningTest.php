@@ -8,6 +8,7 @@ use App\Demo\Http\InternalRequestToken;
 use App\Demo\PunchOutSimulator\BuyerCredentialsProvider;
 use App\Demo\PunchOutSimulator\SetupRequestBuilder;
 use App\Demo\PunchOutSimulator\SignedState;
+use App\Tests\Support\Await;
 use App\Tests\Support\RestoresDemoCarts;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -642,9 +643,7 @@ final class HardeningTest extends WebTestCase
         );
         self::assertIsResource($process);
         $this->endpoint = $process;
-        for ($try = 0; $try < 50 && false === @fsockopen('127.0.0.1', $port); ++$try) {
-            usleep(100_000);
-        }
+        Await::listening('127.0.0.1', $port, 5);
         $this->setEnvironment(['DEMO_SIMULATOR_BASE_URL' => 'http://127.0.0.1:' . $port]);
     }
 

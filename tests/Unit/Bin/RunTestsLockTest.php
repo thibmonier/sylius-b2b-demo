@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Bin;
 
+use App\Tests\Support\Await;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -26,10 +27,14 @@ final class RunTestsLockTest extends TestCase
             while [ -n "${STUB_PHP_WAIT:-}" ] && [ ! -e "$STUB_PHP_WAIT" ]; do sleep 0.05; done
             exit "${STUB_PHP_EXIT:-0}"
             SH);
-        // Widens the race window of the stale-lock takeover: every read of a lock PID is delayed by STUB_CAT_DELAY.
+        // Widens the race window of the stale-lock takeover: every read of a lock PID is delayed by STUB_CAT_DELAY,
+        // and logged (one line per read) in STUB_CAT_LOG when set, so a test can wait for a read instead of sleeping.
         file_put_contents($this->root . '/stub/cat', <<<'SH'
             #!/bin/sh
-            case "$*" in *run-tests.lock/pid*) sleep "${STUB_CAT_DELAY:-0}" ;; esac
+            case "$*" in *run-tests.lock/pid*)
+                [ -z "${STUB_CAT_LOG:-}" ] || echo read >> "$STUB_CAT_LOG"
+                sleep "${STUB_CAT_DELAY:-0}" ;;
+            esac
             exec /bin/cat "$@"
             SH);
         // Same for the removal and the rename of a lock: a slow run acts on the lock after the other one has taken it over.
@@ -149,10 +154,12 @@ final class RunTestsLockTest extends TestCase
         $release = $this->root . '/release';
         $first = $this->start(['STUB_PHP_WAIT' => $release]);
         $this->waitForLock();
-        $waiter = $this->process(['RUN_TESTS_WAIT_INTERVAL' => '0.1'], ['--wait']);
+        $reads = $this->root . '/waiter-reads.log';
+        $waiter = $this->process(['RUN_TESTS_WAIT_INTERVAL' => '0.1', 'STUB_CAT_LOG' => $reads], ['--wait']);
         $waiter->start();
 
-        usleep(600_000);
+        // Two reads of the lock by the waiter: it has seen the live run twice and is still polling.
+        Await::until(static fn (): bool => is_file($reads) && substr_count((string) file_get_contents($reads), "read\n") >= 2, 10, 'The waiter never read the lock twice.');
         self::assertTrue($waiter->isRunning(), 'the waiter must wait for the lock to disappear');
 
         touch($release);
@@ -215,11 +222,12 @@ final class RunTestsLockTest extends TestCase
      */
     private function waitForOneToStop(array $runs): array
     {
-        $deadline = microtime(true) + 10;
-        do {
-            usleep(50_000);
+        $alive = $runs;
+        Await::until(static function () use ($runs, &$alive): bool {
             $alive = array_values(array_filter($runs, static fn (Process $run): bool => $run->isRunning()));
-        } while (\count($alive) === \count($runs) && microtime(true) < $deadline);
+
+            return \count($alive) !== \count($runs);
+        }, 10, 'None of the concurrent runs stopped.');
 
         return $alive;
     }
@@ -263,9 +271,7 @@ final class RunTestsLockTest extends TestCase
 
     private function waitForLock(): void
     {
-        for ($i = 0; $i < 100 && !is_file($this->root . '/var/run-tests.lock/pid'); ++$i) {
-            usleep(50_000);
-        }
+        Await::until(fn (): bool => is_file($this->root . '/var/run-tests.lock/pid'), 5, 'The first run never took the lock.');
         self::assertFileExists($this->root . '/var/run-tests.lock/pid');
     }
 }

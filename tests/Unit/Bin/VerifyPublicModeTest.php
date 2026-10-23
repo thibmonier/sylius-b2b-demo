@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Bin;
 
+use App\Tests\Support\Await;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 
@@ -93,15 +94,9 @@ final class VerifyPublicModeTest extends TestCase
         $router = \dirname(__DIR__, 2) . '/Fixtures/bin/demo-mode-router.php';
         $this->server = new Process([\PHP_BINARY, '-S', '127.0.0.1:' . $port, $router], null, $env + ['PATH' => (string) getenv('PATH')]);
         $this->server->start();
-        for ($i = 0; $i < 50; ++$i) {
-            if (false !== ($socket = @fsockopen('127.0.0.1', $port))) {
-                fclose($socket);
+        Await::listening('127.0.0.1', $port, 5);
 
-                return $port;
-            }
-            usleep(100_000);
-        }
-        self::fail('The stub server did not start: ' . $this->server->getErrorOutput());
+        return $port;
     }
 
     private function script(): string
