@@ -6,9 +6,10 @@ namespace App\Controller;
 
 use App\Entity\Wishlist\CompanyWishlist;
 use App\Wishlist\CompanyWishlistCartAdder;
+use App\Wishlist\CompanyWishlistItemRemover;
 use App\Wishlist\CompanyWishlistRepository;
+use App\Wishlist\CompanyWishlistWriteFailed;
 use App\Wishlist\Security\CompanyWishlistPermissions;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ final class CompanyWishlistController extends AbstractController
         private readonly CurrentMemberResolverInterface $currentMemberResolver,
         private readonly CompanyWishlistRepository $repository,
         private readonly CompanyWishlistCartAdder $cartAdder,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly CompanyWishlistItemRemover $itemRemover,
         private readonly TranslatorInterface $translator,
     ) {
     }
@@ -100,12 +101,12 @@ final class CompanyWishlistController extends AbstractController
         $list = $this->load($id, CompanyWishlistPermissions::EDIT);
         $this->assertCsrf($request, $list);
 
-        foreach ($list->getWishlist()->getWishlistProducts() as $item) {
-            if ($item->getId() === $itemId) {
-                $list->getWishlist()->removeProduct($item);
-                $this->entityManager->flush();
+        try {
+            if ($this->itemRemover->remove($list, $itemId)) {
                 $this->addFlash('success', $this->translator->trans('app.company_wishlist.item_removed', [], 'wishlist'));
             }
+        } catch (CompanyWishlistWriteFailed) {
+            $this->addFlash('error', $this->translator->trans('app.company_wishlist.write_failed', [], 'wishlist'));
         }
 
         return $this->redirectToShow($id);

@@ -23,14 +23,14 @@ Le 2026-10-18 : 45/100 au barème. Le gain vient surtout de la preuve de tests e
 
 | Dette | État |
 |---|---|
-| flush() dans CompanyWishlistController | Non corrigée |
-| Simulateur PunchOut dépendant de PunchoutDemoFixture | Non corrigée |
+| flush() dans CompanyWishlistController | Corrigée (US-165) |
+| Simulateur PunchOut dépendant de PunchoutDemoFixture | Corrigée (US-165, codes acheteurs ; le secret de démo reste lu dans la fixture) |
 | Logique de réception dans WebhookReceiverController | Partielle (29 lignes, 101 au total) |
 | cartFromState dans le contrôleur du simulateur | Non corrigée |
 | Vitrine et Images/Fetch dans src/ avec exclusions | Non corrigée |
 | Rector hors CI | Non corrigée |
 | Méthodes de plus de 30 lignes | Quasi inchangé (23 puis 22) |
-| Wishlist sans test dédié | Non corrigée |
+| Wishlist sans test dédié | Corrigée (US-165, test du service d’écriture) |
 | Couverture sans seuil | Non corrigée |
 | usleep dans les tests | Non corrigée (7) |
 | Test légal sauté sans variable | Non corrigée |

@@ -24,7 +24,7 @@ final readonly class OciBuyerProvider
     /** @throws SimulatorException when the demo OCI buyer is not loaded */
     public function buyer(): Buyer
     {
-        $buyer = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => PunchoutDemoFixture::OCI_BUYER_CODE]);
+        $buyer = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => DemoBuyerCodes::OCI]);
 
         return $buyer instanceof Buyer ? $buyer : throw new SimulatorException('buyer_missing');
     }

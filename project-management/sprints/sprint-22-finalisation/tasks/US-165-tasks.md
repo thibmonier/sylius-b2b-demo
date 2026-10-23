@@ -40,16 +40,16 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-165-01 | [DOC] | Cadrage : contrôleur des listes de l'entreprise, ses tests (`CompanyWishlistSmokeTest`, `CompanyWishlistVoterTest`), usages de `BUYER_CODE`/`OCI_BUYER_CODE`, usages d'`isInDemo()` (grep) ; plan des trois lots | 0,5 h | - | Claude | 🔲 |
-| T-165-02 | [TEST] | Tests rouges du service des listes : écriture nominale avec un seul flush, échec d'écriture sans état partiel, erreur propre côté contrôleur | 1,25 h | T-165-01 | Claude | 🔲 |
-| T-165-03 | [BE] | Service applicatif d'enregistrement de la liste de l'entreprise ; contrôleur allégé (plus d'accès direct à l'`EntityManager` pour écrire) | 1,5 h | T-165-02 | Claude | 🔲 |
-| T-165-04 | [BE] | Constante neutre des codes acheteurs partagée entre le simulateur et la fixture ; la fixture dépend de la constante, le simulateur ne dépend plus de la fixture | 1 h | T-165-01 | Claude | 🔲 |
-| T-165-05 | [TEST] | Test du simulateur : code acheteur absent de la constante refusé avec le message d'erreur existant ; code connu accepté | 0,5 h | T-165-04 | Claude | 🔲 |
-| T-165-06 | [BE] | Suppression d'`isInDemo()` et des branches « absent de la démo » (applicateur, vérificateur, rendu de la vitrine) ; tests adaptés | 1,25 h | T-165-01 | Claude | 🔲 |
-| T-165-07 | [TEST] | Rendu de la vitrine et des README identique : `bin/vitrine-readme --check` et tests de la vitrine | 0,75 h | T-165-06 | Claude | 🔲 |
-| T-165-08 | [TEST] | Suite ciblée puis complète via `bin/run-tests`, ECS (`src tests`), PHPStan max rejoués sur l'arbre exact | 0,75 h | T-165-03, T-165-05, T-165-07 | Claude | 🔲 |
-| T-165-09 | [DOC] | Audit qualité : les trois constats passent à « corrigée » (état, sans détail superflu) | 0,25 h | T-165-08 | Claude | 🔲 |
-| T-165-10 | [REV] | Revue (aucun comportement visible modifié, injection par constructeur, SOLID) | 0,5 h | T-165-08 | Claude | 🔲 |
+| T-165-01 | [DOC] | Cadrage : contrôleur des listes de l'entreprise, ses tests (`CompanyWishlistSmokeTest`, `CompanyWishlistVoterTest`), usages de `BUYER_CODE`/`OCI_BUYER_CODE`, usages d'`isInDemo()` (grep) ; plan des trois lots | 0,5 h | - | Claude | ✅ |
+| T-165-02 | [TEST] | Tests rouges du service des listes : écriture nominale avec un seul flush, échec d'écriture sans état partiel, erreur propre côté contrôleur | 1,25 h | T-165-01 | Claude | ✅ |
+| T-165-03 | [BE] | Service applicatif d'enregistrement de la liste de l'entreprise ; contrôleur allégé (plus d'accès direct à l'`EntityManager` pour écrire) | 1,5 h | T-165-02 | Claude | ✅ |
+| T-165-04 | [BE] | Constante neutre des codes acheteurs partagée entre le simulateur et la fixture ; la fixture dépend de la constante, le simulateur ne dépend plus de la fixture | 1 h | T-165-01 | Claude | ✅ |
+| T-165-05 | [TEST] | Test du simulateur : code acheteur absent de la constante refusé avec le message d'erreur existant ; code connu accepté | 0,5 h | T-165-04 | Claude | ✅ |
+| T-165-06 | [BE] | Suppression d'`isInDemo()` et des branches « absent de la démo » (applicateur, vérificateur, rendu de la vitrine) ; tests adaptés | 1,25 h | T-165-01 | Claude | ✅ |
+| T-165-07 | [TEST] | Rendu de la vitrine et des README identique : `bin/vitrine-readme --check` et tests de la vitrine | 0,75 h | T-165-06 | Claude | ✅ |
+| T-165-08 | [TEST] | Suite ciblée puis complète via `bin/run-tests`, ECS (`src tests`), PHPStan max rejoués sur l'arbre exact | 0,75 h | T-165-03, T-165-05, T-165-07 | Claude | ✅ |
+| T-165-09 | [DOC] | Audit qualité : les trois constats passent à « corrigée » (état, sans détail superflu) | 0,25 h | T-165-08 | Claude | ✅ |
+| T-165-10 | [REV] | Revue (aucun comportement visible modifié, injection par constructeur, SOLID) | 0,5 h | T-165-08 | Claude | ✅ |
 
 **Total estimé : 8,25 h** (10 tâches, dont 0 de Thibaut, soit 0 h ; 8,25 h pour Claude et l'orchestrateur).
 

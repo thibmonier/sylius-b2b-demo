@@ -23,3 +23,4 @@ app:
         added_to_cart: '{1} 1 item added to the cart|]1,Inf[ %count% items added to the cart'
         skipped: '{1} 1 unavailable item was not added|]1,Inf[ %count% unavailable items were not added'
         item_removed: 'Item removed from the list.'
+        write_failed: 'The list could not be saved, please try again.'

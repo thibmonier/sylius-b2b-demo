@@ -117,11 +117,11 @@ final class PluginDataCoherenceSmokeTest extends KernelTestCase
 
         /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
-        $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => \App\Demo\DataFixtures\PunchoutDemoFixture::BUYER_CODE]);
+        $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => \App\Demo\PunchOutSimulator\DemoBuyerCodes::CXML]);
 
         self::assertNotNull(
             $buyer,
-            sprintf('PunchOut buyer "%s" must exist for Acme Industries (US-010).', \App\Demo\DataFixtures\PunchoutDemoFixture::BUYER_CODE),
+            sprintf('PunchOut buyer "%s" must exist for Acme Industries (US-010).', \App\Demo\PunchOutSimulator\DemoBuyerCodes::CXML),
         );
         self::assertSame('cxml', $buyer->getProtocol(), 'Buyer protocol must be cxml.');
     }

@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Demo;
 
 use App\Demo\DataFixtures\PunchoutDemoFixture;
 use App\Demo\Http\InternalRequestToken;
+use App\Demo\PunchOutSimulator\DemoBuyerCodes;
 use App\Demo\PunchOutSimulator\OciCredentials;
 use App\Demo\PunchOutSimulator\SignedState;
 use App\Tests\Support\IsolatesSharedAccounts;
@@ -161,7 +162,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
         $this->setEnvironment(['DEMO_PUNCHOUT_PUBLIC_ENDPOINT' => '0']);
         $client = self::createClient();
 
-        $client->request('POST', '/punchout/oci/' . PunchoutDemoFixture::OCI_BUYER_CODE, $this->entryFields());
+        $client->request('POST', '/punchout/oci/' . DemoBuyerCodes::OCI, $this->entryFields());
 
         self::assertResponseStatusCodeSame(403);
         self::assertStringContainsString('reserved to the demo simulator', (string) $client->getResponse()->getContent());
@@ -174,7 +175,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
         $token = self::getContainer()->get(InternalRequestToken::class);
         self::assertInstanceOf(InternalRequestToken::class, $token);
 
-        $client->request('POST', '/punchout/oci/' . PunchoutDemoFixture::OCI_BUYER_CODE, $this->entryFields(), server: ['HTTP_X_DEMO_INTERNAL' => $token->value()]);
+        $client->request('POST', '/punchout/oci/' . DemoBuyerCodes::OCI, $this->entryFields(), server: ['HTTP_X_DEMO_INTERNAL' => $token->value()]);
 
         self::assertResponseRedirects();
     }
@@ -183,7 +184,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/punchout/oci/' . PunchoutDemoFixture::OCI_BUYER_CODE, $this->entryFields());
+        $client->request('GET', '/punchout/oci/' . DemoBuyerCodes::OCI, $this->entryFields());
 
         self::assertResponseStatusCodeSame(405);
     }
@@ -192,7 +193,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('POST', '/punchout/oci/' . PunchoutDemoFixture::OCI_BUYER_CODE, ['PASSWORD' => 'not-the-shared-secret'] + $this->entryFields());
+        $client->request('POST', '/punchout/oci/' . DemoBuyerCodes::OCI, ['PASSWORD' => 'not-the-shared-secret'] + $this->entryFields());
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -202,7 +203,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
     {
         $client = self::createClient();
         $this->isolateSharedAccounts($client);
-        $client->request('POST', '/punchout/oci/' . PunchoutDemoFixture::OCI_BUYER_CODE, $this->entryFields());
+        $client->request('POST', '/punchout/oci/' . DemoBuyerCodes::OCI, $this->entryFields());
         self::assertResponseRedirects();
         $this->addFirstAtelierItemToTheCart($client);
 
@@ -236,7 +237,7 @@ final class PunchOutOciSimulatorTest extends WebTestCase
     /** @return array<string, string> */
     private function entryFields(): array
     {
-        return (new OciCredentials(PunchoutDemoFixture::OCI_BUYER_CODE, PunchoutDemoFixture::OCI_USERNAME, PunchoutDemoFixture::DEMO_SECRET))->entryFields($this->hookUrl());
+        return (new OciCredentials(DemoBuyerCodes::OCI, PunchoutDemoFixture::OCI_USERNAME, PunchoutDemoFixture::DEMO_SECRET))->entryFields($this->hookUrl());
     }
 
     private function hookUrl(): string

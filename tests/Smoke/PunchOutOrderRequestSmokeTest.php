@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
-use App\Demo\DataFixtures\PunchoutDemoFixture;
 use App\Demo\DataFixtures\TradeCreditDemoFixture;
+use App\Demo\PunchOutSimulator\DemoBuyerCodes;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
@@ -30,7 +30,7 @@ final class PunchOutOrderRequestSmokeTest extends KernelTestCase
 
         /** @var EntityManagerInterface $em */
         $em = $container->get('doctrine.orm.entity_manager');
-        $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => PunchoutDemoFixture::BUYER_CODE]);
+        $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => DemoBuyerCodes::CXML]);
         self::assertInstanceOf(Buyer::class, $buyer);
         self::assertSame(TradeCreditDemoFixture::ON_ACCOUNT_PAYMENT_METHOD, $buyer->getOrderPaymentMethod());
 
@@ -52,7 +52,7 @@ final class PunchOutOrderRequestSmokeTest extends KernelTestCase
 
         /** @var EntityManagerInterface $em */
         $em = self::getContainer()->get('doctrine.orm.entity_manager');
-        $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => PunchoutDemoFixture::BUYER_CODE]);
+        $buyer = $em->getRepository(Buyer::class)->findOneBy(['code' => DemoBuyerCodes::CXML]);
         self::assertInstanceOf(Buyer::class, $buyer);
 
         $shipping = $em->getRepository(ShippingMethodInterface::class)->findOneBy(['code' => $buyer->getOrderShippingMethod()]);

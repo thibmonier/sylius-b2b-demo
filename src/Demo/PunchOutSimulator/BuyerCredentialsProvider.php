@@ -52,7 +52,7 @@ final readonly class BuyerCredentialsProvider
 
     private function buyer(): Buyer
     {
-        $buyer = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => PunchoutDemoFixture::BUYER_CODE]);
+        $buyer = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => DemoBuyerCodes::CXML]);
 
         return $buyer instanceof Buyer ? $buyer : throw new SimulatorException('buyer_missing');
     }

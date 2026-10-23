@@ -28,7 +28,7 @@ final class ReadmeApplier
 
         $changed = false;
         foreach (self::FILES as $language => $file) {
-            $updated = $this->treat($contents[$language], $language, StandardBlock::isInDemo($plugin), $profileUrl);
+            $updated = $this->treat($contents[$language], $language, $profileUrl);
             if ($updated !== $contents[$language]) {
                 \file_put_contents($directory . '/' . $file, $updated);
                 $changed = true;
@@ -38,11 +38,11 @@ final class ReadmeApplier
         return $changed;
     }
 
-    private function treat(string $content, string $language, bool $inDemo, string $profileUrl): string
+    private function treat(string $content, string $language, string $profileUrl): string
     {
         $document = new MarkdownDocument($content);
         $lines = $this->withLanguageLink($document, $language);
-        $block = \explode("\n", StandardBlock::render($language, $inDemo, $profileUrl));
+        $block = \explode("\n", StandardBlock::render($language, $profileUrl));
         $document = new MarkdownDocument(\implode("\n", $lines));
 
         if ($document->blockCount() > 0) {

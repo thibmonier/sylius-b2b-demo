@@ -37,7 +37,7 @@ final class ReadmeChecker
     }
 
     /** @return list<Finding> */
-    public function check(FileSource $source, string $plugin, string $profileUrl): array
+    public function check(FileSource $source, string $profileUrl): array
     {
         $english = $source->read(self::ENGLISH);
         $french = $source->read(self::FRENCH);
@@ -50,8 +50,7 @@ final class ReadmeChecker
         }
 
         $englishDocument = new MarkdownDocument($english);
-        $inDemo = StandardBlock::isInDemo($plugin);
-        $findings = [...$findings, ...$this->checkFile(self::ENGLISH, $englishDocument, 'en', $inDemo, $profileUrl)];
+        $findings = [...$findings, ...$this->checkFile(self::ENGLISH, $englishDocument, 'en', $profileUrl)];
         if (null === $french) {
             return $findings;
         }
@@ -59,17 +58,17 @@ final class ReadmeChecker
 
         return [
             ...$findings,
-            ...$this->checkFile(self::FRENCH, $frenchDocument, 'fr', $inDemo, $profileUrl),
+            ...$this->checkFile(self::FRENCH, $frenchDocument, 'fr', $profileUrl),
             ...$this->compare($englishDocument, $frenchDocument),
         ];
     }
 
     /** @return list<Finding> */
-    private function checkFile(string $file, MarkdownDocument $document, string $language, bool $inDemo, string $profileUrl): array
+    private function checkFile(string $file, MarkdownDocument $document, string $language, string $profileUrl): array
     {
         return [
             ...$this->checkLanguageLink($file, $document, $language),
-            ...$this->checkBlock($file, $document, $language, $inDemo, $profileUrl),
+            ...$this->checkBlock($file, $document, $language, $profileUrl),
             ...$this->checkWording($file, $document),
             ...$this->checkAnchors($file, $document),
         ];
@@ -89,7 +88,7 @@ final class ReadmeChecker
     }
 
     /** @return list<Finding> */
-    private function checkBlock(string $file, MarkdownDocument $document, string $language, bool $inDemo, string $profileUrl): array
+    private function checkBlock(string $file, MarkdownDocument $document, string $language, string $profileUrl): array
     {
         $block = $document->block();
         if (null === $block) {
@@ -100,7 +99,7 @@ final class ReadmeChecker
         if ($document->blockCount() > 1) {
             $findings[] = new Finding($file, $line, 'error', 'the standard B2B demo block appears more than once');
         }
-        if ($block !== StandardBlock::render($language, $inDemo, $profileUrl)) {
+        if ($block !== StandardBlock::render($language, $profileUrl)) {
             $findings[] = new Finding($file, $line, 'error', 'the standard B2B demo block differs from the reference text (run bin/vitrine-readme apply)');
         }
         foreach (\explode("\n", $block) as $offset => $text) {
