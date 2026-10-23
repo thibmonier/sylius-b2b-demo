@@ -22,12 +22,12 @@ jobs:
         env:
             APP_ENV: test
             COVERAGE_MIN_LINES: "90"
-            DATABASE_URL: mysql://root@127.0.0.1:3306/sylius_b2b_demo?serverVersion=8.4&charset=utf8mb4
+            DATABASE_URL: mysql://root@127.0.0.1:3306/sylius_b2b_demo?serverVersion=9.7&charset=utf8mb4
             # Invoice PDFs (invoicing-plugin via KnpSnappy) need wkhtmltopdf; same binary as the image.
             WKHTMLTOPDF_BINARY: /usr/local/bin/wkhtmltopdf
         services:
             mysql:
-                image: mysql:8.4.13@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69
+                image: mysql:9.7.1@sha256:cbade841779f1661300e705721f9d2ff159865cc7a8a291affbff43ac6ec7f1d
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
                 ports: ["3306:3306"]
@@ -133,7 +133,7 @@ jobs:
               run: |
                   docker network create demo
                   docker run -d --name mysql --network demo -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=demo \
-                    --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=3s --health-retries=40 mysql:8.4.13@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69
+                    --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=3s --health-retries=40 mysql:9.7.1@sha256:cbade841779f1661300e705721f9d2ff159865cc7a8a291affbff43ac6ec7f1d
                   for i in $(seq 1 40); do
                     [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" = healthy ] && break
                     sleep 3
@@ -142,7 +142,7 @@ jobs:
                   # Private gate on, as on Railway (US-032): throwaway CI credentials, hash made by the image's PHP.
                   GATE_HASH="$(docker run --rm --entrypoint php sylius-b2b-demo:ci -r 'echo password_hash("ci-gate-password", PASSWORD_ARGON2ID);')"
                   docker run -d --name web --network demo -p 8080:8080 \
-                    -e DATABASE_URL="mysql://root@mysql:3306/demo?serverVersion=8.4&charset=utf8mb4" \
+                    -e DATABASE_URL="mysql://root@mysql:3306/demo?serverVersion=9.7&charset=utf8mb4" \
                     -e MAILER_DSN="null://null" -e DEFAULT_URI="http://localhost:8080" \
                     -e DEMO_MODE=1 -e DEMO_BASIC_AUTH=1 -e DEMO_BASIC_AUTH_USER=ci \
                     -e TRUSTED_HOSTS='^localhost$' \

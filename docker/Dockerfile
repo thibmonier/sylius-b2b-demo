@@ -61,8 +61,8 @@ ENV APP_ENV=prod APP_DEBUG=0 TZ=Europe/Paris
 COPY --from=autoload /app/vendor vendor
 COPY . .
 COPY --from=assets /app/public/build public/build
-RUN DATABASE_URL="mysql://build:build@127.0.0.1:3306/build?serverVersion=8.4" php bin/console cache:warmup \
- && DATABASE_URL="mysql://build:build@127.0.0.1:3306/build?serverVersion=8.4" php bin/console assets:install public \
+RUN DATABASE_URL="mysql://build:build@127.0.0.1:3306/build?serverVersion=9.7" php bin/console cache:warmup \
+ && DATABASE_URL="mysql://build:build@127.0.0.1:3306/build?serverVersion=9.7" php bin/console assets:install public \
  && mkdir -p var public/media private config/jwt \
  && chown -R www-data:www-data var public/media private config/jwt /config/caddy /data/caddy \
  && chmod +x docker/entrypoint.sh

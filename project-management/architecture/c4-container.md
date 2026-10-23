@@ -12,7 +12,7 @@ flowchart TB
             cron --> app
             app --> fs
         end
-        mysql[(MySQL 8.4<br/>service managé)]
+        mysql[(MySQL 9.7<br/>service managé)]
         mailpit[Mailpit<br/>SMTP 1025, UI 8025]
         app -->|réseau privé| mysql
         app -->|SMTP réseau privé| mailpit
@@ -24,7 +24,7 @@ flowchart TB
 | Conteneur | Technologie | Responsabilités | Ressources |
 |-----------|-------------|-----------------|------------|
 | web | FrankenPHP 1 (PHP 8.4, Caddy), supercronic | Shop, admin, API, MCP, PunchOut, simulateur, tâches, remise à zéro | 1 Go RAM, CPU partagé |
-| MySQL | MySQL 8.4 (Railway) | Données Sylius et plugins | volume Railway |
+| MySQL | MySQL 9.7 (Railway) | Données Sylius et plugins | volume Railway |
 | Mailpit | axllent/mailpit | Réception et consultation des e-mails | minimal |
 
 Le cache applicatif, les verrous (flock) et les limiteurs (cache filesystem) restent locaux : une seule instance, pas de Redis (TH-5).

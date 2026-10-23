@@ -8,7 +8,7 @@
 
 Une application **Sylius-Standard 2.3** (Symfony 7.4 LTS, PHP 8.4) installe les 21 plugins tmonier depuis Packagist, ainsi que les nouveaux plugins créés pour la démo. Une couche applicative `src/Demo/` porte tout ce qui est propre à la démo : badges, bandeau, pages, remise à zéro, restrictions, récepteur de webhooks, simulateur. Le thème B2B **ajoute** des hookables (Twig Hooks) au thème officiel et apporte sa propre feuille Encore.
 
-L'application tourne dans **une image FrankenPHP** (Caddy), qui sert le web et exécute les tâches planifiées (supercronic). Elle est déployée sur **Railway** avec MySQL 8.4 et Mailpit. Les données sont remises à zéro chaque nuit **dans le conteneur web** (ADR-0003).
+L'application tourne dans **une image FrankenPHP** (Caddy), qui sert le web et exécute les tâches planifiées (supercronic). Elle est déployée sur **Railway** avec MySQL 9.7 et Mailpit. Les données sont remises à zéro chaque nuit **dans le conteneur web** (ADR-0003).
 
 ## 2. Socle applicatif (US-001, US-031)
 
@@ -176,7 +176,7 @@ Chaque plugin est un dépôt `thibmonier/sylius-<nom>-plugin` créé avec le squ
 
 - Projet Railway « sylius-b2b-demo » avec trois services :
   - **web** : Dockerfile du dépôt, déploiement depuis main après CI verte, `preDeployCommand` = migrations, healthcheck `/healthz`, 1 Go de RAM ;
-  - **MySQL** : 8.4 managé ;
+  - **MySQL** : 9.7 managé (LTS, depuis le 2026-10-23) ;
   - **Mailpit** : image officielle, réseau privé.
 - `railway.json` versionné (builder, healthcheck, restart policy). Variables : `APP_ENV=prod`, `APP_SECRET`, `DATABASE_URL=${{MySQL.MYSQL_URL}}?serverVersion=8.4`, `MAILER_DSN=smtp://mailpit.railway.internal:1025`, `DEFAULT_URI=https://${{RAILWAY_PUBLIC_DOMAIN}}`, `PUNCHOUT_SUPPLIER_*`, `TMONIER_AI_GENERATOR=demo`, `TMONIER_B2B_MCP_ENCRYPTION_KEY`, `SYLIUS_MCP_SERVER_API_SHOP_BASE_URI`.
 - **Pas de mise en veille** (la remise à zéro au réveil effacerait une session en cours). Limite d'usage Railway à 25 $.

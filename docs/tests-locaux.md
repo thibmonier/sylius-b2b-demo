@@ -5,7 +5,7 @@ Procédure du 2026-10-17. Une commande crée, migre et charge la base de test ; 
 ## Prérequis
 
 - PHP 8.5 en local avec les extensions de l'image (dont `intl`), dépendances installées (`composer install`).
-- MySQL 8.4 de `compose.yaml`, port `127.0.0.1:3340` : `docker compose up -d --wait mysql` (ou `bin/prepare-test-db --start-mysql`).
+- MySQL 9.7 de `compose.yaml`, port `127.0.0.1:3340` : `docker compose up -d --wait mysql` (ou `bin/prepare-test-db --start-mysql`).
 
 ## Une commande
 
@@ -62,7 +62,7 @@ RUN_TESTS_WAIT_TIMEOUT=600 bin/run-tests --wait   # délai en secondes (défaut 
 ## Lancer les tests
 
 ```bash
-APP_ENV=test DATABASE_URL='mysql://root@127.0.0.1:3340/sylius_b2b_demo_test?serverVersion=8.4&charset=utf8mb4' \
+APP_ENV=test DATABASE_URL='mysql://root@127.0.0.1:3340/sylius_b2b_demo_test?serverVersion=9.7&charset=utf8mb4' \
 WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf" \
 php -d memory_limit=-1 vendor/bin/phpunit
 ```

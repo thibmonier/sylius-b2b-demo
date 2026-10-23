@@ -122,7 +122,7 @@ Garde-fous, identiques au cXML hors plafond quotidien : limiteurs par IP visiteu
 | `DEMO_MAILPIT_API_URL` | API HTTP **interne** de Mailpit, appelée côté serveur uniquement ; vide = boîte de démo désactivée | `http://mailpit:8025` | `http://<mailpit privé>:8025` (réseau privé Railway) |
 | `DEMO_MAILPIT_URL` | Interface Mailpit pour le développeur local ; jamais affichée aux visiteurs | `http://localhost:8025` | vide |
 | `MAILER_DSN` | Envoi des e-mails (vers Mailpit) | `smtp://mailpit:1025` | `smtp://<mailpit privé>:1025` |
-| `DATABASE_URL` | Base MySQL 8.4 | service `mysql` | base Railway |
+| `DATABASE_URL` | Base MySQL 9.7 | service `mysql` | base Railway |
 | `WKHTMLTOPDF_BINARY` | Binaire des factures PDF | `/usr/local/bin/wkhtmltopdf` (image) | idem |
 | `DEMO_BASIC_AUTH` | Porte privée (auth HTTP basique) en mode démo. Défaut `1` | `0` | `1` jusqu'au GO d'ouverture |
 

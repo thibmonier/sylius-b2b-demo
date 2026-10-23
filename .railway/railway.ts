@@ -36,8 +36,8 @@ if (CANONICAL_IS_PUBLIC_HOST && !process.env.DEMO_PUBLIC_HOST) {
 }
 
 export default defineRailway(() => {
-  // Pinned: the helper defaults to mysql:9; the demo (compose, CI, DATABASE_URL serverVersion) runs MySQL 8.4.
-  const db = mysql("mysql", { image: "mysql:8.4" });
+  // Pinned on the 9.7 LTS line, like compose, CI and the DATABASE_URL serverVersion (upgraded in place from 8.4, no way back).
+  const db = mysql("mysql", { image: "mysql:9.7" });
 
   const mailpit = service("mailpit", {
     source: image("axllent/mailpit:v1.27"),
@@ -65,7 +65,7 @@ export default defineRailway(() => {
     env: {
       RAILWAY_DOCKERFILE_PATH: "docker/Dockerfile",
       APP_SECRET: preserve(),
-      DATABASE_URL: "${{mysql.MYSQL_URL}}?serverVersion=8.4&charset=utf8mb4",
+      DATABASE_URL: "${{mysql.MYSQL_URL}}?serverVersion=9.7&charset=utf8mb4",
       DEFAULT_URI: CANONICAL_IS_PUBLIC_HOST ? "https://${{DEMO_PUBLIC_HOST}}" : "https://${{RAILWAY_PUBLIC_DOMAIN}}",
       DEMO_MODE: "1",
       // Private gate until the user's GO (US-032): credentials are Railway secrets, the hash is Argon2id.

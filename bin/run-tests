@@ -119,7 +119,7 @@ export APP_ENV=test
 export APP_CACHE_DIR="$CACHE_DIR"
 export APP_LOG_DIR="$CACHE_DIR/log"
 export APP_SHARE_DIR="$CACHE_DIR/share"
-export DATABASE_URL="${TEST_DATABASE_URL:-mysql://root@127.0.0.1:${MYSQL_PORT:-3340}/${DB_NAME}?serverVersion=8.4&charset=utf8mb4}"
+export DATABASE_URL="${TEST_DATABASE_URL:-mysql://root@127.0.0.1:${MYSQL_PORT:-3340}/${DB_NAME}?serverVersion=9.7&charset=utf8mb4}"
 export WKHTMLTOPDF_BINARY="$PWD/tests/Fixtures/bin/fake-wkhtmltopdf"
 
 # No exec: the trap must run after PHPUnit. Its exit code is the script's. PHPUnit runs in the background and the
