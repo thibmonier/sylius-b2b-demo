@@ -39,7 +39,7 @@ final class ResetStatus
     private bool $watching = false;
 
     public function __construct(
-        #[Autowire('%demo.reset_marker_file%')]
+        #[Autowire(param: 'demo.reset_marker_file')]
         private readonly string $markerFile,
     ) {
     }

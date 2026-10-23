@@ -17,7 +17,7 @@ final readonly class SignedState
     public const LIFETIME = 3600;
 
     public function __construct(
-        #[Autowire('%kernel.secret%')]
+        #[Autowire(param: 'kernel.secret')]
         #[\SensitiveParameter]
         private string $secret,
         private ClockInterface $clock,

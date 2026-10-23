@@ -24,7 +24,7 @@ final readonly class OrphanImagePurger
         private ImagePathSource $source,
         private Filesystem $filesystem,
         private LoggerInterface $logger,
-        #[Autowire('%sylius_core.images_dir%')]
+        #[Autowire(param: 'sylius_core.images_dir')]
         private string $directory,
     ) {
     }

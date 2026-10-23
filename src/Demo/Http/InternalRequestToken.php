@@ -17,7 +17,7 @@ final readonly class InternalRequestToken
     public const HEADER = 'X-Demo-Internal';
 
     public function __construct(
-        #[Autowire('%kernel.secret%')]
+        #[Autowire(param: 'kernel.secret')]
         #[\SensitiveParameter]
         private string $secret,
     ) {
