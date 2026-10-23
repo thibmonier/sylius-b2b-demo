@@ -1,0 +1,62 @@
+# Tâches : US-166 : Méthodes longues découpées et suppression des `usleep` des tests
+
+## Informations US
+
+- **Epic** : EPIC-10
+- **Persona** : Thibaut (mainteneur)
+- **Story Points** : 3 (Could, non sacrifiable (cause du test instable `RunTestsLockTest`))
+- **Sprint** : sprint-23-garde-fous
+- **Story** : [US-166](../../../backlog/user-stories/US-166.md)
+
+## Résumé de la US
+
+**En tant que** Thibaut
+**Je veux** découper les méthodes de plus de 45 lignes et retirer les `usleep` des tests
+**Afin de** rendre le code plus lisible et la suite de tests plus rapide et déterministe
+
+## Règles et contraintes
+
+- Relevé du 2026-10-23 : 6 méthodes de plus de 45 lignes dans `src` (`ProductCsvFixture::createOrUpdateVariant` 73, `OrderPoReferenceTypeExtension::buildForm` 63, `CsvProductReader::parseHandle` 57, `PunchoutDemoFixture::loadCxmlBuyer` 57, `ProductCsvFixture::importProduct` 54, `DemoResetCommand::reset` 47).
+- 7 `usleep` dans 5 fichiers de tests : `RunTestsLockTest` (test instable de la PR #64), `VerifyPublicModeTest`, `McpOutboundGuardTest`, `WebhookDeliveryTest`, `HardeningTest`.
+- Refactoring pur : aucun attendu de test modifié ; les tests existants servent de filet.
+- Règles du sprint, consigne de worker et actions de la rétro du sprint 22 : voir [README.md](./README.md).
+
+## Fichiers principaux touchés
+
+À croiser avec la matrice des chevauchements de [README.md](./README.md).
+
+- `src/Demo/DataFixtures/ProductCsvFixture.php`, `PunchoutDemoFixture.php`
+- `src/Form/Extension/OrderPoReferenceTypeExtension.php`
+- `src/Demo/Infrastructure/Csv/CsvProductReader.php`
+- `src/Demo/Command/DemoResetCommand.php`
+- `tests/Unit/Bin/`, `tests/Functional/Demo/` (5 fichiers à `usleep`)
+- `.github/workflows/ci.yaml` ou test de garde (**partagé avec US-168**)
+
+## Vue d'ensemble des tâches
+
+La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrateur** (Claude en rôle d'orchestrateur) ou **Thibaut**. Ordre TDD : les tâches [TEST] rouges précèdent le code et sont commitées seules.
+
+| ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
+|----|------|-------|------------|-----------|-------------|--------|
+| T-166-01 | [DOC] | Cadrage : relevé confirmé (6 méthodes, 7 `usleep`), horloge disponible (`symfony/clock` ou attente bornée sur condition), choix de la garde (test d'architecture ou étape CI) | 0,5 h | - | Claude | 🔲 |
+| T-166-02 | [TEST] | Gardes rouges, commitées seules et citées dans la PR : aucune méthode de `src` au-delà de 45 lignes, aucun `usleep` dans `tests/` | 1 h | T-166-01 | Claude | 🔲 |
+| T-166-03 | [BE] | `ProductCsvFixture` : `createOrUpdateVariant` et `importProduct` découpées | 1,25 h | T-166-02 | Claude | 🔲 |
+| T-166-04 | [BE] | `OrderPoReferenceTypeExtension::buildForm` et `CsvProductReader::parseHandle` découpées | 1 h | T-166-02 | Claude | 🔲 |
+| T-166-05 | [BE] | `PunchoutDemoFixture::loadCxmlBuyer` et `DemoResetCommand::reset` découpées | 1 h | T-166-02 | Claude | 🔲 |
+| T-166-06 | [TEST] | Les 7 `usleep` remplacés (horloge contrôlée ou attente sur condition), dont `RunTestsLockTest` ; 20 exécutions de suite de `RunTestsLockTest` sans échec | 1,5 h | T-166-02 | Claude | 🔲 |
+| T-166-07 | [TEST] | Suite complète via `bin/run-tests` (si le disque le permet, sinon CI), ECS, PHPStan max, Rector ; aucun attendu de test modifié (diff de `tests/` relu) | 0,75 h | T-166-03, T-166-04, T-166-05, T-166-06 | Claude | 🔲 |
+| T-166-08 | [REV] | Revue (comportement inchangé, noms des méthodes extraites) et table « scénario → test » remplie | 0,25 h | T-166-07 | Claude | 🔲 |
+
+**Total estimé : 7,25 h** (8 tâches, dont 0 h de Thibaut ; 7,25 h pour Claude et l'orchestrateur).
+
+## Scénarios et preuves (action 1 de la rétro du sprint 22)
+
+À remplir avant le passage en done : chaque scénario renvoie à un test (classe et méthode) ou à une preuve (commande et sortie, document et section). Une ligne vide laisse la story en review.
+
+| Scénario | Test ou preuve |
+|----------|----------------|
+| Méthodes découpées (nominal) | |
+| Comportement inchangé (alternatif) | |
+| Horloge injectée à la place des attentes (alternatif) | |
+| Régression de comportement (erreur) | |
+| Nouvel usleep ajouté (erreur) | |
