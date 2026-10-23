@@ -151,6 +151,22 @@ final class ProofCollectorTest extends TestCase
         }
     }
 
+    /** US-168: the demo counts its own tests locally, so a pull request can carry a proof that matches its own suite. */
+    public function testTheDeliveryTestCountIsTheLocalOneWhenGiven(): void
+    {
+        $repository = 'thibmonier/sylius-b2b-demo';
+        $sources = new FakeSources([], [
+            'repos/' . $repository => ['default_branch' => 'main'],
+            'repos/' . $repository . '/contents/.github/workflows?ref=main' => [],
+            'repos/' . $repository . '/git/trees/main?recursive=1' => ['truncated' => false, 'tree' => [['path' => 'tests/Unit/ATest.php', 'type' => 'blob']]],
+        ]);
+
+        $collected = $this->collector($sources)->delivery($repository, [], 7);
+
+        self::assertSame(7, $collected->facts['tests']['value']);
+        self::assertSame('https://github.com/' . $repository . '/tree/main/tests', $collected->facts['tests']['source']);
+    }
+
     public function testATreeThatGitHubTruncatedIsAFailureNotACount(): void
     {
         $sources = $this->healthy(tree: ['truncated' => true, 'tree' => []]);
