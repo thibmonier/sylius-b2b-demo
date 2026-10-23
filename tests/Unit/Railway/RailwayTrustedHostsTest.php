@@ -20,8 +20,9 @@ final class RailwayTrustedHostsTest extends TestCase
 
     public function testTrustedHostsIsNotBuiltFromThePublicDomainVariable(): void
     {
-        preg_match('/^\s*TRUSTED_HOSTS\b.*$/m', $this->iac, $line);
-        self::assertNotEmpty($line, 'The web service must set TRUSTED_HOSTS.');
+        if (1 !== preg_match('/^\s*TRUSTED_HOSTS\b.*$/m', $this->iac, $line)) {
+            self::fail('The web service must set TRUSTED_HOSTS.');
+        }
         self::assertStringNotContainsString('RAILWAY_PUBLIC_DOMAIN', $line[0]);
         self::assertStringNotContainsString('RAILWAY_PUBLIC_DOMAIN', $this->constantLine('TRUSTED_HOSTS'));
     }

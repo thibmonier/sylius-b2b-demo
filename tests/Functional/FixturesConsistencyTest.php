@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional;
 
 use App\Demo\Account\DemoAccountCatalog;
+use App\Tests\Support\Typed;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -100,7 +101,7 @@ final class FixturesConsistencyTest extends WebTestCase
     {
         $config = Yaml::parseFile(\dirname(__DIR__, 2) . '/config/packages/demo_fixtures.yaml');
         self::assertIsArray($config);
-        $fixtures = $config['sylius_fixtures']['suites']['demo']['fixtures'] ?? null;
+        $fixtures = Typed::at($config, 'sylius_fixtures', 'suites', 'demo', 'fixtures');
         self::assertIsArray($fixtures);
 
         $priorities = [];

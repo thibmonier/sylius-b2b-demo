@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Demo\Http\InternalRequestToken;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -42,7 +43,7 @@ final class BasicAuthGateTest extends WebTestCase
         self::assertStringContainsString('Fournitures Pro', (string) $client->getResponse()->getContent());
     }
 
-    /** @dataProvider provideWrongCredentials */
+    #[DataProvider('provideWrongCredentials')]
     public function testWrongCredentialsAreRefused(string $user, string $password): void
     {
         $this->privateDemo();
@@ -72,7 +73,7 @@ final class BasicAuthGateTest extends WebTestCase
         }
     }
 
-    /** @dataProvider provideHealthPaths */
+    #[DataProvider('provideHealthPaths')]
     public function testTheHealthcheckIsOutsideTheGate(string $path): void
     {
         $this->privateDemo();

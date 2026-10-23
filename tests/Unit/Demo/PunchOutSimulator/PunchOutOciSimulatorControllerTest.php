@@ -216,25 +216,25 @@ final class PunchOutOciSimulatorControllerTest extends TestCase
 
     private function controller(bool $demoMode = true, bool $csrfValid = true, ?MockResponse $shop = null): PunchOutOciSimulatorController
     {
-        $twig = $this->createMock(Environment::class);
+        $twig = $this->createStub(Environment::class);
         $twig->method('render')->willReturnCallback(function (string $template, array $parameters): string {
             $this->rendered = $parameters;
 
             return '';
         });
-        $csrf = $this->createMock(CsrfTokenManagerInterface::class);
+        $csrf = $this->createStub(CsrfTokenManagerInterface::class);
         $csrf->method('getToken')->willReturn(new CsrfToken('t', 'v'));
         $csrf->method('isTokenValid')->willReturn($csrfValid);
-        $urls = $this->createMock(UrlGeneratorInterface::class);
+        $urls = $this->createStub(UrlGeneratorInterface::class);
         $urls->method('generate')->willReturn('https://erp.acme.example/demo/punchout-simulator/oci/return');
 
         $buyer = new Buyer();
         $buyer->setCode('acme-oci');
         $buyer->setOciUsername('user');
         $buyer->setReturnDomains(['erp.acme.example']);
-        $repository = $this->createMock(EntityRepository::class);
+        $repository = $this->createStub(EntityRepository::class);
         $repository->method('findOneBy')->willReturn($buyer);
-        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager = $this->createStub(EntityManagerInterface::class);
         $entityManager->method('getRepository')->willReturn($repository);
 
         $shop ??= new MockResponse('', ['http_code' => 303, 'response_headers' => ['Location: /fr_FR/', 'Set-Cookie: PHPSESSID=abc; path=/; HttpOnly']]);

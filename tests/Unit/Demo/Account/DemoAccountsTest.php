@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Demo\Account;
 use App\Demo\Account\DemoAccount;
 use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Controller\DemoAccountsController;
+use App\Tests\Support\Typed;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -122,9 +123,9 @@ final class DemoAccountsTest extends KernelTestCase
     {
         $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/accounts.yaml');
         self::assertIsArray($config);
-        self::assertSame('0', $config['parameters']['env(DEMO_MODE)']);
-        self::assertSame('', $config['parameters']['env(DEMO_MAILPIT_URL)']);
-        self::assertSame('', $config['parameters']['env(DEMO_MAILPIT_API_URL)']);
+        self::assertSame('0', Typed::at($config, 'parameters', 'env(DEMO_MODE)'));
+        self::assertSame('', Typed::at($config, 'parameters', 'env(DEMO_MAILPIT_URL)'));
+        self::assertSame('', Typed::at($config, 'parameters', 'env(DEMO_MAILPIT_API_URL)'));
     }
 
     public function testADuplicatedEmailIsRejectedByName(): void

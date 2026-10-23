@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo;
 
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
@@ -15,9 +16,10 @@ final class AuditLogIgnoresDemoResetTest extends TestCase
         $config = Yaml::parseFile(\dirname(__DIR__, 3) . '/config/packages/tmonier_plugins_overrides.yaml');
 
         self::assertIsArray($config);
-        self::assertIsArray($config['tmonier_sylius_audit_log']['ignored_commands'] ?? null);
+        $ignored = Typed::at($config, 'tmonier_sylius_audit_log', 'ignored_commands');
+        self::assertIsArray($ignored);
         foreach (['sylius:fixtures:load', 'doctrine:fixtures:load', 'app:demo:reset'] as $command) {
-            self::assertContains($command, $config['tmonier_sylius_audit_log']['ignored_commands']);
+            self::assertContains($command, $ignored);
         }
     }
 

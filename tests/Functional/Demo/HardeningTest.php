@@ -11,6 +11,7 @@ use App\Demo\PunchOutSimulator\SignedState;
 use App\Tests\Support\Await;
 use App\Tests\Support\RestoresDemoCarts;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -117,7 +118,7 @@ final class HardeningTest extends WebTestCase
 
     // ---- API, sign-up and MCP endpoints are limited per visitor too
 
-    /** @dataProvider provideApiEndpoints */
+    #[DataProvider('provideApiEndpoints')]
     public function testTheApiEndpointsAreLimitedPerVisitor(string $path, string $limitVariable): void
     {
         $this->setEnvironment([$limitVariable => '2']);
@@ -162,7 +163,7 @@ final class HardeningTest extends WebTestCase
 
     // ---- fail-closed settings (the demo refuses to serve with a weak secret or open hosts)
 
-    /** @dataProvider provideWeakSettings */
+    #[DataProvider('provideWeakSettings')]
     public function testAShortSecretOrOpenHostsMakeTheDemoRefuseToServe(string $name, string $value): void
     {
         $this->setEnvironment([$name => $value]);
@@ -183,7 +184,7 @@ final class HardeningTest extends WebTestCase
 
     // ---- S2-R1: nothing leaves the demo (T-036-06)
 
-    /** @dataProvider provideExternalMailers */
+    #[DataProvider('provideExternalMailers')]
     public function testAnExternalMailerPreventsTheDemoFromServing(string $dsn): void
     {
         $this->setEnvironment(['MAILER_DSN' => $dsn]);
@@ -206,7 +207,7 @@ final class HardeningTest extends WebTestCase
         yield 'garbage' => ['not a dsn'];
     }
 
-    /** @dataProvider provideInternalMailers */
+    #[DataProvider('provideInternalMailers')]
     public function testTheInternalMailpitAndTheSinkAreAccepted(string $dsn): void
     {
         $this->setEnvironment(['MAILER_DSN' => $dsn]);
@@ -227,7 +228,7 @@ final class HardeningTest extends WebTestCase
 
     // ---- S4-R2: "no real data" notice (T-036-08)
 
-    /** @dataProvider provideLocales */
+    #[DataProvider('provideLocales')]
     public function testTheRegistrationPageWarnsAgainstRealData(string $locale, string $expected): void
     {
         $client = self::createClient();
@@ -238,7 +239,7 @@ final class HardeningTest extends WebTestCase
         self::assertSelectorTextContains('[data-demo-no-real-data]', $expected);
     }
 
-    /** @dataProvider provideLocales */
+    #[DataProvider('provideLocales')]
     public function testTheAddressPagesWarnAgainstRealData(string $locale, string $expected): void
     {
         $client = self::createClient();
@@ -323,7 +324,7 @@ final class HardeningTest extends WebTestCase
 
     // ---- S4-R5: legal pages follow the channel locales (T-036-11)
 
-    /** @dataProvider provideLegalPaths */
+    #[DataProvider('provideLegalPaths')]
     public function testALegalPageIsServedForTheChannelLocaleOnly(string $path): void
     {
         $client = self::createClient();
@@ -465,7 +466,7 @@ final class HardeningTest extends WebTestCase
 
     // ---- T-036-07: security headers
 
-    /** @dataProvider providePages */
+    #[DataProvider('providePages')]
     public function testEveryKindOfResponseCarriesTheSecurityHeaders(string $method, string $path, int $status): void
     {
         $client = self::createClient();
@@ -516,7 +517,7 @@ final class HardeningTest extends WebTestCase
         self::assertCount(1, $client->getResponse()->headers->all('Strict-Transport-Security'));
     }
 
-    /** @dataProvider provideKeyPages */
+    #[DataProvider('provideKeyPages')]
     public function testKeyPagesLoadNothingFromAnotherOrigin(string $path, bool $signedIn): void
     {
         $client = self::createClient();

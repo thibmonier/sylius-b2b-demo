@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Demo;
 use App\Demo\Command\ResetStatus;
 use App\Demo\Journey\JourneyCatalog;
 use App\Demo\Journey\JourneyLauncher;
+use App\Tests\Support\DataSets;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -47,7 +48,7 @@ final class JourneyTest extends WebTestCase
         yield 'en' => ['en_US', 'Step 1 of 4', 'Resume'];
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheListShowsTheFiveJourneysWithTheirDuration(string $locale): void
     {
         $client = self::createClient();
@@ -62,7 +63,7 @@ final class JourneyTest extends WebTestCase
         self::assertStringNotContainsString('journey.', $page->filter('main, body')->first()->text(), 'No raw translation key.');
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith2Arguments')]
     public function testAJourneyIsFollowedStepByStepWithAVisibleAndAnnouncedProgress(string $locale, string $counter): void
     {
         $client = self::createClient();
@@ -138,7 +139,7 @@ final class JourneyTest extends WebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheWrongAccountIsOfferedAOneClickSwitch(string $locale): void
     {
         $client = self::createClient();
@@ -421,5 +422,17 @@ final class JourneyTest extends WebTestCase
         self::assertNotNull($user);
 
         $client->loginUser($user, 'shop');
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith2Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 2);
     }
 }

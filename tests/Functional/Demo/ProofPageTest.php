@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\DataSets;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -66,7 +67,7 @@ final class ProofPageTest extends WebTestCase
         self::assertStringContainsString($deliveryTitle, $page->filter('[data-proof-delivery] h2')->text());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith3Arguments')]
     public function testAnUnpublishedPluginSaysSoAndACoverageIsNeverAFigure(string $locale, string $unpublished, string $unmeasured): void
     {
         $page = $this->open($locale, $this->proof());
@@ -80,7 +81,7 @@ final class ProofPageTest extends WebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith4Arguments')]
     public function testAFigureWithoutSourceIsNotDisplayed(string $locale, string $unpublished, string $unmeasured, string $unavailable): void
     {
         $proof = $this->proof();
@@ -97,7 +98,7 @@ final class ProofPageTest extends WebTestCase
         self::assertStringNotContainsString('21', $row->filter('[data-proof-cell="tests"]')->text());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testALastValueKeptAfterAFailedRefreshIsServedWithItsDate(string $locale): void
     {
         $proof = $this->proof();
@@ -110,7 +111,7 @@ final class ProofPageTest extends WebTestCase
         self::assertCount(1, $cell->filter('[data-proof-stale]'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith4Arguments')]
     public function testAMissingOrBrokenFileGivesANormalPageWithNothingAvailable(string $locale, string $unpublished, string $unmeasured, string $unavailable): void
     {
         foreach ([null, '{ not json'] as $content) {
@@ -127,7 +128,7 @@ final class ProofPageTest extends WebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith4Arguments')]
     public function testTheDeliveryLineStatesWhatTheCiOfTheDemoDoes(string $locale, string $unpublished, string $unmeasured, string $unavailable): void
     {
         $proof = $this->proof();
@@ -242,5 +243,23 @@ final class ProofPageTest extends WebTestCase
                 'ci' => $fact('success', 'https://github.com/thibmonier/sylius-b2b-demo/actions/runs/1'),
             ],
         ];
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith3Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 3);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith4Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 4);
     }
 }

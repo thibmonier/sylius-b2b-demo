@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Demo\Charter\PublicTextCharter;
+use App\Tests\Support\DataSets;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -46,7 +47,7 @@ final class IntegrationsSectionTest extends WebTestCase
         self::assertStringEndsWith('/sylius-customer-asset-management-plugin', (string) $fleet->filter('a[data-integration-plugin]')->attr('href'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheDiagramHasATextAlternativeAndThePageNoContactButton(string $locale): void
     {
         $page = $this->page($locale);
@@ -96,5 +97,11 @@ final class IntegrationsSectionTest extends WebTestCase
         });
 
         return $found;
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
     }
 }

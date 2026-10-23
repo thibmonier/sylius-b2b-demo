@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
@@ -65,7 +66,7 @@ final class PagesTest extends WebTestCase
         yield 'english home' => ['/en_US/'];
     }
 
-    /** @dataProvider shopPages */
+    #[DataProvider('shopPages')]
     public function testShopPagesAnswer(string $path): void
     {
         $client = self::createClient();
@@ -98,7 +99,7 @@ final class PagesTest extends WebTestCase
         yield 'webhooks' => ['/admin/webhooks/endpoints/'];
     }
 
-    /** @dataProvider adminPages */
+    #[DataProvider('adminPages')]
     public function testAdminPagesAnswer(string $path): void
     {
         $client = self::createClient();

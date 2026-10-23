@@ -6,9 +6,9 @@ namespace App\Tests\Unit\Demo\Plugin;
 
 use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Plugin\DemoPluginCatalog;
+use App\Tests\Support\DemoCatalogs;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Yaml;
 
 /** US-014 — the plugin registry matches composer.json and rejects invalid entries by plugin name. */
 final class DemoPluginCatalogTest extends TestCase
@@ -164,18 +164,11 @@ final class DemoPluginCatalogTest extends TestCase
 
     private static function accounts(): DemoAccountCatalog
     {
-        $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/accounts.yaml');
-        self::assertIsArray($config);
-        $p = $config['parameters'];
-
-        return new DemoAccountCatalog($p['demo.password'], $p['demo.companies'], $p['demo.consumers'], $p['demo.admin_users']);
+        return DemoCatalogs::accounts();
     }
 
     private static function catalog(): DemoPluginCatalog
     {
-        $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/plugins.yaml');
-        self::assertIsArray($config);
-
-        return new DemoPluginCatalog($config['parameters']['demo.plugin_catalog'], self::accounts());
+        return DemoCatalogs::plugins();
     }
 }

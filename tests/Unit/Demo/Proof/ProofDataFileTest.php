@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Demo\Proof;
 use App\Demo\Proof\ProofFact;
 use App\Demo\Proof\ProofReader;
 use App\Demo\Proof\Refresh\PluginCatalogFile;
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -70,10 +71,11 @@ final class ProofDataFileTest extends TestCase
     private function data(): array
     {
         $data = json_decode((string) file_get_contents(self::FILE), true, 512, \JSON_THROW_ON_ERROR);
-        self::assertIsArray($data);
-        self::assertIsArray($data['plugins']);
-        self::assertIsArray($data['delivery']);
+        $plugins = [];
+        foreach (Typed::map(Typed::at($data, 'plugins'), 'plugins') as $slug => $facts) {
+            $plugins[$slug] = Typed::map($facts, 'plugins > ' . $slug);
+        }
 
-        return $data;
+        return ['plugins' => $plugins, 'delivery' => Typed::map(Typed::at($data, 'delivery'), 'delivery')];
     }
 }

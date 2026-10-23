@@ -148,13 +148,13 @@ final class PunchOutSimulatorControllerTest extends TestCase
 
     private function controller(bool $demoMode = true): PunchOutSimulatorController
     {
-        $twig = $this->createMock(Environment::class);
+        $twig = $this->createStub(Environment::class);
         $twig->method('render')->willReturnCallback(function (string $template, array $parameters): string {
             $this->rendered = $parameters;
 
             return '';
         });
-        $csrf = $this->createMock(CsrfTokenManagerInterface::class);
+        $csrf = $this->createStub(CsrfTokenManagerInterface::class);
         $csrf->method('getToken')->willReturn(new \Symfony\Component\Security\Csrf\CsrfToken('t', 'v'));
         $csrf->method('isTokenValid')->willReturnCallback(static fn (\Symfony\Component\Security\Csrf\CsrfToken $token): bool => 'v' === $token->getValue());
         $clock = new MockClock('2026-10-16 10:00:00');
@@ -165,9 +165,9 @@ final class PunchOutSimulatorControllerTest extends TestCase
 
         return new PunchOutSimulatorController(
             $twig,
-            $this->createMock(UrlGeneratorInterface::class),
+            $this->createStub(UrlGeneratorInterface::class),
             $csrf,
-            new BuyerCredentialsProvider($this->createMock(EntityManagerInterface::class)),
+            new BuyerCredentialsProvider($this->createStub(EntityManagerInterface::class)),
             new SetupRequestBuilder($clock),
             new OrderRequestBuilder($clock),
             new OrderMessageParser($loader),

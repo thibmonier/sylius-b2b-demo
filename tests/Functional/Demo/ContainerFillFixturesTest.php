@@ -98,6 +98,7 @@ final class ContainerFillFixturesTest extends WebTestCase
         foreach ($rolesOfAdministrators as $serialized) {
             $roles = json_decode(is_string($serialized) ? $serialized : '[]', true);
             self::assertIsArray($roles);
+            $roles = array_values(array_filter($roles, \is_string(...)));
             self::assertNotContains(self::OVERRIDE_ROLE, $roles);
             self::assertNotContains(self::OVERRIDE_ROLE, $hierarchy->getReachableRoleNames([...$roles, 'ROLE_ADMINISTRATION_ACCESS', 'ROLE_DEMO_ADMIN']));
         }

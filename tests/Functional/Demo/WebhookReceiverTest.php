@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Demo;
 
 use App\Demo\Webhook\DemoWebhookTarget;
 use App\Entity\Webhook\ReceivedWebhook;
+use App\Tests\Support\Typed;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -395,6 +396,6 @@ final class WebhookReceiverTest extends DemoAdminWebTestCase
         $answer = json_decode((string) $client->getResponse()->getContent(), true, 512, \JSON_THROW_ON_ERROR);
         self::assertIsArray($answer);
 
-        return (string) ($answer['status'] ?? '');
+        return Typed::string(Typed::at($answer, 'status'), 'status');
     }
 }

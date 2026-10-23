@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -46,9 +47,7 @@ final class AccountsSmokeTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider provideExpectedCompanyCodes
-     */
+    #[DataProvider('provideExpectedCompanyCodes')]
     public function testExpectedCompanyExistsByCode(string $code, string $expectedName): void
     {
         self::bootKernel();
@@ -73,9 +72,7 @@ final class AccountsSmokeTest extends KernelTestCase
         yield 'IndusPro SARL' => ['INDUSPRO', 'IndusPro SARL'];
     }
 
-    /**
-     * @dataProvider provideExpectedB2bAccounts
-     */
+    #[DataProvider('provideExpectedB2bAccounts')]
     public function testExpectedShopUserExists(string $email): void
     {
         self::bootKernel();

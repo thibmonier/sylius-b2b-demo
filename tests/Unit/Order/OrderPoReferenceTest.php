@@ -114,12 +114,10 @@ final class OrderPoReferenceTest extends TestCase
         $channel = new Channel();
         $channel->setPoReferenceRequired(true);
 
-        /** @var ChannelContextInterface&MockObject $channelContext */
-        $channelContext = $this->createMock(ChannelContextInterface::class);
+        $channelContext = $this->createStub(ChannelContextInterface::class);
         $channelContext->method('getChannel')->willReturn($channel);
 
-        /** @var TranslatorInterface&MockObject $translator */
-        $translator = $this->createMock(TranslatorInterface::class);
+        $translator = $this->createStub(TranslatorInterface::class);
         $translator->method('trans')->willReturn('La référence PO est requise pour finaliser la commande.');
 
         $order = new Order();
@@ -131,9 +129,8 @@ final class OrderPoReferenceTest extends TestCase
             ->method('addError')
             ->with(self::isInstanceOf(FormError::class));
 
-        /** @var FormInterface&MockObject $form */
-        $form = $this->createMock(FormInterface::class);
-        $form->method('get')->with('poReference')->willReturn($poRefField);
+        $form = $this->createStub(FormInterface::class);
+        $form->method('get')->willReturnMap([['poReference', $poRefField]]);
 
         $formEvent = new FormEvent($form, $order);
 
@@ -143,7 +140,7 @@ final class OrderPoReferenceTest extends TestCase
         $ref = new \ReflectionClass($extension);
         $method = $ref->getMethod('buildForm');
 
-        $builderMock = $this->createMock(\Symfony\Component\Form\FormBuilderInterface::class);
+        $builderMock = $this->createStub(\Symfony\Component\Form\FormBuilderInterface::class);
         $listenerCaptures = [];
 
         $builderMock->method('add')->willReturn($builderMock);

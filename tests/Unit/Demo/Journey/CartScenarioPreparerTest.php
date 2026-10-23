@@ -29,7 +29,7 @@ final class CartScenarioPreparerTest extends TestCase
         $line = new OrderItem();
         $cart->addItem($line);
 
-        $adder = $this->createMock(CompanyWishlistCartAdder::class);
+        $adder = $this->createStub(CompanyWishlistCartAdder::class);
         $adder->method('add')->willReturn(['added' => 0, 'skipped' => 1]);
 
         $preparer = new CartScenarioPreparer($this->resolverOfOneItem(), $adder, $this->cartContext($cart));

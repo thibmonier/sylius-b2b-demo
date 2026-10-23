@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Theme;
 
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
@@ -51,8 +52,13 @@ final class ThemeHooksTest extends TestCase
     private function hooks(): array
     {
         $config = Yaml::parseFile(\dirname(__DIR__, 3) . '/config/packages/demo_theme_b2b.yaml');
-        self::assertIsArray($config);
+        $hooks = [];
+        foreach (Typed::map(Typed::at($config, 'sylius_twig_hooks', 'hooks'), 'hooks') as $hook => $entries) {
+            foreach (Typed::map($entries, $hook) as $name => $entry) {
+                $hooks[$hook][$name] = Typed::map($entry, $hook . ' > ' . $name);
+            }
+        }
 
-        return $config['sylius_twig_hooks']['hooks'];
+        return $hooks;
     }
 }

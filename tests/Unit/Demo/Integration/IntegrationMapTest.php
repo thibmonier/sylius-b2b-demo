@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\Integration;
 
-use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Integration\Integration;
 use App\Demo\Integration\IntegrationMap;
 use App\Demo\Plugin\DemoPluginCatalog;
+use App\Tests\Support\DemoCatalogs;
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
@@ -67,9 +68,8 @@ final class IntegrationMapTest extends TestCase
 
     public function testTheRealConfigurationIsCoherentAndCoversEveryFamily(): void
     {
-        $root = \dirname(__DIR__, 4);
-        $plugins = new DemoPluginCatalog(self::parameter($root . '/config/demo/plugins.yaml', 'demo.plugin_catalog'), self::accounts());
-        $map = new IntegrationMap(self::parameter($root . '/config/demo/integrations.yaml', 'demo.integrations'), $plugins);
+        $integrations = Typed::at(Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/integrations.yaml'), 'parameters', 'demo.integrations');
+        $map = new IntegrationMap(Typed::listOfMaps($integrations, 'demo.integrations'), DemoCatalogs::plugins());
 
         self::assertSame([], $map->inconsistencies());
         $ids = array_map(static fn (Integration $i): string => $i->id, $map->all());
@@ -90,28 +90,8 @@ final class IntegrationMapTest extends TestCase
             $plugin('published-one', []),
             $plugin('in-progress-one', ['published' => false]),
             $plugin('upcoming-one', ['published' => false, 'installed' => false]),
-        ], self::accounts());
+        ], DemoCatalogs::accounts());
 
         return new IntegrationMap($entries, $catalog);
-    }
-
-    private static function accounts(): DemoAccountCatalog
-    {
-        $config = Yaml::parseFile(\dirname(__DIR__, 4) . '/config/demo/accounts.yaml');
-        self::assertIsArray($config);
-        $p = $config['parameters'];
-
-        return new DemoAccountCatalog($p['demo.password'], $p['demo.companies'], $p['demo.consumers'], $p['demo.admin_users']);
-    }
-
-    /** @return list<array<string, mixed>> */
-    private static function parameter(string $file, string $name): array
-    {
-        $data = Yaml::parseFile($file);
-        self::assertIsArray($data);
-        $value = $data['parameters'][$name] ?? null;
-        self::assertIsArray($value);
-
-        return array_values($value);
     }
 }
