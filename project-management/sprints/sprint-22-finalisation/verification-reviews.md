@@ -22,7 +22,7 @@
 | US-068 | done | `bin/vitrine-readme --check --ref=origin/main` : les écarts relevés sur les dépôts d'origine sont des faux positifs (commentaires de code traduits, captures propres à chaque langue). Le README de company-insights, créé après la story, n'a ni bloc démo ni lien de langue : suivi à part. |
 | US-155 | done | |
 | US-056 | done | Écritures admin refusées en démo publique par conception ; création, modification et suppression d'un modèle acceptées par Thibaut le 2026-10-23 (tests du plugin). |
-| US-057 | review | Ajout, modification, validation, 404 sur un parc étranger et partage par entreprise conformes. La suppression ne demande pas de confirmation (`data-turbo-confirm` sans Turbo), comme la suppression d'adresse de Sylius. Décision de Thibaut le 2026-10-23 : ajouter une confirmation (release 0.1.1 du plugin, puis montée dans la démo). « Paul modifie » non vérifié (comptes partagés en lecture seule). |
+| US-057 | done | Ajout, modification, validation, 404 sur un parc étranger et partage par entreprise conformes. La suppression ne demande pas de confirmation (`data-turbo-confirm` sans Turbo), comme la suppression d'adresse de Sylius. Décision de Thibaut le 2026-10-23 : ajouter une confirmation ; livrée le jour même (page de confirmation sans JavaScript, plugin v0.1.1, montée dans la démo). « Paul modifie » non vérifié (comptes partagés en lecture seule). |
 | US-058 | done | |
 | US-157 | done | Panneau vérifié en local avec le script du plugin ; script servi en 200 en production. |
 | US-164 | review | Parc en lecture seule pour les comptes partagés et limiteurs actifs ; un refus de suppression menait à une page 405 : corrigé par la PR #63. |
