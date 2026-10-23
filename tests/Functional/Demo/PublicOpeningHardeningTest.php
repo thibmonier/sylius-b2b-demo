@@ -124,6 +124,15 @@ final class PublicOpeningHardeningTest extends WebTestCase
 
         self::assertStringContainsString('lecture seule', mb_strtolower((string) $client->getResponse()->getContent()));
         self::assertSame($assets, $this->intValue('SELECT COUNT(*) FROM customer_asset'));
+
+        // The delete URL only accepts POST: the refusal goes back to the fleet list, not to a 405 page.
+        $id = $this->stringValue('SELECT id FROM customer_asset LIMIT 1');
+        $client->request('POST', '/fr_FR/account/equipment/' . $id . '/delete');
+
+        self::assertResponseIsSuccessful();
+        self::assertSame('/fr_FR/account/equipment', $client->getRequest()->getPathInfo());
+        self::assertStringContainsString('lecture seule', mb_strtolower((string) $client->getResponse()->getContent()));
+        self::assertSame($assets, $this->intValue('SELECT COUNT(*) FROM customer_asset'));
     }
 
     /**

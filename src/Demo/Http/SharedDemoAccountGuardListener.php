@@ -13,13 +13,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * US-050: the demo customer accounts are shared, their password is on /demo/accounts. Whoever is signed in with one
  * cannot change its password or its e-mail (that would lock every other visitor out) and sees the equipment fleet read-only
  * (the fleet is shown to every visitor, the tour relies on it staying as seeded); addresses, members and credit stay
- * editable, the nightly reset restores them. The refusal is a flash message and a redirect to the same page. Runs after
+ * editable, the nightly reset restores them. The refusal is a flash message and a redirect to the same page, or to the fleet
+ * list for a fleet write (its delete URL only accepts POST: redirecting there gave a 405). Runs after
  * the firewall (priority 8), which sets the token.
  */
 #[AsEventListener(event: KernelEvents::REQUEST, priority: 0)]
@@ -30,6 +32,8 @@ final readonly class SharedDemoAccountGuardListener
     private const PROFILE_ROUTE = 'sylius_shop_account_profile_update';
 
     private const PROFILE_FORM = 'sylius_shop_customer_profile';
+
+    private const FLEET_INDEX_ROUTE = 'tmonier_equipment_shop_fleet_index';
 
     private const FLEET_ROUTES = [
         'tmonier_equipment_shop_fleet_create',
@@ -44,6 +48,7 @@ final readonly class SharedDemoAccountGuardListener
     public function __construct(
         private TokenStorageInterface $tokens,
         private DemoAccountCatalog $catalog,
+        private UrlGeneratorInterface $urls,
         #[Autowire(param: 'demo.mode')]
         private bool $demoMode,
     ) {
@@ -68,7 +73,16 @@ final readonly class SharedDemoAccountGuardListener
         if ($session instanceof FlashBagAwareSessionInterface) {
             $session->getFlashBag()->add('error', $message);
         }
-        $event->setResponse(new RedirectResponse($request->getRequestUri()));
+        $event->setResponse(new RedirectResponse($this->backUrl($request)));
+    }
+
+    private function backUrl(Request $request): string
+    {
+        if (!\in_array($request->attributes->getString('_route'), self::FLEET_ROUTES, true)) {
+            return $request->getRequestUri();
+        }
+
+        return $this->urls->generate(self::FLEET_INDEX_ROUTE, ['_locale' => $request->getLocale()]);
     }
 
     private function refusal(Request $request, string $email): ?string
