@@ -1,0 +1,21 @@
+{# US-098: rows of the fill preview. The containers the quantity fills (more than 0 %) stay visible; the others are folded in a native "details" (keyboard and no-JavaScript friendly, the state is announced by the browser). Variables: rows, quantity. #}
+{% macro line(row, quantity, attribute) %}
+    {% set parameters = {'%quantity%': quantity, '%percent%': row.percent, '%count%': row.count, '%type%': row.name, '%capacity%': row.capacity} %}
+    <li {{ sylius_test_html_attribute(attribute) }}>{% if row.layers is not null %}{{ (row.percent >= 100 ? 'tmonier_container_fill.ui.preview_layers_many' : 'tmonier_container_fill.ui.preview_layers')|trans(parameters|merge({'%layers%': row.layers})) }}{% else %}{{ (row.percent >= 100 ? 'tmonier_container_fill.ui.preview_row_many' : 'tmonier_container_fill.ui.preview_row')|trans(parameters) }}{% endif %}</li>
+{% endmacro %}
+{% from _self import line %}
+{% set filled = rows|filter(row => row.percent > 0) %}
+{% set others = rows|filter(row => row.percent <= 0) %}
+{% if filled is not empty %}
+    <ul class="list-unstyled mb-1">
+        {% for row in filled %}{{ line(row, quantity, 'tmonier-container-fill-preview-row') }}{% endfor %}
+    </ul>
+{% endif %}
+{% if others is not empty %}
+    <details class="mb-1" {{ sylius_test_html_attribute('tmonier-container-fill-preview-details') }}>
+        <summary class="text-body-secondary">{{ 'app.ui.container_fill_other'|trans({'%count%': others|length}) }}</summary>
+        <ul class="list-unstyled mb-0 mt-1">
+            {% for row in others %}{{ line(row, quantity, 'tmonier-container-fill-preview-other') }}{% endfor %}
+        </ul>
+    </details>
+{% endif %}

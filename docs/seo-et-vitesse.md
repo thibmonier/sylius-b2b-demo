@@ -23,6 +23,8 @@ Ce que la mesure a montré (Lighthouse 12.8.2, profil mobile, démo locale) : l'
 | Police : sous-ensemble latin d'Inter (66 Ko, axe de graisse conservé) à la place des deux fichiers du thème officiel (344 Ko et 379 Ko) ; police de repli aux mesures d'Inter (pas de décalage au changement) ; un seul préchargement | `assets/shop/fonts/InterVariable-latin.woff2`, `assets/shop/styles/fonts.scss`, `templates/bundles/SyliusShopBundle/shared/layout/base/metatags.html.twig` | -657 Ko sur chaque page |
 | Images des cartes : `width` et `height` (3:4), `srcset` 300 et 600 px, `sizes`, `loading="lazy"`, `decoding="async"` ; attribut parasite `product="..."` retiré | `templates/bundles/SyliusShopBundle/shared/components/main_image.html.twig` | les images sous l'écran ne sont pas demandées au chargement |
 | Fiche produit : image principale en 600 px (au lieu de 1200 x 1600), `srcset` 300 / 600 / 1200, `fetchpriority="high"`, dimensions ; vignettes paresseuses, sans le `data-large-thumbnail` que rien ne lisait | `templates/bundles/SyliusShopBundle/product/show/content/info/overview/images*.twig` | |
+| US-167. Catalogue : les quatre premières vignettes de la liste en `loading="eager"`, la première avec `fetchpriority="high"` (c'est elle qui fait le LCP) ; les suivantes restent paresseuses. La liste transmet la position de la carte, le bloc image la lit ; hors liste (accueil, avis), rien ne change | `templates/bundles/SyliusShopBundle/product/index/content/body/main/products.html.twig`, `.../shared/product/card/details/image.html.twig` | première image demandée sans attendre le défilement |
+| US-167. Cache : `/build/*` (nom à empreinte) en `public, max-age=31536000, immutable` ; `/bundles/*` et `/media/*` restent à 7 jours (pas d'empreinte garantie) | `docker/Caddyfile` | les visites suivantes ne revalident plus les scripts ni les styles |
 | Image absente : visuel de repli en SVG intégré à la page (aucune requête qui puisse échouer), mêmes dimensions | `main_image.html.twig` | |
 
 Le sous-ensemble de police a été produit avec `pyftsubset` (fonttools) à partir du fichier du thème : plage Basic Latin, Latin-1, `œ`, ponctuation générale, `€`, `™`, flèches, `≤ ≥`. Un caractère hors plage s'affiche dans la police de repli. Inter est sous licence SIL OFL 1.1 (redistribution autorisée avec la police réduite). Pour le régénérer :
@@ -46,6 +48,8 @@ Lighthouse 12.8.2, profil mobile, démo locale (2026-10-18), avant puis après l
 | Fiche | 74 puis **99** | 6,9 s puis **2,1 s** | 1 049 Ko puis 405 Ko | 58 puis 69 |
 
 Le décalage de mise en page (CLS) reste sous 0,02 (0,012 au plus). Le SEO ne dépasse pas 69 : la seule vérification en échec est « page explorable », volontairement (le `noindex` est conservé). Les trois pages sont celles mesurées par l'audit du 2026-10-18 (même méthode).
+
+La mesure du LCP mobile du catalogue après US-167 (`bin/measure-mobile`) se rejoue sur le rendu local ; la production se vérifie après déploiement (la règle de cache ne se voit que dans l'image, validée par la CI).
 
 ## Mesurer
 

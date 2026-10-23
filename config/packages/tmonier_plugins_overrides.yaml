@@ -12,6 +12,11 @@ sylius_twig_hooks:
             checkout:
                 template: 'shop/container_fill/cart_checkout.html.twig'
 
+        # US-098: the fill preview of the product page folds the containers the quantity does not fill (0 %).
+        'sylius_shop.product.show.content.info.summary.add_to_cart':
+            tmonier_container_fill_preview:
+                template: 'shop/container_fill/product_preview.html.twig'
+
         # US-045: the fashion "New collection" block stays on B2C only. channel-access sets its own condition on this
         # block (catalogue visibility); a condition is replaced, not combined, by the merge, so both are kept here.
         'sylius_shop.homepage.index':

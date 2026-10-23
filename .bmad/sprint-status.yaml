@@ -354,27 +354,27 @@ sprints:
 
   sprint-22:
     name: sprint-22-finalisation
-    status: planned  # plan établi le 2026-10-23 (décisions de Thibaut après les audits du 2026-10-22) ; décomposition en tâches au lancement du sprint (commande de démarrage) ; US-163 déjà faite le 2026-10-23 (PR #57)
+    status: in-progress  # lancé le 2026-10-23 (branche feature/sprint-22-finalisation), décomposé en 90 tâches / 77 h (tasks/) ; plan établi le 2026-10-23 (décisions de Thibaut après les audits du 2026-10-22) ; US-163 déjà faite le 2026-10-23 (PR #57)
     sprint_id: "sprint-22"
     start_date: "2026-10-26"
     end_date: "2026-11-06"
-    capacity_points: 27  # 8 Must (dont US-163 déjà faite, 2) + 15 Should + 4 Could ; heures à fixer par la décomposition en tâches ; vélocité de référence : S18 25, S19 25, S20 22, S21 17
+    capacity_points: 27  # 8 Must (dont US-163 déjà faite, 2) + 15 Should + 4 Could ; décomposé le 2026-10-23 en 90 tâches, 77 h (60,5 h de capacité, sacrifices ordonnés absorbent l'écart) ; vélocité de référence : S18 25, S19 25, S20 22, S21 17
     goal: "Finaliser la démo comme preuve vérifiable : vérifier en production et clore les sprints 18 à 21, solder les points de sécurité et de qualité des audits du 2026-10-22, puis livrer les dernières finitions de lisibilité"
     stories:
       - {id: US-163, title: "Clôture des deux points hauts de l'audit et de la checklist US-079", points: 2, status: done}  # sprint 22 ; EPIC-10, Must ; faite le 2026-10-23 (PR #57) : les 4 vérifications US-079 de docs/ouverture-publique.md confirmées par Thibaut
-      - {id: US-164, title: "Bornes du parc d'équipements des comptes partagés et limitation de débit des routes récentes", points: 3, status: backlog}  # sprint 22 ; EPIC-10, Must ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sécurité : aucun détail dans le dépôt public
-      - {id: US-162, title: "Anomalies mineures relevées en production (S18-20) : lien « Créer un compte » vers une inscription fermée, en-tête HSTS envoyé deux fois", points: 1, status: backlog}  # sprint 22 ; EPIC-01, Must ; reprise du sprint 20
-      - {id: US-161, title: "Actions de la rétrospective du sprint 17 (solde)", points: 2, status: in-progress}  # sprint 22 ; EPIC-01, Must ; solde (≈ 2 pts) de la story du sprint 18 ; restent T-161-06, T-161-09, T-161-13 et la validation du registre par Thibaut (T-161-12) ; à ne conserver que si encore ouverte
-      - {id: US-084, title: "Qualité : Rector en CI, seuil de couverture, bin/proof-refresh", points: 5, status: backlog}  # sprint 22 ; EPIC-10, Should ; recadrée le 2026-10-23 (méthodes longues vers US-166, liste société vers US-165)
-      - {id: US-165, title: "Dettes qualité de l'audit : écriture en base, codes acheteurs du simulateur, code mort de la vitrine", points: 3, status: backlog}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sacrifice n°5
-      - {id: US-167, title: "Performance à faible effort : vignettes du haut du catalogue et cache des fichiers versionnés", points: 2, status: backlog}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2)
-      - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: backlog}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°4
-      - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: backlog}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°3
-      - {id: US-154, title: "Company-insights : conversion des devis et économies des prix dégressifs", points: 3, status: backlog}  # sprint 22 ; EPIC-15, Could ; reportée du sprint 21 ; plugin 0.3.0 ; sacrifice n°2
-      - {id: US-062, title: "Mineurs du script d'images", points: 1, status: backlog}  # sprint 22 ; EPIC-11, Could ; fiche écrite le 2026-10-23 ; sacrifice n°1
+      - {id: US-164, title: "Bornes du parc d'équipements des comptes partagés et limitation de débit des routes récentes", points: 3, status: review}  # sprint 22 ; EPIC-10, Must ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sécurité : aucun détail dans le dépôt public
+      - {id: US-162, title: "Anomalies mineures relevées en production (S18-20) : lien « Créer un compte » vers une inscription fermée, en-tête HSTS envoyé deux fois", points: 1, status: review}  # sprint 22 ; EPIC-01, Must ; reprise du sprint 20
+      - {id: US-161, title: "Actions de la rétrospective du sprint 17 (solde)", points: 2, status: review}  # sprint 22 ; EPIC-01, Must ; solde (≈ 2 pts) de la story du sprint 18 ; restent T-161-06, T-161-09, T-161-13 et la validation du registre par Thibaut (T-161-12) ; à ne conserver que si encore ouverte
+      - {id: US-084, title: "Qualité : Rector en CI, seuil de couverture, bin/proof-refresh", points: 5, status: review}  # sprint 22 ; EPIC-10, Should ; recadrée le 2026-10-23 (méthodes longues vers US-166, liste société vers US-165)
+      - {id: US-165, title: "Dettes qualité de l'audit : écriture en base, codes acheteurs du simulateur, code mort de la vitrine", points: 3, status: review}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sacrifice n°5
+      - {id: US-167, title: "Performance à faible effort : vignettes du haut du catalogue et cache des fichiers versionnés", points: 2, status: review}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2)
+      - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: review}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°4
+      - {id: US-098, title: "Jauge de remplissage condensée sur la fiche produit", points: 2, status: review}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°3
+      - {id: US-154, title: "Company-insights : conversion des devis et économies des prix dégressifs", points: 3, status: carried-over}  # sprint 22 ; EPIC-15, Could ; reportée du sprint 21 ; plugin 0.3.0 ; sacrifice n°2 ; SACRIFIÉE le 2026-10-23 (ordre de sacrifice du plan, capacité dépassée de 14 h) : retour au backlog
+      - {id: US-062, title: "Mineurs du script d'images", points: 1, status: carried-over}  # sprint 22 ; EPIC-11, Could ; fiche écrite le 2026-10-23 ; sacrifice n°1 ; SACRIFIÉE le 2026-10-23 (ordre de sacrifice du plan, capacité dépassée de 14 h) : retour au backlog
     sprint_tasks:
-      - {id: T-TECH-22-01, title: "Clôture des reviews : vérification en production des sprints 18 à 21 puis passage à done", points: 0, status: backlog}  # sprint 22 ; Must ; tâche de sprint sans points, à décomposer au lancement ; actions de Thibaut (GO, relectures) listées dans l'état du backlog du 2026-10-23
-    notes: "Plan du 2026-10-23, 27 points. Ordre de sacrifice : US-062, US-154, US-098, US-088, US-165 ; les Must (clôture des reviews, US-163, US-164, US-162, solde d'US-161) et US-084, US-167 ne se sacrifient pas. Pas de décomposition en tâches avant le lancement du sprint. Dates réelles : 2026-10-26 au 2026-11-06 (10 jours ouvrés). Capacité volontairement contenue : tampon pour d'éventuels entretiens. Sécurité : aucune route, valeur ni seuil dans le dépôt public."
+      - {id: T-TECH-22-01, title: "Clôture des reviews : vérification en production des sprints 18 à 21 puis passage à done", points: 0, status: ready-for-dev}  # sprint 22 ; Must ; tâche de sprint sans points, décomposée (T-TECH-22-01a à h, 8,5 h) ; actions de Thibaut (GO, relectures) listées dans l'état du backlog du 2026-10-23
+    notes: "Plan du 2026-10-23, 27 points. Ordre de sacrifice : US-062, US-154, US-098, US-088, US-165 ; les Must (clôture des reviews, US-163, US-164, US-162, solde d'US-161) et US-084, US-167 ne se sacrifient pas. Décomposition faite le 2026-10-23 (tasks/, 90 tâches, 77 h dont 2,5 h de Thibaut). Point d'étape le 2026-10-30. Dates réelles : 2026-10-26 au 2026-11-06 (10 jours ouvrés). Capacité volontairement contenue : tampon pour d'éventuels entretiens. Sécurité : aucune route, valeur ni seuil dans le dépôt public."
 
   sprint-23:
     name: sprint-23-vitrine

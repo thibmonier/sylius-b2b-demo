@@ -67,7 +67,7 @@ final class OrderHistoryDemoFixture extends AbstractFixture
         #[Autowire(service: 'tmonier_purchase_approval.repository.order_approval')]
         private readonly OrderApprovalRepositoryInterface $approvalRepository,
         private readonly ApprovalDecisionMaker $approvalDecisionMaker,
-        #[Autowire('%sylius_invoicing.invoice_save_path%')]
+        #[Autowire(param: 'sylius_invoicing.invoice_save_path')]
         private readonly string $invoiceDirectory,
     ) {
     }

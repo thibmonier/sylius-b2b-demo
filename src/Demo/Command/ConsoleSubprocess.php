@@ -24,9 +24,9 @@ final readonly class ConsoleSubprocess
     public const TIMEOUT_SECONDS = 300;
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%')]
+        #[Autowire(param: 'kernel.project_dir')]
         private string $projectDir,
-        #[Autowire('%kernel.environment%')]
+        #[Autowire(param: 'kernel.environment')]
         private string $environment,
     ) {
     }

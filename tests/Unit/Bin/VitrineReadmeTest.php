@@ -269,7 +269,7 @@ final class VitrineReadmeTest extends TestCase
 
         self::assertSame([], $this->errors($findings));
         self::assertCount(1, array_filter($findings, static fn (Finding $finding): bool => 'warning' === $finding->severity && 7 === $finding->line));
-        self::assertNotSame([], $this->errors((new ReadmeChecker(true))->check(new DirectorySource($this->dir), 'sylius-foo-plugin', self::PROFILE)));
+        self::assertNotSame([], $this->errors((new ReadmeChecker(true))->check(new DirectorySource($this->dir), self::PROFILE)));
     }
 
     public function testSylusPlusInTheBlockIsAnError(): void
@@ -368,7 +368,7 @@ final class VitrineReadmeTest extends TestCase
             }
         };
 
-        $findings = (new ReadmeChecker(false, $probe))->check(new DirectorySource($this->dir), 'sylius-foo-plugin', self::PROFILE);
+        $findings = (new ReadmeChecker(false, $probe))->check(new DirectorySource($this->dir), self::PROFILE);
 
         self::assertTrue($this->hasMessageContaining($this->messages($findings), 'does not answer: https://sylius-b2b.thibaut-monier.fr (HTTP 404)'));
         self::assertCount(2, array_filter($findings, static fn (Finding $finding): bool => 'warning' === $finding->severity && str_contains($finding->message, 'cannot be verified')));
@@ -388,7 +388,7 @@ final class VitrineReadmeTest extends TestCase
             }
         };
 
-        (new ReadmeChecker(false, $probe))->check(new DirectorySource($this->dir), 'sylius-foo-plugin', self::PROFILE);
+        (new ReadmeChecker(false, $probe))->check(new DirectorySource($this->dir), self::PROFILE);
 
         self::assertSame(3, $probe->calls, 'Repository, online demo and profile, once each for both READMEs.');
     }
@@ -418,9 +418,9 @@ final class VitrineReadmeTest extends TestCase
     /**
      * @return list<Finding>
      */
-    private function check(?string $dir = null, string $plugin = 'sylius-foo-plugin'): array
+    private function check(?string $dir = null): array
     {
-        return (new ReadmeChecker())->check(new DirectorySource($dir ?? $this->dir), $plugin, self::PROFILE);
+        return (new ReadmeChecker())->check(new DirectorySource($dir ?? $this->dir), self::PROFILE);
     }
 
     /**

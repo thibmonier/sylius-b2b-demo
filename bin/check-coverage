@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * Line coverage gate of the CI (US-084). Reads the Clover report written by PHPUnit and fails below the threshold.
+ *
+ *   php bin/check-coverage build/coverage.xml 90
+ *
+ * Exit codes: 0 at or above the threshold, 1 below it, 2 on a usage error or an unreadable report.
+ * The rate and the threshold are always printed, so the job summary and the failure message carry both.
+ */
+
+$arguments = \is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], \is_string(...))) : [];
+$file = $arguments[1] ?? '';
+$threshold = $arguments[2] ?? '';
+if ('' === $file || !is_numeric($threshold)) {
+    fwrite(\STDERR, "usage: php bin/check-coverage CLOVER_FILE MIN_PERCENT\n");
+    exit(2);
+}
+
+$previous = libxml_use_internal_errors(true);
+$xml = is_file($file) ? simplexml_load_file($file) : false;
+libxml_use_internal_errors($previous);
+$metrics = false === $xml ? null : $xml->project->metrics ?? null;
+if (null === $metrics || (int) $metrics['statements'] <= 0) {
+    fwrite(\STDERR, sprintf("Unreadable or empty Clover report: %s\n", $file));
+    exit(2);
+}
+
+$rate = 100 * (int) $metrics['coveredstatements'] / (int) $metrics['statements'];
+printf("Line coverage: %.2f %% (%d/%d), threshold %.2f %%\n", $rate, (int) $metrics['coveredstatements'], (int) $metrics['statements'], (float) $threshold);
+if ($rate < (float) $threshold) {
+    fwrite(\STDERR, sprintf("Coverage %.2f %% is below the threshold %.2f %%\n", $rate, (float) $threshold));
+    exit(1);
+}

@@ -144,6 +144,7 @@ app:
             po_reference_required: 'PO reference *'
             cost_center: 'Cost center'
     ui:
+        container_fill_other: 'Other containers (%count%)'
         po_reference: 'PO reference'
         cost_center: 'Cost center'
     email:
@@ -153,3 +154,9 @@ app:
 sylius:
     ui:
         continue_shopping: 'Continue shopping'
+
+# US-088: resources of the approval plugins that the audit log plugin does not translate.
+tmonier_audit_log:
+    resource:
+        member_limit: 'Order limit'
+        order_approval: 'Order approval'

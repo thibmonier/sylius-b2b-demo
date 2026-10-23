@@ -1,0 +1,14 @@
+{# US-167: copy of the Sylius list that tells each card its position (the first thumbnails are the LCP of the page). #}
+{% import '@SyliusShop/shared/messages.html.twig' as messages %}
+
+{% set resources = hookable_metadata.context.resources %}
+
+{% if resources.data|length > 0 %}
+    <div class="products-grid" {{ sylius_test_html_attribute('products') }}>
+        {% for product in resources.data %}
+            {{ component('sylius_shop:product:card', { product: product, position: loop.index0, template: hookable_metadata.configuration.product_template|default('@SyliusShop/product/common/card.html.twig'), hookableMetadata: hookable_metadata }) }}
+        {% endfor %}
+    </div>
+{% else %}
+    {{ messages.info('sylius.ui.no_results_to_display') }}
+{% endif %}

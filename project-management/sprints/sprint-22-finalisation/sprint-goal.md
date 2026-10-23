@@ -1,6 +1,6 @@
 # Sprint 22 : Finalisation (clôture des sprints 18 à 21, suites des audits du 2026-10-22, finitions de lisibilité)
 
-> **Plan du 2026-10-23 : 27 points** (8 Must, 15 Should, 4 Could), décidé par Thibaut après les audits du 2026-10-22 (qualité 67/100, sécurité, performance). La **décomposition en tâches sera faite au lancement du sprint** (commande de démarrage), pas avant. Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-22`).
+> **Plan du 2026-10-23 : 27 points** (8 Must, 15 Should, 4 Could), décidé par Thibaut après les audits du 2026-10-22 (qualité 67/100, sécurité, performance). **Sprint lancé le 2026-10-23** (commande de démarrage) ; la décomposition en tâches est faite : voir [tasks/README.md](./tasks/README.md). Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-22`).
 
 ## Informations
 
@@ -10,8 +10,8 @@
 | Début | 2026-10-26 (planning) |
 | Fin | 2026-11-06 |
 | Durée | 10 jours ouvrés (2026-10-26 au 2026-11-06) |
-| Capacité | **27 points** : 8 Must (dont US-163, déjà faite le 2026-10-23), 15 Should, 4 Could. Vélocité de référence : S18 25, S19 25, S20 22, S21 17. Heures à fixer par la décomposition |
-| Branche | à créer au lancement (`feature/sprint-22-finalisation`, depuis `main`) |
+| Capacité | **27 points** : 8 Must (dont US-163, déjà faite le 2026-10-23), 15 Should, 4 Could. Vélocité de référence : S18 25, S19 25, S20 22, S21 17. **Décomposition du 2026-10-23 : 90 tâches, 77 h (74,5 h pour Claude)** contre 60,5 h de capacité ; dépassement de 14 h absorbé par les sacrifices ordonnés (voir [tasks/README.md](./tasks/README.md)) |
+| Branche | `feature/sprint-22-finalisation` (créée depuis `main`, commit `95d68a5`) |
 
 Périmètre issu de la [feuille de route](../../backlog/roadmap-ouverture-et-communication.md), du report du sprint 21 (US-154, US-088, US-098) et des actions 1 à 6 de l'[audit du 2026-10-22](../../audits/2026-10-22-post-sprint-21/audit-report.md).
 
@@ -25,7 +25,7 @@ Gherkin : minimum 1 nominal + 2 alternatifs + 2 erreurs. « Fiche » = fichier `
 
 | ID | Titre | Pts | MoSCoW | Statut | Sacrifice |
 |----|-------|-----|--------|--------|-----------|
-| Tâche de sprint | Clôture des reviews : vérification en production des sprints 18 à 21 puis passage à done | 0 | Must | backlog | non sacrifiable |
+| [T-TECH-22-01](./tasks/technical-tasks.md) | Clôture des reviews : vérification en production des sprints 18 à 21 puis passage à done | 0 | Must | backlog | non sacrifiable |
 | [US-163](../../backlog/user-stories/US-163.md) | Clôture des deux points hauts de l'audit et checklist US-079 | 2 | Must | **done** (faite le 2026-10-23, PR #57) | sans objet |
 | [US-164](../../backlog/user-stories/US-164.md) | Bornes du parc d'équipements des comptes partagés et limitation de débit des routes récentes | 3 | Must | backlog | non sacrifiable |
 | [US-162](../../backlog/user-stories/US-162.md) | Anomalies mineures relevées en production | 1 | Must | backlog | non sacrifiable |
@@ -41,6 +41,45 @@ Gherkin : minimum 1 nominal + 2 alternatifs + 2 erreurs. « Fiche » = fichier `
 Total : **27 points**. **Ordre de sacrifice** : US-062, US-154, US-098, US-088, US-165 ; les Must, US-084 et US-167 ne se sacrifient pas.
 
 **Sprint 23 (esquisse)** : US-128, US-103 et US-121 (conditionnées au transcript T-103-03), US-166, US-132, US-130. **Abandonnées le 2026-10-23** (valeur de preuve faible / sans demande) : US-094, US-100, US-095, US-102, US-131, US-133 à US-138, US-093, US-101.
+
+## Checklist de démarrage (2026-10-23)
+
+### Avant le Sprint Planning
+
+- [x] Sprint précédent officiellement terminé : sprint 21 clos le 2026-10-22 (PR #50 et #51 mergées, revue et rétro écrites) ; ses stories restent en `review` (vérification en production = T-TECH-22-01)
+- [x] Rétrospective du sprint 21 : actions en cours reprises (disque, un seul worker de plugin, jamais phpunit en direct)
+- [x] Backlog priorisé par le PO (plan du 2026-10-23, décisions de Thibaut après les audits)
+- [x] Stories candidates estimées et « Ready » : voir la Definition of Ready ci-dessous
+- [x] Capacité calculée : 60,5 h (25 points restants × 2,1 h + 8 h transverses), charge décomposée 74,5 h pour Claude
+- [x] Branche `feature/sprint-22-finalisation` créée ; `.bmad/sprint-status.yaml` : sprint 22 `in-progress`
+- [ ] Planning Parts 1 et 2 avec Thibaut le 2026-10-26 (arbitrage des sacrifices si besoin)
+
+### Après le Sprint Planning
+
+- [x] Sprint backlog visible : [task-board.md](./task-board.md), [tasks/README.md](./tasks/README.md)
+- [x] Dépendances : [sprint-dependencies.md](./sprint-dependencies.md)
+- [ ] Daily Scrum et point d'étape du 2026-10-30 planifiés dans le calendrier de Thibaut
+- [ ] Relevé du disque au démarrage effectif (2026-10-26) : `df -h .` et `bin/check-disk` (6,5 Go libres le 2026-10-23, `bin/run-tests` refuse sous 5 Go)
+
+## Definition of Ready (contrôle du 2026-10-23)
+
+| US | Fiche | Gherkin (1+2+2 min.) | Prérequis d'environnement | État |
+|----|-------|----------------------|----------------------------|------|
+| US-164 | oui | oui | aucun | prête (sécurité : termes généraux dans le dépôt public) |
+| US-162 | oui | oui | aucun | prête |
+| US-161 (solde) | oui | oui | aucun | prête, à ne conserver que si encore ouverte |
+| US-084 | oui | oui | aucun | prête ; seuil de couverture à fixer sur la mesure de la CI ; Rector séquencé avec les autres branches |
+| US-165 | oui | oui | aucun | prête |
+| US-167 | oui | oui | aucun | prête |
+| US-088 | oui | oui | aucun | prête, **à recadrer au cadrage** : l'exclusion du reset (US-087) et trois types d'événements (US-097) existent déjà ; reste à compléter et vérifier |
+| US-098 | oui | oui | aucun | prête, **emplacement du gabarit à confirmer** (plugin container-fill ou surcharge dans la démo) |
+| US-154 | oui | oui | dépôt `../sylius-company-insights-plugin`, GO de Thibaut | prête ; release 0.3.0 et montée de la démo après GO |
+| US-062 | oui | oui | aucun | prête (script dans la démo : `bin/fetch-product-images`, `src/Demo/Images/Fetch/`) |
+
+## Frontières de la décomposition
+
+- Estimations de 0,25 h à 3 h, 90 tâches (77 h) ; types [DOC], [TEST], [BE], [FE-WEB], [OPS], [REV] (aucun [DB] ni [FE-MOB]).
+- Tests de la démo : uniquement `WORKER_ID=wN TEST_DB_NAME=b2b_wN TEST_CACHE_DIR=var/cache-wN bin/run-tests` (refuse sous 5 Go libres) ; jamais phpunit en direct ; si le disque est insuffisant, la CI valide.
 
 ## Actions de Thibaut
 

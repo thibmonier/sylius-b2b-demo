@@ -23,3 +23,4 @@ app:
         added_to_cart: '{1} 1 article ajouté au panier|]1,Inf[ %count% articles ajoutés au panier'
         skipped: '{1} 1 article indisponible n’a pas été ajouté|]1,Inf[ %count% articles indisponibles n’ont pas été ajoutés'
         item_removed: 'Article retiré de la liste.'
+        write_failed: 'L’enregistrement de la liste a échoué, réessayez.'

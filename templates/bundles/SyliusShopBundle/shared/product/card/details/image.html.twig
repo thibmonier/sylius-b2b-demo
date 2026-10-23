@@ -1,0 +1,10 @@
+{# US-167: copy of the Sylius block; the first thumbnails of a list are what the visitor sees first: loaded at once, the very first with a high priority. The list passes the position of the card (product/index products.html.twig). #}
+{% set product = hookable_metadata.context.product %}
+{% set position = hookable_metadata.context.position ?? null %}
+{% set priority = null is same as position or position >= 4 ? {} : (0 == position ? {loading: 'eager', fetchpriority: 'high'} : {loading: 'eager'}) %}
+
+<div class="mb-4">
+    <div class="overflow-auto bg-light rounded-3" style="aspect-ratio: 3/4; ">
+        {{ component('sylius_shop:main_image', { product: product, class: "w-100 h-100 object-fit-cover" }|merge(priority)) }}
+    </div>
+</div>

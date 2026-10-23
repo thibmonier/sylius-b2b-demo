@@ -1,0 +1,8 @@
+{# US-162: no link to the registration when the demo refuses it (403). #}
+{% if demo_registration_open() %}
+<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-0 order-lg-0">
+    <div class="d-flex flex-column justify-content-center align-items-center bg-light rounded-4 h-100 p-3">
+        {% hook 'register_container' %}
+    </div>
+</div>
+{% endif %}

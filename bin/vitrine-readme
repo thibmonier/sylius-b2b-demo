@@ -135,7 +135,7 @@ $checker = new ReadmeChecker($strict, $links ? new CurlLinkProbe() : null);
 $errors = 0;
 $warnings = 0;
 foreach ($names as $name) {
-    $findings = $checker->check($source($root . '/' . $name), $name, (string) $profileUrl);
+    $findings = $checker->check($source($root . '/' . $name), (string) $profileUrl);
     $pluginErrors = \array_filter($findings, static fn (Finding $finding): bool => 'error' === $finding->severity);
     $errors += \count($pluginErrors);
     $warnings += \count($findings) - \count($pluginErrors);

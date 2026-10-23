@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Demo\DataFixtures;
 
 use App\Demo\Http\PublicHost;
+use App\Demo\PunchOutSimulator\DemoBuyerCodes;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -26,10 +27,6 @@ use Tmonier\SyliusPunchoutCxmlPlugin\Buyer\CredentialHasher;
  */
 final class PunchoutDemoFixture extends AbstractFixture
 {
-    public const BUYER_CODE = 'acme-punchout';
-
-    public const OCI_BUYER_CODE = 'acme-punchout-oci';
-
     public const OCI_USERNAME = 'acme-oci-demo';
 
     /** Non-secret, displayed in the demo accounts page */
@@ -85,7 +82,7 @@ final class PunchoutDemoFixture extends AbstractFixture
     private function loadCxmlBuyer(): void
     {
         // Idempotent: remove previous version if any
-        $existing = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => self::BUYER_CODE]);
+        $existing = $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => DemoBuyerCodes::CXML]);
         if (null !== $existing) {
             return;
         }
@@ -102,7 +99,7 @@ final class PunchoutDemoFixture extends AbstractFixture
         }
 
         $buyer = new Buyer();
-        $buyer->setCode(self::BUYER_CODE);
+        $buyer->setCode(DemoBuyerCodes::CXML);
         $buyer->setName('Acme Industries — PunchOut B2B');
         $buyer->setProtocol('cxml');
         $buyer->setEnabled(true);
@@ -146,7 +143,7 @@ final class PunchoutDemoFixture extends AbstractFixture
      */
     private function loadOciBuyer(): void
     {
-        if (null !== $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => self::OCI_BUYER_CODE])) {
+        if (null !== $this->entityManager->getRepository(Buyer::class)->findOneBy(['code' => DemoBuyerCodes::OCI])) {
             return;
         }
 
@@ -160,7 +157,7 @@ final class PunchoutDemoFixture extends AbstractFixture
         }
 
         $buyer = new Buyer();
-        $buyer->setCode(self::OCI_BUYER_CODE);
+        $buyer->setCode(DemoBuyerCodes::OCI);
         $buyer->setName('Acme Industries — PunchOut OCI');
         $buyer->setProtocol('oci');
         $buyer->setOciUsername(self::OCI_USERNAME);
