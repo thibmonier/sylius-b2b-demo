@@ -50,8 +50,8 @@ final class OverrideGuideExamplesTest extends TestCase
     public function testARelatedFileAndTheLastResortAreChecked(): void
     {
         $registry = new OverrideGuideExamples(
-            [['case' => 'template', 'path' => 'config/hooks.yaml', 'lines' => [1, 2], 'command' => 'bin/console x', 'related' => ['config/gone.yaml']]],
-            ['path' => 'config/also-gone.twig', 'lines' => [1, 1], 'command' => 'diff a b'],
+            [['case' => 'template', 'path' => 'config/hooks.yaml', 'lines' => [1, 2], 'contains' => 'one', 'command' => 'bin/console x', 'related' => ['config/gone.yaml']]],
+            ['path' => 'config/also-gone.twig', 'lines' => [1, 1], 'contains' => 'x', 'command' => 'diff a b'],
             $this->directory,
         );
 
@@ -60,19 +60,31 @@ final class OverrideGuideExamplesTest extends TestCase
 
     public function testALineRangePastTheEndOfTheFileIsReported(): void
     {
-        $broken = $this->registry('config/hooks.yaml', [3, 9])->brokenReferences();
+        $broken = $this->registry('config/hooks.yaml', [3, 9], 'three')->brokenReferences();
 
         self::assertSame(['lines 3-9 are past the end of config/hooks.yaml'], $broken);
+    }
+
+    public function testAWitnessTextThatLeftTheRangeIsReportedWithFileRangeAndWitness(): void
+    {
+        $registry = $this->registry('config/hooks.yaml', [3, 4], 'one');
+
+        self::assertSame(['config/hooks.yaml lines 3-4 no longer contain "one"'], $registry->brokenReferences());
+    }
+
+    public function testAWitnessTextInsideTheRangeIsAccepted(): void
+    {
+        self::assertSame([], $this->registry('config/hooks.yaml', [3, 4], 'four')->brokenReferences());
     }
 
     public function testTheCasesKeepTheirDeclaredOrder(): void
     {
         $registry = new OverrideGuideExamples(
             [
-                ['case' => 'template', 'path' => 'config/hooks.yaml', 'lines' => [1, 1], 'command' => 'a'],
-                ['case' => 'service', 'path' => 'config/hooks.yaml', 'lines' => [2, 2], 'command' => 'b'],
+                ['case' => 'template', 'path' => 'config/hooks.yaml', 'lines' => [1, 1], 'contains' => 'one', 'command' => 'a'],
+                ['case' => 'service', 'path' => 'config/hooks.yaml', 'lines' => [2, 2], 'contains' => 'two', 'command' => 'b'],
             ],
-            ['path' => 'config/layout.twig', 'lines' => [1, 1], 'command' => 'c'],
+            ['path' => 'config/layout.twig', 'lines' => [1, 1], 'contains' => 'layout', 'command' => 'c'],
             $this->directory,
         );
 
@@ -81,11 +93,11 @@ final class OverrideGuideExamplesTest extends TestCase
     }
 
     /** @param array{int, int} $lines */
-    private function registry(string $path, array $lines): OverrideGuideExamples
+    private function registry(string $path, array $lines, string $witness = 'one'): OverrideGuideExamples
     {
         return new OverrideGuideExamples(
-            [['case' => 'template', 'path' => $path, 'lines' => $lines, 'command' => 'bin/console debug:config x']],
-            ['path' => 'config/layout.twig', 'lines' => [1, 1], 'command' => 'diff a b'],
+            [['case' => 'template', 'path' => $path, 'lines' => $lines, 'contains' => $witness, 'command' => 'bin/console debug:config x']],
+            ['path' => 'config/layout.twig', 'lines' => [1, 1], 'contains' => 'layout', 'command' => 'diff a b'],
             $this->directory,
         );
     }
