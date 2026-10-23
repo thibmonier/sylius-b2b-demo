@@ -505,6 +505,16 @@ final class HardeningTest extends WebTestCase
         self::assertStringContainsString('max-age=31536000', (string) $client->getResponse()->headers->get('Strict-Transport-Security'));
     }
 
+    public function testAnErrorPageCarriesExactlyOneHstsHeader(): void
+    {
+        $client = self::createClient();
+
+        $client->request('GET', '/fr_FR/no-such-page', server: ['HTTP_X_FORWARDED_PROTO' => 'https']);
+
+        self::assertResponseStatusCodeSame(404);
+        self::assertCount(1, $client->getResponse()->headers->all('Strict-Transport-Security'));
+    }
+
     /** @dataProvider provideKeyPages */
     public function testKeyPagesLoadNothingFromAnotherOrigin(string $path, bool $signedIn): void
     {

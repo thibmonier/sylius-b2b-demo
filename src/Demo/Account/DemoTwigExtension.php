@@ -9,13 +9,15 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/** Exposes the demo mode switch, the demo accounts and the next reset to the demo templates (US-015, T-033-05). */
+/** Exposes the demo mode switch, the registration switch (US-162), the demo accounts and the next reset to the demo templates (US-015, T-033-05). */
 final class DemoTwigExtension extends AbstractExtension
 {
     public function __construct(
         private readonly DemoAccountCatalog $catalog,
         #[Autowire(param: 'demo.mode')]
         private readonly bool $demoMode,
+        #[Autowire(param: 'demo.registration_open')]
+        private readonly bool $registrationOpen,
         #[Autowire(param: 'demo.mailpit_url')]
         private readonly string $mailpitUrl,
         #[Autowire(param: 'demo.mailpit_api_url')]
@@ -28,6 +30,8 @@ final class DemoTwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('demo_mode', fn (): bool => $this->demoMode),
+            // Same rule as RegistrationGateListener (US-040): the registration routes only answer 403 in a closed demo.
+            new TwigFunction('demo_registration_open', fn (): bool => !$this->demoMode || $this->registrationOpen),
             new TwigFunction('demo_mailpit_url', fn (): string => $this->mailpitUrl),
             new TwigFunction('demo_mails_enabled', fn (): bool => '' !== trim($this->mailpitApiUrl)),
             new TwigFunction('demo_next_reset', $this->nextReset->next(...)),

@@ -52,7 +52,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | S5-R3 limiteur du plugin | Corrigé côté démo | Le simulateur transmet l'IP du visiteur (`X-Forwarded-For`, la boucle locale est un proxy de confiance). Le correctif du plugin lui-même reste au sprint 7. |
 | S5-R4 boîte de démo | Corrigé | Seuls les e-mails adressés aux comptes de démo sont listés ou lisibles ; les autres répondent 404. |
 | S2-R3 à R10, S4-R3 | Reportés | S2-R3 à R6 : sprint 8 ; S2-R7 à R10 et S4-R3 : sprint 9. |
-| M2 clients saisis par les visiteurs (US-040) | Corrigé (interrupteur) | `DEMO_REGISTRATION_OPEN=0` : le formulaire d'inscription et `POST /api/v2/shop/customers` répondent 403 (`RegistrationGateListener`). Ouvert par défaut tant que la démo est privée. |
+| M2 clients saisis par les visiteurs (US-040) | Corrigé (interrupteur) | `DEMO_REGISTRATION_OPEN=0` : le formulaire d'inscription et `POST /api/v2/shop/customers` répondent 403 (`RegistrationGateListener`) et les liens « Créer un compte » (en-tête, connexion, mot de passe oublié, fin de commande) ne sont plus affichés (`demo_registration_open()`, US-162). Ouvert par défaut tant que la démo est privée. |
 | M4 images orphelines (US-040) | Corrigé | Étape 4 du reset (`OrphanImagePurger`) : tout fichier de `public/media/image` sans ligne d'image est supprimé ; un échec est journalisé et fait échouer le reset (`/healthz` 503 `reset failed`). |
 | M5 clients HTTP du serveur MCP (US-040) | Corrigé | Le garde sortant décore aussi `http_client.transport` ; les redirections ne sont plus suivies. |
 | M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
@@ -64,6 +64,8 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | US-082 dépendances | Corrigé en partie | `api-platform/*` 5.0.4. `doctrine/orm` reste en 3.6.x : Sylius 2.3 déclare un conflit avec `doctrine/orm >=3.7`, la montée attend une version de Sylius qui le lève. |
 | US-082 outillage de l'image | Corrigé | Composer n'est présent que dans les étages de construction ; l'image finale ne l'embarque plus (test `DockerfileTest`, étape de CI). |
 | US-081 chaîne d'approvisionnement | Corrigé | Dependabot (Composer, npm, Actions, Docker) ; actions GitHub figées par SHA de commit et images par condensat (`bin/check-pinned-refs`) ; `composer audit` et audit JS avec exception datée (`bin/audit-js-dependencies`, `security/audit-exceptions.json`) ; scan d'image Trivy (échec sur critique corrigeable sans exception datée, `.trivyignore.yaml`) et SBOM CycloneDX publié en artefact. Ces contrôles sont des jobs distincts de CI, non requis par la protection de `main`. |
+
+**HSTS (US-162).** L'application envoie `Strict-Transport-Security` sur ses pages ; Caddy ne l'ajoute que s'il est absent (`?Strict-Transport-Security`), pour les fichiers statiques : un seul en-tête par réponse.
 
 ## API REST désactivée en production
 

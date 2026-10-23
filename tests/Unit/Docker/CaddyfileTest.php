@@ -51,4 +51,10 @@ final class CaddyfileTest extends TestCase
         self::assertMatchesRegularExpression('#@hidden \{\s*path_regexp hidden \(\^\|/\)\\\.\s*not path /\.well-known/\*\s*\}\s*respond @hidden 404#', $this->caddyfile);
         self::assertLessThan(strpos($this->caddyfile, 'php_server'), strpos($this->caddyfile, 'respond @hidden 404'));
     }
+
+    public function testHstsIsOnlyAddedWhenTheApplicationDidNotSendItAlready(): void
+    {
+        // US-162: "?" makes Caddy set the header after the response is built, only if absent (otherwise it was sent twice).
+        self::assertMatchesRegularExpression('#header @https \?Strict-Transport-Security "max-age=31536000; includeSubDomains"#', $this->caddyfile);
+    }
 }

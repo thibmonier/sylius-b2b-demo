@@ -39,11 +39,11 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-162-01 | [TEST] | Tests rouges : aucun lien d'inscription sur l'accueil et la connexion quand l'inscription est fermée, lien présent quand elle est ouverte, accès direct toujours refusé, un seul en-tête HSTS sur une page et sur une page 404 (HTTPS) | 0,75 h | - | Claude | 🔲 |
-| T-162-02 | [FE-WEB] | Liens « Créer un compte » masqués quand l'inscription est fermée (accueil, page de connexion, menu de compte), conservés quand elle est ouverte | 0,75 h | T-162-01 | Claude | 🔲 |
-| T-162-03 | [OPS] | HSTS : une seule source (Caddy pour le statique, application pour le dynamique, sans doublon) ; test sur le Caddyfile et sur l'écouteur de l'application ; vérification du rendu dans l'image par la CI (« Docker image ») | 0,75 h | T-162-01 | Claude | 🔲 |
-| T-162-04 | [TEST] | Suite ciblée via `bin/run-tests`, ECS, PHPStan ; rendu réel de l'accueil et de la connexion FR et EN avec inscription fermée puis ouverte ; `docs/durcissement-demo.md` à jour | 0,75 h | T-162-02, T-162-03 | Claude | 🔲 |
-| T-162-05 | [REV] | Revue (aucun lien mort restant, parité FR et EN) | 0,25 h | T-162-04 | Claude | 🔲 |
+| T-162-01 | [TEST] | Tests rouges : aucun lien d'inscription sur l'accueil et la connexion quand l'inscription est fermée, lien présent quand elle est ouverte, accès direct toujours refusé, un seul en-tête HSTS sur une page et sur une page 404 (HTTPS) | 0,75 h | - | Claude | ✅ |
+| T-162-02 | [FE-WEB] | Liens « Créer un compte » masqués quand l'inscription est fermée (accueil, page de connexion, menu de compte), conservés quand elle est ouverte | 0,75 h | T-162-01 | Claude | ✅ |
+| T-162-03 | [OPS] | HSTS : une seule source (Caddy pour le statique, application pour le dynamique, sans doublon) ; test sur le Caddyfile et sur l'écouteur de l'application ; vérification du rendu dans l'image par la CI (« Docker image ») | 0,75 h | T-162-01 | Claude | ✅ |
+| T-162-04 | [TEST] | Suite ciblée via `bin/run-tests`, ECS, PHPStan ; rendu réel de l'accueil et de la connexion FR et EN avec inscription fermée puis ouverte ; `docs/durcissement-demo.md` à jour | 0,75 h | T-162-02, T-162-03 | Claude | ✅ |
+| T-162-05 | [REV] | Revue (aucun lien mort restant, parité FR et EN) | 0,25 h | T-162-04 | Claude | ✅ |
 
 **Total estimé : 3,25 h** (5 tâches, dont 0 de Thibaut, soit 0 h ; 3,25 h pour Claude et l'orchestrateur).
 

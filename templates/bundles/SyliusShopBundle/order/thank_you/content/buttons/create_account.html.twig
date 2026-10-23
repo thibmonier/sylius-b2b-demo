@@ -1,0 +1,7 @@
+{# US-162: no link to the registration when the demo refuses it (403). #}
+{% if demo_registration_open() %}
+{% import '@SyliusShop/shared/buttons.html.twig' as buttons %}
+{% set order = hookable_metadata.context.order %}
+
+{{ buttons.secondary(path('sylius_shop_register_after_checkout', {'tokenValue': order.tokenValue}), 'sylius.ui.create_an_account'|trans, 'create-an-account', null) }}
+{% endif %}
