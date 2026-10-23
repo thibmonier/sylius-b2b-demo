@@ -151,6 +151,7 @@ Ce tableau complète les cases « à confirmer » de [bilan-us-161.md](./bilan-u
 | Responsable | Scrum Master (Claude) |
 | Deadline | Avant le planning du sprint 23 |
 | DoD | Règle corrigée, et 0 contournement au sprint 23. |
+| Statut | ✅ Règle corrigée le 2026-10-23 (clôture du sprint 22) ; l'indicateur se mesure au sprint 23. |
 | Priorité | Moyenne |
 
 ### Action 5 : Statuts des tâches transverses
@@ -169,6 +170,7 @@ Ce tableau complète les cases « à confirmer » de [bilan-us-161.md](./bilan-u
 | Responsable | Thibaut (décision), Scrum Master (calendrier) |
 | Deadline | Revue du sprint 22 |
 | DoD | Décision consignée dans `.bmad/sprint-status.yaml`, et dates du sprint 23 alignées sur le travail réel. |
+| Statut | ✅ Décidé le 2026-10-23 : sprint 22 clos dès son périmètre vérifié, passage au sprint 23. |
 | Priorité | Moyenne |
 
 ## Points positifs à conserver

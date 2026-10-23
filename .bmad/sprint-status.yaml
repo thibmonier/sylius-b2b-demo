@@ -354,10 +354,10 @@ sprints:
 
   sprint-22:
     name: sprint-22-finalisation
-    status: in-progress  # lancé le 2026-10-23 (branche feature/sprint-22-finalisation), décomposé en 90 tâches / 77 h (tasks/) ; plan établi le 2026-10-23 (décisions de Thibaut après les audits du 2026-10-22) ; US-163 déjà faite le 2026-10-23 (PR #57)
+    status: done  # CLOS le 2026-10-23 (décision de Thibaut : clôture anticipée, passage au sprint 23) ; 23 points en done, US-062 et US-154 sacrifiées ; revue et rétro : sprint-22-finalisation/sprint-review.md, sprint-retro.md (PR #67) ; lancé le 2026-10-23 (branche feature/sprint-22-finalisation), décomposé en 90 tâches / 77 h (tasks/) ; plan établi le 2026-10-23 (décisions de Thibaut après les audits du 2026-10-22) ; US-163 déjà faite le 2026-10-23 (PR #57)
     sprint_id: "sprint-22"
     start_date: "2026-10-26"
-    end_date: "2026-11-06"
+    end_date: "2026-11-06"  # prévu ; clos le 2026-10-23
     capacity_points: 27  # 8 Must (dont US-163 déjà faite, 2) + 15 Should + 4 Could ; décomposé le 2026-10-23 en 90 tâches, 77 h (60,5 h de capacité, sacrifices ordonnés absorbent l'écart) ; vélocité de référence : S18 25, S19 25, S20 22, S21 17
     goal: "Finaliser la démo comme preuve vérifiable : vérifier en production et clore les sprints 18 à 21, solder les points de sécurité et de qualité des audits du 2026-10-22, puis livrer les dernières finitions de lisibilité"
     stories:
@@ -365,7 +365,7 @@ sprints:
       - {id: US-164, title: "Bornes du parc d'équipements des comptes partagés et limitation de débit des routes récentes", points: 3, status: done}  # sprint 22 ; EPIC-10, Must ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sécurité : aucun détail dans le dépôt public ; refus de suppression renvoyé à la liste du parc (PR #63, 6bf6f47) : done
       - {id: US-162, title: "Anomalies mineures relevées en production (S18-20) : lien « Créer un compte » vers une inscription fermée, en-tête HSTS envoyé deux fois", points: 1, status: done}  # sprint 22 ; EPIC-01, Must ; reprise du sprint 20 ; vérifiée le 2026-10-23 (T-TECH-22-01 : démo locale sur main c45d9d1 et production en lecture) : done
       - {id: US-161, title: "Actions de la rétrospective du sprint 17 (solde)", points: 2, status: done}  # sprint 22 ; EPIC-01, Must ; solde (≈ 2 pts) de la story du sprint 18 ; restent T-161-06, T-161-09, T-161-13 et la validation du registre par Thibaut (T-161-12) ; à ne conserver que si encore ouverte ; format du registre validé par Thibaut le 2026-10-23 (T-161-12) : done
-      - {id: US-084, title: "Qualité : Rector en CI, seuil de couverture, bin/proof-refresh", points: 5, status: done}  # sprint 22 ; EPIC-10, Should ; recadrée le 2026-10-23 (méthodes longues vers US-166, liste société vers US-165) ; vérifiée le 2026-10-23 (T-TECH-22-01 : démo locale sur main c45d9d1 et production en lecture) : done
+      - {id: US-084, title: "Qualité : Rector en CI, seuil de couverture, bin/proof-refresh", points: 5, status: done}  # scénario « Preuve en retard » non livré, repris par US-168 (décision de Thibaut du 2026-10-23) ; sprint 22 ; EPIC-10, Should ; recadrée le 2026-10-23 (méthodes longues vers US-166, liste société vers US-165) ; vérifiée le 2026-10-23 (T-TECH-22-01 : démo locale sur main c45d9d1 et production en lecture) : done
       - {id: US-165, title: "Dettes qualité de l'audit : écriture en base, codes acheteurs du simulateur, code mort de la vitrine", points: 3, status: done}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; sacrifice n°5 ; vérifiée le 2026-10-23 (T-TECH-22-01 : démo locale sur main c45d9d1 et production en lecture) : done
       - {id: US-167, title: "Performance à faible effort : vignettes du haut du catalogue et cache des fichiers versionnés", points: 2, status: done}  # sprint 22 ; EPIC-10, Should ; fiche écrite le 2026-10-23 (Gherkin 1+2+2) ; vérifiée le 2026-10-23 (T-TECH-22-01 : démo locale sur main c45d9d1 et production en lecture) : done
       - {id: US-088, title: "Journal d'audit lisible : reset masqué et événements métier", points: 3, status: done}  # sprint 22 ; EPIC-11, Should ; reportée du sprint 21 ; Gherkin 1+2+2 ; sacrifice n°4 ; vérifiée le 2026-10-23 (T-TECH-22-01 : démo locale sur main c45d9d1 et production en lecture) : done
@@ -378,11 +378,11 @@ sprints:
 
   sprint-23:
     name: sprint-23-vitrine
-    status: planned  # esquisse du 2026-10-23, à confirmer au bilan J+30 (2026-11-18) ; repli « vitrine passive » (remise à zéro et mises à jour de versions seulement) si Thibaut est embauché
+    status: planned  # avancé le 2026-10-23 (clôture anticipée du sprint 22, décision de Thibaut) ; US-168 et US-169 ajoutées ; esquisse du 2026-10-23, à confirmer au bilan J+30 (2026-11-18) ; repli « vitrine passive » (remise à zéro et mises à jour de versions seulement) si Thibaut est embauché
     sprint_id: "sprint-23"
     start_date: "2026-11-09"  # prévisionnel ; US-128 exige la fin du calendrier éditorial (2026-12-15) : sprint à décaler ou story à reporter au besoin
     end_date: "2026-11-20"  # prévisionnel
-    capacity_points: 11  # 11 points inconditionnels (US-128, US-166, US-132, US-130) ; US-103 (3) et US-121 (5) conditionnelles au transcript T-103-03
+    capacity_points: 14  # 14 points inconditionnels (US-128, US-166, US-132, US-130, US-168, US-169) ; US-103 (3) et US-121 (5) conditionnelles au transcript T-103-03
     goal: "Faire le bilan de la communication, solder les finitions optionnelles de qualité et de cadrage, et décider de la suite selon la situation professionnelle de Thibaut"
     stories:
       - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # sprint 23 ; EPIC-13, Should ; nécessite les bilans J+30 (2026-11-18) et la fin du calendrier (2026-12-15)
@@ -391,6 +391,8 @@ sprints:
       - {id: US-166, title: "Méthodes longues découpées et suppression des usleep des tests", points: 3, status: backlog}  # sprint 23 ; EPIC-10, Could ; fiche écrite le 2026-10-23 (Gherkin 1+2+2)
       - {id: US-132, title: "Spike P7 : facture électronique France (PA/PDP) et e-reporting", points: 3, status: backlog}  # sprint 23 ; EPIC-14, Could ; lien avec Factur-X
       - {id: US-130, title: "Spike P5 : connecteur ERP de référence", points: 3, status: backlog}  # sprint 23 ; EPIC-14, Could ; la page Intégrations existe déjà
+      - {id: US-168, title: "Contrôle de retard de la preuve publiée (proof.json)", points: 1, status: backlog}  # sprint 23 ; EPIC-10, Should ; créée le 2026-10-23 (scénario « Preuve en retard » d'US-084 non livré au sprint 22, décision de Thibaut : story de 1 point)
+      - {id: US-169, title: "Spike : passage de la démo à PHPUnit 13", points: 2, status: backlog}  # sprint 23 ; EPIC-10, Could ; créée le 2026-10-23 (PR Dependabot #54 : Composer résout la 13, 59 erreurs PHPStan dans les tests) ; décision de Thibaut : évaluer
     notes: "Esquisse du 2026-10-23. US-103 et US-121 sont conditionnées au transcript T-103-03 (conversation réelle avec un assistant IA, par Thibaut) ; sans lui, elles restent au backlog. Abandonnées le 2026-10-23 (valeur de preuve faible / sans demande) : US-094, US-100, US-095, US-102, US-131, US-133 à US-138, US-093, US-101. US-118, US-119, US-125 : en réserve jusqu'à la mise en ligne du site personnel."
 
 # Stories prêtes pour un sprint futur, à planifier.

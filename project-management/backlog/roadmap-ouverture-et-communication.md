@@ -224,7 +224,7 @@
 
 *Ordre de sacrifice* : US-062, US-154, US-098, US-088, US-165. *Jalon* : plugin parc d'équipements publié (US-059 faite) et monté en démo (US-060, vérification en production). Capacité volontairement contenue : tampon pour les entretiens éventuels. Décomposition en tâches au lancement du sprint.
 
-### Sprint 23 (esquisse, 2026-11-09 au 2026-11-20 prévisionnel ; dates nominales d'origine : 2027-04-30 au 2027-05-14) : 11 points inconditionnels + 8 conditionnels
+### Sprint 23 (avancé le 2026-10-23 après la clôture anticipée du sprint 22 ; esquisse d'origine 2026-11-09 au 2026-11-20) : 14 points inconditionnels + 8 conditionnels
 
 **Objectif** : Faire le bilan de la communication, solder les finitions optionnelles et décider de la suite selon le bilan et la situation professionnelle de Thibaut.
 
@@ -236,6 +236,8 @@
 | US-166 | Méthodes longues découpées et suppression des `usleep` des tests | Could | 3 |
 | US-132 | Spike P7 : facture électronique France (PA/PDP) et e-reporting | Could | 3 |
 | US-130 | Spike P5 : connecteur ERP de référence | Could | 3 |
+| US-168 | Contrôle de retard de la preuve publiée (`proof.json`), reprise du scénario d'erreur d'US-084 | Should | 1 |
+| US-169 | Spike : passage de la démo à PHPUnit 13 (PR Dependabot #54) | Could | 2 |
 
 *Jalon* : Provisoire. Sprint de repli : si Thibaut a trouvé un poste, passer la démo en vitrine passive (la remise à zéro et la mise à jour des versions suffisent).
 

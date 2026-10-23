@@ -162,6 +162,9 @@ Nouvelles demandes :
 Décisions prises :
 - Rester sur MySQL 8.4 LTS (Thibaut, 2026-10-23).
 - Ajouter une confirmation à la suppression d'une machine (Thibaut, 2026-10-23), livrée en v0.1.1.
+- Clôture anticipée du sprint 22 le 2026-10-23 et passage au sprint 23 (Thibaut).
+- Scénario « Preuve en retard » d'US-084 repris par une story de 1 point : [US-168](../../backlog/user-stories/US-168.md) (Thibaut).
+- Évaluation de PHPUnit 13 au sprint 23 : spike [US-169](../../backlog/user-stories/US-169.md) (Thibaut).
 
 ## Impact sur le backlog
 
