@@ -1,0 +1,162 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'title'|trans({}, 'architecture') }}{% endblock %}
+
+{#
+    US-170: how the demo itself is built. Bootstrap utilities only (the page also shows on the B2C channel).
+    No figure is written here: they come from proof.json (report) or the configuration (versions); the security section
+    stays general (no route, value nor threshold). Links point to the public repository.
+#}
+{% set repository = 'https://github.com/thibmonier/sylius-b2b-demo/' %}
+{% set tests = report.deliveryFact('tests') %}
+{% set phpstan = report.deliveryFact('phpstan') %}
+{% set ci = report.deliveryFact('ci') %}
+{% set unavailable = 'figures.unavailable'|trans({}, 'architecture') %}
+
+{% macro links(items, repository) %}
+    <ul class="list-inline d-flex flex-wrap gap-3 mb-0 mt-2" data-architecture-links>
+        {% for path, label in items %}
+            <li class="list-inline-item m-0">{% include 'shared/_external_link.html.twig' with { url: repository ~ path, label: label|trans({}, 'architecture') } only %}</li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% block content %}
+    {% import _self as page %}
+    <div class="container my-5" data-page="architecture">
+        <h1>{{ 'title'|trans({}, 'architecture') }}</h1>
+        <p class="lead">{{ 'intro'|trans({}, 'architecture') }}</p>
+
+        <section class="mt-5" data-architecture-section="overview" aria-labelledby="architecture-overview">
+            <h2 class="h4 border-bottom pb-2" id="architecture-overview">{{ 'overview.title'|trans({}, 'architecture') }}</h2>
+            <dl class="row row-cols-2 row-cols-md-4 g-3 mt-1 mb-4">
+                <div class="col">
+                    <dt class="fw-normal">{{ 'figures.plugins'|trans({}, 'architecture') }}</dt>
+                    <dd class="h4 mb-0" data-architecture-figure="plugins">{{ versions['%plugins%'] }}</dd>
+                </div>
+                <div class="col">
+                    <dt class="fw-normal">{{ 'figures.tests'|trans({}, 'architecture') }}</dt>
+                    <dd class="h4 mb-0" data-architecture-figure="tests">{{ tests.isVerified() ? tests.value : unavailable }}</dd>
+                </div>
+                <div class="col">
+                    <dt class="fw-normal">{{ 'figures.sylius'|trans({}, 'architecture') }}</dt>
+                    <dd class="h4 mb-0" data-architecture-figure="sylius">{{ versions['%sylius%'] }}</dd>
+                </div>
+                <div class="col">
+                    <dt class="fw-normal">{{ 'figures.symfony'|trans({}, 'architecture') }}</dt>
+                    <dd class="h4 mb-0" data-architecture-figure="symfony">{{ versions['%symfony%'] }}</dd>
+                </div>
+            </dl>
+            <figure class="mb-0">
+                <svg class="w-100 border rounded p-2" style="max-width: 44rem; height: auto" viewBox="0 0 640 440" role="img" aria-labelledby="architecture-figure-title architecture-figure-desc" data-architecture-overview xmlns="http://www.w3.org/2000/svg">
+                    <title id="architecture-figure-title">{{ 'overview.figure_title'|trans({}, 'architecture') }}</title>
+                    <desc id="architecture-figure-desc">{{ 'overview.figure_desc'|trans(versions, 'architecture') }}</desc>
+                    <defs>
+                        <marker id="architecture-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+                    </defs>
+                    <g fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="10" y="10" width="190" height="56" rx="6"/>
+                        <rect x="225" y="10" width="190" height="56" rx="6"/>
+                        <rect x="440" y="10" width="190" height="56" rx="6"/>
+                        <rect x="10" y="110" width="620" height="210" rx="8" stroke-width="4"/>
+                        <rect x="30" y="160" width="270" height="44" rx="4"/>
+                        <rect x="30" y="214" width="270" height="44" rx="4"/>
+                        <rect x="30" y="268" width="270" height="44" rx="4"/>
+                        <rect x="330" y="160" width="280" height="44" rx="4"/>
+                        <rect x="330" y="214" width="280" height="98" rx="4"/>
+                        <rect x="10" y="364" width="190" height="66" rx="6"/>
+                        <rect x="225" y="364" width="190" height="66" rx="6"/>
+                        <rect x="440" y="364" width="190" height="66" rx="6"/>
+                        <line x1="105" y1="66" x2="105" y2="108" marker-end="url(#architecture-arrow)"/>
+                        <line x1="320" y1="66" x2="320" y2="108" marker-end="url(#architecture-arrow)"/>
+                        <line x1="535" y1="66" x2="535" y2="108" marker-end="url(#architecture-arrow)"/>
+                        <line x1="105" y1="320" x2="105" y2="362" marker-start="url(#architecture-arrow)" marker-end="url(#architecture-arrow)"/>
+                        <line x1="320" y1="320" x2="320" y2="362" marker-start="url(#architecture-arrow)" marker-end="url(#architecture-arrow)"/>
+                        <line x1="535" y1="362" x2="535" y2="322" marker-end="url(#architecture-arrow)"/>
+                    </g>
+                    <g fill="currentColor" font-size="14" text-anchor="middle">
+                        <text x="105" y="43">{{ 'overview.browser'|trans({}, 'architecture') }}</text>
+                        <text x="320" y="43">{{ 'overview.assistant'|trans({}, 'architecture') }}</text>
+                        <text x="535" y="43">{{ 'overview.procurement'|trans({}, 'architecture') }}</text>
+                        <text x="320" y="140" font-weight="700">{{ 'overview.container'|trans({}, 'architecture') }}</text>
+                        <text x="165" y="187">{{ 'overview.sylius'|trans(versions, 'architecture') }}</text>
+                        <text x="165" y="241">{{ 'overview.plugins'|trans(versions, 'architecture') }}</text>
+                        <text x="165" y="295">{{ 'overview.demo_layer'|trans({}, 'architecture') }}</text>
+                        <text x="470" y="187">{{ 'overview.scheduler'|trans({}, 'architecture') }}</text>
+                        <text x="470" y="257">{{ 'overview.flows_line1'|trans({}, 'architecture') }}</text>
+                        <text x="470" y="279">{{ 'overview.flows_line2'|trans({}, 'architecture') }}</text>
+                        <text x="105" y="402">{{ 'overview.database'|trans({}, 'architecture') }}</text>
+                        <text x="320" y="402">{{ 'overview.media'|trans({}, 'architecture') }}</text>
+                        <text x="535" y="402">{{ 'overview.delivery'|trans({}, 'architecture') }}</text>
+                    </g>
+                </svg>
+                <figcaption class="mt-2">{{ 'overview.caption'|trans({}, 'architecture') }}</figcaption>
+            </figure>
+            {{ page.links({'blob/main/docker/Dockerfile': 'links.dockerfile', 'blob/main/docker/Caddyfile': 'links.caddyfile', 'blob/main/docs/adr/0002-frankenphp-et-supercronic-dans-un-seul-conteneur.md': 'links.adr_container'}, repository) }}
+        </section>
+
+        <section class="mt-5" data-architecture-section="layers" aria-labelledby="architecture-layers">
+            <h2 class="h4 border-bottom pb-2" id="architecture-layers">{{ 'layers.title'|trans({}, 'architecture') }}</h2>
+            <ol class="ps-3 mb-0">
+                {% for layer in ['core', 'plugins', 'demo', 'theme'] %}
+                    <li class="mb-2"><span class="fw-semibold">{{ ('layers.' ~ layer ~ '.name')|trans(versions, 'architecture') }}</span> : {{ ('layers.' ~ layer ~ '.text')|trans(versions, 'architecture') }}</li>
+                {% endfor %}
+            </ol>
+            {{ page.links({'blob/main/composer.json': 'links.composer', 'tree/main/src/Demo': 'links.demo_layer', 'blob/main/docs/vitrine-plugins.md': 'links.showcase', 'blob/main/docs/adr/0004-theme-par-ajouts-de-twig-hooks.md': 'links.adr_theme'}, repository) }}
+        </section>
+
+        <section class="mt-5" data-architecture-section="flows" aria-labelledby="architecture-flows">
+            <h2 class="h4 border-bottom pb-2" id="architecture-flows">{{ 'flows.title'|trans({}, 'architecture') }}</h2>
+            <ul class="mb-3">
+                {% for flow in ['events', 'webhooks', 'mcp', 'punchout', 'invoice'] %}
+                    <li class="mb-2"><span class="fw-semibold">{{ ('flows.' ~ flow ~ '.name')|trans({}, 'architecture') }}</span> : {{ ('flows.' ~ flow ~ '.text')|trans({}, 'architecture') }}</li>
+                {% endfor %}
+            </ul>
+            <h3 class="h5">{{ 'flows.example.title'|trans({}, 'architecture') }}</h3>
+            <ol class="ps-3 mb-0">
+                {% for step in ['arrival', 'order', 'outbox', 'delivery', 'invoice', 'assistant'] %}
+                    <li class="mb-1">{{ ('flows.example.' ~ step)|trans({}, 'architecture') }}</li>
+                {% endfor %}
+            </ol>
+            {{ page.links({'blob/main/docs/webhooks-demo.md': 'links.webhooks', 'blob/main/docs/mcp.md': 'links.mcp', 'tree/main/src/Demo/PunchOutSimulator': 'links.punchout', 'blob/main/docker/crontab': 'links.crontab'}, repository) }}
+        </section>
+
+        <section class="mt-5" data-architecture-section="operations" aria-labelledby="architecture-operations">
+            <h2 class="h4 border-bottom pb-2" id="architecture-operations">{{ 'operations.title'|trans({}, 'architecture') }}</h2>
+            <ul class="mb-0">
+                {% for item in ['image', 'deployment', 'reset', 'public'] %}
+                    <li class="mb-2"><span class="fw-semibold">{{ ('operations.' ~ item ~ '.name')|trans({}, 'architecture') }}</span> : {{ ('operations.' ~ item ~ '.text')|trans({}, 'architecture') }}</li>
+                {% endfor %}
+            </ul>
+            {{ page.links({'blob/main/.github/workflows/ci.yaml': 'links.ci', 'blob/main/docs/deploiement-railway.md': 'links.railway', 'blob/main/docs/remise-a-zero-demo.md': 'links.reset', 'blob/main/docs/ouverture-publique.md': 'links.public'}, repository) }}
+        </section>
+
+        <section class="mt-5" data-architecture-section="quality" aria-labelledby="architecture-quality">
+            <h2 class="h4 border-bottom pb-2" id="architecture-quality">{{ 'quality.title'|trans({}, 'architecture') }}</h2>
+            <ul class="mb-3">
+                <li class="mb-2">{{ 'quality.gates'|trans({'%phpstan%': phpstan.isVerified() ? phpstan.value : unavailable}, 'architecture') }}</li>
+                <li class="mb-2">{{ 'quality.tests'|trans({'%tests%': tests.isVerified() ? tests.value : unavailable}, 'architecture') }}</li>
+                <li class="mb-2">{{ 'quality.supply_chain'|trans({}, 'architecture') }}</li>
+                <li class="mb-2">
+                    {{ 'quality.proof'|trans({'%date%': report.generatedAt ? report.generatedAt|slice(0, 10) : unavailable}, 'architecture') }}
+                    <a href="{{ path('app_demo_proof', {_locale: app.request.locale}) }}" data-architecture-proof-link>{{ 'quality.proof_link'|trans({}, 'architecture') }}</a>
+                </li>
+            </ul>
+            {{ page.links({'blob/main/.github/workflows/ci.yaml': 'links.ci', 'blob/main/phpstan.dist.neon': 'links.phpstan', 'blob/main/docs/tests-locaux.md': 'links.tests'}, repository) }}
+            {% if ci.isVerified() and ci.source starts with repository %}
+                <p class="mt-2 mb-0" data-architecture-ci>{{ 'quality.ci'|trans({'%status%': ('quality.ci_status.' ~ ci.value)|trans({}, 'architecture')}, 'architecture') }} {% include 'shared/_external_link.html.twig' with { url: ci.source, label: 'quality.ci_link'|trans({}, 'architecture') } only %}</p>
+            {% endif %}
+        </section>
+
+        <section class="mt-5" data-architecture-section="security" aria-labelledby="architecture-security">
+            <h2 class="h4 border-bottom pb-2" id="architecture-security">{{ 'security.title'|trans({}, 'architecture') }}</h2>
+            <p>{{ 'security.intro'|trans({}, 'architecture') }}</p>
+            <ul class="mb-0">
+                {% for item in ['data', 'accounts', 'outbound', 'abuse', 'headers', 'dependencies'] %}
+                    <li class="mb-1">{{ ('security.' ~ item)|trans({}, 'architecture') }}</li>
+                {% endfor %}
+            </ul>
+            {{ page.links({'blob/main/docs/adr/0008-securite-de-la-demo-publique.md': 'links.adr_security'}, repository) }}
+        </section>
+    </div>
+{% endblock %}

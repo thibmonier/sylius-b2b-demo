@@ -39,13 +39,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-170-01 | [DOC] | Cadrage : sources de chaque rubrique (`docs/*.md`, `Dockerfile`, `docker/Caddyfile`, configuration, workflows), route et liens d'accès, chiffres lus dans `proof.json` | 0,75 h | - | Claude | 🔲 |
-| T-170-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : page FR et EN avec ses six rubriques, liens depuis Intégrer et le pied de page, SVG avec titre et description, chiffres égaux à ceux de `proof.json`, aucun motif de détail de sécurité | 1 h | T-170-01 | Claude | 🔲 |
-| T-170-03 | [BE] | Route localisée et contrôleur ; chiffres fournis par `ProofReader` | 0,75 h | T-170-02 | Claude | 🔲 |
-| T-170-04 | [FE-WEB] | Gabarit et schéma SVG d'ensemble (thème clair et sombre), textes FR et EN des six rubriques avec leurs liens vers le dépôt | 2 h | T-170-03 | Claude | 🔲 |
-| T-170-05 | [FE-WEB] | Liens : section « Architecture type » de la page Intégrer et pied de page de la boutique | 0,5 h | T-170-03 | Claude | 🔲 |
-| T-170-06 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` (360 px sans défilement horizontal) ; suite via `bin/run-tests`, ECS, PHPStan max, Rector | 0,75 h | T-170-04, T-170-05 | Claude | 🔲 |
-| T-170-07 | [REV] | Revue (aucun détail de sécurité, ton neutre, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-170-06 | Claude | 🔲 |
+| T-170-01 | [DOC] | Cadrage : sources de chaque rubrique (`docs/*.md`, `Dockerfile`, `docker/Caddyfile`, configuration, workflows), route et liens d'accès, chiffres lus dans `proof.json` | 0,75 h | - | Claude | ✅ |
+| T-170-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : page FR et EN avec ses six rubriques, liens depuis Intégrer et le pied de page, SVG avec titre et description, chiffres égaux à ceux de `proof.json`, aucun motif de détail de sécurité | 1 h | T-170-01 | Claude | ✅ |
+| T-170-03 | [BE] | Route localisée et contrôleur ; chiffres fournis par `ProofReader` | 0,75 h | T-170-02 | Claude | ✅ |
+| T-170-04 | [FE-WEB] | Gabarit et schéma SVG d'ensemble (thème clair et sombre), textes FR et EN des six rubriques avec leurs liens vers le dépôt | 2 h | T-170-03 | Claude | ✅ |
+| T-170-05 | [FE-WEB] | Liens : section « Architecture type » de la page Intégrer et pied de page de la boutique | 0,5 h | T-170-03 | Claude | ✅ |
+| T-170-06 | [TEST] | Rendu réel FR et EN, pa11y WCAG2AAA, `bin/measure-mobile` (360 px sans défilement horizontal) ; suite via `bin/run-tests`, ECS, PHPStan max, Rector | 0,75 h | T-170-04, T-170-05 | Claude | 🔄 |
+| T-170-07 | [REV] | Revue (aucun détail de sécurité, ton neutre, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-170-06 | Claude | ✅ |
 
 **Total estimé : 6 h** (7 tâches, dont 0 h de Thibaut ; 6 h pour Claude et l'orchestrateur).
 
@@ -55,8 +55,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Page complète (nominal) | |
-| Accès depuis le guide d'intégration et le pied de page (alternatif) | |
-| Schéma lisible au clavier, au lecteur d'écran et sur mobile (alternatif) | |
-| Chiffre non sourcé (erreur) | |
-| Détail de sécurité (erreur) | |
+| Page complète (nominal) | `ArchitecturePageTest::testThePageHasItsSixSectionsEachWithLinksToTheRepository` (FR et EN : six rubriques, un `h2` et au moins un lien vers le dépôt chacune) |
+| Accès depuis le guide d'intégration et le pied de page (alternatif) | `ArchitecturePageTest::testTheFooterAndTheIntegrationGuideLinkToThePage` (4 cas : pied de page et section « Architecture type », FR et EN) |
+| Schéma lisible au clavier, au lecteur d'écran et sur mobile (alternatif) | `ArchitecturePageTest::testTheDiagramHasATitleAndATextualEquivalentAndFollowsTheTheme` (titre, description de plus de 120 caractères, `currentColor`, `w-100`) ; **à compléter** : pa11y WCAG2AAA et 360 px sur la production après déploiement (T-170-06) |
+| Chiffre non sourcé (erreur) | `ArchitecturePageTest::testEveryFigureComesFromTheProofOrTheConfiguration` (tout nombre du rendu vient de `proof.json` ou de la configuration), `testTheTranslationsHoldNoFigure`, `testWithoutAProofFileThePageStillAnswersAndShowsNoTestFigure` |
+| Détail de sécurité (erreur) | `ArchitecturePageTest::testTheSecuritySectionStaysGeneral` (aucun chiffre, aucune route, aucun terme de réglage) ; `testTheTextsRespectTheEditorialCharter` (ton neutre) |
+
+## Cadrage (T-170-01, 2026-10-23)
+
+- Route `/{_locale}/architecture` (`app_demo_architecture`), `ArchitectureController` ; chiffres : `proof.json` via `ProofReader` (fichiers de tests, niveau PHPStan, CI, date), configuration (nombre de plugins du catalogue, versions de Sylius, Symfony et PHP lues dans les constantes). Aucun chiffre dans les traductions : tout passe en paramètre.
+- Sources citées : `docker/Dockerfile`, `docker/Caddyfile`, `docker/crontab`, `composer.json`, `src/Demo`, `.github/workflows/ci.yaml`, `phpstan.dist.neon`, `docs/*.md` et les ADR 0002, 0004, 0008.
+- Rendu réel (T-170-06) : pas d'image de la démo en local et 6,9 Go libres ; construire l'image risquait de passer sous le seuil de 5 Go. pa11y et la mesure à 360 px se font en lecture seule sur la production après le déploiement ; la story reste en review jusque-là.

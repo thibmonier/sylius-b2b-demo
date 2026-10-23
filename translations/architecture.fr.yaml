@@ -1,0 +1,122 @@
+# US-170: page "Architecture de la démo". No figure written by hand: versions and counts are parameters
+# (%plugins%, %sylius%, %symfony%, %php%, %tests%, %phpstan%, %date%), read from proof.json or the configuration.
+title: "Architecture de la démo"
+intro: "Comment cette démo est construite : la boutique Sylius, les plugins installés comme des paquets indépendants, la couche propre à la démo, les flux avec l'extérieur, l'exploitation et les contrôles de qualité. Chaque rubrique renvoie aux fichiers du dépôt public."
+figures:
+    plugins: "Plugins installés"
+    tests: "Fichiers de tests"
+    sylius: "Sylius"
+    symfony: "Symfony"
+    unavailable: "non disponible"
+overview:
+    title: "Vue d'ensemble"
+    figure_title: "Schéma d'ensemble de la démo"
+    figure_desc: "En haut, trois points d'entrée : le navigateur des visiteurs, les assistants IA connectés par MCP et les plateformes d'achat des acheteurs connectées par PunchOut. Au centre, un seul conteneur : Caddy et FrankenPHP servent Sylius %sylius% sous Symfony %symfony% et PHP %php%, avec %plugins% plugins installés comme des paquets Composer et la couche propre à la démo ; supercronic y lance les tâches planifiées, et le même conteneur livre les webhooks et produit les factures. En bas : la base MySQL, le volume des médias, et Railway, qui construit et déploie l'image Docker que la CI vérifie à chaque changement."
+    browser: "Navigateur"
+    assistant: "Assistant IA (MCP)"
+    procurement: "Achats (PunchOut)"
+    container: "Conteneur : Caddy + FrankenPHP"
+    sylius: "Sylius %sylius% · Symfony %symfony%"
+    plugins: "%plugins% plugins tmonier"
+    demo_layer: "Couche de la démo"
+    scheduler: "supercronic (tâches planifiées)"
+    flows_line1: "Webhooks (outbox), MCP,"
+    flows_line2: "factures Factur-X"
+    database: "MySQL"
+    media: "Volume des médias"
+    delivery: "Railway (image Docker)"
+    caption: "Un seul conteneur sert la boutique et lance les tâches planifiées ; la base et les médias sont persistants ; la CI construit et vérifie la même image à chaque changement."
+layers:
+    title: "Couches"
+    core:
+        name: "Cœur Sylius"
+        text: "Sylius %sylius% sous Symfony %symfony% et PHP %php%, à partir du squelette Sylius-Standard. Le cœur n'est pas modifié : tout passe par la configuration, les événements et les points d'extension."
+    plugins:
+        name: "Plugins tmonier"
+        text: "%plugins% plugins, chacun dans son propre dépôt, publié sur Packagist et installé par Composer comme n'importe quel paquet. Chaque plugin a sa CI et ses tests ; la démo les fait tourner ensemble."
+    demo:
+        name: "Couche de la démo"
+        text: "Le code propre à la démo, rangé à part : pages de présentation, données de démonstration chargées depuis des fichiers CSV, remise à zéro nocturne, simulateur PunchOut, récepteur de webhooks et preuve technique."
+    theme:
+        name: "Thème et surcharges"
+        text: "Le thème B2B s'ajoute par les Twig hooks de Sylius plutôt qu'en copiant des gabarits ; les rares surcharges restantes sont documentées."
+flows:
+    title: "Flux"
+    events:
+        name: "Événements"
+        text: "Les plugins réagissent aux événements de Symfony et de Sylius (commande passée, payée, expédiée) ; le bus de messages de Symfony tourne en mode synchrone dans la démo."
+    webhooks:
+        name: "Webhooks sortants"
+        text: "Chaque événement de commande est écrit dans une outbox, dans la même transaction que la commande, puis livré signé par une tâche planifiée ; dans la démo, le destinataire est un récepteur interne visible dans l'administration."
+    mcp:
+        name: "Serveur MCP"
+        text: "Un assistant IA se connecte avec OAuth et consulte le catalogue ou les commandes d'un acheteur, avec les seuls droits de ce compte."
+    punchout:
+        name: "PunchOut"
+        text: "Un acheteur arrive depuis sa plateforme d'achat (cXML ou OCI), remplit son panier dans la boutique et le renvoie à sa plateforme ; un simulateur joue le rôle de la plateforme d'achat."
+    invoice:
+        name: "Facture électronique"
+        text: "La facture de commande est produite au format Factur-X : un PDF lisible qui embarque les données structurées de la facture."
+    example:
+        title: "Exemple de bout en bout : une commande B2B"
+        arrival: "L'acheteur arrive depuis sa plateforme d'achat par PunchOut, ou se connecte à la boutique."
+        order: "Il valide sa commande."
+        outbox: "L'événement « commande passée » est écrit dans l'outbox, dans la même transaction que la commande."
+        delivery: "La tâche planifiée signe et livre le webhook ; le récepteur vérifie la signature et l'enregistre."
+        invoice: "La facture Factur-X de la commande est produite."
+        assistant: "Plus tard, un assistant IA connecté par MCP retrouve la commande pour cet acheteur."
+operations:
+    title: "Exploitation"
+    image:
+        name: "Image Docker"
+        text: "La CI construit l'image de production à chaque changement, la démarre, vérifie les pages clés et la configuration du serveur, puis l'analyse et dresse la liste de ses composants."
+    deployment:
+        name: "Déploiement"
+        text: "Railway construit l'image depuis la branche principale protégée, applique les migrations, puis bascule après un contrôle de santé ; la base et le volume des médias sont persistants, et l'infrastructure est décrite en code dans le dépôt."
+    reset:
+        name: "Remise à zéro nocturne"
+        text: "Chaque nuit, les données de démonstration sont rechargées dans une seule transaction : un échec laisse la démo dans son état précédent."
+    public:
+        name: "Mode public"
+        text: "La démo est ouverte au public sans être indexée par les moteurs de recherche ; la bascule entre mode privé et mode public est documentée et réversible."
+quality:
+    title: "Qualité"
+    gates: "Chaque changement passe par une demande de fusion et une CI bloquante : style de code (ECS), analyse statique PHPStan au niveau %phpstan%, Rector, et un seuil de couverture de lignes qui ne descend jamais."
+    tests: "%tests% fichiers de tests : tests unitaires, fonctionnels et de bout en bout des pages de la démo, exécutés à chaque changement."
+    supply_chain: "Audit des dépendances PHP et JavaScript, références des actions et des images épinglées, analyse de l'image Docker et liste de ses composants."
+    proof: "Ces chiffres viennent de la preuve technique, relevée le %date%."
+    proof_link: "Voir la preuve technique"
+    ci: "Dernière exécution de la CI sur la branche principale : %status%."
+    ci_link: "voir l'exécution"
+    ci_status:
+        success: "réussie"
+        failure: "en échec"
+        cancelled: "annulée"
+security:
+    title: "Sécurité"
+    intro: "Les principes, en termes généraux : le détail des réglages n'est pas publié."
+    data: "La démo ne contient aucune donnée réelle ; tout est fictif et rechargé chaque nuit."
+    accounts: "Les comptes de démonstration ont des droits restreints : les écritures sensibles de l'administration sont refusées côté serveur, pas seulement masquées."
+    outbound: "Les appels sortants sont limités aux destinations prévues ; les redirections ne sont pas suivies."
+    abuse: "Les formulaires sensibles sont protégés contre les abus par une limitation du débit."
+    headers: "Les en-têtes de sécurité HTTP sont posés par le serveur."
+    dependencies: "Les dépendances et l'image sont analysées à chaque changement."
+links:
+    dockerfile: "Dockerfile"
+    caddyfile: "Caddyfile"
+    adr_container: "Décision : un seul conteneur"
+    composer: "composer.json"
+    demo_layer: "Code de la démo"
+    showcase: "Vitrine des plugins"
+    adr_theme: "Décision : thème par Twig hooks"
+    webhooks: "Webhooks de la démo"
+    mcp: "Serveur MCP"
+    punchout: "Simulateur PunchOut"
+    crontab: "Tâches planifiées"
+    ci: "Workflow de CI"
+    railway: "Déploiement sur Railway"
+    reset: "Remise à zéro"
+    public: "Ouverture publique"
+    phpstan: "Configuration PHPStan"
+    tests: "Lancer les tests"
+    adr_security: "Décision : sécurité de la démo publique"

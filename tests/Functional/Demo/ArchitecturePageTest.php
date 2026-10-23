@@ -107,9 +107,11 @@ final class ArchitecturePageTest extends WebTestCase
         ])]);
         $client = self::createClient();
         $page = $client->request('GET', '/' . $locale . '/architecture');
-        $plugins = (string) \count(self::getContainer()->get(DemoPluginCatalog::class)->all());
+        $catalog = self::getContainer()->get(DemoPluginCatalog::class);
+        self::assertInstanceOf(DemoPluginCatalog::class, $catalog);
+        $plugins = (string) \count($catalog->all());
 
-        $text = $page->filter('main')->text();
+        $text = self::withoutTradeTerms($page->filter('main')->text());
         self::assertStringContainsString('4242', $text);
         self::assertSame($plugins, $page->filter('[data-architecture-figure="plugins"]')->text());
         self::assertSame('4242', $page->filter('[data-architecture-figure="tests"]')->text());
@@ -132,7 +134,7 @@ final class ArchitecturePageTest extends WebTestCase
     {
         foreach (['fr', 'en'] as $language) {
             foreach ($this->texts($language) as $key => $text) {
-                self::assertDoesNotMatchRegularExpression('/\d/', $text, $language . ': ' . $key . ' writes a figure by hand; pass it as a parameter');
+                self::assertDoesNotMatchRegularExpression('/\d/', self::withoutTradeTerms($text), $language . ': ' . $key . ' writes a figure by hand; pass it as a parameter');
             }
         }
     }
@@ -171,6 +173,12 @@ final class ArchitecturePageTest extends WebTestCase
                 }
             }
         }
+    }
+
+    /** "B2B" and "B2C" are words, not figures. */
+    private static function withoutTradeTerms(string $text): string
+    {
+        return (string) preg_replace('/\bB2[BC]\b/', '', $text);
     }
 
     /** @return array<string, string> */

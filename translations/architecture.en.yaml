@@ -1,0 +1,122 @@
+# US-170: page "Architecture of the demo". No figure written by hand: versions and counts are parameters
+# (%plugins%, %sylius%, %symfony%, %php%, %tests%, %phpstan%, %date%), read from proof.json or the configuration.
+title: "Architecture of the demo"
+intro: "How this demo is built: the Sylius shop, the plugins installed as independent packages, the layer specific to the demo, the flows with the outside world, operations and quality checks. Every section links to the files of the public repository."
+figures:
+    plugins: "Installed plugins"
+    tests: "Test files"
+    sylius: "Sylius"
+    symfony: "Symfony"
+    unavailable: "not available"
+overview:
+    title: "Overview"
+    figure_title: "Overview diagram of the demo"
+    figure_desc: "At the top, three entry points: the browser of the visitors, AI assistants connected through MCP and the procurement platforms of the buyers connected through PunchOut. In the middle, a single container: Caddy and FrankenPHP serve Sylius %sylius% on Symfony %symfony% and PHP %php%, with %plugins% plugins installed as Composer packages and the layer specific to the demo; supercronic runs the scheduled tasks there, and the same container delivers the webhooks and produces the invoices. At the bottom: the MySQL database, the media volume, and Railway, which builds and deploys the Docker image that the CI checks on every change."
+    browser: "Browser"
+    assistant: "AI assistant (MCP)"
+    procurement: "Procurement (PunchOut)"
+    container: "Container: Caddy + FrankenPHP"
+    sylius: "Sylius %sylius% · Symfony %symfony%"
+    plugins: "%plugins% tmonier plugins"
+    demo_layer: "Demo layer"
+    scheduler: "supercronic (scheduled tasks)"
+    flows_line1: "Webhooks (outbox), MCP,"
+    flows_line2: "Factur-X invoices"
+    database: "MySQL"
+    media: "Media volume"
+    delivery: "Railway (Docker image)"
+    caption: "A single container serves the shop and runs the scheduled tasks; the database and the media are persistent; the CI builds and checks the same image on every change."
+layers:
+    title: "Layers"
+    core:
+        name: "Sylius core"
+        text: "Sylius %sylius% on Symfony %symfony% and PHP %php%, from the Sylius-Standard skeleton. The core is not modified: everything goes through configuration, events and extension points."
+    plugins:
+        name: "tmonier plugins"
+        text: "%plugins% plugins, each in its own repository, published on Packagist and installed by Composer like any other package. Each plugin has its own CI and tests; the demo runs them together."
+    demo:
+        name: "Demo layer"
+        text: "The code specific to the demo, kept apart: presentation pages, demo data loaded from CSV files, nightly reset, PunchOut simulator, webhook receiver and technical proof."
+    theme:
+        name: "Theme and overrides"
+        text: "The B2B theme is added through the Twig hooks of Sylius rather than by copying templates; the few remaining overrides are documented."
+flows:
+    title: "Flows"
+    events:
+        name: "Events"
+        text: "The plugins react to Symfony and Sylius events (order placed, paid, shipped); the Symfony message bus runs synchronously in the demo."
+    webhooks:
+        name: "Outgoing webhooks"
+        text: "Every order event is written to an outbox, in the same transaction as the order, then delivered signed by a scheduled task; in the demo, the recipient is an internal receiver shown in the administration."
+    mcp:
+        name: "MCP server"
+        text: "An AI assistant connects with OAuth and reads the catalogue or the orders of a buyer, with the rights of that account only."
+    punchout:
+        name: "PunchOut"
+        text: "A buyer arrives from their procurement platform (cXML or OCI), fills a cart in the shop and returns it to the platform; a simulator plays the procurement platform."
+    invoice:
+        name: "Electronic invoice"
+        text: "The invoice of an order is produced in the Factur-X format: a readable PDF that embeds the structured data of the invoice."
+    example:
+        title: "End-to-end example: a B2B order"
+        arrival: "The buyer arrives from their procurement platform through PunchOut, or signs in to the shop."
+        order: "They confirm the order."
+        outbox: "The event \"order placed\" is written to the outbox, in the same transaction as the order."
+        delivery: "The scheduled task signs and delivers the webhook; the receiver checks the signature and records it."
+        invoice: "The Factur-X invoice of the order is produced."
+        assistant: "Later, an AI assistant connected through MCP finds the order for this buyer."
+operations:
+    title: "Operations"
+    image:
+        name: "Docker image"
+        text: "The CI builds the production image on every change, starts it, checks the key pages and the server configuration, then scans it and lists its components."
+    deployment:
+        name: "Deployment"
+        text: "Railway builds the image from the protected main branch, applies the migrations, then switches over after a health check; the database and the media volume are persistent, and the infrastructure is described as code in the repository."
+    reset:
+        name: "Nightly reset"
+        text: "Every night, the demo data is reloaded in a single transaction: a failure leaves the demo in its previous state."
+    public:
+        name: "Public mode"
+        text: "The demo is open to the public without being indexed by search engines; switching between private and public mode is documented and reversible."
+quality:
+    title: "Quality"
+    gates: "Every change goes through a pull request and a blocking CI: coding standard (ECS), PHPStan static analysis at level %phpstan%, Rector, and a line coverage threshold that never goes down."
+    tests: "%tests% test files: unit, functional and end-to-end tests of the pages of the demo, run on every change."
+    supply_chain: "Audit of the PHP and JavaScript dependencies, actions and images pinned by reference, scan of the Docker image and list of its components."
+    proof: "These figures come from the technical proof, checked on %date%."
+    proof_link: "See the technical proof"
+    ci: "Last CI run on the main branch: %status%."
+    ci_link: "see the run"
+    ci_status:
+        success: "succeeded"
+        failure: "failed"
+        cancelled: "cancelled"
+security:
+    title: "Security"
+    intro: "The principles, in general terms: the details of the settings are not published."
+    data: "The demo holds no real data; everything is fictitious and reloaded every night."
+    accounts: "The demo accounts have restricted rights: sensitive writes in the administration are refused on the server, not merely hidden."
+    outbound: "Outgoing calls are limited to the expected destinations; redirects are not followed."
+    abuse: "Sensitive forms are protected against abuse by rate limiting."
+    headers: "The HTTP security headers are set by the server."
+    dependencies: "The dependencies and the image are scanned on every change."
+links:
+    dockerfile: "Dockerfile"
+    caddyfile: "Caddyfile"
+    adr_container: "Decision: a single container"
+    composer: "composer.json"
+    demo_layer: "Code of the demo"
+    showcase: "Plugin showcase"
+    adr_theme: "Decision: theme through Twig hooks"
+    webhooks: "Webhooks of the demo"
+    mcp: "MCP server"
+    punchout: "PunchOut simulator"
+    crontab: "Scheduled tasks"
+    ci: "CI workflow"
+    railway: "Deployment on Railway"
+    reset: "Nightly reset"
+    public: "Public opening"
+    phpstan: "PHPStan configuration"
+    tests: "Running the tests"
+    adr_security: "Decision: security of the public demo"

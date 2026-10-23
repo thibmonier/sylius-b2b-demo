@@ -10,6 +10,7 @@ footer:
         journeys: 'Journeys and demo accounts'
         integrate: 'Integrate (MCP)'
         integrate_project: 'Plugin integration guide'
+        architecture: "Architecture of the demo"
         contact: 'Contact'
         fictional: 'Demo shop: fictional data, no order is fulfilled.'
         made_by_prefix: 'Built by'
