@@ -101,7 +101,7 @@
 > - **Annonce déjà publiée (rappel de Thibaut du 2026-10-20) :** le premier post est parti le 2026-10-19, avant le site. US-127 devient le suivi de l'annonce (2 points), US-123 se réduit aux trois posts de suite (3 points), et US-129 (profil, devenue Must) et US-117 (mesure) passent au sprint 17. Le sprint 17 fait 38 points, le sprint 18 en fait 34.
 > - **Risque de vélocité :** si elle reste sous 35 points, on retire d'abord les Could du sprint 23, puis on décale les Should du sprint 22.
 
-### Sprint 17 (2027-02-05 au 2027-02-19) : 38 points (dont 35 Must)
+### Sprint 17 (2026-10-20 au 2026-10-21, réel ; dates nominales d'origine : 2027-02-05 au 2027-02-19) : 38 points (dont 35 Must)
 
 **Objectif** : Transformer l'élan de l'annonce du 2026-10-19 en visites et en échanges (profil, posts de suite, suivi à J+7 et J+30, mesure, charte, calendrier, kit média) et livrer la conversion dans la démo (parcours guidés complets, page « Intégrer »).
 
@@ -122,7 +122,7 @@
 
 > **Recadrage du 2026-10-21 sur le sprint 17 (stories en review).** US-106, US-107 et US-142 sont recadrées par US-158 (CTA vers le profil, guide technique) ; US-116 (charte v2), US-129 (profil v2), US-122, US-123 et US-127 sont amendées. Le Sprint Goal du sprint 17 reste inchangé (livré) ; les écarts sont repris au sprint 18.
 
-### Sprint 18 (2027-02-19 au 2027-03-05) : 36 points (dont 22 Must)
+### Sprint 18 (2026-10-21, réel ; dates nominales d'origine : 2027-02-19 au 2027-03-05) : 36 points (dont 22 Must)
 
 > **Replanifié le 2026-10-21 (recherche d'emploi).** Remplace le sprint « lancement du site » : plus de fiches, de page démo ni de pages services/contact (US-126 retirée ; US-118, US-119 et US-125 en réserve le 2026-10-21 : le site personnel est en cours de développement, elles seront replanifiées et réalignées quand il sera en ligne ; US-136 à US-138 également en réserve).
 
@@ -132,7 +132,7 @@
 |---|---|---|---|
 | US-158 (nouvelle, en cours) | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | Must | 3 |
 | US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) ; **prioritaire : faille critique PHP (CVSS 9.2) publiée le 2026-10-21** ; peut être livrée avant par la veille programmée ; **reportée le 2026-10-21** (correctif non publié à la clôture du sprint) : PR séparée dès l'image FrankenPHP corrigée, sinon sprint 19 ; **livrée hors sprint le 2026-10-22** (PR #46, dc60b56) | Must | 3 |
-| US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | Must | 3 |
+| US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 7.4 et 8 ; Symfony 6.4 abandonné) | Must | 3 |
 | US-160 (nouvelle) | Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé | Must | 5 |
 | US-161 (nouvelle) | Actions de la rétrospective du sprint 17 (disque, isolation, vérification croisée, attente bornée, prérequis) | Must | 5 |
 | US-159 (nouvelle) | Contenu LinkedIn réaligné sur la recherche d'emploi : calendrier et posts de suite | Must | 3 |
@@ -145,7 +145,7 @@
 
 *Jalon* : Premier post de suite publié au plus tard le 2026-10-26 (profil v2 appliqué avant). Bilan J+30 de l'annonce (2026-11-18) en tâche de US-127. GO unique de merge des 24 PR de README (US-068).
 
-### Sprint 19 (2027-03-05 au 2027-03-19) : 33 points (dont 20 Must)
+### Sprint 19 (2026-10-21 au 2026-10-22, réel ; dates nominales d'origine : 2027-03-05 au 2027-03-19) : 33 points (dont 20 Must)
 
 **Objectif** : Livrer le tableau de bord des achats en démo (MMF d'EPIC-15), compléter le kit média et rendre le simulateur PunchOut lisible.
 
@@ -163,7 +163,7 @@
 
 *Clôture du 2026-10-22* : sprint clos (PR #47, 27148b7). Les 5 stories engagées (25 points : US-149, US-150, US-151, US-155, US-146) sont livrées et restent en review, la vérification en production attendant la reprise des builds Railway. US-121 et US-099 sont sacrifiées au planning (statut backlog) et reportées au sprint 20. Plugins publiés : company-insights v0.1.0, admin-order-creation v1.1.0, company-accounts v1.3.0.
 
-### Sprint 20 (2027-03-19 au 2027-04-02) : 35 points à la feuille de route, **22 points engagés** (dont 0 Must)
+### Sprint 20 (2026-10-22, réel ; dates nominales d'origine : 2027-03-19 au 2027-04-02) : 35 points à la feuille de route, **22 points engagés** (dont 0 Must)
 
 *Mise à jour du 2026-10-22* : périmètre validé à 30 points puis US-093 (8 points) sacrifiée au planning (86 h de charge Claude pour 71 h de capacité) et **reportée au sprint 21** ; engagement final : US-113, US-152, US-153, US-156, US-108, US-099 (22 points, ~69,5 h). US-094 (5) et US-100 (3) restent hors périmètre (backlog).
 
@@ -182,7 +182,7 @@
 
 *Jalon* : La décision « administratrice approbatrice » de US-156 est à prendre au planning.
 
-### Sprint 21 (2027-04-02 au 2027-04-16) : 33 points + 8 reportés (US-093) = 41 points à arbitrer (dont 0 Must)
+### Sprint 21 (2026-10-22, réel ; dates nominales d'origine : 2027-04-02 au 2027-04-16) : 33 points + 8 reportés (US-093) = 41 points à arbitrer (dont 0 Must)
 
 **Objectif** : Livrer le cœur du plugin parc d'équipements, cadrer le connecteur ERP et compléter l'espace acheteur.
 
@@ -203,42 +203,47 @@
 
 **Planning du 2026-10-22 : périmètre B validé, 25 points** (US-056, US-057, US-058, US-157, US-098, US-088, US-154 ; ordre de sacrifice US-154, US-088, US-098, US-157 ; plancher MMF 15 points). **Sacrifices appliqués le même jour (capacité : 85 h de charge Claude pour 60,5 h) : US-154 (3), US-088 (3) et US-098 (2), reportées au sprint 22 ; engagement final 17 points (US-056, US-057, US-058, US-157), ~61 h.** US-093, US-101 et US-130 retournent au backlog : reportées, sprint 22+.
 
-### Sprint 22 (2027-04-16 au 2027-04-30) : 22 points + 8 reportés du sprint 21 (US-154, US-088, US-098) = 30 points à arbitrer (dont 0 Must)
+### Sprint 22 (2026-10-26 au 2026-11-06) : 27 points (dont 8 Must), plan du 2026-10-23
 
-**Objectif** : Publier le parc d'équipements, cadrer les derniers plugins (assortiments, facture électronique, contrats-cadres), mesurer la qualité et faire le bilan de la communication.
+**Objectif** : Finaliser la démo comme preuve vérifiable : vérifier en production et clore les sprints 18 à 21, solder les points de sécurité et de qualité des audits du 2026-10-22, puis livrer les dernières finitions de lisibilité. (Remplace l'ancien en-tête « 22 points + 8 reportés = 30 points à arbitrer » : le sprint 21 a livré 17 points, US-059 est faite et US-060 est en review.)
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
-| US-059 | Plugin équipements : publication 0.1.0 (tag, Packagist, README) | Should | 2 |
-| US-060 | Plugin équipements : intégration à la démo | Should | 3 |
-| US-131 | Spike P3 : assortiments et prix par société | Should | 3 |
-| US-132 | Spike P7 : facture électronique France (PA/PDP) et e-reporting | Should | 3 |
-| US-133 | Spike P2 : contrats-cadres | Could | 3 |
-| US-084 | Qualité : Rector en CI, couverture mesurée, méthodes longues, enregistrement de la liste société | Could | 5 |
-| US-128 (réécrite) | Bilan de communication (indicateurs de recrutement) | Could | 2 |
+| Tâche de sprint | Clôture des reviews : vérification en production des sprints 18 à 21 puis passage à done | Must | 0 |
+| US-163 | Clôture des deux points hauts de l'audit et de la checklist US-079 (**faite le 2026-10-23, PR #57**) | Must | 2 |
+| US-164 | Bornes du parc d'équipements des comptes partagés et limitation de débit des routes récentes | Must | 3 |
+| US-162 | Anomalies mineures relevées en production (S18-20) | Must | 1 |
+| US-161 | Solde de la rétro du sprint 17 (si encore ouverte) | Must | 2 |
+| US-084 (recadrée) | Rector en CI, seuil de couverture, `bin/proof-refresh` | Should | 5 |
+| US-165 | Dettes qualité de l'audit (écriture en base, codes acheteurs du simulateur, code mort de la vitrine) | Should | 3 |
+| US-167 | Performance à faible effort (vignettes du haut du catalogue, cache des fichiers versionnés) | Should | 2 |
+| US-088 | Journal d'audit lisible : reset masqué et événements métier | Should | 3 |
+| US-098 | Jauge de remplissage condensée sur la fiche produit | Should | 2 |
+| US-154 | Company-insights : conversion des devis et économies des prix dégressifs | Could | 3 |
 | US-062 | Mineurs du script d'images | Could | 1 |
-| US-154 | Company-insights : conversion des devis et économies des prix dégressifs (reportée du sprint 21, sacrifiée le 2026-10-22) | Could | 3 |
-| US-088 | Journal d'audit lisible : reset masqué et événements métier (reportée du sprint 21, sacrifiée le 2026-10-22) | Should | 3 |
-| US-098 | Jauge de remplissage condensée sur la fiche produit (reportée du sprint 21, sacrifiée le 2026-10-22) | Should | 2 |
 
-*Jalon* : Packagist : Thibaut soumet le plugin parc d'équipements (US-059). Capacité volontairement réduite : tampon pour les entretiens éventuels.
+*Ordre de sacrifice* : US-062, US-154, US-098, US-088, US-165. *Jalon* : plugin parc d'équipements publié (US-059 faite) et monté en démo (US-060, vérification en production). Capacité volontairement contenue : tampon pour les entretiens éventuels. Décomposition en tâches au lancement du sprint.
 
-### Sprint 23 (2027-04-30 au 2027-05-14) : 11 points (dont 0 Must)
+### Sprint 23 (esquisse, 2026-11-09 au 2026-11-20 prévisionnel ; dates nominales d'origine : 2027-04-30 au 2027-05-14) : 11 points inconditionnels + 8 conditionnels
 
-**Objectif** : Finitions optionnelles (Could) et décision de la suite selon le bilan de communication et la situation professionnelle de Thibaut.
+**Objectif** : Faire le bilan de la communication, solder les finitions optionnelles et décider de la suite selon le bilan et la situation professionnelle de Thibaut.
 
 | Story | Titre | MoSCoW | Pts |
 |---|---|---|---|
-| US-095 | Fiches techniques PDF fictives | Could | 3 |
-| US-102 | Suivi de commande côté acheteur | Could | 3 |
-| US-134 | Spike P4 : stock multi-entrepôts et délais | Could | 3 |
-| US-135 | Spike P8 : budgets et centres de coût | Could | 2 |
+| US-128 | Bilan de communication (nécessite le bilan J+30 du 2026-11-18 et la fin du calendrier le 2026-12-15 : dates à ajuster) | Should | 2 |
+| US-103 | Assistants IA : transcript d'une vraie conversation (**conditionnée à T-103-03**) | Should | 3 |
+| US-121 | Kit média (2/2) (**conditionnée à T-103-03**) | Should | 5 |
+| US-166 | Méthodes longues découpées et suppression des `usleep` des tests | Could | 3 |
+| US-132 | Spike P7 : facture électronique France (PA/PDP) et e-reporting | Could | 3 |
+| US-130 | Spike P5 : connecteur ERP de référence | Could | 3 |
 
 *Jalon* : Provisoire. Sprint de repli : si Thibaut a trouvé un poste, passer la démo en vitrine passive (la remise à zéro et la mise à jour des versions suffisent).
 
-### Hors sprint (non planifiées, arbitrage de Thibaut)
+**Abandonnées le 2026-10-23** (valeur de preuve faible / sans demande, décision de Thibaut) : US-094, US-100, US-095, US-102, US-131, US-133, US-134, US-135, US-136, US-137, US-138, US-093, US-101 (fiches conservées avec `status: removed`). **En réserve** jusqu'à la mise en ligne du site personnel : US-118, US-119, US-125 (`status: reserve`).
 
-US-136 (connecteur ERP, tranche 1, 5 pts), US-137 (tranche 2, 5 pts), US-138 (assortiments, 8 pts) : développements de plugins nés des « offres bankables », sans valeur directe pour la recherche d'emploi tant que les spikes (US-130, US-131) ne montrent pas un intérêt de démonstration.
+### Hors sprint
+
+Rien de planifié. Les développements de plugins nés des « offres bankables » (US-136, US-137, US-138) et les spikes associés (US-131, US-133, US-134, US-135) sont abandonnés depuis le 2026-10-23. US-118, US-119 et US-125 restent en réserve.
 
 ## Dépendances
 
