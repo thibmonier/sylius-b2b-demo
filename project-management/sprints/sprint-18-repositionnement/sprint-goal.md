@@ -23,7 +23,7 @@ Périmètre validé par Thibaut le 2026-10-21 (section « Sprint 18 » de la [fe
 |----|-------|--------|--------|--------|
 | US-158 | Repositionnement de la démo : profil LinkedIn, libellés neutres, guide technique | 3 | Must | in-progress |
 | US-147 | Démo en PHP 8.5 (image, CI et plateforme Composer) | 3 | Must | ready-for-dev |
-| US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 8) | 3 | Must | ready-for-dev |
+| US-148 | Plugins : limiteurs de débit typés `RateLimiterFactoryInterface` (Symfony 7.4 et 8 ; Symfony 6.4 abandonné) | 3 | Must | ready-for-dev |
 | US-160 | Dettes du sprint 17 : verrou atomique, GET sans écriture de session, menu compte nommé | 5 | Must | ready-for-dev |
 | US-161 | Actions de la rétrospective du sprint 17 (disque, isolation, vérification croisée, attente bornée, prérequis) | 5 | Must | ready-for-dev |
 | US-159 | Contenu LinkedIn réaligné sur la recherche d'emploi : calendrier et posts de suite | 3 | Must | ready-for-dev |
