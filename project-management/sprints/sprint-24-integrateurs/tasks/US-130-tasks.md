@@ -39,13 +39,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-130-01 | [DOC] | Cadrage : contrat d'événements de `webhook-outbox` relu, questions du spike, liste des ERP cibles et des capacités à sourcer, plan de l'ADR | 0,5 h | - | Claude | 🔲 |
-| T-130-02 | [DOC] | Relevé sourcé des capacités d'import et d'export de chaque ERP cible (documentation publique de l'éditeur, date de consultation) ; sinon « à vérifier » | 1,25 h | T-130-01 | Claude | 🔲 |
-| T-130-03 | [DOC] | Contrats : export de commandes (événements puis fichier plat), import de prix et de stock (format, API), journal des échanges, reprise et idempotence | 0,75 h | T-130-01 | Claude | 🔲 |
-| T-130-04 | [DOC] | Démonstration sans ERP réel : fichier plat et `webhook-outbox`, ERP fictif nommé comme tel, schéma des échanges | 0,75 h | T-130-02, T-130-03 | Claude | 🔲 |
-| T-130-05 | [DOC] | ADR 0017 : format, contrats, périmètre (avec périmètre réduit si trop large), découpage en stories de 8 points au plus ; table « scénario → preuve » remplie | 0,75 h | T-130-04 | Claude | 🔲 |
-| T-130-06 | [REV] | 📅 Thibaut relit l'ADR et décide (périmètre, stories à planifier) | 0,25 h | T-130-05 | Thibaut | 📅 |
-| T-130-07 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml`, ligne de l'ADR dans `docs/adr/index.md`, stories de réalisation créées au backlog | 0,25 h | T-130-06 | Orchestrateur | 🔲 |
+| T-130-01 | [DOC] | Cadrage : contrat d'événements de `webhook-outbox` relu, questions du spike, liste des ERP cibles et des capacités à sourcer, plan de l'ADR | 0,5 h | - | Claude | ✅ |
+| T-130-02 | [DOC] | Relevé sourcé des capacités d'import et d'export de chaque ERP cible (documentation publique de l'éditeur, date de consultation) ; sinon « à vérifier » | 1,25 h | T-130-01 | Claude | ✅ |
+| T-130-03 | [DOC] | Contrats : export de commandes (événements puis fichier plat), import de prix et de stock (format, API), journal des échanges, reprise et idempotence | 0,75 h | T-130-01 | Claude | ✅ |
+| T-130-04 | [DOC] | Démonstration sans ERP réel : fichier plat et `webhook-outbox`, ERP fictif nommé comme tel, schéma des échanges | 0,75 h | T-130-02, T-130-03 | Claude | ✅ |
+| T-130-05 | [DOC] | ADR 0017 : format, contrats, périmètre (avec périmètre réduit si trop large), découpage en stories de 8 points au plus ; table « scénario → preuve » remplie | 0,75 h | T-130-04 | Claude | ✅ |
+| T-130-06 | [REV] | 📅 Thibaut relit l'ADR et décide (périmètre, stories à planifier) | 0,25 h | T-130-05 | Thibaut | ✅ |
+| T-130-07 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml`, ligne de l'ADR dans `docs/adr/index.md`, stories de réalisation créées au backlog | 0,25 h | T-130-06 | Orchestrateur | ✅ |
 
 **Total estimé : 4,5 h** (7 tâches, dont 0,25 h de Thibaut ; 4,25 h pour Claude et l'orchestrateur, dont 4 h de spike).
 
@@ -55,8 +55,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| ADR et découpage (nominal) | |
-| Décision no-go (alternatif) | |
-| Démonstration sans ERP réel (alternatif) | |
-| Dépassement (erreur) | |
-| Affirmation sur un ERP non sourcée (erreur) | |
+| ADR et découpage (nominal) | [ADR 0017](../../../../docs/adr/0017-connecteur-erp-de-reference.md), sections « Contrats », « Décision proposée » et « Découpage en stories » (stories A à E, 8 points au plus) |
+| Décision no-go (alternatif) | [ADR 0017](../../../../docs/adr/0017-connecteur-erp-de-reference.md), section « Décision proposée » : périmètre complet jugé trop large, périmètre réduit proposé (A à C retenues, D et E reportées) |
+| Démonstration sans ERP réel (alternatif) | [ADR 0017](../../../../docs/adr/0017-connecteur-erp-de-reference.md), section « Démonstration sans ERP réel » : fichier plat, plugin `webhook-outbox`, « ERP Démo (fictif) », schéma Mermaid |
+| Dépassement (erreur) | Spike tenu dans les 4 h ; le relevé des ERP est volontairement partiel, ce qui manque est consigné par les mentions « à vérifier » du tableau « ERP cibles et capacités » et par les question ouverte 5 |
+| Affirmation sur un ERP non sourcée (erreur) | [ADR 0017](../../../../docs/adr/0017-connecteur-erp-de-reference.md), tableau « ERP cibles et capacités » : chaque capacité cite l'URL de l'éditeur consultée le 2026-10-23, sinon « à vérifier » (Sage X3, Sage 100, Divalto, parties de SAP B1 et d'Odoo) |
+
+## Décision (T-130-06, 2026-10-23)
+
+Thibaut ne planifie rien au sprint 24. L'ADR 0017 reste « Proposé » ; ses stories ne sont pas créées au backlog et la question revient au planning du sprint 25.

@@ -39,6 +39,7 @@
                     </li>
                 {% endfor %}
             </ol>
+            <p class="mb-0"><a href="{{ path('app_demo_override_guide', {_locale: app.request.locale}) }}" data-integrate-override-link>{{ 'install.override_link'|trans({}, 'integrate') }}</a></p>
         </section>
 
         <section class="mt-5" aria-labelledby="integrate-questions">

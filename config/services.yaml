@@ -56,6 +56,8 @@ services:
             # Tooling of bin/proof-check and bin/proof-refresh (US-168), never part of the running application.
             - '../src/Demo/Proof/Check/'
             - '../src/Demo/Proof/TestFileRule.php'
+            # Tooling of bin/compat-refresh and bin/proof-check (US-171), never part of the running application.
+            - '../src/Demo/Proof/Compatibility/Refresh/'
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -96,3 +98,10 @@ services:
             $inner: '@.inner'
             $orderRepository: '@sylius.repository.order'
             $logger: '@logger'
+
+    # US-172: the examples of the override guide (declared in config/packages/demo_override_guide.yaml).
+    App\Demo\OverrideGuide\OverrideGuideExamples:
+        arguments:
+            $examples: '%demo.override_guide.examples%'
+            $lastResort: '%demo.override_guide.last_resort%'
+            $projectDir: '%kernel.project_dir%'

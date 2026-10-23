@@ -39,15 +39,15 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-175-01 | [OPS] | 📅 Thibaut donne son GO pour créer les deux dépôts et valide les noms des paquets ; condition d'entrée de la story | 0,25 h | - | Thibaut | 📅 |
-| T-175-02 | [DOC] | Cadrage : noms validés, bornes `^` des 10 plugins lues sur Packagist (`config/demo/proof.json`), `suggest`, gabarit de README, chaîne de vérification de la CI de chaque dépôt (actions épinglées par SHA, `bin/check-pinned-refs`) | 0,5 h | T-175-01 | Claude | 🔲 |
-| T-175-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR de chaque dépôt : `bin/check-composition` (membres exacts du pack, plugin classé « concurrent » ou « à confirmer » refusé, dépendance obligatoire hors du pack nommée dans l'échec, audit-log dans `suggest` et non dans `require`) | 1 h | T-175-02 | Claude | 🔲 |
-| T-175-04 | [BE] | Dépôt « IA et headless » en local : `composer.json` métapaquet, vérificateur de composition, CI, LICENSE | 1 h | T-175-03 | Claude | 🔲 |
-| T-175-05 | [BE] | Dépôt « Conformité et outillage » en local, mêmes fichiers | 0,75 h | T-175-03 | Claude | 🔲 |
-| T-175-06 | [DOC] | README FR et EN de chaque pack : pour chaque plugin le bundle, la configuration, les routes et les migrations ; ton neutre | 1,25 h | T-175-04, T-175-05 | Claude | 🔲 |
-| T-175-07 | [TEST] | `composer validate --strict` et résolution Composer dans un projet jetable hors dépôt (`composer update --no-install --no-scripts --no-plugins`), dernière ligne citée ; projet supprimé avec `/bin/rm` | 0,5 h | T-175-06 | Claude | 🔲 |
-| T-175-08 | [REV] | Revue (composition conforme à l'ADR, aucune mention d'offre commerciale, parité FR et EN) et table « scénario → preuve » remplie | 0,25 h | T-175-07 | Claude | 🔲 |
-| T-175-09 | [OPS] | Après GO explicite : création des deux dépôts GitHub avec leurs topics (ecommerce, sylius, sylius-plugin, symfony et topics du pack), push, CI verte, tag | 0,5 h | T-175-08 | Claude | 🔲 |
+| T-175-01 | [OPS] | 📅 Thibaut donne son GO pour créer les deux dépôts et valide les noms des paquets ; condition d'entrée de la story | 0,25 h | - | Thibaut | ✅ |
+| T-175-02 | [DOC] | Cadrage : noms validés, bornes `^` des 10 plugins lues sur Packagist (`config/demo/proof.json`), `suggest`, gabarit de README, chaîne de vérification de la CI de chaque dépôt (actions épinglées par SHA, `bin/check-pinned-refs`) | 0,5 h | T-175-01 | Claude | ✅ |
+| T-175-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR de chaque dépôt : `bin/check-composition` (membres exacts du pack, plugin classé « concurrent » ou « à confirmer » refusé, dépendance obligatoire hors du pack nommée dans l'échec, audit-log dans `suggest` et non dans `require`) | 1 h | T-175-02 | Claude | ✅ |
+| T-175-04 | [BE] | Dépôt « IA et headless » en local : `composer.json` métapaquet, vérificateur de composition, CI, LICENSE | 1 h | T-175-03 | Claude | ✅ |
+| T-175-05 | [BE] | Dépôt « Conformité et outillage » en local, mêmes fichiers | 0,75 h | T-175-03 | Claude | ✅ |
+| T-175-06 | [DOC] | README FR et EN de chaque pack : pour chaque plugin le bundle, la configuration, les routes et les migrations ; ton neutre | 1,25 h | T-175-04, T-175-05 | Claude | ✅ |
+| T-175-07 | [TEST] | `composer validate --strict` et résolution Composer dans un projet jetable hors dépôt (`composer update --no-install --no-scripts --no-plugins`), dernière ligne citée ; projet supprimé avec `/bin/rm` | 0,5 h | T-175-06 | Claude | ✅ |
+| T-175-08 | [REV] | Revue (composition conforme à l'ADR, aucune mention d'offre commerciale, parité FR et EN) et table « scénario → preuve » remplie | 0,25 h | T-175-07 | Claude | ✅ |
+| T-175-09 | [OPS] | Après GO explicite : création des deux dépôts GitHub avec leurs topics (ecommerce, sylius, sylius-plugin, symfony et topics du pack), push, CI verte, tag | 0,5 h | T-175-08 | Claude | ✅ |
 | T-175-10 | [OPS] | 📅 Thibaut soumet les deux paquets à Packagist | 0,25 h | T-175-09 | Thibaut | 📅 |
 
 **Total estimé : 6,25 h** (10 tâches, dont 0,5 h de Thibaut ; 5,75 h pour Claude et l'orchestrateur).
@@ -58,8 +58,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Pack installable (nominal) | |
-| Dépendance suggérée (alternatif) | |
-| Gestes restants documentés (alternatif) | |
-| Plugin qui recoupe une offre commerciale (erreur) | |
-| Dépendance obligatoire hors du pack (erreur) | |
+| Pack installable (nominal) | `composer validate --strict` (« ./composer.json is valid ») ; résolution Sylius ~2.2.9 et ~2.3.0 dans un projet jetable (« No security vulnerability advisories found. ») et job CI `resolve` ; `bin/check-composition --lock` : « a lock with exactly the members passes », « the pack as committed is valid » |
+| Dépendance suggérée (alternatif) | Pack IA : « suggested …audit-log… is in suggest and not in require », « …moved to require is refused », « …dropped from suggest is refused » (le pack Conformité n'a aucun `suggest`) |
+| Gestes restants documentés (alternatif) | `README.md` et `README.fr.md`, section « What is left to do by hand » / « Ce qui reste à faire à la main » (bundle, configuration, routes, migrations) |
+| Plugin qui recoupe une offre commerciale (erreur) | Tests « an excluded plugin in require / in suggest / named in a README is refused » ; aucune occurrence dans les README |
+| Dépendance obligatoire hors du pack (erreur) | « a member that requires a plugin outside the pack fails and names the dependency », « a locked plugin outside the pack is refused and named » |
+
+## Livraison (2026-10-23, worker w175)
+
+- Dépôts créés avec le GO de Thibaut : [thibmonier/sylius-pack-ai-headless](https://github.com/thibmonier/sylius-pack-ai-headless) (`8a45e7b`, commit rouge `c49dbd1`, 15 tests) et [thibmonier/sylius-pack-compliance-tooling](https://github.com/thibmonier/sylius-pack-compliance-tooling) (`d5b7b80`, commit rouge `078c2c9`, 12 tests) ; CI verte (3 jobs chacun) ; topics `ecommerce sylius sylius-plugin symfony metapackage` et 4 topics par pack.
+- **Aucun tag, aucune release** : T-175-09 est faite sans son tag, qui attend le GO de Thibaut, comme la soumission à Packagist (T-175-10).
+- `etc/composition.json` (public) liste les plugins exclus des packs, sans motif ni mention d'une offre commerciale : c'est la donnée du vérificateur.

@@ -78,6 +78,42 @@ final class ArchitecturePageTest extends WebTestCase
         self::assertStringContainsString('w-100', (string) $diagram->attr('class'), 'scales down to a 360 px screen');
     }
 
+    /** US-179: the diagram sits in its own keyboard-reachable scroll region, named after the diagram. */
+    #[DataProvider('locales')]
+    public function testTheDiagramScrollsInItsOwnFocusableRegionNamedAfterTheDiagram(string $locale): void
+    {
+        $region = $this->page('/' . $locale . '/architecture')->filter('[data-architecture-scroll]');
+
+        self::assertCount(1, $region);
+        self::assertSame('0', $region->attr('tabindex'), 'reachable with the keyboard');
+        self::assertSame('region', $region->attr('role'));
+        self::assertStringContainsString('overflow-auto', (string) $region->attr('class'));
+        self::assertCount(1, $region->filter('svg[data-architecture-overview]'), 'the diagram is inside the region');
+        $title = $region->filter('#' . $region->attr('aria-labelledby'));
+        self::assertCount(1, $title, 'the region is named by the diagram title');
+        self::assertNotSame('', trim($title->text()));
+    }
+
+    /** US-179: pixel measures belong to the production check; the test fixes the calculation behind them. */
+    #[DataProvider('locales')]
+    public function testTheDiagramLabelsAreAtLeastElevenCssPixelsOnAPhoneAndTheDesktopRenderingIsUnchanged(string $locale): void
+    {
+        $diagram = $this->page('/' . $locale . '/architecture')->filter('svg[data-architecture-overview]');
+        self::assertCount(1, $diagram);
+        $style = (string) $diagram->attr('style');
+
+        self::assertSame(1, preg_match('/min-width:\s*([\d.]+)rem/', $style, $minimum), 'a minimum width keeps the diagram from shrinking on a phone');
+        self::assertSame(1, preg_match('/^0 0 (\d+) \d+$/', (string) $diagram->attr('viewBox'), $box));
+        self::assertSame(1, preg_match('/font-size="(\d+)"/', $diagram->outerHtml(), $font));
+        $rendered = (float) ($font[1] ?? 0) * ((float) ($minimum[1] ?? 0) * 16) / (float) ($box[1] ?? 1);
+        self::assertGreaterThanOrEqual(11.0, $rendered, 'label size in CSS pixels at the minimum width');
+
+        self::assertSame('0 0 640 440', $diagram->attr('viewBox'), 'desktop viewBox unchanged');
+        self::assertSame('14', $font[1] ?? null, 'desktop font unchanged');
+        self::assertStringContainsString('max-width: 44rem', $style, 'desktop width unchanged');
+        self::assertLessThanOrEqual(44.0, (float) ($minimum[1] ?? 0), 'the minimum never exceeds the desktop width');
+    }
+
     /** @return iterable<string, array{string, string, string}> */
     public static function linkingPages(): iterable
     {

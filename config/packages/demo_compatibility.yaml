@@ -1,0 +1,5 @@
+# US-171: written by bin/compat-refresh (reads composer.json and the CI matrix of each plugin repository, and the
+# composer.lock of the demo), read by App\Demo\Proof\Compatibility\CompatibilityReader. The variable only exists so the
+# tests can aim at another file.
+parameters:
+    env(DEMO_COMPATIBILITY_FILE): '%kernel.project_dir%/config/demo/compatibility.json'

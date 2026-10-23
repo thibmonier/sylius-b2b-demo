@@ -48,7 +48,9 @@
                 </div>
             </dl>
             <figure class="mb-0">
-                <svg class="w-100 border rounded p-2" style="max-width: 44rem; height: auto" viewBox="0 0 640 440" role="img" aria-labelledby="architecture-figure-title architecture-figure-desc" data-architecture-overview xmlns="http://www.w3.org/2000/svg">
+                {# US-179: below 32rem the diagram keeps its size (labels of 11 CSS px at least) and scrolls in its own region; the textual description stays the equivalent. #}
+                <div class="overflow-auto" style="max-width: 44rem" tabindex="0" role="region" aria-labelledby="architecture-figure-title" data-architecture-scroll>
+                <svg class="w-100 border rounded p-2" style="max-width: 44rem; min-width: 32rem; height: auto" viewBox="0 0 640 440" role="img" aria-labelledby="architecture-figure-title architecture-figure-desc" data-architecture-overview xmlns="http://www.w3.org/2000/svg">
                     <title id="architecture-figure-title">{{ 'overview.figure_title'|trans({}, 'architecture') }}</title>
                     <desc id="architecture-figure-desc">{{ 'overview.figure_desc'|trans(versions, 'architecture') }}</desc>
                     <defs>
@@ -90,6 +92,7 @@
                         <text x="535" y="402">{{ 'overview.delivery'|trans({}, 'architecture') }}</text>
                     </g>
                 </svg>
+                </div>
                 <figcaption class="mt-2">{{ 'overview.caption'|trans({}, 'architecture') }}</figcaption>
             </figure>
             {{ page.links({'blob/main/docker/Dockerfile': 'links.dockerfile', 'blob/main/docker/Caddyfile': 'links.caddyfile', 'blob/main/docs/adr/0002-frankenphp-et-supercronic-dans-un-seul-conteneur.md': 'links.adr_container'}, repository) }}
