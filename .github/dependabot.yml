@@ -41,3 +41,8 @@ updates:
       directory: /
       schedule:
           interval: weekly
+      ignore:
+          # MySQL 8.4 LTS (supported until 2032): 9.7 caps foreign key cascades at 30 tables per statement
+          # (error 6575) and the Sylius fixture purge exceeds it, so the demo reset fails (PR #60).
+          - dependency-name: mysql
+            versions: [">=9"]
