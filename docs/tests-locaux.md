@@ -95,6 +95,12 @@ Les comptes de la démo (panier de Claire, panier de Paul, listes partagées d'A
 - **Cache de test périmé** : après un `git pull` ou un changement de service, un `sylius:fixtures:load` lancé à la main peut échouer sur un constructeur ou un service inconnu : `bin/console cache:clear` en `APP_ENV=test` (le script le fait).
 - **Base partagée** : plusieurs copies de travail peuvent utiliser le même MySQL ; leur donner chacune sa `TEST_DB_NAME` et son `TEST_CACHE_DIR`.
 - Les tests qui lancent `app:demo:reset` rechargent la suite entière dans la base (elle en ressort identique).
+- **Lecture filtrée par RTK** : le proxy RTK réécrit `cat`, `sed`, `ls` et masque les commentaires et les docblocks. Pour lire un fichier à modifier : outil Read ou `rtk proxy cat`.
+- **`rm` aliasé en `rm -i`** : dans une commande de fond, il attend une confirmation qui ne vient jamais. Utiliser `/bin/rm` sur ses propres fichiers.
+- **`sed` de macOS** : l'alternance (`a|b`) exige `sed -E` ; en expression de base, `\|` ne fait rien, sans erreur.
+- **Sortie de test coupée** : ne pas filtrer la sortie de `bin/run-tests` par `head` ou `sed -n 1,N` (on perd le message d'erreur) ; l'écrire dans un fichier, puis la filtrer.
+- **Erreur 500 dans un test fonctionnel** : `$client->catchExceptions(false)` dans un test jetable fait remonter l'exception et sa pile dans la sortie de PHPUnit.
+- **Twig et méthodes statiques** : `objet.verified` appelle une méthode statique `verified()` si elle existe, avant `isVerified()` ; écrire `objet.isVerified()`.
 
 ## Plusieurs workers en parallèle : une identité, une base, un cache
 
@@ -162,3 +168,10 @@ Requêtes SQL et durée de chaque fixture, sur 3 passes ; résultats et objectif
 ## Preuve publiée à jour : `bin/proof-check` (US-168)
 
 `php bin/proof-check` dit si `config/demo/proof.json` est en retard sur le dépôt (fichiers de tests de la démo, liste des plugins), sans réseau et sans rien écrire. Si un test est ajouté ou supprimé dans la PR, lancer `php bin/proof-refresh` (réseau, via `gh`) puis committer `config/demo/proof.json` : le contrôle repasse au vert. En CI, l'écart est affiché dans le résumé du job, sans faire échouer une PR ; il fait échouer le build de `main`. Détails : [theme-b2b.md](theme-b2b.md), « Bloc de preuve technique ».
+
+## Vérifier le rendu en production (lecture seule)
+
+Quand l'image de la démo ne peut pas être construite en local (moins de 10 Go libres), le rendu d'une story d'interface se vérifie après le déploiement, sur la page publique, sans se connecter ; la story reste en review jusque-là (action 4 de la rétro du sprint 23).
+
+- **pa11y** : installé dans un dossier jetable sans son Chromium (`PUPPETEER_SKIP_DOWNLOAD=1 npm install pa11y@9`), lancé avec `--config` pointant `chromeLaunchConfig.executablePath` vers un Chromium local et `"standard": "WCAG2AAA"`. Attendu : « No issues found! » en FR et en EN.
+- **360 px** : script `puppeteer-core` (viewport 360, `isMobile`), qui compare `document.documentElement.scrollWidth` à la largeur visible et liste les éléments qui dépassent. Équivalent de `bin/measure-mobile`, qui vise la démo locale.

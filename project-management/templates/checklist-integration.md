@@ -34,4 +34,5 @@ Un contrôle « non exécuté » donne la raison (disque, durée, hors périmèt
 - [ ] Les noms des jobs requis par la protection de `main` (« Quality and smoke tests », « Docker image ») sont inchangés si le workflow a été touché.
 - [ ] Une tâche de fond (run, attente) est **arrêtée explicitement (`TaskStop`)**, l'arrêt **vérifié** (verrou `var/run-tests.lock` libre, processus absent), puis seulement relancée.
 - [ ] **Image reconstruite après correctif** : si un correctif touche `Dockerfile`, `docker/`, `config/`, les assets ou les dépendances, l'orchestrateur (seul) reconstruit l'image, la démarre et valide les pages clés avant la clôture de la revue ; un « vert » sur le code seul ne suffit pas.
+- [ ] **Preuve publiée** (action 3 de la rétro du sprint 23) : si la PR ajoute ou supprime un fichier de tests, `php bin/proof-refresh` puis `php bin/proof-check` avant le push ; sinon le build de `main` échoue à l'étape « Published proof is up to date ».
 - [ ] Espace libre contrôlé (`bin/check-disk`) avant de lancer le lot suivant ; alerte sous 15 Go, jamais de seuil abaissé.
