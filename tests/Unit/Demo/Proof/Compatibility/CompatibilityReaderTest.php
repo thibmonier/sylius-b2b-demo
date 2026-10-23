@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Proof\Compatibility;
 
 use App\Demo\Proof\Compatibility\CompatibilityReader;
 use App\Demo\Proof\Compatibility\CompatibilityReport;
+use App\Tests\Support\Path;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -58,8 +59,8 @@ final class CompatibilityReaderTest extends TestCase
     public function testAStaleSectionKeepsItsOldDateAndIsFlagged(): void
     {
         $data = $this->data();
-        $data['plugins']['sylius-trade-credit-plugin']['ci']['stale'] = true;
-        $data['plugins']['sylius-trade-credit-plugin']['ci']['checked_at'] = '2026-10-14';
+        $data = Path::with($data, 'plugins.sylius-trade-credit-plugin.ci.stale', true);
+        $data = Path::with($data, 'plugins.sylius-trade-credit-plugin.ci.checked_at', '2026-10-14');
 
         $plugin = $this->report($data)->plugin('sylius-trade-credit-plugin');
 
@@ -70,8 +71,8 @@ final class CompatibilityReaderTest extends TestCase
     public function testASectionWithoutPublicSourceOrDateIsDropped(): void
     {
         $data = $this->data();
-        $data['plugins']['sylius-trade-credit-plugin']['dependencies']['source'] = 'http://example.com/composer.json';
-        unset($data['plugins']['sylius-trade-credit-plugin']['ci']['checked_at']);
+        $data = Path::with($data, 'plugins.sylius-trade-credit-plugin.dependencies.source', 'http://example.com/composer.json');
+        $data = Path::with($data, 'plugins.sylius-trade-credit-plugin.ci.checked_at', null);
 
         $plugin = $this->report($data)->plugin('sylius-trade-credit-plugin');
 
@@ -105,7 +106,7 @@ final class CompatibilityReaderTest extends TestCase
         }
     }
 
-    /** @param array<string, mixed> $data */
+    /** @param array<array-key, mixed> $data */
     private function report(array $data): CompatibilityReport
     {
         file_put_contents($this->file, json_encode($data, \JSON_THROW_ON_ERROR));

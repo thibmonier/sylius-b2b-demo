@@ -13,3 +13,4 @@ description:
     app_demo_override_guide: "Guide to adapt a Sylius plugin without modifying it: template, form, entity and service, each case with a real example from the demo."
     app_demo_mcp_guide: 'Guide to connect an AI assistant to the demo shop through the Sylius MCP server.'
     app_demo_proof: 'Technical proof for the Sylius plugins of Thibaut Monier: version published on Packagist, Sylius compatibility, CI, PHPStan and tests, each value with its source.'
+    app_demo_compatibility: 'Compatibility of the Sylius B2B plugins of Thibaut Monier: PHP, Sylius and Symfony versions run by the CI of each plugin, the combination of the demo and the dependency graph.'

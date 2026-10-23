@@ -1,0 +1,50 @@
+title: "Compatibilité et dépendances"
+nav: "Compatibilité et dépendances"
+plugins_link: "Compatibilité et dépendances : versions testées de chaque plugin et liens entre plugins"
+intro: "Pour chacun des %count% plugins : les versions de PHP, de Sylius et de Symfony que sa CI exécute, les plugins qu'il requiert ou qu'il suggère, et la combinaison installée dans cette démo. Le tableau est généré à partir du composer.json et de la matrice de CI de chaque dépôt, jamais écrit à la main."
+generated: "Généré le %date%."
+generated_note: "Le fichier est régénéré à la main, pas à chaque visite : quand un dépôt ne répond pas, la dernière valeur vérifiée reste affichée avec sa date."
+checked: "vérifié le"
+stale: "(dépôt indisponible à la dernière génération)"
+scope:
+    title: "Ce que dit chaque colonne"
+    ci: "La colonne « Testé par la CI du plugin » donne les versions que la CI du plugin exécute, le plugin étant testé seul."
+    demo: "La colonne « Testé ensemble dans la démo » ne vaut que pour la configuration de cette démo : Sylius %sylius%, Symfony %symfony%, relevés dans son composer.lock, avec les plugins qui y sont installés. Elle ne dit rien d'une autre combinaison de plugins."
+    demo_unknown: "La colonne « Testé ensemble dans la démo » ne vaut que pour la configuration de cette démo, relevée dans son composer.lock ; elle n'est pas disponible pour le moment."
+status:
+    unavailable: "non disponible"
+    none: "aucun"
+    not_installed: "non installé dans la démo"
+plugins:
+    title: "Matrice de compatibilité"
+    caption: "Plugins requis, plugins suggérés, versions testées par la CI du plugin et combinaison de la démo, pour chaque plugin"
+    column:
+        plugin: "Plugin"
+        requires: "Requiert"
+        suggests: "Suggère"
+        ci: "Testé par la CI du plugin"
+        demo: "Testé ensemble dans la démo"
+axis:
+    php: "PHP"
+    sylius: "Sylius"
+    symfony: "Symfony"
+    database: "Base de données"
+kind:
+    required: "obligatoire"
+    optional: "optionnel"
+demo:
+    version: "version %version%"
+    stack: "avec Sylius %sylius%, Symfony %symfony%"
+    php: "PHP %php%"
+graph:
+    title: "Graphe des dépendances"
+    svg_title: "Dépendances entre plugins"
+    svg_desc: "Chaque flèche part d'un plugin et mène au plugin dont il dépend. Un trait plein indique une dépendance obligatoire, un trait en pointillé une dépendance optionnelle. La même information est donnée en texte sous le schéma."
+    none: "Aucune dépendance entre plugins n'est disponible."
+    legend: "Légende : trait plein = dépendance obligatoire (le plugin requiert l'autre) ; trait en pointillé = dépendance optionnelle (le plugin la suggère seulement). La distinction ne repose pas sur la couleur."
+    links_title: "Les mêmes liens, en texte"
+    edge: "%from% : %kind% → %to%"
+source:
+    composer: "composer.json"
+    workflow: "matrice de CI"
+    lock: "composer.lock"

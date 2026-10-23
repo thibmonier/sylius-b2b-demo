@@ -1,0 +1,144 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'title'|trans({}, 'compatibility') }}{% endblock %}
+
+{# US-171: every version on this page comes from config/demo/compatibility.json (bin/compat-refresh); none is written here. #}
+{% macro stamp(source, label, date, stale) %}
+    <small class="d-block text-muted">
+        <a href="{{ source }}" rel="noopener">{{ label }}</a> :
+        {{ 'checked'|trans({}, 'compatibility') }} <time datetime="{{ date|slice(0, 10) }}">{{ date|slice(0, 10) }}</time>{% if stale %} <span data-compat-stale>{{ 'stale'|trans({}, 'compatibility') }}</span>{% endif %}
+    </small>
+{% endmacro %}
+
+{% block content %}
+    <style>
+        [data-compat-table] time { white-space: nowrap; }
+        [data-compat-graph-box] { display: none; }
+        @media (min-width: 768px) {
+            [data-compat-graph-box] { display: block; }
+        }
+        @media (max-width: 767px) {
+            [data-compat-table] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+            [data-compat-table] tr { display: block; margin-bottom: 1rem; padding: .5rem .75rem; border: 1px solid var(--bs-border-color, #dee2e6); border-radius: .375rem; }
+            [data-compat-table] th, [data-compat-table] td { display: block; padding: .25rem 0; border: 0; overflow-wrap: anywhere; }
+            [data-compat-table] td::before { content: attr(data-label); display: block; font-weight: 600; font-size: .875rem; }
+        }
+    </style>
+    {% import _self as compat %}
+    <div class="container my-5" data-page="compatibility">
+        <h1>{{ 'title'|trans({}, 'compatibility') }}</h1>
+        <p class="lead">{{ 'intro'|trans({'%count%': plugins|length}, 'compatibility') }}</p>
+        <p data-compat-generated>
+            {% if report.generatedAt %}{{ 'generated'|trans({'%date%': report.generatedAt|slice(0, 10)}, 'compatibility') }} {% endif %}{{ 'generated_note'|trans({}, 'compatibility') }}
+        </p>
+
+        <section class="mt-4" data-compat-scope aria-labelledby="compat-scope-title">
+            <h2 class="h4 border-bottom pb-2 b2b-section-title" id="compat-scope-title">{{ 'scope.title'|trans({}, 'compatibility') }}</h2>
+            <p>{{ 'scope.ci'|trans({}, 'compatibility') }}</p>
+            <p>
+                {% if report.demo %}{{ 'scope.demo'|trans({'%sylius%': report.demo.sylius, '%symfony%': report.demo.symfony}, 'compatibility') }}{% else %}{{ 'scope.demo_unknown'|trans({}, 'compatibility') }}{% endif %}
+            </p>
+        </section>
+
+        <section class="mt-5" aria-labelledby="compat-plugins-title">
+            <h2 class="h4 border-bottom pb-2 b2b-section-title" id="compat-plugins-title">{{ 'plugins.title'|trans({}, 'compatibility') }}</h2>
+            <table class="table align-top" data-compat-table role="table">
+                <caption class="visually-hidden">{{ 'plugins.caption'|trans({}, 'compatibility') }}</caption>
+                <thead role="rowgroup">
+                    <tr role="row">
+                        {% for column in ['plugin', 'requires', 'suggests', 'ci', 'demo'] %}
+                            <th scope="col" role="columnheader">{{ ('plugins.column.' ~ column)|trans({}, 'compatibility') }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody role="rowgroup">
+                    {% for plugin in plugins %}
+                        {% set slug = plugin.slug %}
+                        {% set entry = report.plugin(slug) %}
+                        <tr id="compat-{{ slug }}" data-plugin="{{ slug }}" role="row">
+                            <th scope="row" role="rowheader" class="fw-bold"><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}#plugin-{{ slug }}">{{ plugin.name }}</a></th>
+                            {% for kind in ['requires', 'suggests'] %}
+                                {% set targets = kind == 'requires' ? entry.requires : entry.suggests %}
+                                <td data-compat-cell="{{ kind }}" data-label="{{ ('plugins.column.' ~ kind)|trans({}, 'compatibility') }}" role="cell">
+                                    {% if entry.hasDependencies() %}
+                                        {% if targets|length %}
+                                            <ul class="list-unstyled mb-0">
+                                                {% for target in targets %}
+                                                    <li data-compat-link="{{ target }}"><a href="#compat-{{ target }}">{{ names[target]|default(target) }}</a> <span class="text-muted">({{ (kind == 'requires' ? 'kind.required' : 'kind.optional')|trans({}, 'compatibility') }})</span></li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <span>{{ 'status.none'|trans({}, 'compatibility') }}</span>
+                                        {% endif %}
+                                        {{ compat.stamp(entry.dependenciesSource, 'source.composer'|trans({}, 'compatibility'), entry.dependenciesCheckedAt, entry.dependenciesStale) }}
+                                    {% else %}
+                                        <span data-compat-state="unavailable">{{ 'status.unavailable'|trans({}, 'compatibility') }}</span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                            <td data-compat-cell="ci" data-label="{{ 'plugins.column.ci'|trans({}, 'compatibility') }}" role="cell">
+                                {% if entry.hasCi() %}
+                                    <ul class="list-unstyled mb-0">
+                                        {% for axis in ['php', 'sylius', 'symfony', 'database'] %}
+                                            <li data-compat-axis="{{ axis }}"><strong>{{ ('axis.' ~ axis)|trans({}, 'compatibility') }}</strong> : {% if entry.ci[axis]|length %}{{ entry.ci[axis]|join(', ') }}{% else %}{{ 'status.unavailable'|trans({}, 'compatibility') }}{% endif %}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    {{ compat.stamp(entry.ciSource, 'source.workflow'|trans({}, 'compatibility'), entry.ciCheckedAt, entry.ciStale) }}
+                                {% else %}
+                                    <span data-compat-state="unavailable">{{ 'status.unavailable'|trans({}, 'compatibility') }}</span>
+                                {% endif %}
+                            </td>
+                            <td data-compat-cell="demo" data-label="{{ 'plugins.column.demo'|trans({}, 'compatibility') }}" role="cell">
+                                {% if entry.inDemo() %}
+                                    <div>{{ 'demo.version'|trans({'%version%': entry.demoVersion}, 'compatibility') }}</div>
+                                    {% if report.demo %}
+                                        <div>{{ 'demo.stack'|trans({'%sylius%': report.demo.sylius, '%symfony%': report.demo.symfony}, 'compatibility') }}{% if report.demo.php %}, {{ 'demo.php'|trans({'%php%': report.demo.php}, 'compatibility') }}{% endif %}</div>
+                                    {% endif %}
+                                    {{ compat.stamp(entry.demoSource, 'source.lock'|trans({}, 'compatibility'), entry.demoCheckedAt, false) }}
+                                {% elseif entry.known %}
+                                    <span data-compat-state="not-installed">{{ 'status.not_installed'|trans({}, 'compatibility') }}</span>
+                                {% else %}
+                                    <span data-compat-state="unavailable">{{ 'status.unavailable'|trans({}, 'compatibility') }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="mt-5" aria-labelledby="compat-graph-heading">
+            <h2 class="h4 border-bottom pb-2 b2b-section-title" id="compat-graph-heading">{{ 'graph.title'|trans({}, 'compatibility') }}</h2>
+            <p data-compat-legend>{{ 'graph.legend'|trans({}, 'compatibility') }}</p>
+            {% if graph.nodes|length %}
+                <div data-compat-graph-box class="mb-4">
+                    <svg data-compat-graph xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="compat-graph-title compat-graph-desc" viewBox="0 0 {{ graph.width }} {{ graph.height }}" width="100%" style="max-width: {{ graph.width }}px; height: auto; color: var(--bs-body-color, #212529);">
+                        <title id="compat-graph-title">{{ 'graph.svg_title'|trans({}, 'compatibility') }}</title>
+                        <desc id="compat-graph-desc">{{ 'graph.svg_desc'|trans({}, 'compatibility') }}</desc>
+                        <defs>
+                            <marker id="compat-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path></marker>
+                        </defs>
+                        {% for edge in graph.edges %}
+                            {% set dx = ((edge.x2 - edge.x1) / 2)|round %}
+                            <path data-edge-from="{{ edge.from }}" data-edge-to="{{ edge.to }}" data-edge-kind="{{ edge.kind }}" d="M{{ edge.x1 }},{{ edge.y1 }} C{{ edge.x1 + dx }},{{ edge.y1 }} {{ edge.x2 - dx }},{{ edge.y2 }} {{ edge.x2 - 2 }},{{ edge.y2 }}" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#compat-arrow)"{% if edge.kind == 'optional' %} stroke-dasharray="6 5"{% endif %}></path>
+                        {% endfor %}
+                        {% for node in graph.nodes %}
+                            <g data-node="{{ node.slug }}">
+                                <rect x="{{ node.x }}" y="{{ node.y }}" width="{{ node.width }}" height="{{ node.height }}" rx="6" fill="var(--bs-body-bg, #fff)" stroke="currentColor" stroke-width="2"></rect>
+                                <text x="{{ node.x + node.width / 2 }}" y="{{ node.y + node.height / 2 }}" text-anchor="middle" dominant-baseline="central" font-size="15" fill="currentColor">{{ node.name }}</text>
+                            </g>
+                        {% endfor %}
+                    </svg>
+                </div>
+                <h3 class="h5">{{ 'graph.links_title'|trans({}, 'compatibility') }}</h3>
+                <ul data-compat-links>
+                    {% for edge in graph.edges %}
+                        <li data-compat-edge-from="{{ edge.from }}" data-compat-edge-to="{{ edge.to }}" data-compat-edge-kind="{{ edge.kind }}">{{ 'graph.edge'|trans({'%from%': names[edge.from], '%kind%': ('kind.' ~ (edge.kind == 'required' ? 'required' : 'optional'))|trans({}, 'compatibility'), '%to%': names[edge.to]}, 'compatibility') }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p data-compat-state="unavailable">{{ 'graph.none'|trans({}, 'compatibility') }}</p>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

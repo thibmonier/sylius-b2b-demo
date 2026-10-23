@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\Path;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -130,8 +131,8 @@ final class CompatibilityPageTest extends WebTestCase
     public function testALastValueKeptAfterAFailedGenerationIsServedWithItsDate(string $locale): void
     {
         $data = $this->data();
-        $data['plugins'][self::TRADE]['ci']['stale'] = true;
-        $data['plugins'][self::TRADE]['ci']['checked_at'] = '2026-10-14';
+        $data = Path::with($data, 'plugins.' . self::TRADE . '.ci.stale', true);
+        $data = Path::with($data, 'plugins.' . self::TRADE . '.ci.checked_at', '2026-10-14');
 
         $page = $this->open($locale, $data);
 
@@ -219,7 +220,7 @@ final class CompatibilityPageTest extends WebTestCase
         ];
     }
 
-    /** @param array<string, mixed> $data */
+    /** @param array<array-key, mixed> $data */
     private function open(string $locale, array $data): Crawler
     {
         $this->setEnvironment(['DEMO_COMPATIBILITY_FILE' => $this->file((string) json_encode($data, \JSON_THROW_ON_ERROR))]);
