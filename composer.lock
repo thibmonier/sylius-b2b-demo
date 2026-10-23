@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67f7b28b0befbd4851e8a9db85a0e785",
+    "content-hash": "1739b4d04eacff77296005655c61f959",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17428,16 +17428,16 @@
         },
         {
             "name": "tmonier/sylius-customer-asset-management-plugin",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-customer-asset-management-plugin.git",
-                "reference": "5f49d0472e3cce4120c814b59b6055f117970181"
+                "reference": "81fce40daf83d672e2680c7399c1c4bfa2e47ef1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-customer-asset-management-plugin/zipball/5f49d0472e3cce4120c814b59b6055f117970181",
-                "reference": "5f49d0472e3cce4120c814b59b6055f117970181",
+                "url": "https://api.github.com/repos/thibmonier/sylius-customer-asset-management-plugin/zipball/81fce40daf83d672e2680c7399c1c4bfa2e47ef1",
+                "reference": "81fce40daf83d672e2680c7399c1c4bfa2e47ef1",
                 "shasum": ""
             },
             "require": {
@@ -17502,9 +17502,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/v0.1.1"
             },
-            "time": "2026-10-22T16:57:43+00:00"
+            "time": "2026-10-23T11:56:51+00:00"
         },
         {
             "name": "tmonier/sylius-facturx-plugin",
