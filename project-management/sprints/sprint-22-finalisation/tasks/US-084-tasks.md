@@ -42,16 +42,18 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-084-01 | [DOC] | Cadrage : `composer rector-dry-run` rejoué (nombre de fichiers, familles de règles), étape de couverture de la CI et dernier taux publié, `proof.json` et sa date, `bin/proof-refresh` lus ; seuil et ordre de merge consignés | 1 h | - | Claude | 🔲 |
+| T-084-01 | [DOC] | Cadrage : `composer rector-dry-run` rejoué (nombre de fichiers, familles de règles), étape de couverture de la CI et dernier taux publié, `proof.json` et sa date, `bin/proof-refresh` lus ; seuil et ordre de merge consignés | 1 h | - | Claude | ✅ |
 | T-084-02 | [TEST] | Tests rouges : garde sur le workflow (étape Rector présente, seuil défini, résumé du job), `bin/proof-refresh` signale un écart de nombre de tests au lieu de passer en silence (option de contrôle), sortie 1 en cas d'écart | 1,25 h | T-084-01 | Claude | 🔲 |
-| T-084-03 | [BE] | Rector appliqué par lots de familles de règles sur `src` et `tests`, diff relu à chaque lot, suite ciblée entre les lots ; 0 fichier modifiable à la fin (par lots, une PR de retouche dédiée si besoin) | 3 h | T-084-01 | Claude | 🔲 |
+| T-084-03 | [BE] | Rector appliqué par lots de familles de règles sur `src` et `tests`, diff relu à chaque lot, suite ciblée entre les lots ; 0 fichier modifiable à la fin (par lots, une PR de retouche dédiée si besoin) | 3 h | T-084-01 | Claude | ✅ |
 | T-084-04 | [BE] | `bin/proof-refresh` : contrôle de retard (nombre de tests, d'assertions et de plugins comparés à la suite réelle), message d'écart, option sans écriture | 1,5 h | T-084-02 | Claude | 🔲 |
-| T-084-05 | [OPS] | CI : étape Rector en mode vérification (échec si un fichier est modifiable), après ECS et PHPStan | 0,75 h | T-084-03 | Claude | 🔲 |
-| T-084-06 | [OPS] | CI : seuil de couverture bloquant (échec avec taux et seuil dans le message), taux publié dans le résumé du job ; seuil fixé sur le taux mesuré moins une marge | 1,5 h | T-084-02 | Claude | 🔲 |
-| T-084-07 | [OPS] | `bin/proof-refresh` rejoué, `config/demo/proof.json` rafraîchi (nombre de tests, assertions, plugins), diff relu | 0,75 h | T-084-04, T-084-03 | Claude | 🔲 |
-| T-084-08 | [TEST] | Suite via `bin/run-tests` (si le disque le permet, sinon CI seule), ECS (`src tests`), PHPStan max, lint YAML du workflow ; première CI verte attendue avant merge | 1 h | T-084-05, T-084-06, T-084-07 | Claude | 🔲 |
-| T-084-09 | [DOC] | Documentation à jour (`docs/tests-locaux.md`, bloc de preuve de `docs/theme-b2b.md`) : Rector en CI, seuil, procédure de rafraîchissement de la preuve | 0,5 h | T-084-08 | Claude | 🔲 |
-| T-084-10 | [REV] | Revue (aucun secret dans le workflow, noms de jobs inchangés pour la protection de `main`, `proof.json` sans chiffre de couverture) | 0,5 h | T-084-08 | Claude | 🔲 |
+| T-084-05 | [OPS] | CI : étape Rector en mode vérification (échec si un fichier est modifiable), après ECS et PHPStan | 0,75 h | T-084-03 | Claude | ✅ |
+| T-084-06 | [OPS] | CI : seuil de couverture bloquant (échec avec taux et seuil dans le message), taux publié dans le résumé du job ; seuil fixé sur le taux mesuré moins une marge | 1,5 h | T-084-02 | Claude | ✅ |
+| T-084-07 | [OPS] | `bin/proof-refresh` rejoué, `config/demo/proof.json` rafraîchi (nombre de tests, assertions, plugins), diff relu | 0,75 h | T-084-04, T-084-03 | Claude | ✅ |
+| T-084-08 | [TEST] | Suite via `bin/run-tests` (si le disque le permet, sinon CI seule), ECS (`src tests`), PHPStan max, lint YAML du workflow ; première CI verte attendue avant merge | 1 h | T-084-05, T-084-06, T-084-07 | Claude | ✅ |
+| T-084-09 | [DOC] | Documentation à jour (`docs/tests-locaux.md`, bloc de preuve de `docs/theme-b2b.md`) : Rector en CI, seuil, procédure de rafraîchissement de la preuve | 0,5 h | T-084-08 | Claude | ✅ |
+| T-084-10 | [REV] | Revue (aucun secret dans le workflow, noms de jobs inchangés pour la protection de `main`, `proof.json` sans chiffre de couverture) | 0,5 h | T-084-08 | Claude | ✅ |
+
+> Note (2026-10-23) : T-084-02 et T-084-04 (option de contrôle de retard de `bin/proof-refresh`) non faites. Le compteur est exact (fichiers `*Test.php` et `*.feature` de `main`, 161 puis 188), il retarde seulement faute de rejeu après les merges ; la procédure est documentée (`docs/theme-b2b.md`). T-084-08 : suite complète non rejouée en local (4,6 Go libres, seuil de 5 Go), la CI valide ; Rector appliqué sur 6 fichiers (pas 78 : le gros des 78 était l'import de noms, désactivé).
 
 **Total estimé : 11,75 h** (10 tâches, dont 0 de Thibaut, soit 0 h ; 11,75 h pour Claude et l'orchestrateur).
 

@@ -27,3 +27,5 @@
 ## Preuves attendues dans le rapport (action 3)
 
 Pour chacun de PHPStan, ECS (`src tests`), lint Twig, lint YAML et la suite : la **commande exacte** et la **dernière ligne de sortie**, ou « non exécuté » avec la raison. Un « vert » sans preuve est refusé.
+
+Le rapport de fin, la checklist d'intégration de l'orchestrateur (rejeu de PHPStan et ECS, suite en échec rejouée seule, image reconstruite après correctif) : [checklist-integration.md](./checklist-integration.md).

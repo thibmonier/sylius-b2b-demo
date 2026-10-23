@@ -38,12 +38,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude** seul, **Orche
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-161-06 | [DOC] | Checklist d'intégration et gabarit de rapport : commande et dernière ligne de sortie de PHPStan, ECS, lint Twig/YAML et suite ; rejeu de PHPStan et ECS par l'orchestrateur ; rapport refusé sans preuve ; suite en échec rejouée seule avant enquête (contrôle préalable : la story est-elle encore ouverte ?) | 1 h | - | Orchestrateur | 🔲 |
-| T-161-09 | [DOC] | Reste des actions du sprint 16 : arrêt explicite des tâches de fond (TaskStop) et vérification avant relance dans le gabarit de consigne ; checklist de revue « image reconstruite après correctif » | 0,5 h | T-161-06 | Orchestrateur | 🔲 |
+| T-161-06 | [DOC] | Checklist d'intégration et gabarit de rapport : commande et dernière ligne de sortie de PHPStan, ECS, lint Twig/YAML et suite ; rejeu de PHPStan et ECS par l'orchestrateur ; rapport refusé sans preuve ; suite en échec rejouée seule avant enquête (contrôle préalable : la story est-elle encore ouverte ?) | 1 h | - | Orchestrateur | ✅ |
+| T-161-09 | [DOC] | Reste des actions du sprint 16 : arrêt explicite des tâches de fond (TaskStop) et vérification avant relance dans le gabarit de consigne ; checklist de revue « image reconstruite après correctif » | 0,5 h | T-161-06 | Orchestrateur | ✅ |
 | T-161-12 | [REV] | Thibaut valide le format du registre `communication/INDEX.md` (nom, date, statut, sans contenu) | 0,5 h | - | Thibaut | 🔲 |
-| T-161-13 | [REV] | Revue : gabarits à jour, tests des scripts verts via `bin/run-tests` (rejeu), bilan des cinq indicateurs préparé pour la rétro du sprint 22 | 0,75 h | T-161-06, T-161-09, T-161-12 | Claude | 🔲 |
+| T-161-13 | [REV] | Revue : gabarits à jour, tests des scripts verts via `bin/run-tests` (rejeu), bilan des cinq indicateurs préparé pour la rétro du sprint 22 | 0,75 h | T-161-06, T-161-09, T-161-12 | Claude | ✅ |
 
 **Total estimé : 2,75 h** (4 tâches, dont 1 de Thibaut, soit 0,5 h ; 2,25 h pour Claude et l'orchestrateur).
+
+> Contrôle de T-161-06 (2026-10-23) : story encore ouverte (checklist d'intégration et gabarit de rapport absents des gabarits, les règles ne vivaient que dans le README du sprint 18) ; livrés dans `project-management/templates/checklist-integration.md`. T-161-12 reste à Thibaut.
 
 ## Dépendances
 
