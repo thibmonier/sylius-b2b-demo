@@ -1,0 +1,31 @@
+# US-172: plugin override guide. No figure written by hand: the cited lines come from the registry
+# config/packages/demo_override_guide.yaml (parameters %first% and %last%).
+title: "Adapt a plugin without modifying it"
+intro: "Four ways to adapt a plugin installed in a project without touching its code, so that its updates stay possible. Each case rests on a real example of this demo: the exact file, the cited lines and a command to check it. The shared rule: start with the narrowest mechanism (a hook, an extension, a decoration), and copy a whole template only as a last resort."
+labels:
+    example: "Example from the demo"
+    source: "See the exact file (lines %first% to %last%)"
+    command: "Command to check it"
+    related: "Other files of the example"
+    back: "Back to the integration guide"
+cases:
+    template:
+        name: "Template: a Twig hook"
+        summary: "The theme keeps the hookable of a plugin (same hook, same name) and only replaces its template. The plugin still places its block; only its presentation changes."
+        why: "An update of the plugin that adds or removes other blocks on the same hook is not lost, because nothing was copied."
+        last_resort_link: "When no hook fits, see the last resort."
+    form:
+        name: "Form: a type extension"
+        summary: "A form type extension adds fields to the checkout completion form, without touching the Sylius class or the class of a plugin."
+        why: "The original type stays the one of the package: the extension is added at runtime and disappears when removed."
+    entity:
+        name: "Entity: a model declared in the configuration"
+        summary: "The demo class extends the Sylius model and adds its own properties; the resource configuration declares it as the model. For an interface provided by a plugin, the mapping between the interface and the demo class is declared with resolve_target_entities."
+        why: "The model of the package is not modified: an update changes the parent class, not yours. Remember to generate the migration for your own columns."
+    service:
+        name: "Service: a decoration"
+        summary: "The demo service decorates the one of a plugin: it receives the original through the typed argument of its constructor, adds its behaviour, then hands over to it."
+        why: "The service of the plugin stays intact and can evolve; if the plugin leaves the project, the option to ignore an invalid decoration avoids a compilation error."
+last_resort:
+    title: "Last resort: copying a whole template"
+    text: "Copying a bundle template into the templates folder of the project replaces the file of the package entirely. Changes the package makes to that file no longer reach you: after each update, compare your copy with the original. Try a hook first, then a form extension, then a service decoration. The demo only does it for the general layout, where page landmarks have to be added to the structure. The command below compares your copy with the version of the package, to see what drifted after an update."

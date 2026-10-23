@@ -1,0 +1,27 @@
+# US-172: the examples of the override guide (page /{_locale}/surcharge). One list for the page and for the test that
+# checks every cited file and line range still exists: when a file moves, the suite names it.
+# Order = order of the page. "related" lists the other files that take part in the example.
+parameters:
+    demo.override_guide.examples:
+        - case: template
+          path: config/packages/tmonier_plugins_overrides_pricing.yaml
+          lines: [5, 9]
+          command: 'bin/console debug:config sylius_twig_hooks'
+        - case: form
+          path: src/Form/Extension/OrderPoReferenceTypeExtension.php
+          lines: [33, 41]
+          command: "bin/console debug:form 'Sylius\\Bundle\\CoreBundle\\Form\\Type\\Checkout\\CompleteType'"
+        - case: entity
+          path: src/Entity/Order/Order.php
+          lines: [11, 16]
+          related: ['config/packages/_sylius.yaml']
+          command: 'bin/console debug:container --parameter=sylius.model.order.class'
+        - case: service
+          path: config/services.yaml
+          lines: [93, 100]
+          command: 'bin/console debug:container tmonier_facturx.xml.writer'
+    # Copying a whole template: shown last, with the command that lists what drifted from the vendor version.
+    demo.override_guide.last_resort:
+        path: templates/bundles/SyliusShopBundle/shared/layout/base.html.twig
+        lines: [1, 4]
+        command: 'diff -u vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/templates/shared/layout/base.html.twig templates/bundles/SyliusShopBundle/shared/layout/base.html.twig'

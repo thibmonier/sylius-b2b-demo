@@ -10,5 +10,6 @@ description:
     app_demo_accounts: 'Parcours et comptes de démonstration de Fournitures Pro : choisissez un rôle pour parcourir la boutique B2B.'
     app_demo_integrate: "Guide d'intégration des plugins Sylius B2B de Thibaut Monier : prérequis, installation, architecture type, questions à régler, dépôts."
     app_demo_architecture: "Architecture de la démo Sylius B2B de Thibaut Monier : schéma d'ensemble, couches, flux, exploitation, qualité et sécurité, avec les liens vers le dépôt."
+    app_demo_override_guide: "Guide pour adapter un plugin Sylius sans le modifier : gabarit, formulaire, entité et service, chaque cas avec un exemple réel de la démo."
     app_demo_mcp_guide: 'Guide pour connecter un assistant IA à la boutique de démonstration par le serveur MCP de Sylius.'
     app_demo_proof: 'Preuve technique des plugins Sylius de Thibaut Monier : version publiée sur Packagist, compatibilité Sylius, CI, PHPStan et tests, chaque valeur avec sa source.'

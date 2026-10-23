@@ -1,0 +1,31 @@
+# US-172: guide de surcharge des plugins. Aucun chiffre écrit à la main : les lignes citées viennent du registre
+# config/packages/demo_override_guide.yaml (paramètres %first% et %last%).
+title: "Adapter un plugin sans le modifier"
+intro: "Quatre façons d'adapter un plugin Sylius installé dans un projet, sans toucher à son code et en gardant ses mises à jour possibles. Chaque cas s'appuie sur un exemple réel de cette démo : le fichier exact, les lignes citées et une commande pour le vérifier. La règle commune : commencer par le mécanisme le plus étroit (un hook, une extension, une décoration), et ne copier un gabarit entier qu'en dernier recours."
+labels:
+    example: "Exemple de la démo"
+    source: "Voir le fichier exact (lignes %first% à %last%)"
+    command: "Commande de vérification"
+    related: "Autres fichiers de l'exemple"
+    back: "Retour au guide d'intégration"
+cases:
+    template:
+        name: "Gabarit : un hook Twig"
+        summary: "Le thème reprend le hookable d'un plugin (même hook, même nom) et ne remplace que son gabarit. Le plugin continue de poser son bloc ; seule sa présentation change."
+        why: "Une mise à jour du plugin qui ajoute ou retire d'autres blocs sur le même hook n'est pas perdue, parce que rien n'a été copié."
+        last_resort_link: "Si aucun hook ne convient, voir le dernier recours."
+    form:
+        name: "Formulaire : une extension de type"
+        summary: "Une extension de type de formulaire ajoute des champs au formulaire de finalisation de la commande, sans toucher à la classe de Sylius ni à celle d'un plugin."
+        why: "Le type d'origine reste celui du paquet : l'extension s'y ajoute à l'exécution et disparaît si on la retire."
+    entity:
+        name: "Entité : un modèle déclaré dans la configuration"
+        summary: "La classe de la démo étend le modèle de Sylius et ajoute ses propriétés ; la configuration de la ressource la déclare comme modèle. Pour une interface fournie par un plugin, la correspondance entre l'interface et la classe de la démo se déclare avec resolve_target_entities."
+        why: "Le modèle du paquet n'est pas modifié : une mise à jour change la classe parente, pas la vôtre. Pensez à générer la migration de vos propres colonnes."
+    service:
+        name: "Service : une décoration"
+        summary: "Le service de la démo décore celui d'un plugin : il reçoit l'original par la liaison typée de son constructeur, ajoute son comportement, puis lui rend la main."
+        why: "Le service du plugin reste intact et peut évoluer ; si le plugin disparaît du projet, l'option d'ignorer une décoration invalide évite une erreur de compilation."
+last_resort:
+    title: "Dernier recours : copier un gabarit entier"
+    text: "Copier un gabarit de bundle dans le dossier des gabarits du projet remplace le fichier du paquet en entier. Les évolutions du paquet sur ce fichier ne vous parviennent plus : à chaque mise à jour, comparez votre copie à l'original. Essayez d'abord un hook, puis une extension de formulaire, puis une décoration de service. La démo ne le fait que pour la mise en page générale, où il faut ajouter des repères de page à la structure. La commande ci-dessous compare votre copie à la version du paquet pour voir ce qui s'est écarté après une mise à jour."
