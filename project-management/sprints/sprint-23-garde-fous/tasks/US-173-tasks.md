@@ -39,8 +39,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-173-02 | [OPS] | Essai d'un métapaquet « IA et headless » dans un projet jetable (dépôt de type `path`) : ce qui reste à faire à la main (bundles, configuration, routes, migrations) | 1,25 h | T-173-01 | Claude | ✅ |
 | T-173-03 | [DOC] | Comparaison des trois formes (métapaquet, recettes Flex sur `recipes-contrib`, squelette de projet) : effet, maintenance, publication | 0,75 h | T-173-02 | Claude | ✅ |
 | T-173-04 | [DOC] | ADR : forme retenue, composition des packs, découpage de la réalisation en stories de 8 points au plus ; table « scénario → preuve » remplie | 1 h | T-173-03 | Claude | ✅ |
-| T-173-05 | [REV] | 📅 Thibaut relit l'ADR et décide (forme, packs, stories à planifier) | 0,25 h | T-173-04 | Thibaut | 🔲 |
-| T-173-06 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml` et stories de réalisation créées au backlog | 0,25 h | T-173-05 | Orchestrateur | 🔲 |
+| T-173-05 | [REV] | 📅 Thibaut relit l'ADR et décide (forme, packs, stories à planifier) | 0,25 h | T-173-04 | Thibaut | ✅ |
+| T-173-06 | [DOC] | Décision consignée dans `.bmad/sprint-status.yaml` et stories de réalisation créées au backlog | 0,25 h | T-173-05 | Orchestrateur | ✅ |
 
 **Total estimé : 4 h** (6 tâches, dont 0,25 h de Thibaut ; 3,75 h pour Claude et l'orchestrateur).
 
@@ -55,3 +55,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | Pack avec dépendances internes (alternatif) | ADR-0015, « Relevé des dépendances internes » et « Décision proposée » point 3 ; essai 3 : trade-credit tire order-hold (`Locking tmonier/sylius-order-hold-plugin (1.0.0)`), registration-approval tire channel-access ; company-insights (exige company-accounts, exclu) reste hors pack |
 | Plugin qui recoupe Sylius Plus (erreur) | ADR-0015, « Contexte » (7 plugins exclus, en termes neutres) et « Décision proposée » point 2 : aucun des 10 plugins des deux packs n'est classé « concurrent » ou « à confirmer » dans `docs/vitrine-plugins.md` ; `grep -c "Plus" docs/adr/0015-distributions-de-plugins.md` ne trouve aucune occurrence |
 | Spike hors budget (erreur) | Non déclenché : spike mené en bien moins de 4 h ; questions ouvertes consignées en fin d'ADR-0015 |
+
+## Décision (T-173-05, 2026-10-23)
+
+Thibaut accepte l'ADR 0015 : forme, deux packs et quatre stories. Stories créées au backlog : US-175 (3), US-176 (5), US-177 (5), US-178 (2). Noms des paquets et pull request sur recipes-contrib à trancher au cadrage, GO requis pour toute publication.
