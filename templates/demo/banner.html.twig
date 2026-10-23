@@ -5,13 +5,14 @@
     {% set contact = app_demo_cta_targets('demo-bar')|filter(target => target.kind == 'contact')|first %}
     {% set target = 'd-inline-flex align-items-center' %}
     {% set target_height = 'min-height: 2.75rem' %}
-    {% set panel = 'position-absolute start-0 end-0 mt-1 p-2 bg-white text-dark border rounded shadow' %}
+    {% set panel = 'position-absolute start-0 end-0 mt-1 p-2 bg-white text-dark border rounded shadow text-break' %}
+    {% set panel_style = 'z-index: 1050; max-width: 24rem; grid-template-columns: minmax(0, 1fr)' %}
     <div class="bg-dark text-white small" data-demo-banner>
         <div class="container position-relative d-flex flex-nowrap align-items-center gap-3" data-controller="demo-menus" data-action="keydown.esc->demo-menus#close click@window->demo-menus#outside">
             <strong class="text-nowrap">{{ 'banner.title'|trans({}, 'theme_demo') }}</strong>
             <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
                 <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.login'|trans({}, 'theme_demo') }}</summary>
-                <div class="{{ panel }} d-grid gap-1" style="z-index: 1050; max-width: 24rem">
+                <div class="{{ panel }} d-grid gap-1" style="{{ panel_style }}" data-demo-menu-panel>
                     {% for account in demo_shop_accounts() %}
                         {% include 'demo/_login_form.html.twig' with {
                             account,
@@ -25,9 +26,9 @@
             </details>
             <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
                 <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.menu'|trans({}, 'theme_demo') }}</summary>
-                <ul class="{{ panel }} list-unstyled d-grid gap-1 mb-0" style="z-index: 1050; max-width: 24rem">
+                <ul class="{{ panel }} list-unstyled d-grid gap-1 mb-0" style="{{ panel_style }}" data-demo-menu-panel>
                     <li><a class="{{ target }} w-100" style="{{ target_height }}" href="{{ path('app_demo_accounts') }}">{{ 'banner.accounts'|trans({}, 'theme_demo') }}</a></li>
-                    <li class="d-flex align-items-center gap-3" style="{{ target_height }}">
+                    <li class="d-flex flex-wrap align-items-center column-gap-3" style="{{ target_height }}" data-demo-channel>
                         <span>{{ 'banner.channel'|trans({}, 'theme_demo') }}</span>
                         <a href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a>
                         <a href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
