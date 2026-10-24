@@ -93,6 +93,55 @@ final class ProductPageRedesignTest extends WebTestCase
         self::assertCount(0, $without->filter('[data-pdp-norm]'));
     }
 
+    /** US-189 (tightening): the "powered by" badges of the plugins of the page are on ONE line under the buy box, not between the actions. */
+    public function testThePluginBadgesAreOnOneLineUnderTheBuyBox(): void
+    {
+        $page = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/outi-001-fr');
+
+        self::assertCount(1, $page->filter('[data-pdp-part="summary"] .b2b-pdp__badges'));
+        self::assertCount(0, $page->filter('[data-pdp-part="buybox"] [data-demo-plugin-badge]'), 'none inside the buy box');
+        $slugs = $page->filter('[data-pdp-part="summary"] .b2b-pdp__badges [data-demo-plugin-badge]')->each(static fn (Crawler $badge): string => (string) $badge->attr('data-demo-plugin-badge'));
+        self::assertEqualsCanonicalizing(['sylius-tier-pricing-plugin', 'sylius-container-fill-plugin', 'sylius-quote-request-plugin'], $slugs);
+        self::assertCount(\count($slugs), $page->filter('[data-pdp-part="summary"] [data-demo-plugin-badge]'), 'every badge of the summary is in the row');
+    }
+
+    public function testAPageWithoutTiersHasNoTierBadge(): void
+    {
+        $page = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/fixa-002-fr');
+
+        self::assertCount(0, $page->filter('[data-demo-plugin-badge="sylius-tier-pricing-plugin"]'), 'a badge says what the page really does');
+    }
+
+    /** The pallet and truck preview stays complete but folded by default, with a one-line summary. */
+    public function testThePalletPreviewIsFoldedByDefault(): void
+    {
+        $page = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/outi-001-fr');
+
+        $fold = $page->filter('[data-pdp-part="buybox"] details[data-pdp-fill]');
+        self::assertCount(1, $fold);
+        self::assertNull($fold->attr('open'));
+        self::assertStringContainsString('Remplissage palette et camion', $fold->filter('summary')->text());
+        self::assertCount(1, $fold->filter('[data-test-tmonier-container-fill-preview]'), 'the content is unchanged');
+    }
+
+    /** The quote request is a compact secondary action: the big title is for a visitor only, the button and the quantity stay. */
+    public function testTheQuoteRequestIsCompactForABuyerAndTitledForAVisitor(): void
+    {
+        $buyer = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/outi-001-fr');
+        $quote = $buyer->filter('[data-pdp-part="buybox"] [data-test-tmonier-add-to-quote]');
+        self::assertCount(1, $quote);
+        self::assertCount(1, $quote->filter('[data-test-tmonier-add-to-quote-button]'));
+        self::assertCount(1, $quote->filter('input[name="tmonier_quote_request_add[quantity]"]'));
+        self::assertStringNotContainsString('Besoin de grandes quantités', $quote->text());
+
+        self::ensureKernelShutdown();
+        $client = self::createClient();
+        $client->request('GET', '/demo/channel/B2B');
+        $visitor = $client->request('GET', '/fr_FR/products/outi-001-fr')->filter('[data-pdp-part="buybox"] [data-test-tmonier-add-to-quote]');
+        self::assertCount(1, $visitor->filter('[data-test-tmonier-add-to-quote-button]'));
+        self::assertStringContainsString('grandes quantités', mb_strtolower($visitor->text()));
+    }
+
     public function testTheTiersAreBeforeTheQuantityAndTheNegotiatedPriceIsSaid(): void
     {
         $client = $this->signedIn('claire@acme.example');

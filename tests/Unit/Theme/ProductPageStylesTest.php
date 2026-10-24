@@ -31,6 +31,14 @@ final class ProductPageStylesTest extends TestCase
         self::assertMatchesRegularExpression('/\.b2b-pdp h1[^{]*\{[^}]*font-family:\s*var\(--b2b-font-serif\)/s', $this->read('_pdp.scss'));
     }
 
+    /** US-189 (tightening): from lg the gallery follows the reading of the buy box (sticky), the phone keeps the normal flow. */
+    public function testTheGalleryIsStickyFromTheLgWidthOnly(): void
+    {
+        $styles = $this->read('_pdp.scss');
+
+        self::assertMatchesRegularExpression('/&__gallery\s*\{.*?@media \(min-width: 992px\)\s*\{[^}]*position:\s*sticky[^}]*top:\s*[\d.]+rem/s', $styles);
+    }
+
     public function testEveryControlIsAFortyFourPixelTargetAndMotionIsReducedOnRequest(): void
     {
         $styles = $this->read('_pdp.scss');
