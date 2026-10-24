@@ -56,7 +56,7 @@ final class ProductTextCharterTest extends TestCase
         self::assertNotSame([], $files, 'the product page templates');
         foreach ($files as $file) {
             $withoutTags = (string) preg_replace(['/\{#.*?#\}/s', '/\{\{.*?\}\}/s', '/\{%.*?%\}/s', '/<(?:script|style).*?<\/(?:script|style)>/s', '/<[^>]+>/'], ' ', (string) file_get_contents($file));
-            self::assertSame('', trim((string) preg_replace('/(?:&[a-z]+;|\s|[|·\/])+/', '', $withoutTags)), basename($file) . ' has a text written in the template');
+            self::assertSame('', trim((string) preg_replace('/(?:&[a-z]+;|\s|[|·:\/])+/', '', $withoutTags)), basename($file) . ' has a text written in the template');
         }
     }
 

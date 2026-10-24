@@ -118,6 +118,10 @@ sylius_twig_hooks:
         'sylius_shop.product.show.content.info.overview':
             accordion:
                 condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_norm:
+                template: 'shop/theme_b2b/pdp/norm.html.twig'
+                priority: 200
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.product.show.content':
             product_listing:
                 condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"

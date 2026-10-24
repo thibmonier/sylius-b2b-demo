@@ -67,6 +67,7 @@ main:has(.b2b-pdp) {
     }
 
     &__gallery {
+        position: relative;
         grid-area: gallery;
         min-width: 0;
 
@@ -83,6 +84,21 @@ main:has(.b2b-pdp) {
             aspect-ratio: 4 / 3;
             object-fit: cover;
         }
+    }
+
+    // Standard of the product (attribute), a pill over the photo.
+    &__norm {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1;
+        margin: 0;
+        padding: .375rem .75rem;
+        border-radius: 62.5rem;
+        background: $b2b-white;
+        color: $b2b-teal;
+        font-size: .8125rem;
+        font-weight: 600;
     }
 
     &__summary {

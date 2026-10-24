@@ -38,7 +38,12 @@
         <section class="b2b-pdp__section" data-pdp-section="reviews" id="avis" aria-labelledby="pdp-reviews">
             <h2 id="pdp-reviews">{{ 'sections.reviews'|trans({}, 'product') }}</h2>
             <div {{ sylius_test_html_attribute('product-reviews') }}>
-                {% hook 'info.overview.accordion.reviews.content' with { product } %}
+                {% if product.acceptedReviews|length > 0 %}
+                    {% hook 'info.overview.accordion.reviews.content' with { product } %}
+                {% else %}
+                    {# No review yet: the link to give the first one, nothing else (no alert, no empty list). #}
+                    <a class="btn btn-primary b2b-pdp-btn" href="{{ path('sylius_shop_product_review_create', {slug: product.slug}) }}">{{ 'sylius.ui.add_your_review'|trans }}</a>
+                {% endif %}
             </div>
         </section>
     </div>
