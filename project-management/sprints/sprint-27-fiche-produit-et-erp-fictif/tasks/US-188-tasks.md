@@ -55,8 +55,8 @@ La fiche d'origine dépend d'US-187 (import CSV de prix et de stock), **hors spr
 | T-188-07 | [BE] | Remise à zéro nocturne : répertoire d'échange et journal du simulateur vidés, export puis simulation relancés après le chargement des fixtures (reprend le résultat de T-193-04) | 0,5 h | T-188-04, T-193-04 | Claude | ✅ |
 | T-188-08 | [DOC] | Documentation `docs/erp-demo.md` (schéma mermaid, fichiers, ce qui est simulé, ce qui reste à US-187), lien depuis `/echange-fichier` et `webhooks-demo.md`, ADR 0017 et README ; texte relu contre le code | 0,75 h | T-188-06, T-188-07 | Claude | ✅ |
 | T-188-09 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et dernière ligne citées | 0,5 h | T-188-08 | Claude | ✅ |
-| T-188-10 | [TEST] | Vérification après déploiement : pages publiques en production (pa11y, 360 px, documentation) ; page du back-office en local et sur l'image reconstruite (aucun identifiant saisi en production) ; mesures consignées le jour du déploiement | 0,25 h | merge de la PR | Claude | 🔲 |
-| T-188-11 | [REV] | Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-188-10 | Claude | 🔲 |
+| T-188-10 | [TEST] | Vérification après déploiement : pages publiques en production (pa11y, 360 px, documentation) ; page du back-office en local et sur l'image reconstruite (aucun identifiant saisi en production) ; mesures consignées le jour du déploiement | 0,25 h | merge de la PR | Claude | ✅ |
+| T-188-11 | [REV] | Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-188-10 | Claude | ✅ |
 
 **Total estimé : 9,5 h** (11 tâches ; 9,5 h pour Claude).
 
@@ -73,3 +73,8 @@ Scénarios réécrits pour le périmètre réduit (voir la fiche). Une ligne vid
 | Aucun appel sortant, aucun ERP réel nommé (erreur) | `ErpDemoSimulatorTest::testTheSimulatorNeverReachesTheNetwork` (aucun client réseau dans le source) ; `ErpExchangesAdminTest::testTheTextNamesNoErpAndCarriesTheCharter` ; `ErpFlatfilePageTest::testTheTextCarriesTheCharterAndNamesNoErp` |
 
 **Preuves de l'implémentation (sprint 27)** : rouge `8b193a5`, code `50c1d45`. `bin/run-tests tests/Unit/Demo/Erp tests/Functional/Demo/ErpExchangesAdminTest.php tests/Functional/Demo/ErpDemoExchangeFixtureTest.php` : `OK, but there were issues! Tests: 39, Assertions: 198`. ECS `[OK] No errors found`, PHPStan (dépôt entier) `[OK] No errors`, Rector `[OK] Rector is done!`, lint Twig et YAML verts. Reste ouvert : T-188-10 et T-188-11 (production et revue).
+
+
+**Vérification (T-188-10, 2026-10-24).** Pages publiques : `/echange-fichier` FR et EN sans défilement à 360 et 1280 px, pa11y WCAG2AAA « No issues found! » (voir [US-193](./US-193-tasks.md)). Page « Échanges ERP (fictif) » du back-office : **vérifiée en local seulement**, pas en production (pas de connexion en production) ; pa11y : 0 erreur dans le contenu, 28 dans la coque du back-office Sylius, commune à tous les écrans d'administration. Le défaut de déploiement trouvé en production (échange vide après chaque déploiement) est corrigé par #100.
+
+**Revue (T-188-11).** Ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé (`ErpExchangesAdminTest::testTheTextNamesNoErpAndCarriesTheCharter`) ; table « scénario → test ou preuve » remplie ; PR #98 (`183a665`). Accusé de réception au format propre à la démo, validé par Thibaut.

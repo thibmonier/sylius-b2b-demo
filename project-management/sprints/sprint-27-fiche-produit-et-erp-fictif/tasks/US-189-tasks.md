@@ -48,8 +48,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 |----|------|-------|------------|-----------|-------------|--------|
 | T-189-01 | [DOC] | Cadrage : inventaire de la fiche relu contre le code (hooks `product.show`, gabarits `product_*`, blocs B2B, canal B2C, tests existants de prix et de paliers) ; trois fiches types retenues ; plan des tests | 0,75 h | - | Claude | ✅ |
 | T-189-02 | [TEST] | Mesure « avant » en production (lecture seule) sur les trois fiches types : LCP mobile (médiane de 5 passes), poids et requêtes, largeur à 360 px, pa11y, FR et EN ; chiffres notés dans ce fichier | 0,75 h | T-189-01 | Claude | ✅ |
-| T-189-03 | [FE-WEB] | Maquette Claude Design (desktop et mobile) : en-tête de fiche, galerie, référence, prix HT, paliers, action d'achat, états connecté, anonyme, rupture, B2C inchangé ; palette, Fraunces et Inter ; publiée en artefact privé, captures sur le rendu du noyau en mode prod | 2 h | T-189-01, T-TECH-27-04, T-TECH-27-05 | Orchestrateur | 🔲 |
-| T-189-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son accord** | 0,5 h | T-189-03 | Thibaut | 📅 |
+| T-189-03 | [FE-WEB] | Maquette Claude Design (desktop et mobile) : en-tête de fiche, galerie, référence, prix HT, paliers, action d'achat, états connecté, anonyme, rupture, B2C inchangé ; palette, Fraunces et Inter ; publiée en artefact privé, captures sur le rendu du noyau en mode prod | 2 h | T-189-01, T-TECH-27-04, T-TECH-27-05 | Orchestrateur | ✅ |
+| T-189-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son accord** | 0,5 h | T-189-03 | Thibaut | ✅ |
 | T-189-05 | [OPS] | 📅 Thibaut fournit les photos ou éléments que la maquette demande, ou donne le GO sur une banque libre (sans objet si la maquette n'en demande pas) | 0,25 h | T-189-04 | Thibaut | ⊘ sans objet (la maquette n\'ajoute aucune photo : les photos produit sont celles des fixtures) |
 | T-189-06 | [DOC] | Photos ou éléments reçus : licence relue, optimisation, fichier de crédits (source, auteur, licence) ; conditionnelle | 0,5 h | T-189-05 | Claude | ⊘ sans objet (la maquette n\'ajoute aucune photo : les photos produit sont celles des fixtures) |
 | T-189-07 | [TEST] | Tests rouges, commités seuls et cités dans la PR : fiche B2B (nom, référence, prix HT, paliers, action), anonyme sans prix, B2C inchangé, prix négocié et rupture, 360 px, polices auto-hébergées et CSP `font-src 'self'`, budget des images, charte | 1 h | T-189-04 | Claude | ✅ |
@@ -84,7 +84,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 - **Photos** : 64 fichiers pour 210 SKU, 37 partagés par plusieurs SKU (17 au plus), 73 visuels neutres générés.
 - **Trois fiches types** : OUTI-001 (court, paliers et prix négocié), EPI-VEST-001 (nom de 61 caractères, GPSR, paliers), FIXA-002 (sans palier, photo partagée). Visiteur et connecté, FR et EN, 360 et 1280 px.
 
-**T-189-13 : écart.** `php bin/proof-refresh` puis `php bin/proof-check` : `proof-check` signale +12 fichiers de tests (250 publiés, 262 réels) ; le rafraîchissement demande le réseau (`gh`) et reste à l'orchestrateur, avant le merge de la PR qui suit.
+**Maquette (T-189-03, T-189-04).** Maquette Claude Design validée par Thibaut le 2026-10-24 (https://claude.ai/artifact/9egcEkMJDxkTPJTj9re8zf) avant le premier gabarit ; la fiche a ensuite été resserrée sur sa demande après des captures avec les vraies données (#99, tests rouges `57ce592`, `4d6942a`, `5d80a9d`).
+
+**T-189-13 : écart (soldé).** `php bin/proof-refresh` puis `php bin/proof-check` : `proof-check` signale +12 fichiers de tests (250 publiés, 262 réels) ; le rafraîchissement demande le réseau (`gh`) : fait par l'orchestrateur avant le merge (commits `chore(proof)` de #99).
 
 ## Preuves locales (T-189-10, 2026-10-24)
 
