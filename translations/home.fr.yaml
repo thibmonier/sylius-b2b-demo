@@ -2,6 +2,7 @@
 # commitments of the shop reuse their existing keys (messages domain: app.home_b2b.*, app.theme_b2b.footer.*).
 nav:
     label: 'Services de la boutique'
+    menu: 'Menu'
     quick_order: 'Commande rapide'
     quote: 'Demander un devis'
     try_demo: 'Essayer la démo'

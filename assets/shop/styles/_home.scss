@@ -211,16 +211,6 @@
     }
 }
 
-.b2b-home-pill {
-    display: inline-flex;
-    padding: .375rem .875rem;
-    border-radius: 62.5rem;
-    background: $b2b-sand;
-    color: $b2b-accent-on-sand;
-    font-size: .8125rem;
-    font-weight: 600;
-}
-
 .b2b-home-note {
     display: flex;
     align-items: center;
@@ -721,9 +711,30 @@
     a {
         display: inline-flex;
         align-items: center;
+        min-width: 2.75rem;
         min-height: 2.75rem;
         font-weight: 500;
         text-decoration: none;
+    }
+
+    // Below md: the disclosure; each row is a 44 px target and nothing is wider than the screen.
+    &__fold {
+        summary {
+            display: flex;
+            align-items: center;
+            min-height: 2.75rem;
+            font-weight: 600;
+        }
+
+        .b2b-nav__list {
+            flex-direction: column;
+            align-items: stretch;
+            padding-bottom: .5rem;
+        }
+
+        .b2b-nav__try {
+            margin-left: 0;
+        }
     }
 
     &__try {

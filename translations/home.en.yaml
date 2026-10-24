@@ -1,6 +1,7 @@
 # US-186: texts of the editorial B2B home (domain `home`).
 nav:
     label: 'Shop services'
+    menu: 'Menu'
     quick_order: 'Quick order'
     quote: 'Request a quote'
     try_demo: 'Try the demo'

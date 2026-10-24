@@ -135,10 +135,20 @@
     letter-spacing: -.01em;
     text-decoration: none;
 
-    svg {
+    // US-186: the mark is text (FP), not a drawing: it follows the font and needs no image.
+    &__mark {
+        display: inline-flex;
         flex: none;
+        align-items: center;
+        justify-content: center;
         width: 2rem;
         height: 2rem;
+        border-radius: .375rem;
+        background: $b2b-navy;
+        color: $b2b-white;
+        font-family: var(--b2b-font-serif);
+        font-size: .9rem;
+        letter-spacing: 0;
     }
 
     &__name {

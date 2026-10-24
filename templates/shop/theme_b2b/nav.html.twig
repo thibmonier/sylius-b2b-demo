@@ -1,10 +1,31 @@
-{# US-186: services of the shop under the header (quick order, quote, demo accounts). US-019: hidden from a visitor of a closed channel. #}
+{#
+    US-186: the three aisles and the services of the shop (quick order, quote, demo accounts) under the header.
+    Wide screens: one row. Below md: the same links in a native disclosure (no JavaScript, keyboard and state for free),
+    so that nothing overflows at 360 px. US-019: hidden from a visitor of a closed channel (aisles are catalogue content).
+#}
+{% macro links(aisles, locale) %}
+    {% for slug, key in aisles %}
+        <li><a href="{{ path('sylius_shop_product_index', {slug: slug, _locale: locale}) }}" data-nav-aisle="{{ slug }}">{{ ('aisles.' ~ key ~ '.title')|trans({}, 'home') }}</a></li>
+    {% endfor %}
+    <li><a href="{{ path('tmonier_quick_order_shop_index', {_locale: locale}) }}">{{ 'nav.quick_order'|trans({}, 'home') }}</a></li>
+    <li><a href="{{ path('tmonier_quote_request_shop_new', {_locale: locale}) }}">{{ 'nav.quote'|trans({}, 'home') }}</a></li>
+{% endmacro %}
 {% if tmonier_channel_can_see_catalog() %}
+    {% set locale = app.request.locale %}
+    {% set aisles = { epi: 'epi', quincaillerie: 'quincaillerie', 'fournitures-industrielles': 'industriel' } %}
     <nav class="b2b-nav" aria-label="{{ 'nav.label'|trans({}, 'home') }}">
-        <div class="container"><ul class="b2b-nav__list">
-            <li><a href="{{ path('tmonier_quick_order_shop_index', {_locale: app.request.locale}) }}">{{ 'nav.quick_order'|trans({}, 'home') }}</a></li>
-            <li><a href="{{ path('tmonier_quote_request_shop_new', {_locale: app.request.locale}) }}">{{ 'nav.quote'|trans({}, 'home') }}</a></li>
-            <li class="b2b-nav__try"><a href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'nav.try_demo'|trans({}, 'home') }}</a></li>
-        </ul></div>
+        <div class="container">
+            <ul class="b2b-nav__list d-none d-md-flex" data-nav-list="desktop">
+                {{ _self.links(aisles, locale) }}
+                <li class="b2b-nav__try"><a href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'nav.try_demo'|trans({}, 'home') }}</a></li>
+            </ul>
+            <details class="b2b-nav__fold d-md-none" data-nav-list="mobile">
+                <summary>{{ 'nav.menu'|trans({}, 'home') }}</summary>
+                <ul class="b2b-nav__list">
+                    {{ _self.links(aisles, locale) }}
+                    <li class="b2b-nav__try"><a href="{{ path('app_demo_accounts') }}">{{ 'nav.try_demo'|trans({}, 'home') }}</a></li>
+                </ul>
+            </details>
+        </div>
     </nav>
 {% endif %}
