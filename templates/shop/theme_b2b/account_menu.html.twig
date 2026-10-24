@@ -9,10 +9,11 @@
     would contradict the visible text.
 #}
 <div class="dropdown b2b-account-menu" data-b2b-account-menu>
-    <button type="button" class="btn btn-transparent px-0 px-lg-2 d-inline-flex align-items-center gap-1 dropdown-toggle" id="b2b-account-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-controls="b2b-account-list" data-b2b-account-toggle>
+    <button type="button" class="btn btn-transparent px-0 px-lg-2 position-relative d-inline-flex align-items-center gap-1 dropdown-toggle" id="b2b-account-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-controls="b2b-account-list" data-b2b-account-toggle>
         {{ ux_icon('tabler:user', { 'aria-hidden': 'true' }) }}
         <span class="d-none d-lg-inline">{{ 'sylius.ui.hello'|trans }} {{ app.user.customer.firstName }}!</span>
         <span class="visually-hidden d-lg-none">{{ 'sylius.ui.my_account'|trans }}</span>
+        {% include 'shop/theme_b2b/_account_badge.html.twig' only %}
     </button>
     <ul class="dropdown-menu dropdown-menu-end" id="b2b-account-list" aria-labelledby="b2b-account-toggle">
         {% hook 'mobile.menu' %}

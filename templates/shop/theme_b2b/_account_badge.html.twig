@@ -1,0 +1,11 @@
+{#
+    US-192: pending approvals of the signed-in member, as a discreet signal on the account button, so that they are seen
+    without opening the menu. Same source and same right as the "Approvals" entry of the menu (tmonier_header_approvals():
+    null for a member who may not approve). Shown above zero only. The number is visual (hidden from assistive
+    technologies, capped at 99+), the full sentence is read with the button (hidden text). Yellow badge with dark text, like the entry of the menu.
+#}
+{% set pending = tmonier_header_approvals() %}
+{% if pending is not null and pending > 0 %}
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-warning" aria-hidden="true" data-b2b-account-badge>{{ pending > 99 ? '99+' : pending }}</span>
+    <span class="visually-hidden">{{ 'tmonier_purchase_approval.header.pending'|trans({'%count%': pending}) }}</span>
+{% endif %}
