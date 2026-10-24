@@ -10,8 +10,10 @@
         {% set rows = tmonier_container_fill_preview(variant, quantity) %}
         {% set logistics = tmonier_container_fill_logistics(variant) %}
         {% if rows is not empty %}
-            <div class="small border rounded p-2 mb-3" {{ sylius_test_html_attribute('tmonier-container-fill-preview') }}>
-                <div class="fw-semibold mb-1">{{ 'tmonier_container_fill.ui.preview_title'|trans }}</div>
+            {# US-189: folded by default (one-line summary), content unchanged. #}
+            <details class="b2b-pdp__fill small border rounded mb-3" data-pdp-fill>
+            <summary class="fw-semibold p-2">{{ 'tmonier_container_fill.ui.preview_title'|trans }}</summary>
+            <div class="p-2 pt-0" {{ sylius_test_html_attribute('tmonier-container-fill-preview') }}>
                 {% if logistics.unitsPerCase > 1 %}
                     <div>{{ 'tmonier_container_fill.ui.sold_by_case'|trans({'%units%': logistics.unitsPerCase}) }}{% if logistics.caseMultipleRequired %} · {{ 'tmonier_container_fill.ui.case_multiple_required'|trans }}{% endif %}</div>
                 {% endif %}
@@ -27,6 +29,7 @@
                 {% endif %}
                 <div class="text-body-secondary">{{ 'tmonier_container_fill.ui.preview_help'|trans }}</div>
             </div>
+            </details>
         {% endif %}
     {% endif %}
 {% endif %}
