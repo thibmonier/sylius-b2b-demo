@@ -1,6 +1,6 @@
 # ADR-0016 — Facture électronique France : plateformes agréées (PA) et e-reporting
 
-- **Statut** : Accepté (2026-10-24) pour la story A, réalisée au sprint 25 ([US-180](../../project-management/backlog/user-stories/US-180.md)) ; stories B à E au backlog
+- **Statut** : Accepté (2026-10-24) : story A réalisée au sprint 25 ([US-180](../../project-management/backlog/user-stories/US-180.md)), stories B et C au sprint 26 ([US-183](../../project-management/backlog/user-stories/US-183.md), [US-184](../../project-management/backlog/user-stories/US-184.md)) ; D et E au backlog
 - **Contexte projet** : sylius-b2b-demo, sprint 24, spike US-132 (borné à 4 h)
 
 > Ce document est un cadrage technique. Il ne constitue pas un avis juridique ni fiscal : les obligations d'une entreprise donnée se vérifient auprès de l'administration ou d'un conseil.
@@ -146,3 +146,7 @@ Thibaut ne planifie aucune réalisation au sprint 24. L'ADR reste proposé ; la 
 ## Décision (2026-10-24)
 
 Thibaut planifie la story A au sprint 25 (US-180) : nouveau plugin `tmonier/sylius-einvoice-transmission-plugin`, dépôt et publication sur son GO. Les stories B à E restent au backlog, non créées.
+
+## Décision (2026-10-24, sprint 26)
+
+Thibaut planifie les stories B et C au sprint 26 : B = [US-183](../../project-management/backlog/user-stories/US-183.md) (PA fictive de démonstration, 5 points), C = [US-184](../../project-management/backlog/user-stories/US-184.md) (statuts de transmission au back-office et relance d'un envoi en erreur, 3 points). Les stories D (e-reporting fictif) et E (évolution de format de `facturx`) restent au backlog, non créées. Les statuts restent marqués « à vérifier » : la PA fictive les simule et le dit à l'écran.

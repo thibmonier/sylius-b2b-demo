@@ -1,0 +1,21 @@
+# Tâches transverses : Sprint 026 (vitrine et flux)
+
+Tâches sans points, portées par l'orchestrateur. Elles appliquent les actions de la [rétrospective du sprint 25](../../sprint-25-packs-et-transmission/sprint-retro.md) : budget disque et restes listés (action 1, T-TECH-26-01 et 05), garde sur les `code` des tableaux (action 2, US-182), concordance des versions (action 3, T-TECH-26-02 et 11), consigne d'un nouveau plugin (action 4, T-TECH-26-03).
+
+| ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
+|----|------|-------|------------|-----------|-------------|--------|
+| T-TECH-26-01 | [DOC] | Ligne « budget disque d'un dépôt hors de la démo et restes listés à Thibaut, sous 6 Go aucun nouveau lot » ajoutée à `project-management/templates/checklist-integration.md` (action 1 de la rétro du sprint 25) | 0,25 h | - | Orchestrateur | ✅ |
+| T-TECH-26-02 | [DOC] | Ligne « concordance des versions (dossier de recette, tag, contrainte) avec Packagist avant un tag, une release ou une PR publique » ajoutée à `checklist-integration.md` (action 3 de la rétro du sprint 25) | 0,25 h | - | Orchestrateur | ✅ |
+| T-TECH-26-03 | [DOC] | Règle 12 de `project-management/templates/consigne-worker.md` : nouveau plugin sans `.env*`, MySQL de la démo, jamais de second serveur (action 4 de la rétro du sprint 25) | 0,25 h | - | Orchestrateur | ✅ |
+| T-TECH-26-04 | [DOC] | ADR 0016 (décision du 2026-10-24, stories B et C), ADR 0017 (section « Décision (2026-10-24) », statut accepté), index des ADR, fiches US-183 à US-188 et `.bmad/sprint-status.yaml` (sprint 26) | 0,5 h | - | Orchestrateur | ✅ |
+| T-TECH-26-05 | [OPS] | Ressources avant chaque lot : `df -h .`, `bin/check-disk`, mémoire libre ; **après chaque lot** : aucun run actif, `bin/clean-test-caches --all`, `df -h .`, liste à Thibaut des restes (vendor, bases, clones) qu'un refus d'outil a empêché de supprimer, avec la commande ; sous 6 Go, aucun nouveau lot (action 1 de la rétro du sprint 25 ; **5,2 Go libres au planning** : nettoyage demandé à Thibaut avant le premier lot) | 0,75 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-06 | [OPS] | ECS (`src tests`), PHPStan max et Rector rejoués sur l'arbre exact avant chaque push de la démo ; contrôles du dépôt rejoués avant chaque push des plugins ; dernière ligne de sortie citée | 0,75 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-07 | [OPS] | CI verte avant chaque merge (démo : « Quality and smoke tests », « Docker image » ; plugins : tous les jobs), run terminé et attendu avant le merge (`main` protégée) ; ordre de merge de la matrice des chevauchements respecté | 0,5 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-08 | [REV] | Avant chaque passage en done : table « scénario → test ou preuve » complète, commit de tests rouges cité dans la PR (orchestrateur compris), lieu de vérification respecté (US-186 et US-182 : production) | 0,75 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-09 | [DOC] | Statuts : chaque tâche cochée dans le commit qui la livre ; tâches transverses revues à chaque merge | 0,25 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-10 | [OPS] | Preuve publiée : chaque PR de la démo qui ajoute ou supprime un fichier de tests (US-182, US-183, US-184, US-186) embarque `php bin/proof-refresh` puis `php bin/proof-check` ; après un rebase, rejouée, jamais fusionnée à la main | 0,5 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-11 | [REV] | Texte public relu contre sa source avant le commit (README des plugins, page de la PA fictive, textes de la home, crédits des photos) et concordance des versions contrôlée avant chaque tag | 0,5 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-12 | [OPS] | Registre des GO de Thibaut : maquette (T-186-05), tag du plugin b2b-mcp (T-181-04), tag `v0.2.0` (T-184-06), dépôt et tag du nouveau plugin (T-185-11) ; chaque GO noté avant l'action ; aucun push, tag ni dépôt hors démo sans GO ; aucune commande Railway | 0,25 h | - | Orchestrateur | 🔲 |
+| T-TECH-26-13 | [DOC] | Revue et rétrospective du sprint 26 : indicateurs de la rétro du sprint 25 (espace libre minimal, défauts d'affichage trouvés en production, artefacts à la version non concordante, workers bloqués, seconds serveurs de base), puis clôture | 1 h | fin du périmètre | Orchestrateur | 🔲 |
+
+**Total estimé : 6,5 h** (13 tâches, aucune de Thibaut ; 1,25 h déjà faites le 2026-10-24 au planning : T-TECH-26-01 à 04).
