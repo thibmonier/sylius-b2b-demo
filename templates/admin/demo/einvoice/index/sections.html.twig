@@ -1,0 +1,45 @@
+{% set transmissions = hookable_metadata.context.transmissions %}
+{% set token_id = hookable_metadata.context.token_id %}
+
+<div class="page-body" data-demo-einvoice>
+    <div class="container-xl">
+        <div class="alert alert-info" role="note" data-einvoice-banner>{{ 'einvoice.banner'|trans({}, 'demo_einvoice') }}</div>
+        <div class="card">
+            {% if transmissions|length == 0 %}
+                <div class="card-body text-secondary" data-einvoice-empty>{{ 'einvoice.empty'|trans({}, 'demo_einvoice') }}</div>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'einvoice.number'|trans({}, 'demo_einvoice') }}</th>
+                                <th>{{ 'einvoice.status'|trans({}, 'demo_einvoice') }}</th>
+                                <th>{{ 'einvoice.message'|trans({}, 'demo_einvoice') }}</th>
+                                <th>{{ 'einvoice.updated_at'|trans({}, 'demo_einvoice') }}</th>
+                                <th class="w-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transmission in transmissions %}
+                                <tr data-einvoice-row="{{ transmission.invoiceNumber }}">
+                                    <td><code>{{ transmission.invoiceNumber }}</code></td>
+                                    <td data-einvoice-status="{{ transmission.status }}"><span class="badge {{ transmission.status == 'error' ? 'bg-red-lt' : 'bg-azure-lt' }}">{{ ('einvoice.statuses.' ~ transmission.status)|trans({}, 'demo_einvoice') }}</span></td>
+                                    <td data-einvoice-message style="overflow-wrap: anywhere;">{{ transmission.message }}</td>
+                                    <td><time datetime="{{ transmission.updatedAt|date('c') }}">{{ transmission.updatedAt|date('Y-m-d H:i:s') }}</time></td>
+                                    <td>
+                                        {% if transmission.status == 'error' %}
+                                            <form method="post" action="{{ path('app_demo_admin_einvoice_relaunch', {invoiceId: transmission.invoiceId}) }}" data-einvoice-relaunch>
+                                                <input type="hidden" name="_token" value="{{ csrf_token(token_id) }}">
+                                                <button type="submit" class="btn btn-sm">{{ 'einvoice.relaunch'|trans({}, 'demo_einvoice') }}</button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

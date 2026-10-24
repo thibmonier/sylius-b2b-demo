@@ -1,0 +1,8 @@
+{# US-184: transmissions of the e-invoices and relaunch of a send in error. #}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'einvoice.title'|trans({}, 'demo_einvoice') }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'app.demo_einvoice.index' with { transmissions, token_id } %}
+{% endblock %}

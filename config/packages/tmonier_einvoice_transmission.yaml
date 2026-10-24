@@ -3,3 +3,5 @@
 tmonier_sylius_einvoice_transmission:
     transmitter: App\Demo\Einvoice\FictitiousPlatformTransmitter
     additional_statuses: ['refused', 'collected']
+    # US-184: gives the invoice back for a relaunch of a send in error.
+    document_provider: App\Demo\Einvoice\DemoInvoiceDocumentProvider

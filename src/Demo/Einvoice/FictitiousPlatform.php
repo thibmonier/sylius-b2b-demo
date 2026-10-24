@@ -12,6 +12,10 @@ use Tmonier\SyliusEinvoiceTransmissionPlugin\Transmission\InvoiceDocument;
  */
 final class FictitiousPlatform implements FictitiousPlatformInterface
 {
+    public function __construct(private readonly FictitiousPlatformOutage $outage = new FictitiousPlatformOutage())
+    {
+    }
+
     private const RAM_NAMESPACE = 'urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100';
 
     public function deposit(InvoiceDocument $document): FictitiousPlatformAnswer
@@ -20,7 +24,12 @@ final class FictitiousPlatform implements FictitiousPlatformInterface
             throw new \InvalidArgumentException('The fictitious platform needs the XML and the PDF of the invoice.');
         }
 
-        $scenario = DemoTransmissionScenarioPlan::for($this->buyerReference($document->xml));
+        $poReference = $this->buyerReference($document->xml);
+        if (null !== $poReference && \in_array($poReference, DemoTransmissionScenarioPlan::outageOrders(), true) && !$this->outage->isOver()) {
+            throw new \RuntimeException('Simulated outage of the fictitious platform: try again later.');
+        }
+
+        $scenario = DemoTransmissionScenarioPlan::for($poReference);
 
         return new FictitiousPlatformAnswer($scenario->value, $scenario->reason());
     }

@@ -48,7 +48,7 @@
         "tmonier/sylius-company-insights-plugin": "^0.2",
         "tmonier/sylius-container-fill-plugin": "^1.1.1",
         "tmonier/sylius-customer-asset-management-plugin": "^0.1.1",
-        "tmonier/sylius-einvoice-transmission-plugin": "^0.1",
+        "tmonier/sylius-einvoice-transmission-plugin": "^0.2",
         "tmonier/sylius-facturx-plugin": "^1.1",
         "tmonier/sylius-gpsr-plugin": "^1.0",
         "tmonier/sylius-order-hold-plugin": "^1.0",

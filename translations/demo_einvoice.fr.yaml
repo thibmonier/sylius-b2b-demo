@@ -1,0 +1,21 @@
+einvoice:
+    menu: 'Transmissions de factures'
+    title: 'Transmissions de factures électroniques'
+    subtitle: 'Le statut de chaque facture déposée auprès de la PA fictive de démonstration'
+    banner: 'Les statuts sont simulés, sans valeur réglementaire, et à vérifier : la plateforme est fictive et tourne dans la démo. Un envoi en erreur peut être relancé ; la relance remet la facture à la plateforme fictive, qui a alors retrouvé son service.'
+    empty: 'Aucune facture transmise pour l’instant.'
+    number: 'Facture'
+    status: 'Statut'
+    message: 'Motif'
+    updated_at: 'Mis à jour le'
+    relaunch: 'Relancer'
+    statuses:
+        deposited: 'Déposée'
+        rejected: 'Rejetée'
+        refused: 'Refusée'
+        collected: 'Encaissée'
+        error: 'En erreur'
+        not_transmitted: 'Non transmise'
+    flash:
+        relaunched: 'Envoi relancé : le statut de la facture est mis à jour.'
+        not_relaunchable: 'Cet envoi ne peut pas être relancé : seul un envoi en erreur peut l’être.'

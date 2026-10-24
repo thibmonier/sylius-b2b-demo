@@ -1,0 +1,21 @@
+einvoice:
+    menu: 'Invoice transmissions'
+    title: 'E-invoice transmissions'
+    subtitle: 'The status of each invoice deposited with the fictitious demonstration platform'
+    banner: 'The statuses are simulated, with no regulatory value, and to be verified: the platform is fictitious and runs inside the demo. A send in error can be relaunched; the relaunch hands the invoice to the fictitious platform again, which is back in service by then.'
+    empty: 'No invoice transmitted yet.'
+    number: 'Invoice'
+    status: 'Status'
+    message: 'Reason'
+    updated_at: 'Updated at'
+    relaunch: 'Relaunch'
+    statuses:
+        deposited: 'Deposited'
+        rejected: 'Rejected'
+        refused: 'Refused'
+        collected: 'Collected'
+        error: 'In error'
+        not_transmitted: 'Not transmitted'
+    flash:
+        relaunched: 'Send relaunched: the status of the invoice is updated.'
+        not_relaunchable: 'This send cannot be relaunched: only a send in error can be.'

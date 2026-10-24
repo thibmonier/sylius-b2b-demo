@@ -65,7 +65,7 @@ final class FictitiousPlatformJournalTest extends KernelTestCase
         );
         $statuses = array_map(static fn (mixed $status): string => \is_string($status) ? $status : '', $this->db()->fetchFirstColumn('SELECT DISTINCT status FROM tmonier_einvoice_transmission'));
         sort($statuses);
-        self::assertSame(['collected', 'deposited', 'refused', 'rejected'], $statuses);
+        self::assertSame(['collected', 'deposited', 'error', 'refused', 'rejected'], $statuses, 'US-184 adds one send in error (the outage scenario)');
     }
 
     public function testAReplayedEventLeavesTheLineAndItsDateAsTheyWere(): void
