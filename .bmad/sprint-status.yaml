@@ -464,6 +464,9 @@ sprints:
     notes: "Planifié le 2026-10-24 ; US-194 (1 point) ajoutée le même jour sur demande de Thibaut, réalisée par w185. Ordre de sacrifice validé par Thibaut : US-188, puis US-193 ; US-189 protégée. Branche partagée feature/sprint-27-dev. Cinq actions de la rétro du sprint 26 en T-TECH-27-01 à 07 : règles 13 à 15 de consigne-worker.md et lignes de checklist-integration.md écrites au planning (T-TECH-27-01 faite) ; check-disk à 6 Go ; 503 prod local avant la maquette ; garde de largeur des tables larges ; remesure du LCP de la home. Workers : w189, w193, w188. US-187 reste au backlog."
 
 backlog:
+  # --- Candidates au sprint 28 (décision de Thibaut du 2026-10-24)
+  - {id: US-195, title: "Noms de produits sans marque réelle", points: 2, status: backlog}  # EPIC-12, Should ; candidate sprint 28, décision de Thibaut du 2026-10-24 ; 77 produits sur 210 ; fixtures/csv/epi.csv, fournitures.csv, quincaillerie.csv ; slugs inchangés (dérivés du SKU)
+  - {id: US-196, title: "Photos du catalogue cohérentes et sans marque", points: 3, status: backlog}  # EPIC-12, Should ; candidate sprint 28, décision de Thibaut du 2026-10-24 ; planche validée par Thibaut avant téléchargement ; fixtures/images/manifest.csv ; après ou avec US-195
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)
   - {id: US-187, title: "Import CSV de prix et de stock : validation, rapport de rejet, journal des lots, idempotence", points: 8, status: backlog}  # EPIC-14, Could ; ADR 0017 story B ; fiche courte à affiner (questions 3, 4 et 6 de l'ADR) ; créée le 2026-10-24
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
