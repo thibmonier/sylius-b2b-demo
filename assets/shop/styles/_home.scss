@@ -695,7 +695,7 @@
 
 // Menu of the header row (aisles, quick order, quote). The column takes the space left by the logo, the account and the
 // cart (a signed-in buyer's account block is wide): a row of links when that space holds them (the longest, French, is
-// 640 px wide), a disclosure that opens over the page otherwise. A container query, so no screen width is guessed.
+// 589 px wide), a disclosure that opens over the page otherwise. Open from 1200 px, visitor and buyer, French and English (HomeStylesTest). A container query, so no screen width is guessed.
 .b2b-nav-col {
     container-type: inline-size;
 }
@@ -704,7 +704,7 @@
     display: none;
 }
 
-@container (min-width: 41rem) {
+@container (min-width: 37.5rem) {
     .b2b-nav-col .b2b-nav__list--row {
         display: flex;
     }
@@ -714,12 +714,23 @@
     }
 }
 
+// English labels are shorter (466 px): the same menu fits in a narrower column.
+@container (min-width: 30rem) {
+    :lang(en) .b2b-nav-col .b2b-nav__list--row {
+        display: flex;
+    }
+
+    :lang(en) .b2b-nav-col .b2b-nav__fold {
+        display: none;
+    }
+}
+
 .b2b-nav {
     &__list {
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
-        gap: 0 1rem;
+        gap: 0 .75rem;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -732,7 +743,7 @@
         justify-content: center;
         min-width: 2.75rem;
         min-height: 2.75rem;
-        font-size: .9375rem;
+        font-size: .875rem;
         font-weight: 500;
         text-decoration: none;
     }
@@ -765,6 +776,27 @@
 
         .b2b-nav__list a {
             justify-content: flex-start;
+        }
+    }
+}
+
+// US-192: the caret of the greeting button is drawn on wide screens only (the phone keeps the icon button, without arrow).
+.b2b-account-menu {
+    // A long first name is cut with an ellipsis (the text stays whole for assistive technologies).
+    .dropdown-toggle > span:first-of-type {
+        max-width: 9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    @media (min-width: 992px) {
+        .dropdown-toggle::after {
+            display: inline-block;
         }
     }
 }

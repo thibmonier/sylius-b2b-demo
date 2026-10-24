@@ -21,6 +21,19 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/nav.html.twig'
                 priority: 250
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        # US-192: a signed-in buyer keeps the cart, the favourites and ONE account button: "Hello <name>!" with a dropdown on a wide
+        # screen, the usual icon on a phone. The core "mobile" and "desktop" blocks stay on B2C only (the inline links of the
+        # desktop hook, plugins' included, go). The entries are the hookables of ...logged_in_user.mobile.menu: add or hide one
+        # there, not in the button.
+        'sylius_shop.base.header.content.security.logged_in_user':
+            mobile:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            desktop:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_account_menu:
+                template: 'shop/theme_b2b/account_menu.html.twig'
+                priority: 50
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.base.header.top_bar':
             # US-144: the core newsletter offer (-20 %) means nothing in the demo, on either channel.
             info_message:

@@ -1,4 +1,5 @@
 {# US-077: copy of the Sylius template with the accessible name translated. #}
+{# US-186/US-192: on the B2B channel, below the xxl width the text shows the amount only (the badge on the icon already says how many items): about 100 px for the horizontal menu of the header row. B2C keeps the stock text. #}
 {# Rendered with \Sylius\Bundle\ShopBundle\Twig\Component\Common\CartComponent #}
 {% import '@SyliusShop/shared/macro/loader.html.twig' as loader %}
 {% import "@SyliusShop/shared/macro/money.html.twig" as money %}
@@ -10,7 +11,11 @@
             {{ ux_icon('tabler:shopping-bag') }}
             <span class="d-none d-lg-block ps-1" {{ sylius_test_html_attribute('cart-total') }}>
             {{- money.convertAndFormat(cart.itemsTotal) -}}
-                {{- 'sylius.ui.item.choice'|trans({'%count%': cart.totalQuantity}) }}
+                {%- if is_granted('DEMO_CONSUMER_CHANNEL') -%}
+                    {{- 'sylius.ui.item.choice'|trans({'%count%': cart.totalQuantity}) }}
+                {%- else -%}
+                    <span class="d-none d-xxl-inline">{{- 'sylius.ui.item.choice'|trans({'%count%': cart.totalQuantity}) }}</span>
+                {%- endif -%}
         </span>
             {% if cart.totalQuantity > 0 %}
                 <span class="position-absolute top-0 start-0 badge rounded-pill bg-primary" {{ sylius_test_html_attribute('cart-quantity', cart.totalQuantity) }}>

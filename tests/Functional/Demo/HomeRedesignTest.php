@@ -179,6 +179,51 @@ final class HomeRedesignTest extends WebTestCase
         self::assertCount(0, $menu->filter('[hidden], [aria-hidden="true"]'), 'the panel is plain markup: it works without JavaScript');
     }
 
+    /**
+     * US-192: on a 320 to 360 px phone the bar overflowed by a few pixels ("Full demo menu" is long): tighter gaps and a short
+     * label below sm, the full one from sm. The measure itself is the horizontal scroll at 360 px (scrollWidth), checked on the render.
+     */
+    #[DataProvider('menuLabels')]
+    public function testTheDemoBarFitsAPhoneWithAShortMenuLabel(string $locale, string $short, string $full): void
+    {
+        $bar = $this->anonymousHome($locale)->filter('[data-demo-banner]');
+
+        $classes = preg_split('/\s+/', trim((string) $bar->filter('.container.flex-nowrap')->attr('class'))) ?: [];
+        self::assertContains('gap-2', $classes);
+        self::assertContains('gap-md-3', $classes);
+        $summary = $bar->filter('details[data-demo-menu="all"] summary');
+        self::assertSame($short, trim($summary->filter('span.d-sm-none')->text()));
+        self::assertSame($full, trim($summary->filter('span.d-none.d-sm-inline')->text()));
+    }
+
+    /** @return iterable<string, array{string, string, string}> */
+    public static function menuLabels(): iterable
+    {
+        yield 'French' => ['fr_FR', 'Menu démo', 'Tout le menu démo'];
+        yield 'English' => ['en_US', 'Demo menu', 'Full demo menu'];
+    }
+
+    /** US-192: the closed panel of the demo menu is laid out wider than a phone; the bar clips it so that the page never scrolls sideways at 360 px. */
+    public function testTheDemoBarClipsItsPanelSoThePageNeverScrollsSideways(): void
+    {
+        $bar = $this->anonymousHome('fr_FR')->filter('[data-demo-banner]');
+
+        self::assertStringContainsString('overflow-x: clip', (string) $bar->attr('style'));
+    }
+
+    /** US-192: below xxl the cart of the header shows the amount only (the badge says how many items): room for the horizontal menu. B2C keeps the stock text. */
+    public function testTheCartTextIsShortBelowXxlOnB2bOnly(): void
+    {
+        $b2b = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/');
+        self::assertCount(1, $b2b->filter('header [data-test-cart-total] span.d-none.d-xxl-inline'));
+
+        self::ensureKernelShutdown();
+        $client = self::createClient();
+        $client->request('GET', '/demo/channel/B2C');
+        $b2c = $client->request('GET', '/fr_FR/');
+        self::assertCount(0, $b2c->filter('header [data-test-cart-total] span.d-xxl-inline'));
+    }
+
     public function testTheBarShowsTheQuickLinksFromTheXlWidthOnly(): void
     {
         $quick = $this->anonymousHome('fr_FR')->filter('[data-demo-banner] [data-demo-quick-links] a[data-demo-link]');

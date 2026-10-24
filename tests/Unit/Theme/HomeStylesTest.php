@@ -46,7 +46,34 @@ final class HomeStylesTest extends TestCase
         $styles = $this->read('_home.scss');
 
         self::assertMatchesRegularExpression('/\.b2b-nav-col\s*\{[^}]*container-type:\s*inline-size/s', $styles);
-        self::assertMatchesRegularExpression('/@container\s*\(min-width:\s*4\d(?:\.\d+)?rem\)\s*\{[^@]*b2b-nav__list--row[^@]*b2b-nav__fold/s', $styles);
+        self::assertMatchesRegularExpression('/@container\s*\(min-width:\s*3\d(?:\.\d+)?rem\)\s*\{[^@]*b2b-nav__list--row[^@]*b2b-nav__fold/s', $styles);
+    }
+
+    /** US-192: the greeting menu is a wide-screen control: its caret is drawn from lg only, the phone keeps its icon button. */
+    public function testTheGreetingCaretShowsFromTheLgWidthOnly(): void
+    {
+        $styles = $this->read('_home.scss');
+
+        self::assertMatchesRegularExpression('/\.b2b-account-menu[^{]*\{.*?::after\s*\{[^}]*display:\s*none/s', $styles);
+        self::assertMatchesRegularExpression('/\.b2b-account-menu\s*\{[^@]*@media \(min-width: 992px\)\s*\{[^@]*::after\s*\{[^}]*display:\s*inline-block/s', $styles);
+    }
+
+    /**
+     * US-192: the horizontal menu is open from 1200 px for a visitor and a signed-in buyer, in both languages. Measured at 1200
+     * and 1280 px (container 1140 px): the row of links needs 589 px in French and 466 px in English, the column left by the
+     * logo, the favourites, the cart (amount only) and the greeting button is 617 px in French and 641 px for a buyer in English.
+     * The thresholds sit just above the row: a column below them folds the menu, a column above it shows it.
+     */
+    public function testTheHorizontalMenuIsOpenAtTheWidthsOfADesktop(): void
+    {
+        $styles = $this->read('_home.scss');
+
+        self::assertSame(1, preg_match('/@container \(min-width: (\d+(?:\.\d+)?)rem\)\s*\{\s*\.b2b-nav-col \.b2b-nav__list--row/', $styles, $french), 'the French threshold');
+        self::assertLessThanOrEqual(617 / 16, (float) ($french[1] ?? 0), 'French: the row (589 px) fits the 617 px column of a buyer at 1200 px');
+        self::assertGreaterThanOrEqual(589 / 16, (float) ($french[1] ?? 0), 'French: never below the row itself');
+        self::assertSame(1, preg_match('/@container \(min-width: (\d+(?:\.\d+)?)rem\)\s*\{\s*:lang\(en\) \.b2b-nav-col \.b2b-nav__list--row/', $styles, $english), 'the English threshold');
+        self::assertLessThanOrEqual(641 / 16, (float) ($english[1] ?? 0));
+        self::assertGreaterThanOrEqual(466 / 16, (float) ($english[1] ?? 0));
     }
 
     public function testTheHomeWritesNoColourByHand(): void

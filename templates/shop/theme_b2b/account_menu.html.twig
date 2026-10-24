@@ -1,0 +1,21 @@
+{#
+    US-192: the account of a signed-in buyer: ONE dropdown for every width. Wide screen: a "Hello <name>!" button with a down
+    arrow; phone: the icon button it always was (its name is the hidden text). The entries are NOT written here: they are the
+    hookables of sylius_shop.base.header.content.security.logged_in_user.mobile.menu (My account and Log out of the core,
+    Approvals of the purchase-approval plugin, anything a plugin or the theme adds there), so the menu follows the rights of
+    the account and the features switched on. One menu only: the entries of the core carry fixed ids.
+    Bootstrap dropdown (already loaded by the shop): aria-expanded kept up to date, Escape closes and gives the focus back to
+    the button, arrow keys move in the list; no inline script (CSP). The name comes from the content, never an aria-label that
+    would contradict the visible text.
+#}
+<div class="dropdown b2b-account-menu" data-b2b-account-menu>
+    <button type="button" class="btn btn-transparent px-0 px-lg-2 position-relative d-inline-flex align-items-center gap-1 dropdown-toggle" id="b2b-account-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-controls="b2b-account-list" data-b2b-account-toggle>
+        {{ ux_icon('tabler:user', { 'aria-hidden': 'true' }) }}
+        <span class="d-none d-lg-inline">{{ 'sylius.ui.hello'|trans }} {{ app.user.customer.firstName }}!</span>
+        <span class="visually-hidden d-lg-none">{{ 'sylius.ui.my_account'|trans }}</span>
+        {% include 'shop/theme_b2b/_account_badge.html.twig' only %}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" id="b2b-account-list" aria-labelledby="b2b-account-toggle">
+        {% hook 'mobile.menu' %}
+    </ul>
+</div>
