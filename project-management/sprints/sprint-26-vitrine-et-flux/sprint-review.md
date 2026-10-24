@@ -69,7 +69,7 @@
 |----------|-----------|-----------|
 | Points engagés / en done | 29 (dont 6 ajoutés en cours de sprint) / 29 | 17 / 17 |
 | Stories de code avec commit rouge | 7 sur 9 citées dans la PR de la démo (US-181 et US-185 : dépôts de plugins, commit rouge non revérifié) | 4 sur 4 |
-| Tâches décomposées à la clôture | 63 ✅, 7 🔲 (vérifications en production et transverses sans trace) | 61 ✅, 1 📅 |
+| Tâches décomposées à la clôture | 64 ✅, 6 🔲 (vérifications en production et transverses sans trace) | 61 ✅, 1 📅 |
 | Plugins au catalogue de la démo | 27 | 26 |
 | Fichiers de tests de la démo (preuve publiée, #87) | 242 | 227 |
 | Plantage de la machine | 0 | 0 |
