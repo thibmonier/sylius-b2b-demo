@@ -20,14 +20,22 @@
             </div>
             <div class="col-12 col-md-6 mt-4 mt-md-0">
                 <p class="mb-2">{{ 'footer.demo.fictional'|trans({}, 'shop_layout') }}</p>
-                <p class="mb-0">
-                    {% if site_url %}
-                        {{ 'footer.demo.made_by_prefix'|trans({}, 'shop_layout') }}
-                        <a class="text-decoration-underline" href="{{ site_url }}" rel="noopener noreferrer" target="_blank" data-site-link>Thibaut Monier<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
-                    {% else %}
-                        {{ 'footer.demo.made_by_prefix'|trans({}, 'shop_layout') }} Thibaut Monier
-                    {% endif %}
-                </p>
+                {# US-194: the logo of the author, decorative (his name is in the text), 56 px on a screen and 48 px on a phone, file at 2x. #}
+                <style>
+                    [data-author-logo] { width: 48px; height: 48px; }
+                    @media (min-width: 768px) { [data-author-logo] { width: 56px; height: 56px; } }
+                </style>
+                <div class="d-flex align-items-center gap-3">
+                    <img class="flex-shrink-0" src="{{ asset('build/app/shop/images/brand/author-logo-112.webp', 'app.shop') }}" width="56" height="56" alt="" loading="lazy" decoding="async" data-author-logo>
+                    <p class="mb-0">
+                        {% if site_url %}
+                            {{ 'footer.demo.made_by_prefix'|trans({}, 'shop_layout') }}
+                            <a class="text-decoration-underline" href="{{ site_url }}" rel="noopener noreferrer" target="_blank" data-site-link>Thibaut Monier<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                        {% else %}
+                            {{ 'footer.demo.made_by_prefix'|trans({}, 'shop_layout') }} Thibaut Monier
+                        {% endif %}
+                    </p>
+                </div>
             </div>
         </div>
     </div>

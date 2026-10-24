@@ -41,7 +41,7 @@ final class FooterAuthorLogoTest extends WebTestCase
     {
         $logo = self::createClient()->request('GET', '/' . $locale . '/')->filter('[data-demo-footer] img[data-author-logo]');
 
-        self::assertCount(0, $logo->ancestors()->filter('a'), 'no extra link');
+        self::assertCount(0, $logo->filterXPath('ancestor::a'), 'no extra link');
         $row = $logo->ancestors()->first();
         self::assertStringContainsString('d-flex', (string) $row->attr('class'));
         self::assertStringContainsString('align-items-center', (string) $row->attr('class'));
