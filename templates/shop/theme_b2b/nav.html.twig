@@ -1,7 +1,10 @@
 {#
-    US-186: the three aisles and the services of the shop (quick order, quote, demo accounts) under the header.
-    Wide screens: one row. Below md: the same links in a native disclosure (no JavaScript, keyboard and state for free),
-    so that nothing overflows at 360 px. US-019: hidden from a visitor of a closed channel (aisles are catalogue content).
+    US-186: the three aisles and two services of the shop in the row of the header, after the logo (hook
+    sylius_shop.base.header.content, priority 250). When its column is wide enough (container query, see _home.scss: the account block of a signed-in
+    buyer is wide) one row of links, otherwise the same links in a native
+    disclosure (no JavaScript, keyboard and state for free) whose list opens over the page; below md its column takes the
+    whole line under the logo and the icons, so that nothing overflows at 360 px or on a tablet.
+    US-019: hidden from a visitor of a closed channel (aisles are catalogue content).
 #}
 {% macro links(aisles, locale) %}
     {% for slug, key in aisles %}
@@ -11,21 +14,18 @@
     <li><a href="{{ path('tmonier_quote_request_shop_new', {_locale: locale}) }}">{{ 'nav.quote'|trans({}, 'home') }}</a></li>
 {% endmacro %}
 {% if tmonier_channel_can_see_catalog() %}
-    {% set locale = app.request.locale %}
     {% set aisles = { epi: 'epi', quincaillerie: 'quincaillerie', 'fournitures-industrielles': 'industriel' } %}
-    <nav class="b2b-nav" aria-label="{{ 'nav.label'|trans({}, 'home') }}">
-        <div class="container">
-            <ul class="b2b-nav__list d-none d-md-flex" data-nav-list="desktop">
-                {{ _self.links(aisles, locale) }}
-                <li class="b2b-nav__try"><a href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'nav.try_demo'|trans({}, 'home') }}</a></li>
+    <div class="col-12 col-md order-last order-md-0 b2b-nav-col">
+        <nav class="b2b-nav" aria-label="{{ 'nav.label'|trans({}, 'home') }}">
+            <ul class="b2b-nav__list b2b-nav__list--row" data-nav-list="desktop">
+                {{ _self.links(aisles, app.request.locale) }}
             </ul>
-            <details class="b2b-nav__fold d-md-none" data-nav-list="mobile">
+            <details class="b2b-nav__fold" data-nav-list="mobile">
                 <summary>{{ 'nav.menu'|trans({}, 'home') }}</summary>
                 <ul class="b2b-nav__list">
-                    {{ _self.links(aisles, locale) }}
-                    <li class="b2b-nav__try"><a href="{{ path('app_demo_accounts') }}">{{ 'nav.try_demo'|trans({}, 'home') }}</a></li>
+                    {{ _self.links(aisles, app.request.locale) }}
                 </ul>
             </details>
-        </div>
-    </nav>
+        </nav>
+    </div>
 {% endif %}

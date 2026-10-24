@@ -312,7 +312,6 @@ final class HomeRedesignTest extends WebTestCase
         );
     }
 
-    #[DataProvider('locales')]
     /** US-186: the menu sits in the row of the header itself, between the logo and the account and cart. */
     public function testTheMenuIsInTheSameRowAsTheLogo(): void
     {

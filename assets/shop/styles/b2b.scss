@@ -163,12 +163,12 @@
     }
 }
 
-// Small screens: logo, account, favourites and menu stay on one line (the core row wraps the icons under the logo).
-.row:has(> .col > .b2b-logo) {
-    flex-wrap: nowrap;
+// Header row: logo (auto width), menu (takes the free space from md, its own line below), account, favourites, cart.
+// Below md the menu column wraps under the icons; the logo and the icons keep one line.
+.row:has(> .col-auto > .b2b-logo) {
     --bs-gutter-x: .75rem;
 
-    > .col {
+    > .b2b-nav-col {
         min-width: 0;
     }
 }
