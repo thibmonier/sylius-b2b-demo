@@ -203,6 +203,27 @@ final class HomeRedesignTest extends WebTestCase
         yield 'English' => ['en_US', 'Demo menu', 'Full demo menu'];
     }
 
+    /** US-192: the closed panel of the demo menu is laid out wider than a phone; the bar clips it so that the page never scrolls sideways at 360 px. */
+    public function testTheDemoBarClipsItsPanelSoThePageNeverScrollsSideways(): void
+    {
+        $bar = $this->anonymousHome('fr_FR')->filter('[data-demo-banner]');
+
+        self::assertStringContainsString('overflow-x: clip', (string) $bar->attr('style'));
+    }
+
+    /** US-192: below xxl the cart of the header shows the amount only (the badge says how many items): room for the horizontal menu. B2C keeps the stock text. */
+    public function testTheCartTextIsShortBelowXxlOnB2bOnly(): void
+    {
+        $b2b = $this->anonymousHome('fr_FR');
+        self::assertCount(1, $b2b->filter('header [data-test-cart-total] span.d-none.d-xxl-inline'));
+
+        self::ensureKernelShutdown();
+        $client = self::createClient();
+        $client->request('GET', '/demo/channel/B2C');
+        $b2c = $client->request('GET', '/fr_FR/');
+        self::assertCount(0, $b2c->filter('header [data-test-cart-total] span.d-xxl-inline'));
+    }
+
     public function testTheBarShowsTheQuickLinksFromTheXlWidthOnly(): void
     {
         $quick = $this->anonymousHome('fr_FR')->filter('[data-demo-banner] [data-demo-quick-links] a[data-demo-link]');
