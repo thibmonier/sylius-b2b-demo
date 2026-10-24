@@ -92,6 +92,7 @@
 |---------|--------|
 | [US-189](../../backlog/user-stories/US-189.md) Refonte de la fiche produit (5 points) | Sprint 27 |
 | [US-187](../../backlog/user-stories/US-187.md) Import CSV de prix et de stock (8), [US-188](../../backlog/user-stories/US-188.md) Démonstration avec l'ERP fictif (5) | Backlog (ADR 0017 stories B et C), non engagées |
+| [US-193](../../backlog/user-stories/US-193.md) Commandes de démo pour un vrai extrait sur `/echange-fichier` (2), suite d'US-190 | Backlog, candidate au sprint 27 (validée par Thibaut) |
 | Stories D et E de l'ADR 0016 et de l'ADR 0017 | Non créées |
 | Preuve chiffrée d'US-186 (LCP « après »), largeur en production d'US-182 et d'US-190 | À consigner (action 5 de la rétro) |
 
