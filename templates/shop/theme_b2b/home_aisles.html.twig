@@ -1,0 +1,28 @@
+{# US-186: the three aisles of the catalogue. US-019: the categories are catalogue content, hidden on a closed channel from visitors who are not signed in. #}
+{% if tmonier_channel_can_see_catalog() %}
+    {% set aisles = { epi: 'epi', quincaillerie: 'quincaillerie', 'fournitures-industrielles': 'industriel' } %}
+    <section id="rayons" class="b2b-home-section" data-home-section="aisles" aria-labelledby="home-aisles-title">
+        <div class="b2b-home-wrap">
+            <div class="b2b-home-section__head">
+                <p class="b2b-home-eyebrow">{{ 'aisles.eyebrow'|trans({}, 'home') }}</p>
+                <h2 id="home-aisles-title" class="b2b-home-h2">{{ 'aisles.title'|trans({}, 'home') }}</h2>
+            </div>
+            <div class="b2b-home-aisles">
+                {% for slug, key in aisles %}
+                    <a class="b2b-home-tile b2b-home-tile--{{ key == 'industriel' ? 'industrial' : key }}" href="{{ path('sylius_shop_product_index', {slug: slug, _locale: app.request.locale}) }}" data-home-aisle="{{ slug }}">
+                        {% include 'shop/theme_b2b/_home_photo.html.twig' with {
+                            slot: key,
+                            class: 'b2b-home-tile__photo',
+                            decorative: true,
+                            sizes: '(min-width: 700px) 33vw, 100vw',
+                        } only %}
+                        <span class="b2b-home-tile__caption">
+                            <span class="b2b-home-serif b2b-home-tile__title">{{ ('aisles.' ~ key ~ '.title')|trans({}, 'home') }}</span>
+                            <span class="b2b-home-tile__text">{{ ('aisles.' ~ key ~ '.text')|trans({}, 'home') }}</span>
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}

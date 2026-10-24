@@ -50,12 +50,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-186-01 | [DOC] | Cadrage : inventaire de la home relu contre le code (hooks, gabarits, canal B2C, menu catalogue du cœur, tests existants `PriceBreaksAndHomeSmokeTest`, `HomeAuthorTest`, `PluginsAndHomepageTest`) ; destination de chaque lien de présentation ; plan des tests | 1 h | - | Claude | 🔲 |
-| T-186-02 | [TEST] | Mesure « avant » en production (lecture seule) : LCP mobile (médiane de 5 passes, même protocole que l'après), poids et nombre de requêtes de la home, largeur à 360 px, FR et EN ; chiffres notés dans ce fichier | 0,75 h | - | Claude | 🔲 |
-| T-186-03 | [DOC] | Photos : sélection de 8 à 10 photos de banques libres (Unsplash ou Pexels), licence relue page par page, fichier des crédits (source, auteur, licence, URL de la licence, URL d'origine) ; aucune photo avec visage identifiable sans nécessité | 1,25 h | - | Claude | 🔲 |
+| T-186-01 | [DOC] | Cadrage : inventaire de la home relu contre le code (hooks, gabarits, canal B2C, menu catalogue du cœur, tests existants `PriceBreaksAndHomeSmokeTest`, `HomeAuthorTest`, `PluginsAndHomepageTest`) ; destination de chaque lien de présentation ; plan des tests | 1 h | - | Claude | ✅ |
+| T-186-02 | [TEST] | Mesure « avant » en production (lecture seule) : LCP mobile (médiane de 5 passes, même protocole que l'après), poids et nombre de requêtes de la home, largeur à 360 px, FR et EN ; chiffres notés dans ce fichier | 0,75 h | - | Claude | ✅ |
+| T-186-03 | [DOC] | Photos : sélection de 8 à 10 photos de banques libres (Unsplash ou Pexels), licence relue page par page, fichier des crédits (source, auteur, licence, URL de la licence, URL d'origine) ; aucune photo avec visage identifiable sans nécessité | 1,25 h | - | Claude | ✅ |
 | T-186-04 | [FE-WEB] | Maquette Claude Design (desktop et mobile) : hero éditorial, sections au défilement, en-tête et menu « La démo » ; publiée en artefact privé | 1,5 h | T-186-01, T-186-03 | Orchestrateur | ✅ |
 | T-186-05 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son accord** | 0,5 h | T-186-04 | Thibaut | ✅ |
-| T-186-06 | [TEST] | Tests rouges, commités seuls et cités dans la PR : sections et ordre, liens de présentation (200), connecté (blocs produits conservés), B2C inchangé, crédit de chaque photo, budget des images (poids, dimensions, `alt`, `srcset`), charte, 360 px | 1,25 h | T-186-05 | Claude | 🔲 |
+| T-186-06 | [TEST] | Tests rouges, commités seuls et cités dans la PR : sections et ordre, liens de présentation (200), connecté (blocs produits conservés), B2C inchangé, crédit de chaque photo, budget des images (poids, dimensions, `alt`, `srcset`), charte, 360 px | 1,25 h | T-186-05 | Claude | ✅ |
 | T-186-07 | [FE-WEB] | Images optimisées : conversion (WebP, AVIF si pris en charge), tailles responsives, dimensions explicites, chargement différé hors première vue, image du hero préchargée | 1 h | T-186-06 | Claude | 🔲 |
 | T-186-08 | [FE-WEB] | Hero éditorial et système visuel : palette, typographie, fond coloré, photo, bouton principal et secondaire (`b2b.scss`, `home_hero.html.twig`) ; contrastes AAA | 2 h | T-186-06, T-186-07 | Claude | 🔲 |
 | T-186-09 | [FE-WEB] | Sections au défilement : parcours, plugins, s'intégrer, preuve par le code, auteur, rôles ou produits ; réécriture et suppression des gabarits `home_*` redondants, hooks de `demo_theme_b2b.yaml` et `demo_cta.yaml` | 2 h | T-186-08 | Claude | 🔲 |
@@ -73,6 +73,17 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 À remplir avant le passage en done : chaque scénario renvoie à un test (classe et méthode) ou à une preuve (commande et sortie, run de CI). Une ligne vide laisse la story en review.
 
 Mesures de LCP mobile (avant, après), poids et requêtes de la home : à noter ici (T-186-02, T-186-14).
+
+**Avant (T-186-02, production `sylius-b2b.thibaut-monier.fr`, lecture seule, 2026-10-24).** Protocole : Chromium, mobile 360 × 740, ratio 2, processeur ralenti x4, réseau Slow 4G (1,6 Mbit/s, 150 ms), cache désactivé, 5 passes, médiane ; script `scratchpad/w186/lcp.cjs`.
+
+| Page | LCP médian | LCP des 5 passes (ms) | Poids transféré | Requêtes | CLS | Largeur à 360 px |
+|------|-----------:|-----------------------|----------------:|---------:|----:|------------------|
+| `/fr_FR/` | 1324 ms | 2080, 1328, 1296, 1304, 1324 | 349 Ko | 11 | 0 | 360 / 360, aucun débordement |
+| `/en_US/` | 1324 ms | 1440, 1304, 1304, 1324, 1512 | 349 Ko | 11 | 0 | 360 / 360, aucun débordement |
+
+Seuil après : sous 2,5 s (la mesure d'avant est sous le seuil).
+
+**Cadrage (T-186-01).** Home relue contre le code : neuf blocs hookés (hero, promesse, accès rapides, parcours, auteur, produits ou rôles, plus le bandeau de contact). Tests touchés : `PluginsAndHomepageTest`, `PriceBreaksAndHomeSmokeTest`, `HomeAuthorTest`, `ContactCtaTest`, `DemoBannerTest`, `ThemeHooksTest`, `ClosedChannelDemoTest`, `ThemeLandmarksTest` (un `header`, un `main`, un `h1`), `ImageCreditsPageTest` (compte `[data-image-credit]`). Choix : sections = hookables (ordre par priorité) ; promesse en trois colonnes supprimée (la maquette ne la garde pas) ; bandeau de démonstration en hook `sylius_shop.base.header` (50) sur tous les écrans des deux canaux ; menu démo en `<details>` natif ; blocs produits connectés après les engagements.
 
 | Scénario | Test ou preuve |
 |----------|----------------|

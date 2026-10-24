@@ -16,7 +16,25 @@ role:
 banner:
     title: 'Démo B2B'
     login: 'Connexion rapide'
-    menu: 'Menu démo'
+    menu: 'Tout le menu démo'
+    columns:
+        try: 'Essayer'
+        understand: 'Comprendre'
+        integrate: 'Intégrer'
+        author: "L'auteur"
+    links:
+        journeys: 'Parcours guidés'
+        architecture: 'Architecture de la démo'
+        architecture_short: 'Architecture'
+        proof: 'Preuve technique'
+        compatibility: 'Matrice de compatibilité'
+        plugins: 'Les %count% plugins'
+        plugins_short: 'Plugins'
+        integrate: "Guide d'intégration"
+        mcp: 'Guide MCP'
+        packs: 'Installer un pack'
+        override: 'Guide de surcharge'
+        about: 'Qui a conçu la démo'
     accounts: 'Comptes de démo'
     channel: 'Canal'
     mails: 'E-mails de la démo'

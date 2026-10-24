@@ -14,8 +14,8 @@ final class PluginCountSmokeTest extends WebTestCase
     /** @return iterable<string, array{string, string}> */
     public static function pages(): iterable
     {
-        yield 'home fr' => ['/fr_FR/', 'Les %d plugins et où les voir'];
-        yield 'home en' => ['/en_US/', 'The %d plugins and where to see them'];
+        yield 'home fr' => ['/fr_FR/', 'montée avec %d plugins open source'];
+        yield 'home en' => ['/en_US/', 'built with %d open source plugins'];
         yield 'about fr' => ['/fr_FR/a-propos', 'Les %d plugins ci-dessous'];
         yield 'about en' => ['/en_US/a-propos', 'The %d plugins below'];
         yield 'plugins fr' => ['/fr_FR/plugins', 'Les %d plugins open source'];

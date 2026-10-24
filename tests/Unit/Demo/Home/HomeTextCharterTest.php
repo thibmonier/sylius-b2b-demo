@@ -28,7 +28,7 @@ final class HomeTextCharterTest extends TestCase
     }
 
     #[DataProvider('texts')]
-    public function testEveryTextPassesTheCharter(string $key, string $text): void
+    public function testEveryTextPassesTheCharter(string $key, string $text, string $language): void
     {
         $charter = new PublicTextCharter();
 

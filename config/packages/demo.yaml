@@ -6,6 +6,10 @@ sylius_twig_hooks:
             demo_banner:
                 template: 'demo/banner.html.twig'
                 priority: 400
+            # US-186: "demonstration e-shop" notice under the header (core navbar 100, flashes 0), both channels, every shop page.
+            demo_notice:
+                template: 'demo/_notice.html.twig'
+                priority: 50
         'sylius_shop.account.login.content.login_container':
             # US-075: between the title (200) and the classic form (100): accounts first, the form below them.
             demo_accounts:

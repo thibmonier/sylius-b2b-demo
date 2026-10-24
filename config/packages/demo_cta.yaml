@@ -1,14 +1,8 @@
-# US-142: "contact me" call to action (component templates/shared/_contact_cta.html.twig) on the B2B channel: below the
-# home hero, under the product summary and on the order confirmation. The other placements are in their templates
-# (Plugins, About, MCP guide, PunchOut simulator, demo bar). Nothing renders when no URL is configured.
+# US-142: "contact me" call to action (component templates/shared/_contact_cta.html.twig) on the B2B channel: under the
+# product summary and on the order confirmation. The other placements are in their templates (home: closing the
+# behind-the-scenes section, US-186; Plugins, About, MCP guide, PunchOut simulator, demo bar). Nothing renders when no URL is configured.
 sylius_twig_hooks:
     hooks:
-        'sylius_shop.homepage.index':
-            b2b_cta:
-                template: 'shop/theme_b2b/cta_hook.html.twig'
-                configuration: { placement: home, variant: banner }
-                priority: 380
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.product.show.content.info.summary':
             b2b_cta:
                 template: 'shop/theme_b2b/cta_hook.html.twig'

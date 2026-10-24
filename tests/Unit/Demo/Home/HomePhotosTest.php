@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Home;
 
 use App\Demo\Home\HomePhotos;
 use App\Tests\Support\HomePhotoAudit;
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
@@ -60,10 +61,9 @@ final class HomePhotosTest extends TestCase
     {
         foreach (['fr', 'en'] as $language) {
             $texts = Yaml::parseFile(\dirname(__DIR__, 4) . '/translations/home.' . $language . '.yaml');
-            self::assertIsArray($texts);
             foreach (self::SLOTS as $slot) {
-                $alt = $texts['photo'][$slot]['alt'] ?? '';
-                self::assertIsString($alt);
+                $alt = Typed::find($texts, 'photo', $slot, 'alt');
+                self::assertIsString($alt, $language . ' alt of ' . $slot);
                 self::assertNotSame('', trim($alt), $language . ' alt of ' . $slot);
             }
         }

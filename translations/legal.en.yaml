@@ -32,6 +32,11 @@ credits:
     licence: 'CC0 licence (public domain)'
     products: '{1} Shown by 1 product|]1,Inf[ Shown by %count% products'
     note: 'When no free photo matched a product, a neutral visual of its category is shown instead.'
+    home:
+        title: 'Photos of the home page'
+        intro: 'The %count% photos of the home page come from a free image bank; each one is credited below with its source page and its licence.'
+        origin: 'Photo on %source%'
+        licence: '%licence% (free to use, no attribution required)'
     unknown_author: 'author not specified'
     generated_title: 'Neutral visual: %category%'
     category:

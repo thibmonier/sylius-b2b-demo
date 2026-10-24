@@ -1,0 +1,105 @@
+# US-186: texts of the editorial B2B home (domain `home`).
+nav:
+    label: 'Shop services'
+    quick_order: 'Quick order'
+    quote: 'Request a quote'
+    try_demo: 'Try the demo'
+notice:
+    title: 'B2B demonstration e-shop'
+    text: 'Fictitious data, no order fulfilled, no real payment.'
+    more: 'Learn more'
+hero:
+    title_start: 'Equipment for your teams,'
+    title_accent: 'ordered without a detour.'
+    lead: 'Your negotiated prices, your usual references and the approval of your purchases in one place: from a pair of gloves to workshop shelving.'
+    cta_catalogue: 'Browse the catalogue'
+    cta_accounts: 'Try with a demo account'
+    price_title: 'Your company price'
+    price_text: 'applied as soon as you sign in'
+    approval_title: 'Order approved'
+    approval_text: 'by your company approver'
+commitments:
+    label: 'Our commitments'
+    facturx: 'Factur-X invoices'
+aisles:
+    eyebrow: 'Our aisles'
+    title: 'Everything that keeps a workshop, a site or a warehouse running.'
+    epi:
+        title: 'PPE'
+        text: 'Gloves, helmets, glasses, high-visibility clothing'
+    quincaillerie:
+        title: 'Hardware'
+        text: 'Screws, fasteners, locks, tools'
+    industriel:
+        title: 'Industrial supplies'
+        text: 'Storage, handling, workshop consumables'
+services:
+    eyebrow: 'Made for professional buyers'
+    title: 'Fewer clicks, more time in the field.'
+    try: 'Try it'
+    quick_order:
+        title: 'Quick order'
+        text: 'Paste your reference;quantity lines or import a CSV: the cart fills in one go.'
+    quote:
+        title: 'Request a quote'
+        text: 'An unusual volume? Ask for a negotiated price, then accept it in a standard checkout.'
+    approval:
+        title: 'Purchase approval'
+        text: "Above a buyer's ceiling, a company approver validates the order."
+    punchout:
+        title: 'PunchOut'
+        text: 'Open the shop from your procurement system (cXML or OCI) and send the cart back to it.'
+roles:
+    eyebrow: 'Step into the demo'
+    title: 'Pick a role, the shop adapts.'
+    intro: 'B2B prices only show once you are signed in. Each account finds its references, its restock list and its negotiated promotions. One-click sign-in, no password to remember.'
+    buyer:
+        title: 'Buyer'
+        text: 'Their usual references, the restock of their workshop and their negotiated prices.'
+        cta: 'Enter as a buyer'
+    approver:
+        title: 'Approver'
+        text: "The orders to approve, the ceilings per buyer and the company's outstanding balance."
+        cta: 'Enter as an approver'
+    admin:
+        title: 'Administrator'
+        text: 'The Sylius back office: companies, negotiated prices, audit log.'
+        cta: 'Enter as an administrator'
+backstage:
+    initials: 'TM'
+    eyebrow: 'Behind the scenes'
+    title: 'A real Sylius shop, built with %count% open source plugins.'
+    lead: 'Every B2B feature you just saw is a published plugin, tested in this demo. Here is how the whole is built, proven and reusable.'
+    plugins:
+        title: 'The %count% plugins'
+        text: 'What each one does and where to see it in the demo.'
+        cta: 'See the plugins'
+    architecture:
+        title: 'Architecture'
+        text: 'Layers, flow of a B2B order, operations.'
+        cta: 'Read the architecture'
+    proof:
+        title: 'Technical proof'
+        text: 'Tests, coverage, static analysis, published by the CI.'
+        cta: 'See the proof'
+    integrate:
+        title: 'Integrate'
+        text: 'Integration guide, packs, compatibility, overriding.'
+        cta: 'Read the guide'
+photo:
+    hero:
+        alt: 'A technician in a denim work apron sorts screws in an organiser case in a warm, sunlit workshop.'
+    epi:
+        alt: 'A yellow hard hat and red protective gloves resting on a plasterboard wall.'
+    quincaillerie:
+        alt: 'Washers, screws and crimp terminals neatly sorted in black storage bins.'
+    industriel:
+        alt: 'Warehouse aisle between tall orange racking with pallets and stacked containers.'
+    parcours:
+        alt: 'An employee in a blazer opens a card folder beside a spreadsheet and a stack of files.'
+    acheteur:
+        alt: 'A technician looks at a tablet in a bright workshop, teal workbench drawers behind him.'
+    approbatrice:
+        alt: 'A smiling manager checks a tablet in a meeting, colleagues blurred behind her.'
+    administrateur:
+        alt: 'A woman focused on her laptop, three-quarter view, beside a large bright window.'

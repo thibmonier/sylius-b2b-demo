@@ -158,7 +158,7 @@ final class PriceBreaksAndHomeSmokeTest extends WebTestCase
         $crawler = $client->request('GET', '/fr_FR/');
 
         self::assertCount(1, $crawler->filter('[data-b2b-home="roles"]'));
-        self::assertCount(1, $crawler->filter('[data-b2b-home="roles"] a[href="/demo/accounts"]'));
+        self::assertCount(3, $crawler->filter('[data-b2b-home="roles"] a[href="/demo/accounts"]'));
         self::assertCount(0, $crawler->filter('[data-b2b-home="usual"], [data-b2b-home="restock"], [data-b2b-home="negotiated"]'));
         self::assertDoesNotMatchRegularExpression('/\d+,\d{2}\s?€/u', (string) $client->getResponse()->getContent());
     }

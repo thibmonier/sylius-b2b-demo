@@ -1,12 +1,43 @@
 {# US-076: one line at every width, one language at a time. What does not fit is folded into two menus
    (quick login, demo menu); the contact link (URL from the configuration, https only) shows from the md width.
-   Bootstrap utilities only: the bar also shows on the B2C channel, where the B2B stylesheet is not loaded. #}
+   US-186: the demo menu is the "whole menu" panel in four columns (a native <details>: keyboard, announced state, no
+   JavaScript needed) and the main presentation links also show in the bar from the xl width. Bootstrap utilities and
+   inline colours only: the bar also shows on the B2C channel, where the B2B stylesheet is not loaded
+   (gold #f2b544 and raised night #1b2433 of _variables.scss: gold on it 8.5:1, white 15.6:1). #}
 {% if demo_mode() %}
     {% set contact = app_demo_cta_targets('demo-bar')|filter(target => target.kind == 'contact')|first %}
     {% set target = 'd-inline-flex align-items-center' %}
     {% set target_height = 'min-height: 2.75rem' %}
     {% set panel = 'position-absolute start-0 end-0 mt-1 p-2 bg-white text-dark border rounded shadow text-break' %}
     {% set panel_style = 'z-index: 1050; max-width: 24rem; grid-template-columns: minmax(0, 1fr)' %}
+    {% set locale = app.request.locale %}
+    {% set quick = [
+        ['accounts', path('app_demo_accounts'), 'banner.accounts'],
+        ['plugins', path('app_demo_plugins', {_locale: locale}), 'banner.links.plugins_short'],
+        ['architecture', path('app_demo_architecture', {_locale: locale}), 'banner.links.architecture_short'],
+        ['proof', path('app_demo_proof', {_locale: locale}), 'banner.links.proof'],
+    ] %}
+    {% set columns = {
+        try: [
+            ['journeys', path('app_demo_journeys', {_locale: locale}), 'banner.links.journeys'],
+            ['accounts', path('app_demo_accounts'), 'banner.accounts'],
+        ],
+        understand: [
+            ['architecture', path('app_demo_architecture', {_locale: locale}), 'banner.links.architecture'],
+            ['proof', path('app_demo_proof', {_locale: locale}), 'banner.links.proof'],
+            ['compatibility', path('app_demo_compatibility', {_locale: locale}), 'banner.links.compatibility'],
+        ],
+        integrate: [
+            ['plugins', path('app_demo_plugins', {_locale: locale}), 'banner.links.plugins'],
+            ['integrate', path('app_demo_integrate', {_locale: locale}), 'banner.links.integrate'],
+            ['mcp', path('app_demo_mcp_guide', {_locale: locale}), 'banner.links.mcp'],
+            ['packs', path('app_demo_packs', {_locale: locale}), 'banner.links.packs'],
+            ['override', path('app_demo_override_guide', {_locale: locale}), 'banner.links.override'],
+        ],
+        author: [
+            ['about', path('app_demo_about', {_locale: locale}), 'banner.links.about'],
+        ],
+    } %}
     <div class="bg-dark text-white small" data-demo-banner>
         <div class="container position-relative d-flex flex-nowrap align-items-center gap-3" data-controller="demo-menus" data-action="keydown.esc->demo-menus#close click@window->demo-menus#outside">
             <strong class="text-nowrap">{{ 'banner.title'|trans({}, 'theme_demo') }}</strong>
@@ -24,21 +55,39 @@
                     {% endfor %}
                 </div>
             </details>
-            <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
+            <div data-demo-quick-links style="display: contents">
+                {% for item in quick %}
+                    <a class="d-none d-xl-inline-flex align-items-center text-white text-nowrap" style="{{ target_height }}" href="{{ item[1] }}" data-demo-link="{{ item[0] }}">{{ item[2]|trans({'%count%': demo_plugin_count()}, 'theme_demo') }}</a>
+                {% endfor %}
+            </div>
+            <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled" data-demo-menu="all">
                 <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.menu'|trans({}, 'theme_demo') }}</summary>
-                <ul class="{{ panel }} list-unstyled d-grid gap-1 mb-0" style="{{ panel_style }}" data-demo-menu-panel>
-                    <li><a class="{{ target }} w-100" style="{{ target_height }}" href="{{ path('app_demo_accounts') }}">{{ 'banner.accounts'|trans({}, 'theme_demo') }}</a></li>
-                    <li class="d-flex flex-wrap align-items-center column-gap-3" style="{{ target_height }}" data-demo-channel>
+                <div class="position-absolute start-0 end-0 mt-1 p-3 border border-secondary rounded shadow text-break text-white d-grid gap-3" style="z-index: 1050; max-width: 72rem; grid-template-columns: minmax(0, 1fr); background: #1b2433" data-demo-menu-panel>
+                    <div class="d-grid gap-3" style="grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr))">
+                        {% for column, links in columns %}
+                            <div data-demo-menu-column="{{ column }}">
+                                <strong class="d-block text-uppercase small mb-1" style="color: #f2b544; letter-spacing: .05em">{{ ('banner.columns.' ~ column)|trans({}, 'theme_demo') }}</strong>
+                                <ul class="list-unstyled d-grid gap-1 mb-0">
+                                    {% for link in links %}
+                                        <li><a class="{{ target }} w-100 text-white" style="{{ target_height }}" href="{{ link[1] }}" data-demo-link="{{ link[0] }}">{{ link[2]|trans({'%count%': demo_plugin_count()}, 'theme_demo') }}</a></li>
+                                    {% endfor %}
+                                    {% if column == 'try' and demo_mails_enabled() %}
+                                        <li><a class="{{ target }} w-100 text-white" style="{{ target_height }}" href="{{ path('app_demo_mails') }}" data-demo-link="mails">{{ 'banner.mails'|trans({}, 'theme_demo') }}</a></li>
+                                    {% endif %}
+                                    {% if column == 'author' %}
+                                        <li data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' with { link_class: 'd-inline-flex align-items-center w-100 text-white', link_style: 'min-height: 2.75rem' } only %}</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center column-gap-3 border-top border-secondary pt-2" data-demo-channel>
                         <span>{{ 'banner.channel'|trans({}, 'theme_demo') }}</span>
-                        <a href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a>
-                        <a href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
-                    </li>
-                    {% if demo_mails_enabled() %}
-                        <li><a class="{{ target }} w-100" style="{{ target_height }}" href="{{ path('app_demo_mails') }}">{{ 'banner.mails'|trans({}, 'theme_demo') }}</a></li>
-                    {% endif %}
-                    <li class="d-flex align-items-center" style="{{ target_height }}">{% include 'demo/_next_reset.html.twig' with { reset: demo_next_reset() } only %}</li>
-                    <li data-demo-badges-slot>{% include 'demo/_badges_toggle.html.twig' with { link_class: 'd-inline-flex align-items-center w-100', link_style: 'min-height: 2.75rem' } only %}</li>
-                </ul>
+                        <a class="{{ target }} text-white" style="{{ target_height }}" href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a>
+                        <a class="{{ target }} text-white" style="{{ target_height }}" href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
+                        <span class="ms-md-auto">{% include 'demo/_next_reset.html.twig' with { reset: demo_next_reset() } only %}</span>
+                    </div>
+                </div>
             </details>
             {% if contact %}
                 <a class="align-items-center ms-auto d-none d-md-inline-flex text-white text-nowrap" style="{{ target_height }}" href="{{ contact.url }}" target="_blank" rel="noopener noreferrer" data-contact-link{{ app_umami_event('cta-message', { emplacement: 'barre-demo' }, true) }}>{{ 'banner.contact'|trans({}, 'theme_demo') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>

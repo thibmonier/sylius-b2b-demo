@@ -1,6 +1,7 @@
 {#
     US-089: the three product blocks of the signed-in B2B home page, in place of the two core blocks ("latest deals" and
     "latest products", the same articles twice). A product appears in one block only (HomeSelectionProvider).
+    US-186: they follow the commitments band, before the aisles, on the paper background of the editorial home.
 #}
 {% set selection = app_b2b_home_selection() %}
 {% macro cards(products, hookable_metadata) %}
@@ -12,27 +13,27 @@
 {% endmacro %}
 
 {% if selection.usual is not empty %}
-    <section class="container mb-5" data-b2b-home="usual" aria-labelledby="b2b-home-usual">
-        <h2 class="h3 mb-2 b2b-section-title" id="b2b-home-usual">{{ (selection.usualFromHistory ? 'app.home_b2b.buyer.usual.title' : 'app.home_b2b.buyer.usual.title_start')|trans }}</h2>
-        <p class="mb-4 text-secondary">{{ (selection.usualFromHistory ? 'app.home_b2b.buyer.usual.intro' : 'app.home_b2b.buyer.usual.intro_start')|trans }}</p>
+    <section class="b2b-home-section b2b-home-products" data-b2b-home="usual" data-home-section="usual" aria-labelledby="b2b-home-usual"><div class="b2b-home-wrap">
+        <h2 class="b2b-home-h2" id="b2b-home-usual">{{ (selection.usualFromHistory ? 'app.home_b2b.buyer.usual.title' : 'app.home_b2b.buyer.usual.title_start')|trans }}</h2>
+        <p class="text-secondary">{{ (selection.usualFromHistory ? 'app.home_b2b.buyer.usual.intro' : 'app.home_b2b.buyer.usual.intro_start')|trans }}</p>
         {{ _self.cards(selection.usual, hookable_metadata) }}
-    </section>
+    </div></section>
 {% endif %}
 
 {% if selection.restock is not empty %}
-    <section class="container mb-5" data-b2b-home="restock" aria-labelledby="b2b-home-restock">
-        <h2 class="h3 mb-2 b2b-section-title" id="b2b-home-restock">{{ 'app.home_b2b.buyer.restock.title'|trans }}</h2>
-        <p class="mb-4 text-secondary">{{ (selection.restockFromList ? 'app.home_b2b.buyer.restock.intro' : 'app.home_b2b.buyer.restock.intro_start')|trans }}
+    <section class="b2b-home-section b2b-home-products" data-b2b-home="restock" data-home-section="restock" aria-labelledby="b2b-home-restock"><div class="b2b-home-wrap">
+        <h2 class="b2b-home-h2" id="b2b-home-restock">{{ 'app.home_b2b.buyer.restock.title'|trans }}</h2>
+        <p class="text-secondary">{{ (selection.restockFromList ? 'app.home_b2b.buyer.restock.intro' : 'app.home_b2b.buyer.restock.intro_start')|trans }}
             {% if selection.restockFromList %}<a href="{{ path('app_shop_company_wishlist_index', {_locale: app.request.locale}) }}">{{ 'app.home_b2b.buyer.restock.link'|trans }}</a>{% endif %}
         </p>
         {{ _self.cards(selection.restock, hookable_metadata) }}
-    </section>
+    </div></section>
 {% endif %}
 
 {% if selection.negotiated is not empty %}
-    <section class="container mb-5" data-b2b-home="negotiated" aria-labelledby="b2b-home-negotiated">
-        <h2 class="h3 mb-2 b2b-section-title" id="b2b-home-negotiated">{{ 'app.home_b2b.buyer.negotiated.title'|trans }}</h2>
-        <p class="mb-4 text-secondary">{{ 'app.home_b2b.buyer.negotiated.intro'|trans }}</p>
+    <section class="b2b-home-section b2b-home-products" data-b2b-home="negotiated" data-home-section="negotiated" aria-labelledby="b2b-home-negotiated"><div class="b2b-home-wrap">
+        <h2 class="b2b-home-h2" id="b2b-home-negotiated">{{ 'app.home_b2b.buyer.negotiated.title'|trans }}</h2>
+        <p class="text-secondary">{{ 'app.home_b2b.buyer.negotiated.intro'|trans }}</p>
         {{ _self.cards(selection.negotiated, hookable_metadata) }}
-    </section>
+    </div></section>
 {% endif %}

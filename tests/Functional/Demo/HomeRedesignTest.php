@@ -135,7 +135,7 @@ final class HomeRedesignTest extends WebTestCase
     public static function noticePages(): iterable
     {
         foreach (['B2B', 'B2C'] as $channel) {
-            foreach (['/fr_FR/', '/fr_FR/login', '/fr_FR/plugins', '/fr_FR/taxons/quincaillerie', '/fr_FR/cart/', '/en_US/'] as $path) {
+            foreach (['/fr_FR/', '/fr_FR/login', '/fr_FR/plugins', '/fr_FR/taxons/quincaillerie', '/fr_FR/products/outi-001-fr', '/en_US/'] as $path) {
                 yield $channel . ' ' . $path => [$channel, $path, str_starts_with($path, '/en_US') ? 'B2B demonstration e-shop' : 'E-boutique de démonstration B2B'];
             }
         }
@@ -177,7 +177,7 @@ final class HomeRedesignTest extends WebTestCase
         self::assertCount(0, $menu->filter('[hidden], [aria-hidden="true"]'), 'the panel is plain markup: it works without JavaScript');
     }
 
-    public function testTheBarShowsTheQuickLinksFromTheMdWidthOnly(): void
+    public function testTheBarShowsTheQuickLinksFromTheXlWidthOnly(): void
     {
         $quick = $this->anonymousHome('fr_FR')->filter('[data-demo-banner] [data-demo-quick-links] a[data-demo-link]');
 
@@ -186,7 +186,7 @@ final class HomeRedesignTest extends WebTestCase
             $classes = preg_split('/\s+/', trim((string) (new Crawler($link))->attr('class')));
             self::assertIsArray($classes);
             self::assertContains('d-none', $classes);
-            self::assertContains('d-md-inline-flex', $classes);
+            self::assertContains('d-xl-inline-flex', $classes, 'the bar stays on one line below the xl width');
         }
     }
 

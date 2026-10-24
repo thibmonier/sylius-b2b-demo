@@ -25,6 +25,13 @@ sylius_twig_hooks:
                 priority: 150
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
+        # US-186: services of the shop (quick order, quote, demo accounts) under the core navbar (100), above the notice (50).
+        'sylius_shop.base.header':
+            b2b_nav:
+                template: 'shop/theme_b2b/nav.html.twig'
+                priority: 90
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
         'sylius_shop.base.footer':
             b2b_strip:
                 template: 'shop/theme_b2b/footer_strip.html.twig'
@@ -71,8 +78,12 @@ sylius_twig_hooks:
                 priority: 490
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
-        # US-014: B2B homepage. The core banner stays on B2C; the other core homepage blocks are kept
-        # ("New collection" is B2C only too, see tmonier_plugins_overrides.yaml: US-045).
+        # US-186: editorial B2B homepage, in the order of the validated mock-up. The core banner stays on B2C; the other core
+        # homepage blocks are kept ("New collection" is B2C only too, see tmonier_plugins_overrides.yaml: US-045).
+        'sylius_shop.homepage.index.head':
+            b2b_hero_preload:
+                template: 'shop/theme_b2b/home_hero_preload.html.twig'
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.homepage.index':
             banner:
                 condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
@@ -80,31 +91,31 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/home_hero.html.twig'
                 priority: 400
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
-            # US-113: the three columns (buy, validate, integrate) for a visitor who has not chosen a role yet.
-            b2b_promise:
-                template: 'shop/theme_b2b/home_promise.html.twig'
-                priority: 380
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and not is_granted('IS_AUTHENTICATED_REMEMBERED')"
-            b2b_quick_access:
-                template: 'shop/theme_b2b/home_quick_access.html.twig'
-                priority: 350
+            b2b_commitments:
+                template: 'shop/theme_b2b/home_commitments.html.twig'
+                priority: 390
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
-            b2b_journeys:
-                template: 'shop/theme_b2b/home_journeys.html.twig'
-                priority: 320
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
-            # US-113: who designed the demo and how it was made, after the journeys, for every B2B visitor.
-            b2b_author:
-                template: 'shared/_author_method.html.twig'
-                priority: 300
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
-            # US-089: signed in, three product blocks (usual references, restock, negotiated promotions); anonymous, the
-            # roles presentation without product or price. Channel Access decides who sees prices (the categories stay visible to visitors).
+            # US-089: signed in, three product blocks (usual references, restock, negotiated promotions) right after the
+            # commitments; anonymous, the roles presentation further down, without product or price. Channel Access decides
+            # who sees prices (the aisles stay visible to visitors).
             b2b_buyer:
                 template: 'shop/theme_b2b/home_buyer.html.twig'
-                priority: 250
+                priority: 380
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
+            b2b_aisles:
+                template: 'shop/theme_b2b/home_aisles.html.twig'
+                priority: 350
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_services:
+                template: 'shop/theme_b2b/home_services.html.twig'
+                priority: 320
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
             b2b_roles:
                 template: 'shop/theme_b2b/home_roles.html.twig'
-                priority: 250
+                priority: 300
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and not is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
+            # US-113: who designed the demo and how it was made close the home, inside the behind-the-scenes section.
+            b2b_backstage:
+                template: 'shop/theme_b2b/home_backstage.html.twig'
+                priority: 280
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
