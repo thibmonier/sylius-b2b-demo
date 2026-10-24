@@ -1,0 +1,41 @@
+title: "Installer un pack"
+intro: "Un pack regroupe plusieurs plugins de cette démo en un seul paquet Composer. Cette page liste chaque pack, ses plugins, sa commande d'installation et les gestes qui restent à faire à la main. Elle est générée à partir du composer.json et des README de chaque dépôt de pack, jamais écrite à la main."
+what:
+    title: "Ce qu'est un pack"
+    does: "Un pack est un métapaquet Composer : il ne contient aucun code et requiert des plugins avec des bornes de version choisies pour se résoudre ensemble. Une seule commande composer require les installe."
+    does_not: "Un métapaquet seul ne déclare pas les bundles, n'importe ni la configuration ni les routes, ne lance pas les migrations et ne planifie pas les tâches : ces gestes restent à faire à la main, plugin par plugin, comme le tableau de chaque pack les liste."
+pack:
+    install: "Commande d'installation"
+    plugins: "Plugins du pack"
+    suggests: "Suggérés, non installés par le pack"
+    steps: "Gestes restants après la commande"
+    steps_intro: "Pour chaque plugin, dans cet ordre. Le détail de chaque geste, avec ses options, est dans le README du plugin. Un renvoi du tableau (« voir ci-dessous ») est expliqué dans le README du pack, lié sous le tableau."
+steps:
+    caption: "Gestes restants à faire à la main pour chaque plugin du pack %pack%"
+    column:
+        plugin: "Plugin"
+        bundles: "Bundles à déclarer"
+        config: "Configuration à importer"
+        routes: "Routes à importer"
+        migrations: "Migrations"
+        other: "Autre geste"
+status:
+    "yes": "oui"
+    "no": "non"
+totals:
+    bundles: "Bundles à déclarer"
+    config: "Imports de configuration"
+    routes: "Imports de routes"
+    migrations: "Plugins avec migrations"
+source:
+    label: "Sources :"
+    checked: "vérifié le"
+    stale: "(dépôt indisponible à la dernière génération)"
+generated: "Généré le %date%."
+generated_note: "Le fichier est régénéré à la main, pas à chaque visite : quand un dépôt ne répond pas, la dernière valeur vérifiée reste affichée avec sa date."
+unavailable: "Contenu des packs : non disponible pour le moment."
+single:
+    title: "Installer un plugin seul"
+    text: "Un plugin qui n'appartient à aucun pack s'installe seul, avec les mêmes gestes que ci-dessus. Il en va de même pour un plugin d'un pack dont on ne veut que lui."
+    integrate: "Guide d'intégration : installer un plugin un par un"
+    plugins: "Page Plugins : tous les plugins de la démo"

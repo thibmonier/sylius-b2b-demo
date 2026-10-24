@@ -1,0 +1,140 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'title'|trans({}, 'packs') }}{% endblock %}
+
+{#
+    US-178: every plugin, command and step on this page comes from config/demo/packs.json (bin/packs-refresh, which reads the
+    composer.json and the READMEs of the pack repositories); none is written here. Bootstrap utilities only (the page also shows
+    on the B2C channel). A technical page: no price, no comparison, no offer.
+#}
+{# A README text with `code` spans: the spans are shown as code. #}
+{% macro text(value) %}{% for part in value|split('`') %}{% if loop.index is even %}<code>{{ part }}</code>{% else %}{{ part }}{% endif %}{% endfor %}{% endmacro %}
+
+{% macro list(values) %}
+    {% if values|length %}
+        <ul class="list-unstyled mb-0">
+            {% for value in values %}
+                <li style="overflow-wrap: anywhere"><code>{{ value }}</code></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <span>-</span>
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    <style>
+        [data-pack-steps] time { white-space: nowrap; }
+        @media (max-width: 767px) {
+            [data-pack-steps] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+            [data-pack-steps] tr { display: block; margin-bottom: 1rem; padding: .5rem .75rem; border: 1px solid var(--bs-border-color, #dee2e6); border-radius: .375rem; }
+            [data-pack-steps] th, [data-pack-steps] td { display: block; padding: .25rem 0; border: 0; overflow-wrap: anywhere; }
+            [data-pack-steps] td::before { content: attr(data-label); display: block; font-weight: 600; font-size: .875rem; }
+        }
+    </style>
+    {% import _self as page %}
+    {% set locale = app.request.locale %}
+    <div class="container my-5" data-page="packs">
+        <h1>{{ 'title'|trans({}, 'packs') }}</h1>
+        <p class="lead">{{ 'intro'|trans({}, 'packs') }}</p>
+
+        <section class="mt-4" aria-labelledby="packs-what">
+            <h2 class="h4 border-bottom pb-2" id="packs-what">{{ 'what.title'|trans({}, 'packs') }}</h2>
+            <ul class="mb-0">
+                {% for item in ['does', 'does_not'] %}
+                    <li class="mb-2">{{ ('what.' ~ item)|trans({}, 'packs') }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        {% if report.packs|length %}
+            {% for pack in report.packs %}
+                <section class="mt-5" data-pack="{{ pack.repository }}" aria-labelledby="pack-{{ pack.repository }}">
+                    <h2 class="h4 border-bottom pb-2" id="pack-{{ pack.repository }}">{{ pack.title(locale) }}</h2>
+                    <p>{{ page.text(pack.summary(locale)) }}</p>
+
+                    <h3 class="h5">{{ 'pack.install'|trans({}, 'packs') }}</h3>
+                    <pre class="border rounded p-3" style="white-space: pre-wrap; word-break: break-all" tabindex="0" data-pack-command><code style="white-space: inherit; word-break: inherit">{{ pack.command }}</code></pre>
+
+                    <h3 class="h5">{{ 'pack.plugins'|trans({}, 'packs') }}</h3>
+                    <ul class="list-unstyled" data-pack-plugins>
+                        {% for plugin in pack.plugins %}
+                            <li class="mb-2" data-pack-plugin="{{ plugin.slug }}">
+                                <span class="fw-semibold">{% if names[plugin.slug] is defined %}<a href="{{ path('app_demo_plugins', {_locale: locale}) }}#plugin-{{ plugin.slug }}">{{ names[plugin.slug] }}</a>{% else %}{{ plugin.slug }}{% endif %}</span>
+                                <code>{{ plugin.bound }}</code> :
+                                {{ page.text(plugin.role(locale)) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if pack.suggests|length %}
+                        <h3 class="h5">{{ 'pack.suggests'|trans({}, 'packs') }}</h3>
+                        <ul class="list-unstyled">
+                            {% for suggestion in pack.suggests %}
+                                <li class="mb-2" data-pack-suggest="{{ suggestion.slug }}">
+                                    <span class="fw-semibold">{% if names[suggestion.slug] is defined %}<a href="{{ path('app_demo_plugins', {_locale: locale}) }}#plugin-{{ suggestion.slug }}">{{ names[suggestion.slug] }}</a>{% else %}{{ suggestion.slug }}{% endif %}</span>
+                                    {% if suggestion.reason(locale) %}: {{ page.text(suggestion.reason(locale)) }}{% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <h3 class="h5">{{ 'pack.steps'|trans({}, 'packs') }}</h3>
+                    <p>{{ 'pack.steps_intro'|trans({}, 'packs') }}</p>
+                    <table class="table align-top" data-pack-steps role="table">
+                        <caption class="visually-hidden">{{ 'steps.caption'|trans({'%pack%': pack.title(locale)}, 'packs') }}</caption>
+                        <thead role="rowgroup">
+                            <tr role="row">
+                                {% for column in ['plugin', 'bundles', 'config', 'routes', 'migrations', 'other'] %}
+                                    <th scope="col" role="columnheader">{{ ('steps.column.' ~ column)|trans({}, 'packs') }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody role="rowgroup">
+                            {% for step in pack.steps %}
+                                <tr data-pack-step="{{ step.slug }}" role="row">
+                                    <th scope="row" role="rowheader" class="fw-bold">{{ names[step.slug]|default(step.slug) }}</th>
+                                    <td data-pack-cell="bundles" data-label="{{ 'steps.column.bundles'|trans({}, 'packs') }}" role="cell">{{ page.list(step.bundles) }}</td>
+                                    <td data-pack-cell="config" data-label="{{ 'steps.column.config'|trans({}, 'packs') }}" role="cell">{{ page.list(step.config) }}</td>
+                                    <td data-pack-cell="routes" data-label="{{ 'steps.column.routes'|trans({}, 'packs') }}" role="cell">{{ page.list(step.routes) }}</td>
+                                    <td data-pack-cell="migrations" data-label="{{ 'steps.column.migrations'|trans({}, 'packs') }}" role="cell">{{ (step.migrations ? 'status.yes' : 'status.no')|trans({}, 'packs') }}</td>
+                                    <td data-pack-cell="other" data-label="{{ 'steps.column.other'|trans({}, 'packs') }}" role="cell">{{ page.text(step.other(locale)) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% set totals = pack.totals %}
+                    <dl class="row row-cols-2 row-cols-md-4 g-3 mb-3" data-pack-totals>
+                        {% for total in ['bundles', 'config', 'routes', 'migrations'] %}
+                            <div class="col">
+                                <dt class="fw-normal">{{ ('totals.' ~ total)|trans({}, 'packs') }}</dt>
+                                <dd class="h4 mb-0" data-pack-total="{{ total }}">{{ totals[total] }}</dd>
+                            </div>
+                        {% endfor %}
+                    </dl>
+                    <p class="mb-0" data-pack-source>
+                        <small>
+                            {{ 'source.label'|trans({}, 'packs') }}
+                            <a href="{{ pack.composerSource }}" rel="noopener">composer.json</a>,
+                            <a href="{{ pack.source }}" rel="noopener">README</a> :
+                            {{ 'source.checked'|trans({}, 'packs') }} <time datetime="{{ pack.checkedAt|slice(0, 10) }}">{{ pack.checkedAt|slice(0, 10) }}</time>{% if pack.stale %} <span data-pack-stale>{{ 'source.stale'|trans({}, 'packs') }}</span>{% endif %}
+                        </small>
+                    </p>
+                </section>
+            {% endfor %}
+            <p class="mt-4" data-packs-generated>
+                {% if report.generatedAt %}{{ 'generated'|trans({'%date%': report.generatedAt|slice(0, 10)}, 'packs') }} {% endif %}{{ 'generated_note'|trans({}, 'packs') }}
+            </p>
+        {% else %}
+            <p class="mt-5" data-packs-unavailable>{{ 'unavailable'|trans({}, 'packs') }}</p>
+        {% endif %}
+
+        <section class="mt-5" data-packs-single aria-labelledby="packs-single">
+            <h2 class="h4 border-bottom pb-2" id="packs-single">{{ 'single.title'|trans({}, 'packs') }}</h2>
+            <p>{{ 'single.text'|trans({}, 'packs') }}</p>
+            <ul class="mb-0">
+                <li class="mb-1"><a href="{{ path('app_demo_integrate', {_locale: locale}) }}" data-packs-integrate-link>{{ 'single.integrate'|trans({}, 'packs') }}</a></li>
+                <li><a href="{{ path('app_demo_plugins', {_locale: locale}) }}" data-packs-plugins-link>{{ 'single.plugins'|trans({}, 'packs') }}</a></li>
+            </ul>
+        </section>
+    </div>
+{% endblock %}

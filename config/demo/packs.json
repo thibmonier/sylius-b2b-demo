@@ -1,0 +1,305 @@
+{
+    "generated_at": "2026-10-24T06:41:03Z",
+    "packs": {
+        "sylius-pack-ai-headless": {
+            "composer": "tmonier/sylius-pack-ai-headless",
+            "command": "composer require tmonier/sylius-pack-ai-headless",
+            "title": {
+                "en": "AI and headless",
+                "fr": "IA et headless"
+            },
+            "summary": {
+                "en": "Four Sylius 2 plugins for AI assistants and integrations, installed with one `composer require`: product feeds, an AI catalog copilot, B2B tools for the Sylius MCP server and reliable outgoing webhooks.",
+                "fr": "Quatre plugins Sylius 2 pour les assistants d'IA et les intégrations, installés avec un seul `composer require` : flux produits, copilote d'IA pour le catalogue, outils B2B pour le serveur MCP de Sylius et webhooks sortants fiables."
+            },
+            "plugins": [
+                {
+                    "slug": "sylius-agentic-feeds-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Product feeds (Google Merchant Center, OpenAI, Stripe) and Product JSON-LD",
+                        "fr": "Flux produits (Google Merchant Center, OpenAI, Stripe) et JSON-LD des produits"
+                    }
+                },
+                {
+                    "slug": "sylius-ai-catalog-copilot-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Reviewable product description, meta and translation suggestions through Symfony AI",
+                        "fr": "Suggestions relues de descriptions, de méta et de traductions via Symfony AI"
+                    }
+                },
+                {
+                    "slug": "sylius-b2b-mcp-plugin",
+                    "bound": "^1.2",
+                    "role": {
+                        "en": "B2B tools for the official Sylius MCP server (OAuth 2.1 with PKCE)",
+                        "fr": "Outils B2B pour le serveur MCP officiel de Sylius (OAuth 2.1 avec PKCE)"
+                    }
+                },
+                {
+                    "slug": "sylius-webhook-outbox-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Outgoing webhooks with a transactional outbox, signatures, retries and replay",
+                        "fr": "Webhooks sortants avec outbox transactionnelle, signatures, nouvelles tentatives et rejeu"
+                    }
+                }
+            ],
+            "suggests": [
+                {
+                    "slug": "sylius-audit-log-plugin",
+                    "reason": {
+                        "en": "The copilot records the product change made when a suggestion is accepted, and the MCP tool calls are mirrored into the journal. It is part of the Compliance and tooling pack.",
+                        "fr": "Le copilote y consigne la modification du produit faite à l'acceptation d'une suggestion, et les appels d'outils MCP y sont reflétés. Il fait partie du pack Conformité et outillage."
+                    }
+                }
+            ],
+            "steps": [
+                {
+                    "slug": "sylius-agentic-feeds-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusAgenticFeedsPlugin\\TmonierSyliusAgenticFeedsPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusAgenticFeedsPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusAgenticFeedsPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "schedule `tmonier:feeds:generate` (cron)",
+                        "fr": "planifier `tmonier:feeds:generate` (cron)"
+                    }
+                },
+                {
+                    "slug": "sylius-ai-catalog-copilot-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusAiCatalogCopilotPlugin\\TmonierSyliusAiCatalogCopilotPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusAiCatalogCopilotPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusAiCatalogCopilotPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "install the bridge of your provider (`symfony/ai-*-platform`) and set its API key in an environment variable",
+                        "fr": "installer le pont du fournisseur choisi (`symfony/ai-*-platform`) et renseigner sa clé d'API dans une variable d'environnement"
+                    }
+                },
+                {
+                    "slug": "sylius-b2b-mcp-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusB2bMcpPlugin\\TmonierSyliusB2bMcpPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusB2bMcpPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusB2bMcpPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "`symfony/lock` (see below), HTTPS on a public host name, trusted proxies, a dedicated encryption key, daily `tmonier:b2b-mcp:purge`",
+                        "fr": "`symfony/lock` (voir ci-dessous), HTTPS sur un nom d'hôte public, proxys de confiance, clé de chiffrement dédiée, `tmonier:b2b-mcp:purge` chaque jour"
+                    }
+                },
+                {
+                    "slug": "sylius-webhook-outbox-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusWebhookOutboxPlugin\\TmonierSyliusWebhookOutboxPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusWebhookOutboxPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusWebhookOutboxPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "run the delivery worker, schedule `tmonier:webhook:purge`, set `framework.router.default_uri`",
+                        "fr": "lancer le worker d'envoi, planifier `tmonier:webhook:purge`, définir `framework.router.default_uri`"
+                    }
+                }
+            ],
+            "source": "https://github.com/thibmonier/sylius-pack-ai-headless/blob/main/README.md",
+            "composer_source": "https://github.com/thibmonier/sylius-pack-ai-headless/blob/main/composer.json",
+            "checked_at": "2026-10-24",
+            "fingerprint": "712f3cb7cc6bef6ffdf4fe80df332e024106b4cf443162edf3785a9e769c1b3f"
+        },
+        "sylius-pack-compliance-tooling": {
+            "composer": "tmonier/sylius-pack-compliance-tooling",
+            "command": "composer require tmonier/sylius-pack-compliance-tooling",
+            "title": {
+                "en": "Compliance and tooling",
+                "fr": "Conformité et outillage"
+            },
+            "summary": {
+                "en": "Six Sylius 2 plugins for compliance and for the admin panel, installed with one `composer require`: Factur-X invoices, GPSR product safety data, an audit log, an order and customer timeline, a command palette and bulk actions.",
+                "fr": "Six plugins Sylius 2 pour la conformité et l'administration, installés avec un seul `composer require` : factures Factur-X, données de sécurité des produits GPSR, journal d'audit, chronologie des commandes et des clients, palette de commandes et actions groupées."
+            },
+            "plugins": [
+                {
+                    "slug": "sylius-facturx-plugin",
+                    "bound": "^1.1",
+                    "role": {
+                        "en": "Factur-X / ZUGFeRD (EN 16931) invoices on the official Sylius Invoicing Plugin",
+                        "fr": "Factures Factur-X / ZUGFeRD (EN 16931) sur le plugin de facturation officiel de Sylius"
+                    }
+                },
+                {
+                    "slug": "sylius-gpsr-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Product safety information required by the EU General Product Safety Regulation",
+                        "fr": "Informations de sécurité des produits exigées par le règlement européen GPSR"
+                    }
+                },
+                {
+                    "slug": "sylius-audit-log-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Journal of admin changes with a diff per field",
+                        "fr": "Journal des modifications de l'administration avec diff par champ"
+                    }
+                },
+                {
+                    "slug": "sylius-timeline-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Order and customer timeline with internal notes",
+                        "fr": "Chronologie des commandes et des clients avec notes internes"
+                    }
+                },
+                {
+                    "slug": "sylius-command-palette-plugin",
+                    "bound": "^1.1",
+                    "role": {
+                        "en": "Ctrl+K / Cmd+K global search in the admin",
+                        "fr": "Recherche globale Ctrl+K / Cmd+K dans l'administration"
+                    }
+                },
+                {
+                    "slug": "sylius-bulk-actions-plugin",
+                    "bound": "^1.0",
+                    "role": {
+                        "en": "Bulk actions on the admin grids",
+                        "fr": "Actions groupées sur les grilles de l'administration"
+                    }
+                }
+            ],
+            "suggests": [],
+            "steps": [
+                {
+                    "slug": "sylius-facturx-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusFacturXPlugin\\TmonierSyliusFacturXPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusFacturXPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusFacturXPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "Factur-X settings and seller data per channel in the admin",
+                        "fr": "réglages Factur-X et données du vendeur par canal, dans l'administration"
+                    }
+                },
+                {
+                    "slug": "sylius-gpsr-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusGpsrPlugin\\TmonierSyliusGpsrPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusGpsrPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusGpsrPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "create responsible persons and manufacturers, fill the product safety tab",
+                        "fr": "créer les personnes responsables et les fabricants, remplir l'onglet de sécurité des produits"
+                    }
+                },
+                {
+                    "slug": "sylius-audit-log-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusAuditLogPlugin\\TmonierSyliusAuditLogPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusAuditLogPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusAuditLogPlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "schedule `tmonier:audit-log:purge`",
+                        "fr": "planifier `tmonier:audit-log:purge`"
+                    }
+                },
+                {
+                    "slug": "sylius-timeline-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusTimelinePlugin\\TmonierSyliusTimelinePlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusTimelinePlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusTimelinePlugin/config/routes.yaml"
+                    ],
+                    "migrations": true,
+                    "other": {
+                        "en": "optional `tmonier:timeline:backfill` for existing orders",
+                        "fr": "`tmonier:timeline:backfill` facultatif pour les commandes existantes"
+                    }
+                },
+                {
+                    "slug": "sylius-command-palette-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusCommandPalettePlugin\\TmonierSyliusCommandPalettePlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusCommandPalettePlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusCommandPalettePlugin/config/routes.yaml"
+                    ],
+                    "migrations": false,
+                    "other": {
+                        "en": "`bin/console assets:install`",
+                        "fr": "`bin/console assets:install`"
+                    }
+                },
+                {
+                    "slug": "sylius-bulk-actions-plugin",
+                    "bundles": [
+                        "Tmonier\\SyliusBulkActionsPlugin\\TmonierSyliusBulkActionsPlugin"
+                    ],
+                    "config": [
+                        "@TmonierSyliusBulkActionsPlugin/config/config.yaml"
+                    ],
+                    "routes": [
+                        "@TmonierSyliusBulkActionsPlugin/config/routes.yaml"
+                    ],
+                    "migrations": false,
+                    "other": {
+                        "en": "none",
+                        "fr": "aucun"
+                    }
+                }
+            ],
+            "source": "https://github.com/thibmonier/sylius-pack-compliance-tooling/blob/main/README.md",
+            "composer_source": "https://github.com/thibmonier/sylius-pack-compliance-tooling/blob/main/composer.json",
+            "checked_at": "2026-10-24",
+            "fingerprint": "e583dc6c4190a38449fecc8ae67db3726653b6e68e33b1e1450143aaea7ce1c7"
+        }
+    }
+}

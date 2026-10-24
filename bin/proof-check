@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Checks that config/demo/proof.json is not behind the repository (US-168): the test files of the demo and the plugins
  * of config/demo/plugins.yaml, counted with the rule of the refresh. No network, never writes the proof.
  *
- *   php bin/proof-check [--root=PATH] [--file=PATH] [--summary=PATH] [--compat-file=PATH] [--plugins-dir=DIR]
+ *   php bin/proof-check [--root=PATH] [--file=PATH] [--summary=PATH] [--compat-file=PATH] [--plugins-dir=DIR] [--packs-file=PATH] [--packs-dir=DIR]
  *
  * --root      the checkout to count (default: this repository)
  * --file      the proof to check (default: <root>/config/demo/proof.json)
@@ -19,11 +19,22 @@ declare(strict_types=1);
  *   --compat-file   the compatibility data to check (default: <root>/config/demo/compatibility.json)
  *   --plugins-dir   a folder holding clones of the plugin repositories; without it only the list of plugins is checked
  *
+ * And config/demo/packs.json (US-178, same mechanism): the pack repositories the page presents and, with --packs-dir, the
+ * composer.json and READMEs of the clones found there (<dir>/<repository>) against the fingerprints published.
+ *
+ *   --packs-file    the packs data to check (default: <root>/config/demo/packs.json)
+ *   --packs-dir     a folder holding clones of the pack repositories; without it only the list of packs is checked
+ *
  * Exit code 0 when up to date, 1 when a figure differs (each one printed with the refresh command), 2 when the proof or
  * the compatibility data is missing or malformed, or on a usage error. The CI runs it on every build: informative on a
  * pull request, blocking on main.
  */
 
+use App\Demo\Packs\PackFingerprint;
+use App\Demo\Packs\PackRepositories;
+use App\Demo\Packs\PacksFile;
+use App\Demo\Packs\PacksFreshness;
+use App\Demo\Packs\PacksGap;
 use App\Demo\Proof\Check\ProofFile;
 use App\Demo\Proof\Check\ProofFreshness;
 use App\Demo\Proof\Check\ProofGap;
@@ -37,13 +48,15 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 require \dirname(__DIR__) . '/vendor/autoload.php';
 
-$usage = "usage: php bin/proof-check [--root=PATH] [--file=PATH] [--summary=PATH] [--compat-file=PATH] [--plugins-dir=DIR]\n";
+$usage = "usage: php bin/proof-check [--root=PATH] [--file=PATH] [--summary=PATH] [--compat-file=PATH] [--plugins-dir=DIR] [--packs-file=PATH] [--packs-dir=DIR]\n";
 $refresh = 'php bin/proof-refresh';
 $root = \dirname(__DIR__);
 $file = null;
 $summary = null;
 $compatFile = null;
 $pluginsDir = null;
+$packsFile = null;
+$packsDir = null;
 $arguments = \is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], \is_string(...))) : [];
 foreach (\array_slice($arguments, 1) as $argument) {
     if (str_starts_with($argument, '--root=')) {
@@ -56,6 +69,10 @@ foreach (\array_slice($arguments, 1) as $argument) {
         $compatFile = substr($argument, 14);
     } elseif (str_starts_with($argument, '--plugins-dir=')) {
         $pluginsDir = rtrim(substr($argument, 14), '/');
+    } elseif (str_starts_with($argument, '--packs-file=')) {
+        $packsFile = substr($argument, 13);
+    } elseif (str_starts_with($argument, '--packs-dir=')) {
+        $packsDir = rtrim(substr($argument, 12), '/');
     } else {
         fwrite(\STDERR, $usage);
         exit(2);
@@ -63,6 +80,7 @@ foreach (\array_slice($arguments, 1) as $argument) {
 }
 $file ??= $root . '/config/demo/proof.json';
 $compatFile ??= $root . '/config/demo/compatibility.json';
+$packsFile ??= $root . '/config/demo/packs.json';
 
 $report = static function (string $text, string $heading = 'Published proof (proof.json)') use ($summary): void {
     if (null !== $summary && '' !== $summary) {
@@ -113,9 +131,36 @@ if ([] === $compatGaps) {
     $line = \sprintf('Compatibility up to date: %d plugins.', \count($slugs));
     echo $line . "\n";
     $report($line, 'Published compatibility (compatibility.json)');
+} else {
+    $lines = array_map(static fn (CompatibilityGap $gap): string => '- ' . $gap->describe(), $compatGaps);
+    fwrite(\STDERR, "Compatibility behind the repository:\n" . implode("\n", $lines) . "\n");
+    $report("Behind the repository:\n\n" . implode("\n", $lines), 'Published compatibility (compatibility.json)');
+    $status = 1;
+}
+
+// US-178: the packs data, checked the same way.
+try {
+    $packs = PacksFile::read($packsFile);
+} catch (UnreadableProof $exception) {
+    fwrite(\STDERR, 'Packs unreadable: ' . $exception->getMessage() . "\n");
+    $report('Packs unreadable: ' . $exception->getMessage(), 'Published packs (packs.json)');
+    exit(2);
+}
+$localPacks = [];
+foreach (null === $packsDir ? [] : PackRepositories::ALL as $repository) {
+    $fingerprint = PackFingerprint::ofDirectory($packsDir . '/' . $repository);
+    if (null !== $fingerprint) {
+        $localPacks[$repository] = $fingerprint;
+    }
+}
+$packsGaps = PacksFreshness::gaps($packs, PackRepositories::ALL, $localPacks);
+if ([] === $packsGaps) {
+    $line = \sprintf('Packs up to date: %d packs.', \count(PackRepositories::ALL));
+    echo $line . "\n";
+    $report($line, 'Published packs (packs.json)');
     exit($status);
 }
-$lines = array_map(static fn (CompatibilityGap $gap): string => '- ' . $gap->describe(), $compatGaps);
-fwrite(\STDERR, "Compatibility behind the repository:\n" . implode("\n", $lines) . "\n");
-$report("Behind the repository:\n\n" . implode("\n", $lines), 'Published compatibility (compatibility.json)');
+$lines = array_map(static fn (PacksGap $gap): string => '- ' . $gap->describe(), $packsGaps);
+fwrite(\STDERR, "Packs behind the repositories:\n" . implode("\n", $lines) . "\n");
+$report("Behind the repositories:\n\n" . implode("\n", $lines), 'Published packs (packs.json)');
 exit(1);

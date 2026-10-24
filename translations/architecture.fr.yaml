@@ -28,6 +28,7 @@ overview:
     caption: "Un seul conteneur sert la boutique et lance les tâches planifiées ; la base et les médias sont persistants ; la CI construit et vérifie la même image à chaque changement."
 layers:
     title: "Couches"
+    packs_link: "Les plugins s'installent un par un ou par pack : voir la page Installer un pack."
     core:
         name: "Cœur Sylius"
         text: "Sylius %sylius% sous Symfony %symfony% et PHP %php%, à partir du squelette Sylius-Standard. Le cœur n'est pas modifié : tout passe par la configuration, les événements et les points d'extension."

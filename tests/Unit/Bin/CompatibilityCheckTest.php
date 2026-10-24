@@ -28,6 +28,8 @@ final class CompatibilityCheckTest extends TestCase
             'plugins' => ['sylius-a-plugin' => ['version' => ['value' => 'v1.0.0']], 'sylius-b-plugin' => ['version' => ['value' => 'v1.0.0']]],
             'delivery' => ['tests' => ['value' => 1, 'source' => 'https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests', 'checked_at' => '2026-10-23']],
         ]));
+        // US-178: the check also reads the packs data; this one is in step with the two pack repositories.
+        $filesystem->dumpFile($this->root . '/config/demo/packs.json', (string) json_encode(['generated_at' => '2026-10-24T10:00:00Z', 'packs' => ['sylius-pack-ai-headless' => ['fingerprint' => 'a'], 'sylius-pack-compliance-tooling' => ['fingerprint' => 'b']]]));
     }
 
     protected function tearDown(): void

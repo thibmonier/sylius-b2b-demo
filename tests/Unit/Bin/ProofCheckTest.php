@@ -26,6 +26,8 @@ final class ProofCheckTest extends TestCase
         $filesystem->dumpFile($this->root . '/config/demo/plugins.yaml', "parameters:\n    demo.plugin_catalog:\n        - { slug: sylius-a-plugin }\n        - { slug: sylius-b-plugin }\n");
         // US-171: the check also reads the compatibility data; this one is in step with the catalogue above.
         $filesystem->dumpFile($this->root . '/config/demo/compatibility.json', (string) json_encode(['generated_at' => '2026-10-23T10:00:00Z', 'plugins' => ['sylius-a-plugin' => ['fingerprint' => 'a'], 'sylius-b-plugin' => ['fingerprint' => 'b']]]));
+        // US-178: and the packs data; this one is in step with the two pack repositories.
+        $filesystem->dumpFile($this->root . '/config/demo/packs.json', (string) json_encode(['generated_at' => '2026-10-24T10:00:00Z', 'packs' => ['sylius-pack-ai-headless' => ['fingerprint' => 'a'], 'sylius-pack-compliance-tooling' => ['fingerprint' => 'b']]]));
     }
 
     protected function tearDown(): void

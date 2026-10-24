@@ -1,0 +1,4 @@
+# US-178: written by bin/packs-refresh (reads the composer.json and the two READMEs of each pack repository), read by
+# App\Demo\Packs\PacksReader. The variable only exists so the tests can aim at another file.
+parameters:
+    env(DEMO_PACKS_FILE): '%kernel.project_dir%/config/demo/packs.json'

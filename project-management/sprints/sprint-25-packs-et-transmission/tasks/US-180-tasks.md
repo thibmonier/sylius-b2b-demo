@@ -46,18 +46,18 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-180-01 | [DOC] | Cadrage : squelette du plugin modèle (composer.json, matrice de CI, outils de qualité, application de test) lu ; événement et classe `FacturXInvoiceGenerated` de `facturx` lus (version de dépôt notée) ; nom du bundle, espace de noms, table, statuts, clé d'idempotence, forme du port ; plan des tests | 1 h | - | Claude | 🔲 |
-| T-180-02 | [OPS] | Squelette du plugin en local (copie nettoyée du modèle, `git init`, `composer.json`, CI sur la matrice commune, outils de qualité, LICENSE) ; ressources relevées avant l'installation ; une seule installation lourde | 1 h | T-180-01 | Claude | 🔲 |
-| T-180-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR : les 5 scénarios (facture transmise et journalisée, événement rejoué, adaptateur nul par défaut, adaptateur en échec sans échec de la génération, statut inconnu refusé) | 1,5 h | T-180-02 | Claude | 🔲 |
-| T-180-04 | [BE] | Port `InvoiceTransmitterInterface`, résultat de transmission, statuts (ensemble minimal, extensible), `NullInvoiceTransmitter` | 1 h | T-180-03 | Claude | 🔲 |
-| T-180-05 | [DB] | Entité du journal des envois (facture, statut, message, dates), mapping, migration avec unicité par identifiant de facture, dépôt | 1 h | T-180-03 | Claude | 🔲 |
-| T-180-06 | [BE] | Écouteur de `tmonier_facturx.invoice_generated` : appel de l'adaptateur, journalisation, idempotence, exception attrapée, statut inconnu refusé | 1 h | T-180-04, T-180-05 | Claude | 🔲 |
-| T-180-07 | [BE] | Bundle et configuration (adaptateur choisi par service, défaut nul), enregistrement de l'écouteur, double de test `RecordingInvoiceTransmitter` | 0,75 h | T-180-06 | Claude | 🔲 |
-| T-180-08 | [TEST] | Suite complète en local (commande du Makefile du plugin, dans Docker), ECS, PHPStan max, Rector ; dernières lignes citées ; base et vendor de l'essai nettoyés, espace libre relevé | 0,75 h | T-180-07 | Claude | 🔲 |
-| T-180-09 | [DOC] | README FR et EN (installation, port, statuts minimaux « à vérifier », limites : aucune plateforme réelle), CHANGELOG ; texte relu contre le code et l'ADR 0016 | 1 h | T-180-08 | Claude | 🔲 |
-| T-180-10 | [REV] | Revue (ton neutre, aucune plateforme réelle, `facturx` inchangé, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-180-09 | Claude | 🔲 |
-| T-180-11 | [OPS] | 📅 Thibaut donne son GO pour créer le dépôt GitHub `thibmonier/sylius-einvoice-transmission-plugin`, pousser et poser le tag `v0.1.0` | 0,25 h | T-180-10 | Thibaut | 📅 |
-| T-180-12 | [OPS] | Après GO : création du dépôt avec ses topics (ecommerce, sylius, sylius-plugin, symfony, einvoice, factur-x), push, CI verte sur toute la matrice (run terminé), tag et release `v0.1.0` | 0,75 h | T-180-11 | Claude | 📅 |
+| T-180-01 | [DOC] | Cadrage : squelette du plugin modèle (composer.json, matrice de CI, outils de qualité, application de test) lu ; événement et classe `FacturXInvoiceGenerated` de `facturx` lus (version de dépôt notée) ; nom du bundle, espace de noms, table, statuts, clé d'idempotence, forme du port ; plan des tests | 1 h | - | Claude | ✅ |
+| T-180-02 | [OPS] | Squelette du plugin en local (copie nettoyée du modèle, `git init`, `composer.json`, CI sur la matrice commune, outils de qualité, LICENSE) ; ressources relevées avant l'installation ; une seule installation lourde | 1 h | T-180-01 | Claude | ✅ |
+| T-180-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR : les 5 scénarios (facture transmise et journalisée, événement rejoué, adaptateur nul par défaut, adaptateur en échec sans échec de la génération, statut inconnu refusé) | 1,5 h | T-180-02 | Claude | ✅ |
+| T-180-04 | [BE] | Port `InvoiceTransmitterInterface`, résultat de transmission, statuts (ensemble minimal, extensible), `NullInvoiceTransmitter` | 1 h | T-180-03 | Claude | ✅ |
+| T-180-05 | [DB] | Entité du journal des envois (facture, statut, message, dates), mapping, migration avec unicité par identifiant de facture, dépôt | 1 h | T-180-03 | Claude | ✅ |
+| T-180-06 | [BE] | Écouteur de `tmonier_facturx.invoice_generated` : appel de l'adaptateur, journalisation, idempotence, exception attrapée, statut inconnu refusé | 1 h | T-180-04, T-180-05 | Claude | ✅ |
+| T-180-07 | [BE] | Bundle et configuration (adaptateur choisi par service, défaut nul), enregistrement de l'écouteur, double de test `RecordingInvoiceTransmitter` | 0,75 h | T-180-06 | Claude | ✅ |
+| T-180-08 | [TEST] | Suite complète en local (commande du Makefile du plugin, dans Docker), ECS, PHPStan max, Rector ; dernières lignes citées ; base et vendor de l'essai nettoyés, espace libre relevé | 0,75 h | T-180-07 | Claude | ✅ |
+| T-180-09 | [DOC] | README FR et EN (installation, port, statuts minimaux « à vérifier », limites : aucune plateforme réelle), CHANGELOG ; texte relu contre le code et l'ADR 0016 | 1 h | T-180-08 | Claude | ✅ |
+| T-180-10 | [REV] | Revue (ton neutre, aucune plateforme réelle, `facturx` inchangé, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-180-09 | Claude | ✅ |
+| T-180-11 | [OPS] | 📅 Thibaut donne son GO pour créer le dépôt GitHub `thibmonier/sylius-einvoice-transmission-plugin`, pousser et poser le tag `v0.1.0` | 0,25 h | T-180-10 | Thibaut | ✅ |
+| T-180-12 | [OPS] | Après GO : création du dépôt avec ses topics (ecommerce, sylius, sylius-plugin, symfony, einvoice, factur-x), push, CI verte sur toute la matrice (run terminé), tag et release `v0.1.0` | 0,75 h | T-180-11 | Claude | ✅ |
 | T-180-13 | [OPS] | 📅 Thibaut soumet le paquet à Packagist | 0,25 h | T-180-12 | Thibaut | 📅 |
 
 **Total estimé : 10,5 h** (13 tâches, dont 0,5 h de Thibaut ; 10 h pour Claude et l'orchestrateur).
@@ -66,10 +66,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 À remplir avant le passage en done : chaque scénario renvoie à un test (classe et méthode) ou à une preuve (commande et sortie, run de CI). Une ligne vide laisse la story en review.
 
+Dépôt public `thibmonier/sylius-einvoice-transmission-plugin`, `main` `b645262` : CI verte sur ses 10 jobs (Sylius 2.2 et 2.3, PHP 8.2 à 8.5, Symfony 6.4 à 8.0, MySQL, MariaDB 11.4, PostgreSQL 17). Commit rouge seul : `d817be6` (15 tests, 14 erreurs, 1 échec). Local : `OK (20 tests, 42 assertions)`, ECS, PHPStan max et Rector verts. Écart au squelette : aucun fichier `.env*` (refusé par le hook du projet), application de test configurée par `phpunit.xml.dist` et l'environnement de la CI, expliqué dans le README. Tag et release `v0.1.0` posés après le GO de Thibaut (2026-10-24), sur `d2da15f` (CHANGELOG daté, code identique au commit vert) ; soumission à Packagist par Thibaut (T-180-13).
+
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Facture transmise et journalisée (nominal) | |
-| Événement rejoué (alternatif) | |
-| Aucun adaptateur configuré (alternatif) | |
-| Adaptateur en échec (erreur) | |
-| Statut inconnu (erreur) | |
+| Facture transmise et journalisée (nominal) | `tests/Integration/TransmissionScenariosTest.php` : `testAnInvoiceIsTransmittedOnceAndTheSendIsLogged` |
+| Événement rejoué (alternatif) | `tests/Integration/TransmissionScenariosTest.php` : `testAReplayedEventDoesNotSendTheInvoiceAgain` |
+| Aucun adaptateur configuré (alternatif) | `tests/Integration/TransmissionScenariosTest.php` : `testTheDefaultConfigurationLogsTheInvoiceAsNotTransmittedWithTheNullAdapter` |
+| Adaptateur en échec (erreur) | `tests/Integration/TransmissionScenariosTest.php` : `testAFailingAdapterIsLoggedAsAnErrorAndDoesNotBreakTheGeneration` ; `Unit\EventListener\InvoiceGeneratedListenerTest` |
+| Statut inconnu (erreur) | `tests/Integration/TransmissionScenariosTest.php` : `testAnUnknownStatusIsRefusedWithAClearMessageAndNeverStored` ; `TransmissionStatusCatalogTest`, `TransmissionJournalTest` |

@@ -9,6 +9,7 @@ prerequisites:
 install:
     title: "Installation type d'un plugin"
     intro: "Exemple avec le plugin de commande rapide. Les autres suivent le même schéma ; les noms de bundle, de ressources et de tables changent, et le README du plugin donne la liste exacte."
+    packs_link: "Plusieurs plugins à la fois : la page Installer un pack, avec la commande et les gestes restants de chaque pack."
     override_link: "Adapter un plugin sans le modifier : le guide de surcharge, avec des exemples réels de la démo."
     require:
         title: "Installer le paquet"

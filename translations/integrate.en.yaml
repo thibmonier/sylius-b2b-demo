@@ -9,6 +9,7 @@ prerequisites:
 install:
     title: "Typical plugin installation"
     intro: "Example with the quick order plugin. The others follow the same pattern; bundle, resource and table names change, and the plugin README gives the exact list."
+    packs_link: "Several plugins at once: the Install a pack page, with the command and the remaining steps of each pack."
     override_link: "Adapt a plugin without modifying it: the override guide, with real examples from the demo."
     require:
         title: "Require the package"

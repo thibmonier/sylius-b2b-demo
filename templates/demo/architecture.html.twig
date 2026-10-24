@@ -105,6 +105,7 @@
                     <li class="mb-2"><span class="fw-semibold">{{ ('layers.' ~ layer ~ '.name')|trans(versions, 'architecture') }}</span> : {{ ('layers.' ~ layer ~ '.text')|trans(versions, 'architecture') }}</li>
                 {% endfor %}
             </ol>
+            <p class="mt-3 mb-0"><a href="{{ path('app_demo_packs', {_locale: app.request.locale}) }}" data-architecture-packs-link>{{ 'layers.packs_link'|trans({}, 'architecture') }}</a></p>
             {{ page.links({'blob/main/composer.json': 'links.composer', 'tree/main/src/Demo': 'links.demo_layer', 'blob/main/docs/vitrine-plugins.md': 'links.showcase', 'blob/main/docs/adr/0004-theme-par-ajouts-de-twig-hooks.md': 'links.adr_theme'}, repository) }}
         </section>
 
