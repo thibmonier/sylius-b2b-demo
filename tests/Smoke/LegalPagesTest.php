@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -43,7 +44,7 @@ final class LegalPagesTest extends WebTestCase
         $composer = json_decode((string) file_get_contents(__DIR__ . '/../../composer.json'), true, 512, \JSON_THROW_ON_ERROR);
         $plugins = array_filter(array_keys($composer['require']), static fn (string $p): bool => str_starts_with($p, 'tmonier/'));
 
-        self::assertCount(27, $plugins);
+        self::assertCount(DemoCatalogs::pluginCount(), $plugins);
         foreach ($plugins as $package) {
             self::assertStringContainsString('https://github.com/thibmonier/' . substr($package, 8), $content);
         }

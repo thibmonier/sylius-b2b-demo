@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Smoke;
 
 use App\Demo\Plugin\DemoPluginCatalog;
+use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -32,7 +33,7 @@ final class PluginCountSmokeTest extends WebTestCase
         $client->request('GET', $path);
 
         self::assertResponseIsSuccessful();
-        self::assertSame(27, $catalog->count());
+        self::assertSame(DemoCatalogs::pluginCount(), $catalog->count());
         self::assertStringContainsString(sprintf($pattern, $catalog->count()), html_entity_decode((string) $client->getResponse()->getContent(), \ENT_QUOTES));
         self::assertDoesNotMatchRegularExpression('/\b24 (open source )?plugins|plugins\s+24\b/i', strip_tags((string) $client->getResponse()->getContent()));
     }

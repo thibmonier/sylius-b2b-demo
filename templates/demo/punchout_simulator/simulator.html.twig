@@ -39,6 +39,14 @@
         .vh { position: absolute; left: -9999px; }
         .flow { width: 100%; max-width: 46rem; height: auto; color: #1a1a1a; }
         .cta a { display: inline-flex; align-items: center; min-height: 2.75rem; margin-right: 1.5rem; color: #1f3a5f; }
+        /* T-TECH-27-06: on a phone each row is a card (one cell per line, its column heading before the value); the header row stays for the screen readers. */
+        th, td { overflow-wrap: anywhere; }
+        @media (max-width: 767.98px) {
+            thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+            tr { display: block; margin-bottom: 1rem; padding: .5rem .75rem; border: 1px solid #ddd; border-radius: 3px; }
+            th, td { display: block; padding: .25rem 0; border: 0; }
+            td::before { content: attr(data-label); display: block; font-weight: 600; font-size: .875rem; }
+        }
     </style>
 </head>
 <body>
@@ -111,23 +119,23 @@
     {% if cart.lines is empty %}
         <div class="note" role="status">{{ 'cart.empty'|trans({}, 'simulator', locale) }}</div>
     {% endif %}
-    <table>
+    <table role="table">
         <caption class="sr-only" style="position:absolute;left:-9999px">{{ 'cart.title'|trans({}, 'simulator', locale) }}</caption>
-        <thead>
-            <tr>
-                <th scope="col">{{ 'cart.part'|trans({}, 'simulator', locale) }}</th>
-                <th scope="col">{{ 'cart.description'|trans({}, 'simulator', locale) }}</th>
-                <th scope="col" class="num">{{ 'cart.quantity'|trans({}, 'simulator', locale) }}</th>
-                <th scope="col" class="num">{{ 'cart.unit_price'|trans({}, 'simulator', locale) }}</th>
+        <thead role="rowgroup">
+            <tr role="row">
+                <th scope="col" role="columnheader">{{ 'cart.part'|trans({}, 'simulator', locale) }}</th>
+                <th scope="col" role="columnheader">{{ 'cart.description'|trans({}, 'simulator', locale) }}</th>
+                <th scope="col" class="num" role="columnheader">{{ 'cart.quantity'|trans({}, 'simulator', locale) }}</th>
+                <th scope="col" class="num" role="columnheader">{{ 'cart.unit_price'|trans({}, 'simulator', locale) }}</th>
             </tr>
         </thead>
         <tbody>
         {% for line in cart.lines %}
             <tr>
-                <td><code>{{ line.supplierPartId }}</code></td>
-                <td>{{ line.description }}</td>
-                <td class="num">{{ line.quantity }} {{ line.unitOfMeasure }}</td>
-                <td class="num">{{ line.unitPrice }} {{ line.currency }}</td>
+                <td data-label="{{ 'cart.part'|trans({}, 'simulator', locale) }}" role="cell"><code>{{ line.supplierPartId }}</code></td>
+                <td data-label="{{ 'cart.description'|trans({}, 'simulator', locale) }}" role="cell">{{ line.description }}</td>
+                <td class="num" data-label="{{ 'cart.quantity'|trans({}, 'simulator', locale) }}" role="cell">{{ line.quantity }} {{ line.unitOfMeasure }}</td>
+                <td class="num" data-label="{{ 'cart.unit_price'|trans({}, 'simulator', locale) }}" role="cell">{{ line.unitPrice }} {{ line.currency }}</td>
             </tr>
         {% endfor %}
         </tbody>
