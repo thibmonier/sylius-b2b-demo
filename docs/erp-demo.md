@@ -20,6 +20,14 @@ flowchart LR
 3. `bin/console app:demo:erp-simulate` : l'ERP Démo (fictif) lit le **dernier** fichier de commandes, contrôle l'en-tête puis chaque ligne, et dépose `ack-<nom du fichier>` (atomique : fichier provisoire puis renommage). Un fichier déjà traité n'est jamais traité deux fois.
 4. La page **Intégrations > Échanges ERP** du back-office (`/admin/demo/erp`, lecture seule) liste les fichiers envoyés (journal d'export du plugin) et les réponses (journal du simulateur), avec le sens, le nom, la date, les lignes lues, acceptées et rejetées.
 
+La page du back-office (français ; bureau à 1280 px, téléphone à 360 px, état vide) :
+
+![Page Échanges ERP : un fichier envoyé et son accusé simulé reçu](images/admin-erp-exchanges-desktop-fr.jpg)
+
+![Page Échanges ERP sur un téléphone de 360 px](images/admin-erp-exchanges-mobile-fr.jpg)
+
+![Page Échanges ERP sans échange : message d'état vide](images/admin-erp-exchanges-empty-desktop-fr.jpg)
+
 ## L'accusé de réception simulé
 
 Format propre à la démo (le plugin d'export ne change pas) : un CSV `order_number;webhook_id;status;reason`, une ligne par ligne du fichier de commandes. `status` vaut `received` ou `rejected` ; pour une ligne rejetée, `reason` donne le premier contrôle en échec.
