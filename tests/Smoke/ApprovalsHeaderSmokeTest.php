@@ -30,7 +30,7 @@ final class ApprovalsHeaderSmokeTest extends WebTestCase
         self::assertCount(1, $entry);
         self::assertSame('1', trim($entry->filter('[data-test-tmonier-header-approvals-badge]')->text()));
         self::assertStringContainsString('1 approbation en attente', $entry->text());
-        self::assertCount(2, $crawler->filter('[data-test-tmonier-header-approvals="mobile"]'), 'the phone menu and the greeting menu');
+        self::assertCount(1, $crawler->filter('[data-test-tmonier-header-approvals="mobile"]'), 'one menu for every width');
     }
 
     public function testIsabelleTheAdministratorHasTheEntryToo(): void

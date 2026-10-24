@@ -14,8 +14,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * US-192: on a wide screen, a signed-in buyer keeps the cart, the favourites and a "Hello <name>!" button in the header;
- * the account links (My account, Approvals, Log out, whatever a plugin adds) are in the dropdown of that button. A
- * visitor and the mobile menu do not change.
+ * the account links (My account, Approvals, Log out, whatever a plugin adds) are in the dropdown of that button. On a phone
+ * the same dropdown is the icon button it always was (one menu in the page: the core entries carry fixed ids). A visitor does not change.
  */
 final class HeaderAccountMenuTest extends WebTestCase
 {
@@ -40,7 +40,7 @@ final class HeaderAccountMenuTest extends WebTestCase
         self::assertSame('button', $button->attr('type'));
         self::assertSame('false', $button->attr('aria-expanded'));
         self::assertSame('dropdown', $button->attr('data-bs-toggle'));
-        self::assertStringContainsString($greeting, trim((string) preg_replace('/\s+/', ' ', $button->text())), 'the visible text is the name of the button');
+        self::assertStringContainsString($greeting, trim((string) preg_replace('/\s+/', ' ', $button->filter('span.d-none.d-lg-inline')->text())), 'the visible text is the name of the button on a wide screen');
         $list = $menu->filter('ul.dropdown-menu');
         self::assertCount(1, $list);
         self::assertSame($list->attr('id'), $button->attr('aria-controls'));
@@ -59,7 +59,7 @@ final class HeaderAccountMenuTest extends WebTestCase
         self::assertStringContainsString('logout', $hrefs[2]);
         self::assertCount(1, $menu->filter('[data-test-tmonier-header-approvals="mobile"]'), 'the plugin entry is a hookable of the menu');
         self::assertCount(0, $page->filter('header [data-test-tmonier-header-approvals="desktop"]'), 'no entry left in the row');
-        self::assertCount(2, $page->filter('header a[href$="/logout"]'), 'one in each of the two menus (wide screen and phone), none in the row');
+        self::assertCount(1, $page->filter('header a[href$="/logout"]'), 'one menu for every width, none in the row');
     }
 
     public function testTheOldDesktopLinksAreNotInTheRowAnyMore(): void
@@ -69,16 +69,15 @@ final class HeaderAccountMenuTest extends WebTestCase
         self::assertCount(0, $page->filter('header .d-lg-flex a[href*="logout"], header .d-lg-flex a[href*="account/dashboard"]'));
     }
 
-    public function testThePhoneMenuIsUnchanged(): void
+    public function testOnAPhoneTheSameButtonIsTheIconWithItsAccessibleName(): void
     {
         $page = $this->page('claire@acme.example', '/fr_FR/');
 
-        $phone = $page->filter('header .d-lg-none button[data-account-menu-toggle]');
-        self::assertCount(1, $phone);
-        self::assertSame('Mon compte', $phone->attr('aria-label'));
-        $menu = $page->filter('header [data-b2b-account-menu]');
-        self::assertContains('d-none', preg_split('/\s+/', trim((string) $menu->attr('class'))) ?: [], 'the greeting menu is for wide screens only');
-        self::assertContains('d-lg-block', preg_split('/\s+/', trim((string) $menu->attr('class'))) ?: []);
+        $button = $page->filter('header [data-b2b-account-menu] button[data-b2b-account-toggle]');
+        self::assertCount(1, $button);
+        self::assertSame('Mon compte', trim($button->filter('span.visually-hidden.d-lg-none')->text()), 'the name on a phone, where the greeting is hidden');
+        self::assertCount(1, $page->filter('header #mobile-my-account-button'), 'no duplicate id: one menu in the page');
+        self::assertCount(0, $page->filter('header .d-lg-none button[data-bs-toggle="dropdown"]'), 'no second account button for phones');
     }
 
     public function testAVisitorSeesTheSameHeaderAsBefore(): void

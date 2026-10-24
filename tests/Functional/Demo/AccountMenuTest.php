@@ -34,9 +34,11 @@ final class AccountMenuTest extends WebTestCase
         $page = $client->request('GET', '/' . $locale . '/');
 
         self::assertResponseIsSuccessful();
-        $toggle = $page->filter('header button[data-account-menu-toggle]');
+        $toggle = $page->filter('header button[data-b2b-account-toggle]');
         self::assertCount(1, $toggle);
-        self::assertSame($name, $toggle->attr('aria-label'));
+        // US-192: the name comes from the content (the greeting on a wide screen, this text on a phone), no aria-label that would contradict the visible text.
+        self::assertNull($toggle->attr('aria-label'));
+        self::assertSame($name, trim($toggle->filter('.visually-hidden.d-lg-none')->text()));
     }
 
     #[DataProvider('localesWith1Argument')]
