@@ -44,14 +44,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-184-01 | [DOC] | Cadrage : journal du plugin (`open`, `record`), règle de relance (statut `error` seul), écran du modèle « Webhooks reçus » (`src/Demo/Admin`, hooks), version 0.2.0 et contrainte `^0.2` | 0,5 h | T-183-10 | Claude | 🔲 |
-| T-184-02 | [TEST] | Tests rouges du plugin, commités seuls et cités dans la PR : réouverture d'une ligne en erreur, rappel de l'adaptateur une fois, refus d'un statut non relançable, aucune ligne en double | 0,75 h | T-184-01 | Claude | 🔲 |
-| T-184-03 | [BE] | Plugin : cas d'usage de relance et réouverture du journal ; README FR et EN, CHANGELOG ; ECS, PHPStan max, Rector dans Docker (budget disque : `vendor/` supprimé en fin de lot) | 1 h | T-184-02 | Claude | 🔲 |
-| T-184-04 | [TEST] | Tests rouges de la démo, commités seuls : liste des statuts, relance, bouton absent hors erreur, refus d'une relance non autorisée ou sans jeton, accès administrateur, FR et EN | 0,75 h | T-184-03 | Claude | 🔲 |
-| T-184-05 | [FE-WEB] | Démo : contrôleur et écran d'administration (liste, motif, dates, bandeau « simulés », bouton « Relancer » avec jeton), entrée de menu, scénario « erreur puis succès » dans les données | 1,25 h | T-184-04 | Claude | 🔲 |
-| T-184-06 | [OPS] | 📅 Thibaut donne son GO pour pousser, fusionner le plugin puis poser le tag et la release `v0.2.0` | 0,25 h | T-184-03 | Thibaut | 📅 |
-| T-184-07 | [OPS] | Après GO : push, CI verte sur toute la matrice (run terminé), concordance (CHANGELOG, tag, contrainte), tag et release ; démo en `^0.2` ; Packagist mis à jour contrôlé | 0,75 h | T-184-06 | Claude | 🔲 |
-| T-184-08 | [TEST] | Suite ciblée de la démo (`WORKER_ID=w184 …`), ECS, PHPStan max, Rector ; revue et table « scénario → test ou preuve » remplie | 0,75 h | T-184-05, T-184-07 | Claude | 🔲 |
+| T-184-01 | [DOC] | Cadrage : journal du plugin (`open`, `record`), règle de relance (statut `error` seul), écran du modèle « Webhooks reçus » (`src/Demo/Admin`, hooks), version 0.2.0 et contrainte `^0.2` | 0,5 h | T-183-10 | Claude | ✅ |
+| T-184-02 | [TEST] | Tests rouges du plugin, commités seuls et cités dans la PR : réouverture d'une ligne en erreur, rappel de l'adaptateur une fois, refus d'un statut non relançable, aucune ligne en double | 0,75 h | T-184-01 | Claude | ✅ |
+| T-184-03 | [BE] | Plugin : cas d'usage de relance et réouverture du journal ; README FR et EN, CHANGELOG ; ECS, PHPStan max, Rector dans Docker (budget disque : `vendor/` supprimé en fin de lot) | 1 h | T-184-02 | Claude | ✅ |
+| T-184-04 | [TEST] | Tests rouges de la démo, commités seuls : liste des statuts, relance, bouton absent hors erreur, refus d'une relance non autorisée ou sans jeton, accès administrateur, FR et EN | 0,75 h | T-184-03 | Claude | ✅ |
+| T-184-05 | [FE-WEB] | Démo : contrôleur et écran d'administration (liste, motif, dates, bandeau « simulés », bouton « Relancer » avec jeton), entrée de menu, scénario « erreur puis succès » dans les données | 1,25 h | T-184-04 | Claude | ✅ |
+| T-184-06 | [OPS] | 📅 Thibaut donne son GO pour pousser, fusionner le plugin puis poser le tag et la release `v0.2.0` | 0,25 h | T-184-03 | Thibaut | ✅ |
+| T-184-07 | [OPS] | Après GO : push, CI verte sur toute la matrice (run terminé), concordance (CHANGELOG, tag, contrainte), tag et release ; démo en `^0.2` ; Packagist mis à jour contrôlé | 0,75 h | T-184-06 | Claude | ✅ |
+| T-184-08 | [TEST] | Suite ciblée de la démo (`WORKER_ID=w184 …`), ECS, PHPStan max, Rector ; revue et table « scénario → test ou preuve » remplie | 0,75 h | T-184-05, T-184-07 | Claude | ✅ |
 
 **Total estimé : 6 h** (8 tâches, dont 0,25 h de Thibaut (1 tâche) ; 5,75 h pour Claude et l'orchestrateur).
 
@@ -61,8 +61,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Liste des statuts (nominal) | |
-| Relance d'un envoi en erreur (alternatif) | |
-| Statut non relançable (alternatif) | |
-| Relance d'une facture non relançable (erreur) | |
-| Accès non autorisé ou jeton absent (erreur) | |
+| Liste des statuts (nominal) | `EinvoiceTransmissionsAdminTest::testTheListShowsEveryInvoiceWithItsStatusReasonAndDateAndTheSimulatedBanner` (FR et EN) ; `testTheMenuOfTheIntegrationsGroupLinksToTheScreen` |
+| Relance d'un envoi en erreur (alternatif) | `EinvoiceTransmissionsAdminTest::testRelaunchingASendInErrorDepositsItOnTheSameLineAndConfirms` ; plugin : `RelaunchTransmissionHandlerTest::testASendInErrorIsRelaunchedOnTheSameLineAndTheAdapterIsCalledOnce`, `TransmissionReopenTest::testALineInErrorIsReopenedAsNotTransmittedWithoutANewLine` ; `FictitiousPlatformOutageTest` |
+| Statut non relançable (alternatif) | `EinvoiceTransmissionsAdminTest::testOnlyTheRowsInErrorOfferTheRelaunchButton` (FR et EN) |
+| Relance d'une facture non relançable (erreur) | `EinvoiceTransmissionsAdminTest::testRelaunchingAnInvoiceThatIsNotInErrorIsRefusedWithAClearMessage` ; plugin : `RelaunchTransmissionHandlerTest::testOnlyTheErrorStatusIsRelaunchedAndNothingIsSent`, `testASecondRelaunchAfterTheFirstOneSucceededSendsNothingMore` |
+| Accès non autorisé ou jeton absent (erreur) | `EinvoiceTransmissionsAdminTest::testARelaunchWithoutAValidTokenIsRefusedAndNothingIsSent`, `testAVisitorWhoIsNotAnAdministratorCannotSeeOrRelaunch` ; `DemoAdminWritePolicyTest` (route autorisée au compte restreint, POST seulement) |

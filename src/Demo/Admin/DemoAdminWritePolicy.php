@@ -39,6 +39,8 @@ final class DemoAdminWritePolicy
         // US-020: approve or reject a pending registration (POST, CSRF token and administration role checked by the plugin).
         'tmonier_registration_approval_admin_decide',
         'tmonier_bulk_actions_admin_ship_with_tracking_codes',
+        // US-184: relaunch of an e-invoice send in error (POST, CSRF token checked, only the status "error" is relaunched).
+        'app_demo_admin_einvoice_relaunch',
     ];
 
     /** @var list<string> */

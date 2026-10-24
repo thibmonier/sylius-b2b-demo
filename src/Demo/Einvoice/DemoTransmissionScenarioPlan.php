@@ -21,6 +21,17 @@ final class DemoTransmissionScenarioPlan
         ];
     }
 
+    /**
+     * US-184: orders whose first send meets an outage of the fictitious platform (status "error"), to show the relaunch. The
+     * outage lasts until an administrator relaunches the send.
+     *
+     * @return list<string>
+     */
+    public static function outageOrders(): array
+    {
+        return ['TP-2026-142'];
+    }
+
     public static function for(?string $poReference): DemoTransmissionScenario
     {
         return null === $poReference ? DemoTransmissionScenario::Deposited : self::all()[$poReference] ?? DemoTransmissionScenario::Deposited;

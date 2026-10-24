@@ -33,4 +33,14 @@ final class InMemoryTransmissionJournal implements TransmissionJournalInterface
         $this->catalog->assertKnown($status);
         $this->lines[$invoiceId] = ['status' => $status, 'message' => $message];
     }
+
+    public function reopen(string $invoiceId): bool
+    {
+        if ('error' !== ($this->lines[$invoiceId]['status'] ?? null)) {
+            return false;
+        }
+        $this->lines[$invoiceId] = ['status' => 'not_transmitted', 'message' => null];
+
+        return true;
+    }
 }

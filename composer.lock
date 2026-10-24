@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "783c6700531a7a92b6b6148c8c494545",
+    "content-hash": "38fe1a66a7c83dde28a1806d841ab4b6",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17508,16 +17508,16 @@
         },
         {
             "name": "tmonier/sylius-einvoice-transmission-plugin",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin.git",
-                "reference": "d2da15fb83bc4ce2cdaacfff77b28c9f474950a0"
+                "reference": "f65086a2a4471852e16c4677bfb8091d0833bc47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-einvoice-transmission-plugin/zipball/d2da15fb83bc4ce2cdaacfff77b28c9f474950a0",
-                "reference": "d2da15fb83bc4ce2cdaacfff77b28c9f474950a0",
+                "url": "https://api.github.com/repos/thibmonier/sylius-einvoice-transmission-plugin/zipball/f65086a2a4471852e16c4677bfb8091d0833bc47",
+                "reference": "f65086a2a4471852e16c4677bfb8091d0833bc47",
                 "shasum": ""
             },
             "require": {
@@ -17582,9 +17582,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/v0.2.0"
             },
-            "time": "2026-10-24T06:56:19+00:00"
+            "time": "2026-10-24T10:18:50+00:00"
         },
         {
             "name": "tmonier/sylius-facturx-plugin",

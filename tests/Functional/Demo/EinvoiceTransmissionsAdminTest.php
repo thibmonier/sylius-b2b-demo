@@ -29,15 +29,15 @@ final class EinvoiceTransmissionsAdminTest extends DemoAdminWebTestCase
         parent::tearDown();
     }
 
-    /** @return iterable<string, array{string, string, string, string}> */
+    /** @return iterable<string, array{string, string, string}> */
     public static function locales(): iterable
     {
-        yield 'French' => ['fr_FR', 'simulés', 'Relancer', 'Rejetée'];
-        yield 'English' => ['en_US', 'simulated', 'Relaunch', 'Rejected'];
+        yield 'French' => ['fr_FR', 'simulés', 'Rejetée'];
+        yield 'English' => ['en_US', 'simulated', 'Rejected'];
     }
 
     #[DataProvider('locales')]
-    public function testTheListShowsEveryInvoiceWithItsStatusReasonAndDateAndTheSimulatedBanner(string $locale, string $simulated, string $button, string $rejected): void
+    public function testTheListShowsEveryInvoiceWithItsStatusReasonAndDateAndTheSimulatedBanner(string $locale, string $simulated, string $rejected): void
     {
         $client = $this->sophieClient($locale);
 
@@ -54,8 +54,15 @@ final class EinvoiceTransmissionsAdminTest extends DemoAdminWebTestCase
         self::assertStringContainsString('Simulated reason', $rejectedRow->filter('[data-einvoice-message]')->text());
     }
 
-    #[DataProvider('locales')]
-    public function testOnlyTheRowsInErrorOfferTheRelaunchButton(string $locale, string $simulated, string $button): void
+    /** @return iterable<string, array{string, string}> */
+    public static function buttons(): iterable
+    {
+        yield 'French' => ['fr_FR', 'Relancer'];
+        yield 'English' => ['en_US', 'Relaunch'];
+    }
+
+    #[DataProvider('buttons')]
+    public function testOnlyTheRowsInErrorOfferTheRelaunchButton(string $locale, string $button): void
     {
         $page = $this->sophieClient($locale)->request('GET', self::URL);
 
@@ -93,10 +100,10 @@ final class EinvoiceTransmissionsAdminTest extends DemoAdminWebTestCase
         $depositedId = $this->invoiceIdOf(self::ORDER_DEPOSITED);
         $before = $this->snapshot('tmonier_einvoice_transmission');
 
-        $client->request('POST', self::URL . '/' . $depositedId . '/relaunch', ['_token' => $form->get('_token')->getValue()]);
+        $client->request('POST', self::URL . '/' . $depositedId . '/relaunch', ['_token' => $form->getValues()['_token']]);
 
-        self::assertTrue($client->getResponse()->isRedirection() || 422 === $client->getResponse()->getStatusCode() || 409 === $client->getResponse()->getStatusCode());
-        $page = $client->getResponse()->isRedirection() ? $client->followRedirect() : $client->getCrawler();
+        self::assertResponseRedirects();
+        $page = $client->followRedirect();
         self::assertStringContainsString('seul un envoi en erreur', $this->text($page));
         self::assertSame($before, $this->snapshot('tmonier_einvoice_transmission'));
     }
@@ -120,9 +127,9 @@ final class EinvoiceTransmissionsAdminTest extends DemoAdminWebTestCase
         $id = $this->invoiceIdOf(self::ORDER_IN_ERROR);
 
         $client->request('GET', self::URL);
-        self::assertTrue($client->getResponse()->isRedirection() || \in_array($client->getResponse()->getStatusCode(), [401, 403], true));
+        self::assertResponseRedirects();
         $client->request('POST', self::URL . '/' . $id . '/relaunch', ['_token' => 'x']);
-        self::assertTrue($client->getResponse()->isRedirection() || \in_array($client->getResponse()->getStatusCode(), [401, 403], true));
+        self::assertResponseRedirects();
 
         self::assertSame('error', $this->statusOf(self::ORDER_IN_ERROR));
     }
