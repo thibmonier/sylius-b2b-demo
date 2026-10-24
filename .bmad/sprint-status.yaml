@@ -424,8 +424,8 @@ sprints:
     stories:
       - {id: US-176, title: "Installation réelle d'un pack en CI", points: 5, status: done}  # EPIC-14, Should ; ADR 0015 story 2 ; faite le 2026-10-24 par wP (PR #1 des deux packs, CI verte) ; dépôts des packs
       - {id: US-178, title: "Page « Installer un pack » dans la démo", points: 2, status: review}  # EPIC-14, Should ; ADR 0015 story 4 ; code livré par wD, en review jusqu'à la preuve de production (T-178-07)
-      - {id: US-177, title: "Recettes Symfony Flex des packs", points: 5, status: review}  # EPIC-14, Could ; recettes fusionnées (PR #2 des deux packs) ; T-177-12/13 attendent le GO de Thibaut ; ADR 0015 story 3 ; PR publique sur symfony/recipes-contrib seulement sur GO explicite de Thibaut ; sacrifice n°1
-      - {id: US-180, title: "Transmission des factures électroniques, tranche A : port, journal et statuts", points: 5, status: review}  # EPIC-14, Should ; plugin livré par wE (dépôt public, CI verte), tag v0.1.0 et Packagist en attente du GO de Thibaut ; ADR 0016 story A ; nouveau plugin, dépôt et publication sur GO de Thibaut ; sacrifice n°2
+      - {id: US-177, title: "Recettes Symfony Flex des packs", points: 5, status: review}  # EPIC-14, Could ; recettes fusionnées (PR #2 des deux packs) ; PR symfony/recipes-contrib#2094 ouverte sur GO de Thibaut ; ADR 0015 story 3 ; PR publique sur symfony/recipes-contrib seulement sur GO explicite de Thibaut ; sacrifice n°1
+      - {id: US-180, title: "Transmission des factures électroniques, tranche A : port, journal et statuts", points: 5, status: review}  # EPIC-14, Should ; plugin livré par wE (dépôt public, CI verte), tag v0.1.0 posé sur GO de Thibaut, Packagist par Thibaut ; ADR 0016 story A ; nouveau plugin, dépôt et publication sur GO de Thibaut ; sacrifice n°2
     notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-177, puis US-180. ADR 0017 (ERP) : rien ce sprint (décision de Thibaut). Railway déploie main automatiquement. Actions 1 à 3 de la rétro du sprint 24 appliquées au planning (checklist-integration.md, consigne-worker.md) ; action 4 mesurée sur l'orchestrateur."
 
 backlog:

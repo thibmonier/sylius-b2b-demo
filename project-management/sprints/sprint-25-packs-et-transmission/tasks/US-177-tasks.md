@@ -58,8 +58,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-177-09 | [DOC] | README FR et EN : gestes remplacés par « appliqué par la recette » là où c'est vrai, gestes restants (classes de l'application) conservés ; texte relu contre la recette | 0,5 h | T-177-08 | Claude | ✅ |
 | T-177-10 | [OPS] | 📅 Thibaut donne son GO pour pousser les branches, ouvrir les PR et les fusionner dans les deux dépôts de packs (sans tag ni release) | 0,25 h | T-177-09 | Thibaut | ✅ |
 | T-177-11 | [OPS] | Push, PR et CI des deux dépôts après GO, corrections jusqu'au vert, puis merge (CI terminée) ; aucun tag | 0,75 h | T-177-10 | Orchestrateur | ✅ |
-| T-177-12 | [OPS] | 📅 Thibaut donne (ou refuse) son GO explicite pour la PR publique sur `symfony/recipes-contrib` ; sans GO, aucune PR | 0,25 h | T-177-11 | Thibaut | 📅 |
-| T-177-13 | [OPS] | Après GO seulement : fork, branche, PR sur `symfony/recipes-contrib` selon les conventions du dépôt, lien consigné ; texte de la PR relu contre la recette | 0,75 h | T-177-12 | Claude | 📅 |
+| T-177-12 | [OPS] | 📅 Thibaut donne (ou refuse) son GO explicite pour la PR publique sur `symfony/recipes-contrib` ; sans GO, aucune PR | 0,25 h | T-177-11 | Thibaut | ✅ |
+| T-177-13 | [OPS] | Après GO seulement : fork, branche, PR sur `symfony/recipes-contrib` selon les conventions du dépôt, lien consigné ; texte de la PR relu contre la recette | 0,75 h | T-177-12 | Claude | ✅ |
 | T-177-14 | [REV] | Revue (essai rejouable, aucun écrasement, ton neutre, parité FR et EN, aucune PR sans GO) et table « scénario → preuve » remplie | 0,5 h | T-177-11 | Claude | ✅ |
 
 **Total estimé : 10,5 h** (14 tâches, dont 0,5 h de Thibaut ; 10 h pour Claude et l'orchestrateur).
@@ -76,4 +76,4 @@ PR fusionnées (squash) : Conformité #2 (`8277b69`), IA #2 (`8e1af4e`). Commits
 | Désinstallation propre (alternatif) | `bin/flex-trial` (installation, retrait, fichier préexistant), rejoué dans le job `flex-trial` : runs 40037450669 (IA, lignes PASS relues) et 40037454014 (Conformité, vert) |
 | Recette non appliquée à un métapaquet (alternatif) | Sans objet : la porte T-177-02 est franchie, Flex applique la recette d'un métapaquet ; résultat consigné dans l'ADR 0015 (T-177-03) |
 | Fichier de l'application déjà présent (erreur) | `bin/flex-trial` : fichier non écrasé à l'installation ; limite (supprimé à `composer remove`) écrite dans les README et l'ADR 0015 |
-| Publication sans accord (erreur) | Aucune PR sur `symfony/recipes-contrib` : arbre, patch et texte préparés hors dépôt, en attente du GO (T-177-12) |
+| Publication sans accord (erreur) | Aucune PR sur `symfony/recipes-contrib` avant le GO de Thibaut (2026-10-24) ; après GO : symfony/recipes-contrib#2094, recettes dans des dossiers `0.1` (version publiée des packs ; le dossier `1.0` préparé ne se serait jamais appliqué) |

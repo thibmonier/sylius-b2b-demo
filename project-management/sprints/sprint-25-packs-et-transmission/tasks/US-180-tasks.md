@@ -57,7 +57,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-180-09 | [DOC] | README FR et EN (installation, port, statuts minimaux « à vérifier », limites : aucune plateforme réelle), CHANGELOG ; texte relu contre le code et l'ADR 0016 | 1 h | T-180-08 | Claude | ✅ |
 | T-180-10 | [REV] | Revue (ton neutre, aucune plateforme réelle, `facturx` inchangé, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-180-09 | Claude | ✅ |
 | T-180-11 | [OPS] | 📅 Thibaut donne son GO pour créer le dépôt GitHub `thibmonier/sylius-einvoice-transmission-plugin`, pousser et poser le tag `v0.1.0` | 0,25 h | T-180-10 | Thibaut | ✅ |
-| T-180-12 | [OPS] | Après GO : création du dépôt avec ses topics (ecommerce, sylius, sylius-plugin, symfony, einvoice, factur-x), push, CI verte sur toute la matrice (run terminé), tag et release `v0.1.0` | 0,75 h | T-180-11 | Claude | 🔄 |
+| T-180-12 | [OPS] | Après GO : création du dépôt avec ses topics (ecommerce, sylius, sylius-plugin, symfony, einvoice, factur-x), push, CI verte sur toute la matrice (run terminé), tag et release `v0.1.0` | 0,75 h | T-180-11 | Claude | ✅ |
 | T-180-13 | [OPS] | 📅 Thibaut soumet le paquet à Packagist | 0,25 h | T-180-12 | Thibaut | 📅 |
 
 **Total estimé : 10,5 h** (13 tâches, dont 0,5 h de Thibaut ; 10 h pour Claude et l'orchestrateur).
@@ -66,7 +66,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 À remplir avant le passage en done : chaque scénario renvoie à un test (classe et méthode) ou à une preuve (commande et sortie, run de CI). Une ligne vide laisse la story en review.
 
-Dépôt public `thibmonier/sylius-einvoice-transmission-plugin`, `main` `b645262` : CI verte sur ses 10 jobs (Sylius 2.2 et 2.3, PHP 8.2 à 8.5, Symfony 6.4 à 8.0, MySQL, MariaDB 11.4, PostgreSQL 17). Commit rouge seul : `d817be6` (15 tests, 14 erreurs, 1 échec). Local : `OK (20 tests, 42 assertions)`, ECS, PHPStan max et Rector verts. Écart au squelette : aucun fichier `.env*` (refusé par le hook du projet), application de test configurée par `phpunit.xml.dist` et l'environnement de la CI, expliqué dans le README. Tag et release `v0.1.0` (T-180-12) en attente du GO de Thibaut.
+Dépôt public `thibmonier/sylius-einvoice-transmission-plugin`, `main` `b645262` : CI verte sur ses 10 jobs (Sylius 2.2 et 2.3, PHP 8.2 à 8.5, Symfony 6.4 à 8.0, MySQL, MariaDB 11.4, PostgreSQL 17). Commit rouge seul : `d817be6` (15 tests, 14 erreurs, 1 échec). Local : `OK (20 tests, 42 assertions)`, ECS, PHPStan max et Rector verts. Écart au squelette : aucun fichier `.env*` (refusé par le hook du projet), application de test configurée par `phpunit.xml.dist` et l'environnement de la CI, expliqué dans le README. Tag et release `v0.1.0` posés après le GO de Thibaut (2026-10-24), sur `d2da15f` (CHANGELOG daté, code identique au commit vert) ; soumission à Packagist par Thibaut (T-180-13).
 
 | Scénario | Test ou preuve |
 |----------|----------------|
