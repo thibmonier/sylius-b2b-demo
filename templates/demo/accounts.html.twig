@@ -10,11 +10,18 @@
         h2 { color: #1f3a5f; margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .25rem; }
         h3 { color: #444; margin-top: 1.5rem; }
         table { width: 100%; border-collapse: collapse; margin: .75rem 0; }
-        th, td { text-align: left; padding: .5rem .75rem; border: 1px solid #ddd; }
+        th, td { text-align: left; padding: .5rem .75rem; border: 1px solid #ddd; overflow-wrap: anywhere; }
         th { background: #f0f4f8; }
         code { background: #f0f4f8; padding: .1rem .4rem; border-radius: 3px; font-size: .9em; overflow-wrap: anywhere; }
         .note { background: #fff8e1; border-left: 4px solid #f59e0b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
         .disabled { color: #c0392b; font-style: italic; }
+        /* US-192: on a phone each row is a card (one cell per line, its column heading before the value); the header row stays for the screen readers. */
+        @media (max-width: 767.98px) {
+            thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+            tr { display: block; margin-bottom: 1rem; padding: .5rem .75rem; border: 1px solid #ddd; border-radius: 3px; }
+            th, td { display: block; padding: .25rem 0; border: 0; }
+            td::before { content: attr(data-label); display: block; font-weight: 600; font-size: .875rem; }
+        }
     </style>
 </head>
 <body>
@@ -33,28 +40,28 @@
 
 {% for company in companies %}
 <h3>{{ company.name }}</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Nom / Name</th>
-            <th>Rôle / Role</th>
-            <th>Mot de passe / Password</th>
+<table role="table">
+    <thead role="rowgroup">
+        <tr role="row">
+            <th scope="col" role="columnheader">Email</th>
+            <th scope="col" role="columnheader">Nom / Name</th>
+            <th scope="col" role="columnheader">Rôle / Role</th>
+            <th scope="col" role="columnheader">Mot de passe / Password</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody role="rowgroup">
         {% for member in company.members %}
-        <tr>
-            <td><code>{{ member.email }}</code></td>
-            <td>{{ member.fullName }}</td>
-            <td>
+        <tr role="row">
+            <td data-label="Email" role="cell"><code>{{ member.email }}</code></td>
+            <td data-label="Nom / Name" role="cell">{{ member.fullName }}</td>
+            <td data-label="Rôle / Role" role="cell">
                 {% if member.enabled %}
                     {{ member.roleLabel }}
                 {% else %}
                     <span class="disabled">{{ member.roleLabel }} — ⚠️ compte désactivé / disabled account</span>
                 {% endif %}
             </td>
-            <td><code>{{ member.password }}</code></td>
+            <td data-label="Mot de passe / Password" role="cell"><code>{{ member.password }}</code></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -63,22 +70,22 @@
 
 <h2>👤 Autres comptes / Other accounts</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Nom / Name</th>
-            <th>Rôle / Role</th>
-            <th>Mot de passe / Password</th>
+<table role="table">
+    <thead role="rowgroup">
+        <tr role="row">
+            <th scope="col" role="columnheader">Email</th>
+            <th scope="col" role="columnheader">Nom / Name</th>
+            <th scope="col" role="columnheader">Rôle / Role</th>
+            <th scope="col" role="columnheader">Mot de passe / Password</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody role="rowgroup">
         {% for account in consumers|merge(admins) %}
-        <tr>
-            <td><code>{{ account.email }}</code></td>
-            <td>{{ account.fullName }}</td>
-            <td>{{ account.roleLabel }}</td>
-            <td><code>{{ account.password }}</code></td>
+        <tr role="row">
+            <td data-label="Email" role="cell"><code>{{ account.email }}</code></td>
+            <td data-label="Nom / Name" role="cell">{{ account.fullName }}</td>
+            <td data-label="Rôle / Role" role="cell">{{ account.roleLabel }}</td>
+            <td data-label="Mot de passe / Password" role="cell"><code>{{ account.password }}</code></td>
         </tr>
         {% endfor %}
     </tbody>
