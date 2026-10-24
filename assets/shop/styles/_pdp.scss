@@ -71,6 +71,12 @@ main:has(.b2b-pdp) {
         grid-area: gallery;
         min-width: 0;
 
+        // From lg the photo follows the reading of the buy box (the right column is the long one); the phone keeps the normal flow.
+        @media (min-width: 992px) {
+            position: sticky;
+            top: 1.5rem;
+        }
+
         .spotlight-group {
             margin-bottom: 0;
         }
@@ -134,13 +140,57 @@ main:has(.b2b-pdp) {
     // Buy box: from the price to the secondary actions (the plugins' blocks inside are flattened into it).
     &__buybox {
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        margin-block: .5rem 1.5rem;
+        flex-wrap: wrap;
+        gap: .75rem;
+        margin-block: .5rem 1.25rem;
         padding: 1.5rem;
         border-radius: 1.25rem;
         background: $b2b-white;
         box-shadow: 0 1px 0 $b2b-sand-line, 0 .75rem 2rem rgba(var(--b2b-ink-rgb), .06);
+
+        // Every block takes the whole line, except the two secondary actions (quote request, favourites) which sit side by side.
+        > * {
+            flex: 1 0 100%;
+            min-width: 0;
+        }
+
+        > .b2b-pdp__quote {
+            flex: 1 1 14rem;
+        }
+
+        > :has([data-live-action-param='addToWishlist']) {
+            flex: 0 0 auto;
+            align-self: end;
+        }
+
+        .b2b-pdp__favourite {
+            min-width: 2.75rem;
+            min-height: 2.75rem;
+        }
+
+        // Blocks a plugin leaves empty (a promotions list, a matrix): no gap for nothing.
+        > div:not(:has(*)) {
+            display: none;
+        }
+
+        // The tiers: tighter rows (the table is the longest block of the column).
+        .b2b-price-breaks {
+            margin-bottom: 0 !important;
+
+            th,
+            td {
+                padding: .3rem .5rem;
+            }
+
+            td:last-child {
+                text-align: right;
+
+                // One line (rate and badge) when the column allows it; on a phone the cell may wrap instead of widening the table.
+                @media (min-width: 576px) {
+                    white-space: nowrap;
+                }
+            }
+        }
 
         .fs-3 {
             font-family: var(--b2b-font-serif);
@@ -167,17 +217,68 @@ main:has(.b2b-pdp) {
             min-height: 2.75rem;
         }
 
-        // Quote request of the plugin: a quiet block under the actions, not a second card.
-        [data-test-tmonier-add-to-quote] {
-            padding-top: 1rem;
-            border-top: 1px solid $b2b-sand-line;
-        }
-
-        [data-test-tmonier-add-to-quote] .card,
         .card {
             border: 0;
             background: none;
             box-shadow: none;
+        }
+    }
+
+    // Quote request: a compact secondary action (quantity and button on one line).
+    &__quote {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
+
+    &__quote-title {
+        margin: 0;
+        font-size: .9375rem;
+        font-weight: 600;
+    }
+
+    &__quote-form {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        gap: .5rem;
+
+        .form-label {
+            margin-bottom: .25rem;
+        }
+
+        .form-control {
+            width: 5rem;
+        }
+
+        .btn {
+            flex: 1 1 auto;
+            min-height: 2.75rem;
+            white-space: nowrap;
+        }
+    }
+
+    // Pallet and truck preview: folded, one-line summary.
+    &__fill {
+        margin-block: .75rem !important; // the plugin template sets mb-3, the buy box zeroes it
+    }
+
+    &__fill summary {
+        min-height: 2.75rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    // "Powered by" badges of the plugins of the page, on one line under the buy box.
+    &__badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .25rem .5rem;
+        margin: -.75rem 0 1.25rem;
+
+        .demo-plugin-badge {
+            margin: 0 !important;
         }
     }
 
