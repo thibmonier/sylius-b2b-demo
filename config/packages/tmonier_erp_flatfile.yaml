@@ -2,3 +2,8 @@
 # rhythm of `bin/console tmonier:erp-flatfile:export-orders`. No ERP reads it: the demo only shows the file the plugin produces.
 tmonier_sylius_erp_flatfile:
     exchange_directory: '%kernel.project_dir%/var/erp-exchange'
+
+# US-193: the fixtures run the export at each load; the tests write to the cache of their worker, never to var/erp-exchange.
+when@test:
+    tmonier_sylius_erp_flatfile:
+        exchange_directory: '%kernel.cache_dir%/erp-exchange'

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Demo\Channel\DemoChannelContext;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 
@@ -18,18 +17,11 @@ final class ErpFlatfileSampleFixtureTest extends WebTestCase
 {
     use DatabaseAccess;
 
-    /** @return iterable<string, array{string}> */
-    public static function channels(): iterable
-    {
-        yield 'B2B' => [DemoChannelContext::B2B];
-        yield 'B2C' => [DemoChannelContext::B2C];
-    }
-
-    public function testTheFixturesPlaceOrdersOfBothChannelsInTheOutboxWithDemoAddressesOnly(): void
+    public function testTheFixturesPlacePlacedOrdersInTheOutboxWithDemoAddressesOnly(): void
     {
         self::bootKernel();
 
-        self::assertSame(['B2B', 'B2C'], array_map('strval', $this->db()->fetchFirstColumn("SELECT DISTINCT channel_code FROM tmonier_webhook_outbox_event WHERE type = 'order.placed' ORDER BY channel_code")));
+        self::assertGreaterThan(0, $this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed' AND channel_code = 'B2B'"), 'the orders of the demo are on the B2B channel; the B2C channel has none');
         self::assertSame(0, $this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed' AND payload NOT LIKE '%.example%'"), 'fictitious addresses only');
         self::assertSame(0, $this->intValue('SELECT COUNT(*) FROM tmonier_webhook_delivery'), 'the fixtures queue no webhook delivery');
     }
@@ -41,16 +33,18 @@ final class ErpFlatfileSampleFixtureTest extends WebTestCase
 
         self::assertIsString($directory);
         self::assertStringNotContainsString('/var/erp-exchange', $directory, 'the tests never write to the exchange directory of the demo');
-        self::assertStringStartsWith(self::getContainer()->getParameter('kernel.cache_dir'), $directory);
+        $cacheDirectory = self::getContainer()->getParameter('kernel.cache_dir');
+        self::assertIsString($cacheDirectory);
+        self::assertNotSame('', $cacheDirectory);
+        self::assertSame(0, strpos($directory, $cacheDirectory), 'the exchange directory of the tests is in the cache of the worker');
         self::assertNotSame([], glob($directory . '/orders-*.csv'), 'one file produced at the load');
         self::assertSame($this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed'"), $this->intValue('SELECT COUNT(*) FROM tmonier_erp_flatfile_exported_event'), 'every placed order of the fixtures is exported');
     }
 
-    #[DataProvider('channels')]
-    public function testThePageShowsTheLinesOfTheChannelOfTheVisitor(string $channel): void
+    public function testThePageShowsTheLinesOfTheB2bChannel(): void
     {
         $client = self::createClient();
-        $client->getCookieJar()->set(new Cookie(DemoChannelContext::COOKIE, $channel));
+        $client->getCookieJar()->set(new Cookie(DemoChannelContext::COOKIE, DemoChannelContext::B2B));
         $page = $client->request('GET', '/fr_FR/echange-fichier');
 
         self::assertResponseIsSuccessful();
@@ -59,9 +53,21 @@ final class ErpFlatfileSampleFixtureTest extends WebTestCase
         self::assertLessThanOrEqual(4, \count($lines), 'the header and three lines at most');
         foreach (\array_slice($lines, 1) as $line) {
             $fields = explode(';', $line);
-            self::assertSame($channel, $this->db()->fetchOne('SELECT channel_code FROM tmonier_webhook_outbox_event WHERE id = ?', [$fields[1]]), 'a line of the channel of the visitor');
+            self::assertSame('B2B', $this->db()->fetchOne('SELECT channel_code FROM tmonier_webhook_outbox_event WHERE id = ?', [$fields[1]]));
             self::assertMatchesRegularExpression('/^.\*\*\*@[^@\s]+\.example$/', $fields[4]);
         }
         self::assertStringNotContainsString('erp-exchange', (string) $client->getResponse()->getContent(), 'no internal path');
+    }
+
+    public function testTheB2cChannelHasNoOrderAndGetsANeutralMessage(): void
+    {
+        $client = self::createClient();
+        $client->getCookieJar()->set(new Cookie(DemoChannelContext::COOKIE, DemoChannelContext::B2C));
+        $page = $client->request('GET', '/en_US/echange-fichier');
+
+        self::assertResponseIsSuccessful();
+        self::assertCount(0, $page->filter('[data-erp-sample]'));
+        self::assertCount(1, $page->filter('[data-erp-sample-status="other_channel"]'));
+        self::assertStringNotContainsString('erp-exchange', (string) $client->getResponse()->getContent());
     }
 }

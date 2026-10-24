@@ -22,7 +22,12 @@ columns:
     ship_country: "Code pays de l'adresse de livraison."
 sample:
     title: "Un extrait de fichier"
-    intro: "Produit à partir des trois dernières commandes passées de la démonstration (deux commandes fictives si la démonstration n'en contient aucune)."
+    intro: "Les premières lignes du dernier fichier réellement produit par le plugin à partir des commandes de la démonstration, pour le canal affiché (adresses masquées)."
+    status:
+        no_file: "Aucun fichier n'a encore été produit : l'extrait apparaît dès le premier export."
+        empty: "Le dernier fichier est vide : il n'y a rien à montrer pour l'instant."
+        other_channel: "Le dernier fichier ne contient aucune commande de ce canal. Changez de canal pour voir ses lignes."
+        unavailable: "L'extrait n'est pas disponible pour le moment."
 run:
     title: "L'exécution"
     intro: "Une commande console écrit un lot ; planifiez-la au rythme où le lecteur relit le répertoire."

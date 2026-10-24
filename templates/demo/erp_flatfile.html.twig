@@ -33,7 +33,11 @@
         <section class="mt-4" aria-labelledby="erp-sample">
             <h2 class="h4 border-bottom pb-2" id="erp-sample">{{ 'sample.title'|trans({}, 'erp_flatfile') }}</h2>
             <p>{{ 'sample.intro'|trans({}, 'erp_flatfile') }}</p>
-            <pre class="border rounded p-3" style="white-space: pre-wrap; word-break: break-all" tabindex="0" data-erp-sample>{{ sample }}</pre>
+            {% if excerpt.status.value == 'shown' %}
+                <pre class="border rounded p-3" style="white-space: pre-wrap; word-break: break-all" tabindex="0" data-erp-sample>{{ excerpt.csv }}</pre>
+            {% else %}
+                <p class="border rounded p-3 mb-0" role="status" data-erp-sample-status="{{ excerpt.status.value }}">{{ ('sample.status.' ~ excerpt.status.value)|trans({}, 'erp_flatfile') }}</p>
+            {% endif %}
         </section>
 
         <section class="mt-4" aria-labelledby="erp-run" data-erp-run>

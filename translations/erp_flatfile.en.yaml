@@ -22,7 +22,12 @@ columns:
     ship_country: "Country code of the shipping address."
 sample:
     title: "An excerpt of a file"
-    intro: "Produced from the three latest placed orders of the demonstration (two fictitious orders if the demonstration holds none)."
+    intro: "The first lines of the last file really produced by the plugin from the orders of the demonstration, for the channel shown (addresses masked)."
+    status:
+        no_file: "No file has been produced yet: the excerpt appears with the first export."
+        empty: "The last file is empty: there is nothing to show for now."
+        other_channel: "The last file holds no order of this channel. Switch channel to see its lines."
+        unavailable: "The excerpt is not available at the moment."
 run:
     title: "Running it"
     intro: "A console command writes one batch; schedule it at the rhythm the reader reads the directory."

@@ -5,73 +5,71 @@ declare(strict_types=1);
 namespace App\Demo\Erp;
 
 use App\Demo\Mail\MailTwigExtension;
-use Tmonier\SyliusErpFlatfilePlugin\Contract\OrderLinesCsv;
-use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEvent;
-use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEventInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
- * US-190: the excerpt of the page "Flat-file exchange". The contract of the plugin writes the file from the last placed orders
- * of the demo; the e-mail of the customer is masked like in the demo mailbox. A demo without placed order shows two fictitious ones.
+ * US-193: the excerpt of the page "Flat-file exchange" is the last file really deposited in the exchange directory: its header and
+ * three lines of the current channel, the e-mails masked like in the demo mailbox. It only reads. Whatever goes wrong (no directory,
+ * not readable, no file, an empty file, no line for the channel), the answer is a neutral status, never an exception nor a path.
  */
 final readonly class ExchangeFileSample
 {
-    private const ORDERS = 3;
+    private const LINES = 3;
 
-    public function __construct(private RecentPlacedOrders $orders)
-    {
+    public function __construct(
+        #[Autowire(param: 'tmonier_erp_flatfile.exchange_directory')]
+        private string $directory,
+        private ExportedOrderChannels $channels,
+    ) {
     }
 
-    public function csv(): string
+    public function forChannel(string $channelCode): ExchangeFileExcerpt
     {
-        $events = $this->orders->latest(self::ORDERS);
-        if ([] === $events) {
-            $events = $this->fictitious();
+        $lines = $this->lastFileLines();
+        if ($lines instanceof ExchangeFileStatus) {
+            return new ExchangeFileExcerpt($lines);
         }
 
-        $masked = array_map($this->masked(...), \array_slice($events, 0, self::ORDERS));
+        $header = array_shift($lines);
+        $own = $this->ofChannel($lines, $channelCode);
+        if ([] === $own) {
+            return new ExchangeFileExcerpt(ExchangeFileStatus::OtherChannel);
+        }
 
-        return implode('', iterator_to_array((new OrderLinesCsv())->lines($masked), false));
+        return new ExchangeFileExcerpt(ExchangeFileStatus::Shown, MailTwigExtension::maskAddresses(implode("\n", [$header, ...\array_slice($own, 0, self::LINES)])) . "\n");
     }
 
-    private function masked(OutboxEventInterface $event): OutboxEvent
+    /** @return non-empty-list<string>|ExchangeFileStatus the header then the lines of the last file, or why there is none */
+    private function lastFileLines(): array|ExchangeFileStatus
     {
-        $payload = $event->getPayload();
-        $customer = \is_array($payload['customer'] ?? null) ? $payload['customer'] : [];
-        $payload['customer'] = ['email' => MailTwigExtension::maskAddresses(\is_string($customer['email'] ?? null) ? $customer['email'] : '')];
+        if (!is_dir($this->directory) || !is_readable($this->directory)) {
+            return ExchangeFileStatus::Unavailable;
+        }
+        $files = glob(rtrim($this->directory, '/') . '/*.csv') ?: [];
+        if ([] === $files) {
+            return ExchangeFileStatus::NoFile;
+        }
+        usort($files, static fn (string $a, string $b): int => [(int) filemtime($b), $b] <=> [(int) filemtime($a), $a]);
 
-        return new OutboxEvent($event->getType(), $event->getVersion(), $event->getOccurredAt(), $payload, $event->getChannelCode(), $event->getResourceType(), $event->getResourceId(), null, $event->getId());
+        $content = @file_get_contents($files[0]);
+        if (false === $content) {
+            return ExchangeFileStatus::Unavailable;
+        }
+        $lines = array_values(array_filter(explode("\n", str_replace("\r\n", "\n", $content)), static fn (string $line): bool => '' !== trim($line)));
+
+        return \count($lines) < 2 ? ExchangeFileStatus::Empty : $lines;
     }
 
-    /** @return list<OutboxEvent> */
-    private function fictitious(): array
+    /**
+     * @param list<string> $lines
+     *
+     * @return list<string> the lines whose order was placed on the channel
+     */
+    private function ofChannel(array $lines, string $channelCode): array
     {
-        $order = static fn (int $n, string $placedAt, array $items): OutboxEvent => new OutboxEvent(
-            'order.placed',
-            1,
-            new \DateTimeImmutable($placedAt),
-            [
-                'number' => sprintf('0000000%d', $n),
-                'currency_code' => 'EUR',
-                'checkout_completed_at' => $placedAt,
-                'customer' => ['email' => 'buyer@acme.example'],
-                'shipping_address' => ['country_code' => 'FR'],
-                'items' => $items,
-            ],
-            'WEB',
-            'order',
-            (string) $n,
-            null,
-            sprintf('0192a000-0000-7000-8000-%012d', $n),
-        );
+        $ids = array_map(static fn (string $line): string => explode(';', $line)[1] ?? '', $lines);
+        $channels = $this->channels->channelsOf(array_values(array_filter($ids, static fn (string $id): bool => '' !== $id)));
 
-        return [
-            $order(1, '2026-10-20T10:00:00+00:00', [
-                ['variant_code' => 'PAPER-A4', 'quantity' => 10, 'unit_price' => 450, 'total' => 4500],
-                ['variant_code' => 'PEN-BLUE', 'quantity' => 5, 'unit_price' => 120, 'total' => 600],
-            ]),
-            $order(2, '2026-10-21T14:30:00+00:00', [
-                ['variant_code' => 'FOLDER-GRN', 'quantity' => 20, 'unit_price' => 95, 'total' => 1900],
-            ]),
-        ];
+        return array_values(array_filter($lines, static fn (string $line): bool => ($channels[explode(';', $line)[1] ?? ''] ?? null) === $channelCode));
     }
 }
