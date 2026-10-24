@@ -1,0 +1,112 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\Dotenv\Dotenv;
+use Sylius\Component\Core\Model\CustomerInterface;
+
+/*
+ * Renders pages of the demo with the kernel itself, in the command line (T-TECH-27-05): no web server, so no gate and no 503, the
+ * same HTML as the production for the same environment. Meant for captures and for the measures of the rendering (pa11y, widths).
+ *
+ *   bin/render-page --out=DIR [--channel=B2B|B2C] [--login=EMAIL] PATH...
+ *   e.g. bin/render-page --out=/tmp/pages --login=claire@acme.example /fr_FR/ /fr_FR/products/outi-001-fr
+ *
+ * One file DIR/<path>.html per page (the path with its slashes turned into dashes). The thumbnails of the products are generated
+ * (LiipImagine) and linked as /media/cache/..., so that DIR can be served next to public/media and public/build (symbolic links).
+ * --login needs APP_ENV=test (the test client signs the account in); without it, APP_ENV=prod gives the page of the production.
+ * The environment is the one of the shell (docs/tests-locaux.md, "Serveur local en mode prod"). Exit code 1 when a page does not answer 200.
+ */
+
+const USAGE = "usage: bin/render-page --out=DIR [--channel=B2B|B2C] [--login=EMAIL] PATH...\n";
+
+$out = null;
+$channel = 'B2B';
+$login = null;
+$paths = [];
+foreach (\array_slice($argv, 1) as $argument) {
+    if ('--help' === $argument || '-h' === $argument) {
+        echo USAGE;
+
+        exit(0);
+    }
+    if (str_starts_with($argument, '--out=')) {
+        $out = substr($argument, 6);
+    } elseif (str_starts_with($argument, '--channel=')) {
+        $channel = substr($argument, 10);
+    } elseif (str_starts_with($argument, '--login=')) {
+        $login = substr($argument, 8);
+    } elseif (str_starts_with($argument, '--')) {
+        fwrite(\STDERR, 'unknown option ' . $argument . "\n" . USAGE);
+
+        exit(2);
+    } else {
+        $paths[] = $argument;
+    }
+}
+if (null === $out || '' === $out || [] === $paths || !\in_array($channel, ['B2B', 'B2C'], true)) {
+    fwrite(\STDERR, USAGE);
+
+    exit(2);
+}
+if (!is_dir($out) && !mkdir($out, 0o755, true) && !is_dir($out)) {
+    fwrite(\STDERR, 'cannot create ' . $out . "\n");
+
+    exit(2);
+}
+
+$root = \dirname(__DIR__);
+require $root . '/vendor/autoload.php';
+(new Dotenv())->bootEnv($root . '/.env');
+
+if (null !== $login && 'test' !== ($_SERVER['APP_ENV'] ?? '')) {
+    fwrite(\STDERR, "--login signs the account in with the test client, which exists in APP_ENV=test only (the pages then carry the data-test attributes of the test environment)\n");
+
+    exit(2);
+}
+
+// Nothing may be printed before the session starts: the report is built and shown at the end.
+ob_start();
+$kernel = new Kernel((string) ($_SERVER['APP_ENV'] ?? 'prod'), false);
+$kernel->boot();
+$client = new KernelBrowser($kernel);
+$client->setServerParameter('HTTP_HOST', '127.0.0.1');
+if (null !== $login) {
+    $manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+    $customer = $manager instanceof Doctrine\ORM\EntityManagerInterface ? $manager->getRepository(CustomerInterface::class)->findOneBy(['emailCanonical' => mb_strtolower($login)]) : null;
+    $user = $customer instanceof CustomerInterface ? $customer->getUser() : null;
+    if (null === $user) {
+        ob_end_clean();
+        fwrite(\STDERR, 'no account ' . $login . " (is the demo data loaded?)\n");
+
+        exit(2);
+    }
+    $client->loginUser($user, 'shop');
+}
+$client->request('GET', '/demo/channel/' . $channel);
+
+$report = [];
+$failures = 0;
+foreach ($paths as $path) {
+    $client->request('GET', $path);
+    $status = $client->getResponse()->getStatusCode();
+    $html = (string) $client->getResponse()->getContent();
+    preg_match_all('#http://127\.0\.0\.1/media/cache/(?:resolve/)?([^"\s,]+)#', $html, $matches);
+    foreach (array_unique($matches[1]) as $rest) {
+        $client->request('GET', '/media/cache/resolve/' . $rest);
+        $html = str_replace(['http://127.0.0.1/media/cache/resolve/' . $rest, 'http://127.0.0.1/media/cache/' . $rest], '/media/cache/' . $rest, $html);
+    }
+    $name = trim((string) preg_replace('/[^A-Za-z0-9_]+/', '-', $path), '-');
+    $file = $out . '/' . ('' === $name ? 'home' : $name) . '.html';
+    file_put_contents($file, $html);
+    $report[] = \sprintf('%s %d %s -> %s', 200 === $status ? 'OK' : 'KO', $status, $path, $file);
+    $failures += 200 === $status ? 0 : 1;
+    $client->request('GET', '/demo/channel/' . $channel);
+}
+ob_end_clean();
+echo implode("\n", $report), "\n";
+
+exit($failures > 0 ? 1 : 0);
