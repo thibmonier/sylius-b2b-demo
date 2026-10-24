@@ -50,13 +50,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-189-02 | [TEST] | Mesure « avant » en production (lecture seule) sur les trois fiches types : LCP mobile (médiane de 5 passes), poids et requêtes, largeur à 360 px, pa11y, FR et EN ; chiffres notés dans ce fichier | 0,75 h | T-189-01 | Claude | ✅ |
 | T-189-03 | [FE-WEB] | Maquette Claude Design (desktop et mobile) : en-tête de fiche, galerie, référence, prix HT, paliers, action d'achat, états connecté, anonyme, rupture, B2C inchangé ; palette, Fraunces et Inter ; publiée en artefact privé, captures sur le rendu du noyau en mode prod | 2 h | T-189-01, T-TECH-27-04, T-TECH-27-05 | Orchestrateur | 🔲 |
 | T-189-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son accord** | 0,5 h | T-189-03 | Thibaut | 📅 |
-| T-189-05 | [OPS] | 📅 Thibaut fournit les photos ou éléments que la maquette demande, ou donne le GO sur une banque libre (sans objet si la maquette n'en demande pas) | 0,25 h | T-189-04 | Thibaut | 📅 |
-| T-189-06 | [DOC] | Photos ou éléments reçus : licence relue, optimisation, fichier de crédits (source, auteur, licence) ; conditionnelle | 0,5 h | T-189-05 | Claude | 📅 |
-| T-189-07 | [TEST] | Tests rouges, commités seuls et cités dans la PR : fiche B2B (nom, référence, prix HT, paliers, action), anonyme sans prix, B2C inchangé, prix négocié et rupture, 360 px, polices auto-hébergées et CSP `font-src 'self'`, budget des images, charte | 1 h | T-189-04 | Claude | 📅 |
-| T-189-08 | [FE-WEB] | Gabarits et hooks de la fiche, styles `b2b.scss` (jetons d'US-186 réutilisés), responsive 360 et 1280 px, AAA, cibles de 44 px, `prefers-reduced-motion` ; hooks sur le canal B2B seulement | 2,75 h | T-189-07, T-189-06 | Claude | 📅 |
-| T-189-09 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, `alt` des photos ; texte relu contre la maquette validée | 0,5 h | T-189-08 | Claude | 📅 |
-| T-189-10 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 360 px ; commande exacte et dernière ligne citées | 0,75 h | T-189-08, T-189-09 | Claude | 📅 |
-| T-189-11 | [DOC] | Captures `docs/images/product-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-189-10 | Claude | 📅 |
+| T-189-05 | [OPS] | 📅 Thibaut fournit les photos ou éléments que la maquette demande, ou donne le GO sur une banque libre (sans objet si la maquette n'en demande pas) | 0,25 h | T-189-04 | Thibaut | ⊘ sans objet (la maquette n\'ajoute aucune photo : les photos produit sont celles des fixtures) |
+| T-189-06 | [DOC] | Photos ou éléments reçus : licence relue, optimisation, fichier de crédits (source, auteur, licence) ; conditionnelle | 0,5 h | T-189-05 | Claude | ⊘ sans objet (la maquette n\'ajoute aucune photo : les photos produit sont celles des fixtures) |
+| T-189-07 | [TEST] | Tests rouges, commités seuls et cités dans la PR : fiche B2B (nom, référence, prix HT, paliers, action), anonyme sans prix, B2C inchangé, prix négocié et rupture, 360 px, polices auto-hébergées et CSP `font-src 'self'`, budget des images, charte | 1 h | T-189-04 | Claude | ✅ |
+| T-189-08 | [FE-WEB] | Gabarits et hooks de la fiche, styles `b2b.scss` (jetons d'US-186 réutilisés), responsive 360 et 1280 px, AAA, cibles de 44 px, `prefers-reduced-motion` ; hooks sur le canal B2B seulement | 2,75 h | T-189-07, T-189-06 | Claude | ✅ |
+| T-189-09 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, `alt` des photos ; texte relu contre la maquette validée | 0,5 h | T-189-08 | Claude | ✅ |
+| T-189-10 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 360 px ; commande exacte et dernière ligne citées | 0,75 h | T-189-08, T-189-09 | Claude | ✅ |
+| T-189-11 | [DOC] | Captures `docs/images/product-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-189-10 | Claude | ✅ |
 | T-189-12 | [TEST] | Vérification en production après le déploiement (lecture seule, trois fiches types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-189-02 ; **comparaison avant/après consignée le jour du déploiement** | 0,75 h | merge de la PR | Claude | 📅 |
 | T-189-13 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, B2C inchangé) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-189-12 | Claude | 📅 |
 
@@ -83,6 +83,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 - **Marques réelles** : 77 des 210 noms (EPI-CASK 19, EPI-CHAU 17, EPI-GANT 24, EPI-VEST 14, OUTI-017/018, PAPE-013) ; liste dans le rapport à l'orchestrateur ; **aucune fixture modifiée sans GO de Thibaut**.
 - **Photos** : 64 fichiers pour 210 SKU, 37 partagés par plusieurs SKU (17 au plus), 73 visuels neutres générés.
 - **Trois fiches types** : OUTI-001 (court, paliers et prix négocié), EPI-VEST-001 (nom de 61 caractères, GPSR, paliers), FIXA-002 (sans palier, photo partagée). Visiteur et connecté, FR et EN, 360 et 1280 px.
+
+## Preuves locales (T-189-10, 2026-10-24)
+
+- **Rendu** : pages rendues par le noyau en ligne de commande, 12 combinaisons (3 fiches types, connecté et visiteur, FR et EN). Largeur : `scrollWidth` égale à la largeur d'écran et aucun élément plus large que l'écran dans `main`, à 360, 768 et 1280 px, sur les 36 rendus.
+- **pa11y WCAG2AAA** : « No issues found! » sur les 12 pages (un titre `h3` sans `h2` avant lui a été corrigé en cours de route).
+- **Qualité** : ECS `src tests` « [OK] No errors found », Rector « [OK] Rector is done! », PHPStan sur tout le dépôt sans erreur.
+- **Suite ciblée** (Product, PriceBreaks, ChannelAccess, ThemeLandmarks, ClosedChannel, ThemeHooks, Gpsr, QuickOrder, ContainerFill, PluginBadge, Quote, AccessibleLabels, Catalog, Wishlist, Pages, Smoke, B2bTheme, Positioning) : 723 tests, un échec (`ChannelAccessSmokeTest`, la phrase « Connectez-vous pour voir vos prix » du plugin) corrigé ensuite ; relance verte.
 
 ## Mesures de production (avant : T-189-02 ; après : jour du déploiement)
 
