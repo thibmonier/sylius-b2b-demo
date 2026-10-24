@@ -28,6 +28,7 @@ final class DemoAdminWritePolicyTest extends TestCase
         yield 'payment completion' => ['sylius_admin_payment_complete', 'PUT'];
         yield 'shipment shipping' => ['sylius_admin_shipment_ship', 'PUT'];
         yield 'registration approval decision' => ['tmonier_registration_approval_admin_decide', 'POST'];
+        yield 'relaunch of a send in error (US-184)' => ['app_demo_admin_einvoice_relaunch', 'POST'];
         yield 'order timeline note' => ['tmonier_timeline_admin_order_note_add', 'POST'];
         yield 'live component re-render' => ['sylius_admin_live_component', 'POST'];
         yield 'bulk action on orders' => ['tmonier_bulk_actions_admin_execute', 'POST', 'order_cancel'];
