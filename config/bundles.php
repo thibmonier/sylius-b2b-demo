@@ -96,4 +96,6 @@ return [
     Tmonier\SyliusCustomerAssetManagementPlugin\TmonierSyliusCustomerAssetManagementPlugin::class => ['all' => true],
     // einvoice-transmission (US-183): journal of the sends of the Factur-X invoices, after facturx whose event it listens to
     Tmonier\SyliusEinvoiceTransmissionPlugin\TmonierSyliusEinvoiceTransmissionPlugin::class => ['all' => true],
+    // erp-flatfile (US-190): flat-file export of the placed orders, after the webhook outbox whose events it reads
+    Tmonier\SyliusErpFlatfilePlugin\TmonierSyliusErpFlatfilePlugin::class => ['all' => true],
 ];

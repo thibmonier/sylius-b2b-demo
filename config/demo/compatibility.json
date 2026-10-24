@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-24T10:35:36Z",
+    "generated_at": "2026-10-24T11:26:25Z",
     "demo": {
         "sylius": "2.3.2",
         "symfony": "8.1.9",
@@ -508,6 +508,46 @@
             "fingerprint": "8cba439372129bbd0533aefb2440fbdd9c71b42c0c0881bc99e4dc0fa22f3c4e",
             "demo": {
                 "version": "v0.2.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-24"
+            }
+        },
+        "sylius-erp-flatfile-plugin": {
+            "dependencies": {
+                "requires": [
+                    "sylius-webhook-outbox-plugin"
+                ],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-24"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4",
+                    "8.5"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-24"
+            },
+            "fingerprint": "ed3b27779003c2ad5743296fe3aafefa3dbf62f33cd402fe7c6cb6db69c57092",
+            "demo": {
+                "version": "v0.1.0",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
                 "checked_at": "2026-10-24"
             }

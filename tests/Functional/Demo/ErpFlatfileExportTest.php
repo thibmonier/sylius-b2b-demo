@@ -6,14 +6,19 @@ namespace App\Tests\Functional\Demo;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\NullLogger;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\MockClock;
+use Symfony\Component\Uid\Uuid;
 use Tmonier\SyliusErpFlatfilePlugin\Contract\OrderLinesCsv;
 use Tmonier\SyliusErpFlatfilePlugin\Deposit\AtomicFileDepositor;
 use Tmonier\SyliusErpFlatfilePlugin\Deposit\ExchangeDirectoryUnavailable;
 use Tmonier\SyliusErpFlatfilePlugin\Export\DbalExportJournal;
 use Tmonier\SyliusErpFlatfilePlugin\Export\DoctrinePendingOrderEvents;
 use Tmonier\SyliusErpFlatfilePlugin\Export\OrderExporter;
+use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEventInterface;
+use Tmonier\SyliusWebhookOutboxPlugin\Payload\OrderPayloadNormalizer;
 
 /**
  * US-190: the export of the plugin on the placed orders of the demo (outbox events of the `demo` fixtures). Every test runs
@@ -46,7 +51,7 @@ final class ErpFlatfileExportTest extends KernelTestCase
 
     public function testThePlacedOrdersOfTheDemoAreExportedAsAFileOfTheContract(): void
     {
-        self::assertGreaterThan(0, $this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed'"), 'the demo fixtures place orders that reach the outbox');
+        $this->recordPlacedEventsOfDemoOrders(2);
 
         $result = $this->exporter($this->directory)->export();
 
@@ -63,6 +68,7 @@ final class ErpFlatfileExportTest extends KernelTestCase
 
     public function testAnUnavailableDirectoryLeavesNoFileAndTheEventsToExport(): void
     {
+        $this->recordPlacedEventsOfDemoOrders(2);
         $pending = $this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed' AND anonymized_at IS NULL");
 
         try {
@@ -81,12 +87,34 @@ final class ErpFlatfileExportTest extends KernelTestCase
         self::assertInstanceOf(OrderExporter::class, self::getContainer()->get(OrderExporter::class));
     }
 
+    /** The fixtures write no outbox event: the event of a placed order is built from two orders of the demo, as the plugin captures it. */
+    private function recordPlacedEventsOfDemoOrders(int $count): void
+    {
+        $entityManager = self::getContainer()->get('doctrine.orm.entity_manager');
+        self::assertInstanceOf(EntityManagerInterface::class, $entityManager);
+        $normalizer = self::getContainer()->get('tmonier_webhook.payload.order');
+        self::assertInstanceOf(OrderPayloadNormalizer::class, $normalizer);
+        $class = self::getContainer()->getParameter('tmonier_webhook.model.outbox_event.class');
+        self::assertIsString($class);
+
+        $repository = self::getContainer()->get('sylius.repository.order');
+        self::assertInstanceOf(OrderRepositoryInterface::class, $repository);
+        $orders = $repository->findBy(['state' => 'new'], ['id' => 'ASC'], $count);
+        self::assertCount($count, $orders, 'the demo fixtures place orders');
+        foreach ($orders as $order) {
+            self::assertInstanceOf(OrderInterface::class, $order);
+            $entityManager->persist(new $class('order.placed', 1, new \DateTimeImmutable('2026-10-24T10:00:00Z'), $normalizer->normalize($order), $order->getChannel()?->getCode(), 'order', (string) $order->getId(), null, Uuid::v7()->toRfc4122()));
+        }
+        $entityManager->flush();
+    }
+
     private function exporter(string $directory): OrderExporter
     {
         $entityManager = self::getContainer()->get('doctrine.orm.entity_manager');
         self::assertInstanceOf(EntityManagerInterface::class, $entityManager);
         $class = self::getContainer()->getParameter('tmonier_webhook.model.outbox_event.class');
         self::assertIsString($class);
+        self::assertTrue(is_a($class, OutboxEventInterface::class, true));
 
         return new OrderExporter(
             new DoctrinePendingOrderEvents($entityManager, $class, ['order.placed']),

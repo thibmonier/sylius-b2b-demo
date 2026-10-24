@@ -11,6 +11,7 @@ install:
     intro: "Exemple avec le plugin de commande rapide. Les autres suivent le même schéma ; les noms de bundle, de ressources et de tables changent, et le README du plugin donne la liste exacte."
     packs_link: "Plusieurs plugins à la fois : la page Installer un pack, avec la commande et les gestes restants de chaque pack."
     fictitious_platform_link: "Facturation électronique : la page de la PA fictive de démonstration, avec ses scénarios de statuts simulés."
+    erp_flatfile_link: "Échange avec un ERP : la page du fichier plat de commandes, avec son contrat et un extrait produit à partir des commandes de la démo."
     override_link: "Adapter un plugin sans le modifier : le guide de surcharge, avec des exemples réels de la démo."
     require:
         title: "Installer le paquet"

@@ -1,0 +1,4 @@
+# US-190: the orders placed in the demo are written as CSV files in a directory under var/ (never under public/), at the
+# rhythm of `bin/console tmonier:erp-flatfile:export-orders`. No ERP reads it: the demo only shows the file the plugin produces.
+tmonier_sylius_erp_flatfile:
+    exchange_directory: '%kernel.project_dir%/var/erp-exchange'

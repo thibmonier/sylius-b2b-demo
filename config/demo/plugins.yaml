@@ -150,6 +150,17 @@ parameters:
               fr: "Ouvrez la page de la PA fictive de démonstration : quatre scénarios de statuts simulés, fixés par les données de la démo, sans aucune plateforme réelle."
               en: "Open the fictitious demonstration platform page: four simulated status scenarios, fixed by the demo data, with no real platform."
           advised_account: sophie@fournitures-pro.example
+        - slug: sylius-erp-flatfile-plugin
+          name: 'ERP Flat-file'
+          category: integration
+          description:
+              fr: "Échange par fichiers plats avec un ERP pour Sylius 2 : les commandes passées sont exportées en CSV selon un contrat documenté (UTF-8, séparateur « ; », montants en unité mineure), à partir des événements de l'outbox, et déposées de façon atomique dans un répertoire d'échange."
+              en: 'Flat-file exchange with an ERP for Sylius 2: placed orders are exported as CSV files according to a documented contract (UTF-8, ";" separator, minor-unit amounts), from the outbox events, and deposited atomically in an exchange directory.'
+          demo_route: app_demo_erp_flatfile
+          scenario:
+              fr: "Ouvrez la page de l'échange par fichier : les dix colonnes du contrat et un extrait de fichier produit à partir des dernières commandes passées de la démo, adresses masquées, sans aucun ERP nommé."
+              en: "Open the flat-file exchange page: the ten columns of the contract and an excerpt of a file produced from the latest placed orders of the demo, addresses masked, with no ERP named."
+          advised_account: claire@acme.example
         - slug: sylius-facturx-plugin
           name: 'Factur-X'
           category: billing

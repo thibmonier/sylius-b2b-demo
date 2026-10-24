@@ -1,0 +1,52 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'title'|trans({}, 'erp_flatfile') }}{% endblock %}
+
+{% block content %}
+    <style>
+        [data-erp-columns] code, [data-erp-run] code { overflow-wrap: anywhere; }
+    </style>
+    <div class="container my-5" data-page="erp-flatfile">
+        <h1>{{ 'title'|trans({}, 'erp_flatfile') }}</h1>
+        <p class="lead">{{ 'intro'|trans({}, 'erp_flatfile') }}</p>
+
+        <div class="alert alert-info" role="note" data-erp-neutral>{{ 'neutral'|trans({}, 'erp_flatfile') }}</div>
+
+        <section class="mt-4" aria-labelledby="erp-contract">
+            <h2 class="h4 border-bottom pb-2" id="erp-contract">{{ 'contract.title'|trans({}, 'erp_flatfile') }}</h2>
+            <p>{{ 'contract.intro'|trans({}, 'erp_flatfile') }}</p>
+            <ul>
+                {% for rule in ['encoding', 'separator', 'lines', 'amounts', 'name'] %}
+                    <li>{{ ('contract.' ~ rule)|trans({}, 'erp_flatfile') }}</li>
+                {% endfor %}
+            </ul>
+            <ul class="list-unstyled d-grid gap-2" data-erp-columns>
+                {% for column in columns %}
+                    <li class="border rounded p-3" data-erp-column="{{ column }}">
+                        <p class="mb-1 fw-bold"><code>{{ column }}</code></p>
+                        <p class="mb-0">{{ ('columns.' ~ column)|trans({}, 'erp_flatfile') }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="mt-4" aria-labelledby="erp-sample">
+            <h2 class="h4 border-bottom pb-2" id="erp-sample">{{ 'sample.title'|trans({}, 'erp_flatfile') }}</h2>
+            <p>{{ 'sample.intro'|trans({}, 'erp_flatfile') }}</p>
+            <pre class="border rounded p-3" style="white-space: pre-wrap; word-break: break-all" tabindex="0" data-erp-sample>{{ sample }}</pre>
+        </section>
+
+        <section class="mt-4" aria-labelledby="erp-run" data-erp-run>
+            <h2 class="h4 border-bottom pb-2" id="erp-run">{{ 'run.title'|trans({}, 'erp_flatfile') }}</h2>
+            <p>{{ 'run.intro'|trans({}, 'erp_flatfile') }}</p>
+            <p><code>bin/console tmonier:erp-flatfile:export-orders</code></p>
+            <ul>
+                {% for guarantee in ['atomic', 'once', 'unavailable', 'retention'] %}
+                    <li>{{ ('run.' ~ guarantee)|trans({}, 'erp_flatfile') }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <p class="mt-4"><a href="{{ path('app_demo_integrate', {_locale: app.request.locale}) }}">{{ 'integrate_link'|trans({}, 'erp_flatfile') }}</a></p>
+    </div>
+{% endblock %}
