@@ -1,0 +1,6 @@
+{# US-189: the commitments of the shop under the buy box, one source each (the footer strip keys): no invented promise. #}
+<ul class="b2b-pdp__assurances" data-pdp-part="assurances" aria-label="{{ 'assurances.label'|trans({}, 'product') }}">
+    <li>{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'calendar' } only %}<span>{{ 'app.theme_b2b.footer.invoice'|trans }}</span></li>
+    <li>{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'card' } only %}<span>{{ 'app.theme_b2b.footer.terms'|trans }}</span></li>
+    <li>{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'support' } only %}<span>{{ 'app.theme_b2b.footer.support'|trans }}</span></li>
+</ul>

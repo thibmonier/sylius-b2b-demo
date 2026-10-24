@@ -1,0 +1,46 @@
+{#
+    US-189: below the hero, the body (description, specifications, reviews: a section only when it has something to say)
+    next to "behind the scenes" (what this page does and which plugin does it). Product data only: no text written here.
+#}
+{% set product = hookable_metadata.context.product %}
+{% set attributes = product.getAttributesByLocale(sylius.localeCode, sylius.channel.defaultLocale.code, sylius_base_locale)|sylius_sort_by('attribute.position') %}
+<div class="b2b-pdp__lower">
+    <div class="b2b-pdp__body" data-pdp-part="body">
+        {% if product.description is not empty %}
+            <section class="b2b-pdp__section" data-pdp-section="description" aria-labelledby="pdp-description">
+                <h2 id="pdp-description">{{ 'sections.description'|trans({}, 'product') }}</h2>
+                <p>{{ product.description|nl2br }}</p>
+            </section>
+        {% endif %}
+        {% if attributes|length > 0 %}
+            <section class="b2b-pdp__section" data-pdp-section="attributes" aria-labelledby="pdp-attributes">
+                <h2 id="pdp-attributes">{{ 'sections.attributes'|trans({}, 'product') }}</h2>
+                <dl class="b2b-pdp__specs" {{ sylius_test_html_attribute('product-attributes') }}>
+                    {% for attribute_value in attributes %}
+                        <dt {{ sylius_test_html_attribute('product-attribute-name', attribute_value.name) }}>{{ attribute_value.name }}</dt>
+                        <dd {{ sylius_test_html_attribute('product-attribute-value', attribute_value.name) }}>
+                            {% include [
+                                '@SyliusAttribute/Types/' ~ attribute_value.type ~ '.html.twig',
+                                '@SyliusAttribute/Types/default.html.twig'
+                            ] with { attribute: attribute_value, locale: sylius.localeCode, fallbackLocale: sylius.channel.defaultLocale.code } %}
+                        </dd>
+                    {% endfor %}
+                </dl>
+            </section>
+        {% endif %}
+        {# The product safety data of the plugin (GPSR): its own section with its own title, moved here from under the gallery (hooks disabled on B2B). #}
+        {% if tmonier_gpsr_product_safety(product) is not null %}
+            <div class="b2b-pdp__section" data-pdp-section="safety">
+                {% include '@TmonierSyliusGpsrPlugin/shop/product/show/product_safety.html.twig' %}
+                {% include 'demo/plugin_badge.html.twig' with { hookable_metadata: { configuration: { plugin: 'sylius-gpsr-plugin' } } } only %}
+            </div>
+        {% endif %}
+        <section class="b2b-pdp__section" data-pdp-section="reviews" id="avis" aria-labelledby="pdp-reviews">
+            <h2 id="pdp-reviews">{{ 'sections.reviews'|trans({}, 'product') }}</h2>
+            <div {{ sylius_test_html_attribute('product-reviews') }}>
+                {% hook 'info.overview.accordion.reviews.content' with { product } %}
+            </div>
+        </section>
+    </div>
+    {% include 'shop/theme_b2b/pdp/_backstage.html.twig' with { product } only %}
+</div>

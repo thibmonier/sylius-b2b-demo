@@ -1,0 +1,15 @@
+{# US-189: "behind the scenes": the features of the page and the plugin behind each one. The count comes from the catalogue of the demo. #}
+{% set count = demo_plugin_count() %}
+<aside class="b2b-pdp__backstage" data-pdp-part="backstage" data-pdp-plugin-count="{{ count }}" aria-labelledby="pdp-backstage">
+    <p class="b2b-pdp__backstage-eyebrow">{{ 'backstage.eyebrow'|trans({}, 'product') }}</p>
+    <h2 id="pdp-backstage">{{ 'backstage.title'|trans({}, 'product') }}</h2>
+    <ul>
+        {% for item in ['price', 'quote', 'list', 'approval'] %}
+            <li><strong>{{ ('backstage.items.' ~ item ~ '.title')|trans({}, 'product') }}</strong> <span>{{ ('backstage.items.' ~ item ~ '.text')|trans({}, 'product') }}</span></li>
+        {% endfor %}
+        {% if tmonier_gpsr_product_safety(product) is not null %}
+            <li><strong>{{ 'backstage.items.safety.title'|trans({}, 'product') }}</strong> <span>{{ 'backstage.items.safety.text'|trans({}, 'product') }}</span></li>
+        {% endif %}
+    </ul>
+    <a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}" data-demo-link="plugins">{{ 'backstage.link'|trans({'%count%': count}, 'product') }}</a>
+</aside>

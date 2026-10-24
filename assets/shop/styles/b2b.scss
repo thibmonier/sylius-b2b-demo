@@ -3,6 +3,7 @@
 @use 'variables' as *;
 @use 'pricing';
 @use 'home';
+@use 'pdp';
 
 :root {
     --bs-primary: #{$b2b-navy};

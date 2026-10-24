@@ -1,0 +1,5 @@
+{# US-189: availability under the price, only when the stock is tracked (an untracked product says nothing: no invented promise). #}
+{% set variant = hookable_metadata.context.variant|default(null) %}
+{% if variant is not null and variant.tracked %}
+    <p class="b2b-pdp__stock {{ variant.inStock ? 'b2b-stock--in' : 'b2b-stock--out' }}" {{ sylius_test_html_attribute('b2b-product-stock') }}>{{ (variant.inStock ? 'stock.in' : 'stock.out')|trans({}, 'product') }}</p>
+{% endif %}

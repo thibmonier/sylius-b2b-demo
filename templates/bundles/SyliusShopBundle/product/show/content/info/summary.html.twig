@@ -1,0 +1,15 @@
+{# Rendered with \Sylius\Bundle\ShopBundle\Twig\Component\Product\ProductSummaryComponent #}
+{# US-189: copy of the Sylius template. B2B channel: the right column of the hero (title, buy box, assurances), not sticky. B2C: the core markup, unchanged. #}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <div class="col-12 col-lg-5 col-xl-4 order-lg-1" {{ attributes }}>
+        <div class="sticky-top pt-2" style="top: 3rem;" {{ sylius_test_html_attribute('product-box') }}>
+            {% hook 'summary' with { product, variant } %}
+        </div>
+    </div>
+{% else %}
+    <div class="b2b-pdp__summary" data-pdp-part="summary" {{ attributes }}>
+        <div {{ sylius_test_html_attribute('product-box') }}>
+            {% hook 'summary' with { product, variant } %}
+        </div>
+    </div>
+{% endif %}

@@ -82,11 +82,52 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/product_list_preload.html.twig'
                 priority: 150
 
-        # Product page: reference block under the title.
+        # US-189: editorial product page (shop/theme_b2b/pdp/, layout of the four bundle overrides under templates/bundles/SyliusShopBundle/product/show).
+        # Right column: aisle above the title (520, core header 500), reference (490), rating (400), BUY BOX from the price (300) to the
+        # secondary actions (opened at 350, closed at 5, after the favourites button at 10; plugins add their blocks in between), assurances (3), plugins' call to action (-10).
+        # The core short description (the same text as the description, in the body) and accordion (sections of the body), and the core
+        # "latest products" listing (replaced by the neighbours of the aisle) stay on B2C only.
         'sylius_shop.product.show.content.info.summary':
+            b2b_eyebrow:
+                template: 'shop/theme_b2b/pdp/eyebrow.html.twig'
+                priority: 520
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
             b2b_reference:
                 template: 'shop/theme_b2b/product_reference.html.twig'
                 priority: 490
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_buybox_open:
+                template: 'shop/theme_b2b/pdp/buybox_open.html.twig'
+                priority: 350
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_buybox_close:
+                template: 'shop/theme_b2b/pdp/buybox_close.html.twig'
+                priority: 5
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_assurances:
+                template: 'shop/theme_b2b/pdp/assurances.html.twig'
+                priority: 3
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            short_description:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.product.show.content.info.summary.prices':
+            b2b_stock:
+                template: 'shop/theme_b2b/pdp/stock.html.twig'
+                priority: 50
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.product.show.content.info.overview':
+            accordion:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.product.show.content':
+            product_listing:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_lower:
+                template: 'shop/theme_b2b/pdp/lower.html.twig'
+                priority: 50
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_related:
+                template: 'shop/theme_b2b/pdp/related.html.twig'
+                priority: 0
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
         # US-186: editorial B2B homepage, in the order of the validated mock-up. The core banner stays on B2C; the other core

@@ -1,0 +1,10 @@
+{# US-189: copy of the Sylius template. B2B channel: the left column of the hero (gallery, product safety data of the plugin). B2C: the core markup, unchanged. #}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <div class="col-12 col-lg-7 col-xl-8">
+        {% hook 'overview' %}
+    </div>
+{% else %}
+    <div class="b2b-pdp__gallery" data-pdp-part="gallery">
+        {% hook 'overview' %}
+    </div>
+{% endif %}

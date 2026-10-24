@@ -1,0 +1,398 @@
+// US-189: the editorial product page of the B2B channel, in the continuation of the home (US-186): same tokens and fonts.
+// Layout: grids with minmax(0, 1fr), a name of three lines wraps in its column, no fixed width: a 360 px phone has no horizontal scroll.
+// Sections without content are not rendered (see shop/theme_b2b/pdp/); the B2C page keeps the core markup (the root class is B2B only).
+@use 'variables' as *;
+
+main:has(.b2b-pdp) {
+    background: $b2b-paper;
+}
+
+// The title: a name of three lines wraps in its column (never widens it).
+.b2b-pdp h1 {
+    margin: 0 0 .75rem;
+    color: $b2b-ink;
+    font-family: var(--b2b-font-serif);
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+
+    @media (min-width: 992px) {
+        font-size: 2.5rem;
+    }
+}
+
+.b2b-pdp {
+    padding-bottom: 3rem;
+    color: $b2b-ink;
+
+    h2 {
+        margin: 0 0 .875rem;
+        font-family: var(--b2b-font-serif);
+        font-weight: 600;
+        color: $b2b-accent-bright; // 1.75 rem semi-bold: large text, 5.1:1
+        font-size: 1.75rem;
+        line-height: 1.15;
+    }
+
+    // Breadcrumb of the core: items on one baseline, wrapping by whole items (the 44 px targets of the phone would stack them otherwise).
+    .breadcrumb {
+        align-items: center;
+        gap: 0 .25rem;
+        margin-bottom: 1rem;
+        font-size: .875rem;
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+    }
+
+    // Hero: gallery and summary. On a phone the gallery comes first (grid areas), in the DOM the title comes first.
+    &__hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: 'gallery' 'summary';
+        gap: 1.75rem;
+        align-items: start;
+        margin-bottom: 4rem;
+
+        @media (min-width: 992px) {
+            grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+            grid-template-areas: 'gallery summary';
+            gap: 3rem;
+        }
+    }
+
+    &__gallery {
+        grid-area: gallery;
+        min-width: 0;
+
+        .spotlight-group {
+            margin-bottom: 0;
+        }
+
+        a.d-block {
+            border-radius: 1.25rem !important; // the core sets rounded-3 with !important
+            background: $b2b-sand-line !important;
+        }
+
+        img {
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+        }
+    }
+
+    &__summary {
+        grid-area: summary;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    &__eyebrow {
+        margin: 0 0 .5rem;
+        color: $b2b-accent;
+        font-size: .8125rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    .b2b-reference {
+        margin: 0 0 .75rem;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: $b2b-muted;
+        font-size: .875rem;
+
+        strong {
+            color: $b2b-ink;
+        }
+    }
+
+    // Buy box: from the price to the secondary actions (the plugins' blocks inside are flattened into it).
+    &__buybox {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-block: .5rem 1.5rem;
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+        background: $b2b-white;
+        box-shadow: 0 1px 0 $b2b-sand-line, 0 .75rem 2rem rgba(var(--b2b-ink-rgb), .06);
+
+        .fs-3 {
+            font-family: var(--b2b-font-serif);
+            font-size: 2.25rem !important;
+            font-weight: 600;
+        }
+
+        .my-4,
+        .mb-3,
+        .mb-4 {
+            margin-block: 0 !important;
+        }
+
+        form .btn-primary {
+            min-height: 3.125rem;
+            width: 100%;
+            border-radius: .75rem;
+            font-weight: 600;
+            transition: background-color .15s ease-in-out;
+        }
+
+        .btn,
+        .form-control {
+            min-height: 2.75rem;
+        }
+
+        // Quote request of the plugin: a quiet block under the actions, not a second card.
+        [data-test-tmonier-add-to-quote] {
+            padding-top: 1rem;
+            border-top: 1px solid $b2b-sand-line;
+        }
+
+        [data-test-tmonier-add-to-quote] .card,
+        .card {
+            border: 0;
+            background: none;
+            box-shadow: none;
+        }
+    }
+
+    &__stock {
+        margin: 0;
+        font-size: .875rem;
+        font-weight: 600;
+    }
+
+    &__visitor {
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+    }
+
+    &__visitor-title {
+        margin: 0;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    &__visitor-text {
+        margin: 0;
+        color: $b2b-muted;
+        line-height: 1.55;
+    }
+
+    &__visitor-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem;
+    }
+
+    // Commitments under the buy box.
+    &__assurances {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .5rem;
+        margin: 0 0 1.5rem;
+        padding: 0;
+        color: $b2b-muted;
+        font-size: .875rem;
+        list-style: none;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: .625rem;
+        }
+
+        svg {
+            flex: none;
+            color: $b2b-teal;
+        }
+    }
+
+    // Body: sections next to "behind the scenes".
+    &__lower {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2.5rem;
+        align-items: start;
+        margin-bottom: 4rem;
+
+        @media (min-width: 992px) {
+            grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+            gap: 3rem;
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        min-width: 0;
+    }
+
+    &__section p {
+        max-width: 40rem;
+        margin: 0;
+        color: $b2b-ink;
+        font-size: 1.0625rem;
+        line-height: 1.65;
+    }
+
+    &__specs {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+        margin: 0;
+        overflow: hidden;
+        border-radius: 1rem;
+        background: $b2b-white;
+        font-size: .9375rem;
+
+        dt,
+        dd {
+            margin: 0;
+            padding: .75rem 1rem;
+            border-bottom: 1px solid $b2b-sand-line;
+            overflow-wrap: anywhere;
+        }
+
+        dt {
+            color: $b2b-muted;
+            font-weight: 400;
+        }
+
+        dt:last-of-type,
+        dd:last-of-type {
+            border-bottom: 0;
+        }
+    }
+
+    // The product safety data of the plugin: its own section, same titles as the others.
+    [data-test-product-safety] {
+        margin: 0 !important; // the plugin sets mt-5 mb-5
+    }
+
+    &__backstage {
+        padding: 1.75rem;
+        border-radius: 1.25rem;
+        background: $b2b-navy;
+        color: $b2b-white;
+
+        h2 {
+            margin: .25rem 0 1rem;
+            color: $b2b-white;
+            font-size: 1.625rem;
+            line-height: 1.2;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: .75rem;
+            margin: 0 0 1rem;
+            padding: 0;
+            font-size: .9375rem;
+            line-height: 1.5;
+            list-style: none;
+        }
+
+        span {
+            color: $b2b-sand;
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.75rem;
+            color: $b2b-white;
+            font-weight: 600;
+        }
+    }
+
+    &__backstage-eyebrow {
+        margin: 0;
+        color: $b2b-sand;
+        font-size: .8125rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    // Neighbours of the aisle.
+    &__related-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: .5rem 1rem;
+        margin-bottom: 1.25rem;
+
+        h2 {
+            margin: 0;
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.75rem;
+        }
+    }
+
+    &__related .products-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+
+        @media (min-width: 576px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (min-width: 992px) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1.5rem;
+        }
+    }
+}
+
+.b2b-pdp-btn {
+    min-height: 3.125rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .75rem 1.375rem;
+    border-radius: .75rem;
+    font-weight: 600;
+    transition: background-color .15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .b2b-pdp-btn,
+    .b2b-pdp__buybox .btn-primary {
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: more) {
+    .b2b-pdp__buybox,
+    .b2b-pdp__specs,
+    .b2b-pdp__backstage {
+        border: 1px solid $b2b-navy;
+    }
+}
+
+@media (forced-colors: active) {
+    .b2b-pdp__buybox,
+    .b2b-pdp__backstage {
+        border: 1px solid CanvasText;
+    }
+}
