@@ -45,19 +45,19 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-185-01 | [DOC] | Cadrage : outbox (`OutboxEvent`, dépôt des événements, enveloppe `order` v1) lu sans modification, squelette du modèle, contrat de l'ADR 0017, nom du paquet et espace de noms, mécanisme de consommation, rétention ; recoupement éventuel avec Sylius Plus vérifié (avant toute promotion) ; plan des tests | 1 h | - | Claude | 🔲 |
-| T-185-02 | [OPS] | Squelette local du plugin **sans `.env*`** (variables dans `phpunit.xml.dist`), MySQL de la démo avec une base à son nom (règle 12), `git init`, CI sur la matrice commune, outils de qualité, LICENSE ; budget disque noté (`vendor/` environ 400 Mo) et espace libre relevé avant et après | 1 h | T-185-01 | Claude | 🔲 |
-| T-185-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR : les 5 scénarios (contrat, lot de plusieurs commandes, dépôt atomique observé par un lecteur, événement rejoué, répertoire inaccessible) | 1,5 h | T-185-02 | Claude | 🔲 |
-| T-185-04 | [BE] | Contrat de fichier plat : colonnes, en-tête, UTF-8, séparateur `;`, entiers de l'unité mineure, nom de fichier unique par lot | 1 h | T-185-03 | Claude | 🔲 |
-| T-185-05 | [BE] | Export : consommation des événements de commande, une ligne par ligne de commande, idempotence par `webhook_id` | 1,25 h | T-185-04 | Claude | 🔲 |
-| T-185-06 | [BE] | Dépôt atomique : nom provisoire puis renommage, aucun fichier partiel si le répertoire est inaccessible, événements laissés à exporter | 1 h | T-185-04 | Claude | 🔲 |
-| T-185-07 | [BE] | Bundle, configuration (répertoire d'échange, lot) et commande console | 0,75 h | T-185-05, T-185-06 | Claude | 🔲 |
-| T-185-08 | [TEST] | Suite complète en local (Docker, MySQL de la démo), ECS, PHPStan max, Rector ; dernières lignes citées ; `vendor/` et base d'essai supprimés, espace libre relevé | 0,75 h | T-185-07 | Claude | 🔲 |
-| T-185-09 | [DOC] | README FR et EN (contrat, configuration, limites : aucun ERP réel), CHANGELOG ; texte relu contre le code et l'ADR 0017 | 1 h | T-185-08 | Claude | 🔲 |
-| T-185-10 | [REV] | Revue (ton neutre, aucun ERP ni éditeur nommé, `webhook-outbox` inchangé, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-185-09 | Claude | 🔲 |
-| T-185-11 | [OPS] | 📅 Thibaut donne son GO pour créer le dépôt GitHub `thibmonier/sylius-erp-flatfile-plugin`, pousser et poser le tag `v0.1.0` | 0,25 h | T-185-10 | Thibaut | 📅 |
-| T-185-12 | [OPS] | Après GO : création du dépôt avec ses topics (ecommerce, sylius, sylius-plugin, symfony, erp, csv), push, CI verte sur toute la matrice (run terminé), concordance (CHANGELOG, tag, `composer.json`), tag et release `v0.1.0` | 0,75 h | T-185-11 | Claude | 🔲 |
-| T-185-13 | [OPS] | 📅 Thibaut soumet le paquet à Packagist | 0,25 h | T-185-12 | Thibaut | 📅 |
+| T-185-01 | [DOC] | Cadrage : outbox (`OutboxEvent`, dépôt des événements, enveloppe `order` v1) lu sans modification, squelette du modèle, contrat de l'ADR 0017, nom du paquet et espace de noms, mécanisme de consommation, rétention ; recoupement éventuel avec Sylius Plus vérifié (avant toute promotion) ; plan des tests | 1 h | - | Claude | ✅ |
+| T-185-02 | [OPS] | Squelette local du plugin **sans `.env*`** (variables dans `phpunit.xml.dist`), MySQL de la démo avec une base à son nom (règle 12), `git init`, CI sur la matrice commune, outils de qualité, LICENSE ; budget disque noté (`vendor/` environ 400 Mo) et espace libre relevé avant et après | 1 h | T-185-01 | Claude | ✅ |
+| T-185-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR : les 5 scénarios (contrat, lot de plusieurs commandes, dépôt atomique observé par un lecteur, événement rejoué, répertoire inaccessible) | 1,5 h | T-185-02 | Claude | ✅ |
+| T-185-04 | [BE] | Contrat de fichier plat : colonnes, en-tête, UTF-8, séparateur `;`, entiers de l'unité mineure, nom de fichier unique par lot | 1 h | T-185-03 | Claude | ✅ |
+| T-185-05 | [BE] | Export : consommation des événements de commande, une ligne par ligne de commande, idempotence par `webhook_id` | 1,25 h | T-185-04 | Claude | ✅ |
+| T-185-06 | [BE] | Dépôt atomique : nom provisoire puis renommage, aucun fichier partiel si le répertoire est inaccessible, événements laissés à exporter | 1 h | T-185-04 | Claude | ✅ |
+| T-185-07 | [BE] | Bundle, configuration (répertoire d'échange, lot) et commande console | 0,75 h | T-185-05, T-185-06 | Claude | ✅ |
+| T-185-08 | [TEST] | Suite complète en local (Docker, MySQL de la démo), ECS, PHPStan max, Rector ; dernières lignes citées ; `vendor/` et base d'essai supprimés, espace libre relevé | 0,75 h | T-185-07 | Claude | ✅ |
+| T-185-09 | [DOC] | README FR et EN (contrat, configuration, limites : aucun ERP réel), CHANGELOG ; texte relu contre le code et l'ADR 0017 | 1 h | T-185-08 | Claude | ✅ |
+| T-185-10 | [REV] | Revue (ton neutre, aucun ERP ni éditeur nommé, `webhook-outbox` inchangé, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-185-09 | Claude | ✅ |
+| T-185-11 | [OPS] | 📅 Thibaut donne son GO pour créer le dépôt GitHub `thibmonier/sylius-erp-flatfile-plugin`, pousser et poser le tag `v0.1.0` | 0,25 h | T-185-10 | Thibaut | ✅ |
+| T-185-12 | [OPS] | Après GO : création du dépôt avec ses topics (ecommerce, sylius, sylius-plugin, symfony, erp, csv), push, CI verte sur toute la matrice (run terminé), concordance (CHANGELOG, tag, `composer.json`), tag et release `v0.1.0` | 0,75 h | T-185-11 | Claude | ✅ |
+| T-185-13 | [OPS] | 📅 Thibaut soumet le paquet à Packagist | 0,25 h | T-185-12 | Thibaut | ✅ |
 
 **Total estimé : 10,75 h** (13 tâches, dont 0,5 h de Thibaut (2 tâches) ; 10,25 h pour Claude et l'orchestrateur).
 
@@ -67,8 +67,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Commande exportée selon le contrat (nominal) | |
-| Plusieurs commandes dans un lot (alternatif) | |
-| Lecteur concurrent (alternatif) | |
-| Événement rejoué (erreur) | |
-| Répertoire inaccessible (erreur) | |
+| Commande exportée selon le contrat (nominal) | `tests/Unit/Contract/OrderLinesCsvTest.php`, `tests/Integration/ExportScenariosTest.php` du plugin `thibmonier/sylius-erp-flatfile-plugin` |
+| Plusieurs commandes dans un lot (alternatif) | `tests/Unit/Export/OrderExporterTest.php`, `ExportScenariosTest.php` |
+| Lecteur concurrent (alternatif) | `tests/Unit/Deposit/AtomicFileDepositorTest.php` (nom provisoire puis renommage) |
+| Événement rejoué (erreur) | `OrderExporterTest.php`, `ExportScenariosTest.php` (idempotence par `webhook_id`) |
+| Répertoire inaccessible (erreur) | `AtomicFileDepositorTest.php`, `ExportScenariosTest.php` (aucun fichier partiel, événements laissés à exporter) ; CI verte, release v0.1.0 (run 40088454801) |

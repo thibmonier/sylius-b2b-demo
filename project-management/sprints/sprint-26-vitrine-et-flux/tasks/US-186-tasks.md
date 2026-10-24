@@ -66,6 +66,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-186-14 | [TEST] | Vérification en production après le déploiement automatique de `main` (lecture seule) : pa11y WCAG2AAA en FR et en EN, 360 px et 1280 px, LCP mobile « après » (même protocole que T-186-02), liens de présentation ; comparaison avant/après notée | 1,25 h | merge de la PR | Claude | 🔲 |
 | T-186-15 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, aucune comparaison avec une offre commerciale) et table « scénario → test ou preuve » remplie | 0,5 h | T-186-14 | Claude | 🔲 |
 
+**État à la clôture (2026-10-24) : T-186-14 et T-186-15 restent 🔲.** La PR #87 est fusionnée (maquette validée par Thibaut, T-186-05 ✅) ; les retours de Thibaut sur la home en production ont donné #89 (menu dans la rangée du logo, logo sur deux lignes). La mesure « après » du LCP mobile, pa11y et 360/1280 px en production, la table « scénario → test ou preuve » ci-dessous et la revue ne sont pas consignées dans le dépôt : à faire ou à confirmer.
+
 **Total estimé : 16,5 h** (15 tâches, dont 0,5 h de Thibaut (1 tâche) ; 16 h pour Claude et l'orchestrateur).
 
 ## Scénarios et preuves (action 1 de la rétro du sprint 22)
