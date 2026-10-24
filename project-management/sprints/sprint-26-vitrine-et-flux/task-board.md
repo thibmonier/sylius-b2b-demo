@@ -3,7 +3,7 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut | ⚠️ Sacrifiable
 
-Total décomposé : **70 tâches, 54,5 h** pour 23 points engagés ; **53 h pour Claude**, 1,5 h d'actions de Thibaut (5 tâches). État à la clôture (2026-10-24) : **63 ✅, 7 🔲**, 0 📅. Les 7 tâches restantes sont des vérifications en production ou des contrôles transverses sans trace consignée (voir la note sous le tableau).
+Total décomposé : **70 tâches, 54,5 h** pour 23 points engagés ; **53 h pour Claude**, 1,5 h d'actions de Thibaut (5 tâches). État à la clôture (2026-10-24) : **64 ✅, 6 🔲**, 0 📅. Les 6 tâches restantes sont des vérifications en production ou des contrôles transverses sans trace consignée (voir la note sous le tableau).
 
 Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre. Sacrifices : US-185 (n°1), puis US-184 (n°2) ; leurs tâches portent ⚠️ dans leur fichier si le sacrifice est décidé.
 
@@ -13,13 +13,12 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 |----|-----|------|-------|------------|-------------|
 | T-186-14 | US-186 | TEST | Vérification en production après le déploiement automatique de `main` (lecture seule) : pa11y WCAG2AAA en FR et en EN, 360 px et 1280 px, LCP mobil … | 1,25 h | Claude |
 | T-186-15 | US-186 | REV | Revue (ton neutre, parité FR et EN, crédits complets, aucune comparaison avec une offre commerciale) et table « scénario → test ou preuve » remplie | 0,5 h | Claude |
-| T-182-05 | US-182 | TEST | Contrôle en production après déploiement : largeur des pages à tableau à 360 px et 1280 px (lecture seule), 0 défaut d'affichage | 0,25 h | Claude |
 | T-TECH-26-06 | Transverse | OPS | ECS (`src tests`), PHPStan max et Rector rejoués sur l'arbre exact avant chaque push de la démo ; contrôles du dépôt rejoués avant chaque push des … | 0,75 h | Orchestrateur |
 | T-TECH-26-08 | Transverse | REV | Avant chaque passage en done : table « scénario → test ou preuve » complète, commit de tests rouges cité dans la PR (orchestrateur compris), lieu d … | 0,75 h | Orchestrateur |
 | T-TECH-26-09 | Transverse | DOC | Statuts : chaque tâche cochée dans le commit qui la livre ; tâches transverses revues à chaque merge | 0,25 h | Orchestrateur |
 | T-TECH-26-11 | Transverse | REV | Texte public relu contre sa source avant le commit (README des plugins, page de la PA fictive, textes de la home, crédits des photos) et concordanc … | 0,5 h | Orchestrateur |
 
-> Note : T-182-05 reste ouverte (`/demo/accounts` déborde à 360 px, `scrollWidth` 412 ; correctif en cours par w185) ; T-186-14 est faite pour pa11y et les largeurs en production (2026-10-24), mais le LCP mobile « après » n'a pas été remesuré (voir `tasks/US-186-tasks.md`) ; T-186-15 (revue, table de preuves) n'est pas consignée ; T-TECH-26-06 (ECS, PHPStan et Rector sur l'arbre exact) n'a pas été tenue en totalité (trois CI rouges malgré des tests ciblés verts, voir la rétro) ; T-TECH-26-08, 09 et 11 n'ont pas de trace datée à citer. Rien n'est marqué ✅ sans preuve.
+> Note : T-182-05 est faite (le défaut de `/demo/accounts` à 360 px, trouvé par le contrôle, est corrigé par #92 et remesuré à `scrollWidth` 360) ; correctif en cours par w185) ; T-186-14 est faite pour pa11y et les largeurs en production (2026-10-24), mais le LCP mobile « après » n'a pas été remesuré (voir `tasks/US-186-tasks.md`) ; T-186-15 (revue, table de preuves) n'est pas consignée ; T-TECH-26-06 (ECS, PHPStan et Rector sur l'arbre exact) n'a pas été tenue en totalité (trois CI rouges malgré des tests ciblés verts, voir la rétro) ; T-TECH-26-08, 09 et 11 n'ont pas de trace datée à citer. Rien n'est marqué ✅ sans preuve.
 
 ## 🔄 En Cours
 
@@ -100,6 +99,7 @@ _Aucune tâche._
 | T-TECH-26-02 | Transverse | DOC | Ligne « concordance des versions (dossier de recette, tag, contrainte) avec Packagist avant un tag, une release ou une PR publique » ajoutée à `che … | 0,25 h | Orchestrateur |
 | T-TECH-26-03 | Transverse | DOC | Règle 12 de `project-management/templates/consigne-worker.md` : nouveau plugin sans `.env*`, MySQL de la démo, jamais de second serveur (action 4 d … | 0,25 h | Orchestrateur |
 | T-TECH-26-04 | Transverse | DOC | ADR 0016 (décision du 2026-10-24, stories B et C), ADR 0017 (section « Décision (2026-10-24) », statut accepté), index des ADR, fiches US-183 à US- … | 0,5 h | Orchestrateur |
+| T-182-05 | US-182 | TEST | Contrôle en production après déploiement : largeur des pages à tableau à 360 px et 1280 px (lecture seule), 0 défaut d'affichage | 0,25 h | Claude |
 
 ## Stories ajoutées en cours de sprint (sans décomposition en tâches)
 

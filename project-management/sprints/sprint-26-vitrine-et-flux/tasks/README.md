@@ -10,7 +10,7 @@
 |----|-------|--------|--------|--------|-----------|--------|
 | [US-186](./US-186-tasks.md) | Refonte du design de la home | 8 | 15 | 16,5 h | non sacrifiable | ✅ (T-186-14 partielle : LCP non remesuré ; T-186-15 à confirmer) |
 | [US-181](./US-181-tasks.md) | Plugin b2b-mcp : `symfony/lock` et routes MCP en double | 1 | 6 | 2,5 h | non sacrifiable | ✅ |
-| [US-182](./US-182-tasks.md) | Garde : `code` des tableaux qui se coupent | 1 | 5 | 2 h | non sacrifiable | ✅ (T-182-05 ouverte : `/demo/accounts` déborde à 360 px) |
+| [US-182](./US-182-tasks.md) | Garde : `code` des tableaux qui se coupent | 1 | 5 | 2 h | non sacrifiable | ✅ |
 | [US-183](./US-183-tasks.md) | PA fictive de démonstration (ADR 0016, story B) | 5 | 10 | 10,25 h | non sacrifiable | ✅ |
 | [US-184](./US-184-tasks.md) | Statuts de transmission au back-office et relance (ADR 0016, story C) | 3 | 8 | 6 h | **n°2** | ✅ |
 | [US-185](./US-185-tasks.md) | Contrat de fichier plat et export CSV des commandes (ADR 0017, story A) | 5 | 13 | 10,75 h | **n°1** | ✅ |

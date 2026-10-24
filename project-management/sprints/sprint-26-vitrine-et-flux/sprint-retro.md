@@ -77,14 +77,14 @@ Le noyau répond 503 « the demo is not configured safely » en mode prod local 
 
 ### Thème 5 : preuves de production non consignées (priorité moyenne)
 
-Les contrôles du 2026-10-24 (largeurs, pa11y) ont été faits par l'orchestrateur après coup et ont trouvé un défaut que la garde d'US-182 n'attrape pas : `/demo/accounts` déborde à 360 px (`scrollWidth` 412, tables à 4 colonnes sans `code` long). La mesure « après » du LCP n'a pas été refaite après #89 et #91. La garde porte sur les `code` ; elle ne couvre pas toute table large.
+Les contrôles du 2026-10-24 (largeurs, pa11y) ont été faits par l'orchestrateur après coup et ont trouvé un défaut que la garde d'US-182 n'attrape pas : `/demo/accounts` débordait à 360 px (`scrollWidth` 412, tables à 4 colonnes sans `code` long), corrigé par #92 et remesuré à `scrollWidth` 360. La mesure « après » du LCP n'a pas été refaite après #89 et #91. La garde porte sur les `code` ; elle ne couvre pas toute table large.
 
 ## Suivi des actions de la rétrospective du sprint 25
 
 | # | Action | Résultat au sprint 26 |
 |---|--------|------------------------|
 | 1 | Budget disque d'un nouveau dépôt et restes listés | 🟡 Faite (ligne de checklist, budgets écrits) mais DoD non atteinte : 2-3 Go au minimum pour une cible de 5 Go |
-| 2 | Garde sur les `code` dans les tableaux | 🟡 Garde en place (#85, 13 tests, deux gabarits corrigés), mais DoD non atteinte : `/demo/accounts` déborde encore à 360 px en production (tables à 4 colonnes, hors périmètre de la garde) |
+| 2 | Garde sur les `code` dans les tableaux | 🟡 Garde en place (#85, 13 tests, deux gabarits corrigés), mais DoD non atteinte à la lettre : `/demo/accounts` débordait à 360 px en production (tables à 4 colonnes, hors périmètre de la garde), trouvé par le contrôle et corrigé dans le sprint (#92) |
 | 3 | Concordance des versions avant publication | ✅ Atteinte : 0 artefact publié à une version qui ne concorde pas (v1.2.3, v0.2.0, v0.1.0, borne `^1.2.3` du pack IA) |
 | 4 | Consigne pour un nouveau dépôt de plugin | ✅ Atteinte pour le plugin de fichier plat : aucun second serveur de base signalé ; le refus des `.env*` n'est pas revenu |
 
@@ -94,12 +94,12 @@ Les contrôles du 2026-10-24 (largeurs, pa11y) ont été faits par l'orchestrate
 |------------|-------|-----------|-----------|
 | Plantages de la machine | 0 | 0 | 0 |
 | Espace libre minimal | 5 Go | **environ 2 à 3 Go** | 3,9 Go |
-| Tâches livrées restées 🔲 à la clôture | 0 | 7 (vérifications en production et transverses, voir la revue) | 0 (1 📅 Thibaut) |
+| Tâches livrées restées 🔲 à la clôture | 0 | 6 (vérifications en production et transverses, voir la revue) | 0 (1 📅 Thibaut) |
 | Push, tag ou dépôt sans confirmation | 0 | 0 | 0 |
 | Stories en done avec un scénario non livré | 0 | 0 (tables de preuves d'US-186 à remplir) | 0 |
 | CI rouges après tests ciblés verts | 0 | **3** | 1 |
 | Textes publics inexacts publiés | 0 | 0 | 0 |
-| Défauts d'affichage trouvés en production | 0 | 3 retours de Thibaut corrigés le jour même, plus `/demo/accounts` à 360 px (correctif en cours) | 1 |
+| Défauts d'affichage trouvés en production | 0 | 3 retours de Thibaut corrigés le jour même, plus `/demo/accounts` à 360 px (corrigé dans le sprint, #92) | 1 |
 
 ## Actions (SMART)
 
@@ -142,10 +142,10 @@ Les contrôles du 2026-10-24 (largeurs, pa11y) ont été faits par l'orchestrate
 ### Action 5 : Mesures de production consignées le jour du déploiement
 | Attribut | Valeur |
 |----------|--------|
-| Description | Consigner dans le fichier de tâches de la story, le jour du déploiement, les mesures de production (LCP après, largeur à 360 et 1280 px, pa11y) ; étendre la garde de largeur aux tables larges sans `code` ; corriger `/demo/accounts`, remesurer T-182-05 et le LCP « après » d'US-186. |
+| Description | Consigner dans le fichier de tâches de la story, le jour du déploiement, les mesures de production (LCP après, largeur à 360 et 1280 px, pa11y) ; étendre la garde de largeur aux tables larges sans `code` ; remesurer le LCP « après » d'US-186. |
 | Responsable | Orchestrateur (Claude) |
 | Deadline | Rattrapage avant le planning du sprint 27, puis chaque story |
-| DoD | 0 tâche de contrôle en production restée ouverte à la clôture du sprint 27 (T-182-05 et T-186-14 au sprint 26) et 0 page de la démo avec défilement horizontal à 360 px. |
+| DoD | 0 tâche de contrôle en production restée ouverte à la clôture du sprint 27 (T-186-14 au sprint 26) et 0 page de la démo avec défilement horizontal à 360 px. |
 | Priorité | Moyenne |
 
 ## Intégration au sprint 27

@@ -10,7 +10,7 @@
 | Période | 2026-10-24 (lancé et terminé le même jour ; fin au plus tard prévue le 2026-11-21) |
 | Points engagés | 23 au planning (US-186 8, US-183 5, US-185 5, US-184 3, US-181 1, US-182 1), **29** avec les trois stories ajoutées en cours de sprint (US-190 2, US-191 1, US-192 3) |
 | Points en done | **29** |
-| PR de la démo | #83 (lancement), #84 (US-183), #85 (US-182), #86 (US-184), #87 (US-186), #88 (US-190), #89 (US-186, en-tête), #90 (US-191), #91 (US-192) |
+| PR de la démo | #83 (lancement), #84 (US-183), #85 (US-182), #86 (US-184), #87 (US-186), #88 (US-190), #89 (US-186, en-tête), #90 (US-191), #91 (US-192), #92 (correctif de `/demo/accounts` à 360 px) |
 | Autres dépôts | `sylius-b2b-mcp-plugin` #10 et #11, release v1.2.3 ; `sylius-einvoice-transmission-plugin` #1, release v0.2.0 ; nouveau dépôt `sylius-erp-flatfile-plugin`, release v0.1.0 (Packagist) ; `sylius-pack-ai-headless` #3 |
 | Mode | Orchestrateur (Claude) et workers : w186 (US-186), w183 (US-183, US-184), w185 (US-185, US-181, US-182, US-190) ; US-191 et US-192 traitées dans la journée sur retour de Thibaut |
 
@@ -45,7 +45,7 @@
 ## Éléments non terminés ou à confirmer
 
 - **Contrôles en production du 2026-10-24** (lecture seule, sans connexion) : largeur à 360 et 1280 px sans défilement horizontal sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`, `/fr_FR/packs`, `/fr_FR/pa-fictive` ; pa11y WCAG2AAA « No issues found! » sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`. Thibaut a validé en production l'en-tête, la connexion et le menu de compte.
-- **US-182, T-182-05 ouverte** : ces contrôles ont trouvé que `/demo/accounts` déborde à 360 px (`scrollWidth` 412, tables à 4 colonnes) ; la garde ne l'a pas vu malgré la règle sur les `code`. Correctif confié à w185, en cours.
+- **US-182, T-182-05 ✅** : ces contrôles ont trouvé que `/demo/accounts` débordait à 360 px (`scrollWidth` 412, tables à 4 colonnes) ; la garde sur les `code` ne le couvre pas. Corrigé par #92 (`0132090`, cartes sous 768 px, `DemoAccountsPageLayoutTest` rouge `153cfc9` puis vert) ; après déploiement, `scrollWidth` 360 et pa11y WCAG2AAA sans problème.
 - **US-186** : T-186-14 faite pour pa11y et les largeurs ; le LCP mobile « après » n'a pas été remesuré après #89 et #91. T-186-15 (revue, table de preuves) non consignée.
 - **US-190** : `/echange-fichier` est en ligne en FR et EN, contrôle fait (largeur, pa11y).
 - **Tâches transverses T-TECH-26-06, 08, 09, 11** : sans trace datée à citer ; T-TECH-26-06 n'a pas été tenue en totalité (trois CI rouges, voir les incidents).
@@ -76,7 +76,7 @@
 | Espace libre minimal | environ 2 à 3 Go (cible 5 Go) | 3,9 Go |
 | Contournements de refus d'outil | non relevés dans le dépôt | 0 (5 refus) |
 | CI rouges après tests ciblés verts | 3 (#87, #88, #91) | 1 |
-| Défauts d'affichage trouvés en production après merge | 4 : 3 retours de Thibaut (en-tête, connexion, menu de compte), traités dans la journée, et `/demo/accounts` à 360 px (correctif en cours) | 1 |
+| Défauts d'affichage trouvés en production après merge | 4 : 3 retours de Thibaut (en-tête, connexion, menu de compte), traités dans la journée, et `/demo/accounts` à 360 px (corrigé dans le sprint, #92) | 1 |
 | Publication sans GO | 0 | 0 |
 
 ## Démonstration (ordre suggéré)
@@ -95,7 +95,7 @@
 | [US-187](../../backlog/user-stories/US-187.md) Import CSV de prix et de stock (8), [US-188](../../backlog/user-stories/US-188.md) Démonstration avec l'ERP fictif (5) | Backlog (ADR 0017 stories B et C), non engagées |
 | [US-193](../../backlog/user-stories/US-193.md) Commandes de démo pour un vrai extrait sur `/echange-fichier` (2), suite d'US-190 | Backlog, candidate au sprint 27 (validée par Thibaut) |
 | Stories D et E de l'ADR 0016 et de l'ADR 0017 | Non créées |
-| LCP « après » d'US-186 (non remesuré), correctif de `/demo/accounts` à 360 px puis nouvelle mesure (T-182-05) | À faire (action 5 de la rétro) |
+| LCP « après » d'US-186 (non remesuré) | À faire (action 5 de la rétro) |
 
 ## Prochaines étapes
 
