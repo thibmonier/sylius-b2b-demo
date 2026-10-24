@@ -24,11 +24,13 @@ final class ApprovalsHeaderSmokeTest extends WebTestCase
 
         $crawler = $client->request('GET', self::PAGE);
 
-        $desktop = $crawler->filter('[data-test-tmonier-header-approvals="desktop"]');
-        self::assertCount(1, $desktop);
-        self::assertSame('1', trim($desktop->filter('[data-test-tmonier-header-approvals-badge]')->text()));
-        self::assertStringContainsString('1 approbation en attente', $desktop->text());
-        self::assertCount(1, $crawler->filter('[data-test-tmonier-header-approvals="mobile"]'));
+        // US-192: on a wide screen the entry is an item of the greeting menu (the layout of the phone menu), not a link of the row.
+        self::assertCount(0, $crawler->filter('[data-test-tmonier-header-approvals="desktop"]'));
+        $entry = $crawler->filter('[data-b2b-account-menu] [data-test-tmonier-header-approvals="mobile"]');
+        self::assertCount(1, $entry);
+        self::assertSame('1', trim($entry->filter('[data-test-tmonier-header-approvals-badge]')->text()));
+        self::assertStringContainsString('1 approbation en attente', $entry->text());
+        self::assertCount(2, $crawler->filter('[data-test-tmonier-header-approvals="mobile"]'), 'the phone menu and the greeting menu');
     }
 
     public function testIsabelleTheAdministratorHasTheEntryToo(): void
@@ -38,7 +40,7 @@ final class ApprovalsHeaderSmokeTest extends WebTestCase
 
         $crawler = $client->request('GET', self::PAGE);
 
-        self::assertCount(1, $crawler->filter('[data-test-tmonier-header-approvals="desktop"]'), 'admin is an approver role of the demo.');
+        self::assertCount(1, $crawler->filter('[data-b2b-account-menu] [data-test-tmonier-header-approvals]'), 'admin is an approver role of the demo.');
     }
 
     public function testClaireTheBuyerHasNoEntry(): void

@@ -49,6 +49,15 @@ final class HomeStylesTest extends TestCase
         self::assertMatchesRegularExpression('/@container\s*\(min-width:\s*4\d(?:\.\d+)?rem\)\s*\{[^@]*b2b-nav__list--row[^@]*b2b-nav__fold/s', $styles);
     }
 
+    /** US-192: the greeting menu is a wide-screen control: its caret is drawn from lg only, the phone keeps its icon button. */
+    public function testTheGreetingCaretShowsFromTheLgWidthOnly(): void
+    {
+        $styles = $this->read('_home.scss');
+
+        self::assertMatchesRegularExpression('/\.b2b-account-menu[^{]*\{[^}]*::after\s*\{[^}]*display:\s*none/s', $styles);
+        self::assertMatchesRegularExpression('/@media \(min-width: 992px\)\s*\{[^@]*\.b2b-account-menu[^@]*::after[^@]*display:\s*inline-block/s', $styles);
+    }
+
     public function testTheHomeWritesNoColourByHand(): void
     {
         self::assertSame([], StyleColorScanner::hardCoded($this->read('_home.scss')));
