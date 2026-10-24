@@ -26,4 +26,4 @@
 | Téléphone (erreur) | mesuré à 360 et 1280 px en local : pas de défilement horizontal, logo centré sur le texte |
 | Fichier trop lourd (erreur) | `DemoFooterTest` (n'admet que cette image dans le pied de page) ; WebP 112×112, 2,4 Ko (budget de 8 Ko) |
 
-**Preuves (sprint 27).** PR #95 (`61a8829`), PHPStan sur tout le dépôt sans erreur. Production : aucune mesure propre à cette story n'a été consignée ; le pied de page figure sur toutes les pages contrôlées le 2026-10-24 (aucun défilement à 360 et 1280 px, pa11y « No issues found! » sur les pages testées), ce qui ne remplace pas une mesure dédiée.
+**Preuves (sprint 27).** PR #95 (`61a8829`), PHPStan sur tout le dépôt sans erreur. **Contrôle de production fait le 2026-10-24 après déploiement** : le logo est servi dans le pied de page (`img data-author-logo`, WebP haché, `width` et `height` 56, `alt` vide, `loading=lazy`) ; la home FR et EN, mesurée le même jour, n'a aucun défilement horizontal à 360 et 1280 px et pa11y WCAG2AAA « No issues found! ».

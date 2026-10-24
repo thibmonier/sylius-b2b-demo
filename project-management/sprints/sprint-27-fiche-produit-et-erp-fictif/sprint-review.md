@@ -54,7 +54,7 @@ Hors points : **correctif #100** (`c6b9b6e`) : l'échange ERP est reconstruit au
 - **Contrôles en production du 2026-10-24** (lecture seule) : fiches OUTI-001 FR et EN, EPI-VEST-001, FIXA-002, home, `/echange-fichier` FR et EN : aucun défilement horizontal à 360 et 1280 px, pa11y WCAG2AAA « No issues found! ».
 - **LCP mobile** (protocole de w186) : fiches 1408 à 1444 ms (avant 1388 à 1776 ms) ; **home 1576 ms contre 1324 ms** au sprint 26 (+19 %), à surveiller (action 5 de la rétro). CLS 0.
 - **Page « Échanges ERP (fictif) » du back-office** : vérifiée en local seulement (pas de connexion en production) ; non revérifiée sur l'image reconstruite après #100 (T-188-10).
-- **US-194** : aucune mesure de production propre à la story n'a été consignée ; le pied de page figure sur les pages contrôlées.
+- **US-194** : contrôle de production fait le 2026-10-24 (logo servi dans le pied de page, home FR et EN sans défilement à 360 et 1280 px, pa11y AAA sans problème).
 - **T-TECH-27-08** (processus disque) : faite avec écart, voir la rétrospective.
 - Rien dans le périmètre n'a été sacrifié. `proof.json` rafraîchi dans chaque PR.
 

@@ -86,7 +86,7 @@ Les commits `88b26a3` et `881be80` de #100 portent « US-195 » (sur la branche 
 | 2 | Contrôle complet avant de rendre la main | ✅ Atteinte : 0 CI rouge après des contrôles locaux verts sur les runs de la période ; compteurs en dur supprimés et gardés (#101) |
 | 3 | Seuils disque et mémoire | 🟡 `bin/check-disk --full` refuse sous 6 Go (fait, testé), mais DoD non atteinte : espace libre minimal de 3 à 4 Go pour 5 Go visés, et un worker a poursuivi ses rendus malgré le seuil |
 | 4 | Rendu local en mode prod | ✅ Atteinte : cause trouvée (`variables_order = GPCS`), `bin/local-server` et `bin/render-page`, captures de la fiche sur le rendu du noyau |
-| 5 | Mesures de production consignées le jour du déploiement | 🟡 0 tâche de contrôle ouverte à la clôture et 0 page à défilement horizontal parmi celles contrôlées, LCP de la home remesuré ; mais US-194 sans mesure propre et page d'administration non vérifiée en production |
+| 5 | Mesures de production consignées le jour du déploiement | 🟡 0 tâche de contrôle ouverte à la clôture et 0 page à défilement horizontal parmi celles contrôlées, LCP de la home remesuré ; mais la page d'administration « Échanges ERP » n'est vérifiée qu'en local |
 
 ## Bilan des indicateurs
 
