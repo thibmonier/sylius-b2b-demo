@@ -29,7 +29,7 @@ final class DemoFooterTest extends WebTestCase
         self::assertCount(0, $footer->filter('a[href="#"]'), 'no dead link');
         self::assertCount(0, $footer->filter('form, input[type="email"]'), 'no newsletter');
         self::assertCount(0, $footer->filter('a[href*="sylius.com/partner"], a[href*="instagram"], a[href*="facebook"], a[href*="x.com"]'));
-        self::assertCount(0, $footer->filter('img'), 'no partner logo');
+        self::assertCount(0, $footer->filter('img:not([data-author-logo])'), 'no partner logo (US-194: only the logo of the author, decorative, beside his name)');
         self::assertStringNotContainsStringIgnoringCase('newsletter', $footer->text());
         self::assertStringNotContainsString('Mollie', $footer->text());
     }

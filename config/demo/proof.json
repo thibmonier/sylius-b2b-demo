@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-24T17:56:32Z",
+    "generated_at": "2026-10-24T18:15:57Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -1033,7 +1033,7 @@
             "checked_at": "2026-10-24"
         },
         "tests": {
-            "value": 250,
+            "value": 251,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-24"
         }
