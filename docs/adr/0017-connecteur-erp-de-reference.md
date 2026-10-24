@@ -1,6 +1,6 @@
 # ADR-0017 — Connecteur ERP de référence
 
-- **Statut** : Proposé (2026-10-23), décision de Thibaut attendue
+- **Statut** : Accepté (2026-10-24) : story A au sprint 26 ([US-185](../../project-management/backlog/user-stories/US-185.md)), stories B et C au backlog ([US-187](../../project-management/backlog/user-stories/US-187.md), [US-188](../../project-management/backlog/user-stories/US-188.md))
 - **Contexte projet** : sylius-b2b-demo, sprint 24, spike US-130 (3 points, borné à 4 h). Les stories de découpage d'origine (US-136, US-137) ont été abandonnées le 2026-10-23 ; ce document en propose de nouvelles.
 
 ## Contexte
@@ -105,3 +105,11 @@ Retenu : A, B, C = 18 points. Chaque story reste à 8 points ou moins.
 ## Décision (2026-10-23)
 
 Thibaut ne planifie aucune réalisation au sprint 24. L'ADR reste proposé ; la décision sur le périmètre et les stories est reportée au planning du sprint 25.
+
+## Décision (2026-10-24)
+
+Thibaut accepte l'ADR et son périmètre réduit (contrat neutre, ERP fictif, aucun adaptateur d'éditeur). Réalisation :
+
+- **Story A au sprint 26** : [US-185](../../project-management/backlog/user-stories/US-185.md), contrat de fichier plat et export CSV des commandes avec dépôt atomique, dérivé des événements de l'outbox. Un nouveau plugin y est proposé (nom provisoire `tmonier/sylius-erp-flatfile-plugin`, ADR 0006) ; la création du dépôt, le tag et la soumission à Packagist attendent le GO de Thibaut. Le plugin `webhook-outbox` n'est pas modifié.
+- **Stories B et C au backlog**, numéros attribués : B = [US-187](../../project-management/backlog/user-stories/US-187.md) (import CSV de prix et de stock), C = [US-188](../../project-management/backlog/user-stories/US-188.md) (démonstration avec l'ERP fictif). D et E restent reportées et non créées.
+- Réponses aux questions ouvertes 1 et 2 : seule la story A est planifiée ; le consommateur CSV vit dans un nouveau paquet plutôt que dans l'outbox ou la démo. Les questions 3 à 6 restent ouvertes pour les stories B et C.

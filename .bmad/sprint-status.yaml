@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 25
+current_sprint: 26
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -428,10 +428,27 @@ sprints:
       - {id: US-180, title: "Transmission des factures électroniques, tranche A : port, journal et statuts", points: 5, status: done}  # EPIC-14, Should ; plugin livré par wE (dépôt public, CI verte), tag v0.1.0 posé sur GO de Thibaut, Packagist par Thibaut ; ADR 0016 story A ; nouveau plugin, dépôt et publication sur GO de Thibaut ; sacrifice n°2
     notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-177, puis US-180. ADR 0017 (ERP) : rien ce sprint (décision de Thibaut). Railway déploie main automatiquement. Actions 1 à 3 de la rétro du sprint 24 appliquées au planning (checklist-integration.md, consigne-worker.md) ; action 4 mesurée sur l'orchestrateur."
 
+  sprint-26:
+    name: sprint-26-vitrine-et-flux  # refonte de la home, PA fictive et statuts de facture, export CSV des commandes, corrections des sorties du sprint 25
+    status: in-progress  # lancé le 2026-10-24 juste après la clôture du sprint 25 ; périmètre décidé par Thibaut le 2026-10-24 : refonte de la home (US-186), ADR 0016 stories B et C (US-183, US-184), ADR 0017 story A (US-185), sorties du sprint 25 (US-181, US-182)
+    sprint_id: "sprint-26"
+    start_date: "2026-10-24"
+    end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_points: 23  # 56,3 h de capacité (23 × 2,1 h + 8 h transverses) ; charge décomposée : 70 tâches, 54,5 h dont 1,5 h de Thibaut ; vélocité de référence : S22 23, S23 11, S24 19, S25 17
+    goal: "Donner à la démo une vitrine qui donne envie de la parcourir (home refaite, photos libres de droits, liens de présentation) et montrer deux flux de bout en bout sans système réel : la facture électronique transmise à une plateforme fictive avec ses statuts et sa relance, et l'export des commandes en fichier plat"
+    stories:
+      - {id: US-186, title: "Refonte du design de la home", points: 8, status: ready-for-dev}  # EPIC-12, Should, non sacrifiable ; demande de Thibaut du 2026-10-24 ; maquette Claude Design validée par Thibaut avant toute intégration Twig (T-186-05) ; photos de banques libres avec fichier de crédits ; LCP mobile mesuré avant et après ; vérification en production, reste en review jusque-là
+      - {id: US-183, title: "PA fictive de démonstration (ADR 0016, story B)", points: 5, status: ready-for-dev}  # EPIC-14, Should, non sacrifiable ; travail dans la démo, plugin de transmission v0.1.0 depuis Packagist (prérequis : T-180-13 du sprint 25) ; aucune plateforme réelle, statuts « à vérifier »
+      - {id: US-185, title: "Contrat de fichier plat et export CSV des commandes, dépôt atomique (ADR 0017, story A)", points: 5, status: ready-for-dev}  # EPIC-14, Could, sacrifice n°1 ; nouveau plugin proposé tmonier/sylius-erp-flatfile-plugin, dépôt et publication sur GO de Thibaut ; règle 12 (sans .env, MySQL de la démo)
+      - {id: US-184, title: "Statuts de transmission au back-office et relance d'un envoi en erreur (ADR 0016, story C)", points: 3, status: ready-for-dev}  # EPIC-14, Should, sacrifice n°2 ; après US-183 ; plugin de transmission 0.2.0 (tag sur GO) puis écran de la démo
+      - {id: US-181, title: "Plugin b2b-mcp : dépendance symfony/lock et import des routes du serveur MCP", points: 1, status: ready-for-dev}  # EPIC-14, Should, non sacrifiable ; sortie du sprint 25 ; version corrective sur GO de Thibaut
+      - {id: US-182, title: "Garde : les code des tableaux de la démo se coupent à toutes les largeurs", points: 1, status: ready-for-dev}  # EPIC-12, Should, non sacrifiable ; action 2 de la rétro du sprint 25 ; après US-183 (integrate.html.twig) ; contrôle de largeur en production
+    notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-185, puis US-184. ADR 0016 : stories B et C au sprint ; ADR 0017 accepté, story A seulement. Railway déploie main automatiquement. Actions 1, 3 et 4 de la rétro du sprint 25 appliquées au planning (checklist-integration.md, consigne-worker.md règle 12), action 2 = US-182. Disque : 5,2 Go libres au planning, sous le seuil de 6 Go : nettoyage par Thibaut avant le premier lot. Workers proposés : w186 (US-186), w183 (US-183 puis US-184), w185 (US-185, US-181, US-182)."
+
 backlog:
-  # --- Sorties du sprint 25 (2026-10-24, validées par Thibaut)
-  - {id: US-181, title: "Plugin b2b-mcp : dépendance symfony/lock et import des routes du serveur MCP", points: 1, status: backlog}  # EPIC-14, Should ; trouvé par la CI d'installation des packs (US-176) ; version corrective sur GO
-  - {id: US-182, title: "Garde : les code des tableaux de la démo se coupent à toutes les largeurs", points: 1, status: backlog}  # EPIC-12, Should ; action 2 de la rétro du sprint 25
+  # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)
+  - {id: US-187, title: "Import CSV de prix et de stock : validation, rapport de rejet, journal des lots, idempotence", points: 8, status: backlog}  # EPIC-14, Could ; ADR 0017 story B ; fiche courte à affiner (questions 3, 4 et 6 de l'ADR) ; créée le 2026-10-24
+  - {id: US-188, title: "Démonstration avec l'ERP fictif : simulateur, page de journal au back-office, documentation", points: 5, status: backlog}  # EPIC-14, Could ; ADR 0017 story C ; fiche courte, après US-185 et US-187 ; créée le 2026-10-24
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
   # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
   - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15
