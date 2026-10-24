@@ -44,23 +44,24 @@ final class ProductPageRedesignTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $page->filter('[data-pdp]'));
-        self::assertSame(['gallery', 'summary', 'buybox', 'assurances', 'body', 'backstage', 'related'], $this->parts($page));
+        // DOM order: the title and the buy box (summary) come before the gallery, which the grid shows first on a phone and on the left.
+        self::assertSame(['summary', 'buybox', 'assurances', 'gallery', 'body', 'backstage', 'related'], $this->parts($page));
         self::assertCount(1, $page->filter('main h1'));
         self::assertNotSame('', trim($page->filter('main h1')->text()));
         self::assertNotSame('', trim($page->filter('[data-pdp-eyebrow]')->text()), 'the category above the title');
         self::assertStringContainsString($code, $page->filter('[data-pdp-part="summary"] .b2b-reference')->text());
-        self::assertCount(1, $page->filter('[data-pdp-part="buybox"] button[type="submit"]'), 'one add-to-cart action');
+        self::assertCount(1, $page->filter('[data-pdp-part="buybox"] button[data-test-button="add-to-cart-button"]'), 'one add-to-cart action');
         self::assertSame($safety, 1 === $page->filter('[data-test-product-safety]')->count(), 'safety data only where there are some');
         self::assertCount(0, $page->filter('[data-pdp] .accordion'), 'no accordion: description, specifications and reviews are sections of the body');
     }
 
     #[DataProvider('pages')]
-    public function testTheBodySectionsAreThereOnlyWhenTheyHaveContent(string $locale, string $path): void
+    public function testTheBodySectionsAreThereOnlyWhenTheyHaveContent(string $locale, string $path, bool $safety, string $code): void
     {
         $page = $this->signedIn('claire@acme.example')->request('GET', $path);
 
         $sections = $page->filter('[data-pdp-part="body"] [data-pdp-section]')->each(static fn (Crawler $section): string => (string) $section->attr('data-pdp-section'));
-        self::assertSame(['description', 'attributes', 'reviews'], $sections);
+        self::assertSame($safety ? ['description', 'attributes', 'safety', 'reviews'] : ['description', 'attributes', 'reviews'], $sections);
         foreach ($page->filter('[data-pdp-part="body"] [data-pdp-section]') as $node) {
             $section = new Crawler($node);
             self::assertCount(1, $section->filter('h2'), (string) $section->attr('data-pdp-section') . ' has its title');
@@ -86,7 +87,7 @@ final class ProductPageRedesignTest extends WebTestCase
         $page = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/fixa-002-fr');
 
         self::assertCount(0, $page->filter('.b2b-price-breaks'));
-        self::assertCount(1, $page->filter('[data-pdp-part="buybox"] button[type="submit"]'));
+        self::assertCount(1, $page->filter('[data-pdp-part="buybox"] button[data-test-button="add-to-cart-button"]'));
     }
 
     #[DataProvider('pages')]
