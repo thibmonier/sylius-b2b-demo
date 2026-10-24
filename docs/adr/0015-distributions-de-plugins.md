@@ -151,4 +151,4 @@ Réponse à la question ouverte 3, consignée par T-177-03 : **poursuite**, la r
 - Essai fait avec le paquet en dépôt `path` et la recette servie par un endpoint local, et non avec un paquet venu de Packagist par `symfony/recipes-contrib`. Ce dernier chemin ne sera vérifié qu'après la publication de la recette.
 - Limite observée : à `composer remove`, Flex supprime aussi un fichier que l'application avait écrit sous le même nom avant l'installation, parce qu'il le consigne dans `symfony.lock`. Les README des deux packs le disent.
 - La CI des deux packs rejoue la recette (job `recipe`, Sylius 2.2 et 2.3) et l'aller-retour installation puis retrait (job `flex-trial`).
-- La pull request sur `symfony/recipes-contrib` (question ouverte 4) est préparée mais pas ouverte : elle attend le GO de Thibaut, et les deux paquets sont déjà sur Packagist.
+- Pull request sur `symfony/recipes-contrib` (question ouverte 4) : ouverte le 2026-10-24 après le GO de Thibaut ([#2094](https://github.com/symfony/recipes-contrib/pull/2094)). Les recettes sont rangées sous `0.1`, la version publiée des packs.
