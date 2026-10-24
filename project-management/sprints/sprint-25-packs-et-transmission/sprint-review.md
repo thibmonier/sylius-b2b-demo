@@ -82,12 +82,12 @@ Aucun dans le périmètre. Reste une action de Thibaut : soumettre `sylius-einvo
 
 | Élément | Statut |
 |---------|--------|
-| Défauts de b2b-mcp (`symfony/lock`, routes importées deux fois) | nouvelle story à créer (1 point), cible sprint 26 |
-| Tag v0.2.0 des deux packs (README de `main` qui décrit la recette) | à décider par Thibaut |
+| Défauts de b2b-mcp (`symfony/lock`, routes importées deux fois) | [US-181](../../backlog/user-stories/US-181.md) (1 point), backlog |
+| Tag v0.2.0 des deux packs (README de `main` qui décrit la recette) | fait le 2026-10-24 sur GO de Thibaut |
 | ADR 0016, tranches suivantes ; ADR 0017 (ERP) | à trancher au planning du sprint 26 |
-| Garde sur les `code` dans les tableaux des pages de la démo | action 2 de la rétro |
+| Garde sur les `code` dans les tableaux des pages de la démo | [US-182](../../backlog/user-stories/US-182.md) (1 point), action 2 de la rétro |
 
 ## Prochaines étapes
 
-1. Thibaut valide la revue, la rétrospective et la clôture du sprint 25, et soumet le plugin de transmission à Packagist.
+1. ✅ Thibaut a validé la revue, la rétrospective et la clôture du sprint 25 (2026-10-24) ; reste la soumission du plugin de transmission à Packagist.
 2. Planning du sprint 26.

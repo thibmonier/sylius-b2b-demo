@@ -415,7 +415,7 @@ sprints:
 
   sprint-25:
     name: sprint-25-packs-et-transmission  # packs installés pour de vrai, recettes Flex, page des packs, transmission des factures (tranche A)
-    status: in-progress  # lancé le 2026-10-24 juste après la clôture du sprint 24 (GO de Thibaut : /workflow:auto-sprint 25) ; décisions de Thibaut du 2026-10-24 : ADR 0016 story A seulement (US-180), ADR 0017 rien ce sprint, US-177 avec PR publique sur recipes-contrib sur son GO
+    status: done  # CLOS le 2026-10-24 (validation de Thibaut) : 17/17 points, revue et rétro (#81) ; lancé le 2026-10-24 juste après la clôture du sprint 24 (GO de Thibaut : /workflow:auto-sprint 25) ; décisions de Thibaut du 2026-10-24 : ADR 0016 story A seulement (US-180), ADR 0017 rien ce sprint, US-177 avec PR publique sur recipes-contrib sur son GO
     sprint_id: "sprint-25"
     start_date: "2026-10-24"
     end_date: "2026-11-07"  # au plus tard ; clôture dès le périmètre vérifié
@@ -429,6 +429,9 @@ sprints:
     notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-177, puis US-180. ADR 0017 (ERP) : rien ce sprint (décision de Thibaut). Railway déploie main automatiquement. Actions 1 à 3 de la rétro du sprint 24 appliquées au planning (checklist-integration.md, consigne-worker.md) ; action 4 mesurée sur l'orchestrateur."
 
 backlog:
+  # --- Sorties du sprint 25 (2026-10-24, validées par Thibaut)
+  - {id: US-181, title: "Plugin b2b-mcp : dépendance symfony/lock et import des routes du serveur MCP", points: 1, status: backlog}  # EPIC-14, Should ; trouvé par la CI d'installation des packs (US-176) ; version corrective sur GO
+  - {id: US-182, title: "Garde : les code des tableaux de la démo se coupent à toutes les largeurs", points: 1, status: backlog}  # EPIC-12, Should ; action 2 de la rétro du sprint 25
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
   # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
   - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15
