@@ -334,6 +334,15 @@ final class HomeRedesignTest extends WebTestCase
         self::assertSame(1, substr_count($home->filter('body')->text(), $tagline), 'the tagline is in the top bar only');
     }
 
+    public function testTheLogoNameIsOnTwoLinesWithOneAccessibleName(): void
+    {
+        $logo = $this->anonymousHome('fr_FR')->filter('a.b2b-logo');
+
+        self::assertCount(1, $logo);
+        self::assertSame(['Fournitures', 'Pro'], $logo->filter('.b2b-logo__name .b2b-logo__line')->each(static fn (Crawler $line): string => trim($line->text())), 'two stacked lines');
+        self::assertStringStartsWith('Fournitures Pro', (string) $logo->attr('aria-label'), 'one name for the link, not two');
+    }
+
     public function testTheLogoMarkSpellsFP(): void
     {
         $mark = $this->anonymousHome('fr_FR')->filter('a.b2b-logo .b2b-logo__mark');
