@@ -714,6 +714,17 @@
     }
 }
 
+// English labels are shorter (507 px): the same menu fits in a narrower column.
+@container (min-width: 33rem) {
+    :lang(en) .b2b-nav-col .b2b-nav__list--row {
+        display: flex;
+    }
+
+    :lang(en) .b2b-nav-col .b2b-nav__fold {
+        display: none;
+    }
+}
+
 .b2b-nav {
     &__list {
         display: flex;
@@ -765,6 +776,19 @@
 
         .b2b-nav__list a {
             justify-content: flex-start;
+        }
+    }
+}
+
+// US-192: the caret of the greeting button is drawn on wide screens only (the phone keeps the icon button, without arrow).
+.b2b-account-menu {
+    .dropdown-toggle::after {
+        display: none;
+    }
+
+    @media (min-width: 992px) {
+        .dropdown-toggle::after {
+            display: inline-block;
         }
     }
 }
