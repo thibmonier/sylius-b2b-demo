@@ -297,21 +297,35 @@ final class HomeRedesignTest extends WebTestCase
         $classes = preg_split('/\s+/', trim((string) $desktop->attr('class')));
         self::assertIsArray($classes);
         self::assertContains('d-none', $classes, 'the row is hidden on a phone');
-        self::assertContains('d-md-flex', $classes);
+        self::assertContains('d-xl-flex', $classes, 'inline from xl: the row of the header never overflows below');
+        self::assertCount(0, $nav->filter('a[data-demo-link="accounts"]'), 'the demo accounts are in the demo menu and the hero');
     }
 
-    public function testBelowTheMdWidthTheMenuFoldsIntoANativeDisclosureWithTheSameLinks(): void
+    public function testBelowTheXlWidthTheMenuFoldsIntoANativeDisclosureWithTheSameLinks(): void
     {
         $nav = $this->anonymousHome('fr_FR')->filter('nav.b2b-nav');
 
         $mobile = $nav->filter('details[data-nav-list="mobile"]');
         self::assertCount(1, $mobile);
-        self::assertContains('d-md-none', preg_split('/\s+/', trim((string) $mobile->attr('class'))) ?: []);
+        self::assertContains('d-xl-none', preg_split('/\s+/', trim((string) $mobile->attr('class'))) ?: []);
         self::assertCount(1, $mobile->filter('summary'));
         self::assertSame(
             $nav->filter('[data-nav-list="desktop"] a')->each(static fn (Crawler $link): string => (string) $link->attr('href')),
             $mobile->filter('a')->each(static fn (Crawler $link): string => (string) $link->attr('href')),
         );
+    }
+
+    #[DataProvider('locales')]
+    /** US-186: the menu sits in the row of the header itself, between the logo and the account and cart. */
+    public function testTheMenuIsInTheSameRowAsTheLogo(): void
+    {
+        $home = $this->anonymousHome('fr_FR');
+
+        self::assertCount(1, $home->filter('nav.b2b-nav'));
+        self::assertCount(1, $home->filterXPath('//a[contains(@class, "b2b-logo")]/ancestor::div[contains(@class, "row")][1]//nav[contains(@class, "b2b-nav")]'), 'same row as the logo');
+        $html = (string) $home->filter('header')->html();
+        self::assertGreaterThan(strpos($html, 'b2b-logo'), strpos($html, 'b2b-nav'), 'after the logo');
+        self::assertLessThan(strpos($html, 'class="col-auto position-relative"'), strpos($html, 'b2b-nav'), 'before the cart');
     }
 
     #[DataProvider('locales')]

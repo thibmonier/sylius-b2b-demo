@@ -93,7 +93,7 @@ final class PluginsAndHomepageTest extends WebTestCase
         self::assertSame(4, $crawler->filter('[data-home-section="services"] [data-b2b-journey]')->count());
         // Real icons, not escaped markup; the logo has its own column so the account and cart stay on the right.
         self::assertStringNotContainsString('&lt;svg', (string) $client->getResponse()->getContent());
-        self::assertCount(1, $crawler->filter('.row > .col > a.b2b-logo'));
+        self::assertCount(1, $crawler->filter('.row > .col-auto > a.b2b-logo'));
     }
 
     /** US-045: the core fashion block "New collection" is a B2C visual; the other B2B home blocks stay. */
