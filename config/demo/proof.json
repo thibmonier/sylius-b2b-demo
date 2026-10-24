@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-24T10:51:46Z",
+    "generated_at": "2026-10-24T11:27:59Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -479,6 +479,43 @@
             "tests": {
                 "value": 8,
                 "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/main/tests",
+                "checked_at": "2026-10-24"
+            }
+        },
+        "sylius-erp-flatfile-plugin": {
+            "version": {
+                "value": "v0.1.0",
+                "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
+                "checked_at": "2026-10-24"
+            },
+            "sylius_declared": {
+                "value": "^2.2",
+                "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
+                "checked_at": "2026-10-24"
+            },
+            "sylius_23": {
+                "value": true,
+                "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
+                "checked_at": "2026-10-24"
+            },
+            "ci": {
+                "value": "success",
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/40084707360",
+                "checked_at": "2026-10-24"
+            },
+            "phpstan": {
+                "value": "max",
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/blob/main/phpstan.neon",
+                "checked_at": "2026-10-24"
+            },
+            "sylius_tested": {
+                "value": "2.2, 2.3",
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-24"
+            },
+            "tests": {
+                "value": 5,
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/tree/main/tests",
                 "checked_at": "2026-10-24"
             }
         },
@@ -967,7 +1004,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40086499354",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40087466766",
             "checked_at": "2026-10-24"
         },
         "phpstan": {
@@ -996,7 +1033,7 @@
             "checked_at": "2026-10-24"
         },
         "tests": {
-            "value": 242,
+            "value": 246,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-24"
         }
