@@ -80,6 +80,28 @@ final class HeaderAccountMenuTest extends WebTestCase
         self::assertCount(0, $page->filter('header .d-lg-none button[data-bs-toggle="dropdown"]'), 'no second account button for phones');
     }
 
+    public function testAnApproverSeesTheNumberOfPendingApprovalsOnTheButtonAndInTheMenu(): void
+    {
+        $page = $this->page('paul@acme.example', '/fr_FR/');
+
+        $badge = $page->filter('header [data-b2b-account-menu] button[data-b2b-account-toggle] [data-b2b-account-badge]');
+        self::assertCount(1, $badge);
+        self::assertSame('1', trim($badge->text()));
+        self::assertSame('true', $badge->attr('aria-hidden'));
+        self::assertStringContainsString('1 approbation en attente', trim((string) preg_replace('/\s+/', ' ', $page->filter('header button[data-b2b-account-toggle]')->text())), 'read with the button');
+        $entry = $page->filter('header [data-b2b-account-menu] ul [data-test-tmonier-header-approvals]');
+        self::assertSame('1', trim($entry->filter('[data-test-tmonier-header-approvals-badge]')->text()));
+        self::assertStringContainsString('1 approbation en attente', $entry->text(), 'the entry is named with its number');
+    }
+
+    public function testABuyerWithoutTheRightToApproveSeesNoNumber(): void
+    {
+        $page = $this->page('claire@acme.example', '/fr_FR/');
+
+        self::assertCount(0, $page->filter('[data-b2b-account-badge]'));
+        self::assertCount(0, $page->filter('[data-test-tmonier-header-approvals]'));
+    }
+
     public function testAVisitorSeesTheSameHeaderAsBefore(): void
     {
         self::ensureKernelShutdown();
