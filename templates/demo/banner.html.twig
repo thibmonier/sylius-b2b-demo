@@ -39,7 +39,7 @@
             ['about', path('app_demo_about', {_locale: locale}), 'banner.links.about'],
         ],
     } %}
-    <div class="bg-dark text-white small" data-demo-banner>
+    <div class="bg-dark text-white small" data-demo-banner style="overflow-x: clip">
         <div class="container position-relative d-flex flex-nowrap align-items-center gap-2 gap-md-3" data-controller="demo-menus" data-action="keydown.esc->demo-menus#close click@window->demo-menus#outside">
             <strong class="text-nowrap">{{ 'banner.title'|trans({}, 'theme_demo') }}</strong>
             <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
