@@ -31,8 +31,8 @@ final class DemoPluginCatalogTest extends TestCase
         sort($slugs);
 
         self::assertSame($expected, $slugs);
-        self::assertCount(26, self::catalog()->all());
-        self::assertSame(26, self::catalog()->count());
+        self::assertCount(27, self::catalog()->all());
+        self::assertSame(27, self::catalog()->count());
         self::assertSame([], array_values(array_filter(self::catalog()->all(), static fn ($plugin): bool => !$plugin->installed)));
     }
 
@@ -66,7 +66,7 @@ final class DemoPluginCatalogTest extends TestCase
     {
         $groups = self::catalog()->byCategory();
 
-        self::assertSame(26, array_sum(array_map('count', $groups)));
+        self::assertSame(27, array_sum(array_map('count', $groups)));
         self::assertArrayHasKey('purchasing', $groups);
     }
 

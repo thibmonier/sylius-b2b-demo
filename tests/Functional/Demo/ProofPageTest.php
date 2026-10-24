@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Tests\Support\DataSets;
+use App\Tests\Support\Typed;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * US-111: the technical proof page. One row per plugin of the catalogue; every figure is a link to its public source with
@@ -53,7 +55,7 @@ final class ProofPageTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $page->filter('h1'));
-        self::assertCount(26, $page->filter('table[data-proof-table] tbody tr[data-plugin]'));
+        self::assertCount($this->pluginCount(), $page->filter('table[data-proof-table] tbody tr[data-plugin]'));
         $row = $page->filter('tr[data-plugin="' . self::QUICK . '"]');
         self::assertSame(self::PACKAGIST, $row->filter('[data-proof-cell="version"] a')->attr('href'));
         self::assertStringContainsString('v1.2.0', $row->filter('[data-proof-cell="version"]')->text());
@@ -74,7 +76,7 @@ final class ProofPageTest extends WebTestCase
 
         $row = $page->filter('tr[data-plugin="sylius-customer-asset-management-plugin"]');
         self::assertStringContainsString($unpublished, $row->filter('[data-proof-cell="version"]')->text());
-        self::assertCount(26, $page->filter('[data-proof-cell="coverage"]'));
+        self::assertCount($this->pluginCount(), $page->filter('[data-proof-cell="coverage"]'));
         foreach ($page->filter('[data-proof-cell="coverage"]')->each(static fn (Crawler $cell): string => $cell->text()) as $text) {
             self::assertStringContainsString($unmeasured, $text);
             self::assertDoesNotMatchRegularExpression('/\d\s*%/', $text);
@@ -122,7 +124,7 @@ final class ProofPageTest extends WebTestCase
             $page = $client->request('GET', '/' . $locale . '/preuve');
 
             self::assertResponseIsSuccessful();
-            self::assertCount(26, $page->filter('tr[data-plugin]'));
+            self::assertCount($this->pluginCount(), $page->filter('tr[data-plugin]'));
             self::assertStringContainsString($unavailable, $page->filter('tr[data-plugin="' . self::QUICK . '"] [data-proof-cell="version"]')->text());
             self::assertCount(0, $page->filter('table[data-proof-table] a[href^="https://"]'));
         }
@@ -182,6 +184,15 @@ final class ProofPageTest extends WebTestCase
         foreach (['HttpClient', 'curl_', 'file_get_contents(\'http', 'Process'] as $call) {
             self::assertStringNotContainsString($call, $source);
         }
+    }
+
+    /** One row per plugin of the catalogue: the expected count is read from config/demo/plugins.yaml, not typed here. */
+    private function pluginCount(): int
+    {
+        $catalogue = Typed::at(Yaml::parseFile(\dirname(__DIR__, 3) . '/config/demo/plugins.yaml'), 'parameters', 'demo.plugin_catalog');
+        self::assertIsArray($catalogue);
+
+        return \count($catalogue);
     }
 
     /** @return array{links: list<string>, rows: list<string>} */

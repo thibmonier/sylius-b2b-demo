@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38fe1a66a7c83dde28a1806d841ab4b6",
+    "content-hash": "700bfdc83fadf8aacc659b31de323e0c",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17585,6 +17585,87 @@
                 "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/v0.2.0"
             },
             "time": "2026-10-24T10:18:50+00:00"
+        },
+        {
+            "name": "tmonier/sylius-erp-flatfile-plugin",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-erp-flatfile-plugin.git",
+                "reference": "39ab6090f7575d67367fbafef4aebdd20aa7c0d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-erp-flatfile-plugin/zipball/39ab6090f7575d67367fbafef4aebdd20aa7c0d3",
+                "reference": "39ab6090f7575d67367fbafef4aebdd20aa7c0d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "sylius/sylius": "^2.2",
+                "symfony/clock": "^6.4 || ^7.4 || ^8.0",
+                "symfony/console": "^6.4 || ^7.4 || ^8.0",
+                "tmonier/sylius-webhook-outbox-plugin": "^1.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
+                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
+                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
+                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
+                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusErpFlatfilePlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Flat-file exchange with an ERP for Sylius 2: orders exported as CSV files (documented contract, UTF-8, \";\" separator, minor-unit integers) from the events of the webhook outbox, deposited atomically in an exchange directory",
+            "keywords": [
+                "ERP",
+                "b2b",
+                "csv",
+                "ecommerce",
+                "export",
+                "flat-file",
+                "sylius",
+                "sylius-plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/tree/v0.1.0"
+            },
+            "time": "2026-10-24T11:04:46+00:00"
         },
         {
             "name": "tmonier/sylius-facturx-plugin",

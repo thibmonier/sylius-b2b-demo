@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-24T06:41:03Z",
+    "generated_at": "2026-10-24T11:13:48Z",
     "packs": {
         "sylius-pack-ai-headless": {
             "composer": "tmonier/sylius-pack-ai-headless",
@@ -31,7 +31,7 @@
                 },
                 {
                     "slug": "sylius-b2b-mcp-plugin",
-                    "bound": "^1.2",
+                    "bound": "^1.2.3",
                     "role": {
                         "en": "B2B tools for the official Sylius MCP server (OAuth 2.1 with PKCE)",
                         "fr": "Outils B2B pour le serveur MCP officiel de Sylius (OAuth 2.1 avec PKCE)"
@@ -103,8 +103,8 @@
                     ],
                     "migrations": true,
                     "other": {
-                        "en": "`symfony/lock` (see below), HTTPS on a public host name, trusted proxies, a dedicated encryption key, daily `tmonier:b2b-mcp:purge`",
-                        "fr": "`symfony/lock` (voir ci-dessous), HTTPS sur un nom d'hôte public, proxys de confiance, clé de chiffrement dédiée, `tmonier:b2b-mcp:purge` chaque jour"
+                        "en": "HTTPS on a public host name, trusted proxies, a dedicated encryption key, daily `tmonier:b2b-mcp:purge`",
+                        "fr": "HTTPS sur un nom d'hôte public, proxys de confiance, clé de chiffrement dédiée, `tmonier:b2b-mcp:purge` chaque jour"
                     }
                 },
                 {
@@ -128,7 +128,7 @@
             "source": "https://github.com/thibmonier/sylius-pack-ai-headless/blob/main/README.md",
             "composer_source": "https://github.com/thibmonier/sylius-pack-ai-headless/blob/main/composer.json",
             "checked_at": "2026-10-24",
-            "fingerprint": "712f3cb7cc6bef6ffdf4fe80df332e024106b4cf443162edf3785a9e769c1b3f"
+            "fingerprint": "9b5e7c6ce82bcd8a87646a6abaa5da0f64618f1fd5d1c30ae88009f6e044ae60"
         },
         "sylius-pack-compliance-tooling": {
             "composer": "tmonier/sylius-pack-compliance-tooling",

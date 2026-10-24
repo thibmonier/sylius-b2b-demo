@@ -25,7 +25,7 @@ final class CompatibilityDataFileTest extends TestCase
 
         self::assertNotNull($report->generatedAt());
         self::assertNotNull($report->demo(), 'the stack of the demo is published');
-        self::assertCount(26, $slugs);
+        self::assertCount(27, $slugs);
         foreach ($slugs as $slug) {
             $plugin = $report->plugin($slug);
             self::assertTrue($plugin->hasDependencies(), $slug . ' dependencies would be dropped');

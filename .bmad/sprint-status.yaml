@@ -443,6 +443,7 @@ sprints:
       - {id: US-184, title: "Statuts de transmission au back-office et relance d'un envoi en erreur (ADR 0016, story C)", points: 3, status: ready-for-dev}  # EPIC-14, Should, sacrifice n°2 ; après US-183 ; plugin de transmission 0.2.0 (tag sur GO) puis écran de la démo
       - {id: US-181, title: "Plugin b2b-mcp : dépendance symfony/lock et import des routes du serveur MCP", points: 1, status: ready-for-dev}  # EPIC-14, Should, non sacrifiable ; sortie du sprint 25 ; version corrective sur GO de Thibaut
       - {id: US-182, title: "Garde : les code des tableaux de la démo se coupent à toutes les largeurs", points: 1, status: ready-for-dev}  # EPIC-12, Should, non sacrifiable ; action 2 de la rétro du sprint 25 ; après US-183 (integrate.html.twig) ; contrôle de largeur en production
+      - {id: US-190, title: "Intégrer le plugin d'export en fichier plat à la démo", points: 2, status: in-progress}  # EPIC-14, Should ; ajoutée le 2026-10-24 sur GO de Thibaut, après US-185
     notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-185, puis US-184. ADR 0016 : stories B et C au sprint ; ADR 0017 accepté, story A seulement. Railway déploie main automatiquement. Actions 1, 3 et 4 de la rétro du sprint 25 appliquées au planning (checklist-integration.md, consigne-worker.md règle 12), action 2 = US-182. Disque : 5,2 Go libres au planning, sous le seuil de 6 Go : nettoyage par Thibaut avant le premier lot. Workers proposés : w186 (US-186), w183 (US-183 puis US-184), w185 (US-185, US-181, US-182)."
 
 backlog:
