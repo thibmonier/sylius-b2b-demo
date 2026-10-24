@@ -14,7 +14,7 @@
 
 ## Règles de lancement
 
-1. **Disque** : `df -h .` au démarrage et **avant chaque lot** (`bin/check-disk` le fait aussi à chaque `bin/run-tests`). Sous 15 Go : prévenir l'orchestrateur sans attendre. Le seuil `MIN_FREE_GB` (5 Go) n'est jamais abaissé.
+1. **Disque** : `df -h .` au démarrage et **avant chaque lot** (`bin/check-disk` le fait aussi à chaque `bin/run-tests`). Sous 15 Go : prévenir l'orchestrateur sans attendre. Le seuil `MIN_FREE_GB` (5 Go) n'est jamais abaissé ; **aucune suite complète sous 6 Go** (action 3 de la rétro du sprint 26).
 2. **Tests** : `WORKER_ID=<worker> TEST_DB_NAME=b2b_<worker> TEST_CACHE_DIR=var/cache-<worker> bin/run-tests <arguments PHPUnit>`. Jamais `phpunit` en direct. Un second run est refusé par le verrou (code 4).
 3. **Nettoyage** : « nettoyer avant chaque lot » vise **ses propres** ressources : `WORKER_ID=<worker> bin/clean-test-caches`. `bin/clean-test-caches --all` est **réservé à l'orchestrateur**, hors lots ; le script le refuse à un worker.
 4. **Attente bornée** : pour attendre la fin d'un run, `bin/run-tests --wait` (lit le verrou, jamais `pgrep`) ; il sort au bout de **30 minutes** (code 5) : le worker termine alors avec un rapport « partiel » qui dit sur quoi il attendait.
@@ -27,6 +27,9 @@
 10. **Pas de `git` dans un worktree isolé** (action 2 de la rétro du sprint 24) : une tâche qui change de branche, commite ou pousse se fait dans l'arbre principal, séquencée par l'orchestrateur ; un worker lancé avec un worktree isolé ne reçoit que du travail sans `git`.
 11. **Mêmes règles pour l'orchestrateur** (action 4 de la rétro du sprint 24) : quand l'orchestrateur code, tests uniquement par `bin/run-tests` et test rouge commité seul avant le code.
 12. **Nouveau plugin sans `.env` et sans second serveur** (action 4 de la rétro du sprint 25) : un nouveau dépôt de plugin se configure sans fichier `.env*` (variables dans `phpunit.xml.dist` et dans l'environnement de la CI) et utilise le MySQL de la démo, avec une base à son nom supprimée à la fin ; jamais de second serveur de base de données. Le budget disque du dépôt (`vendor/`, base) est écrit au planning et relevé à la fin du lot.
+13. **Commits limités aux chemins nommés** (action 1 de la rétro du sprint 26) : `git add <nouveaux fichiers>` puis `git commit -m "…" -- <chemins>` ; jamais `git commit -a`, jamais un commit depuis un index partagé, jamais de configuration non commitée laissée dans l'arbre commun. `git show --stat` avant chaque push : seuls les fichiers du worker y figurent.
+14. **Contrôle complet avant de rendre la main** (action 2 de la rétro du sprint 26) : PHPStan sur **tout le dépôt**, `src` et `tests` compris (`php -d memory_limit=2G vendor/bin/phpstan analyse`), en plus des tests ciblés. Aucun compteur écrit en dur (plugins, fichiers de tests, lignes de catalogue) : la valeur est déduite du catalogue (`config/demo/plugins.yaml`) ou de la preuve (`config/demo/proof.json`).
+15. **Mesures de production consignées le jour du déploiement** (action 5 de la rétro du sprint 26) : LCP « après », largeur à 360 et 1280 px et pa11y sont notés dans le fichier de tâches de la story le jour où `main` est déployé, pas après coup.
 
 ## Preuves attendues dans le rapport (action 3)
 
