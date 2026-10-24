@@ -105,10 +105,10 @@ final class PriceBreaksAndHomeSmokeTest extends WebTestCase
         $crawler = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/');
         $hero = $crawler->filter('[data-b2b-home="hero"]');
 
-        self::assertStringNotContainsString('Se connecter avec un compte de démo', $hero->text());
+        self::assertStringNotContainsString('Essayer avec un compte de démo', $hero->text());
         self::assertCount(1, $hero->filter('a.btn-primary[href="/fr_FR/guides"]'));
         self::assertStringContainsString('Changer de compte de démo', $hero->filter('a.btn-outline-primary')->text());
-        self::assertStringContainsString('Changer de compte de démo', $crawler->filter('[data-b2b-home="quick-access"]')->text());
+        self::assertCount(1, $crawler->filter('[data-home-section="hero"] a.btn-outline-primary[href="/demo/accounts"]'));
     }
 
     public function testTheAnonymousHeroStillOffersTheDemoLogin(): void
@@ -117,7 +117,7 @@ final class PriceBreaksAndHomeSmokeTest extends WebTestCase
         $client = self::createClient();
         $hero = $client->request('GET', '/fr_FR/')->filter('[data-b2b-home="hero"]');
 
-        self::assertStringContainsString('Se connecter avec un compte de démo', $hero->filter('a.btn-primary')->text());
+        self::assertStringContainsString('Essayer avec un compte de démo', $hero->filter('a[data-home-role-choice]')->text());
         self::assertCount(0, $hero->filter('a[href="/fr_FR/guides"]'));
     }
 

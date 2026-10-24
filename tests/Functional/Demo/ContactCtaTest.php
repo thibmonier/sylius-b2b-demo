@@ -46,18 +46,16 @@ final class ContactCtaTest extends WebTestCase
         self::assertSame('_blank', $cta->filter('a[data-cta-profile]')->attr('target'));
     }
 
-    /** The banner stands out from the page: primary background, white text, white profile button turning primary on hover. */
-    public function testTheBannerIsInvertedAndTheBookingButtonIsWhite(): void
+    /** US-186: on the home, the call to action closes the dark "behind the scenes" section: gold profile button, outlined contact button. */
+    public function testTheHomeCallToActionIsDarkAndInsideTheBackstageSection(): void
     {
         $this->setEnvironment(['DEMO_PROFILE_URL' => self::PROFILE, 'DEMO_CONTACT_URL' => self::CONTACT]);
 
-        $cta = $this->page('/fr_FR/')->filter('[data-cta="home"]');
+        $cta = $this->page('/fr_FR/')->filter('[data-home-section="backstage"] [data-cta="home"]');
 
-        self::assertCount(1, $cta->filter('.text-bg-primary'));
-        $profile = (string) $cta->filter('a[data-cta-profile]')->attr('style');
-        self::assertStringContainsString('--bs-btn-bg: var(--bs-white)', $profile);
-        self::assertStringContainsString('--bs-btn-hover-bg: var(--bs-primary)', $profile);
-        self::assertStringContainsString('btn-outline-light', (string) $cta->filter('a[data-cta-contact]')->attr('class'));
+        self::assertCount(1, $cta);
+        self::assertStringContainsString('b2b-btn-gold', (string) $cta->filter('a[data-cta-profile]')->attr('class'));
+        self::assertStringContainsString('b2b-btn-ghost', (string) $cta->filter('a[data-cta-contact]')->attr('class'));
     }
 
     public function testOnlyTheBookingTargetWhenTheContactUrlIsEmpty(): void

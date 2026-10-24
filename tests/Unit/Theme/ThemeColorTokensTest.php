@@ -27,6 +27,11 @@ final class ThemeColorTokensTest extends TestCase
             ['white', 'accent'], ['white', 'accent-dark'],
             ['muted', 'white'], ['muted', 'surface'], ['muted', 'accent-subtle'], ['muted', 'surface-strong'],
             ['success', 'white'], ['warning', 'white'], ['white', 'danger'], ['danger', 'white'],
+            // US-186: the editorial home (paper, sand, teal and night backgrounds).
+            ['ink', 'paper'], ['navy', 'paper'], ['navy', 'sand'], ['accent', 'paper'], ['accent-on-sand', 'sand'],
+            ['muted', 'paper'], ['muted', 'sand'], ['sand-text', 'sand'], ['white', 'teal'], ['teal', 'paper'],
+            ['gold', 'night'], ['gold', 'night-raised'], ['night', 'gold'], ['white', 'night'], ['white', 'night-raised'],
+            ['night-text', 'night'], ['night-text', 'night-raised'],
         ];
         foreach ($pairs as [$foreground, $background]) {
             yield $foreground . ' on ' . $background => [$foreground, $background];
@@ -36,9 +41,18 @@ final class ThemeColorTokensTest extends TestCase
     /** @return iterable<string, array{string, string}> component pairs: boundary or focus ring, background */
     public static function componentPairs(): iterable
     {
-        foreach ([['navy', 'white'], ['muted', 'white'], ['accent', 'white'], ['accent', 'surface']] as [$foreground, $background]) {
+        foreach ([['navy', 'white'], ['muted', 'white'], ['accent', 'white'], ['accent', 'surface'], ['accent-bright', 'paper'], ['accent-bright', 'sand'], ['night-line', 'night'], ['gold', 'night']] as [$foreground, $background]) {
             yield $foreground . ' on ' . $background => [$foreground, $background];
         }
+    }
+
+    /** US-186: the bright orange of the mock-up is kept for titles of 24 px and more (4.5:1), never for running text or buttons. */
+    public function testTheBrightOrangeIsReservedToLargeText(): void
+    {
+        $tokens = $this->tokens();
+
+        self::assertGreaterThanOrEqual(4.5, ContrastRatio::between($tokens['accent-bright'], $tokens['paper']));
+        self::assertLessThan(7.0, ContrastRatio::between($tokens['accent-bright'], $tokens['white']), 'it is not a text colour: the accent token is');
     }
 
     #[DataProvider('textPairs')]

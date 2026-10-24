@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Yaml\Yaml;
 
-/** US-113: the home in three columns, who designed the demo and how it was made (profile and repository links, plain text without profile). */
+/** US-113: who designed the demo and how it was made (profile and repository links, plain text without profile). */
 final class HomeAuthorTest extends WebTestCase
 {
     use EnvironmentSwitch;
@@ -27,20 +27,14 @@ final class HomeAuthorTest extends WebTestCase
     }
 
     #[DataProvider('locales')]
-    public function testThreeColumnsAndARoleChoiceOpenTheHome(string $locale, string $author): void
+    public function testARoleChoiceOpensTheHome(string $locale, string $author): void
     {
         $this->setEnvironment(['DEMO_PROFILE_URL' => self::PROFILE]);
 
-        $promise = $this->home($locale)->filter('[data-home-promise]');
+        $home = $this->home($locale);
 
-        self::assertCount(1, $promise);
-        self::assertSame(['buy', 'validate', 'integrate'], $promise->filter('[data-promise-column]')->each(static fn (Crawler $column): string => (string) $column->attr('data-promise-column')));
-        foreach ($promise->filter('[data-promise-column]') as $column) {
-            $column = new Crawler($column);
-            self::assertCount(1, $column->filter('h2, h3'));
-            self::assertNotSame('', trim($column->filter('p')->text()));
-        }
-        self::assertGreaterThanOrEqual(1, $this->home($locale)->filter('[data-home-hero] a[data-home-role-choice][href="/demo/accounts"]')->count());
+        self::assertGreaterThanOrEqual(1, $home->filter('[data-home-hero] a[data-home-role-choice][href="/demo/accounts"]')->count());
+        self::assertCount(0, $home->filter('[data-home-promise]'), 'US-186: the three columns left the home, the sections replace them');
     }
 
     #[DataProvider('locales')]
@@ -94,7 +88,7 @@ final class HomeAuthorTest extends WebTestCase
     {
         $charter = new PublicTextCharter();
         $home = $this->home($locale);
-        $text = $home->filter('[data-home-hero], [data-home-promise], [data-home-author]')->each(static fn (Crawler $node): string => $node->text());
+        $text = $home->filter('[data-home-hero], [data-home-author]')->each(static fn (Crawler $node): string => $node->text());
         $joined = implode("\n", $text);
 
         self::assertSame([], $charter->ambiguities($joined));
@@ -112,7 +106,7 @@ final class HomeAuthorTest extends WebTestCase
         foreach (['fr', 'en'] as $language) {
             $messages = Yaml::parseFile($root . '/translations/messages.' . $language . '.yaml');
             foreach (self::flatten(\is_array($messages) ? $messages : [], '') as $key => $text) {
-                if (1 === preg_match('/^app\.home_b2b\.(hero|promise|author)\./', $key)) {
+                if (1 === preg_match('/^app\.home_b2b\.(hero|author)\./', $key)) {
                     yield $language . ' ' . $key => [$text];
                 }
             }

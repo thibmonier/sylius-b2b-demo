@@ -17,7 +17,7 @@ final class PositioningWordingTest extends TestCase
     public static function files(): iterable
     {
         $root = \dirname(__DIR__, 3);
-        $names = ['theme_demo', 'journeys', 'integrate', 'shop_layout', 'seo'];
+        $names = ['theme_demo', 'journeys', 'integrate', 'shop_layout', 'seo', 'home'];
         foreach (['fr', 'en'] as $language) {
             foreach ($names as $name) {
                 yield $name . '.' . $language => [$root . '/translations/' . $name . '.' . $language . '.yaml'];
