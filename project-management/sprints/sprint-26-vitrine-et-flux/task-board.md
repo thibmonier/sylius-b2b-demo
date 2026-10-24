@@ -19,7 +19,7 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-TECH-26-09 | Transverse | DOC | Statuts : chaque tâche cochée dans le commit qui la livre ; tâches transverses revues à chaque merge | 0,25 h | Orchestrateur |
 | T-TECH-26-11 | Transverse | REV | Texte public relu contre sa source avant le commit (README des plugins, page de la PA fictive, textes de la home, crédits des photos) et concordanc … | 0,5 h | Orchestrateur |
 
-> Note : T-182-05 (largeur en production), T-186-14 et T-186-15 (mesures et revue d'US-186 en production) ne sont pas consignées dans le dépôt ; T-TECH-26-06 (ECS, PHPStan et Rector sur l'arbre exact) n'a pas été tenue en totalité (trois CI rouges malgré des tests ciblés verts, voir la rétro) ; T-TECH-26-08, 09 et 11 n'ont pas de trace datée à citer. Rien n'est marqué ✅ sans preuve.
+> Note : T-182-05 reste ouverte (`/demo/accounts` déborde à 360 px, `scrollWidth` 412 ; correctif en cours par w185) ; T-186-14 est faite pour pa11y et les largeurs en production (2026-10-24), mais le LCP mobile « après » n'a pas été remesuré (voir `tasks/US-186-tasks.md`) ; T-186-15 (revue, table de preuves) n'est pas consignée ; T-TECH-26-06 (ECS, PHPStan et Rector sur l'arbre exact) n'a pas été tenue en totalité (trois CI rouges malgré des tests ciblés verts, voir la rétro) ; T-TECH-26-08, 09 et 11 n'ont pas de trace datée à citer. Rien n'est marqué ✅ sans preuve.
 
 ## 🔄 En Cours
 

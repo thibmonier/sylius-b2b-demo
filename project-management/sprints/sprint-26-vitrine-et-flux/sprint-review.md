@@ -44,9 +44,10 @@
 
 ## Éléments non terminés ou à confirmer
 
-- **US-186, T-186-14 et T-186-15** : la mesure « après » (LCP mobile, pa11y, 360 et 1280 px en production), la table « scénario → test ou preuve » et la revue ne sont pas consignées dans le dépôt. Thibaut a vu la home en production (ses retours ont donné #89) ; la preuve chiffrée reste à noter.
-- **US-182, T-182-05** : contrôle de largeur des pages à tableau en production non consigné.
-- **US-190** : pa11y et 360 px de `/echange-fichier` en production annoncés « après déploiement » dans la PR, non consignés.
+- **Contrôles en production du 2026-10-24** (lecture seule, sans connexion) : largeur à 360 et 1280 px sans défilement horizontal sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`, `/fr_FR/packs`, `/fr_FR/pa-fictive` ; pa11y WCAG2AAA « No issues found! » sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`. Thibaut a validé en production l'en-tête, la connexion et le menu de compte.
+- **US-182, T-182-05 ouverte** : ces contrôles ont trouvé que `/demo/accounts` déborde à 360 px (`scrollWidth` 412, tables à 4 colonnes) ; la garde ne l'a pas vu malgré la règle sur les `code`. Correctif confié à w185, en cours.
+- **US-186** : T-186-14 faite pour pa11y et les largeurs ; le LCP mobile « après » n'a pas été remesuré après #89 et #91. T-186-15 (revue, table de preuves) non consignée.
+- **US-190** : `/echange-fichier` est en ligne en FR et EN, contrôle fait (largeur, pa11y).
 - **Tâches transverses T-TECH-26-06, 08, 09, 11** : sans trace datée à citer ; T-TECH-26-06 n'a pas été tenue en totalité (trois CI rouges, voir les incidents).
 - Rien dans le périmètre n'a été sacrifié.
 
@@ -75,7 +76,7 @@
 | Espace libre minimal | environ 2 à 3 Go (cible 5 Go) | 3,9 Go |
 | Contournements de refus d'outil | non relevés dans le dépôt | 0 (5 refus) |
 | CI rouges après tests ciblés verts | 3 (#87, #88, #91) | 1 |
-| Défauts d'affichage trouvés en production après merge | 3 retours de Thibaut (en-tête, connexion, menu de compte), traités dans la journée | 1 |
+| Défauts d'affichage trouvés en production après merge | 4 : 3 retours de Thibaut (en-tête, connexion, menu de compte), traités dans la journée, et `/demo/accounts` à 360 px (correctif en cours) | 1 |
 | Publication sans GO | 0 | 0 |
 
 ## Démonstration (ordre suggéré)
@@ -94,7 +95,7 @@
 | [US-187](../../backlog/user-stories/US-187.md) Import CSV de prix et de stock (8), [US-188](../../backlog/user-stories/US-188.md) Démonstration avec l'ERP fictif (5) | Backlog (ADR 0017 stories B et C), non engagées |
 | [US-193](../../backlog/user-stories/US-193.md) Commandes de démo pour un vrai extrait sur `/echange-fichier` (2), suite d'US-190 | Backlog, candidate au sprint 27 (validée par Thibaut) |
 | Stories D et E de l'ADR 0016 et de l'ADR 0017 | Non créées |
-| Preuve chiffrée d'US-186 (LCP « après »), largeur en production d'US-182 et d'US-190 | À consigner (action 5 de la rétro) |
+| LCP « après » d'US-186 (non remesuré), correctif de `/demo/accounts` à 360 px puis nouvelle mesure (T-182-05) | À faire (action 5 de la rétro) |
 
 ## Prochaines étapes
 

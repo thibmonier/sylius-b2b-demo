@@ -47,7 +47,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-182-04 | [TEST] | Suite ciblée par `bin/run-tests` (`WORKER_ID=w182 …`), ECS, PHPStan max, Rector ; dernières lignes citées | 0,25 h | T-182-03 | Claude | ✅ |
 | T-182-05 | [TEST] | Contrôle en production après déploiement : largeur des pages à tableau à 360 px et 1280 px (lecture seule), 0 défaut d'affichage | 0,25 h | merge de la PR | Claude | 🔲 |
 
-**État à la clôture (2026-10-24) : T-182-05 reste 🔲.** Le contrôle de largeur en production n'est pas consigné dans le dépôt ; à confirmer par une mesure en lecture seule (360 px et 1280 px).
+**État à la clôture (2026-10-24) : T-182-05 reste 🔲.** Contrôles en production du 2026-10-24 (lecture seule, sans connexion, par l'orchestrateur) : largeur à 360 et 1280 px sans défilement horizontal sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`, `/fr_FR/packs`, `/fr_FR/pa-fictive` ; pa11y WCAG2AAA « No issues found! » sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`. **Défaut trouvé** : `/demo/accounts` déborde à 360 px (`scrollWidth` 412, tables à 4 colonnes) ; correctif confié à w185 (en cours). La tâche reste ouverte jusqu'à une nouvelle mesure.
 
 **Total estimé : 2 h** (5 tâches ; 2 h pour Claude et l'orchestrateur).
 
