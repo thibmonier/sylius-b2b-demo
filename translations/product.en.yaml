@@ -1,0 +1,37 @@
+# US-189: texts of the editorial B2B product page (domain `product`).
+stock:
+    in: 'In stock'
+    out: 'On order'
+assurances:
+    label: 'Our commitments'
+visitor:
+    title: "Your company's price, once you sign in"
+    text: 'Each business account sees its own terms: negotiated prices, quantity tiers, packaging.'
+    demo: 'Try a demo account'
+sections:
+    description: 'Description'
+    attributes: 'Specifications'
+    reviews: 'Reviews'
+backstage:
+    eyebrow: 'Behind the scenes'
+    title: 'What this page does, and which plugin does it'
+    link: 'See the %count% plugins of the demo'
+    items:
+        price:
+            title: 'Company price and tiers'
+            text: 'the price follows the signed-in account and the quantity'
+        quote:
+            title: 'Quote request'
+            text: 'the product joins a quote in one click'
+        list:
+            title: 'Company list'
+            text: 'favourites shared between colleagues'
+        approval:
+            title: 'Approval'
+            text: "the company's order threshold applies to the cart"
+        safety:
+            title: 'Product safety'
+            text: 'manufacturer and responsible person shown'
+related:
+    title: 'In the same aisle'
+    all: 'The whole %aisle% aisle'

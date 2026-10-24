@@ -1,0 +1,23 @@
+{# US-189: copy of the wishlist plugin template. B2B channel: an icon button next to the quote request (the text stays, hidden, as its name). Consumer channel: the plugin markup, unchanged. #}
+{% set product = hookable_metadata.context.product %}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <button
+            type="submit"
+            class="btn btn-icon btn-outline-secondary"
+            data-product-name="{{ product.name }}"
+            {{ sylius_test_html_attribute('wishlist-add-product') }}
+    >
+        {{ ux_icon('mdi:heart', {'class': 'icon icon-sm'}) }}
+        {{ 'sylius_wishlist_plugin.ui.add_to_wishlist'|trans }}
+    </button>
+{% else %}
+    <button
+            type="submit"
+            class="btn btn-icon btn-outline-secondary b2b-pdp__favourite"
+            data-product-name="{{ product.name }}"
+            {{ sylius_test_html_attribute('wishlist-add-product') }}
+    >
+        {{ ux_icon('mdi:heart', {'class': 'icon icon-sm', 'aria-hidden': 'true'}) }}
+        <span class="visually-hidden">{{ 'sylius_wishlist_plugin.ui.add_to_wishlist'|trans }}</span>
+    </button>
+{% endif %}

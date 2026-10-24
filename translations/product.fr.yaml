@@ -1,0 +1,38 @@
+# US-189: texts of the editorial B2B product page (domain `product`). The commitments under the buy box reuse the footer strip keys
+# (messages domain: app.theme_b2b.footer.*); the reference, the price blocks and the tiers keep their keys (app.theme_b2b.*).
+stock:
+    in: 'En stock'
+    out: 'Sur commande'
+assurances:
+    label: 'Nos engagements'
+visitor:
+    title: 'Le prix de votre société, à la connexion'
+    text: 'Chaque compte professionnel voit ses propres conditions : prix négociés, paliers par quantité, conditionnement.'
+    demo: 'Essayer un compte de démo'
+sections:
+    description: 'Description'
+    attributes: 'Caractéristiques'
+    reviews: 'Avis'
+backstage:
+    eyebrow: 'Dans les coulisses'
+    title: 'Ce que fait cette fiche, et quel plugin le fait'
+    link: 'Voir les %count% plugins de la démo'
+    items:
+        price:
+            title: 'Prix société et paliers'
+            text: 'le prix suit le compte connecté et la quantité'
+        quote:
+            title: 'Demande de devis'
+            text: 'le produit rejoint un devis en un clic'
+        list:
+            title: 'Liste de la société'
+            text: 'des favoris partagés entre collègues'
+        approval:
+            title: 'Approbation'
+            text: "le seuil de commande de la société s'applique au panier"
+        safety:
+            title: 'Sécurité du produit'
+            text: 'fabricant et mandataire affichés'
+related:
+    title: 'Dans le même rayon'
+    all: 'Tout le rayon %aisle%'

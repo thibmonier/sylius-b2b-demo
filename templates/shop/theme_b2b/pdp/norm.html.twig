@@ -1,0 +1,11 @@
+{# US-189: the standard of the product (attribute epi_norm) as a pill over the photo. Only when the product has that attribute with a value: nothing invented. #}
+{% set product = hookable_metadata.context.product %}
+{% set norm = null %}
+{% for attribute_value in product.getAttributesByLocale(sylius.localeCode, sylius.channel.defaultLocale.code, sylius_base_locale) %}
+    {% if attribute_value.attribute.code == 'epi_norm' and attribute_value.value is not empty %}
+        {% set norm = attribute_value %}
+    {% endif %}
+{% endfor %}
+{% if norm is not null %}
+    <p class="b2b-pdp__norm" data-pdp-norm><span class="visually-hidden">{{ norm.name }} : </span>{{ norm.value }}</p>
+{% endif %}

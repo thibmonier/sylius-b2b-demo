@@ -21,6 +21,7 @@ final class B2bThemeExtension extends AbstractExtension
         private readonly PriceBreaksProvider $priceBreaks,
         private readonly CartTierDiscountProvider $cartDiscounts,
         private readonly HomeSelectionProvider $homeSelection,
+        private readonly RelatedProductsProvider $relatedProducts,
     ) {
     }
 
@@ -34,6 +35,7 @@ final class B2bThemeExtension extends AbstractExtension
             new TwigFunction('app_b2b_item_negotiated', fn (OrderItemInterface $item): bool => $this->cartDiscounts->isNegotiated($item)),
             new TwigFunction('app_b2b_percent', static fn (float $rate, string $locale): string => self::percent($rate, $locale)),
             new TwigFunction('app_b2b_home_selection', fn (): HomeSelection => $this->homeSelection->forCurrentCustomer()),
+            new TwigFunction('app_b2b_related_products', fn (ProductInterface $product): array => $this->relatedProducts->forProduct($product)),
             new TwigFunction('app_b2b_preload_product_list', fn (iterable $products): string => $this->preload($products)),
         ];
     }

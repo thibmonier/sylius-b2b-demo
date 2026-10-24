@@ -1,0 +1,10 @@
+{# US-189: copy of the Sylius template. B2B channel: the hero grid (gallery, summary). B2C: the core markup, unchanged. #}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <div class="row g-3 g-lg-5 mb-6">
+        {% hook 'info' %}
+    </div>
+{% else %}
+    <div class="b2b-pdp__hero">
+        {% hook 'info' %}
+    </div>
+{% endif %}

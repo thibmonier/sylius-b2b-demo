@@ -1,0 +1,5 @@
+{# US-189: the aisle (main category) above the title. Nothing without a main category. #}
+{% set product = hookable_metadata.context.product %}
+{% if product.mainTaxon is not null %}
+    <p class="b2b-pdp__eyebrow" data-pdp-eyebrow>{{ product.mainTaxon.name }}</p>
+{% endif %}

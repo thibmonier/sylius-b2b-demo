@@ -1,0 +1,10 @@
+{# US-189: copy of the Sylius template. B2B channel: root of the editorial product page (styles: assets/shop/styles/_pdp.scss). B2C: the core markup, unchanged. #}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <div class="container mt-4 mb-5">
+        {% hook 'content' %}
+    </div>
+{% else %}
+    <div class="container mt-4 mb-5 b2b-pdp" data-pdp>
+        {% hook 'content' %}
+    </div>
+{% endif %}

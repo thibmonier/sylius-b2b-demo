@@ -1,0 +1,19 @@
+{# US-189: the other products of the aisle (RelatedProductsProvider), with the product cards of the shop (no price for a visitor, by channel access). No block when the aisle has no other product. #}
+{% set product = hookable_metadata.context.product %}
+{% set related = app_b2b_related_products(product) %}
+{% if related is not empty %}
+    {{ app_b2b_preload_product_list(related) }}
+    <section class="b2b-pdp__related" data-pdp-part="related" aria-labelledby="pdp-related">
+        <div class="b2b-pdp__related-head">
+            <h2 id="pdp-related">{{ 'related.title'|trans({}, 'product') }}</h2>
+            {% if product.mainTaxon is not null %}
+                <a href="{{ path('sylius_shop_product_index', {slug: product.mainTaxon.slug, _locale: app.request.locale}) }}">{{ 'related.all'|trans({'%aisle%': product.mainTaxon.name}, 'product') }}</a>
+            {% endif %}
+        </div>
+        <div class="products-grid">
+            {% for sibling in related %}
+                <div data-pdp-related>{{ component('sylius_shop:product:card', { product: sibling, template: '@SyliusShop/product/common/card.html.twig' }) }}</div>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}

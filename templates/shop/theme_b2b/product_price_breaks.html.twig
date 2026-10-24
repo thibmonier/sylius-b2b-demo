@@ -31,7 +31,7 @@
         data-b2b-price-breaks-tax-value="{{ tax_convention is null ? '' : ((tax_convention == 'included' ? 'tmonier_tier_pricing.ui.incl_tax' : 'tmonier_tier_pricing.ui.excl_tax')|trans) }}"
         data-b2b-price-breaks-nudge-template-value="{{ 'app.theme_b2b.price_breaks.nudge'|trans({'%quantity%': '{quantity}', '%price%': '{price}', '%tax%': '{tax}'})|e('html_attr') }}"
         {{ sylius_test_html_attribute('tmonier-tier-prices') }}>
-        <h3 class="fs-6 fw-semibold mb-2" id="b2b-price-breaks-title">{{ 'tmonier_tier_pricing.ui.volume_prices'|trans }}</h3>
+        <p class="fs-6 fw-semibold mb-2" id="b2b-price-breaks-title">{{ 'tmonier_tier_pricing.ui.volume_prices'|trans }}</p>
 
         {% if negotiated is not null %}
             <div class="b2b-negotiated mb-3" {{ sylius_test_html_attribute('b2b-negotiated-price') }}>

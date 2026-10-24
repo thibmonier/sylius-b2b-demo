@@ -11,6 +11,7 @@ use App\Demo\Theme\PackagingUnitProvider;
 use App\Demo\Theme\PackagingUnitRows;
 use App\Demo\Theme\PriceBreaksProvider;
 use App\Demo\Theme\ProductListPreloader;
+use App\Demo\Theme\RelatedProductsProvider;
 use App\Demo\Theme\TierFromPriceProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -246,6 +247,7 @@ final class B2bThemeTest extends TestCase
                 $this->createStub(CompanyMemberRepositoryInterface::class),
                 $this->priceBreaks($table),
             ),
+            new RelatedProductsProvider($this->createStub(EntityManagerInterface::class), $this->createStub(ChannelContextInterface::class)),
         ));
         $twig->addFilter(new TwigFilter('trans', static fn (string $id, array $params = []): string => match ($id) {
             'app.theme_b2b.from_price' => 'from ' . ($params['%price%'] ?? ''),
