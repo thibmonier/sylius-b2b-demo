@@ -1,5 +1,7 @@
 # Tâches : Sprint 027 (fiche produit et ERP fictif)
 
+> **Sprint clos le 2026-10-24, en attente du GO de Thibaut** (revue et rétrospective : [sprint-review.md](../sprint-review.md), [sprint-retro.md](../sprint-retro.md)).
+>
 > Sprint Planning Part 2 : décomposition faite au planning, le 2026-10-24, sur la branche partagée `feature/sprint-27-dev`. Source de vérité du statut : `.bmad/sprint-status.yaml` (`sprint-27`).
 >
 > Liens : [objectif](../sprint-goal.md), [tableau](../task-board.md), [dépendances](../sprint-dependencies.md), [consigne de worker](../consigne-worker.md), [checklist](../checklist-integration.md), [tâches transverses](./technical-tasks.md), [rétro du sprint 26](../../sprint-26-vitrine-et-flux/sprint-retro.md), [revue du sprint 26](../../sprint-26-vitrine-et-flux/sprint-review.md).
@@ -8,11 +10,11 @@
 
 | US | Titre | Points | Tâches | Heures | Sacrifice | Statut |
 |----|-------|--------|--------|--------|-----------|--------|
-| [US-189](./US-189-tasks.md) | Refonte de la fiche produit dans la continuité de la home | 5 | 13 | 11,5 h | non sacrifiable | 🔲 (maquette en premier, code 📅) |
-| [US-193](./US-193-tasks.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | 8 | 4,5 h | **n°2 (validé)** | 🔲 |
-| [US-188](./US-188-tasks.md) | Démonstration avec l'ERP fictif (périmètre réduit, sans US-187) | 5 | 11 | 9,5 h | **n°1 (validé)** | 🔲 |
-| [Transverse](./technical-tasks.md) | Actions de la rétro du sprint 26, contrôles, GO, clôture (sans points) | 0 | 12 | 8 h | non sacrifiable | 1 ✅, 11 🔲 |
-| [US-194](./US-194-tasks.md) | Logo de l'auteur dans le pied de page | 1 | 1 | 1 h | non sacrifiable | 🔄 (w185) |
+| [US-189](./US-189-tasks.md) | Refonte de la fiche produit dans la continuité de la home | 5 | 13 | 11,5 h | non sacrifiable | ✅ (11 ✅, 2 ⊘ sans objet) |
+| [US-193](./US-193-tasks.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | 8 | 4,5 h | **n°2 (validé)** | ✅ |
+| [US-188](./US-188-tasks.md) | Démonstration avec l'ERP fictif (périmètre réduit, sans US-187) | 5 | 11 | 9,5 h | **n°1 (validé)** | ✅ |
+| [Transverse](./technical-tasks.md) | Actions de la rétro du sprint 26, contrôles, GO, clôture (sans points) | 0 | 12 | 8 h | non sacrifiable | 11 ✅, 1 🟡 (T-TECH-27-08) |
+| [US-194](./US-194-tasks.md) | Logo de l'auteur dans le pied de page | 1 | 1 | 1 h | non sacrifiable | ✅ |
 | **Total** | | **13** | **45** | **34,5 h** | | |
 
 **Total décomposé : 13 points, 45 tâches, 34,5 h**, dont 0,75 h d'actions de Thibaut (2 tâches : validation de la maquette, éléments de la fiche) : **33,75 h pour Claude**, orchestrateur compris.

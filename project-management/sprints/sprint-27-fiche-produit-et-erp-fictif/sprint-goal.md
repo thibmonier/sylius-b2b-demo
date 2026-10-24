@@ -1,5 +1,7 @@
 # Sprint 27 : Fiche produit et ERP fictif (fiche produit refondue, vrai extrait du fichier plat, démonstration avec l'ERP fictif)
 
+> **Clos le 2026-10-24, en attente du GO de Thibaut** : 13 points sur 13 livrés (voir [sprint-review.md](./sprint-review.md) et [sprint-retro.md](./sprint-retro.md)).
+>
 > **Planifié le 2026-10-24**, le jour de la clôture du sprint 26. Périmètre validé par Thibaut le 2026-10-24 : **13 points** (12 puis US-194, ajoutée sur demande de Thibaut). La décomposition en tâches est faite : voir [tasks/README.md](./tasks/README.md). Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-27`).
 
 ## Informations

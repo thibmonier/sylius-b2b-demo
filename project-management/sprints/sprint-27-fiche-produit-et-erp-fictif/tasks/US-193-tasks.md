@@ -47,8 +47,8 @@
 | T-193-04 | [BE] | Fixtures de démo : quelques commandes passées (événements `order.placed`) et export lancé après le chargement ; remise à zéro nocturne identique (`DemoResetCommand`) ; `*.example` seulement | 1 h | T-193-02 | Claude | ✅ |
 | T-193-05 | [FE-WEB] | Gabarit `erp_flatfile.html.twig` : extrait, messages neutres (aucun fichier, canal sans ligne, fichier vide, répertoire indisponible), textes FR et EN | 0,25 h | T-193-03 | Claude | ✅ |
 | T-193-06 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et dernière ligne citées | 0,5 h | T-193-03, T-193-04, T-193-05 | Claude | ✅ |
-| T-193-07 | [TEST] | Vérification en production après le déploiement (lecture seule) : extrait visible FR et EN, pa11y WCAG2AAA, 360 et 1280 px ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🔲 |
-| T-193-08 | [REV] | Revue (ton neutre, aucun ERP nommé, e-mails masqués) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-193-07 | Claude | 🔲 |
+| T-193-07 | [TEST] | Vérification en production après le déploiement (lecture seule) : extrait visible FR et EN, pa11y WCAG2AAA, 360 et 1280 px ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | ✅ |
+| T-193-08 | [REV] | Revue (ton neutre, aucun ERP nommé, e-mails masqués) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-193-07 | Claude | ✅ |
 
 **Total estimé : 4,5 h** (8 tâches ; 4,5 h pour Claude).
 
@@ -70,7 +70,9 @@
 
 | Page | Date | Extrait | pa11y WCAG2AAA | 360 px | 1280 px |
 |------|------|---------|----------------|--------|---------|
-| `/fr_FR/echange-fichier` | | | | | |
-| `/en_US/echange-fichier` | | | | | |
+| `/fr_FR/echange-fichier` | 2026-10-24, après #100 | 3 lignes, e-mails masqués (avant #100 : « extrait non disponible », voir ci-dessous) | « No issues found! » | aucun défilement | aucun défilement |
+| `/en_US/echange-fichier` | 2026-10-24, après #100 | 3 lignes, e-mails masqués | « No issues found! » | aucun défilement | aucun défilement |
+
+**Défaut trouvé par ce contrôle (2026-10-24).** Après le déploiement de #97 et #98, la page affichait « L'extrait n'est pas disponible pour le moment » : `var/erp-exchange` vit dans le système de fichiers du conteneur, neuf à chaque déploiement, alors que la base survit et que l'entrypoint ne recharge pas les fixtures. Corrigé par #100 (`c6b9b6e`, tests rouges seuls `fb1b346`) : l'échange est reconstruit au démarrage du conteneur ; extrait revérifié en production après son déploiement. Les valeurs de `scrollWidth` exactes de cette page ne sont pas consignées ici : le contrôle ne relève que l'absence de défilement.
 
 **Preuves de l'implémentation (sprint 27)** : rouge `ea6df34`, code `e4cf42b`. `bin/run-tests` ciblé (tests/Unit/Demo/Erp, ErpFlatfilePageTest, ErpFlatfileExportTest, ErpFlatfileSampleFixtureTest, DemoResetCommandTest, FixturesLoadStateTest) : `OK, but there were issues! Tests: 39, Assertions: 292`. ECS `[OK] No errors found`, PHPStan (dépôt entier) `[OK] No errors`, Rector `[OK] Rector is done!`. Constat : les fixtures n'ont aucune commande B2C, la page B2C montre donc le message neutre « aucune commande de ce canal ». T-193-07 et T-193-08 restent ouvertes (production après déploiement).
