@@ -40,7 +40,7 @@
         ],
     } %}
     <div class="bg-dark text-white small" data-demo-banner>
-        <div class="container position-relative d-flex flex-nowrap align-items-center gap-3" data-controller="demo-menus" data-action="keydown.esc->demo-menus#close click@window->demo-menus#outside">
+        <div class="container position-relative d-flex flex-nowrap align-items-center gap-2 gap-md-3" data-controller="demo-menus" data-action="keydown.esc->demo-menus#close click@window->demo-menus#outside">
             <strong class="text-nowrap">{{ 'banner.title'|trans({}, 'theme_demo') }}</strong>
             <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled">
                 <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.login'|trans({}, 'theme_demo') }}</summary>
@@ -62,7 +62,7 @@
                 {% endfor %}
             </div>
             <details data-demo-menus-target="menu" data-action="toggle->demo-menus#toggled" data-demo-menu="all">
-                <summary class="{{ target }} text-nowrap" style="{{ target_height }}">{{ 'banner.menu'|trans({}, 'theme_demo') }}</summary>
+                <summary class="{{ target }} text-nowrap" style="{{ target_height }}"><span class="d-sm-none">{{ 'banner.menu_short'|trans({}, 'theme_demo') }}</span><span class="d-none d-sm-inline">{{ 'banner.menu'|trans({}, 'theme_demo') }}</span></summary>
                 <div class="position-absolute start-0 end-0 mt-1 p-3 border border-secondary rounded shadow text-break text-white d-grid gap-3" style="z-index: 1050; max-width: 72rem; grid-template-columns: minmax(0, 1fr); background: #1b2433" data-demo-menu-panel>
                     <div class="d-grid gap-3" style="grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr))">
                         {% for column, links in columns %}
