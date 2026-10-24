@@ -21,6 +21,12 @@ final class RunTestsLockTest extends TestCase
         $fs->copy(\dirname(__DIR__, 3) . '/bin/run-tests', $this->root . '/bin/run-tests');
         $fs->copy(\dirname(__DIR__, 3) . '/bin/check-disk', $this->root . '/bin/check-disk');
         file_put_contents($this->root . '/bin/prepare-test-db', "#!/bin/sh\nexit 0\n");
+        // The free space is a stub (50 GB unless a test says otherwise): a run must not depend on the disk of the machine.
+        file_put_contents($this->root . '/stub/df', <<<'SH'
+            #!/bin/sh
+            printf 'Filesystem 1024-blocks Used Available Capacity Mounted on\n/dev/x 999999999 1 %s 50%% /\n' "${STUB_FREE_KB:-52428800}"
+            SH);
+        $fs->chmod($this->root . '/stub/df', 0o755);
         // Stands for PHPUnit: waits for the release file when asked to, then exits with STUB_PHP_EXIT.
         file_put_contents($this->root . '/stub/php', <<<'SH'
             #!/bin/sh
@@ -199,6 +205,41 @@ final class RunTestsLockTest extends TestCase
         self::assertStringContainsString('Disk', $result->getErrorOutput() . $result->getOutput());
     }
 
+    /** T-TECH-27-03: a run with no path and no filter is the full suite; it needs 6 GB, a targeted run only the 5 GB of the freeze. */
+    public function testTheFullSuiteIsRefusedBelowSixGbBeforeAnythingIsCreated(): void
+    {
+        $result = $this->runToEnd(['STUB_FREE_KB' => (string) (5 * 1024 * 1024 + 512 * 1024)]);
+
+        self::assertSame(1, $result->getExitCode());
+        self::assertStringContainsString('the full suite needs 6 GB', $result->getErrorOutput());
+        self::assertDirectoryDoesNotExist($this->root . '/var/run-tests.lock');
+    }
+
+    public function testATargetedRunStillStartsBetweenFiveAndSixGb(): void
+    {
+        $free = ['STUB_FREE_KB' => (string) (5 * 1024 * 1024 + 512 * 1024)];
+
+        self::assertSame(0, $this->runToEnd($free, ['--filter', 'HomeRedesign'])->getExitCode());
+        self::assertSame(0, $this->runToEnd($free, ['tests/Unit/Bin'])->getExitCode());
+        self::assertSame(0, $this->runToEnd($free, ['--testsuite', 'unit'])->getExitCode());
+    }
+
+    public function testTheFullSuiteStartsWithSixGbAndTheThresholdCanBeSimulated(): void
+    {
+        $six = ['STUB_FREE_KB' => (string) (6 * 1024 * 1024)];
+
+        self::assertSame(0, $this->runToEnd($six)->getExitCode());
+        self::assertSame(1, $this->runToEnd($six + ['FULL_SUITE_MIN_GB' => '8'])->getExitCode(), 'a simulated threshold of 8 GB refuses 6 GB');
+    }
+
+    public function testTheFreezeBelowFiveGbStillWinsForATargetedRun(): void
+    {
+        $result = $this->runToEnd(['STUB_FREE_KB' => (string) (4 * 1024 * 1024), 'MIN_FREE_GB' => '5'], ['--filter', 'X']);
+
+        self::assertSame(1, $result->getExitCode());
+        self::assertStringContainsString('at least 5 GB required', $result->getErrorOutput());
+    }
+
     private function staleLock(): void
     {
         $dead = new Process(['true']);
@@ -262,11 +303,11 @@ final class RunTestsLockTest extends TestCase
     private function process(array $env, array $args = []): Process
     {
         // A hung run fails the test instead of blocking the whole suite (the CI waited hours on a deferred trap).
-        return new Process(['sh', $this->root . '/bin/run-tests', ...$args], $this->root, [
+        return new Process(['sh', $this->root . '/bin/run-tests', ...$args], $this->root, $env + [
             'PATH' => $this->root . '/stub:' . getenv('PATH'),
             'MIN_FREE_GB' => '0',
             'TEST_CACHE_DIR' => $this->root . '/var/cache-lock-test',
-        ] + $env, null, 30);
+        ], null, 30);
     }
 
     private function waitForLock(): void
