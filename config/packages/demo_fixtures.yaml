@@ -274,3 +274,8 @@ sylius_fixtures:
                 # container-fill data (-70): the fixtures themselves must not queue webhooks.
                 demo_webhook_endpoint:
                     priority: -80
+
+                # US-193: the last placed orders of each channel in the outbox, then one export: the page "Flat-file exchange" shows a real
+                # file. After the webhook endpoint (-80): the fixtures queue no delivery.
+                demo_erp_export:
+                    priority: -90

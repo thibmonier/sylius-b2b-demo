@@ -5,95 +5,174 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Demo\Erp;
 
 use App\Demo\Erp\ExchangeFileSample;
-use App\Demo\Erp\RecentPlacedOrders;
+use App\Demo\Erp\ExchangeFileStatus;
+use App\Demo\Erp\ExportedOrderChannels;
 use PHPUnit\Framework\TestCase;
 use Tmonier\SyliusErpFlatfilePlugin\Contract\OrderLinesCsv;
-use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEvent;
 
-/** US-190: the excerpt of the page is produced by the contract of the plugin from the placed orders of the demo, e-mails masked. */
+/**
+ * US-193: the excerpt of the page "Flat-file exchange" is read from the last file really deposited in the exchange directory:
+ * the header and three lines of the current channel, e-mails masked. Every failure is a neutral status, never an exception,
+ * and the reader only reads: nothing is written to the directory.
+ */
 final class ExchangeFileSampleTest extends TestCase
 {
-    public function testTheExcerptStartsWithTheHeaderOfTheContractAndHasOneLinePerOrderLine(): void
-    {
-        $lines = $this->lines((new ExchangeFileSample($this->orders($this->placed('00000001', 'claire.martin@acme.example'))))->csv());
+    private string $directory;
 
-        self::assertSame(implode(';', OrderLinesCsv::HEADER), $lines[0]);
-        self::assertCount(1 + 2, $lines);
+    /** @var array<string, string> webhook id => channel code, as the outbox knows them */
+    private array $known = [];
+
+    protected function setUp(): void
+    {
+        $this->directory = sys_get_temp_dir() . '/erp-sample-' . bin2hex(random_bytes(4));
+        mkdir($this->directory . '/.incoming', 0777, true);
     }
 
-    public function testTheEmailOfTheCustomerIsMasked(): void
+    protected function tearDown(): void
     {
-        $csv = (new ExchangeFileSample($this->orders($this->placed('00000001', 'claire.martin@acme.example'))))->csv();
+        chmod($this->directory, 0777);
+        foreach (array_merge(glob($this->directory . '/.incoming/*') ?: [], glob($this->directory . '/*') ?: []) as $file) {
+            is_file($file) && unlink($file);
+        }
+        rmdir($this->directory . '/.incoming');
+        rmdir($this->directory);
+    }
+
+    public function testTheHeaderAndThreeLinesOfTheCurrentChannelOfTheLastFileAreShown(): void
+    {
+        $this->file('orders-1.csv', [$this->line(1, 'B2B')], 1000);
+        $this->file('orders-2.csv', [$this->line(2, 'B2B'), $this->line(3, 'B2B'), $this->line(4, 'B2C'), $this->line(5, 'B2B'), $this->line(6, 'B2B')], 2000);
+
+        $excerpt = $this->sample()->forChannel('B2B');
+
+        self::assertSame(ExchangeFileStatus::Shown, $excerpt->status);
+        $lines = explode("\n", rtrim($excerpt->csv, "\n"));
+        self::assertSame(implode(';', OrderLinesCsv::HEADER), $lines[0]);
+        self::assertSame(['0000000002', '0000000003', '0000000005'], array_map(static fn (string $line): string => explode(';', $line)[0], \array_slice($lines, 1)));
+    }
+
+    public function testTheEmailsAreMasked(): void
+    {
+        $this->file('orders-1.csv', [$this->line(1, 'B2B')]);
+
+        $csv = $this->sample()->forChannel('B2B')->csv;
 
         self::assertStringContainsString('c***@acme.example', $csv);
         self::assertStringNotContainsString('claire', $csv);
     }
 
-    public function testWithoutPlacedOrdersTheExcerptIsBuiltFromFictitiousOnesWithExampleAddresses(): void
+    public function testAnEmptyDirectoryHasNoFileYet(): void
     {
-        $csv = (new ExchangeFileSample($this->orders()))->csv();
-        $lines = $this->lines($csv);
-
-        self::assertGreaterThan(1, \count($lines));
-        foreach (\array_slice($lines, 1) as $line) {
-            $fields = explode(';', $line);
-            self::assertCount(10, $fields);
-            self::assertStringEndsWith('.example', $fields[4]);
-        }
+        self::assertSame(ExchangeFileStatus::NoFile, $this->sample()->forChannel('B2B')->status);
     }
 
-    public function testAtMostThreeOrdersAreShown(): void
+    public function testTheProvisionalFilesAreNeverShown(): void
     {
-        $orders = array_map(fn (int $n): OutboxEvent => $this->placed(sprintf('%08d', $n), 'buyer@acme.example'), range(1, 6));
+        file_put_contents($this->directory . '/.incoming/orders-9.csv', implode(';', OrderLinesCsv::HEADER) . "\n" . $this->line(9, 'B2B') . "\n");
 
-        $csv = (new ExchangeFileSample($this->orders(...$orders)))->csv();
-
-        self::assertLessThanOrEqual(3, \count(array_unique(array_map(static fn (string $line): string => explode(';', $line)[0], \array_slice($this->lines($csv), 1)))));
+        self::assertSame(ExchangeFileStatus::NoFile, $this->sample()->forChannel('B2B')->status);
     }
 
-    /** @return list<string> */
-    private function lines(string $csv): array
+    public function testAFileOfTheOtherChannelGivesANeutralStatus(): void
     {
-        return explode("\n", rtrim($csv, "\n"));
+        $this->file('orders-1.csv', [$this->line(1, 'B2C'), $this->line(2, 'B2C')]);
+
+        $excerpt = $this->sample()->forChannel('B2B');
+
+        self::assertSame(ExchangeFileStatus::OtherChannel, $excerpt->status);
+        self::assertSame('', $excerpt->csv);
     }
 
-    private function orders(OutboxEvent ...$events): RecentPlacedOrders
+    public function testAMissingDirectoryGivesANeutralStatusWithoutPath(): void
     {
-        return new class(array_values($events)) implements RecentPlacedOrders {
-            /** @param list<OutboxEvent> $events */
-            public function __construct(private readonly array $events)
+        $missing = $this->directory . '/absent';
+
+        $excerpt = (new ExchangeFileSample($missing, $this->channels()))->forChannel('B2B');
+
+        self::assertSame(ExchangeFileStatus::Unavailable, $excerpt->status);
+        self::assertStringNotContainsString($missing, $excerpt->csv);
+    }
+
+    public function testAnUnreadableDirectoryGivesANeutralStatus(): void
+    {
+        $this->file('orders-1.csv', [$this->line(1, 'B2B')]);
+        chmod($this->directory, 0);
+
+        $excerpt = $this->sample()->forChannel('B2B');
+
+        self::assertSame(ExchangeFileStatus::Unavailable, $excerpt->status);
+        self::assertSame('', $excerpt->csv);
+    }
+
+    public function testAnEmptyFileGivesANeutralStatus(): void
+    {
+        file_put_contents($this->directory . '/orders-1.csv', '');
+
+        self::assertSame(ExchangeFileStatus::Empty, $this->sample()->forChannel('B2B')->status);
+    }
+
+    public function testAFileWithOnlyTheHeaderIsEmptyToo(): void
+    {
+        $this->file('orders-1.csv', []);
+
+        self::assertSame(ExchangeFileStatus::Empty, $this->sample()->forChannel('B2B')->status);
+    }
+
+    public function testNothingIsWrittenToTheDirectory(): void
+    {
+        $this->file('orders-1.csv', [$this->line(1, 'B2B')]);
+        $before = $this->snapshot();
+
+        $this->sample()->forChannel('B2B');
+        $this->sample()->forChannel('B2C');
+
+        self::assertSame($before, $this->snapshot());
+    }
+
+    /** @param list<string> $lines */
+    private function file(string $name, array $lines, int $time = 1000): void
+    {
+        file_put_contents($this->directory . '/' . $name, implode(';', OrderLinesCsv::HEADER) . "\n" . implode('', array_map(static fn (string $line): string => $line . "\n", $lines)));
+        touch($this->directory . '/' . $name, $time);
+    }
+
+    /** One line of the contract; the channel of the order is the one the outbox knows for its webhook id. */
+    private function line(int $n, string $channel): string
+    {
+        $id = sprintf('0192a000-0000-7000-8000-%012d', $n);
+        $this->known[$id] = $channel;
+
+        return sprintf('%010d;%s;2026-10-20T10:00:00Z;EUR;claire@acme.example;PAPER-A4;10;450;4500;FR', $n, $id);
+    }
+
+    private function sample(): ExchangeFileSample
+    {
+        return new ExchangeFileSample($this->directory, $this->channels());
+    }
+
+    private function channels(): ExportedOrderChannels
+    {
+        return new class($this->known) implements ExportedOrderChannels {
+            /** @param array<string, string> $known */
+            public function __construct(private readonly array $known)
             {
             }
 
-            public function latest(int $limit): array
+            public function channelsOf(array $eventIds): array
             {
-                return \array_slice($this->events, 0, $limit);
+                return array_intersect_key($this->known, array_flip($eventIds));
             }
         };
     }
 
-    private function placed(string $number, string $email): OutboxEvent
+    /** @return array<string, string> */
+    private function snapshot(): array
     {
-        return new OutboxEvent(
-            'order.placed',
-            1,
-            new \DateTimeImmutable('2026-10-20T10:00:00Z'),
-            [
-                'number' => $number,
-                'currency_code' => 'EUR',
-                'checkout_completed_at' => '2026-10-20T12:00:00+02:00',
-                'customer' => ['email' => $email],
-                'shipping_address' => ['country_code' => 'FR'],
-                'items' => [
-                    ['variant_code' => 'PAPER-A4', 'quantity' => 10, 'unit_price' => 450, 'total' => 4500],
-                    ['variant_code' => 'PEN-BLUE', 'quantity' => 5, 'unit_price' => 120, 'total' => 600],
-                ],
-            ],
-            'WEB',
-            'order',
-            '1',
-            null,
-            '0192a000-0000-7000-8000-' . str_pad($number, 12, '0', \STR_PAD_LEFT),
-        );
+        $files = [];
+        foreach (glob($this->directory . '/{,.incoming/}*', \GLOB_BRACE) ?: [] as $file) {
+            $files[$file] = is_file($file) ? md5_file($file) . filemtime($file) : 'dir';
+        }
+
+        return $files;
     }
 }

@@ -69,6 +69,7 @@ final class ErpFlatfileExportTest extends KernelTestCase
     public function testAnUnavailableDirectoryLeavesNoFileAndTheEventsToExport(): void
     {
         $this->recordPlacedEventsOfDemoOrders(2);
+        $exported = $this->intValue('SELECT COUNT(*) FROM tmonier_erp_flatfile_exported_event');
         $pending = $this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed' AND anonymized_at IS NULL");
 
         try {
@@ -77,7 +78,7 @@ final class ErpFlatfileExportTest extends KernelTestCase
         } catch (ExchangeDirectoryUnavailable) {
         }
 
-        self::assertSame(0, $this->intValue('SELECT COUNT(*) FROM tmonier_erp_flatfile_exported_event'));
+        self::assertSame($exported, $this->intValue('SELECT COUNT(*) FROM tmonier_erp_flatfile_exported_event'), 'nothing more is recorded');
         self::assertSame($pending, $this->intValue("SELECT COUNT(*) FROM tmonier_webhook_outbox_event WHERE type = 'order.placed' AND anonymized_at IS NULL"));
         self::assertSame([], glob($this->directory . '/*'));
     }
