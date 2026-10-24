@@ -14,23 +14,8 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-189-01 | US-189 | DOC | Cadrage : inventaire de la fiche relu contre le code (hooks `product.show`, gabarits `product_*`, blocs B2B, canal B2C, tests existants de … | 0,75 h | Claude |
 | T-189-02 | US-189 | TEST | Mesure « avant » en production (lecture seule) sur les trois fiches types : LCP mobile (médiane de 5 passes), poids et requêtes, largeur à … | 0,75 h | Claude |
 | T-189-03 | US-189 | FE-WEB | Maquette Claude Design (desktop et mobile) : en-tête de fiche, galerie, référence, prix HT, paliers, action d'achat, états connecté, … | 2 h | Orchestrateur |
-| T-193-01 | US-193 | DOC | Cadrage : `ExchangeFileSample`, `RecentPlacedOrders`, test `ErpFlatfilePageTest`, `ExportOrdersCommand` et son répertoire, fixtures et … | 0,25 h | Claude |
-| T-193-02 | US-193 | TEST | Tests rouges, commités seuls et cités dans la PR : dernier fichier (nominal), aucun fichier, fichier d'un autre canal, répertoire absent ou … | 0,75 h | Claude |
-| T-193-03 | US-193 | BE | Lecteur du dernier fichier du répertoire d'échange : en-tête et trois lignes du canal courant, e-mails masqués, aucune exception remontée, … | 1 h | Claude |
-| T-193-04 | US-193 | BE | Fixtures de démo : quelques commandes passées (événements `order.placed`) et export lancé après le chargement ; remise à zéro nocturne … | 1 h | Claude |
-| T-193-05 | US-193 | FE-WEB | Gabarit `erp_flatfile.html.twig` : extrait, messages neutres (aucun fichier, canal sans ligne, fichier vide, répertoire indisponible), … | 0,25 h | Claude |
-| T-193-06 | US-193 | TEST | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et … | 0,5 h | Claude |
 | T-193-07 | US-193 | TEST | Vérification en production après le déploiement (lecture seule) : extrait visible FR et EN, pa11y WCAG2AAA, 360 et 1280 px ; mesures … | 0,5 h | Claude |
 | T-193-08 | US-193 | REV | Revue (ton neutre, aucun ERP nommé, e-mails masqués) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php … | 0,25 h | Claude |
-| T-188-01 | US-188 | DOC | Cadrage : ADR 0017, `webhooks-demo.md`, récepteur (`WebhookReceiverController`, `ReceivedWebhooksController`), journal d'export du plugin … | 0,75 h | Claude |
-| T-188-02 | US-188 | DOC | Affinage de la fiche : scénarios réécrits sans import (1 nominal, 2 alternatifs, 2 erreurs), renvoi explicite à US-187 ; section de l'ADR … | 0,5 h | Claude |
-| T-188-03 | US-188 | TEST | Tests rouges, commités seuls et cités dans la PR : simulateur (commande traitée, accusé déposé atomiquement), fichier invalide rejeté sans … | 1,25 h | Claude |
-| T-188-04 | US-188 | BE | Simulateur « ERP Démo (fictif) » : commande console qui lit le dernier CSV de commandes du répertoire d'échange, valide l'en-tête et les … | 1,75 h | Claude |
-| T-188-05 | US-188 | BE | Journal des échanges : lecteur en lecture seule qui regroupe, par fichier, les événements du journal d'export du plugin (lots sortants) et … | 1,25 h | Claude |
-| T-188-06 | US-188 | FE-WEB | Page « Échanges ERP (fictif) » au back-office : liste des lots, bandeau « statuts simulés », entrée de menu, état vide, FR et EN ; … | 1,5 h | Claude |
-| T-188-07 | US-188 | BE | Remise à zéro nocturne : répertoire d'échange et journal du simulateur vidés, export puis simulation relancés après le chargement des … | 0,5 h | Claude |
-| T-188-08 | US-188 | DOC | Documentation `docs/erp-demo.md` (schéma mermaid, fichiers, ce qui est simulé, ce qui reste à US-187), lien depuis `/echange-fichier` et … | 0,75 h | Claude |
-| T-188-09 | US-188 | TEST | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et … | 0,5 h | Claude |
 | T-188-10 | US-188 | TEST | Vérification après déploiement : pages publiques en production (pa11y, 360 px, documentation) ; page du back-office en local et sur l'image … | 0,25 h | Claude |
 | T-188-11 | US-188 | REV | Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé) et table « scénario → test ou preuve » remplie ; `php … | 0,5 h | Claude |
 | T-TECH-27-02 | Transverse | TEST | **Action 2** : audit des tests de la démo, tout compteur écrit en dur (nombre de plugins, de fichiers de tests, de lignes de catalogue) … | 0,5 h | Claude |
@@ -82,3 +67,18 @@ _Aucune tâche._
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
 | T-TECH-27-01 | Transverse | DOC | **Actions 1, 2 et 5 (règles)** : règles 13 (commits `git commit -m "…" -- <chemins>`, jamais `-a`, `git show --stat` avant push), 14 … | 0,75 h | Orchestrateur |
+| T-193-01 | US-193 | DOC | Cadrage : `ExchangeFileSample`, `RecentPlacedOrders`, test `ErpFlatfilePageTest`, `ExportOrdersCommand` et son répertoire, fixtures et … | 0,25 h | Claude |
+| T-193-02 | US-193 | TEST | Tests rouges, commités seuls et cités dans la PR : dernier fichier (nominal), aucun fichier, fichier d'un autre canal, répertoire absent ou … | 0,75 h | Claude |
+| T-193-03 | US-193 | BE | Lecteur du dernier fichier du répertoire d'échange : en-tête et trois lignes du canal courant, e-mails masqués, aucune exception remontée, … | 1 h | Claude |
+| T-193-04 | US-193 | BE | Fixtures de démo : quelques commandes passées (événements `order.placed`) et export lancé après le chargement ; remise à zéro nocturne … | 1 h | Claude |
+| T-193-05 | US-193 | FE-WEB | Gabarit `erp_flatfile.html.twig` : extrait, messages neutres (aucun fichier, canal sans ligne, fichier vide, répertoire indisponible), … | 0,25 h | Claude |
+| T-193-06 | US-193 | TEST | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et … | 0,5 h | Claude |
+| T-188-01 | US-188 | DOC | Cadrage : ADR 0017, `webhooks-demo.md`, récepteur (`WebhookReceiverController`, `ReceivedWebhooksController`), journal d'export du plugin … | 0,75 h | Claude |
+| T-188-02 | US-188 | DOC | Affinage de la fiche : scénarios réécrits sans import (1 nominal, 2 alternatifs, 2 erreurs), renvoi explicite à US-187 ; section de l'ADR … | 0,5 h | Claude |
+| T-188-03 | US-188 | TEST | Tests rouges, commités seuls et cités dans la PR : simulateur (commande traitée, accusé déposé atomiquement), fichier invalide rejeté sans … | 1,25 h | Claude |
+| T-188-04 | US-188 | BE | Simulateur « ERP Démo (fictif) » : commande console qui lit le dernier CSV de commandes du répertoire d'échange, valide l'en-tête et les … | 1,75 h | Claude |
+| T-188-05 | US-188 | BE | Journal des échanges : lecteur en lecture seule qui regroupe, par fichier, les événements du journal d'export du plugin (lots sortants) et … | 1,25 h | Claude |
+| T-188-06 | US-188 | FE-WEB | Page « Échanges ERP (fictif) » au back-office : liste des lots, bandeau « statuts simulés », entrée de menu, état vide, FR et EN ; … | 1,5 h | Claude |
+| T-188-07 | US-188 | BE | Remise à zéro nocturne : répertoire d'échange et journal du simulateur vidés, export puis simulation relancés après le chargement des … | 0,5 h | Claude |
+| T-188-08 | US-188 | DOC | Documentation `docs/erp-demo.md` (schéma mermaid, fichiers, ce qui est simulé, ce qui reste à US-187), lien depuis `/echange-fichier` et … | 0,75 h | Claude |
+| T-188-09 | US-188 | TEST | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et … | 0,5 h | Claude |
