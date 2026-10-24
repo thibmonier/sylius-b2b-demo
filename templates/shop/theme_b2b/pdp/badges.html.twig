@@ -1,0 +1,19 @@
+{#
+    US-189: the "powered by" badges of the plugins that really serve this page, on ONE line under the buy box (they used to sit between the
+    actions). Each badge is the shared badge template; a plugin whose feature is not on this page gets none. Nothing when the badges are off.
+#}
+{% set product = hookable_metadata.context.product %}
+{% set badges %}
+    {% if app_b2b_price_breaks(product) is not null %}
+        {% include 'demo/plugin_badge.html.twig' with { hookable_metadata: { configuration: { plugin: 'sylius-tier-pricing-plugin' } } } only %}
+    {% endif %}
+    {% if tmonier_container_fill_product_preview_enabled() %}
+        {% include 'demo/plugin_badge.html.twig' with { hookable_metadata: { configuration: { plugin: 'sylius-container-fill-plugin' } } } only %}
+    {% endif %}
+    {% if tmonier_quote_request_setting('from_product_page') %}
+        {% include 'demo/plugin_badge.html.twig' with { hookable_metadata: { configuration: { plugin: 'sylius-quote-request-plugin' } } } only %}
+    {% endif %}
+{% endset %}
+{% if badges|trim is not empty %}
+    <div class="b2b-pdp__badges">{{ badges }}</div>
+{% endif %}

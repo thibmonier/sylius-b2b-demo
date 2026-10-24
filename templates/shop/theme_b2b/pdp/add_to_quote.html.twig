@@ -1,0 +1,41 @@
+{#
+    US-189: the quote request of the quote-request plugin as a compact secondary action of the buy box (same route, same fields,
+    same test attributes). A visitor keeps a one-line title that says what it is for; a signed-in buyer, who knows the shop, sees the
+    quantity and the button only. The consumer channel keeps the template of the plugin.
+#}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    {% include '@TmonierSyliusQuoteRequestPlugin/shop/product/add_to_quote.html.twig' %}
+{% else %}
+    {% set product = hookable_metadata.context.product %}
+    {% set variants = product.enabledVariants|filter(variant => variant.hasChannelPricingForChannel(sylius.channel)) %}
+    {% if tmonier_quote_request_setting('from_product_page') and variants|length > 0 %}
+        <div class="b2b-pdp__quote" {{ sylius_test_html_attribute('tmonier-add-to-quote') }}>
+            {% if app.user is null %}
+                <p class="b2b-pdp__quote-title">{{ 'tmonier_quote_request.ui.need_large_quantities'|trans }}</p>
+            {% endif %}
+            <form method="post" action="{{ path('tmonier_quote_request_shop_basket_add', {'productId': product.id}) }}" class="b2b-pdp__quote-form">
+                {% if variants|length > 1 %}
+                    <div>
+                        <label class="form-label small" for="tmonier_quote_request_add_variant">{{ 'sylius.ui.variant'|trans }}</label>
+                        <select class="form-select" id="tmonier_quote_request_add_variant" name="tmonier_quote_request_add[variant]">
+                            {% for variant in variants %}
+                                <option value="{{ variant.id }}">{{ variant.name|default(variant.descriptor) }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% else %}
+                    <input type="hidden" name="tmonier_quote_request_add[variant]" value="{{ variants|first.id }}">
+                {% endif %}
+                <div>
+                    <label class="form-label small" for="tmonier_quote_request_add_quantity">{{ 'sylius.ui.quantity'|trans }}</label>
+                    <input type="number" class="form-control" id="tmonier_quote_request_add_quantity" name="tmonier_quote_request_add[quantity]" value="10" min="1" required>
+                </div>
+                <input type="hidden" name="tmonier_quote_request_add[_token]" value="{{ csrf_token('tmonier_quote_request_add') }}">
+                <button type="submit" class="btn btn-outline-primary" {{ sylius_test_html_attribute('tmonier-add-to-quote-button') }}>
+                    {{ ux_icon('tabler:file-dollar', {'class': 'icon'}) }}
+                    {{ 'tmonier_quote_request.ui.add_to_quote'|trans }}
+                </button>
+            </form>
+        </div>
+    {% endif %}
+{% endif %}

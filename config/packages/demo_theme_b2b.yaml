@@ -104,6 +104,10 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/pdp/buybox_close.html.twig'
                 priority: 5
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_badges:
+                template: 'shop/theme_b2b/pdp/badges.html.twig'
+                priority: 4
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
             b2b_assurances:
                 template: 'shop/theme_b2b/pdp/assurances.html.twig'
                 priority: 3

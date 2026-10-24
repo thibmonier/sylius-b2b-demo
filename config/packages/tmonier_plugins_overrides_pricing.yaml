@@ -9,6 +9,11 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/product_price_breaks.html.twig'
                 # US-189: the tiers come BEFORE the quantity (core 100) in the buy box, as on the mock-up (plugin: 50).
                 priority: 150
+            # US-189: on B2B the badges of the three plugins of the buy box are one line under it (pdp/badges.html.twig).
+            demo_badge_tier_pricing:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            demo_badge_container_fill:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
         # US-189: on B2B the product safety data (GPSR) and its badge are a section of the body (pdp/lower.html.twig), not a block under
         # the gallery; they stay where they were on B2C.
         'sylius_shop.product.show.content.info.overview':
@@ -20,6 +25,11 @@ sylius_twig_hooks:
         'sylius_shop.product.show.content.info.summary':
             tmonier_prices_hidden:
                 template: 'shop/theme_b2b/pdp/prices_hidden.html.twig'
+            # Compact quote request (same route and fields); the consumer channel keeps the template of the plugin.
+            tmonier_quote_request:
+                template: 'shop/theme_b2b/pdp/add_to_quote.html.twig'
+            demo_badge_quote_request:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.cart.index.content.form.sections.general.items.body':
             item:
                 template: 'shop/theme_b2b/cart_item.html.twig'
