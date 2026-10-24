@@ -53,7 +53,7 @@ final class ProofPageTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $page->filter('h1'));
-        self::assertCount(25, $page->filter('table[data-proof-table] tbody tr[data-plugin]'));
+        self::assertCount(26, $page->filter('table[data-proof-table] tbody tr[data-plugin]'));
         $row = $page->filter('tr[data-plugin="' . self::QUICK . '"]');
         self::assertSame(self::PACKAGIST, $row->filter('[data-proof-cell="version"] a')->attr('href'));
         self::assertStringContainsString('v1.2.0', $row->filter('[data-proof-cell="version"]')->text());
@@ -74,7 +74,7 @@ final class ProofPageTest extends WebTestCase
 
         $row = $page->filter('tr[data-plugin="sylius-customer-asset-management-plugin"]');
         self::assertStringContainsString($unpublished, $row->filter('[data-proof-cell="version"]')->text());
-        self::assertCount(25, $page->filter('[data-proof-cell="coverage"]'));
+        self::assertCount(26, $page->filter('[data-proof-cell="coverage"]'));
         foreach ($page->filter('[data-proof-cell="coverage"]')->each(static fn (Crawler $cell): string => $cell->text()) as $text) {
             self::assertStringContainsString($unmeasured, $text);
             self::assertDoesNotMatchRegularExpression('/\d\s*%/', $text);
@@ -122,7 +122,7 @@ final class ProofPageTest extends WebTestCase
             $page = $client->request('GET', '/' . $locale . '/preuve');
 
             self::assertResponseIsSuccessful();
-            self::assertCount(25, $page->filter('tr[data-plugin]'));
+            self::assertCount(26, $page->filter('tr[data-plugin]'));
             self::assertStringContainsString($unavailable, $page->filter('tr[data-plugin="' . self::QUICK . '"] [data-proof-cell="version"]')->text());
             self::assertCount(0, $page->filter('table[data-proof-table] a[href^="https://"]'));
         }

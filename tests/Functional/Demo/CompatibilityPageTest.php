@@ -52,7 +52,7 @@ final class CompatibilityPageTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $page->filter('h1'));
-        self::assertCount(25, $page->filter('table[data-compat-table] tbody tr[data-plugin]'));
+        self::assertCount(26, $page->filter('table[data-compat-table] tbody tr[data-plugin]'));
         $headers = $page->filter('table[data-compat-table] thead th')->each(static fn (Crawler $th): string => trim($th->text()));
         self::assertContains($ciColumn, $headers);
         self::assertContains($demoColumn, $headers);
@@ -152,7 +152,7 @@ final class CompatibilityPageTest extends WebTestCase
             $page = self::createClient()->request('GET', '/' . $locale . '/compatibilite');
 
             self::assertResponseIsSuccessful();
-            self::assertCount(25, $page->filter('tr[data-plugin]'));
+            self::assertCount(26, $page->filter('tr[data-plugin]'));
             self::assertStringContainsString($unavailable, $page->filter('tr[data-plugin="' . self::TRADE . '"] [data-compat-cell="ci"]')->text());
             self::assertCount(0, $page->filter('table[data-compat-table] a[href^="https://"]'));
             self::assertCount(0, $page->filter('svg[data-compat-graph]'));
