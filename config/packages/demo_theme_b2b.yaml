@@ -16,6 +16,11 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/logo.html.twig'
                 priority: 300
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            # US-186: aisles and services in the row of the header, after the logo (300), before the account (200) and the cart (100).
+            b2b_nav:
+                template: 'shop/theme_b2b/nav.html.twig'
+                priority: 250
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.base.header.top_bar':
             # US-144: the core newsletter offer (-20 %) means nothing in the demo, on either channel.
             info_message:
@@ -23,13 +28,6 @@ sylius_twig_hooks:
             b2b_message:
                 template: 'shop/theme_b2b/top_bar.html.twig'
                 priority: 150
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
-
-        # US-186: services of the shop (quick order, quote, demo accounts) under the core navbar (100), above the notice (50).
-        'sylius_shop.base.header':
-            b2b_nav:
-                template: 'shop/theme_b2b/nav.html.twig'
-                priority: 90
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
         'sylius_shop.base.footer':

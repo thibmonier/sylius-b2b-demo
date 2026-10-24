@@ -40,6 +40,15 @@ final class HomeStylesTest extends TestCase
         self::assertMatchesRegularExpression('/@media \(prefers-reduced-motion: reduce\)\s*\{[^@]*transition:\s*none/s', $styles);
     }
 
+    /** The header menu is a row only when its own column is wide enough (the account block of a signed-in buyer is wide): a container query, no screen width. */
+    public function testTheHeaderMenuFoldsByContainerQuery(): void
+    {
+        $styles = $this->read('_home.scss');
+
+        self::assertMatchesRegularExpression('/\.b2b-nav-col\s*\{[^}]*container-type:\s*inline-size/s', $styles);
+        self::assertMatchesRegularExpression('/@container\s*\(min-width:\s*4\d(?:\.\d+)?rem\)\s*\{[^@]*b2b-nav__list--row[^@]*b2b-nav__fold/s', $styles);
+    }
+
     public function testTheHomeWritesNoColourByHand(): void
     {
         self::assertSame([], StyleColorScanner::hardCoded($this->read('_home.scss')));

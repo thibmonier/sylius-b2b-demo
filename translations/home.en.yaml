@@ -4,7 +4,6 @@ nav:
     menu: 'Menu'
     quick_order: 'Quick order'
     quote: 'Request a quote'
-    try_demo: 'Try the demo'
 notice:
     title: 'B2B demonstration e-shop'
     text: 'Fictitious data, no order fulfilled, no real payment.'
