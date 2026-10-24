@@ -8,7 +8,6 @@ assurances:
 visitor:
     title: 'Le prix de votre société, à la connexion'
     text: 'Chaque compte professionnel voit ses propres conditions : prix négociés, paliers par quantité, conditionnement.'
-    login: 'Se connecter'
     demo: 'Essayer un compte de démo'
 sections:
     description: 'Description'

@@ -7,7 +7,6 @@ assurances:
 visitor:
     title: "Your company's price, once you sign in"
     text: 'Each business account sees its own terms: negotiated prices, quantity tiers, packaging.'
-    login: 'Sign in'
     demo: 'Try a demo account'
 sections:
     description: 'Description'

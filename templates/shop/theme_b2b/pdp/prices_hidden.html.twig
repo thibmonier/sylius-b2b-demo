@@ -1,9 +1,9 @@
-{# US-189: replaces the template of the channel-access hookable. A visitor sees no price: what an account brings, and how to get one (login, demo accounts). #}
+{# US-189: replaces the template of the channel-access hookable. A visitor sees no price: what an account brings, and how to get one (login with the sentence of the plugin, demo accounts). #}
 <div class="b2b-pdp__visitor" data-test-tmonier-prices-hidden>
     <p class="b2b-pdp__visitor-title">{{ 'visitor.title'|trans({}, 'product') }}</p>
     <p class="b2b-pdp__visitor-text">{{ 'visitor.text'|trans({}, 'product') }}</p>
     <div class="b2b-pdp__visitor-actions">
-        <a class="btn btn-primary b2b-pdp-btn" href="{{ path('sylius_shop_login') }}">{{ 'visitor.login'|trans({}, 'product') }}</a>
+        <a class="btn btn-primary b2b-pdp-btn" href="{{ path('sylius_shop_login') }}">{{ 'tmonier_channel_access.shop.login_to_see_prices'|trans }}</a>
         <a class="btn btn-outline-primary b2b-pdp-btn" href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'visitor.demo'|trans({}, 'product') }}</a>
     </div>
 </div>
