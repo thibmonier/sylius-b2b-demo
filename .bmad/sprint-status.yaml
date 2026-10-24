@@ -450,7 +450,7 @@ sprints:
 
   sprint-27:
     name: sprint-27-fiche-produit-et-erp-fictif  # fiche produit refondue après maquette, vrai extrait du fichier plat, démonstration avec l'ERP fictif (périmètre réduit), actions de la rétro du sprint 26
-    status: review  # CLOS le 2026-10-24, en attente du GO de Thibaut : 13/13 points livrés (#94 à #101), revue et rétro ; LANCÉ le 2026-10-24 : périmètre validé par Thibaut le 2026-10-24 (12 points, puis US-194 ajoutée sur demande de Thibaut : 13 points) ; 45 tâches, 34,5 h ; US-189 : maquette Claude Design en premier, tâches de code 📅 jusqu'au GO de Thibaut
+    status: done  # CLOS le 2026-10-24 (GO de Thibaut le 2026-10-24) : 13/13 points livrés (#94 à #101), revue et rétro ; LANCÉ le 2026-10-24 : périmètre validé par Thibaut le 2026-10-24 (12 points, puis US-194 ajoutée sur demande de Thibaut : 13 points) ; 45 tâches, 34,5 h ; US-189 : maquette Claude Design en premier, tâches de code 📅 jusqu'au GO de Thibaut
     sprint_id: "sprint-27"
     start_date: "2026-10-24"
     end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
