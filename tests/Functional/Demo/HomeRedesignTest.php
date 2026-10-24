@@ -214,7 +214,7 @@ final class HomeRedesignTest extends WebTestCase
     /** US-192: below xxl the cart of the header shows the amount only (the badge says how many items): room for the horizontal menu. B2C keeps the stock text. */
     public function testTheCartTextIsShortBelowXxlOnB2bOnly(): void
     {
-        $b2b = $this->anonymousHome('fr_FR');
+        $b2b = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/');
         self::assertCount(1, $b2b->filter('header [data-test-cart-total] span.d-none.d-xxl-inline'));
 
         self::ensureKernelShutdown();
