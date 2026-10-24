@@ -1,0 +1,8 @@
+{# US-191: the classic form is the first column of the login page (above the demo accounts on a phone, on their left from lg).
+   The demo accounts are the second column, hooked on `sylius_shop.account.login.content` (config/packages/demo.yaml). No `order-lg-*`:
+   the order of the HTML is the order of the page. Both columns start at the same height (no vertical centring). #}
+<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-5 offset-lg-0 col-xl-4 offset-xl-1" data-login-column="form">
+    <div class="px-3 py-lg-5 mb-5 my-lg-5">
+        {% hook 'login_container' %}
+    </div>
+</div>

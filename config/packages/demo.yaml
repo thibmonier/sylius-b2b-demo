@@ -10,14 +10,11 @@ sylius_twig_hooks:
             demo_notice:
                 template: 'demo/_notice.html.twig'
                 priority: 50
-        'sylius_shop.account.login.content.login_container':
-            # US-075: between the title (200) and the classic form (100): accounts first, the form below them.
+        # US-191: the classic form (login_container, 100) first, the demo accounts after it (50), then the registration box (0).
+        'sylius_shop.account.login.content':
             demo_accounts:
                 template: 'demo/login_accounts_shop.html.twig'
-                priority: 150
-            demo_classic_heading:
-                template: 'demo/login_classic_heading.html.twig'
-                priority: 120
+                priority: 50
         'sylius_admin.security.login.page.content':
             demo_accounts:
                 template: 'demo/login_accounts_admin.html.twig'
