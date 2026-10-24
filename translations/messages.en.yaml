@@ -41,32 +41,10 @@ app:
             negotiated:
                 title: 'Negotiated promotions'
                 intro: 'The products for which your company has a negotiated price.'
-            roles:
-                title: 'Choose a role to see your home page'
-                intro: 'B2B prices are only visible once signed in: each role finds its references, its restock and its negotiated promotions.'
-                usual: 'Your usual references'
-                restock: 'Quick restock'
-                negotiated: 'Negotiated promotions'
-                cta: 'Choose a demo account'
         hero:
-            title: 'Fournitures Pro, a B2B demo built by Thibaut Monier'
-            subtitle: 'Negotiated offers, quick order, purchase approval, PunchOut: try the open source B2B plugins on a professional equipment store.'
             author_line: 'B2B demo built by %author%, 25 years of delivery, with %count% open source plugins.'
-            role_hint: 'Buyer, approver or administrator: one account per role, one-click sign-in.'
-            cta: 'Sign in with a demo account'
             cta_signed_in: 'Try a guided journey'
             switch_account: 'Switch demo account'
-        promise:
-            title: 'What you will see in five minutes'
-            buy:
-                title: 'Buy'
-                text: 'A supplies catalogue with company-specific negotiated prices, quantity tiers and quick order.'
-            validate:
-                title: 'Approve'
-                text: 'Spending limits per buyer, an approver who decides, and a view of the company''s outstanding balance.'
-            integrate:
-                title: 'Integrate'
-                text: 'PunchOut cXML and OCI, Factur-X invoices, webhooks and an AI assistant: the touchpoints with the customer''s information system.'
         author:
             title: 'Who designed this demo'
             text: '%author% has designed and delivered digital products for 25 years, as Delivery Manager and CTO. This store is a personal project.'
@@ -75,35 +53,6 @@ app:
             method: 'It was delivered with generative AI, under automated tests, static analysis and a security scan, all run by the repository''s public CI.'
             repository: 'View the GitHub repository'
             proof: 'See the technical proof'
-        quick_access:
-            title: 'Quick access'
-            accounts: 'Demo accounts'
-            accounts_text: 'One-click sign-in with buyer, approver and administrator accounts.'
-            accounts_link: 'Open the demo accounts'
-            accounts_link_signed_in: 'Switch demo account'
-            catalogue: 'Catalogue'
-            category:
-                epi: 'PPE'
-                quincaillerie: 'Hardware'
-                fournitures-industrielles: 'Industrial supplies'
-            plugins: 'Plugins'
-            plugins_text: 'The %count% plugins and where to see them in the demo.'
-            plugins_link: 'Browse the plugins'
-        journeys:
-            title: 'B2B journeys to try'
-            try: 'Try it'
-            quote:
-                title: 'Request a quote'
-                text: 'Ask for a negotiated price, then accept it in a regular checkout.'
-            quick_order:
-                title: 'Quick order'
-                text: 'Paste SKU;quantity lines or upload a CSV.'
-            approval:
-                title: 'Purchase approval'
-                text: "An approver validates orders above a buyer's limit."
-            punchout:
-                title: 'PunchOut'
-                text: 'Simulate opening the shop from a procurement system (cXML/OCI).'
     theme_b2b:
         logo_aria: 'Fournitures Pro, home'
         top_bar: 'Professional supplies · Prices excl. VAT · Dedicated account manager'

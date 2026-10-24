@@ -1,0 +1,177 @@
+{
+  "photos": [
+    {
+      "slot": "hero",
+      "files": [
+        {
+          "file": "hero-480.webp",
+          "width": 480,
+          "height": 600
+        },
+        {
+          "file": "hero-800.webp",
+          "width": 800,
+          "height": 1000
+        },
+        {
+          "file": "hero-1000.webp",
+          "width": 1000,
+          "height": 1250
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/woman-opening-a-toolbox-8447842/",
+      "creator": "Los Muertos Crew (Cristian Rojas)",
+      "creator_url": "https://www.pexels.com/@cristian-rojas/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "epi",
+      "files": [
+        {
+          "file": "epi-480.webp",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "file": "epi-800.webp",
+          "width": 800,
+          "height": 600
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/close-up-photo-of-yellow-hardhat-and-red-protective-gloves-8488037/",
+      "creator": "Kindel Media",
+      "creator_url": "https://www.pexels.com/@kindelmedia/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "quincaillerie",
+      "files": [
+        {
+          "file": "quincaillerie-480.webp",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "file": "quincaillerie-800.webp",
+          "width": 800,
+          "height": 600
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/assortment-of-hardware-fasteners-in-storage-bins-38575500/",
+      "creator": "Joaquin Reyes Ramos",
+      "creator_url": "https://www.pexels.com/@joaquinrr/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "industriel",
+      "files": [
+        {
+          "file": "industriel-480.webp",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "file": "industriel-800.webp",
+          "width": 800,
+          "height": 600
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/shelves-on-a-warehouse-4483608/",
+      "creator": "Tiger Lily",
+      "creator_url": "https://www.pexels.com/@tiger-lily/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "parcours",
+      "files": [
+        {
+          "file": "parcours-600.webp",
+          "width": 600,
+          "height": 401
+        },
+        {
+          "file": "parcours-1000.webp",
+          "width": 1000,
+          "height": 668
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/woman-holding-a-brown-folder-while-working-in-the-office-7654450/",
+      "creator": "Pavel Danilyuk",
+      "creator_url": "https://www.pexels.com/@pavel-danilyuk/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "acheteur",
+      "files": [
+        {
+          "file": "acheteur-480.webp",
+          "width": 480,
+          "height": 320
+        },
+        {
+          "file": "acheteur-800.webp",
+          "width": 800,
+          "height": 534
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/bearded-male-worker-using-tablet-while-standing-near-window-in-workshop-3823190/",
+      "creator": "Andrea Piacquadio",
+      "creator_url": "https://www.pexels.com/@olly/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "approbatrice",
+      "files": [
+        {
+          "file": "approbatrice-480.webp",
+          "width": 480,
+          "height": 320
+        },
+        {
+          "file": "approbatrice-800.webp",
+          "width": 800,
+          "height": 534
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/woman-in-white-long-sleeve-top-holding-a-tablet-4872048/",
+      "creator": "Gustavo Fring",
+      "creator_url": "https://www.pexels.com/@gustavo-fring/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    },
+    {
+      "slot": "administrateur",
+      "files": [
+        {
+          "file": "administrateur-480.webp",
+          "width": 480,
+          "height": 320
+        },
+        {
+          "file": "administrateur-800.webp",
+          "width": 800,
+          "height": 534
+        }
+      ],
+      "source": "Pexels",
+      "origin_url": "https://www.pexels.com/photo/woman-in-blue-floral-top-sitting-while-using-laptop-806835/",
+      "creator": "Andrea Piacquadio",
+      "creator_url": "https://www.pexels.com/@olly/",
+      "license": "Pexels License",
+      "license_url": "https://www.pexels.com/license/"
+    }
+  ]
+}

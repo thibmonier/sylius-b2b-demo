@@ -1,0 +1,9 @@
+{# US-186: the commitments of the shop (the three of the footer strip plus the invoice format), one source each: no invented figure. #}
+<section class="b2b-home-band" data-home-section="commitments" aria-label="{{ 'commitments.label'|trans({}, 'home') }}">
+    <ul class="b2b-home-wrap b2b-home-band__list">
+        <li class="b2b-home-band__item">{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'calendar' } only %}<span>{{ 'app.theme_b2b.footer.invoice'|trans }}</span></li>
+        <li class="b2b-home-band__item">{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'card' } only %}<span>{{ 'app.theme_b2b.footer.terms'|trans }}</span></li>
+        <li class="b2b-home-band__item">{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'support' } only %}<span>{{ 'app.theme_b2b.footer.support'|trans }}</span></li>
+        <li class="b2b-home-band__item">{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'invoice' } only %}<span>{{ 'commitments.facturx'|trans({}, 'home') }}</span></li>
+    </ul>
+</section>

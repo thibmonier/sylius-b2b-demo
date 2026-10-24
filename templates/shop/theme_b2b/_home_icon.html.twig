@@ -1,0 +1,12 @@
+{# US-186: the few line icons of the home, inline (no download, no icon bundle). Parameter: name. Decorative: hidden from assistive technologies. #}
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    {% if name == 'calendar' %}<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>
+    {% elseif name == 'card' %}<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/>
+    {% elseif name == 'support' %}<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>
+    {% elseif name == 'invoice' %}<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>
+    {% elseif name == 'tag' %}<path d="M20 12 12 20 4 12V4h8z"/><circle cx="8.5" cy="8.5" r="1.5"/>
+    {% elseif name == 'check' %}<path d="m5 12 5 5L20 7"/>
+    {% elseif name == 'info' %}<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/>
+    {% elseif name == 'arrow' %}<path d="M5 12h14M13 6l6 6-6 6"/>
+    {% endif %}
+</svg>

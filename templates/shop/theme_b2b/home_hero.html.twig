@@ -1,18 +1,43 @@
-{# A signed-in visitor is offered the guided journeys and a switch of demo account, never the demo login again. #}
-<section class="b2b-home-hero py-4 mb-4 text-center" data-b2b-home="hero" data-home-hero>
-    <div class="container">
-        <h1 class="display-5 b2b-home-hero__title">{{ 'app.home_b2b.hero.title'|trans }}</h1>
-        <p class="lead mb-2 b2b-home-hero__lead">{{ 'app.home_b2b.hero.subtitle'|trans }}</p>
-        {# US-113: who made it, in one line (name linked to the profile when DEMO_PROFILE_URL is set). #}
-        <p class="mb-3 b2b-home-hero__lead" data-home-author-line data-plugin-count="{{ demo_plugin_count() }}">{{ 'app.home_b2b.hero.author_line'|trans({'%author%': include('shared/_author_name.html.twig'), '%count%': demo_plugin_count()})|raw }}</p>
-        {% if app.user %}
-            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                <a class="btn btn-primary btn-lg" href="{{ path('app_demo_journeys', {_locale: app.request.locale}) }}">{{ 'app.home_b2b.hero.cta_signed_in'|trans }}</a>
-                <a class="btn btn-outline-primary btn-lg" href="{{ path('app_demo_accounts') }}">{{ 'app.home_b2b.hero.switch_account'|trans }}</a>
+{#
+    US-186: editorial hero. Visitor: catalogue and demo accounts; signed in: guided journeys and a switch of demo account,
+    never the demo login again. The author line (US-113) names who made the demo, with the profile link when configured.
+#}
+{% set can_browse = tmonier_channel_can_see_catalog() %}
+<section class="b2b-home-hero" data-b2b-home="hero" data-home-section="hero" data-home-hero aria-labelledby="home-hero-title">
+    <div class="b2b-home-wrap b2b-home-hero__grid">
+        <div class="b2b-home-hero__text">
+            <h1 id="home-hero-title" class="b2b-home-h1">{{ 'hero.title_start'|trans({}, 'home') }} <span class="b2b-home-h1__accent">{{ 'hero.title_accent'|trans({}, 'home') }}</span></h1>
+            <p class="b2b-home-lead">{{ 'hero.lead'|trans({}, 'home') }}</p>
+            <div class="b2b-home-hero__actions">
+                {% if app.user %}
+                    <a class="btn btn-primary b2b-home-btn" href="{{ path('app_demo_journeys', {_locale: app.request.locale}) }}" data-home-primary data-demo-link="journeys">{{ 'app.home_b2b.hero.cta_signed_in'|trans }}{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'arrow' } only %}</a>
+                    <a class="btn btn-outline-primary b2b-home-btn" href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'app.home_b2b.hero.switch_account'|trans }}</a>
+                {% elseif can_browse %}
+                    <a class="btn btn-primary b2b-home-btn" href="#rayons" data-home-primary>{{ 'hero.cta_catalogue'|trans({}, 'home') }}{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'arrow' } only %}</a>
+                    <a class="btn btn-outline-primary b2b-home-btn" href="{{ path('app_demo_accounts') }}" data-home-role-choice data-demo-link="accounts">{{ 'hero.cta_accounts'|trans({}, 'home') }}</a>
+                {% else %}
+                    <a class="btn btn-primary b2b-home-btn" href="{{ path('app_demo_accounts') }}" data-home-primary data-home-role-choice data-demo-link="accounts">{{ 'hero.cta_accounts'|trans({}, 'home') }}</a>
+                {% endif %}
             </div>
-        {% else %}
-            <a class="btn btn-primary btn-lg" href="{{ path('app_demo_accounts') }}" data-home-role-choice>{{ 'app.home_b2b.hero.cta'|trans }}</a>
-            <p class="mt-2 mb-0 b2b-home-hero__lead">{{ 'app.home_b2b.hero.role_hint'|trans }}</p>
-        {% endif %}
+            <p class="b2b-home-hero__author" data-home-author-line data-plugin-count="{{ demo_plugin_count() }}">{{ 'app.home_b2b.hero.author_line'|trans({'%author%': include('shared/_author_name.html.twig'), '%count%': demo_plugin_count()})|raw }}</p>
+        </div>
+        <div class="b2b-home-hero__media">
+            {% include 'shop/theme_b2b/_home_photo.html.twig' with {
+                slot: 'hero',
+                class: 'b2b-home-hero__photo',
+                eager: true,
+                sizes: '(min-width: 1100px) 38rem, (min-width: 992px) 45vw, calc(100vw - 2.5rem)',
+            } only %}
+            <ul class="b2b-home-hero__notes">
+                <li class="b2b-home-note">
+                    <span class="b2b-home-note__icon">{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'tag' } only %}</span>
+                    <span><strong>{{ 'hero.price_title'|trans({}, 'home') }}</strong><span>{{ 'hero.price_text'|trans({}, 'home') }}</span></span>
+                </li>
+                <li class="b2b-home-note b2b-home-note--navy">
+                    <span class="b2b-home-note__icon">{% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'check' } only %}</span>
+                    <span><strong>{{ 'hero.approval_title'|trans({}, 'home') }}</strong><span>{{ 'hero.approval_text'|trans({}, 'home') }}</span></span>
+                </li>
+            </ul>
+        </div>
     </div>
 </section>

@@ -1,0 +1,9 @@
+{#
+    US-186: one photo of the home (assets/shop/images/home/, credits in credits.json). Parameters: slot, sizes, class,
+    eager (the first view: high fetch priority, never lazy), decorative (empty alt, for a photo next to a text that names it).
+    The credits page lists every photo; a test fails for a file without credit, without dimensions or too heavy.
+#}
+{% set photo = demo_home_photo(slot) %}
+{% set shown = photo.files|length > 1 ? photo.files[1] : photo.files[0] %}
+{% set base = 'build/app/shop/images/home/' %}
+<img class="{{ class }}" src="{{ asset(base ~ shown.file, 'app.shop') }}" srcset="{% for file in photo.files %}{{ asset(base ~ file.file, 'app.shop') }} {{ file.width }}w{{ loop.last ? '' : ', ' }}{% endfor %}" sizes="{{ sizes }}" width="{{ shown.width }}" height="{{ shown.height }}" alt="{{ decorative|default(false) ? '' : ('photo.' ~ slot ~ '.alt')|trans({}, 'home') }}"{% if decorative|default(false) %} data-decorative{% endif %}{% if eager|default(false) %} fetchpriority="high"{% else %} loading="lazy" decoding="async"{% endif %} data-home-photo="{{ slot }}">

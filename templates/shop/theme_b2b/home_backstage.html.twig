@@ -1,0 +1,49 @@
+{#
+    US-186: behind the scenes (links to the plugins, the architecture, the proof and the integration guides) and, closing the
+    page, who designed the demo (US-113): profile and public repository, no offer. The author texts keep their keys
+    (app.home_b2b.author.*) shared with the About page.
+#}
+{% set author = include('shared/_author_name.html.twig') %}
+{% set cards = {
+    plugins: 'app_demo_plugins',
+    architecture: 'app_demo_architecture',
+    proof: 'app_demo_proof',
+    integrate: 'app_demo_integrate',
+} %}
+<section id="coulisses" class="b2b-home-night" data-home-section="backstage" aria-labelledby="home-backstage-title">
+    <div class="b2b-home-wrap">
+        <div class="b2b-home-night__head">
+            <div>
+                <p class="b2b-home-eyebrow">{{ 'backstage.eyebrow'|trans({}, 'home') }}</p>
+                <h2 id="home-backstage-title" class="b2b-home-h2">{{ 'backstage.title'|trans({'%count%': demo_plugin_count()}, 'home') }}</h2>
+            </div>
+            <p>{{ 'backstage.lead'|trans({}, 'home') }}</p>
+        </div>
+        <div class="b2b-home-cards">
+            {% for card, route in cards %}
+                <a class="b2b-home-card" href="{{ path(route, {_locale: app.request.locale}) }}" data-home-backstage="{{ card }}" data-demo-link="{{ card }}">
+                    <strong class="b2b-home-card__title">{{ ('backstage.' ~ card ~ '.title')|trans({'%count%': demo_plugin_count()}, 'home') }}</strong>
+                    <span class="b2b-home-card__text">{{ ('backstage.' ~ card ~ '.text')|trans({}, 'home') }}</span>
+                    <span class="b2b-home-card__cta">{{ ('backstage.' ~ card ~ '.cta')|trans({}, 'home') }} {% include 'shop/theme_b2b/_home_icon.html.twig' with { name: 'arrow' } only %}</span>
+                </a>
+            {% endfor %}
+        </div>
+        <div id="auteur" class="b2b-home-author" data-home-author>
+            <div class="b2b-home-author__id">
+                <span class="b2b-home-serif b2b-home-author__initials" aria-hidden="true">{{ 'backstage.initials'|trans({}, 'home') }}</span>
+                <div class="b2b-home-author__body">
+                    <h3>{{ 'app.home_b2b.author.title'|trans }}</h3>
+                    <p>{{ 'app.home_b2b.author.text'|trans({'%author%': author})|raw }}</p>
+                    <p>{{ 'app.home_b2b.author.why'|trans }}</p>
+                    <h3>{{ 'app.home_b2b.author.method_title'|trans }}</h3>
+                    <p data-author-method>{{ 'app.home_b2b.author.method'|trans }}</p>
+                </div>
+            </div>
+            <div class="b2b-home-author__actions">
+                {% include 'shared/_contact_cta.html.twig' with { variant: 'dark', placement: 'home', locale: app.request.locale } only %}
+                <a class="b2b-btn-ghost" href="{{ app_demo_repository_url() }}" target="_blank" rel="noopener noreferrer" data-author-repository>{{ 'app.home_b2b.author.repository'|trans }}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>
+                <a class="b2b-btn-ghost" href="{{ path('app_demo_proof', {_locale: app.request.locale}) }}" data-author-proof>{{ 'app.home_b2b.author.proof'|trans }}</a>
+            </div>
+        </div>
+    </div>
+</section>

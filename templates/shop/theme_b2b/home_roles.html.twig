@@ -1,14 +1,27 @@
-{# US-089: anonymous visitor of the B2B channel: what each role will find (no product, no price: Channel Access) and where to pick a role. #}
-<section class="container mb-5" data-b2b-home="roles" aria-labelledby="b2b-home-roles">
-    <h2 class="h3 mb-2 b2b-section-title" id="b2b-home-roles">{{ 'app.home_b2b.buyer.roles.title'|trans }}</h2>
-    <p class="mb-4">{{ 'app.home_b2b.buyer.roles.intro'|trans }}</p>
-    <ul class="row row-cols-1 row-cols-md-3 g-4 list-unstyled">
-        {% for block in ['usual', 'restock', 'negotiated'] %}
-            <li class="col"><div class="card h-100 b2b-tile b2b-tile--info"><div class="card-body">
-                <h3 class="b2b-tile__title">{{ ('app.home_b2b.buyer.roles.' ~ block)|trans }}</h3>
-                <p class="card-text mb-0">{{ ('app.home_b2b.buyer.' ~ block ~ '.intro')|trans }}</p>
-            </div></div></li>
-        {% endfor %}
-    </ul>
-    <a class="btn btn-primary mt-4" href="{{ path('app_demo_accounts') }}" data-b2b-home-roles-cta>{{ 'app.home_b2b.buyer.roles.cta'|trans }}</a>
+{# US-089 / US-186: anonymous visitor: what each role will find (no product, no price: Channel Access) and where to pick a role. #}
+{% set roles = { buyer: 'acheteur', approver: 'approbatrice', admin: 'administrateur' } %}
+<section id="comptes" class="b2b-home-section b2b-home-section--sand" data-b2b-home="roles" data-home-section="roles" aria-labelledby="home-roles-title">
+    <div class="b2b-home-wrap">
+        <div class="b2b-home-section__head">
+            <p class="b2b-home-eyebrow">{{ 'roles.eyebrow'|trans({}, 'home') }}</p>
+            <h2 id="home-roles-title" class="b2b-home-h2">{{ 'roles.title'|trans({}, 'home') }}</h2>
+            <p class="b2b-home-lead">{{ 'roles.intro'|trans({}, 'home') }}</p>
+        </div>
+        <ul class="b2b-home-roles">
+            {% for role, slot in roles %}
+                <li class="b2b-home-role" data-home-role="{{ role }}">
+                    {% include 'shop/theme_b2b/_home_photo.html.twig' with {
+                        slot: slot,
+                        class: 'b2b-home-role__photo',
+                        sizes: '(min-width: 700px) 30vw, calc(100vw - 5.5rem)',
+                    } only %}
+                    <div>
+                        <h3 class="b2b-home-serif b2b-home-role__title">{{ ('roles.' ~ role ~ '.title')|trans({}, 'home') }}</h3>
+                        <p class="b2b-home-role__text">{{ ('roles.' ~ role ~ '.text')|trans({}, 'home') }}</p>
+                    </div>
+                    <a class="btn btn-primary b2b-home-btn" href="{{ path('app_demo_accounts') }}" data-demo-link="accounts" data-b2b-home-roles-cta>{{ ('roles.' ~ role ~ '.cta')|trans({}, 'home') }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </section>

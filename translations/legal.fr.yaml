@@ -32,6 +32,11 @@ credits:
     licence: 'Licence CC0 (domaine public)'
     products: '{1} Illustre 1 produit|]1,Inf[ Illustre %count% produits'
     note: 'Quand aucune photo libre ne correspondait à un produit, un visuel neutre de sa catégorie est affiché à la place.'
+    home:
+        title: "Photos de la page d'accueil"
+        intro: "Les %count% photos de la page d'accueil viennent d'une banque d'images libres ; chacune est créditée ci-dessous avec sa page d'origine et sa licence."
+        origin: 'Photo sur %source%'
+        licence: '%licence% (utilisation libre, sans attribution obligatoire)'
     unknown_author: 'auteur non précisé'
     generated_title: 'Visuel neutre : %category%'
     category:

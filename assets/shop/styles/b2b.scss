@@ -2,6 +2,7 @@
 // Bootstrap 5 CSS variables and a few components; nothing of the official theme is rewritten.
 @use 'variables' as *;
 @use 'pricing';
+@use 'home';
 
 :root {
     --bs-primary: #{$b2b-navy};
@@ -134,13 +135,24 @@
     letter-spacing: -.01em;
     text-decoration: none;
 
-    svg {
+    // US-186: the mark is text (FP), not a drawing: it follows the font and needs no image.
+    &__mark {
+        display: inline-flex;
         flex: none;
+        align-items: center;
+        justify-content: center;
         width: 2rem;
         height: 2rem;
+        border-radius: .375rem;
+        background: $b2b-navy;
+        color: $b2b-white;
+        font-family: var(--b2b-font-serif);
+        font-size: .9rem;
+        letter-spacing: 0;
     }
 
     &__name {
+        font-family: var(--b2b-font-serif); // US-186: Fraunces, like the titles of the home
         font-size: 1.15rem;
         line-height: 1;
         white-space: nowrap;
@@ -164,22 +176,6 @@
 @media (max-width: 399.98px) {
     .b2b-logo__name {
         font-size: 1rem;
-    }
-}
-
-// Home hero: the title carries the brand, as strong as the section titles below it.
-.b2b-home-hero {
-    &__title {
-        color: $b2b-navy;
-        font-weight: 700;
-        letter-spacing: -.02em;
-        text-wrap: balance;
-    }
-
-    &__lead {
-        max-width: 48rem;
-        margin-inline: auto;
-        text-wrap: pretty;
     }
 }
 

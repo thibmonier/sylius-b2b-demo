@@ -35,6 +35,22 @@
                 </li>
             {% endfor %}
         </ul>
-        <p class="mt-4 mb-0">{{ 'credits.note'|trans({}, 'legal') }}</p>
+        <p class="mt-4">{{ 'credits.note'|trans({}, 'legal') }}</p>
+
+        {# US-186: the photos of the B2B home (credits.json next to the images); each one names its author, its source page and its licence. #}
+        <h2 class="h4 mt-5" id="credits-home">{{ 'credits.home.title'|trans({}, 'legal') }}</h2>
+        <p>{{ 'credits.home.intro'|trans({'%count%': demo_home_photos()|length}, 'legal') }}</p>
+        <ul class="list-unstyled d-grid gap-3 mt-3 mb-0" aria-labelledby="credits-home">
+            {% for photo in demo_home_photos() %}
+                <li class="border rounded p-3 d-flex flex-wrap gap-3 align-items-start" data-home-photo-credit="{{ photo.slot }}">
+                    {% include 'shop/theme_b2b/_home_photo.html.twig' with { slot: photo.slot, class: 'rounded', sizes: '12rem' } only %}
+                    <p class="mb-0">
+                        {{ 'credits.by'|trans({}, 'legal') }} <span data-credit-creator>{{ photo.creator }}</span> ·
+                        <a href="{{ photo.originUrl }}" rel="noopener noreferrer" target="_blank" data-credit-origin>{{ 'credits.home.origin'|trans({'%source%': photo.source}, 'legal') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a><br>
+                        <a href="{{ photo.licenseUrl }}" rel="noopener noreferrer" target="_blank" data-credit-licence>{{ 'credits.home.licence'|trans({'%licence%': photo.license}, 'legal') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

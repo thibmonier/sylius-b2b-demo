@@ -21,3 +21,26 @@
 :root {
     --bs-font-sans-serif: 'InterLatin', 'InterFallback', 'Segoe UI', Arial, sans-serif;
 }
+
+// US-186: Fraunces (OFL, Latin subset, weight 600, 18 KB) for the titles of the home. Served by the application like
+// Inter (CSP `font-src 'self'`, no font service); the licence text sits next to the file (assets/shop/fonts/OFL-Fraunces.txt).
+@font-face {
+    font-family: 'FrauncesLatin';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../fonts/Fraunces-latin-600.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'FrauncesFallback';
+    src: local('Georgia');
+    size-adjust: 102%;
+    ascent-override: 90%;
+    descent-override: 23%;
+    line-gap-override: 0%;
+}
+
+:root {
+    --b2b-font-serif: 'FrauncesLatin', 'FrauncesFallback', Georgia, 'Times New Roman', serif;
+}

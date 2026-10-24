@@ -1,0 +1,107 @@
+# US-186: texts of the editorial B2B home (domain `home`). The hero author line, the author block and the three
+# commitments of the shop reuse their existing keys (messages domain: app.home_b2b.*, app.theme_b2b.footer.*).
+nav:
+    label: 'Services de la boutique'
+    menu: 'Menu'
+    quick_order: 'Commande rapide'
+    quote: 'Demander un devis'
+    try_demo: 'Essayer la démo'
+notice:
+    title: 'E-boutique de démonstration B2B'
+    text: 'Données fictives, aucune commande honorée, aucun paiement réel.'
+    more: 'En savoir plus'
+hero:
+    title_start: "L'équipement de vos équipes,"
+    title_accent: 'commandé sans détour.'
+    lead: 'Vos prix négociés, vos références habituelles et la validation de vos achats au même endroit : de la paire de gants au rayonnage d''atelier.'
+    cta_catalogue: 'Parcourir le catalogue'
+    cta_accounts: 'Essayer avec un compte de démo'
+    price_title: 'Votre prix société'
+    price_text: 'appliqué dès la connexion'
+    approval_title: 'Commande validée'
+    approval_text: "par l'approbateur de votre société"
+commitments:
+    label: 'Nos engagements'
+    facturx: 'Factures Factur-X'
+aisles:
+    eyebrow: 'Nos rayons'
+    title: 'Tout ce qui fait tourner un atelier, un chantier ou un entrepôt.'
+    epi:
+        title: 'EPI'
+        text: 'Gants, casques, lunettes, vêtements haute visibilité'
+    quincaillerie:
+        title: 'Quincaillerie'
+        text: 'Visserie, fixations, serrurerie, outillage'
+    industriel:
+        title: 'Fournitures industrielles'
+        text: "Stockage, manutention, consommables d'atelier"
+services:
+    eyebrow: 'Pensé pour les achats pro'
+    title: 'Moins de clics, plus de temps sur le terrain.'
+    try: 'Essayer'
+    quick_order:
+        title: 'Commande rapide'
+        text: 'Collez vos lignes référence;quantité ou importez un CSV : le panier se remplit en une fois.'
+    quote:
+        title: 'Demander un devis'
+        text: 'Un volume particulier ? Demandez un prix négocié, puis acceptez-le dans un checkout classique.'
+    approval:
+        title: 'Validation des achats'
+        text: "Au-dessus du plafond d'un acheteur, un approbateur de la société valide la commande."
+    punchout:
+        title: 'PunchOut'
+        text: "Ouvrez la boutique depuis votre système d'achat (cXML ou OCI) et renvoyez-lui le panier."
+roles:
+    eyebrow: 'Entrez dans la démo'
+    title: "Choisissez un rôle, la boutique s'adapte."
+    intro: "Les prix B2B ne s'affichent qu'une fois connecté. Chaque compte retrouve ses références, son réassort et ses promotions négociées. Connexion en un clic, sans mot de passe à retenir."
+    buyer:
+        title: 'Acheteur'
+        text: 'Ses références habituelles, le réassort de son atelier et ses prix négociés.'
+        cta: 'Entrer comme acheteur'
+    approver:
+        title: 'Approbateur'
+        text: 'Les commandes à valider, les plafonds par acheteur et l''encours de la société.'
+        cta: 'Entrer comme approbateur'
+    admin:
+        title: 'Administrateur'
+        text: 'Le back-office Sylius : sociétés, prix négociés, journal d''audit.'
+        cta: 'Entrer comme administrateur'
+backstage:
+    initials: 'TM'
+    eyebrow: 'Dans les coulisses'
+    title: 'Une vraie boutique Sylius, montée avec %count% plugins open source.'
+    lead: 'Chaque fonction B2B que vous venez de voir est un plugin publié, testé dans cette démo. Voici comment l''ensemble est construit, prouvé et réutilisable.'
+    plugins:
+        title: 'Les %count% plugins'
+        text: 'Ce que fait chacun et où le voir dans la démo.'
+        cta: 'Voir les plugins'
+    architecture:
+        title: 'Architecture'
+        text: "Couches, flux d'une commande B2B, exploitation."
+        cta: "Lire l'architecture"
+    proof:
+        title: 'Preuve technique'
+        text: 'Tests, couverture, analyse statique, publiés par la CI.'
+        cta: 'Voir la preuve'
+    integrate:
+        title: 'Intégrer'
+        text: "Guide d'intégration, packs, compatibilité, surcharge."
+        cta: 'Lire le guide'
+photo:
+    hero:
+        alt: "Une technicienne en tablier en jean trie des vis dans un coffret de rangement, dans un atelier baigné de lumière chaude."
+    epi:
+        alt: 'Casque de chantier jaune et gants de protection rouges posés sur une cloison de plâtre.'
+    quincaillerie:
+        alt: 'Rondelles, vis et cosses en bacs de rangement noirs, bien triées.'
+    industriel:
+        alt: "Allée d'entrepôt entre de hauts rayonnages orange, palettes et bidons en piles."
+    parcours:
+        alt: 'Une employée en blazer ouvre une chemise cartonnée devant un tableur et une pile de dossiers.'
+    acheteur:
+        alt: 'Un technicien consulte une tablette dans un atelier lumineux, établi et tiroirs vert sarcelle derrière lui.'
+    approbatrice:
+        alt: 'Une responsable souriante consulte une tablette en réunion, collègues flous derrière elle.'
+    administrateur:
+        alt: 'Une femme concentrée devant son portable, de trois quarts, près d''une grande baie vitrée lumineuse.'

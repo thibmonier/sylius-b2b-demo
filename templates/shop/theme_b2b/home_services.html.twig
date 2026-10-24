@@ -1,0 +1,33 @@
+{# US-186: the four B2B journeys presented as services of the shop. The icons of the old tiles are gone: the numbers carry the order. #}
+{% set services = {
+    quick_order: 'tmonier_quick_order_shop_index',
+    quote: 'tmonier_quote_request_shop_new',
+    approval: 'tmonier_purchase_approval_shop_approvals',
+    punchout: 'tmonier_punchout_inspect',
+} %}
+<section id="parcours" class="b2b-home-section" data-home-section="services" aria-labelledby="home-services-title">
+    <div class="b2b-home-wrap b2b-home-services">
+        {% include 'shop/theme_b2b/_home_photo.html.twig' with {
+            slot: 'parcours',
+            class: 'b2b-home-services__photo',
+            sizes: '(min-width: 1100px) 36rem, (min-width: 992px) 45vw, calc(100vw - 2.5rem)',
+        } only %}
+        <div>
+            <div class="b2b-home-section__head">
+                <p class="b2b-home-eyebrow">{{ 'services.eyebrow'|trans({}, 'home') }}</p>
+                <h2 id="home-services-title" class="b2b-home-h2">{{ 'services.title'|trans({}, 'home') }}</h2>
+            </div>
+            <ol class="b2b-home-services__list">
+                {% for service, route in services %}
+                    <li>
+                        <a class="b2b-home-service" href="{{ path(route, {_locale: app.request.locale}) }}" data-b2b-journey="{{ service }}">
+                            <span class="b2b-home-serif b2b-home-service__number" aria-hidden="true">{{ '%02d'|format(loop.index) }}</span>
+                            <span class="b2b-home-service__body"><strong>{{ ('services.' ~ service ~ '.title')|trans({}, 'home') }}</strong><span>{{ ('services.' ~ service ~ '.text')|trans({}, 'home') }}</span></span>
+                            <span class="b2b-home-service__go">{{ 'services.try'|trans({}, 'home') }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</section>

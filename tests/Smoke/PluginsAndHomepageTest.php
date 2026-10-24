@@ -80,7 +80,7 @@ final class PluginsAndHomepageTest extends WebTestCase
         }
     }
 
-    public function testTheB2bHomepageShowsQuickAccessAndJourneys(): void
+    public function testTheB2bHomepageShowsTheHeroTheServicesAndTheBackstageLinks(): void
     {
         $client = self::createClient();
         $client->request('GET', '/demo/channel/B2B');
@@ -88,11 +88,10 @@ final class PluginsAndHomepageTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $crawler->filter('[data-b2b-home="hero"]'));
-        self::assertCount(1, $crawler->filter('[data-b2b-home="quick-access"] a[href="/demo/accounts"]'));
-        self::assertCount(1, $crawler->filter('[data-b2b-home="quick-access"] a[href="/fr_FR/plugins"]'));
-        self::assertGreaterThanOrEqual(3, $crawler->filter('[data-b2b-journey]')->count());
+        self::assertCount(1, $crawler->filter('[data-home-section="hero"] a[data-home-role-choice][href="/demo/accounts"]'));
+        self::assertCount(1, $crawler->filter('[data-home-section="backstage"] a[href="/fr_FR/plugins"]'));
+        self::assertSame(4, $crawler->filter('[data-home-section="services"] [data-b2b-journey]')->count());
         // Real icons, not escaped markup; the logo has its own column so the account and cart stay on the right.
-        self::assertCount(7, $crawler->filter('[data-b2b-home] .b2b-tile__icon svg'));
         self::assertStringNotContainsString('&lt;svg', (string) $client->getResponse()->getContent());
         self::assertCount(1, $crawler->filter('.row > .col > a.b2b-logo'));
     }
@@ -108,7 +107,7 @@ final class PluginsAndHomepageTest extends WebTestCase
         self::assertResponseIsSuccessful();
         self::assertCount(0, $crawler->filter('[aria-labelledby="new-collection"]'));
         self::assertCount(1, $crawler->filter('[data-b2b-home="hero"]'));
-        self::assertCount(1, $crawler->filter('[data-b2b-home="quick-access"]'));
+        self::assertCount(1, $crawler->filter('[data-home-section="services"]'));
     }
 
     /** @return iterable<string, array{string}> */
