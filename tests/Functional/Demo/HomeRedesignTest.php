@@ -17,6 +17,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 final class HomeRedesignTest extends WebTestCase
 {
+    use EnvironmentSwitch;
+
     private const ANONYMOUS_ORDER = ['hero', 'commitments', 'aisles', 'services', 'roles', 'backstage'];
 
     private const SIGNED_IN_ORDER = ['hero', 'commitments', 'usual', 'restock', 'negotiated', 'aisles', 'services', 'backstage'];
@@ -341,8 +343,7 @@ final class HomeRedesignTest extends WebTestCase
 
     private function setProfile(): void
     {
-        $_SERVER['DEMO_PROFILE_URL'] = $_ENV['DEMO_PROFILE_URL'] = 'https://www.linkedin.com/in/thibautmonier/';
-        putenv('DEMO_PROFILE_URL=https://www.linkedin.com/in/thibautmonier/');
+        $this->setEnvironment(['DEMO_PROFILE_URL' => 'https://www.linkedin.com/in/thibautmonier/']);
     }
 
     private function anonymousHome(string $locale): Crawler

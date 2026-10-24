@@ -10,7 +10,8 @@
     {% set target_height = 'min-height: 2.75rem' %}
     {% set panel = 'position-absolute start-0 end-0 mt-1 p-2 bg-white text-dark border rounded shadow text-break' %}
     {% set panel_style = 'z-index: 1050; max-width: 24rem; grid-template-columns: minmax(0, 1fr)' %}
-    {% set locale = app.request.locale %}
+    {# Routes are localised (xx_YY): any other request locale (a bare "en") falls back to the matching shop locale. #}
+    {% set locale = app.request.locale matches '/^[a-z]{2}_[A-Z]{2}$/' ? app.request.locale : (app.request.locale starts with 'en' ? 'en_US' : 'fr_FR') %}
     {% set quick = [
         ['accounts', path('app_demo_accounts'), 'banner.accounts'],
         ['plugins', path('app_demo_plugins', {_locale: locale}), 'banner.links.plugins_short'],

@@ -3,6 +3,7 @@
     Inline colours (sand #efe4d2, text #4a2a0e: 10.3:1) and Bootstrap utilities only: the B2C channel does not load the B2B stylesheet.
 #}
 {% if demo_mode() %}
+    {% set locale = app.request.locale matches '/^[a-z]{2}_[A-Z]{2}$/' ? app.request.locale : (app.request.locale starts with 'en' ? 'en_US' : 'fr_FR') %}
     <div role="note" style="background: #efe4d2; border-bottom: 1px solid #e2d4bc; color: #4a2a0e" data-demo-notice>
         <div class="container d-flex flex-wrap align-items-center justify-content-center column-gap-3 row-gap-0 py-1 text-center">
             <span class="d-inline-flex align-items-center gap-2 fw-semibold">
@@ -10,7 +11,7 @@
                 {{ 'notice.title'|trans({}, 'home') }}
             </span>
             <span>{{ 'notice.text'|trans({}, 'home') }}</span>
-            <a class="d-inline-flex align-items-center fw-semibold" style="color: #4a2a0e; min-height: 2.75rem" href="{{ path('app_demo_about', {_locale: app.request.locale}) }}" data-demo-link="about">{{ 'notice.more'|trans({}, 'home') }}</a>
+            <a class="d-inline-flex align-items-center fw-semibold" style="color: #4a2a0e; min-height: 2.75rem" href="{{ path('app_demo_about', {_locale: locale}) }}" data-demo-link="about">{{ 'notice.more'|trans({}, 'home') }}</a>
         </div>
     </div>
 {% endif %}
