@@ -18,11 +18,9 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-193-08 | US-193 | REV | Revue (ton neutre, aucun ERP nommé, e-mails masqués) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php … | 0,25 h | Claude |
 | T-188-10 | US-188 | TEST | Vérification après déploiement : pages publiques en production (pa11y, 360 px, documentation) ; page du back-office en local et sur l'image … | 0,25 h | Claude |
 | T-188-11 | US-188 | REV | Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé) et table « scénario → test ou preuve » remplie ; `php … | 0,5 h | Claude |
-| T-TECH-27-02 | Transverse | TEST | **Action 2** : audit des tests de la démo, tout compteur écrit en dur (nombre de plugins, de fichiers de tests, de lignes de catalogue) … | 0,5 h | Claude |
 | T-TECH-27-03 | Transverse | OPS | **Action 3** : `bin/check-disk` refuse une suite complète sous 6 Go (`--full`, appelé par `bin/run-tests` sans chemin ni filtre) et affiche … | 0,75 h | Orchestrateur |
 | T-TECH-27-04 | Transverse | BE | **Action 4** : investiguer le 503 « the demo is not configured safely » en mode prod local (`DemoGateListener`, … | 1 h | Orchestrateur |
 | T-TECH-27-05 | Transverse | DOC | **Action 4** : jeu minimal et procédure de rendu du noyau en mode prod documentés dans `docs/tests-locaux.md` (ou script de captures qui … | 0,5 h | Orchestrateur |
-| T-TECH-27-06 | Transverse | TEST | **Action 5** : garde de largeur étendue aux tables larges sans `code` (tables à quatre colonnes ou plus des pages de `templates/demo/` : … | 0,75 h | Claude |
 | T-TECH-27-07 | Transverse | TEST | **Action 5** : rattrapage du sprint 26 : LCP mobile « après » de la home remesuré en production (mêmes protocole et 5 passes que T-186-02), … | 0,75 h | Claude |
 | T-TECH-27-08 | Transverse | OPS | **Action 3 (processus)** : avant chaque lot `df -h .`, `bin/check-disk`, mémoire libre et swap ; après chaque lot aucun run actif, … | 0,5 h | Orchestrateur |
 | T-TECH-27-09 | Transverse | OPS | ECS (`src tests`), PHPStan max sur **tout le dépôt** et Rector rejoués sur l'arbre exact avant chaque push ; CI verte avant chaque merge (« … | 0,75 h | Orchestrateur |
@@ -82,3 +80,5 @@ _Aucune tâche._
 | T-188-07 | US-188 | BE | Remise à zéro nocturne : répertoire d'échange et journal du simulateur vidés, export puis simulation relancés après le chargement des … | 0,5 h | Claude |
 | T-188-08 | US-188 | DOC | Documentation `docs/erp-demo.md` (schéma mermaid, fichiers, ce qui est simulé, ce qui reste à US-187), lien depuis `/echange-fichier` et … | 0,75 h | Claude |
 | T-188-09 | US-188 | TEST | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et … | 0,5 h | Claude |
+| T-TECH-27-02 | Transverse | TEST | **Action 2** : audit des tests de la démo, tout compteur écrit en dur (nombre de plugins, de fichiers de tests, de lignes de catalogue) … | 0,5 h | Claude |
+| T-TECH-27-06 | Transverse | TEST | **Action 5** : garde de largeur étendue aux tables larges sans `code` (tables à quatre colonnes ou plus des pages de `templates/demo/` : … | 0,75 h | Claude |

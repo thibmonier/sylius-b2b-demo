@@ -30,6 +30,14 @@ final class DemoCatalogs
         return new DemoPluginCatalog(Typed::listOfMaps($entries, 'demo.plugin_catalog'), self::accounts());
     }
 
+    /** The number of plugins of the catalogue, counted in config/demo/plugins.yaml: the expected value of every test that counts them. */
+    public static function pluginCount(): int
+    {
+        $entries = Typed::at(Yaml::parseFile(self::root() . '/config/demo/plugins.yaml'), 'parameters', 'demo.plugin_catalog');
+
+        return \is_array($entries) ? \count($entries) : 0;
+    }
+
     private static function root(): string
     {
         return \dirname(__DIR__, 2);

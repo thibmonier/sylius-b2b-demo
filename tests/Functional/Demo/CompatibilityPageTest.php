@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Tests\Support\DataSets;
+use App\Tests\Support\DemoCatalogs;
 use App\Tests\Support\Path;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -52,7 +53,7 @@ final class CompatibilityPageTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertCount(1, $page->filter('h1'));
-        self::assertCount(27, $page->filter('table[data-compat-table] tbody tr[data-plugin]'));
+        self::assertCount(DemoCatalogs::pluginCount(), $page->filter('table[data-compat-table] tbody tr[data-plugin]'));
         $headers = $page->filter('table[data-compat-table] thead th')->each(static fn (Crawler $th): string => trim($th->text()));
         self::assertContains($ciColumn, $headers);
         self::assertContains($demoColumn, $headers);
@@ -152,7 +153,7 @@ final class CompatibilityPageTest extends WebTestCase
             $page = self::createClient()->request('GET', '/' . $locale . '/compatibilite');
 
             self::assertResponseIsSuccessful();
-            self::assertCount(27, $page->filter('tr[data-plugin]'));
+            self::assertCount(DemoCatalogs::pluginCount(), $page->filter('tr[data-plugin]'));
             self::assertStringContainsString($unavailable, $page->filter('tr[data-plugin="' . self::TRADE . '"] [data-compat-cell="ci"]')->text());
             self::assertCount(0, $page->filter('table[data-compat-table] a[href^="https://"]'));
             self::assertCount(0, $page->filter('svg[data-compat-graph]'));

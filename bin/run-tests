@@ -16,7 +16,8 @@
 # --wait reads the lock (never pgrep): it returns 0 at once when no live run holds it, and gives up with exit 5 and a
 # report after RUN_TESTS_WAIT_TIMEOUT seconds (default 1800 = 30 min), polling every RUN_TESTS_WAIT_INTERVAL seconds (5).
 #
-# Stops without creating anything when less than MIN_FREE_GB (5) GB are free (never lowered); bin/check-disk shows the
+# Stops without creating anything when less than MIN_FREE_GB (5) GB are free (never lowered), and below FULL_SUITE_MIN_GB (6) GB
+# for the full suite, which is a run with no path and no filter (the threshold is simulated with FULL_SUITE_MIN_GB=8); bin/check-disk shows the
 # free space and alerts below 15 GB. Prepares the database through bin/prepare-test-db, so it never touches the
 # development database (sylius_b2b_demo). See docs/tests-locaux.md.
 set -eu
@@ -42,9 +43,24 @@ if [ "${1:-}" = "--wait" ]; then
 fi
 
 MIN_FREE_GB="${MIN_FREE_GB:-5}"
+FULL_MIN_GB="${FULL_SUITE_MIN_GB:-6}"
 FREE_KB=$(df -Pk . | awk 'NR==2 {print $4}')
 if [ "$FREE_KB" -lt $((MIN_FREE_GB * 1024 * 1024)) ]; then
     echo "Only $((FREE_KB / 1024 / 1024)) GB free, at least ${MIN_FREE_GB} GB required: clean up before running the suite." >&2
+    exit 1
+fi
+
+# A run with no path and no filter is the full suite (T-TECH-27-03): it needs more room than a targeted run.
+FULL=1
+for ARGUMENT in "$@"; do
+    case "$ARGUMENT" in
+        --filter*|--testsuite*|--group*|--covers*|--uses*) FULL=0 ;;
+        -*) ;;
+        *) FULL=0 ;;
+    esac
+done
+if [ "$FULL" = 1 ] && [ "$FREE_KB" -lt $((FULL_MIN_GB * 1024 * 1024)) ]; then
+    echo "Only $((FREE_KB / 1024 / 1024)) GB free: the full suite needs ${FULL_MIN_GB} GB (a run with a path or a filter needs ${MIN_FREE_GB}). Clean up, or target the tests." >&2
     exit 1
 fi
 
@@ -54,7 +70,7 @@ case "$DB_NAME" in
     sylius_b2b_demo) echo "Refusing to use the development database \"sylius_b2b_demo\"." >&2; exit 1 ;;
 esac
 
-[ ! -x bin/check-disk ] || bin/check-disk || true
+[ ! -x bin/check-disk ] || bin/check-disk || true  # informative: the thresholds are enforced above
 
 CACHE_DIR=""
 LOCK_HELD=0

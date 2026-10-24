@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Proof\Compatibility;
 
 use App\Demo\Proof\Compatibility\CompatibilityReader;
 use App\Demo\Proof\Refresh\PluginCatalogFile;
+use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,7 +26,7 @@ final class CompatibilityDataFileTest extends TestCase
 
         self::assertNotNull($report->generatedAt());
         self::assertNotNull($report->demo(), 'the stack of the demo is published');
-        self::assertCount(27, $slugs);
+        self::assertCount(DemoCatalogs::pluginCount(), $slugs);
         foreach ($slugs as $slug) {
             $plugin = $report->plugin($slug);
             self::assertTrue($plugin->hasDependencies(), $slug . ' dependencies would be dropped');

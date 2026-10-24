@@ -1,0 +1,26 @@
+#!/bin/sh
+# Local server of the demo, in the environment of the current shell (T-TECH-27-04 / T-TECH-27-05).
+#
+#   bin/local-server [PORT]      # 127.0.0.1 only, default port 8095
+#
+# Why not a plain `php -S`: php.ini sets variables_order = GPCS, so the built-in server does not put the environment of the
+# shell into $_SERVER. Dotenv then falls back on .env.local (APP_ENV=dev, a short APP_SECRET) and DemoGateListener answers
+# 503 "the demo is not configured safely". `-d variables_order=EGPCS` gives the environment back; bin/local-router.php gives
+# the front controller what a web server would. The set of variables to export first: docs/tests-locaux.md, "Serveur local
+# en mode prod". The preflight below lists what is missing before the server starts.
+set -eu
+cd "$(dirname "$0")/.."
+
+PORT="${1:-8095}"
+case "$PORT" in
+    ''|*[!0-9]*) echo "usage: bin/local-server [PORT]" >&2; exit 2 ;;
+esac
+
+if [ "${APP_ENV:-}" != "prod" ]; then
+    echo "note: APP_ENV is '${APP_ENV:-unset}', not prod: the page you will see is not the one of the production." >&2
+fi
+
+php -d memory_limit=-1 bin/console app:demo:preflight
+
+echo "Demo on http://127.0.0.1:${PORT} (Ctrl-C to stop)"
+exec php -d memory_limit=-1 -d variables_order=EGPCS -S "127.0.0.1:${PORT}" -t public bin/local-router.php

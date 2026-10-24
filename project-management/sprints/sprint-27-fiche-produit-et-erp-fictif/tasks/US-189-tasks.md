@@ -57,8 +57,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-189-09 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, `alt` des photos ; texte relu contre la maquette validée | 0,5 h | T-189-08 | Claude | ✅ |
 | T-189-10 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 360 px ; commande exacte et dernière ligne citées | 0,75 h | T-189-08, T-189-09 | Claude | ✅ |
 | T-189-11 | [DOC] | Captures `docs/images/product-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-189-10 | Claude | ✅ |
-| T-189-12 | [TEST] | Vérification en production après le déploiement (lecture seule, trois fiches types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-189-02 ; **comparaison avant/après consignée le jour du déploiement** | 0,75 h | merge de la PR | Claude | 📅 |
-| T-189-13 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, B2C inchangé) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-189-12 | Claude | 📅 |
+| T-189-12 | [TEST] | Vérification en production après le déploiement (lecture seule, trois fiches types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-189-02 ; **comparaison avant/après consignée le jour du déploiement** | 0,75 h | merge de la PR | Claude | ✅ |
+| T-189-13 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, B2C inchangé) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-189-12 | Claude | ✅ |
 
 **Total estimé : 11,5 h** (13 tâches ; 10,75 h pour Claude et l'orchestrateur, 0,75 h d'actions de Thibaut).
 
@@ -68,14 +68,14 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Fiche lisible et cohérente avec la home (nominal) | |
-| Visiteur anonyme (alternatif) | |
-| Canal B2C (alternatif) | |
-| Prix négocié, paliers et rupture (alternatif) | |
-| Polices auto-hébergées et CSP (alternatif) | |
-| Débordement sur téléphone (erreur) | |
-| Régression d'accessibilité ou de performance (erreur) | |
-| Photo hors crédits ou trop lourde (erreur) | |
+| Fiche lisible et cohérente avec la home (nominal) | `ProductPageRedesignTest::testASignedInBuyerSeesTheEditorialLayoutInOrder` (3 fiches types, FR et EN), `::testTheBodySectionsAreThereOnlyWhenTheyHaveContent`, `::testTheNormPillComesFromTheAttributeOnly` ; captures `docs/images/product-*` |
+| Visiteur anonyme (alternatif) | `ProductPageRedesignTest::testAVisitorSeesNoPriceAndIsAskedToSignIn` (3 fiches, FR et EN), `::testTheQuoteRequestIsCompactForABuyerAndTitledForAVisitor` ; `ChannelAccessSmokeTest::testTheProductPageInvitesAnAnonymousVisitorToSignIn` |
+| Canal B2C (alternatif) | `ProductPageRedesignTest::testTheConsumerChannelKeepsTheStockProductPage` (aucun `data-pdp`, accordéon du cœur présent) |
+| Prix négocié, paliers et rupture (alternatif) | `ProductPageRedesignTest::testTheTiersAreBeforeTheQuantityAndTheNegotiatedPriceIsSaid`, `::testAPageWithoutTiersHasNoEmptyTierBlock`, `::testAPageWithoutTiersHasNoTierBadge` ; `PriceBreaksAndHomeSmokeTest` ; la rupture : la disponibilité n'est dite que si le stock est suivi (`pdp/stock.html.twig`, aucun produit des fixtures n'est suivi : écart consigné) |
+| Polices auto-hébergées et CSP (alternatif) | `HomeFontsTest` (polices et CSP `font-src 'self'`, partagées avec la home) ; la fiche n'ajoute ni police ni script en ligne (`ProductPageStylesTest`) |
+| Débordement sur téléphone (erreur) | `ProductPageStylesTest::testGridsMayShrinkAndNothingIsWiderThanAPhone`, `::testALongNameWrapsInsteadOfWideningTheColumn` ; mesure navigateur 360, 768 et 1280 px sur 36 rendus et, en production le 2026-10-24, `scrollWidth` 360/360 et 1280/1280 sur la home et les trois fiches |
+| Régression d'accessibilité ou de performance (erreur) | pa11y WCAG2AAA « No issues found! » en production (2026-10-24) sur les trois fiches FR et EN et sur la home FR et EN ; LCP mobile avant/après ci-dessous, sous 2,5 s |
+| Photo hors crédits ou trop lourde (erreur) | sans objet : la fiche n'ajoute aucune photo (celles du catalogue sont créditées par `ImageCreditsPageTest` et seront refaites au sprint 28) |
 
 ## Inventaire de cadrage (T-189-01, 2026-10-24 ; BD locale, rien modifié)
 
@@ -83,6 +83,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 - **Marques réelles** : 77 des 210 noms (EPI-CASK 19, EPI-CHAU 17, EPI-GANT 24, EPI-VEST 14, OUTI-017/018, PAPE-013) ; liste dans le rapport à l'orchestrateur ; **aucune fixture modifiée sans GO de Thibaut**.
 - **Photos** : 64 fichiers pour 210 SKU, 37 partagés par plusieurs SKU (17 au plus), 73 visuels neutres générés.
 - **Trois fiches types** : OUTI-001 (court, paliers et prix négocié), EPI-VEST-001 (nom de 61 caractères, GPSR, paliers), FIXA-002 (sans palier, photo partagée). Visiteur et connecté, FR et EN, 360 et 1280 px.
+
+**T-189-13 : écart.** `php bin/proof-refresh` puis `php bin/proof-check` : `proof-check` signale +12 fichiers de tests (250 publiés, 262 réels) ; le rafraîchissement demande le réseau (`gh`) et reste à l'orchestrateur, avant le merge de la PR qui suit.
 
 ## Preuves locales (T-189-10, 2026-10-24)
 
@@ -93,13 +95,13 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 ## Mesures de production (avant : T-189-02 ; après : jour du déploiement)
 
-Protocole : Chromium mobile 360 × 740, ratio 2, processeur x4, Slow 4G, cache désactivé, 5 passes, médiane ; lecture seule, visiteur anonyme (aucune connexion en production), 2026-10-24. CLS 0 sur les trois fiches.
+Protocole : Chromium mobile 360 × 740, ratio 2, processeur x4, Slow 4G, cache désactivé, 5 passes, médiane ; lecture seule, visiteur anonyme (aucune connexion en production), 2026-10-24. CLS 0 sur les trois fiches, avant et après. **Avant / après** (LCP médian) : OUTI-001 1388 → 1444 ms (+4 %), EPI-VEST-001 1388 → 1408 ms (+1 %), FIXA-002 1776 → 1416 ms (-20 %) ; poids 375 à 378 Ko → 377 à 380 Ko, 15 → 13 requêtes. Seuil (sous 2,5 s) respecté sur les trois fiches. Mesure « après » faite avec le même protocole (script `lcp.cjs` recréé d'après la description ci-dessus ; ses valeurs ne sont pas comparables à celles d'un autre script).
 
 | Fiche | Moment | LCP mobile (médiane de 5) | Poids / requêtes | 360 px | 1280 px | pa11y FR / EN |
 |-------|--------|---------------------------|------------------|--------|---------|---------------|
 | Produit à paliers (OUTI-001, visiteur) | avant | 1388 ms (1388, 1400, 1388, 1384, 2316) | 378 Ko / 15 | 360 / 360 | non mesuré | « No issues found! » FR et EN |
-| Produit à paliers | après | | | | | |
+| Produit à paliers (OUTI-001, visiteur) | après (2026-10-24, après #99) | 1444 ms (1596, 1484, 1444, 1408, 1432) ; EN 1432 ms | 380 Ko / 13 | 360 / 360 | 1280 / 1280 | « No issues found! » FR et EN |
 | Produit sans palier (FIXA-002, visiteur) | avant | 1776 ms (1776, 1796, 1904, 1208, 1368) | 375 Ko / 15 | 360 / 360 | non mesuré | « No issues found! » FR et EN |
-| Produit sans palier | après | | | | | |
+| Produit sans palier (FIXA-002, visiteur) | après | 1416 ms (1540, 1436, 1408, 1416, 1380) | 377 Ko / 13 | 360 / 360 | 1280 / 1280 | « No issues found! » FR et EN |
 | Visiteur anonyme, nom long (EPI-VEST-001) | avant | 1388 ms (1592, 1380, 1396, 1348, 1388) | 376 Ko / 15 | 360 / 360 | non mesuré | « No issues found! » FR et EN |
-| Visiteur anonyme | après | | | | | |
+| Visiteur anonyme, nom long (EPI-VEST-001) | après | 1408 ms (1488, 1408, 1396, 1424, 1404) | 379 Ko / 13 | 360 / 360 | 1280 / 1280 | « No issues found! » FR et EN |

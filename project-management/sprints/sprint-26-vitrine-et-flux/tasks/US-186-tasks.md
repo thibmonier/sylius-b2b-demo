@@ -63,8 +63,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-186-11 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, légendes et `alt` des photos ; texte relu contre la maquette validée | 1 h | T-186-09 | Claude | ✅ |
 | T-186-12 | [TEST] | Suite ciblée par `bin/run-tests` (`WORKER_ID=w186 …`), `bin/measure-mobile` à 360 px en local, ECS (`src tests`), PHPStan max, Rector, lint Twig et YAML ; dernières lignes citées | 1 h | T-186-09, T-186-10, T-186-11 | Claude | ✅ |
 | T-186-13 | [DOC] | Captures `docs/images/home-*` refaites, `docs/theme-b2b.md` et README mis à jour (accueil, crédits des photos) | 0,5 h | T-186-12 | Claude | ✅ |
-| T-186-14 | [TEST] | Vérification en production après le déploiement automatique de `main` (lecture seule) : pa11y WCAG2AAA en FR et en EN, 360 px et 1280 px, LCP mobile « après » (même protocole que T-186-02), liens de présentation ; comparaison avant/après notée | 1,25 h | merge de la PR | Claude | 🔄 |
-| T-186-15 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, aucune comparaison avec une offre commerciale) et table « scénario → test ou preuve » remplie | 0,5 h | T-186-14 | Claude | 🔲 |
+| T-186-14 | [TEST] | Vérification en production après le déploiement automatique de `main` (lecture seule) : pa11y WCAG2AAA en FR et en EN, 360 px et 1280 px, LCP mobile « après » (même protocole que T-186-02), liens de présentation ; comparaison avant/après notée | 1,25 h | merge de la PR | Claude | ✅ |
+| T-186-15 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, aucune comparaison avec une offre commerciale) et table « scénario → test ou preuve » remplie | 0,5 h | T-186-14 | Claude | ✅ |
 
 **État à la clôture (2026-10-24) : T-186-14 et T-186-15 restent 🔲.** La PR #87 est fusionnée (maquette validée par Thibaut, T-186-05 ✅) ; les retours de Thibaut sur la home en production ont donné #89 (menu dans la rangée du logo, logo sur deux lignes). T-186-14 est faite pour pa11y et les largeurs : Contrôles en production du 2026-10-24 (lecture seule, sans connexion, par l'orchestrateur) : largeur à 360 et 1280 px sans défilement horizontal sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`, `/fr_FR/packs`, `/fr_FR/pa-fictive` ; pa11y WCAG2AAA « No issues found! » sur `/fr_FR/`, `/en_US/`, `/fr_FR/login`, `/fr_FR/echange-fichier`, `/en_US/echange-fichier`. Thibaut a validé en production l'en-tête, la connexion et le menu de compte. **Le LCP mobile « après » n'a pas été remesuré** après #89 et #91 ; la table « scénario → test ou preuve » ci-dessous et la revue (T-186-15) ne sont pas consignées.
 
@@ -85,17 +85,26 @@ Mesures de LCP mobile (avant, après), poids et requêtes de la home : à noter 
 
 Seuil après : sous 2,5 s (la mesure d'avant est sous le seuil).
 
+**Après (T-186-14 / T-TECH-27-07, production, lecture seule, 2026-10-24, après #87, #89 et #91, même protocole, script `lcp.cjs` recréé d'après la description ci-dessus).**
+
+| Page | LCP médian | LCP des 5 passes (ms) | Poids transféré | Requêtes | CLS | Largeur 360 / 1280 px | pa11y WCAG2AAA |
+|------|-----------:|-----------------------|----------------:|---------:|----:|-----------------------|----------------|
+| `/fr_FR/` | 1576 ms (+19 %) | 1956, 1572, 1580, 1572, 1576 | 436 Ko (+87 Ko) | 13 (+2) | 0 | 360 / 360 ; 1280 / 1280 | « No issues found! » |
+| `/en_US/` | 1576 ms (+19 %) | 1704, 1584, 1560, 1560, 1576 | 457 Ko (+108 Ko) | 14 (+3) | 0 | 360 / 360 | « No issues found! » |
+
+Lecture : le LCP monte de 1324 à 1576 ms (photo du hero, polices Fraunces et Inter) mais reste **sous le seuil de 2,5 s** ; le CLS reste à 0. Le poids augmente de 87 à 108 Ko (hero, Fraunces de 18 Ko).
+
 **Rendu local (T-186-12, 2026-10-24, pages rendues par le noyau puis servies en statique, Chromium).** Largeur à 360 px : `scrollWidth` 360 sur 360 en FR et en EN, aucun élément ne dépasse. Cibles : plus de contrôle de la home sous 44 px hors cœur (sélecteur de langue 51 x 31, lien « Connexion » 80 x 24, boutons du cœur de Sylius). pa11y WCAG2AAA : « No issues found! » sur la home FR, la home EN et la home de Claire connectée. Polices chargées : InterLatin, FrauncesLatin. Suite ciblée : 149 tests, 0 échec (dernière ligne : `OK, but there were issues! Tests: 149, Assertions: 910, Deprecations: 5`).
 
 **Cadrage (T-186-01).** Home relue contre le code : neuf blocs hookés (hero, promesse, accès rapides, parcours, auteur, produits ou rôles, plus le bandeau de contact). Tests touchés : `PluginsAndHomepageTest`, `PriceBreaksAndHomeSmokeTest`, `HomeAuthorTest`, `ContactCtaTest`, `DemoBannerTest`, `ThemeHooksTest`, `ClosedChannelDemoTest`, `ThemeLandmarksTest` (un `header`, un `main`, un `h1`), `ImageCreditsPageTest` (compte `[data-image-credit]`). Choix : sections = hookables (ordre par priorité) ; promesse en trois colonnes supprimée (la maquette ne la garde pas) ; bandeau de démonstration en hook `sylius_shop.base.header` (50) sur tous les écrans des deux canaux ; menu démo en `<details>` natif ; blocs produits connectés après les engagements.
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Une home éditoriale qui donne envie de défiler (nominal) | |
-| Acheteur connecté (alternatif) | |
-| Canal B2C inchangé (alternatif) | |
-| Téléphone à 360 px (alternatif) | |
-| Photo sans crédit (erreur) | |
-| Image hors budget (erreur) | |
-| Texte contraire à la charte (erreur) | |
-| Régression en production (erreur) | |
+| Une home éditoriale qui donne envie de défiler (nominal) | `HomeRedesignTest::testTheSectionsFollowTheValidatedMockupForAVisitor`, `::testTheHeroHasAPhotoATitleAndTheTwoButtons`, `::testEveryPresentationLinkAnswersOk` ; captures `docs/images/home-*` |
+| Acheteur connecté (alternatif) | `HomeRedesignTest::testASignedInBuyerSeesTheHeroWithoutTheVisitorBlocksAndKeepsHerThreeProductBlocks` ; `PriceBreaksAndHomeSmokeTest` |
+| Canal B2C inchangé (alternatif) | `HomeRedesignTest::testTheConsumerChannelKeepsItsStockHomeWithoutPhotoNorPresentationLink` |
+| Téléphone à 360 px (alternatif) | `HomeStylesTest` (grilles, cibles de 44 px) ; mesure navigateur, et en production `scrollWidth` 360/360 sur `/fr_FR/` et `/en_US/` |
+| Photo sans crédit (erreur) | `HomePhotosTest::testEveryPhotoOfTheHomeIsCreditedLightAndSized`, `::testAPhotoWithoutCreditIsReportedByItsFileName`, `HomePhotoCreditsPageTest` |
+| Image hors budget (erreur) | `HomePhotosTest::testAnImageThatIsTooHeavyOrNotModernOrMisSizedIsReportedByItsFileName`, `::testEveryPhotoHasATextAlternativeInBothLanguages` |
+| Texte contraire à la charte (erreur) | `HomeTextCharterTest::testEveryTextPassesTheCharter` (FR et EN), `HomeAuthorTest`, `PositioningWordingTest` |
+| Régression en production (erreur) | pa11y WCAG2AAA « No issues found! » en production sur `/fr_FR/` et `/en_US/` (2026-10-24) ; `scrollWidth` 360/360 et 1280/1280 ; LCP 1576 ms sous 2,5 s (tableau ci-dessus) |

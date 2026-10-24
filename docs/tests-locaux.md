@@ -45,7 +45,8 @@ bin/run-tests tests/Functional --filter Quote   # les arguments vont à PHPUnit
 - chaque exécution a **son propre cache**, créé vide dans un dossier temporaire (`mktemp`), et **supprimé à la fin** (aussi sur Ctrl-C ou en cas d'échec) : rien n'est écrit dans le vrai `var/cache` ;
 - journaux (`APP_LOG_DIR`), pools partagés (`APP_SHARE_DIR`), compteurs des limiteurs (`demo-limiter-test`) et images de test (`media-test`) vivent dans ce même dossier : plus rien de test dans le vrai `var/`, et deux exécutions parallèles ne vident plus les compteurs l'une de l'autre (faux échec de `PublicOpeningHardeningTest`, constaté le 2026-10-17) ;
 - `TEST_CACHE_DIR=var/cache-mon-nom` impose un dossier : il est vidé avant et supprimé après ; le script refuse `var/cache`, `var/` et la racine du dépôt ;
-- **seuil disque** : sous 5 Go libres (`MIN_FREE_GB`, 5 par défaut), il s'arrête avec un message avant de créer quoi que ce soit ; ce seuil n'est jamais abaissé. Avant, il appelle `bin/check-disk` (voir plus bas), qui affiche l'espace libre et alerte à 15 Go ;
+- **seuil disque** : sous 5 Go libres (`MIN_FREE_GB`, 5 par défaut), il s'arrête avec un message avant de créer quoi que ce soit ; ce seuil n'est jamais abaissé. Avant, il appelle `bin/check-disk` (voir plus bas), qui affiche l'espace libre et alerte à 15 Go  ;
+- **suite complète** : un lancement sans chemin ni filtre (`--filter`, `--testsuite`, `--group`) est la suite complète ; il exige 6 Go libres (`FULL_SUITE_MIN_GB`, 6 par défaut) et sinon s'arrête avant de créer quoi que ce soit. Les lancements ciblés gardent le seuil de 5 Go. Pour essayer le refus sans toucher au disque : `FULL_SUITE_MIN_GB=999 bin/run-tests` ;
 - la base reste `sylius_b2b_demo_test` (ou `TEST_DB_NAME`) ; la base de développement `sylius_b2b_demo` est refusée ;
 - le code de sortie est celui de PHPUnit ;
 - **verrou** (`var/run-tests.lock`, ou `RUN_TESTS_LOCK=`) : `bin/run-tests` crée à l'entrée un répertoire de verrou (`mkdir`, atomique) qui contient son PID, et le retire à la sortie, y compris sur échec, Ctrl-C ou `kill`. Un second run lancé pendant le premier s'arrête aussitôt (code de sortie **4**, message « already running » avec le PID). Un verrou dont le processus n'existe plus (`kill -0`) est périmé : il est repris **de façon atomique** (le répertoire est renommé vers un nom propre au run, puis recréé par `mkdir` ; un seul des deux runs concurrents l'obtient, l'autre sort avec le code 4) avec un message et une ligne dans `var/run-tests.log`. Le verrou contient aussi `WORKER_ID` quand il est défini (fichier `worker`). `bin/clean-test-caches` s'appuie sur le même verrou. Tests : `tests/Unit/Bin/RunTestsLockTest.php` (reprise concurrente rejouée 20 fois, attente, délai).
@@ -117,9 +118,10 @@ Les tests restent lancés **un à la fois** (verrou) ; le nettoyage, lui, est li
 
 ```bash
 bin/check-disk                        # espace libre ; alerte sous 15 Go (CHECK_DISK_WARN_GB)
+bin/check-disk --full                 # pour la suite complète : gelé sous 6 Go (FULL_SUITE_MIN_GB), sortie 1
 ```
 
-Le script affiche l'espace libre. Sous le seuil d'alerte, il demande de **prévenir Thibaut sans attendre**, chiffre l'empreinte du projet (caches `var/cache-*`, bases de test du conteneur MySQL ; les volumes Docker se lisent avec `docker system df`) et dit si le manque vient du **projet** (ses caches et ses bases couvrent l'espace manquant : nettoyer ses propres ressources) ou de la **machine** (l'espace est utilisé hors du projet : nettoyer le projet ne suffira pas). Codes de sortie : 0 assez de place, 3 alerte, 1 gel (sous `MIN_FREE_GB`). `bin/run-tests` l'appelle à chaque lancement, pour l'affichage seulement : son gel à 5 Go reste le seul blocage. Test : `tests/Unit/Bin/CheckDiskTest.php`.
+Le script affiche l'espace libre, la **mémoire libre** (pages libres et inactives) et le **swap** utilisé (un swap qui dépasse la moitié de l'espace libre est le signe de quitter des applications avant un lot). Sous le seuil d'alerte, il demande de **prévenir Thibaut sans attendre**, chiffre l'empreinte du projet (caches `var/cache-*`, bases de test du conteneur MySQL ; les volumes Docker se lisent avec `docker system df`) et dit si le manque vient du **projet** (ses caches et ses bases couvrent l'espace manquant : nettoyer ses propres ressources) ou de la **machine** (l'espace est utilisé hors du projet : nettoyer le projet ne suffira pas). Codes de sortie : 0 assez de place, 3 alerte, 1 gel (sous `MIN_FREE_GB`). `bin/run-tests` l'appelle à chaque lancement, pour l'affichage seulement : son gel à 5 Go reste le seul blocage. Test : `tests/Unit/Bin/CheckDiskTest.php`.
 
 ## Libérer le disque : `bin/clean-test-caches`
 
@@ -168,6 +170,29 @@ Requêtes SQL et durée de chaque fixture, sur 3 passes ; résultats et objectif
 ## Preuve publiée à jour : `bin/proof-check` (US-168)
 
 `php bin/proof-check` dit si `config/demo/proof.json` est en retard sur le dépôt (fichiers de tests de la démo, liste des plugins), sans réseau et sans rien écrire. Si un test est ajouté ou supprimé dans la PR, lancer `php bin/proof-refresh` (réseau, via `gh`) puis committer `config/demo/proof.json` : le contrôle repasse au vert. En CI, l'écart est affiché dans le résumé du job, sans faire échouer une PR ; il fait échouer le build de `main`. Détails : [theme-b2b.md](theme-b2b.md), « Bloc de preuve technique ».
+
+## Serveur local en mode prod et rendu des pages (T-TECH-27-04 et T-TECH-27-05)
+
+**Le 503 « the demo is not configured safely » sur un serveur local venait de `variables_order`.** Le `php.ini` du poste (celui de PHP en ligne de commande, `php -i | grep variables_order`) a `variables_order = GPCS` : le serveur intégré de PHP ne met pas l'environnement du shell dans `$_SERVER`. Dotenv retombe alors sur `.env.local` (`APP_ENV=dev`, un `APP_SECRET` court) et `DemoConfigurationGuard` refuse de servir (« APP_SECRET must be at least 32 characters long »). Les commandes `bin/console` et le rendu en ligne de commande n'ont pas ce défaut : le CLI remplit `$_SERVER`. Le correctif est `-d variables_order=EGPCS`, que fait `bin/local-server`. Trouvé en faisant afficher à un routeur de débogage ce que le garde voit dans le processus du serveur (`APP_ENV='dev'`, violations non vides) puis, avec `EGPCS`, `APP_ENV='prod'` et aucune violation.
+
+**Jeu minimal de variables** (à exporter dans le shell, jamais dans un fichier du dépôt) :
+
+| Variable | Valeur locale | Pourquoi |
+|----------|---------------|----------|
+| `APP_ENV`, `APP_DEBUG` | `prod`, `0` | le rendu de la production (`test` ajoute les attributs `data-test-*`) |
+| `APP_SECRET` | 32 caractères au moins (`openssl rand -hex 24`) | garde de la démo |
+| `DATABASE_URL` | une base du MySQL local qui contient les données de démonstration et les migrations à jour | sinon `/healthz` répond 503 « migrations pending » (`bin/console doctrine:migrations:migrate`) |
+| `APP_CACHE_DIR` | **un seul** dossier hors du dépôt, réutilisé (150 Mo) | pas un dossier par rendu |
+| `DEMO_MODE`, `DEMO_BASIC_AUTH` | `1`, `0` | démo ouverte, sans mot de passe |
+| `DEMO_REGISTRATION_OPEN`, `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0`, `0` | exigé par `app:demo:preflight` quand la barrière est ouverte |
+| `TRUSTED_HOSTS` | `'^127\.0\.0\.1$'` | refus d'un motif qui accepte tout hôte |
+| `MAILER_DSN` | `null://null` (ou le Mailpit local) | aucun e-mail réel |
+| `DEFAULT_URI`, `WKHTMLTOPDF_BINARY` | `http://127.0.0.1:<port>`, `tests/Fixtures/bin/fake-wkhtmltopdf` | liens absolus, PDF factices |
+
+- **Démarrer** : `bin/local-server [PORT]` (127.0.0.1 seulement, 8095 par défaut). Il lance d'abord `app:demo:preflight`, qui liste ce qui manque, puis le serveur avec son routeur `bin/local-router.php` (les fichiers de `public/` sont servis tels quels, le reste passe par `public/index.php`). `bin/measure-mobile` se lance ensuite sur cette adresse.
+- **Rendre des pages sans serveur** : `bin/render-page --out=DIR [--channel=B2B|B2C] [--login=EMAIL] PATH...` écrit un fichier HTML par page ; les vignettes des produits sont générées et liées en `/media/cache/...`. Pour les afficher ou les photographier : un dossier avec des liens symboliques vers `public/build` et `public/media`, les fichiers HTML, et `python3 -m http.server`. `--login` exige `APP_ENV=test` (le client de test ouvre la session ; les pages portent alors les attributs `data-test-*`).
+- **Pièges** : `curl` est un alias de `curlie` dans le shell de travail, qui répond des `405` parasites avec `-o /dev/null -w` : utiliser `/usr/bin/curl`. La première requête d'un cache vide compile le conteneur (quelques dizaines de secondes). `/healthz` répond 503 tant que la base a une migration en attente.
+- **À dire dans une PR** quand les captures viennent de ce rendu : « rendu du noyau en ligne de commande, `APP_ENV=prod` » (ou `test` avec `--login`).
 
 ## Vérifier le rendu en production (lecture seule)
 

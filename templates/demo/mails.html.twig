@@ -12,6 +12,14 @@
         th, td { text-align: left; padding: .5rem .75rem; border: 1px solid #ddd; }
         th { background: #f0f4f8; }
         .note { background: #fff8e1; border-left: 4px solid #f59e0b; padding: .75rem 1rem; margin: 1rem 0; border-radius: 3px; }
+        /* T-TECH-27-06: on a phone each row is a card (one cell per line, its column heading before the value); the header row stays for the screen readers. */
+        th, td { overflow-wrap: anywhere; }
+        @media (max-width: 767.98px) {
+            thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+            tr { display: block; margin-bottom: 1rem; padding: .5rem .75rem; border: 1px solid #ddd; border-radius: 3px; }
+            th, td { display: block; padding: .25rem 0; border: 0; }
+            td::before { content: attr(data-label); display: block; font-weight: 600; font-size: .875rem; }
+        }
     </style>
 </head>
 <body>
@@ -22,22 +30,22 @@
 {% elseif messages is empty %}
     <p data-demo-mails-empty>{{ 'empty'|trans({}, 'mails') }}</p>
 {% else %}
-    <table data-demo-mails>
-        <thead>
-            <tr>
-                <th>{{ 'date'|trans({}, 'mails') }}</th>
-                <th>{{ 'from'|trans({}, 'mails') }}</th>
-                <th>{{ 'to'|trans({}, 'mails') }}</th>
-                <th>{{ 'subject'|trans({}, 'mails') }}</th>
+    <table data-demo-mails role="table">
+        <thead role="rowgroup">
+            <tr role="row">
+                <th scope="col" role="columnheader">{{ 'date'|trans({}, 'mails') }}</th>
+                <th scope="col" role="columnheader">{{ 'from'|trans({}, 'mails') }}</th>
+                <th scope="col" role="columnheader">{{ 'to'|trans({}, 'mails') }}</th>
+                <th scope="col" role="columnheader">{{ 'subject'|trans({}, 'mails') }}</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody role="rowgroup">
             {% for message in messages %}
-                <tr>
-                    <td>{{ message.date ? message.date|date('Y-m-d H:i') : '' }}</td>
-                    <td>{{ message.from }}</td>
-                    <td>{{ message.to|app_mask_email }}</td>
-                    <td><a href="{{ path('app_demo_mail', { id: message.id }) }}">{{ message.subject }}</a></td>
+                <tr role="row">
+                    <td data-label="{{ 'date'|trans({}, 'mails') }}" role="cell">{{ message.date ? message.date|date('Y-m-d H:i') : '' }}</td>
+                    <td data-label="{{ 'from'|trans({}, 'mails') }}" role="cell">{{ message.from }}</td>
+                    <td data-label="{{ 'to'|trans({}, 'mails') }}" role="cell">{{ message.to|app_mask_email }}</td>
+                    <td data-label="{{ 'subject'|trans({}, 'mails') }}" role="cell"><a href="{{ path('app_demo_mail', { id: message.id }) }}">{{ message.subject }}</a></td>
                 </tr>
             {% endfor %}
         </tbody>
