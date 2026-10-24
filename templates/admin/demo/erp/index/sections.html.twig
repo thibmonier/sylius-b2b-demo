@@ -1,0 +1,41 @@
+{% set batches = hookable_metadata.context.batches %}
+
+<div class="page-body" data-demo-erp>
+    <div class="container-xl">
+        <div class="alert alert-info" role="note" data-erp-banner>{{ 'erp.banner'|trans({}, 'demo_erp') }}</div>
+        <div class="card">
+            {% if batches|length == 0 %}
+                <div class="card-body text-secondary" data-erp-empty>{{ 'erp.empty'|trans({}, 'demo_erp') }}</div>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-vcenter card-table">
+                        <thead>
+                            <tr>
+                                <th class="text-body">{{ 'erp.direction'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.file'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.date'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.read'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.accepted'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.rejected'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.reason'|trans({}, 'demo_erp') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for batch in batches %}
+                                <tr data-erp-row data-erp-direction="{{ batch.direction }}" data-erp-name="{{ batch.name ?: batch.source }}">
+                                    <td><span class="badge {{ batch.direction == 'out' ? 'bg-azure-lt' : 'bg-green-lt' }}">{{ ('erp.directions.' ~ batch.direction)|trans({}, 'demo_erp') }}</span></td>
+                                    <td style="overflow-wrap: anywhere;"><code>{{ batch.name ?: batch.source }}</code></td>
+                                    <td><time datetime="{{ batch.at|date('c') }}">{{ batch.at|date('Y-m-d H:i:s') }}</time></td>
+                                    <td data-erp-read>{{ batch.read ?? '-' }}</td>
+                                    <td data-erp-accepted>{{ batch.accepted ?? '-' }}</td>
+                                    <td data-erp-rejected>{{ batch.rejected ?? '-' }}</td>
+                                    <td data-erp-reason style="overflow-wrap: anywhere;">{{ batch.reason ? ('erp.reasons.' ~ batch.reason)|trans({}, 'demo_erp') : (batch.direction == 'in' and not batch.name ? '' : '-') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

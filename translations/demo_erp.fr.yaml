@@ -1,0 +1,19 @@
+erp:
+    menu: 'Échanges ERP'
+    title: 'Échanges avec l''ERP Démo (fictif)'
+    subtitle: 'Les fichiers de commandes envoyés et les accusés de réception simulés qui reviennent'
+    banner: 'Les statuts et les chiffres sont simulés : l''ERP Démo (fictif) tourne dans la démo, lit seulement les fichiers du répertoire d''échange et n''appelle rien à l''extérieur. Il ne représente aucun logiciel réel.'
+    empty: 'Aucun échange pour le moment.'
+    direction: 'Sens'
+    file: 'Fichier'
+    date: 'Date'
+    read: 'Lignes lues'
+    accepted: 'Acceptées'
+    rejected: 'Rejetées'
+    reason: 'Motif'
+    directions:
+        out: 'Envoyé'
+        in: 'Reçu'
+    reasons:
+        header: 'En-tête différent du contrat : fichier rejeté'
+        empty: 'Aucune ligne : fichier rejeté'

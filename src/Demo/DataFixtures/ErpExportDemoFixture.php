@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
+use App\Demo\Erp\ErpDemoSimulator;
+use App\Demo\Erp\SimulatorJournal;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
@@ -22,7 +24,8 @@ use Tmonier\SyliusWebhookOutboxPlugin\Payload\OrderPayloadNormalizer;
 /**
  * US-193: the last placed orders of each channel become `order.placed` events of the outbox (written directly: no webhook delivery is
  * queued by the fixtures), then the export of the flat-file plugin runs once, as a cron would: the page "Flat-file exchange" shows a real
- * file. The exchange directory is the configured one (the cache of the worker in the tests), emptied first; a reset reloads the same state.
+ * file; US-188: then the simulated ERP acknowledges it. The exchange directory is the configured one (the cache of the worker in the tests),
+ * emptied first (files of orders, acknowledgements, journal of the simulator); a reset reloads the same state.
  */
 final class ErpExportDemoFixture extends AbstractFixture
 {
@@ -42,6 +45,8 @@ final class ErpExportDemoFixture extends AbstractFixture
         #[Autowire(service: 'tmonier_webhook.payload.order')]
         private readonly OrderPayloadNormalizer $normalizer,
         private readonly OrderExporter $exporter,
+        private readonly ErpDemoSimulator $simulator,
+        private readonly SimulatorJournal $journal,
         private readonly LoggerInterface $logger,
         #[Autowire(param: 'tmonier_webhook.model.outbox_event.class')]
         private readonly string $outboxEventClass,
@@ -62,6 +67,8 @@ final class ErpExportDemoFixture extends AbstractFixture
 
         try {
             $this->exporter->export();
+            // US-188: "ERP Démo (fictif)" acknowledges the file, as it would on its next pass.
+            $this->simulator->process();
         } catch (ExchangeDirectoryUnavailable $e) {
             $this->logger->warning('The demo export could not write its file: ' . $e->getMessage());
         }
@@ -93,8 +100,9 @@ final class ErpExportDemoFixture extends AbstractFixture
     {
         $filesystem = new Filesystem();
         $filesystem->mkdir($this->directory);
-        foreach (glob(rtrim($this->directory, '/') . '/orders-*.csv') ?: [] as $file) {
+        foreach ([...(glob(rtrim($this->directory, '/') . '/orders-*.csv') ?: []), ...(glob(rtrim($this->directory, '/') . '/ack-*.csv') ?: [])] as $file) {
             $filesystem->remove($file);
         }
+        $this->journal->clear();
     }
 }

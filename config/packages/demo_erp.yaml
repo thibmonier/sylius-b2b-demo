@@ -1,0 +1,37 @@
+# US-188: the "ERP exchanges" back-office page (same skeleton as the received webhooks and the e-invoice transmissions).
+sylius_twig_hooks:
+    hooks:
+        'app.demo_erp.index':
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            navbar:
+                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                priority: 100
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'app.demo_erp.index.content':
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 200
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 100
+            sections:
+                template: 'admin/demo/erp/index/sections.html.twig'
+                priority: 0
+
+        'app.demo_erp.index.content.header':
+            breadcrumbs:
+                template: 'admin/demo/erp/index/breadcrumbs.html.twig'
+                priority: 100
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'app.demo_erp.index.content.header.title_block':
+            title:
+                template: 'admin/demo/erp/index/title.html.twig'
+                priority: 100

@@ -35,4 +35,5 @@ run:
     once: "Each event is exported once; delivery is at least once, the reader deduplicates on the event id."
     unavailable: "If the directory is missing, not writable or full, no file is left behind, the error is logged and the events stay to export."
     retention: "The plugin does not purge the directory: the retention of the files, which hold addresses, is set by the operator."
+doc_link: "The whole journey, with the Demo ERP (fictitious) that sends back a simulated acknowledgement: the documentation"
 integrate_link: "Back to the integration guide"

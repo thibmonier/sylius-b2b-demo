@@ -1,0 +1,8 @@
+{# US-188: the exchanges with "ERP Démo (fictif)": the files sent and the simulated answers. Read only. #}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'erp.title'|trans({}, 'demo_erp') }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    {% hook 'app.demo_erp.index' with { batches } %}
+{% endblock %}

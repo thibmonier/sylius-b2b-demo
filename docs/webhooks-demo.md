@@ -43,3 +43,5 @@ Le plugin refuse par défaut les URL `http://` et les réseaux privés : `config
 ## Tests
 
 `tests/Functional/Demo/WebhookReceiverTest.php` (récepteur, page, validation) et `WebhookDeliveryTest.php` (livraison réelle sur un serveur PHP local derrière la barrière, hôte externe refusé, redirection non suivie).
+
+Voir aussi : [l'échange de fichiers avec l'ERP Démo (fictif)](erp-demo.md), qui lit les mêmes événements `order.placed` de l'outbox.

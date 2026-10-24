@@ -89,6 +89,8 @@ Chaque écran clé montre un état « vivant » : les dates sont **relatives au 
 
 Les fixtures du panier, des brouillons, des suggestions et du journal passent **avant** le point d'accès webhook (-80) : elles ne mettent aucun webhook en file. Contrôles : `tests/Smoke/LiveDemoDataSmokeTest.php` (un écran vide est nommé dans le message d'échec ; `App\Demo\Check\QuoteNumberingCheck` refuse un numéro de devis d'une autre année que sa date), `tests/Functional/Demo/LiveAdminScreensTest.php` (écrans d'administration, FR et EN).
 
+La fixture `demo_erp_export` (priorité -90) passe **après** lui : elle vide le répertoire d'échange (`var/erp-exchange` : fichiers de commandes, accusés, journal du simulateur), place les dernières commandes de chaque canal dans l'outbox sans mettre de webhook en file, lance un export puis une passe de l'ERP Démo (fictif) ; voir [erp-demo.md](erp-demo.md).
+
 Coût mesuré (`bin/profile-reset`, 2026-10-18, base de test) : le chargement complet passe à **6,8 à 11,1 s** (variance de la machine) ; ajouts : `demo_orders` 2,4 s pour 15 commandes (980 `SELECT`, 65 par commande), suggestions IA 0,7 s, panier 0,05 s, brouillons 0,05 s, journal 0,04 s, soit environ **+1,5 s** pour les données vivantes. Le reset complet (purge, médias, cache : 30 à 60 s avant ces ajouts) reste très en deçà de l'objectif de 10 minutes ; la mesure de bout en bout sur l'image reconstruite relève de l'orchestrateur.
 
 ## Profilage du reset et objectifs (US-048 / T-048-04)
