@@ -294,20 +294,17 @@ final class HomeRedesignTest extends WebTestCase
         }
         self::assertCount(1, $desktop->filter('a[href*="quick-order"]'));
         self::assertCount(1, $desktop->filter('a[href*="quote"]'));
-        $classes = preg_split('/\s+/', trim((string) $desktop->attr('class')));
-        self::assertIsArray($classes);
-        self::assertContains('d-none', $classes, 'the row is hidden on a phone');
-        self::assertContains('d-xl-flex', $classes, 'inline from xl: the row of the header never overflows below');
+        self::assertContains('b2b-nav__list--row', preg_split('/\s+/', trim((string) $desktop->attr('class'))) ?: [], 'the row is shown by a container query, not by a screen width');
         self::assertCount(0, $nav->filter('a[data-demo-link="accounts"]'), 'the demo accounts are in the demo menu and the hero');
     }
 
-    public function testBelowTheXlWidthTheMenuFoldsIntoANativeDisclosureWithTheSameLinks(): void
+    public function testWhenTheRowIsTooNarrowTheMenuFoldsIntoANativeDisclosureWithTheSameLinks(): void
     {
         $nav = $this->anonymousHome('fr_FR')->filter('nav.b2b-nav');
 
         $mobile = $nav->filter('details[data-nav-list="mobile"]');
         self::assertCount(1, $mobile);
-        self::assertContains('d-xl-none', preg_split('/\s+/', trim((string) $mobile->attr('class'))) ?: []);
+        self::assertContains('b2b-nav__fold', preg_split('/\s+/', trim((string) $mobile->attr('class'))) ?: []);
         self::assertCount(1, $mobile->filter('summary'));
         self::assertSame(
             $nav->filter('[data-nav-list="desktop"] a')->each(static fn (Crawler $link): string => (string) $link->attr('href')),
