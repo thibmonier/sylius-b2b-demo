@@ -179,6 +179,30 @@ final class HomeRedesignTest extends WebTestCase
         self::assertCount(0, $menu->filter('[hidden], [aria-hidden="true"]'), 'the panel is plain markup: it works without JavaScript');
     }
 
+    /**
+     * US-192: on a 320 to 360 px phone the bar overflowed by a few pixels ("Full demo menu" is long): tighter gaps and a short
+     * label below sm, the full one from sm. The measure itself is the horizontal scroll at 360 px (scrollWidth), checked on the render.
+     */
+    #[DataProvider('menuLabels')]
+    public function testTheDemoBarFitsAPhoneWithAShortMenuLabel(string $locale, string $short, string $full): void
+    {
+        $bar = $this->anonymousHome($locale)->filter('[data-demo-banner]');
+
+        $classes = preg_split('/\s+/', trim((string) $bar->filter('.container.flex-nowrap')->attr('class'))) ?: [];
+        self::assertContains('gap-2', $classes);
+        self::assertContains('gap-md-3', $classes);
+        $summary = $bar->filter('details[data-demo-menu="all"] summary');
+        self::assertSame($short, trim($summary->filter('span.d-sm-none')->text()));
+        self::assertSame($full, trim($summary->filter('span.d-none.d-sm-inline')->text()));
+    }
+
+    /** @return iterable<string, array{string, string, string}> */
+    public static function menuLabels(): iterable
+    {
+        yield 'French' => ['fr_FR', 'Menu démo', 'Tout le menu démo'];
+        yield 'English' => ['en_US', 'Demo menu', 'Full demo menu'];
+    }
+
     public function testTheBarShowsTheQuickLinksFromTheXlWidthOnly(): void
     {
         $quick = $this->anonymousHome('fr_FR')->filter('[data-demo-banner] [data-demo-quick-links] a[data-demo-link]');

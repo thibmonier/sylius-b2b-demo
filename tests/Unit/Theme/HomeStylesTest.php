@@ -55,7 +55,7 @@ final class HomeStylesTest extends TestCase
         $styles = $this->read('_home.scss');
 
         self::assertMatchesRegularExpression('/\.b2b-account-menu[^{]*\{[^}]*::after\s*\{[^}]*display:\s*none/s', $styles);
-        self::assertMatchesRegularExpression('/@media \(min-width: 992px\)\s*\{[^@]*\.b2b-account-menu[^@]*::after[^@]*display:\s*inline-block/s', $styles);
+        self::assertMatchesRegularExpression('/\.b2b-account-menu\s*\{[^@]*@media \(min-width: 992px\)\s*\{[^@]*::after\s*\{[^}]*display:\s*inline-block/s', $styles);
     }
 
     public function testTheHomeWritesNoColourByHand(): void
