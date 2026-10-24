@@ -83,8 +83,8 @@
                     </div>
                     <div class="d-flex flex-wrap align-items-center column-gap-3 border-top border-secondary pt-2" data-demo-channel>
                         <span>{{ 'banner.channel'|trans({}, 'theme_demo') }}</span>
-                        <a class="{{ target }} text-white" style="{{ target_height }}" href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a>
-                        <a class="{{ target }} text-white" style="{{ target_height }}" href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
+                        <a class="{{ target }} justify-content-center text-white" style="{{ target_height }}; min-width: 2.75rem" href="{{ path('app_demo_channel_switch', { code: 'B2B' }) }}">B2B</a>
+                        <a class="{{ target }} justify-content-center text-white" style="{{ target_height }}; min-width: 2.75rem" href="{{ path('app_demo_channel_switch', { code: 'B2C' }) }}">B2C</a>
                         <span class="ms-md-auto">{% include 'demo/_next_reset.html.twig' with { reset: demo_next_reset() } only %}</span>
                     </div>
                 </div>

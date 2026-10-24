@@ -1,10 +1,10 @@
 {# US-186: services of the shop under the header (quick order, quote, demo accounts). US-019: hidden from a visitor of a closed channel. #}
 {% if tmonier_channel_can_see_catalog() %}
     <nav class="b2b-nav" aria-label="{{ 'nav.label'|trans({}, 'home') }}">
-        <ul class="container b2b-nav__list">
+        <div class="container"><ul class="b2b-nav__list">
             <li><a href="{{ path('tmonier_quick_order_shop_index', {_locale: app.request.locale}) }}">{{ 'nav.quick_order'|trans({}, 'home') }}</a></li>
             <li><a href="{{ path('tmonier_quote_request_shop_new', {_locale: app.request.locale}) }}">{{ 'nav.quote'|trans({}, 'home') }}</a></li>
             <li class="b2b-nav__try"><a href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'nav.try_demo'|trans({}, 'home') }}</a></li>
-        </ul>
+        </ul></div>
     </nav>
 {% endif %}

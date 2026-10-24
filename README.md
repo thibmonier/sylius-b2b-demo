@@ -8,8 +8,10 @@ B2B demo of Sylius 2.3 with the [tmonier plugins](https://packagist.org/packages
 
 | Visiteur / Visitor | Acheteuse connectée / Signed-in buyer |
 |---|---|
-| ![Accueil de la démo pour un visiteur : trois colonnes Acheter, Valider, S'intégrer](docs/images/home-visitor-fr.jpg) | ![Accueil de la démo pour Claire, acheteuse : accès rapide et parcours B2B](docs/images/home-buyer-fr.jpg) |
-| ![Demo home page for a visitor: three columns Buy, Approve, Integrate](docs/images/home-visitor-en.jpg) | ![Demo home page for Claire, a buyer: quick access and B2B journeys](docs/images/home-buyer-en.jpg) |
+| ![Accueil de la démo pour un visiteur : hero éditorial avec photo, engagements et rayons](docs/images/home-visitor-fr.jpg) | ![Accueil de la démo pour Claire, acheteuse : hero éditorial puis ses références habituelles](docs/images/home-buyer-fr.jpg) |
+| ![Demo home page for a visitor: editorial hero with a photo, commitments and aisles](docs/images/home-visitor-en.jpg) | ![Demo home page for Claire, a buyer: editorial hero, then her usual references](docs/images/home-buyer-en.jpg) |
+
+Photos de l'accueil : huit photos Pexels (licence Pexels), créditées une à une sur la page « Crédits des images » de la démo et dans `assets/shop/images/home/credits.json`. / Home page photos: eight Pexels photos (Pexels License), credited one by one on the demo's image credits page and in `assets/shop/images/home/credits.json`.
 
 ## Comptes de démo / Demo accounts
 
