@@ -64,8 +64,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-178-04 | [FE-WEB] | Gabarit et textes FR et EN (packs, plugins, commande d'installation, gestes restants), liens depuis les pages Intégrer et Architecture | 0,75 h | T-178-03 | Claude | ✅ |
 | T-178-05 | [OPS] | Première génération réelle après le merge d'US-176 (`php bin/packs-refresh`, jeu de données commité) ; `php bin/proof-refresh` puis `php bin/proof-check` (nouveaux fichiers de tests) | 0,5 h | T-178-04, T-176-13 | Claude | ✅ |
 | T-178-06 | [TEST] | Suite ciblée via `bin/run-tests` (`WORKER_ID=w178 …`), ECS (`src tests`), PHPStan max, Rector, lint Twig et YAML | 0,5 h | T-178-05 | Claude | ✅ |
-| T-178-07 | [TEST] | Rendu en production après le déploiement automatique de `main` : pa11y WCAG2AAA en FR et en EN, 360 px sans défilement horizontal, 1280 px, liens d'accès ; story en review jusque-là | 0,75 h | T-178-06, merge de la PR du sprint | Claude | 🔲 |
-| T-178-08 | [REV] | Revue (ton neutre, liste lue et non recopiée, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-178-07 | Claude | 🔲 |
+| T-178-07 | [TEST] | Rendu en production après le déploiement automatique de `main` : pa11y WCAG2AAA en FR et en EN, 360 px sans défilement horizontal, 1280 px, liens d'accès ; story en review jusque-là | 0,75 h | T-178-06, merge de la PR du sprint | Claude | ✅ |
+| T-178-08 | [REV] | Revue (ton neutre, liste lue et non recopiée, parité FR et EN) et table « scénario → test » remplie | 0,25 h | T-178-07 | Claude | ✅ |
 
 **Total estimé : 4,75 h** (8 tâches, dont 0 h de Thibaut ; 4,75 h pour Claude et l'orchestrateur).
 
@@ -76,7 +76,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | Scénario | Test ou preuve |
 |----------|----------------|
 | Packs présentés (nominal) | `PacksPageTest::testEachPackShowsItsPluginsItsInstallCommandAndTheStepsLeftByHand`, `testTheRolesAndTheOtherStepsAreInTheLanguageOfThePage`, `testTheTotalsAreComputedFromTheSteps`, `testTheTwoLanguagesShowTheSamePacksPluginsStepsAndLinks` (FR et EN) ; lecture des README : `ReadmeTablesTest`, `PackCollectorTest` |
-| Accès depuis le guide d'intégration (alternatif) | `PacksPageTest::testTheGuideAndTheArchitecturePageLeadToThePacks` ; en production : T-178-07 |
+| Accès depuis le guide d'intégration (alternatif) | `PacksPageTest::testTheGuideAndTheArchitecturePageLeadToThePacks` ; en production (2026-10-24, après #80) : pa11y WCAG2AAA « No issues found! » FR et EN, largeur de la page égale à la largeur visible à 360 et 1280 px. Le premier contrôle avait trouvé un débordement (645 px à 360 px, 2105 px à 1280 px), corrigé par #80 (test rouge `PacksPageTest::testTheCodesOfTheStepsTableBreakAnywhereAtEveryWidth`, CI rouge puis verte) |
 | Plugin seul (alternatif) | `PacksPageTest::testAPluginInNoPackIsSentToTheOneByOneInstallation`, `testNoPluginKeptOutOfThePacksIsNamedOnThePage`, `testAMissingOrBrokenFileGivesANormalPageWithNothingAvailable` |
 | Composition en retard (erreur) | `PacksPageTest::testThePluginsShownAreThoseOfTheDataFileAndAddingOneToTheFileAddsItToThePage`, `testThePageOfTheCommittedFileListsExactlyThePluginsOfTheFile` ; `PacksDataFileTest::testTheListOfPluginsIsTheOneOfTheComposerJsonOfTheLocalClonesWhenTheyArePresent` ; `PackCollectorTest::testAReadmeThatDisagreesWithTheComposerJsonIsAFailureNotASilentChoice` ; `PacksFreshnessTest`, `PacksCheckTest` (`bin/proof-check`) |
 | Ton commercial (erreur) | `PacksPageTest::testTheTextOfThePageCarriesTheCharter`, `PacksDataFileTest::testTheTextOfThePacksCarriesTheCharter` ; relecture des textes FR et EN contre les `composer.json` et README des packs : T-178-08 |
