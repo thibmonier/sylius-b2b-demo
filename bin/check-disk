@@ -4,20 +4,44 @@
 # container) or from the machine. Informative: bin/run-tests keeps its own freeze at MIN_FREE_GB and never lowers it.
 #
 #   bin/check-disk                       # alert below 15 GB
+#   bin/check-disk --full                # for the full suite: frozen below 6 GB (FULL_SUITE_MIN_GB), T-TECH-27-03
 #   CHECK_DISK_WARN_GB=20 bin/check-disk
 #
-# Exit codes: 0 enough room, 3 alert (below CHECK_DISK_WARN_GB), 1 frozen (below MIN_FREE_GB).
+# Shows too the free memory and the swap of the machine (a full suite on a machine that swaps is slow and makes the disk grow).
+# Exit codes: 0 enough room, 3 alert (below CHECK_DISK_WARN_GB), 1 frozen (below MIN_FREE_GB, or below FULL_SUITE_MIN_GB with --full).
 # On an alert, warn Thibaut at once, then diagnose before cleaning anything. See docs/tests-locaux.md.
 set -eu
 cd "$(dirname "$0")/.."
 
+FULL=0
+if [ "${1:-}" = "--full" ]; then
+    FULL=1
+fi
+
 WARN_GB="${CHECK_DISK_WARN_GB:-15}"
 MIN_FREE_GB="${MIN_FREE_GB:-5}"
+FULL_MIN_GB="${FULL_SUITE_MIN_GB:-6}"
 CONTAINER="${MYSQL_CONTAINER:-sylius-b2b-demo-mysql-1}"
 
 FREE_KB=$(df -Pk . | awk 'NR==2 {print $4}')
 FREE_GB=$((FREE_KB / 1024 / 1024))
-echo "Disk: ${FREE_GB} GB free (alert below ${WARN_GB} GB, bin/run-tests refuses to start below ${MIN_FREE_GB} GB)"
+echo "Disk: ${FREE_GB} GB free (alert below ${WARN_GB} GB, bin/run-tests refuses to start below ${MIN_FREE_GB} GB, the full suite below ${FULL_MIN_GB} GB)"
+
+# Memory and swap, informative. macOS: vm_stat and sysctl; Linux: /proc/meminfo. Free memory = free + inactive pages.
+if command -v vm_stat >/dev/null 2>&1; then
+    MEM_MB=$(vm_stat | awk '/page size of/ {size = $8} /^Pages (free|inactive)/ {gsub(/\./, "", $3); pages += $3} END {printf "%.1f", pages * size / 1024 / 1024 / 1024}')
+    SWAP=$(sysctl -n vm.swapusage 2>/dev/null | awk '{gsub(/M/, "", $3); gsub(/M/, "", $6); printf "%.0f MB used of %.0f MB", $6, $3}')
+elif [ -r /proc/meminfo ]; then
+    MEM_MB=$(awk '/^MemAvailable:/ {printf "%.1f", $2 / 1024 / 1024}' /proc/meminfo)
+    SWAP=$(awk '/^SwapTotal:/ {t = $2} /^SwapFree:/ {f = $2} END {printf "%d MB used of %d MB", (t - f) / 1024, t / 1024}' /proc/meminfo)
+fi
+[ -z "${MEM_MB:-}" ] || echo "Memory: ${MEM_MB} GB free"
+[ -z "${SWAP:-}" ] || echo "Swap: ${SWAP}"
+
+if [ "$FULL" = 1 ] && [ "$FREE_KB" -lt $((FULL_MIN_GB * 1024 * 1024)) ]; then
+    echo "FROZEN for the full suite: it needs ${FULL_MIN_GB} GB free (${FREE_GB} GB now); a run with a path or a filter only needs ${MIN_FREE_GB} GB. Free some space or target the tests."
+    exit 1
+fi
 
 if [ "$FREE_KB" -ge $((WARN_GB * 1024 * 1024)) ]; then
     exit 0
