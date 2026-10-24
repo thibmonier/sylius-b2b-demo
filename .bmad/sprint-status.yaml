@@ -430,7 +430,7 @@ sprints:
 
   sprint-26:
     name: sprint-26-vitrine-et-flux  # refonte de la home, PA fictive et statuts de facture, export CSV des commandes, corrections des sorties du sprint 25
-    status: done  # CLOS le 2026-10-24 (en attente de la validation de Thibaut) : 29/29 points (23 au planning + US-190, US-191, US-192 ajoutées en cours de sprint), revue et rétro ; lancé le 2026-10-24 juste après la clôture du sprint 25 ; périmètre décidé par Thibaut le 2026-10-24 : refonte de la home (US-186), ADR 0016 stories B et C (US-183, US-184), ADR 0017 story A (US-185), sorties du sprint 25 (US-181, US-182)
+    status: done  # CLOS le 2026-10-24 (GO de Thibaut le 2026-10-24) : 29/29 points (23 au planning + US-190, US-191, US-192 ajoutées en cours de sprint), revue et rétro ; lancé le 2026-10-24 juste après la clôture du sprint 25 ; périmètre décidé par Thibaut le 2026-10-24 : refonte de la home (US-186), ADR 0016 stories B et C (US-183, US-184), ADR 0017 story A (US-185), sorties du sprint 25 (US-181, US-182)
     sprint_id: "sprint-26"
     start_date: "2026-10-24"
     end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
