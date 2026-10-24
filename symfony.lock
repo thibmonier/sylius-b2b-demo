@@ -738,6 +738,9 @@
     "tmonier/sylius-customer-asset-management-plugin": {
         "version": "v0.1.0"
     },
+    "tmonier/sylius-einvoice-transmission-plugin": {
+        "version": "v0.1.0"
+    },
     "tmonier/sylius-facturx-plugin": {
         "version": "v1.1.0"
     },

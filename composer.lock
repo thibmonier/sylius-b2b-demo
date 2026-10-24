@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3cacb8363ae99d4b70dc3ad33498f0e",
+    "content-hash": "783c6700531a7a92b6b6148c8c494545",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17505,6 +17505,86 @@
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/v0.1.1"
             },
             "time": "2026-10-23T11:56:51+00:00"
+        },
+        {
+            "name": "tmonier/sylius-einvoice-transmission-plugin",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin.git",
+                "reference": "d2da15fb83bc4ce2cdaacfff77b28c9f474950a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-einvoice-transmission-plugin/zipball/d2da15fb83bc4ce2cdaacfff77b28c9f474950a0",
+                "reference": "d2da15fb83bc4ce2cdaacfff77b28c9f474950a0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "sylius/sylius": "^2.2",
+                "symfony/clock": "^6.4 || ^7.4 || ^8.0",
+                "tmonier/sylius-facturx-plugin": "^1.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
+                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
+                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
+                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
+                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusEinvoiceTransmissionPlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Transmission of Factur-X electronic invoices for Sylius 2: replaceable transmitter port, log of the sends with their statuses, idempotent listener of the Factur-X plugin event",
+            "keywords": [
+                "e-invoicing",
+                "einvoice",
+                "factur-x",
+                "facture-electronique",
+                "facturx",
+                "invoice-transmission",
+                "sylius",
+                "sylius-plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/v0.1.0"
+            },
+            "time": "2026-10-24T06:56:19+00:00"
         },
         {
             "name": "tmonier/sylius-facturx-plugin",
