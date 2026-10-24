@@ -45,6 +45,11 @@ case "$fixtures_state" in
         ;;
 esac
 
+# US-195: a deployment starts a new container, whose exchange directory (var/erp-exchange) is empty while the database is not. When no
+# file of orders is there, the exchange of the page "Flat-file exchange" is rebuilt (export, simulated acknowledgement); otherwise nothing
+# is done. As www-data, after the migrations and the fixtures. A failure never stops the start.
+php bin/console app:demo:erp-refresh --no-interaction || echo "ERP exchange could not be rebuilt: the demo starts anyway" >&2
+
 # Opt-in worker mode (ADR-0013, off by default): the kernel stays booted between requests. symfony/runtime
 # detects the worker thread by itself and loops on frankenphp_handle_request() in public/index.php.
 # The directive is spliced into the Caddyfile as raw text: it is only ever built here, never taken from the environment.
