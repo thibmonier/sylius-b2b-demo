@@ -463,12 +463,23 @@ sprints:
       - {id: US-188, title: "Démonstration avec l'ERP fictif : simulateur, journal au back-office, documentation (périmètre réduit)", points: 5, status: done}  # LIVRÉE le 2026-10-24 (#98, 183a665) ; EPIC-14, Could, sacrifice n°1 (validé) ; SANS US-187 (import CSV hors sprint) : accusé de réception simulé à la place du CSV de prix et de stock ; page du back-office vérifiée en local seulement ; ADR 0017 section « Décision (2026-10-24, sprint 27) »
     notes: "Planifié le 2026-10-24 ; US-194 (1 point) ajoutée le même jour sur demande de Thibaut, réalisée par w185. Ordre de sacrifice validé par Thibaut : US-188, puis US-193 ; US-189 protégée. Branche partagée feature/sprint-27-dev. Cinq actions de la rétro du sprint 26 en T-TECH-27-01 à 07 : règles 13 à 15 de consigne-worker.md et lignes de checklist-integration.md écrites au planning (T-TECH-27-01 faite) ; check-disk à 6 Go ; 503 prod local avant la maquette ; garde de largeur des tables larges ; remesure du LCP de la home. Workers : w189, w193, w188. US-187 reste au backlog. Clôture : 13 points livrés sur 13 engagés (12 au planning + US-194), PR #95, #97, #98, #99 ; correctif #100 (échange ERP reconstruit au démarrage du conteneur, défaut trouvé au contrôle de production) ; tâches techniques #101 ; planning #94, backlog #96. Vélocité S27 : 13 (S23 11, S24 19, S25 17, S26 29). Aucun sacrifice. US-195 (2) et US-196 (3) candidates au sprint 28 (décision de Thibaut du 2026-10-24). LCP de la home 1576 ms contre 1324 ms au sprint 26 (+19 %) : à surveiller."
 
+  sprint-28:
+    name: sprint-28-noms-photos-et-import-erp  # noms de produits sans marque réelle, photos cohérentes et sans marque, import CSV de prix et de stock (plugin puis démonstration), actions de la rétro du sprint 27
+    status: ready-for-dev  # PLANIFIÉ le 2026-10-25 : périmètre validé par Thibaut le 2026-10-24 (13 points) ; 48 tâches, 34,2 h ; ordre de sacrifice proposé (à confirmer) : US-187 tranche B, puis US-196 ; US-195 protégée
+    sprint_id: "sprint-28"
+    start_date: "2026-10-25"
+    end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 48 tâches, 34,2 h dont 0,95 h de Thibaut (33,25 h pour Claude) ; vélocité de référence : S24 19, S25 17, S26 29, S27 13
+    goal: "Présenter un catalogue crédible, avec des noms de produits sans marque réelle et une photo cohérente par famille, et fermer la boucle de l'échange avec l'ERP fictif : un fichier de prix et de stock est importé par le plugin, avec rapport de rejet et journal des lots, sans aucun système réel"
+    stories:
+      - {id: US-195, title: "Noms de produits sans marque réelle", points: 2, status: ready-for-dev}  # EPIC-12, Should, protégée ; 77 produits sur 210 ; SKU et slugs inchangés ; test de garde (liste noire)
+      - {id: US-196, title: "Photos du catalogue cohérentes et sans marque", points: 3, status: ready-for-dev}  # EPIC-12, Should, sacrifice n°2 (proposé) ; planche présentée à Thibaut et GO explicite avant tout téléchargement (comme US-186) ; dépend d'US-195
+      - {id: US-187, title: "Import CSV de prix et de stock : plugin (tranche A) puis démonstration (tranche B)", points: 8, status: ready-for-dev}  # EPIC-14, Could ; ADR 0017 story B ; tranche A plugin 5 pts (dépôt séparé, GO de Thibaut avant push/tag/release), tranche B démo 3 pts (sacrifice n°1 proposé) ; questions 3, 4 et 6 de l'ADR à trancher ; recouvrement Sylius Plus possible à lever avant toute promotion
+    notes: "Planifié le 2026-10-25. Actions de la rétro du sprint 27 en T-TECH-28-01 à 05 : règles 13 et 16 de consigne-worker.md et lignes de checklist-integration.md écrites au planning (T-TECH-28-03 et 04 faites) ; un seul cache de rendu ; bin/proof-rebase ; LCP de la home remesuré (seuil 1456 ms). Workers : w195, w196, w187. Branche partagée feature/sprint-28-dev. US-187 : 16,75 h pour 16,8 h attendues, 8 points tiennent sans marge."
+
 backlog:
-  # --- Candidates au sprint 28 (décision de Thibaut du 2026-10-24)
-  - {id: US-195, title: "Noms de produits sans marque réelle", points: 2, status: backlog}  # EPIC-12, Should ; candidate sprint 28, décision de Thibaut du 2026-10-24 ; 77 produits sur 210 ; fixtures/csv/epi.csv, fournitures.csv, quincaillerie.csv ; slugs inchangés (dérivés du SKU)
-  - {id: US-196, title: "Photos du catalogue cohérentes et sans marque", points: 3, status: backlog}  # EPIC-12, Should ; candidate sprint 28, décision de Thibaut du 2026-10-24 ; planche validée par Thibaut avant téléchargement ; fixtures/images/manifest.csv ; après ou avec US-195
+  # --- Sprint 28 (planifié le 2026-10-25) : US-195, US-196 et US-187 sont dans la section sprint-28
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)
-  - {id: US-187, title: "Import CSV de prix et de stock : validation, rapport de rejet, journal des lots, idempotence", points: 8, status: backlog}  # EPIC-14, Could ; ADR 0017 story B ; fiche courte à affiner (questions 3, 4 et 6 de l'ADR) ; créée le 2026-10-24
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
   # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
   - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15
