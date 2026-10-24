@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class ThemeHooksTest extends TestCase
 {
-    private const CORE_HOOKABLES_WITH_CONDITION_ONLY = ['logo', 'banner', 'mobile', 'desktop'];
+    private const CORE_HOOKABLES_WITH_CONDITION_ONLY = ['logo', 'banner', 'mobile', 'desktop', 'product_listing', 'accordion', 'short_description'];
 
     private const CORE_HOOKABLES_DISABLED = ['sylius_shop.base.header.top_bar' => ['info_message']];
 
