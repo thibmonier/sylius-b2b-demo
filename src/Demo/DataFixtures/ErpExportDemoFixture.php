@@ -4,105 +4,33 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
-use App\Demo\Erp\ErpDemoSimulator;
-use App\Demo\Erp\SimulatorJournal;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Demo\Erp\ErpDemoExchange;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
-use Sylius\Component\Channel\Model\ChannelInterface;
-use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Uid\Uuid;
-use Tmonier\SyliusErpFlatfilePlugin\Deposit\ExchangeDirectoryUnavailable;
-use Tmonier\SyliusErpFlatfilePlugin\Export\OrderExporter;
-use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEventInterface;
-use Tmonier\SyliusWebhookOutboxPlugin\Payload\OrderPayloadNormalizer;
 
 /**
- * US-193: the last placed orders of each channel become `order.placed` events of the outbox (written directly: no webhook delivery is
- * queued by the fixtures), then the export of the flat-file plugin runs once, as a cron would: the page "Flat-file exchange" shows a real
- * file; US-188: then the simulated ERP acknowledges it. The exchange directory is the configured one (the cache of the worker in the tests),
- * emptied first (files of orders, acknowledgements, journal of the simulator); a reset reloads the same state.
+ * US-193 / US-188: the exchange directory of the demo in its known state at each load of the fixtures, so after the nightly reset: the
+ * last placed orders of each channel in the outbox (no webhook delivery queued), one export, one pass of the simulated ERP
+ * (see {@see ErpDemoExchange}). Loaded after the webhook endpoint (-80). A showcase page must never stop a reset: a failure is logged.
+ * The start of a container runs `app:demo:erp-refresh` for the deployments that do not reload the fixtures (US-195).
  */
 final class ErpExportDemoFixture extends AbstractFixture
 {
-    private const PER_CHANNEL = 4;
-
-    /**
-     * @param class-string<OutboxEventInterface> $outboxEventClass
-     * @param OrderRepositoryInterface<OrderInterface> $orders
-     * @param ChannelRepositoryInterface<ChannelInterface> $channels
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        #[Autowire(service: 'sylius.repository.order')]
-        private readonly OrderRepositoryInterface $orders,
-        #[Autowire(service: 'sylius.repository.channel')]
-        private readonly ChannelRepositoryInterface $channels,
-        #[Autowire(service: 'tmonier_webhook.payload.order')]
-        private readonly OrderPayloadNormalizer $normalizer,
-        private readonly OrderExporter $exporter,
-        private readonly ErpDemoSimulator $simulator,
-        private readonly SimulatorJournal $journal,
-        private readonly LoggerInterface $logger,
-        #[Autowire(param: 'tmonier_webhook.model.outbox_event.class')]
-        private readonly string $outboxEventClass,
-        #[Autowire(param: 'tmonier_erp_flatfile.exchange_directory')]
-        private readonly string $directory,
-    ) {
+    public function __construct(private readonly ErpDemoExchange $exchange, private readonly LoggerInterface $logger)
+    {
     }
 
     public function load(array $options): void
     {
-        $this->emptyTheExchangeDirectory();
-        foreach ($this->channels->findAll() as $channel) {
-            foreach ($this->orders->findBy(['channel' => $channel, 'checkoutState' => 'completed'], ['checkoutCompletedAt' => 'DESC'], self::PER_CHANNEL) as $order) {
-                $this->entityManager->persist($this->placed($order));
-            }
-        }
-        $this->entityManager->flush();
-
         try {
-            $this->exporter->export();
-            // US-188: "ERP Démo (fictif)" acknowledges the file, as it would on its next pass.
-            $this->simulator->process();
-        } catch (ExchangeDirectoryUnavailable $e) {
-            $this->logger->warning('The demo export could not write its file: ' . $e->getMessage());
+            $this->exchange->build();
+        } catch (\Throwable $e) {
+            $this->logger->warning('The demo exchange with the simulated ERP could not be built: ' . $e->getMessage());
         }
     }
 
     public function getName(): string
     {
         return 'demo_erp_export';
-    }
-
-    private function placed(OrderInterface $order): OutboxEventInterface
-    {
-        $class = $this->outboxEventClass;
-
-        return new $class(
-            'order.placed',
-            OrderPayloadNormalizer::VERSION,
-            \DateTimeImmutable::createFromInterface($order->getCheckoutCompletedAt() ?? new \DateTimeImmutable()),
-            $this->normalizer->normalize($order),
-            $order->getChannel()?->getCode(),
-            'order',
-            (string) $order->getId(),
-            $order->getCustomer()?->getId(),
-            Uuid::v7()->toRfc4122(),
-        );
-    }
-
-    private function emptyTheExchangeDirectory(): void
-    {
-        $filesystem = new Filesystem();
-        $filesystem->mkdir($this->directory);
-        foreach ([...(glob(rtrim($this->directory, '/') . '/orders-*.csv') ?: []), ...(glob(rtrim($this->directory, '/') . '/ack-*.csv') ?: [])] as $file) {
-            $filesystem->remove($file);
-        }
-        $this->journal->clear();
     }
 }

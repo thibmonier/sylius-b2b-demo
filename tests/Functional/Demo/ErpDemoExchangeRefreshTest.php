@@ -165,7 +165,6 @@ final class ErpDemoExchangeRefreshTest extends KernelTestCase
             new ErpDemoSimulator($directory, $journal, $clock),
             $journal,
             $this->db(),
-            new NullLogger(),
             $class,
             $directory,
         );

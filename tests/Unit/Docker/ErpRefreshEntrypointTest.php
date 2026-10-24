@@ -28,7 +28,7 @@ final class ErpRefreshEntrypointTest extends TestCase
         self::assertGreaterThan((int) strpos($this->entrypoint, 'doctrine:migrations:migrate'), $refresh);
         self::assertGreaterThan((int) strpos($this->entrypoint, 'sylius:fixtures:load demo'), $refresh);
         self::assertGreaterThan((int) strpos($this->entrypoint, 'setpriv --reuid=www-data'), $refresh, 'as www-data, who owns the directory');
-        self::assertLessThan((int) strpos($this->entrypoint, 'supercronic'), $refresh);
+        self::assertLessThan((int) strpos($this->entrypoint, 'supercronic -split-logs'), $refresh);
     }
 
     public function testAFailureOfTheRefreshNeverStopsTheStart(): void

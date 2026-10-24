@@ -48,6 +48,18 @@ Un fichier dont **l'en-tête n'est pas celui du contrat**, ou qui ne contient au
 
 Le journal du simulateur est le fichier caché `.erp-demo-journal.jsonl` du répertoire d'échange, une ligne JSON par fichier traité. La remise à zéro nocturne recharge les fixtures `demo` ; la fixture `demo_erp_export` vide le répertoire (fichiers de commandes, accusés, journal), place les dernières commandes de chaque canal dans l'outbox, lance **un** export puis **une** passe du simulateur. L'état de la démo est donc le même chaque matin : un fichier de commandes, son accusé, une ligne de journal. La rétention du répertoire d'échange est celle de la remise à zéro.
 
+## Après un déploiement (US-195)
+
+Le répertoire d'échange (`var/erp-exchange`) vit dans le système de fichiers du conteneur : chaque déploiement Railway démarre un conteneur neuf, donc un répertoire vide, alors que la base (outbox, journal d'export du plugin) survit et que les fixtures ne se rechargent pas (le marqueur de chargement est là). Sans correctif, la page `/echange-fichier` et l'écran Échanges ERP restent vides jusqu'à la remise à zéro de 03:00.
+
+L'entrypoint (`docker/entrypoint.sh`, en `www-data`, après les migrations et les fixtures) lance donc `bin/console app:demo:erp-refresh` à chaque démarrage :
+
+- si le répertoire contient déjà un `orders-*.csv`, la commande ne fait rien (redémarrage sans déploiement, deuxième passage) ;
+- sinon, les lignes du journal d'export du plugin, qui pointent vers des fichiers disparus, sont oubliées ; les commandes déjà dans l'outbox sont exportées de nouveau (aucun événement n'est écrit deux fois : une commande qui a déjà son événement `order.placed` n'en reçoit pas un autre) ; s'il n'y en a aucun, les dernières commandes de chaque canal sont enregistrées dans l'outbox, sans webhook en file ; puis un export et une passe de l'ERP Démo (fictif) ;
+- un échec est un message clair et un code de sortie non nul, que l'entrypoint tolère : le conteneur démarre quand même, les pages restent vides jusqu'à la remise à zéro suivante. Le plugin d'export n'est pas modifié.
+
+Le répertoire n'est **pas** sur le volume public `media` : les fichiers contiennent des adresses (fictives), et le volume des médias est servi publiquement.
+
 ## Ce qui est simulé, ce qui ne l'est pas
 
 - Simulé : l'ERP, son accusé, ses contrôles, ses statuts et ses chiffres.
