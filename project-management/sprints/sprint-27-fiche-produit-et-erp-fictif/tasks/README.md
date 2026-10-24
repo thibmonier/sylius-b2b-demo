@@ -9,8 +9,8 @@
 | US | Titre | Points | Tâches | Heures | Sacrifice | Statut |
 |----|-------|--------|--------|--------|-----------|--------|
 | [US-189](./US-189-tasks.md) | Refonte de la fiche produit dans la continuité de la home | 5 | 13 | 11,5 h | non sacrifiable | 🔲 (maquette en premier, code 📅) |
-| [US-193](./US-193-tasks.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | 8 | 4,5 h | **n°2 (à confirmer)** | 🔲 |
-| [US-188](./US-188-tasks.md) | Démonstration avec l'ERP fictif (périmètre réduit, sans US-187) | 5 | 11 | 9,5 h | **n°1 (à confirmer)** | 🔲 |
+| [US-193](./US-193-tasks.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | 8 | 4,5 h | **n°2 (validé)** | 🔲 |
+| [US-188](./US-188-tasks.md) | Démonstration avec l'ERP fictif (périmètre réduit, sans US-187) | 5 | 11 | 9,5 h | **n°1 (validé)** | 🔲 |
 | [Transverse](./technical-tasks.md) | Actions de la rétro du sprint 26, contrôles, GO, clôture (sans points) | 0 | 12 | 8 h | non sacrifiable | 1 ✅, 11 🔲 |
 | [US-194](./US-194-tasks.md) | Logo de l'auteur dans le pied de page | 1 | 1 | 1 h | non sacrifiable | 🔄 (w185) |
 | **Total** | | **13** | **45** | **34,5 h** | | |
@@ -27,7 +27,7 @@ Méthode des sprints précédents : 2,1 h par point + 8 h de tâches transverses
 |-----------|----------|------------------|-------|
 | 13 points | 13 × 2,1 + 8 = **35,3 h** | 33,75 h | **1,55 h** |
 
-La marge est faible (1,55 h contre 3,3 h au sprint 26) : le périmètre en points est sous la moyenne (19), mais les actions de la rétro pèsent 8 h de transverse et la maquette d'US-189 demande deux feux verts de Thibaut. Ordre de sacrifice proposé, **à confirmer par Thibaut** : **US-188, puis US-193**.
+La marge est faible (1,55 h contre 3,3 h au sprint 26) : le périmètre en points est sous la moyenne (19), mais les actions de la rétro pèsent 8 h de transverse et la maquette d'US-189 demande deux feux verts de Thibaut. Ordre de sacrifice **validé par Thibaut le 2026-10-24** : **US-188, puis US-193**.
 
 | # | Sacrifice | Heures Claude libérées | Charge restante | Capacité du périmètre restant | Conséquence |
 |---|-----------|------------------------|-----------------|-------------------------------|-------------|
@@ -88,4 +88,3 @@ Reprises de [../consigne-worker.md](../consigne-worker.md) (à coller dans chaqu
 |-------|--------|-------|
 | T-189-04 | Valider la maquette de la fiche produit (ou demander des retouches) | 0,5 h |
 | T-189-05 | Fournir les photos ou éléments demandés par la maquette, ou donner le GO sur une banque libre | 0,25 h |
-| (hors tâche) | Confirmer l'ordre de sacrifice et l'accusé de réception simulé d'US-188 | quelques minutes |

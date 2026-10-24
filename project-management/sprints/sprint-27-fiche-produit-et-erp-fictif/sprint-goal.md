@@ -26,8 +26,8 @@ Gherkin : au minimum 1 nominal, 2 alternatifs et 2 erreurs par story. « Fiche �
 | ID | Titre | Pts | MoSCoW | Statut | Sacrifice |
 |----|-------|-----|--------|--------|-----------|
 | [US-189](../../backlog/user-stories/US-189.md) | Refonte de la fiche produit dans la continuité de la home | 5 | Should | ready-for-dev (maquette en premier) | non sacrifiable |
-| [US-193](../../backlog/user-stories/US-193.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | Should | ready-for-dev | **n°2 (à confirmer)** |
-| [US-188](../../backlog/user-stories/US-188.md) | Démonstration avec l'ERP fictif : simulateur, journal au back-office, documentation (**périmètre réduit, sans US-187**) | 5 | Could | ready-for-dev | **n°1 (à confirmer)** |
+| [US-193](../../backlog/user-stories/US-193.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | Should | ready-for-dev | **n°2 (validé)** |
+| [US-188](../../backlog/user-stories/US-188.md) | Démonstration avec l'ERP fictif : simulateur, journal au back-office, documentation (**périmètre réduit, sans US-187**) | 5 | Could | ready-for-dev | **n°1 (validé)** |
 
 | [US-194](../../backlog/user-stories/US-194.md) | Logo de l'auteur dans le pied de page | 1 | Should | en cours (w185) | non sacrifiable |
 
@@ -51,7 +51,7 @@ La fiche d'US-188 dépend d'US-185 **et** d'US-187. Sans l'import, trois scénar
 | Page de journal au back-office : lots sortants (journal d'export du plugin) et accusés entrants du simulateur, avec lignes lues, acceptées, rejetées | Lots d'import, rapport de rejet d'import |
 | Documentation de la démonstration, remise à zéro nocturne | Idempotence d'import |
 
-Le « lot rejeté » devient un **fichier de commandes volontairement invalide rejeté par le simulateur** (aucun accusé, rejet visible au journal). Estimation conservée à **5 points** (9,5 h) : la page, le simulateur et le journal restent à écrire. L'accusé de réception est un contrat de démonstration ajouté par cette réduction ; il est à valider par Thibaut (question 1 du rapport de planning).
+Le « lot rejeté » devient un **fichier de commandes volontairement invalide rejeté par le simulateur** (aucun accusé, rejet visible au journal). Estimation conservée à **5 points** (9,5 h) : la page, le simulateur et le journal restent à écrire. L'accusé de réception est un format propre à la démo, présenté comme simulé ; **validé par Thibaut le 2026-10-24**, le plugin d'export ne change pas.
 
 ## Checklist de démarrage (2026-10-24)
 
@@ -106,7 +106,6 @@ Le « lot rejeté » devient un **fichier de commandes volontairement invalide r
 ## Actions de Thibaut
 
 - Valider la maquette de la fiche produit (T-189-04) ; fournir les photos ou éléments qu'elle demande, ou donner le GO sur une banque libre (T-189-05).
-- Confirmer l'ordre de sacrifice (US-188, puis US-193) et l'accusé de réception simulé d'US-188.
 - Quitter les applications lourdes si le swap dépasse la moitié de l'espace libre (relevé avant chaque lot).
 
 ## Risques
@@ -115,7 +114,7 @@ Le « lot rejeté » devient un **fichier de commandes volontairement invalide r
 |--------|-------------|--------|------------|
 | Maquette de la fiche refusée ou retouchée plusieurs fois : US-189 bloquée avant Twig | Moyenne | Élevé | Maquette produite tôt, états connecté, anonyme, B2C et rupture montrés ensemble ; travaux sans Twig (mesure avant, cadrage, photos) avancés pendant l'attente ; US-193 et US-188 avancent en parallèle |
 | 503 en mode prod local non résolu : captures et maquette sans rendu réel | Moyenne | Moyen | T-TECH-27-04 en premier, borné à 1 h ; à défaut, script de captures documenté et écart noté dans la revue |
-| Charge à 33,75 h pour 35,3 h de capacité | Élevée | Moyen | Ordre de sacrifice proposé (US-188, US-193) ; tâches sans marge relues à mi-sprint ; aucune story ajoutée sans retrait |
+| Charge à 33,75 h pour 35,3 h de capacité | Élevée | Moyen | Ordre de sacrifice validé (US-188, US-193) ; tâches sans marge relues à mi-sprint ; aucune story ajoutée sans retrait |
 | Espace libre sous 6 Go : aucune suite complète | Moyenne | Élevé | `bin/check-disk` durci (T-TECH-27-03), relevé avant et après chaque lot, nettoyage `--all` hors lots, une seule suite complète à la fois |
 | Régression de LCP ou d'accessibilité sur la fiche (photos, polices) | Moyenne | Moyen | Budget d'images testé, `font-src 'self'`, mesure avant/après au même protocole, story en review jusqu'à la preuve |
 | Fixtures de commandes (US-193) et remise à zéro (US-188) touchent les mêmes fichiers | Moyenne | Moyen | US-193 d'abord (T-193-04), US-188 reprend son résultat (T-188-07) ; un seul worker sur `DemoResetCommand` à la fois |

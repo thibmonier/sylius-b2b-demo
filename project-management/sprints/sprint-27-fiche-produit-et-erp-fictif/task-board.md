@@ -5,7 +5,7 @@
 
 Total décomposé : **45 tâches, 34,5 h** pour 13 points engagés ; **33,75 h pour Claude**, 0,75 h d'actions de Thibaut (2 tâches). État au planning (2026-10-24) : **1 ✅, 1 🔄, 33 🔲, 10 📅**.
 
-Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre. Sacrifices proposés, à confirmer par Thibaut : US-188 (n°1), puis US-193 (n°2) ; leurs tâches portent ⚠️ dans leur fichier si le sacrifice est décidé. Les tâches de code d'US-189 (T-189-07 à T-189-13) sont 📅 tant que Thibaut n'a pas validé la maquette (T-189-04).
+Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre. Sacrifices validés par Thibaut : US-188 (n°1), puis US-193 (n°2) ; leurs tâches portent ⚠️ dans leur fichier si le sacrifice est décidé. Les tâches de code d'US-189 (T-189-07 à T-189-13) sont 📅 tant que Thibaut n'a pas validé la maquette (T-189-04).
 
 ## 🔲 À Faire
 

@@ -4,7 +4,7 @@
 
 - **Epic** : EPIC-14
 - **Persona** : Camille (recruteuse IT), Thibaut ; lead développeur d'une agence
-- **Story Points** : 5 (Could, sacrifice : **n°1, à confirmer par Thibaut**)
+- **Story Points** : 5 (Could, sacrifice : **n°1, validé par Thibaut**)
 - **Sprint** : sprint-27-fiche-produit-et-erp-fictif
 - **Worker proposé** : w188
 - **Story** : [US-188](../../../backlog/user-stories/US-188.md) ; décision : [ADR 0017](../../../../docs/adr/0017-connecteur-erp-de-reference.md), section « Décision (2026-10-24, sprint 27) »

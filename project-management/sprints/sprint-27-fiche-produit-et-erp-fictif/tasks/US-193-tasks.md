@@ -4,7 +4,7 @@
 
 - **Epic** : EPIC-14
 - **Persona** : lead développeur d'une agence
-- **Story Points** : 2 (Should, sacrifice : **n°2, à confirmer par Thibaut**)
+- **Story Points** : 2 (Should, sacrifice : **n°2, validé par Thibaut**)
 - **Sprint** : sprint-27-fiche-produit-et-erp-fictif
 - **Worker proposé** : w193
 - **Story** : [US-193](../../../backlog/user-stories/US-193.md)
