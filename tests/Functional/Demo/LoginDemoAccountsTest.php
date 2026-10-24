@@ -8,7 +8,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-/** US-075: the demo accounts come first on the login page, grouped by company, one language, one click. */
+/**
+ * US-075: the demo accounts of the login page, grouped by company, one language, one click.
+ * US-191: the classic form comes first (left from `lg`, above on a phone), the accounts beside it (right from `lg`, below on a phone).
+ */
 final class LoginDemoAccountsTest extends WebTestCase
 {
     use EnvironmentSwitch;
@@ -21,7 +24,7 @@ final class LoginDemoAccountsTest extends WebTestCase
     }
 
     #[DataProvider('locales')]
-    public function testTheAccountsPrecedeTheClassicForm(string $locale, string $role, string $otherLanguage, string $verb): void
+    public function testTheClassicFormPrecedesTheAccounts(string $locale, string $role, string $otherLanguage, string $verb): void
     {
         $html = $this->loginPage($locale)->html();
 
@@ -29,7 +32,36 @@ final class LoginDemoAccountsTest extends WebTestCase
         $form = strpos($html, 'id="_username"');
         self::assertNotFalse($accounts);
         self::assertNotFalse($form);
-        self::assertLessThan($form, $accounts, 'accounts first, classic form below');
+        self::assertLessThan($accounts, $form, 'form first (above on a phone, left on a wide screen), accounts after');
+    }
+
+    #[DataProvider('locales')]
+    public function testTheFormAndTheAccountsAreTwoColumnsOfOneRowFromLg(string $locale, string $role, string $otherLanguage, string $verb): void
+    {
+        $page = $this->loginPage($locale);
+
+        $form = $page->filter('[data-login-column="form"]');
+        $accounts = $page->filter('[data-login-column="accounts"]');
+        self::assertCount(1, $form);
+        self::assertCount(1, $accounts);
+        self::assertCount(1, $form->filter('#_username'));
+        self::assertCount(1, $accounts->filter('[data-demo-accounts="shop"]'));
+        self::assertCount(0, $accounts->filter('#_username'));
+        foreach ([$form, $accounts] as $column) {
+            self::assertStringContainsString('col-12', (string) $column->attr('class'), 'one column on a phone');
+            self::assertMatchesRegularExpression('/\bcol-lg-\d+\b/', (string) $column->attr('class'), 'side by side from lg');
+            self::assertDoesNotMatchRegularExpression('/\border-lg-/', (string) $column->attr('class'), 'the order of the HTML is the order of the page');
+        }
+        self::assertSame($form->getNode(0)?->parentNode, $accounts->getNode(0)?->parentNode, 'same row');
+        self::assertStringContainsString('row', (string) $form->getNode(0)?->parentNode?->attributes?->getNamedItem('class')?->nodeValue);
+    }
+
+    #[DataProvider('locales')]
+    public function testNoHeadingSaysTheFormIsTheOtherWayToLogIn(string $locale, string $role, string $otherLanguage, string $verb): void
+    {
+        $text = $this->loginPage($locale)->filter('main')->text();
+
+        self::assertStringNotContainsString('Ou connectez-vous avec vos propres identifiants', $text);
     }
 
     #[DataProvider('locales')]
@@ -72,6 +104,7 @@ final class LoginDemoAccountsTest extends WebTestCase
 
         self::assertCount(0, $page->filter('[data-demo-accounts], [data-demo-login]'));
         self::assertCount(1, $page->filter('#_username'), 'the classic form stays');
+        self::assertCount(0, $page->filter('[data-login-column="accounts"]'), 'no empty column');
     }
 
     private function loginPage(string $locale): Crawler
