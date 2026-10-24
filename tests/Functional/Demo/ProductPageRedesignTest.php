@@ -70,6 +70,29 @@ final class ProductPageRedesignTest extends WebTestCase
         self::assertGreaterThanOrEqual(1, $page->filter('[data-pdp-section="attributes"] dt')->count());
     }
 
+    /** A product without review shows the link to give one and nothing else: no "no review" alert, no empty list. */
+    public function testWithoutReviewTheSectionIsJustTheLinkToGiveOne(): void
+    {
+        $page = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/outi-001-fr');
+
+        $section = $page->filter('[data-pdp-section="reviews"]');
+        self::assertCount(1, $section->filter('a[href$="/outi-001-fr/reviews/new"]'));
+        self::assertCount(0, $section->filter('.alert'));
+        self::assertStringNotContainsString('aucun avis', mb_strtolower($section->text()));
+    }
+
+    /** The norm pill over the photo comes from the attribute of the product, only when the product has one. */
+    public function testTheNormPillComesFromTheAttributeOnly(): void
+    {
+        $withNorm = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/epi-vest-001-fr');
+        $pill = $withNorm->filter('[data-pdp-part="gallery"] [data-pdp-norm]');
+        self::assertCount(1, $pill);
+        self::assertStringContainsString('EN 340', $pill->text());
+
+        $without = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/products/outi-001-fr');
+        self::assertCount(0, $without->filter('[data-pdp-norm]'));
+    }
+
     public function testTheTiersAreBeforeTheQuantityAndTheNegotiatedPriceIsSaid(): void
     {
         $client = $this->signedIn('claire@acme.example');
