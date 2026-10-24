@@ -243,6 +243,19 @@ final class PacksPageTest extends WebTestCase
         self::assertStringContainsString('pack', (string) $packs);
     }
 
+    /**
+     * US-178, T-178-07: in production the class names of the steps table widened the page to 645 px on a phone and 2105 px
+     * on a desktop. Bootstrap gives `code` `word-wrap: break-word`, which overrides the `overflow-wrap: anywhere` inherited
+     * from the cell, so the codes of the table must break anywhere themselves, at every width (outside any media query).
+     */
+    public function testTheCodesOfTheStepsTableBreakAnywhereAtEveryWidth(): void
+    {
+        $style = implode("\n", self::createClient()->request('GET', '/fr_FR/packs')->filter('style')->each(static fn (Crawler $tag): string => $tag->text()));
+        $outsideMedia = (string) preg_replace('/@media[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/', '', $style);
+
+        self::assertMatchesRegularExpression('/\[data-pack-steps\]\s+code\s*\{[^}]*overflow-wrap:\s*anywhere/', $outsideMedia);
+    }
+
     public function testNoFigureIsWrittenInTheTemplateOrTheLabels(): void
     {
         $root = \dirname(__DIR__, 3);
