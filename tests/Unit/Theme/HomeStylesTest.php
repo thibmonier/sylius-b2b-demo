@@ -69,11 +69,11 @@ final class HomeStylesTest extends TestCase
         $styles = $this->read('_home.scss');
 
         self::assertSame(1, preg_match('/@container \(min-width: (\d+(?:\.\d+)?)rem\)\s*\{\s*\.b2b-nav-col \.b2b-nav__list--row/', $styles, $french), 'the French threshold');
-        self::assertLessThanOrEqual(617 / 16, (float) $french[1], 'French: the row (589 px) fits the 617 px column of a buyer at 1200 px');
-        self::assertGreaterThanOrEqual(589 / 16, (float) $french[1], 'French: never below the row itself');
+        self::assertLessThanOrEqual(617 / 16, (float) ($french[1] ?? 0), 'French: the row (589 px) fits the 617 px column of a buyer at 1200 px');
+        self::assertGreaterThanOrEqual(589 / 16, (float) ($french[1] ?? 0), 'French: never below the row itself');
         self::assertSame(1, preg_match('/@container \(min-width: (\d+(?:\.\d+)?)rem\)\s*\{\s*:lang\(en\) \.b2b-nav-col \.b2b-nav__list--row/', $styles, $english), 'the English threshold');
-        self::assertLessThanOrEqual(641 / 16, (float) $english[1]);
-        self::assertGreaterThanOrEqual(466 / 16, (float) $english[1]);
+        self::assertLessThanOrEqual(641 / 16, (float) ($english[1] ?? 0));
+        self::assertGreaterThanOrEqual(466 / 16, (float) ($english[1] ?? 0));
     }
 
     public function testTheHomeWritesNoColourByHand(): void
