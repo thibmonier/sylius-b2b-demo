@@ -1,6 +1,6 @@
 # Sprint 26 : Vitrine et flux (refonte de la home, factures électroniques simulées, export CSV des commandes)
 
-> **Lancé le 2026-10-24**, le jour de la clôture du sprint 25. Périmètre décidé par Thibaut le 2026-10-24 : **23 points engagés**. La décomposition en tâches est faite : voir [tasks/README.md](./tasks/README.md). Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-26`).
+> **Clos le 2026-10-24** : 29 points livrés sur 29 engagés ([revue](./sprint-review.md), [rétro](./sprint-retro.md)). **Lancé le 2026-10-24**, le jour de la clôture du sprint 25. Périmètre décidé par Thibaut le 2026-10-24 : **23 points engagés**. La décomposition en tâches est faite : voir [tasks/README.md](./tasks/README.md). Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-26`).
 
 ## Informations
 
@@ -25,14 +25,14 @@ Gherkin : au minimum 1 nominal, 2 alternatifs et 2 erreurs par story. « Fiche �
 
 | ID | Titre | Pts | MoSCoW | Statut | Sacrifice |
 |----|-------|-----|--------|--------|-----------|
-| [US-186](../../backlog/user-stories/US-186.md) | Refonte du design de la home | 8 | Should | ready-for-dev | non sacrifiable |
-| [US-183](../../backlog/user-stories/US-183.md) | PA fictive de démonstration (ADR 0016, story B) | 5 | Should | ready-for-dev | non sacrifiable |
-| [US-185](../../backlog/user-stories/US-185.md) | Contrat de fichier plat et export CSV des commandes, dépôt atomique (ADR 0017, story A) | 5 | Could | ready-for-dev | **n°1** |
-| [US-184](../../backlog/user-stories/US-184.md) | Statuts de transmission au back-office et relance d'un envoi en erreur (ADR 0016, story C) | 3 | Should | ready-for-dev | **n°2** |
-| [US-181](../../backlog/user-stories/US-181.md) | Plugin b2b-mcp : `symfony/lock` et routes MCP en double | 1 | Should | ready-for-dev | non sacrifiable |
-| [US-182](../../backlog/user-stories/US-182.md) | Garde : `code` des tableaux qui se coupent | 1 | Should | ready-for-dev | non sacrifiable |
+| [US-186](../../backlog/user-stories/US-186.md) | Refonte du design de la home | 8 | Should | done | non sacrifiable |
+| [US-183](../../backlog/user-stories/US-183.md) | PA fictive de démonstration (ADR 0016, story B) | 5 | Should | done | non sacrifiable |
+| [US-185](../../backlog/user-stories/US-185.md) | Contrat de fichier plat et export CSV des commandes, dépôt atomique (ADR 0017, story A) | 5 | Could | done | **n°1** |
+| [US-184](../../backlog/user-stories/US-184.md) | Statuts de transmission au back-office et relance d'un envoi en erreur (ADR 0016, story C) | 3 | Should | done | **n°2** |
+| [US-181](../../backlog/user-stories/US-181.md) | Plugin b2b-mcp : `symfony/lock` et routes MCP en double | 1 | Should | done | non sacrifiable |
+| [US-182](../../backlog/user-stories/US-182.md) | Garde : `code` des tableaux qui se coupent | 1 | Should | done | non sacrifiable |
 
-Total engagé : **23 points**.
+Total engagé au planning : **23 points**. Ajoutées en cours de sprint, sur GO ou retour de Thibaut : US-190 (2), US-191 (1), US-192 (3), soit **29 points livrés** (voir [sprint-review.md](./sprint-review.md)). US-189 (5) reste au sprint 27.
 
 **Ordre de sacrifice** (décidé par Thibaut) : US-185, puis US-184.
 - **US-186** est la demande du jour de Thibaut : une home plus design, colorée, avec un hero chaleureux et des photos qui donnent envie. Deux portes : la **maquette Claude Design validée par Thibaut avant toute intégration Twig** (T-186-05) et la **vérification en production** (la story reste en review jusque-là, LCP mobile mesuré avant et après).

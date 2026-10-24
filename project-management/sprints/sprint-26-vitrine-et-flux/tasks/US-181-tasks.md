@@ -42,12 +42,12 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-181-01 | [DOC] | Cadrage : dépôt `sylius-b2b-mcp-plugin` (branche, matrice de CI, `composer.json`, README), recette Flex de `sylius/mcp-server-plugin`, gestes actuels du pack « IA et headless » | 0,25 h | - | Claude | 🔲 |
-| T-181-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : `symfony/lock` dans `require`, README sans import des routes en double, geste du README cohérent avec la recette | 0,5 h | T-181-01 | Claude | 🔲 |
-| T-181-03 | [BE] | `symfony/lock` ajouté au `require` ; README FR et EN corrigés (import des routes une fois, cas avec et sans Flex) ; CHANGELOG | 0,5 h | T-181-02 | Claude | 🔲 |
-| T-181-04 | [OPS] | 📅 Thibaut donne son GO pour pousser la branche, ouvrir la PR du plugin, la fusionner puis poser le tag et la release corrective | 0,25 h | T-181-03 | Thibaut | 📅 |
-| T-181-05 | [OPS] | Après GO : push, CI verte sur toute la matrice (run terminé), concordance de la version avant le tag, tag et release | 0,5 h | T-181-04 | Claude | 🔲 |
-| T-181-06 | [OPS] | Pack « IA et headless » : geste `symfony/lock` retiré si la borne couvre la version corrigée, CI d'installation verte (PR du dépôt du pack, GO couvert par T-181-04 pour ce seul objet, sinon redemandé) | 0,5 h | T-181-05 | Claude | 🔲 |
+| T-181-01 | [DOC] | Cadrage : dépôt `sylius-b2b-mcp-plugin` (branche, matrice de CI, `composer.json`, README), recette Flex de `sylius/mcp-server-plugin`, gestes actuels du pack « IA et headless » | 0,25 h | - | Claude | ✅ |
+| T-181-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : `symfony/lock` dans `require`, README sans import des routes en double, geste du README cohérent avec la recette | 0,5 h | T-181-01 | Claude | ✅ |
+| T-181-03 | [BE] | `symfony/lock` ajouté au `require` ; README FR et EN corrigés (import des routes une fois, cas avec et sans Flex) ; CHANGELOG | 0,5 h | T-181-02 | Claude | ✅ |
+| T-181-04 | [OPS] | 📅 Thibaut donne son GO pour pousser la branche, ouvrir la PR du plugin, la fusionner puis poser le tag et la release corrective | 0,25 h | T-181-03 | Thibaut | ✅ |
+| T-181-05 | [OPS] | Après GO : push, CI verte sur toute la matrice (run terminé), concordance de la version avant le tag, tag et release | 0,5 h | T-181-04 | Claude | ✅ |
+| T-181-06 | [OPS] | Pack « IA et headless » : geste `symfony/lock` retiré si la borne couvre la version corrigée, CI d'installation verte (PR du dépôt du pack, GO couvert par T-181-04 pour ce seul objet, sinon redemandé) | 0,5 h | T-181-05 | Claude | ✅ |
 
 **Total estimé : 2,5 h** (6 tâches, dont 0,25 h de Thibaut (1 tâche) ; 2,25 h pour Claude et l'orchestrateur).
 
@@ -57,8 +57,8 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Dépendance déclarée (nominal) | |
-| Projet avec Flex (alternatif) | |
-| Projet sans Flex (alternatif) | |
-| Import en double (erreur) | |
-| Pack inchangé (erreur) | |
+| Dépendance déclarée (nominal) | `tests/Unit/ComposerRequirementsTest.php` du plugin ; PR thibmonier/sylius-b2b-mcp-plugin#10, release v1.2.3 |
+| Projet avec Flex (alternatif) | `tests/Unit/InstallationDocumentationTest.php` (README FR et EN) ; PR #10 |
+| Projet sans Flex (alternatif) | `tests/Unit/InstallationDocumentationTest.php` ; PR #10 |
+| Import en double (erreur) | `tests/Unit/InstallationDocumentationTest.php` (import des routes une seule fois, sans Flex seulement) ; PR #10 |
+| Pack inchangé (erreur) | PR thibmonier/sylius-pack-ai-headless#3 (borne `^1.2.3`, geste `symfony/lock` retiré), fusionnée ; la borne est reprise dans la démo par #88 (`packs.json`) |
