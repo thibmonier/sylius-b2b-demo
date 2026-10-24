@@ -1,6 +1,6 @@
 # Dépendances : Sprint 027 (fiche produit et ERP fictif)
 
-> Périmètre validé par Thibaut le 2026-10-24 (12 points engagés). Les dépendances ci-dessous portent sur les stories ; le détail des tâches est dans chaque fichier `tasks/US-XXX-tasks.md`. Sources : [sprint-goal.md](./sprint-goal.md), [tasks/README.md](./tasks/README.md).
+> Périmètre validé par Thibaut le 2026-10-24 (13 points engagés). Les dépendances ci-dessous portent sur les stories ; le détail des tâches est dans chaque fichier `tasks/US-XXX-tasks.md`. Sources : [sprint-goal.md](./sprint-goal.md), [tasks/README.md](./tasks/README.md).
 
 ```mermaid
 graph TD

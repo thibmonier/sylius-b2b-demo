@@ -450,17 +450,18 @@ sprints:
 
   sprint-27:
     name: sprint-27-fiche-produit-et-erp-fictif  # fiche produit refondue après maquette, vrai extrait du fichier plat, démonstration avec l'ERP fictif (périmètre réduit), actions de la rétro du sprint 26
-    status: in-progress  # LANCÉ le 2026-10-24 : périmètre validé par Thibaut le 2026-10-24 (12 points) ; 44 tâches, 33,5 h ; US-189 : maquette Claude Design en premier, tâches de code 📅 jusqu'au GO de Thibaut
+    status: in-progress  # LANCÉ le 2026-10-24 : périmètre validé par Thibaut le 2026-10-24 (12 points, puis US-194 ajoutée sur demande de Thibaut : 13 points) ; 45 tâches, 34,5 h ; US-189 : maquette Claude Design en premier, tâches de code 📅 jusqu'au GO de Thibaut
     sprint_id: "sprint-27"
     start_date: "2026-10-24"
     end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
-    capacity_points: 12  # 33,2 h de capacité (12 × 2,1 h + 8 h transverses) ; charge décomposée : 44 tâches, 33,5 h dont 0,75 h de Thibaut (32,75 h pour Claude) ; vélocité de référence : S23 11, S24 19, S25 17, S26 29
+    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 45 tâches, 34,5 h dont 0,75 h de Thibaut (33,75 h pour Claude) ; vélocité de référence : S23 11, S24 19, S25 17, S26 29
     goal: "Donner à la fiche produit la même chaleur que la home (maquette validée avant le code), faire lire à la page d'échange de fichier un vrai extrait produit par le plugin d'export, et montrer le va-et-vient des commandes avec un ERP fictif, journal des échanges compris, sans aucun système réel"
     stories:
       - {id: US-189, title: "Refonte de la fiche produit dans la continuité de la home", points: 5, status: ready-for-dev}  # EPIC-12, Should, non sacrifiable ; maquette Claude Design validée par Thibaut avant toute intégration Twig (T-189-03, T-189-04), tâches de code 📅 jusqu'au GO ; 503 en mode prod local d'abord (T-TECH-27-04, 05) ; LCP mobile avant/après, mesures consignées le jour du déploiement ; reste en review jusqu'à la production
+      - {id: US-194, title: "Logo de l'auteur dans le pied de page", points: 1, status: in-progress}  # EPIC-12, Should ; demande de Thibaut du 2026-10-24 ; w185 ; pied de page, alt vide, fichier de moins de 8 Ko
       - {id: US-193, title: "Extrait réel du fichier plat sur /echange-fichier", points: 2, status: ready-for-dev}  # EPIC-14, Should, sacrifice n°2 (à confirmer) ; suite d'US-190 ; fixtures de commandes et export au chargement (T-193-04)
       - {id: US-188, title: "Démonstration avec l'ERP fictif : simulateur, journal au back-office, documentation (périmètre réduit)", points: 5, status: ready-for-dev}  # EPIC-14, Could, sacrifice n°1 (à confirmer) ; SANS US-187 (import CSV hors sprint) : accusé de réception simulé à la place du CSV de prix et de stock ; page du back-office vérifiée en local seulement ; ADR 0017 section « Décision (2026-10-24, sprint 27) »
-    notes: "Planifié le 2026-10-24. Ordre de sacrifice proposé : US-188, puis US-193 (à confirmer par Thibaut). Branche partagée feature/sprint-27-dev. Cinq actions de la rétro du sprint 26 en T-TECH-27-01 à 07 : règles 13 à 15 de consigne-worker.md et lignes de checklist-integration.md écrites au planning (T-TECH-27-01 faite) ; check-disk à 6 Go ; 503 prod local avant la maquette ; garde de largeur des tables larges ; remesure du LCP de la home. Workers : w189, w193, w188. US-187 reste au backlog."
+    notes: "Planifié le 2026-10-24 ; US-194 (1 point) ajoutée le même jour sur demande de Thibaut, réalisée par w185. Ordre de sacrifice proposé : US-188, puis US-193 (à confirmer par Thibaut). Branche partagée feature/sprint-27-dev. Cinq actions de la rétro du sprint 26 en T-TECH-27-01 à 07 : règles 13 à 15 de consigne-worker.md et lignes de checklist-integration.md écrites au planning (T-TECH-27-01 faite) ; check-disk à 6 Go ; 503 prod local avant la maquette ; garde de largeur des tables larges ; remesure du LCP de la home. Workers : w189, w193, w188. US-187 reste au backlog."
 
 backlog:
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)

@@ -1,6 +1,6 @@
 # Sprint 27 : Fiche produit et ERP fictif (fiche produit refondue, vrai extrait du fichier plat, démonstration avec l'ERP fictif)
 
-> **Planifié le 2026-10-24**, le jour de la clôture du sprint 26. Périmètre validé par Thibaut le 2026-10-24 : **12 points**. La décomposition en tâches est faite : voir [tasks/README.md](./tasks/README.md). Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-27`).
+> **Planifié le 2026-10-24**, le jour de la clôture du sprint 26. Périmètre validé par Thibaut le 2026-10-24 : **13 points** (12 puis US-194, ajoutée sur demande de Thibaut). La décomposition en tâches est faite : voir [tasks/README.md](./tasks/README.md). Source de vérité des statuts : `.bmad/sprint-status.yaml` (`sprint-27`).
 
 ## Informations
 
@@ -9,11 +9,11 @@
 | Numéro | 27 |
 | Début | 2026-10-24 (planning) |
 | Fin | au plus tard le 2026-11-21 ; clôture dès que le périmètre est vérifié |
-| Capacité | **12 points** ; 44 tâches, 33,5 h (32,75 h pour Claude, 0,75 h d'actions de Thibaut) pour 33,2 h de capacité (12 × 2,1 h + 8 h transverses), soit 0,45 h de marge |
+| Capacité | **13 points** ; 45 tâches, 34,5 h (33,75 h pour Claude, 0,75 h d'actions de Thibaut) pour 35,3 h de capacité (13 × 2,1 h + 8 h transverses), soit 1,55 h de marge |
 | Vélocité de référence | S23 11, S24 19, S25 17, S26 29 (moyenne 19) |
 | Branche | `feature/sprint-27-dev` (branche partagée, créée depuis `main` ; pas de checkout dans l'arbre partagé) |
 
-Le périmètre (12 points) est sous la moyenne des quatre derniers sprints (19), mais la charge en heures est tendue : les cinq actions de la rétrospective du sprint 26 pèsent 8 h de tâches transverses et une story (US-189) attend deux feux verts de Thibaut (maquette, éléments). L'ordre de sacrifice est proposé (US-188, puis US-193) et à confirmer par Thibaut.
+Le périmètre (13 points) est sous la moyenne des quatre derniers sprints (19), mais la charge en heures est tendue : les cinq actions de la rétrospective du sprint 26 pèsent 8 h de tâches transverses et une story (US-189) attend deux feux verts de Thibaut (maquette, éléments). L'ordre de sacrifice est proposé (US-188, puis US-193) et à confirmer par Thibaut.
 
 ## Sprint Goal
 
@@ -29,7 +29,9 @@ Gherkin : au minimum 1 nominal, 2 alternatifs et 2 erreurs par story. « Fiche �
 | [US-193](../../backlog/user-stories/US-193.md) | Extrait réel du fichier plat sur `/echange-fichier` | 2 | Should | ready-for-dev | **n°2 (à confirmer)** |
 | [US-188](../../backlog/user-stories/US-188.md) | Démonstration avec l'ERP fictif : simulateur, journal au back-office, documentation (**périmètre réduit, sans US-187**) | 5 | Could | ready-for-dev | **n°1 (à confirmer)** |
 
-Total engagé : **12 points**.
+| [US-194](../../backlog/user-stories/US-194.md) | Logo de l'auteur dans le pied de page | 1 | Should | en cours (w185) | non sacrifiable |
+
+Total engagé : **13 points**.
 
 - **US-189** est la demande de Thibaut dans la continuité de la home (US-186). Deux portes : la **maquette Claude Design validée par Thibaut avant tout Twig** (T-189-03, T-189-04) et la **vérification en production**, avec le LCP mobile mesuré avant et après au même protocole. Les tâches de code sont 📅 tant que le GO de la maquette n'est pas donné.
 - **US-193** est la suite d'US-190 : les fixtures passent des commandes, un export tourne au chargement, la page lit le vrai fichier.
@@ -64,7 +66,7 @@ Le « lot rejeté » devient un **fichier de commandes volontairement invalide r
   - action 5 : règle 15 de la consigne (mesures consignées le jour du déploiement), garde de largeur étendue aux tables larges (T-TECH-27-06), remesure du LCP « après » de la home (T-TECH-27-07).
 - [x] Backlog priorisé : périmètre validé par Thibaut le 2026-10-24
 - [x] Stories estimées et « Ready » : voir la Definition of Ready ci-dessous
-- [x] Capacité calculée : 33,2 h pour 32,75 h de charge de Claude
+- [x] Capacité calculée : 35,3 h pour 33,75 h de charge de Claude
 - [x] ADR 0017 mis à jour (section « Décision (2026-10-24, sprint 27) »), fiches US-188, US-189 et US-193 à jour
 - [x] Branche `feature/sprint-27-dev` créée depuis `main` ; `.bmad/sprint-status.yaml` mis à jour
 - [ ] **Disque : relever `df -h .` et `bin/check-disk` avant le premier lot** (6 Go pour une suite complète, 5 Go pour tout le reste) ; swap relevé (T-TECH-27-08)
@@ -83,6 +85,7 @@ Le « lot rejeté » devient un **fichier de commandes volontairement invalide r
 | US | Fiche | Gherkin (1+2+2 min.) | Prérequis d'environnement | État |
 |----|-------|----------------------|----------------------------|------|
 | US-189 | oui | oui (1+4+3 après affinage) | maquette validée avant Twig ; polices Fraunces et Inter déjà auto-hébergées (US-186) ; rendu du noyau en mode prod local (T-TECH-27-04) ; production en lecture seule ; 6 Go libres | prête (porte : maquette, puis GO) |
+| US-194 | oui | oui (1+2+2) | fichier du logo de l'auteur ; réalisée par w185 | en cours |
 | US-193 | oui | oui (1+2+2) | MySQL de la démo, `bin/run-tests` ; plugin de fichier plat `^0.1` déjà installé ; 6 Go libres | prête |
 | US-188 | oui (affinée, périmètre réduit) | oui (1+2+2) | US-185 et US-190 mergées (faites) ; US-193 pour les fixtures de commandes ; pas d'US-187 ; 6 Go libres | prête (après US-193 pour T-193-04) |
 
@@ -112,7 +115,7 @@ Le « lot rejeté » devient un **fichier de commandes volontairement invalide r
 |--------|-------------|--------|------------|
 | Maquette de la fiche refusée ou retouchée plusieurs fois : US-189 bloquée avant Twig | Moyenne | Élevé | Maquette produite tôt, états connecté, anonyme, B2C et rupture montrés ensemble ; travaux sans Twig (mesure avant, cadrage, photos) avancés pendant l'attente ; US-193 et US-188 avancent en parallèle |
 | 503 en mode prod local non résolu : captures et maquette sans rendu réel | Moyenne | Moyen | T-TECH-27-04 en premier, borné à 1 h ; à défaut, script de captures documenté et écart noté dans la revue |
-| Charge à 32,75 h pour 33,2 h de capacité | Élevée | Moyen | Ordre de sacrifice proposé (US-188, US-193) ; tâches sans marge relues à mi-sprint ; aucune story ajoutée sans retrait |
+| Charge à 33,75 h pour 35,3 h de capacité | Élevée | Moyen | Ordre de sacrifice proposé (US-188, US-193) ; tâches sans marge relues à mi-sprint ; aucune story ajoutée sans retrait |
 | Espace libre sous 6 Go : aucune suite complète | Moyenne | Élevé | `bin/check-disk` durci (T-TECH-27-03), relevé avant et après chaque lot, nettoyage `--all` hors lots, une seule suite complète à la fois |
 | Régression de LCP ou d'accessibilité sur la fiche (photos, polices) | Moyenne | Moyen | Budget d'images testé, `font-src 'self'`, mesure avant/après au même protocole, story en review jusqu'à la preuve |
 | Fixtures de commandes (US-193) et remise à zéro (US-188) touchent les mêmes fichiers | Moyenne | Moyen | US-193 d'abord (T-193-04), US-188 reprend son résultat (T-188-07) ; un seul worker sur `DemoResetCommand` à la fois |
