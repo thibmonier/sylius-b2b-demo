@@ -9,7 +9,7 @@ pack:
     plugins: "Plugins du pack"
     suggests: "Suggérés, non installés par le pack"
     steps: "Gestes restants après la commande"
-    steps_intro: "Pour chaque plugin, dans cet ordre. Le détail de chaque geste, avec ses options, est dans le README du plugin."
+    steps_intro: "Pour chaque plugin, dans cet ordre. Le détail de chaque geste, avec ses options, est dans le README du plugin. Un renvoi du tableau (« voir ci-dessous ») est expliqué dans le README du pack, lié sous le tableau."
 steps:
     caption: "Gestes restants à faire à la main pour chaque plugin du pack %pack%"
     column:

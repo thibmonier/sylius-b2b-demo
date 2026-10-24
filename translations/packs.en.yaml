@@ -9,7 +9,7 @@ pack:
     plugins: "Plugins in the pack"
     suggests: "Suggested, not installed by the pack"
     steps: "Steps left after the command"
-    steps_intro: "For each plugin, in this order. The detailed steps, with their options, are in the README of each plugin."
+    steps_intro: "For each plugin, in this order. The detailed steps, with their options, are in the README of each plugin. A reference in the table (see below) is explained in the README of the pack, linked under the table."
 steps:
     caption: "Steps left to do by hand for each plugin of the %pack% pack"
     column:

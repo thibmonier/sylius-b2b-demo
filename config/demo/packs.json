@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-23T22:33:26Z",
+    "generated_at": "2026-10-24T06:41:03Z",
     "packs": {
         "sylius-pack-ai-headless": {
             "composer": "tmonier/sylius-pack-ai-headless",
@@ -76,7 +76,6 @@
                 {
                     "slug": "sylius-ai-catalog-copilot-plugin",
                     "bundles": [
-                        "Symfony\\AI\\AiBundle\\AiBundle",
                         "Tmonier\\SyliusAiCatalogCopilotPlugin\\TmonierSyliusAiCatalogCopilotPlugin"
                     ],
                     "config": [
@@ -94,22 +93,18 @@
                 {
                     "slug": "sylius-b2b-mcp-plugin",
                     "bundles": [
-                        "Symfony\\AI\\McpBundle\\McpBundle",
-                        "Sylius\\McpServerPlugin\\SyliusMcpServerPlugin",
                         "Tmonier\\SyliusB2bMcpPlugin\\TmonierSyliusB2bMcpPlugin"
                     ],
                     "config": [
-                        "@SyliusMcpServerPlugin/config/config.yaml",
                         "@TmonierSyliusB2bMcpPlugin/config/config.yaml"
                     ],
                     "routes": [
-                        "@SyliusMcpServerPlugin/config/routes.yaml",
                         "@TmonierSyliusB2bMcpPlugin/config/routes.yaml"
                     ],
                     "migrations": true,
                     "other": {
-                        "en": "HTTPS on a public host name, trusted proxies, a dedicated encryption key, daily `tmonier:b2b-mcp:purge`",
-                        "fr": "HTTPS sur un nom d'hôte public, proxys de confiance, clé de chiffrement dédiée, `tmonier:b2b-mcp:purge` chaque jour"
+                        "en": "`symfony/lock` (see below), HTTPS on a public host name, trusted proxies, a dedicated encryption key, daily `tmonier:b2b-mcp:purge`",
+                        "fr": "`symfony/lock` (voir ci-dessous), HTTPS sur un nom d'hôte public, proxys de confiance, clé de chiffrement dédiée, `tmonier:b2b-mcp:purge` chaque jour"
                     }
                 },
                 {
@@ -132,8 +127,8 @@
             ],
             "source": "https://github.com/thibmonier/sylius-pack-ai-headless/blob/main/README.md",
             "composer_source": "https://github.com/thibmonier/sylius-pack-ai-headless/blob/main/composer.json",
-            "checked_at": "2026-10-23",
-            "fingerprint": "a28ac50cd7043f128eb82105c56e49bb18e75afe2f704aa1a5a61a39d2383c40"
+            "checked_at": "2026-10-24",
+            "fingerprint": "712f3cb7cc6bef6ffdf4fe80df332e024106b4cf443162edf3785a9e769c1b3f"
         },
         "sylius-pack-compliance-tooling": {
             "composer": "tmonier/sylius-pack-compliance-tooling",
@@ -201,7 +196,6 @@
                 {
                     "slug": "sylius-facturx-plugin",
                     "bundles": [
-                        "Sylius\\InvoicingPlugin\\SyliusInvoicingPlugin",
                         "Tmonier\\SyliusFacturXPlugin\\TmonierSyliusFacturXPlugin"
                     ],
                     "config": [
@@ -304,8 +298,8 @@
             ],
             "source": "https://github.com/thibmonier/sylius-pack-compliance-tooling/blob/main/README.md",
             "composer_source": "https://github.com/thibmonier/sylius-pack-compliance-tooling/blob/main/composer.json",
-            "checked_at": "2026-10-23",
-            "fingerprint": "5489bce6d53e35528756502e51b6a2c5545caf16f256455626ef77699752e737"
+            "checked_at": "2026-10-24",
+            "fingerprint": "e583dc6c4190a38449fecc8ae67db3726653b6e68e33b1e1450143aaea7ce1c7"
         }
     }
 }
