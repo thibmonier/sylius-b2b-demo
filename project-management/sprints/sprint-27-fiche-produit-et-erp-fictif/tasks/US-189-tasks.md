@@ -1,0 +1,89 @@
+# Tâches : US-189 : Refonte de la fiche produit dans la continuité de la home
+
+## Informations US
+
+- **Epic** : EPIC-12
+- **Persona** : acheteur B2B ; Camille (recruteuse IT)
+- **Story Points** : 5 (Should, sacrifice : non sacrifiable, demande de Thibaut)
+- **Sprint** : sprint-27-fiche-produit-et-erp-fictif
+- **Worker proposé** : w189 (Orchestrateur pour la maquette)
+- **Story** : [US-189](../../../backlog/user-stories/US-189.md)
+
+## Résumé de la US
+
+**En tant qu'** acheteur B2B  
+**Je veux** une fiche produit aussi claire et chaleureuse que la nouvelle home  
+**Afin de** trouver vite le prix, les paliers, la référence et l'action d'achat, comme sur un site réel
+
+## Règles et contraintes
+
+- **Maquette d'abord** : maquette Claude Design (desktop et mobile) publiée par l'orchestrateur et **validée par Thibaut (T-189-04) avant toute intégration Twig**, comme pour US-186. Les tâches de code T-189-07 à T-189-13 sont 📅 tant que son accord n'est pas donné. Si la maquette demande des photos ou des éléments, Thibaut les fournit ou donne le GO sur une banque libre (T-189-05) avant le code.
+- **Rendu réel d'abord** : la maquette est précédée de T-TECH-27-04 et T-TECH-27-05 (503 en mode prod local compris et documenté) ; les captures de la fiche sont faites sur un rendu du noyau en mode prod, sans HTML jetable.
+- **Reprise d'US-186** : palette (marine, orange brûlé, sable, sarcelle), polices Fraunces et Inter **auto-hébergées** (CSP `font-src 'self'`, aucune police distante), jetons et composants de `b2b.scss`, AAA (WCAG2AAA), cibles de 44 px, `prefers-reduced-motion`.
+- Canal B2B seulement : **la fiche B2C du cœur reste inchangée** (test) ; tous les nouveaux hooks portent `not is_granted('DEMO_CONSUMER_CHANNEL')`. Blocs B2B conservés : référence, prix HT de la société, paliers de quantité, prix négocié, devis, liste d'atelier, badges de plugins.
+- Visiteur anonyme : aucun prix B2B, appel à se connecter avec un compte de démo.
+- **LCP mobile mesuré avant (T-189-02) et après (T-189-12), même protocole** (médiane de 5 passes, production en lecture seule) ; seuil : sous 2,5 s, ou au plus 10 % au-dessus de la mesure d'avant si celle-ci était déjà au-dessus. 360 et 1280 px sans défilement horizontal.
+- Photos : banques libres seulement, fichier de crédits tenu à jour (un test échoue si une photo n'y figure pas).
+- Ton neutre (`PublicTextCharter`), aucune comparaison avec Sylius Plus, aucun chiffre non vérifiable ; aucun identifiant saisi en production ; aucun détail de sécurité dans le dépôt public.
+- Tests de la démo uniquement par `WORKER_ID=w189 TEST_DB_NAME=b2b_w189 TEST_CACHE_DIR=var/cache-w189 bin/run-tests` ; preuve : `php bin/proof-refresh` puis `php bin/proof-check`.
+- Règles du sprint et consigne de worker : voir [README.md](./README.md) et [../consigne-worker.md](../consigne-worker.md).
+
+## Lieu de vérification
+
+**Production, après le déploiement automatique de `main` par Railway** (lecture seule, sans connexion) : pa11y WCAG2AAA en FR et en EN sur trois fiches types (produit à paliers, produit sans palier, visiteur anonyme), 360 et 1280 px, LCP mobile « après ». Les vues connectées sont vérifiées en local et sur l'image reconstruite. **Mesures consignées dans ce fichier le jour du déploiement ; la story reste en review jusque-là.**
+
+## Fichiers principaux touchés
+
+- `templates/shop/theme_b2b/` (gabarits de la fiche : `product_*`), `config/packages/demo_theme_b2b.yaml` (hooks de la fiche)
+- `assets/shop/styles/b2b.scss`, `assets/shop/images/` (photos éventuelles, crédits)
+- `translations/` (domaine dédié à la fiche)
+- `tests/Functional/Demo/`, `tests/Smoke/` (nouveaux tests ; tests de prix et de paliers existants relus)
+- `config/demo/proof.json` (rafraîchi), `docs/theme-b2b.md`, `docs/images/product-*`, README
+
+## Vue d'ensemble des tâches
+
+La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrateur** (Claude en rôle d'orchestrateur) ou **Thibaut**. Ordre TDD : les tâches [TEST] rouges précèdent le code et sont commitées seules.
+
+| ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
+|----|------|-------|------------|-----------|-------------|--------|
+| T-189-01 | [DOC] | Cadrage : inventaire de la fiche relu contre le code (hooks `product.show`, gabarits `product_*`, blocs B2B, canal B2C, tests existants de prix et de paliers) ; trois fiches types retenues ; plan des tests | 0,75 h | - | Claude | 🔲 |
+| T-189-02 | [TEST] | Mesure « avant » en production (lecture seule) sur les trois fiches types : LCP mobile (médiane de 5 passes), poids et requêtes, largeur à 360 px, pa11y, FR et EN ; chiffres notés dans ce fichier | 0,75 h | T-189-01 | Claude | 🔲 |
+| T-189-03 | [FE-WEB] | Maquette Claude Design (desktop et mobile) : en-tête de fiche, galerie, référence, prix HT, paliers, action d'achat, états connecté, anonyme, rupture, B2C inchangé ; palette, Fraunces et Inter ; publiée en artefact privé, captures sur le rendu du noyau en mode prod | 2 h | T-189-01, T-TECH-27-04, T-TECH-27-05 | Orchestrateur | 🔲 |
+| T-189-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son accord** | 0,5 h | T-189-03 | Thibaut | 📅 |
+| T-189-05 | [OPS] | 📅 Thibaut fournit les photos ou éléments que la maquette demande, ou donne le GO sur une banque libre (sans objet si la maquette n'en demande pas) | 0,25 h | T-189-04 | Thibaut | 📅 |
+| T-189-06 | [DOC] | Photos ou éléments reçus : licence relue, optimisation, fichier de crédits (source, auteur, licence) ; conditionnelle | 0,5 h | T-189-05 | Claude | 📅 |
+| T-189-07 | [TEST] | Tests rouges, commités seuls et cités dans la PR : fiche B2B (nom, référence, prix HT, paliers, action), anonyme sans prix, B2C inchangé, prix négocié et rupture, 360 px, polices auto-hébergées et CSP `font-src 'self'`, budget des images, charte | 1 h | T-189-04 | Claude | 📅 |
+| T-189-08 | [FE-WEB] | Gabarits et hooks de la fiche, styles `b2b.scss` (jetons d'US-186 réutilisés), responsive 360 et 1280 px, AAA, cibles de 44 px, `prefers-reduced-motion` ; hooks sur le canal B2B seulement | 2,75 h | T-189-07, T-189-06 | Claude | 📅 |
+| T-189-09 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, `alt` des photos ; texte relu contre la maquette validée | 0,5 h | T-189-08 | Claude | 📅 |
+| T-189-10 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 360 px ; commande exacte et dernière ligne citées | 0,75 h | T-189-08, T-189-09 | Claude | 📅 |
+| T-189-11 | [DOC] | Captures `docs/images/product-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-189-10 | Claude | 📅 |
+| T-189-12 | [TEST] | Vérification en production après le déploiement (lecture seule, trois fiches types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-189-02 ; **comparaison avant/après consignée le jour du déploiement** | 0,75 h | merge de la PR | Claude | 📅 |
+| T-189-13 | [REV] | Revue (ton neutre, parité FR et EN, crédits complets, B2C inchangé) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-189-12 | Claude | 📅 |
+
+**Total estimé : 11,5 h** (13 tâches ; 10,75 h pour Claude et l'orchestrateur, 0,75 h d'actions de Thibaut).
+
+## Scénarios et preuves
+
+À remplir avant le passage en done : chaque scénario renvoie à un test (classe et méthode) ou à une preuve (commande et sortie, run de CI). Une ligne vide laisse la story en review.
+
+| Scénario | Test ou preuve |
+|----------|----------------|
+| Fiche lisible et cohérente avec la home (nominal) | |
+| Visiteur anonyme (alternatif) | |
+| Canal B2C (alternatif) | |
+| Prix négocié, paliers et rupture (alternatif) | |
+| Polices auto-hébergées et CSP (alternatif) | |
+| Débordement sur téléphone (erreur) | |
+| Régression d'accessibilité ou de performance (erreur) | |
+| Photo hors crédits ou trop lourde (erreur) | |
+
+## Mesures de production (avant : T-189-02 ; après : jour du déploiement)
+
+| Fiche | Moment | LCP mobile (médiane de 5) | Poids / requêtes | 360 px | 1280 px | pa11y FR / EN |
+|-------|--------|---------------------------|------------------|--------|---------|---------------|
+| Produit à paliers | avant | | | | | |
+| Produit à paliers | après | | | | | |
+| Produit sans palier | avant | | | | | |
+| Produit sans palier | après | | | | | |
+| Visiteur anonyme | avant | | | | | |
+| Visiteur anonyme | après | | | | | |

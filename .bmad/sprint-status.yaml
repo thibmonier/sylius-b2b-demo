@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 26
+current_sprint: 27
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -448,12 +448,23 @@ sprints:
       - {id: US-192, title: "Menu de compte déroulant, compteur d'approbations, menu catalogue ouvert dès 1200 px", points: 3, status: done}  # EPIC-12, Should ; ajoutée le 2026-10-24 sur retour de Thibaut ; PR #91 ; validée en production par Thibaut le 2026-10-24
     notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-185, puis US-184. ADR 0016 : stories B et C au sprint ; ADR 0017 accepté, story A seulement. Railway déploie main automatiquement. Actions 1, 3 et 4 de la rétro du sprint 25 appliquées au planning (checklist-integration.md, consigne-worker.md règle 12), action 2 = US-182. Disque : 5,2 Go libres au planning, sous le seuil de 6 Go : nettoyage par Thibaut avant le premier lot. Workers : w186 (US-186), w183 (US-183 puis US-184), w185 (US-185, US-181, US-182). Clôture : 29 points livrés sur 29 engagés (PR #83 à #91) ; US-186 (#87, #89), US-182 (#85) : contrôles en production du 2026-10-24 : pa11y et largeurs OK sauf /demo/accounts qui débordait à 360 px (corrigé par #92, remesuré OK ; T-182-05 faite), LCP d'US-186 non remesuré (T-186-14 partielle, T-186-15 non consignée). US-189 reste au sprint 27 ; US-187, US-188 au backlog."
 
+  sprint-27:
+    name: sprint-27-fiche-produit-et-erp-fictif  # fiche produit refondue après maquette, vrai extrait du fichier plat, démonstration avec l'ERP fictif (périmètre réduit), actions de la rétro du sprint 26
+    status: in-progress  # LANCÉ le 2026-10-24 : périmètre validé par Thibaut le 2026-10-24 (12 points) ; 44 tâches, 33,5 h ; US-189 : maquette Claude Design en premier, tâches de code 📅 jusqu'au GO de Thibaut
+    sprint_id: "sprint-27"
+    start_date: "2026-10-24"
+    end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_points: 12  # 33,2 h de capacité (12 × 2,1 h + 8 h transverses) ; charge décomposée : 44 tâches, 33,5 h dont 0,75 h de Thibaut (32,75 h pour Claude) ; vélocité de référence : S23 11, S24 19, S25 17, S26 29
+    goal: "Donner à la fiche produit la même chaleur que la home (maquette validée avant le code), faire lire à la page d'échange de fichier un vrai extrait produit par le plugin d'export, et montrer le va-et-vient des commandes avec un ERP fictif, journal des échanges compris, sans aucun système réel"
+    stories:
+      - {id: US-189, title: "Refonte de la fiche produit dans la continuité de la home", points: 5, status: ready-for-dev}  # EPIC-12, Should, non sacrifiable ; maquette Claude Design validée par Thibaut avant toute intégration Twig (T-189-03, T-189-04), tâches de code 📅 jusqu'au GO ; 503 en mode prod local d'abord (T-TECH-27-04, 05) ; LCP mobile avant/après, mesures consignées le jour du déploiement ; reste en review jusqu'à la production
+      - {id: US-193, title: "Extrait réel du fichier plat sur /echange-fichier", points: 2, status: ready-for-dev}  # EPIC-14, Should, sacrifice n°2 (à confirmer) ; suite d'US-190 ; fixtures de commandes et export au chargement (T-193-04)
+      - {id: US-188, title: "Démonstration avec l'ERP fictif : simulateur, journal au back-office, documentation (périmètre réduit)", points: 5, status: ready-for-dev}  # EPIC-14, Could, sacrifice n°1 (à confirmer) ; SANS US-187 (import CSV hors sprint) : accusé de réception simulé à la place du CSV de prix et de stock ; page du back-office vérifiée en local seulement ; ADR 0017 section « Décision (2026-10-24, sprint 27) »
+    notes: "Planifié le 2026-10-24. Ordre de sacrifice proposé : US-188, puis US-193 (à confirmer par Thibaut). Branche partagée feature/sprint-27-dev. Cinq actions de la rétro du sprint 26 en T-TECH-27-01 à 07 : règles 13 à 15 de consigne-worker.md et lignes de checklist-integration.md écrites au planning (T-TECH-27-01 faite) ; check-disk à 6 Go ; 503 prod local avant la maquette ; garde de largeur des tables larges ; remesure du LCP de la home. Workers : w189, w193, w188. US-187 reste au backlog."
+
 backlog:
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)
   - {id: US-187, title: "Import CSV de prix et de stock : validation, rapport de rejet, journal des lots, idempotence", points: 8, status: backlog}  # EPIC-14, Could ; ADR 0017 story B ; fiche courte à affiner (questions 3, 4 et 6 de l'ADR) ; créée le 2026-10-24
-  - {id: US-188, title: "Démonstration avec l'ERP fictif : simulateur, page de journal au back-office, documentation", points: 5, status: backlog}  # EPIC-14, Could ; ADR 0017 story C ; fiche courte, après US-185 et US-187 ; créée le 2026-10-24
-  - {id: US-193, title: "Commandes de démo passées pour un vrai extrait sur /echange-fichier", points: 2, status: backlog}  # EPIC-14, Should ; suite d'US-190 ; candidate au sprint 27 ; validée par Thibaut le 2026-10-24
-  - {id: US-189, title: "Refonte de la fiche produit dans la continuité de la home", points: 5, status: backlog}  # EPIC-12, Should ; demande de Thibaut du 2026-10-24 ; maquette Claude Design avant le Twig ; cible sprint 27 (décision de Thibaut)
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
   # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
   - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15

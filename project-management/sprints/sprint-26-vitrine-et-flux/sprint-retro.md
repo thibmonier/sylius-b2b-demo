@@ -150,7 +150,7 @@ Les contrôles du 2026-10-24 (largeurs, pa11y) ont été faits par l'orchestrate
 
 ## Intégration au sprint 27
 
-Aucun fichier de planification du sprint 27 n'existe encore : les actions 1 à 5 sont à reprendre au planning (checklist d'ouverture, T-TECH du sprint 27) avec US-189.
+Les actions 1 à 5 sont reprises au planning du sprint 27 ([sprint-goal.md](../sprint-27-fiche-produit-et-erp-fictif/sprint-goal.md), tâches T-TECH-27-01 à 07 de [technical-tasks.md](../sprint-27-fiche-produit-et-erp-fictif/tasks/technical-tasks.md)) : les actions 1 et 2 sont écrites dans `consigne-worker.md` et `checklist-integration.md` dès le planning.
 
 ## Points positifs à conserver
 
