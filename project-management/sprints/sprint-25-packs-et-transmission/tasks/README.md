@@ -8,11 +8,11 @@
 
 | US | Titre | Points | Tâches | Heures | Sacrifice | Statut |
 |----|-------|--------|--------|--------|-----------|--------|
-| [US-176](./US-176-tasks.md) | Installation réelle d'un pack en CI | 5 | 14 | 10,5 h | non sacrifiable | 🔲 |
-| [US-178](./US-178-tasks.md) | Page « Installer un pack » dans la démo | 2 | 8 | 4,75 h | non sacrifiable | 🔲 |
-| [US-177](./US-177-tasks.md) | Recettes Symfony Flex des packs | 5 | 14 | 10,5 h | **n°1** | 🔲 |
-| [US-180](./US-180-tasks.md) | Transmission des factures électroniques, tranche A | 5 | 13 | 10,5 h | **n°2** | 🔲 |
-| [Transverse](./technical-tasks.md) | Ressources, contrôles avant push et avant done, preuve, statuts, revue et rétro (sans points) | 0 | 13 | 6,25 h | non sacrifiable | 🔲 (4 ✅) |
+| [US-176](./US-176-tasks.md) | Installation réelle d'un pack en CI | 5 | 14 | 10,5 h | non sacrifiable | ✅ |
+| [US-178](./US-178-tasks.md) | Page « Installer un pack » dans la démo | 2 | 8 | 4,75 h | non sacrifiable | ✅ |
+| [US-177](./US-177-tasks.md) | Recettes Symfony Flex des packs | 5 | 14 | 10,5 h | **n°1** | ✅ |
+| [US-180](./US-180-tasks.md) | Transmission des factures électroniques, tranche A | 5 | 13 | 10,5 h | **n°2** | ✅ |
+| [Transverse](./technical-tasks.md) | Ressources, contrôles avant push et avant done, preuve, statuts, revue et rétro (sans points) | 0 | 13 | 6,25 h | non sacrifiable | ✅ |
 | **Total** | | **17** | **62** | **42,5 h** | | |
 
 **Total décomposé : 17 points, 62 tâches, 42,5 h**, dont 1,25 h d'actions de Thibaut (quatre GO et une soumission à Packagist) : **41,25 h pour Claude**, orchestrateur compris.
