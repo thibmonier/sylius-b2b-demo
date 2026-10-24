@@ -6,7 +6,6 @@ login:
     no_company: 'Particuliers (canal B2C)'
     log_in_as: 'Se connecter en tant que %name%'
     disabled: 'compte désactivé'
-    classic: 'Ou connectez-vous avec vos propres identifiants'
 role:
     buyer: 'Acheteur'
     approver: 'Approbateur'

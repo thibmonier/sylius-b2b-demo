@@ -1,9 +1,14 @@
+{# US-191: second column of the login page, beside the classic form (below it on a phone). #}
 {% if demo_mode() %}
-    {% include 'demo/_accounts_list.html.twig' with {
-        scope: 'shop',
-        accounts: demo_shop_accounts(),
-        check_route: 'sylius_shop_login_check',
-        csrf_field: '_csrf_shop_security_token',
-        csrf_id: 'shop_authenticate',
-    } only %}
+    <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-7 offset-lg-0 col-xl-6" data-login-column="accounts">
+        <div class="py-lg-5 px-3 mb-5 my-lg-5">
+            {% include 'demo/_accounts_list.html.twig' with {
+                scope: 'shop',
+                accounts: demo_shop_accounts(),
+                check_route: 'sylius_shop_login_check',
+                csrf_field: '_csrf_shop_security_token',
+                csrf_id: 'shop_authenticate',
+            } only %}
+        </div>
+    </div>
 {% endif %}

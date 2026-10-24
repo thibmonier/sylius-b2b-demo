@@ -6,7 +6,6 @@ login:
     no_company: 'Shoppers (B2C channel)'
     log_in_as: 'Log in as %name%'
     disabled: 'disabled account'
-    classic: 'Or sign in with your own credentials'
 role:
     buyer: 'Buyer'
     approver: 'Approver'
