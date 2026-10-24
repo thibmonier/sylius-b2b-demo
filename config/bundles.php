@@ -94,4 +94,6 @@ return [
     Tmonier\SyliusCompanyInsightsPlugin\TmonierSyliusCompanyInsightsPlugin::class => ['all' => true],
     // customer-asset-management (US-056..058): equipment fleet and compatible-parts filter
     Tmonier\SyliusCustomerAssetManagementPlugin\TmonierSyliusCustomerAssetManagementPlugin::class => ['all' => true],
+    // einvoice-transmission (US-183): journal of the sends of the Factur-X invoices, after facturx whose event it listens to
+    Tmonier\SyliusEinvoiceTransmissionPlugin\TmonierSyliusEinvoiceTransmissionPlugin::class => ['all' => true],
 ];

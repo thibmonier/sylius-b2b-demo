@@ -449,6 +449,7 @@ backlog:
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)
   - {id: US-187, title: "Import CSV de prix et de stock : validation, rapport de rejet, journal des lots, idempotence", points: 8, status: backlog}  # EPIC-14, Could ; ADR 0017 story B ; fiche courte à affiner (questions 3, 4 et 6 de l'ADR) ; créée le 2026-10-24
   - {id: US-188, title: "Démonstration avec l'ERP fictif : simulateur, page de journal au back-office, documentation", points: 5, status: backlog}  # EPIC-14, Could ; ADR 0017 story C ; fiche courte, après US-185 et US-187 ; créée le 2026-10-24
+  - {id: US-189, title: "Refonte de la fiche produit dans la continuité de la home", points: 5, status: backlog}  # EPIC-12, Should ; demande de Thibaut du 2026-10-24 ; maquette Claude Design avant le Twig ; cible sprint 27 (décision de Thibaut)
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
   # --- Sorties du sprint 23 au lancement (2026-10-23, périmètre validé par Thibaut)
   - {id: US-128, title: "Bilan de communication (indicateurs de recrutement)", points: 2, status: backlog}  # EPIC-13 ; sortie du sprint 23 le 2026-10-23 : nécessite le bilan J+30 (2026-11-18) et la fin du calendrier éditorial (2026-12-15) ; à planifier après le 2026-12-15

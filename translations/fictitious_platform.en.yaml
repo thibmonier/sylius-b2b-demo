@@ -1,0 +1,25 @@
+title: "Fictitious demonstration platform"
+intro: "When a Factur-X invoice is generated, the transmission plugin deposits it with a fictitious platform that runs inside the demo and answers a simulated status. No real platform is called: nothing leaves the demo."
+banner: "The statuses shown are simulated, with no regulatory value. The lifecycle statuses are to be verified against the official sources before any real use."
+flow:
+    title: "The flow"
+    invoice: "A demonstration order is paid and its Factur-X invoice is generated."
+    event: "The generation event triggers the transmission plugin, which claims a line of the journal for the invoice (a single deposit per invoice)."
+    deposit: "The adapter of the demo hands the XML and the PDF to the fictitious platform."
+    status: "The platform answers according to the scenario of the order; the journal keeps the status, its simulated reason and its date."
+scenarios:
+    title: "The scenarios"
+    intro: "The scenario of each order is fixed by the demonstration data: it is the same after every nightly reset."
+    deposited:
+        label: "Deposited"
+        text: "The invoice is received. It is the scenario of every order without a particular scenario."
+    rejected:
+        label: "Rejected"
+        text: "The platform rejects the deposit with a simulated reason, readable in the journal."
+    refused:
+        label: "Refused"
+        text: "The buyer refuses the invoice, with a simulated reason. This status is added to those of the plugin by the configuration of the demo."
+    collected:
+        label: "Collected"
+        text: "The invoice is marked as collected. This status is added to those of the plugin by the configuration of the demo."
+integrate_link: "Back to the integration guide"

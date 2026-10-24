@@ -1,0 +1,36 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'title'|trans({}, 'fictitious_platform') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-page="fictitious-platform">
+        <h1>{{ 'title'|trans({}, 'fictitious_platform') }}</h1>
+        <p class="lead">{{ 'intro'|trans({}, 'fictitious_platform') }}</p>
+
+        <div class="alert alert-warning" role="note" data-fictitious-banner>{{ 'banner'|trans({}, 'fictitious_platform') }}</div>
+
+        <section class="mt-4" aria-labelledby="fictitious-flow">
+            <h2 class="h4 border-bottom pb-2" id="fictitious-flow">{{ 'flow.title'|trans({}, 'fictitious_platform') }}</h2>
+            <ol>
+                {% for step in ['invoice', 'event', 'deposit', 'status'] %}
+                    <li>{{ ('flow.' ~ step)|trans({}, 'fictitious_platform') }}</li>
+                {% endfor %}
+            </ol>
+        </section>
+
+        <section class="mt-4" aria-labelledby="fictitious-scenarios">
+            <h2 class="h4 border-bottom pb-2" id="fictitious-scenarios">{{ 'scenarios.title'|trans({}, 'fictitious_platform') }}</h2>
+            <p>{{ 'scenarios.intro'|trans({}, 'fictitious_platform') }}</p>
+            <ul class="list-unstyled d-grid gap-2">
+                {% for scenario in scenarios %}
+                    <li class="border rounded p-3" data-fictitious-scenario="{{ scenario.value }}">
+                        <p class="mb-1 fw-bold">{{ ('scenarios.' ~ scenario.value ~ '.label')|trans({}, 'fictitious_platform') }} <code>{{ scenario.value }}</code></p>
+                        <p class="mb-0" style="overflow-wrap: anywhere;">{{ ('scenarios.' ~ scenario.value ~ '.text')|trans({}, 'fictitious_platform') }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <p class="mt-4"><a href="{{ path('app_demo_integrate', {_locale: app.request.locale}) }}" data-fictitious-integrate-link>{{ 'integrate_link'|trans({}, 'fictitious_platform') }}</a></p>
+    </div>
+{% endblock %}

@@ -1,0 +1,5 @@
+# US-183: the invoices of the demo are handed to the fictitious platform of the demo, which runs in the process and sends
+# nothing anywhere (ADR 0008, ADR 0016). `refused` and `collected` are the statuses the demo adds to those of the plugin.
+tmonier_sylius_einvoice_transmission:
+    transmitter: App\Demo\Einvoice\FictitiousPlatformTransmitter
+    additional_statuses: ['refused', 'collected']

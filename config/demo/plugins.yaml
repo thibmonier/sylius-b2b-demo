@@ -139,6 +139,17 @@ parameters:
               fr: "Connectez-vous en Claire (acheteuse d'Acme) et ouvrez « Mon matériel » dans votre compte : trois machines fictives sont déclarées (chariot, transpalette, perceuse à colonne), partagées avec les membres de la société. Ouvrez ensuite la catégorie Outillage : le contrôle « Compatible avec mon matériel » limite la liste aux pièces compatibles, pour tout le parc ou pour une machine. Dans une catégorie sans pièce compatible, la page le dit et propose de retirer le filtre."
               en: "Sign in as Claire (Acme buyer) and open \"My equipment\" in your account: three fictional machines are declared (forklift, pallet truck, drill press), shared with the members of the company. Then open the Tools category: the \"Compatible with my equipment\" control narrows the list to the compatible parts, for the whole fleet or for one machine. In a category with no compatible part, the page says so and offers to remove the filter."
           advised_account: claire@acme.example
+        - slug: sylius-einvoice-transmission-plugin
+          name: 'E-invoice Transmission'
+          category: billing
+          description:
+              fr: "Transmission des factures électroniques Factur-X pour Sylius 2 : port de transmission remplaçable, journal des envois avec leurs statuts, écouteur idempotent de l'événement du plugin Factur-X."
+              en: 'Transmission of Factur-X electronic invoices for Sylius 2: replaceable transmitter port, log of the sends with their statuses, idempotent listener of the Factur-X plugin event.'
+          demo_route: app_demo_fictitious_platform
+          scenario:
+              fr: "Ouvrez la page de la PA fictive de démonstration : quatre scénarios de statuts simulés, fixés par les données de la démo, sans aucune plateforme réelle."
+              en: "Open the fictitious demonstration platform page: four simulated status scenarios, fixed by the demo data, with no real platform."
+          advised_account: sophie@fournitures-pro.example
         - slug: sylius-facturx-plugin
           name: 'Factur-X'
           category: billing

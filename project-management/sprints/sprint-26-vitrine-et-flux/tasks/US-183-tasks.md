@@ -46,16 +46,16 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-183-01 | [DOC] | Cadrage : plugin de transmission v0.1.0 (port, journal, `additional_statuses`), événement de `facturx`, génération des factures dans la démo (`src/Invoice`, fixtures), ADR 0016 (statuts « à vérifier »), forme de la PA fictive (service en processus), choix des scénarios par les données | 1 h | - | Claude | 🔲 |
-| T-183-02 | [OPS] | Prérequis et installation : paquet résolu sur Packagist (T-180-13 du sprint 25) sinon arrêt de la story ; `composer require ^0.1`, bundle, migration, configuration ; contrôle de la concordance de version | 1 h | T-183-01 | Claude | 🔲 |
-| T-183-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR : dépôt et statut simulé, rejet avec motif, refus et encaissement, bandeau, événement rejoué, statut hors ensemble refusé, aucun appel sortant, charte | 1,5 h | T-183-02 | Claude | 🔲 |
-| T-183-04 | [BE] | Adaptateur `FictitiousPlatformTransmitter` (`src/Demo/Einvoice/`) et service de PA fictive : réponse selon le scénario, motif simulé | 1,5 h | T-183-03 | Claude | 🔲 |
-| T-183-05 | [BE] | Configuration de la démo : adaptateur choisi par service, statuts additionnels `refused` et `collected`, libellés FR et EN des statuts | 0,75 h | T-183-04 | Claude | 🔲 |
-| T-183-06 | [DB] | Données de démonstration : commandes payées pour chaque scénario dans les fixtures, factures générées, rejouables après la remise à zéro nocturne (ADR 0007) | 1,25 h | T-183-05 | Claude | 🔲 |
-| T-183-07 | [FE-WEB] | Page « PA fictive de démonstration » (FR et EN) avec le bandeau « statuts simulés, sans valeur réglementaire, à vérifier » et la liste des scénarios ; lien depuis la page Intégrer | 1,5 h | T-183-05 | Claude | 🔲 |
-| T-183-08 | [DOC] | Catalogue `config/demo/plugins.yaml`, matrice `compatibility.json`, compteur de plugins et tests qui le citent, documentation de la démo | 0,75 h | T-183-06, T-183-07 | Claude | 🔲 |
-| T-183-09 | [TEST] | Suite ciblée par `bin/run-tests` (`WORKER_ID=w183 …`), ECS, PHPStan max, Rector, lint Twig et YAML ; dernières lignes citées | 0,75 h | T-183-08 | Claude | 🔲 |
-| T-183-10 | [REV] | Revue (aucune plateforme réelle nommée, ton neutre, parité FR et EN, texte relu contre le code et l'ADR 0016) et table « scénario → test ou preuve » remplie | 0,25 h | T-183-09 | Claude | 🔲 |
+| T-183-01 | [DOC] | Cadrage : plugin de transmission v0.1.0 (port, journal, `additional_statuses`), événement de `facturx`, génération des factures dans la démo (`src/Invoice`, fixtures), ADR 0016 (statuts « à vérifier »), forme de la PA fictive (service en processus), choix des scénarios par les données | 1 h | - | Claude | ✅ |
+| T-183-02 | [OPS] | Prérequis et installation : paquet résolu sur Packagist (T-180-13 du sprint 25) sinon arrêt de la story ; `composer require ^0.1`, bundle, migration, configuration ; contrôle de la concordance de version | 1 h | T-183-01 | Claude | ✅ |
+| T-183-03 | [TEST] | Tests rouges, commités seuls et cités dans la PR : dépôt et statut simulé, rejet avec motif, refus et encaissement, bandeau, événement rejoué, statut hors ensemble refusé, aucun appel sortant, charte | 1,5 h | T-183-02 | Claude | ✅ |
+| T-183-04 | [BE] | Adaptateur `FictitiousPlatformTransmitter` (`src/Demo/Einvoice/`) et service de PA fictive : réponse selon le scénario, motif simulé | 1,5 h | T-183-03 | Claude | ✅ |
+| T-183-05 | [BE] | Configuration de la démo : adaptateur choisi par service, statuts additionnels `refused` et `collected`, libellés FR et EN des statuts | 0,75 h | T-183-04 | Claude | ✅ |
+| T-183-06 | [DB] | Données de démonstration : commandes payées pour chaque scénario dans les fixtures, factures générées, rejouables après la remise à zéro nocturne (ADR 0007) | 1,25 h | T-183-05 | Claude | ✅ |
+| T-183-07 | [FE-WEB] | Page « PA fictive de démonstration » (FR et EN) avec le bandeau « statuts simulés, sans valeur réglementaire, à vérifier » et la liste des scénarios ; lien depuis la page Intégrer | 1,5 h | T-183-05 | Claude | ✅ |
+| T-183-08 | [DOC] | Catalogue `config/demo/plugins.yaml`, matrice `compatibility.json`, compteur de plugins et tests qui le citent, documentation de la démo | 0,75 h | T-183-06, T-183-07 | Claude | ✅ |
+| T-183-09 | [TEST] | Suite ciblée par `bin/run-tests` (`WORKER_ID=w183 …`), ECS, PHPStan max, Rector, lint Twig et YAML ; dernières lignes citées | 0,75 h | T-183-08 | Claude | ✅ |
+| T-183-10 | [REV] | Revue (aucune plateforme réelle nommée, ton neutre, parité FR et EN, texte relu contre le code et l'ADR 0016) et table « scénario → test ou preuve » remplie | 0,25 h | T-183-09 | Claude | ✅ |
 
 **Total estimé : 10,25 h** (10 tâches ; 10,25 h pour Claude et l'orchestrateur).
 
@@ -65,9 +65,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Facture déposée puis statut simulé (nominal) | |
-| Rejet avec motif (alternatif) | |
-| Refus et encaissement (alternatif) | |
-| Bandeau explicatif (alternatif) | |
-| Événement rejoué (erreur) | |
-| Plugin absent de Packagist ou statut hors ensemble (erreur) | |
+| Facture déposée puis statut simulé (nominal) | `FictitiousPlatformJournalTest::testTheJournalKeepsTheStatusOfTheScenarioWithItsDate` (deposited, avec `updated_at`) ; `FictitiousPlatformTransmitterTest::testTheInvoiceIsDepositedOnceAndTheStatusIsLogged` (un dépôt) |
+| Rejet avec motif (alternatif) | `FictitiousPlatformJournalTest::testARejectionAndARefusalKeepASimulatedReason` ; `FictitiousPlatformTransmitterTest::testARejectionKeepsItsReason` ; `FictitiousPlatformTest` (jeu de données rejected) |
+| Refus et encaissement (alternatif) | `FictitiousPlatformJournalTest` (jeux refused et collected) ; `FictitiousPlatformTransmitterTest::testTheStatusesAddedByTheDemoConfigurationAreAccepted` ; `EinvoiceTransmissionConfigurationTest::testTheAdapterIsChosenByServiceAndTheDemoStatusesAreDeclared` |
+| Bandeau explicatif (alternatif) | `FictitiousPlatformPageTest::testTheBannerSaysTheStatusesAreSimulatedWithoutRegulatoryValueAndToBeVerified` (FR et EN) ; `testTheTextCarriesTheCharterAndNamesNoRealPlatform` |
+| Événement rejoué (erreur) | `FictitiousPlatformJournalTest::testAReplayedEventLeavesTheLineAndItsDateAsTheyWere` ; `FictitiousPlatformTransmitterTest::testAReplayedEventDoesNotDepositASecondTime` |
+| Plugin absent de Packagist ou statut hors ensemble (erreur) | `FictitiousPlatformTransmitterTest::testAStatusTheConfigurationDoesNotDeclareIsNeverStored` ; `EinvoiceTransmissionConfigurationTest::testThePluginComesFromPackagistAtTheReleasedMinorVersion` (`^0.1`, pas de dépôt VCS) ; `composer show -a` : v0.1.0 résolue |
