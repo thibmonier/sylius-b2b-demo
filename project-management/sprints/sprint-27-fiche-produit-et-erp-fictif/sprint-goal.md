@@ -13,7 +13,7 @@
 | Vélocité de référence | S23 11, S24 19, S25 17, S26 29 (moyenne 19) |
 | Branche | `feature/sprint-27-dev` (branche partagée, créée depuis `main` ; pas de checkout dans l'arbre partagé) |
 
-Le périmètre (13 points) est sous la moyenne des quatre derniers sprints (19), mais la charge en heures est tendue : les cinq actions de la rétrospective du sprint 26 pèsent 8 h de tâches transverses et une story (US-189) attend deux feux verts de Thibaut (maquette, éléments). L'ordre de sacrifice est proposé (US-188, puis US-193) et à confirmer par Thibaut.
+Le périmètre (13 points) est sous la moyenne des quatre derniers sprints (19), mais la charge en heures est tendue : les cinq actions de la rétrospective du sprint 26 pèsent 8 h de tâches transverses et une story (US-189) attend deux feux verts de Thibaut (maquette, éléments). L'ordre de sacrifice est validé par Thibaut (US-188, puis US-193) ; US-189 est protégée.
 
 ## Sprint Goal
 
