@@ -19,6 +19,13 @@ final class ErpExchangesAdminTest extends DemoAdminWebTestCase
     /** Names of ERP vendors and products: the page never names one, nor presents one as a partner (ADR 0017). */
     private const ERP_NAMES = ['SAP', 'Odoo', 'Sage', 'Dynamics', 'Business Central', 'Divalto', 'Oracle', 'NetSuite', 'Cegid', 'EBP', 'Sellsy'];
 
+    /** @return iterable<string, array{string}> */
+    public static function localeCodes(): iterable
+    {
+        yield 'French' => ['fr_FR'];
+        yield 'English' => ['en_US'];
+    }
+
     /** @return iterable<string, array{string, string, string}> */
     public static function locales(): iterable
     {
@@ -36,7 +43,7 @@ final class ErpExchangesAdminTest extends DemoAdminWebTestCase
         self::assertStringContainsString($name, $page->filter('[data-demo-erp]')->text());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localeCodes')]
     public function testTheListShowsTheBatchSentAndItsAcknowledgementWithTheirLines(string $locale): void
     {
         $page = $this->sophieClient($locale)->request('GET', self::URL);
@@ -53,7 +60,7 @@ final class ErpExchangesAdminTest extends DemoAdminWebTestCase
         self::assertNotSame('', trim($in->filter('time')->text()));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localeCodes')]
     public function testThePageIsReadOnlyAndInTheIntegrationsMenu(string $locale): void
     {
         $client = $this->sophieClient($locale);
@@ -67,7 +74,7 @@ final class ErpExchangesAdminTest extends DemoAdminWebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localeCodes')]
     public function testTheTextNamesNoErpAndCarriesTheCharter(string $locale): void
     {
         $text = $this->sophieClient($locale)->request('GET', self::URL)->filter('[data-demo-erp]')->text();

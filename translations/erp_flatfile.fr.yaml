@@ -35,4 +35,5 @@ run:
     once: "Chaque événement est exporté une seule fois ; la livraison est au moins une fois, le lecteur déduplique sur l'identifiant d'événement."
     unavailable: "Si le répertoire est absent, non inscriptible ou plein, aucun fichier ne reste, l'erreur est consignée et les événements restent à exporter."
     retention: "Le plugin ne purge pas le répertoire : la durée de conservation des fichiers, qui contiennent des adresses, se fixe côté exploitant."
+doc_link: "Le parcours complet, avec l'ERP Démo (fictif) qui renvoie un accusé de réception simulé : la documentation"
 integrate_link: "Retour au guide d'intégration"

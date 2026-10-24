@@ -45,7 +45,7 @@ final readonly class ExchangeFileSample
         if (!is_dir($this->directory) || !is_readable($this->directory)) {
             return ExchangeFileStatus::Unavailable;
         }
-        $files = glob(rtrim($this->directory, '/') . '/*.csv') ?: [];
+        $files = glob(rtrim($this->directory, '/') . '/orders-*.csv') ?: [];
         if ([] === $files) {
             return ExchangeFileStatus::NoFile;
         }

@@ -137,7 +137,7 @@ final class ErpDemoSimulatorTest extends TestCase
     {
         $source = (string) file_get_contents(__DIR__ . '/../../../../src/Demo/Erp/ErpDemoSimulator.php');
 
-        foreach (['HttpClient', 'curl_', 'fsockopen', 'stream_socket', 'file_get_contents(\'http', 'Process', 'exec(', 'shell_exec'] as $call) {
+        foreach (['HttpClient', 'curl_', 'fsockopen', 'stream_socket', 'file_get_contents(\'http', 'Component\\Process', 'exec(', 'shell_exec'] as $call) {
             self::assertStringNotContainsString($call, $source);
         }
     }

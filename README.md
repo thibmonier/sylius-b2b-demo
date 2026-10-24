@@ -132,4 +132,4 @@ Liste complète (plafonds de débit, hôtes sortants, secrets de la porte) : [`d
 
 ## Déploiement / Deployment
 
-La démo est déployée sur Railway, **privée** (auth HTTP basique) tant que l'ouverture publique n'est pas validée. Runbook : [`docs/deploiement-railway.md`](docs/deploiement-railway.md) ; remise à zéro nocturne (03:00, heure de Paris) : [`docs/remise-a-zero-demo.md`](docs/remise-a-zero-demo.md) ; admin de démo restreint : [`docs/securite-admin-demo.md`](docs/securite-admin-demo.md).
+La démo est déployée sur Railway, **privée** (auth HTTP basique) tant que l'ouverture publique n'est pas validée. Runbook : [`docs/deploiement-railway.md`](docs/deploiement-railway.md) ; remise à zéro nocturne (03:00, heure de Paris) : [`docs/remise-a-zero-demo.md`](docs/remise-a-zero-demo.md) ; échange de fichiers avec l'ERP Démo (fictif) : [`docs/erp-demo.md`](docs/erp-demo.md) ; admin de démo restreint : [`docs/securite-admin-demo.md`](docs/securite-admin-demo.md).
