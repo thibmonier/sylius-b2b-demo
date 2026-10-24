@@ -1,0 +1,25 @@
+title: "PA fictive de démonstration"
+intro: "Quand une facture Factur-X est générée, le plugin de transmission la dépose auprès d'une plateforme fictive qui tourne dans la démo et répond par un statut simulé. Aucune plateforme réelle n'est appelée : rien ne sort de la démo."
+banner: "Les statuts affichés sont simulés, sans valeur réglementaire. Les statuts de cycle de vie sont à vérifier auprès des sources officielles avant toute utilisation réelle."
+flow:
+    title: "Le parcours"
+    invoice: "Une commande de démonstration est payée et sa facture Factur-X est générée."
+    event: "L'événement de génération déclenche le plugin de transmission, qui réserve une ligne du journal pour la facture (un seul dépôt par facture)."
+    deposit: "L'adaptateur de la démo remet le XML et le PDF à la plateforme fictive."
+    status: "La plateforme répond selon le scénario de la commande ; le journal garde le statut, son motif simulé et sa date."
+scenarios:
+    title: "Les scénarios"
+    intro: "Le scénario de chaque commande est fixé par les données de démonstration : il est le même après chaque remise à zéro de la nuit."
+    deposited:
+        label: "Déposée"
+        text: "La facture est reçue. C'est le scénario de toutes les commandes sans scénario particulier."
+    rejected:
+        label: "Rejetée"
+        text: "La plateforme rejette le dépôt avec un motif simulé, lisible dans le journal."
+    refused:
+        label: "Refusée"
+        text: "L'acheteur refuse la facture, avec un motif simulé. Ce statut s'ajoute à ceux du plugin par la configuration de la démo."
+    collected:
+        label: "Encaissée"
+        text: "La facture est marquée comme encaissée. Ce statut s'ajoute à ceux du plugin par la configuration de la démo."
+integrate_link: "Retour au guide d'intégration"

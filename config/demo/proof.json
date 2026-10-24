@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-24T06:44:05Z",
+    "generated_at": "2026-10-24T09:56:36Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -442,6 +442,43 @@
             "tests": {
                 "value": 20,
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/main/tests",
+                "checked_at": "2026-10-24"
+            }
+        },
+        "sylius-einvoice-transmission-plugin": {
+            "version": {
+                "value": "v0.1.0",
+                "source": "https://packagist.org/packages/tmonier/sylius-einvoice-transmission-plugin",
+                "checked_at": "2026-10-24"
+            },
+            "sylius_declared": {
+                "value": "^2.2",
+                "source": "https://packagist.org/packages/tmonier/sylius-einvoice-transmission-plugin",
+                "checked_at": "2026-10-24"
+            },
+            "sylius_23": {
+                "value": true,
+                "source": "https://packagist.org/packages/tmonier/sylius-einvoice-transmission-plugin",
+                "checked_at": "2026-10-24"
+            },
+            "ci": {
+                "value": "success",
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/actions/runs/40065263842",
+                "checked_at": "2026-10-24"
+            },
+            "phpstan": {
+                "value": "max",
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/blob/main/phpstan.neon",
+                "checked_at": "2026-10-24"
+            },
+            "sylius_tested": {
+                "value": "2.2, 2.3",
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-24"
+            },
+            "tests": {
+                "value": 6,
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/main/tests",
                 "checked_at": "2026-10-24"
             }
         },
@@ -930,7 +967,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40033149166",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40082976415",
             "checked_at": "2026-10-24"
         },
         "phpstan": {
@@ -959,7 +996,7 @@
             "checked_at": "2026-10-24"
         },
         "tests": {
-            "value": 227,
+            "value": 234,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-24"
         }

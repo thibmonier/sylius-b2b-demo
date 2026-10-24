@@ -18,8 +18,8 @@ final class FictitiousPlatformJournalTest extends KernelTestCase
     use DatabaseAccess;
 
     private const LINE_OF_AN_ORDER = 'SELECT t.invoice_id, t.status, t.message, t.updated_at FROM tmonier_einvoice_transmission t'
-        . ' JOIN sylius_invoicing_plugin_invoice i ON i.id = t.invoice_id'
-        . ' JOIN sylius_order o ON o.number = i.order_number WHERE o.po_reference = ?';
+        . ' JOIN sylius_invoicing_plugin_invoice i ON i.id = t.invoice_id COLLATE utf8mb4_unicode_ci'
+        . ' JOIN sylius_order o ON o.id = i.order_id WHERE o.po_reference = ?';
 
     /** @return iterable<string, array{string, string}> */
     public static function plannedOrders(): iterable
@@ -47,7 +47,7 @@ final class FictitiousPlatformJournalTest extends KernelTestCase
         self::bootKernel();
 
         foreach (['ACME-PO-2026-0458', 'ACME-PO-2026-0503'] as $poReference) {
-            $message = $this->nullableStringValue('SELECT t.message FROM tmonier_einvoice_transmission t JOIN sylius_invoicing_plugin_invoice i ON i.id = t.invoice_id JOIN sylius_order o ON o.number = i.order_number WHERE o.po_reference = ?', [$poReference]);
+            $message = $this->nullableStringValue('SELECT t.message FROM tmonier_einvoice_transmission t JOIN sylius_invoicing_plugin_invoice i ON i.id = t.invoice_id COLLATE utf8mb4_unicode_ci JOIN sylius_order o ON o.id = i.order_id WHERE o.po_reference = ?', [$poReference]);
 
             self::assertNotNull($message);
             self::assertStringStartsWith('Simulated', $message);
@@ -63,7 +63,7 @@ final class FictitiousPlatformJournalTest extends KernelTestCase
             $this->intValue('SELECT COUNT(*) FROM tmonier_einvoice_transmission'),
             'one line per invoice',
         );
-        $statuses = array_map('strval', $this->db()->fetchFirstColumn('SELECT DISTINCT status FROM tmonier_einvoice_transmission'));
+        $statuses = array_map(static fn (mixed $status): string => \is_string($status) ? $status : '', $this->db()->fetchFirstColumn('SELECT DISTINCT status FROM tmonier_einvoice_transmission'));
         sort($statuses);
         self::assertSame(['collected', 'deposited', 'refused', 'rejected'], $statuses);
     }
@@ -73,13 +73,15 @@ final class FictitiousPlatformJournalTest extends KernelTestCase
         self::bootKernel();
         $before = $this->db()->fetchAssociative(self::LINE_OF_AN_ORDER, ['ACME-PO-2026-0412']);
         self::assertIsArray($before);
+        $invoiceId = $before['invoice_id'];
+        self::assertIsString($invoiceId);
         $handler = self::getContainer()->get(InvoiceTransmissionHandler::class);
         self::assertInstanceOf(InvoiceTransmissionHandler::class, $handler);
-        $number = $this->stringValue('SELECT number FROM sylius_invoicing_plugin_invoice WHERE id = ?', [(string) $before['invoice_id']]);
+        $number = $this->stringValue('SELECT number FROM sylius_invoicing_plugin_invoice WHERE id = ?', [$invoiceId]);
 
-        $handler->handle(new InvoiceDocument((string) $before['invoice_id'], $number, '<xml/>', 'pdf', 'invoice.pdf'));
+        $handler->handle(new InvoiceDocument($invoiceId, $number, '<xml/>', 'pdf', 'invoice.pdf'));
 
         self::assertSame($before, $this->db()->fetchAssociative(self::LINE_OF_AN_ORDER, ['ACME-PO-2026-0412']));
-        self::assertSame(1, $this->intValue('SELECT COUNT(*) FROM tmonier_einvoice_transmission WHERE invoice_id = ?', [(string) $before['invoice_id']]));
+        self::assertSame(1, $this->intValue('SELECT COUNT(*) FROM tmonier_einvoice_transmission WHERE invoice_id = ?', [$invoiceId]));
     }
 }

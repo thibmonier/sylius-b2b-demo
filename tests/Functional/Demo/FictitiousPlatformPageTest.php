@@ -26,6 +26,13 @@ final class FictitiousPlatformPageTest extends WebTestCase
         yield 'English' => ['en_US', 'simulated', 'no regulatory value', 'to be verified'];
     }
 
+    /** @return iterable<string, array{string}> */
+    public static function localeCodes(): iterable
+    {
+        yield 'French' => ['fr_FR'];
+        yield 'English' => ['en_US'];
+    }
+
     #[DataProvider('locales')]
     public function testTheBannerSaysTheStatusesAreSimulatedWithoutRegulatoryValueAndToBeVerified(string $locale, string $simulated, string $value, string $toVerify): void
     {
@@ -39,7 +46,7 @@ final class FictitiousPlatformPageTest extends WebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localeCodes')]
     public function testThePageListsTheFourScenariosOfTheDemoData(string $locale): void
     {
         $page = self::createClient()->request('GET', '/' . $locale . '/pa-fictive');
@@ -64,7 +71,7 @@ final class FictitiousPlatformPageTest extends WebTestCase
         self::assertSame($describe($client->request('GET', '/fr_FR/pa-fictive')), $describe($client->request('GET', '/en_US/pa-fictive')));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localeCodes')]
     public function testTheTextCarriesTheCharterAndNamesNoRealPlatform(string $locale): void
     {
         $charter = new PublicTextCharter();
@@ -79,7 +86,7 @@ final class FictitiousPlatformPageTest extends WebTestCase
         self::assertStringContainsStringIgnoringCase('fr_FR' === $locale ? 'PA fictive' : 'fictitious', $text);
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localeCodes')]
     public function testThePageIntegrateLinksToIt(string $locale): void
     {
         $client = self::createClient();

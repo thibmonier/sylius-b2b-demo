@@ -1,11 +1,11 @@
 {
-    "generated_at": "2026-10-23T19:14:48Z",
+    "generated_at": "2026-10-24T09:56:41Z",
     "demo": {
         "sylius": "2.3.2",
         "symfony": "8.1.9",
         "php": "^8.5",
         "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-        "checked_at": "2026-10-23"
+        "checked_at": "2026-10-24"
     },
     "plugins": {
         "sylius-admin-order-creation-plugin": {
@@ -470,6 +470,46 @@
                 "version": "v0.1.1",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
                 "checked_at": "2026-10-23"
+            }
+        },
+        "sylius-einvoice-transmission-plugin": {
+            "dependencies": {
+                "requires": [
+                    "sylius-facturx-plugin"
+                ],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/blob/main/composer.json",
+                "checked_at": "2026-10-24"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4",
+                    "8.5"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-10-24"
+            },
+            "fingerprint": "8cba439372129bbd0533aefb2440fbdd9c71b42c0c0881bc99e4dc0fa22f3c4e",
+            "demo": {
+                "version": "v0.1.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-10-24"
             }
         },
         "sylius-facturx-plugin": {
