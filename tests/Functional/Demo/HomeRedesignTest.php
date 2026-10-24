@@ -270,6 +270,67 @@ final class HomeRedesignTest extends WebTestCase
         self::assertStringContainsString((string) $count, $home->filter('[data-home-section="backstage"] h2')->first()->text());
     }
 
+    /** @return iterable<string, array{string, list<string>}> */
+    public static function aisleLabels(): iterable
+    {
+        yield 'French' => ['fr_FR', ['EPI', 'Quincaillerie', 'Fournitures industrielles']];
+        yield 'English' => ['en_US', ['PPE', 'Hardware', 'Industrial supplies']];
+    }
+
+    /** @param list<string> $labels */
+    #[DataProvider('aisleLabels')]
+    public function testTheHeaderMenuHasTheThreeAislesAndTheServices(string $locale, array $labels): void
+    {
+        $nav = $this->anonymousHome($locale)->filter('nav.b2b-nav');
+
+        self::assertCount(1, $nav);
+        $desktop = $nav->filter('[data-nav-list="desktop"]');
+        self::assertSame(['epi', 'quincaillerie', 'fournitures-industrielles'], $desktop->filter('a[data-nav-aisle]')->each(static fn (Crawler $link): string => (string) $link->attr('data-nav-aisle')));
+        self::assertSame($labels, $desktop->filter('a[data-nav-aisle]')->each(static fn (Crawler $link): string => trim($link->text())));
+        foreach ($desktop->filter('a[data-nav-aisle]') as $link) {
+            self::assertMatchesRegularExpression('#^/' . $locale . '/taxons/#', (string) (new Crawler($link))->attr('href'));
+        }
+        self::assertCount(1, $desktop->filter('a[href*="quick-order"]'));
+        self::assertCount(1, $desktop->filter('a[href*="quote"]'));
+        $classes = preg_split('/\s+/', trim((string) $desktop->attr('class')));
+        self::assertIsArray($classes);
+        self::assertContains('d-none', $classes, 'the row is hidden on a phone');
+        self::assertContains('d-md-flex', $classes);
+    }
+
+    public function testBelowTheMdWidthTheMenuFoldsIntoANativeDisclosureWithTheSameLinks(): void
+    {
+        $nav = $this->anonymousHome('fr_FR')->filter('nav.b2b-nav');
+
+        $mobile = $nav->filter('details[data-nav-list="mobile"]');
+        self::assertCount(1, $mobile);
+        self::assertContains('d-md-none', preg_split('/\s+/', trim((string) $mobile->attr('class'))) ?: []);
+        self::assertCount(1, $mobile->filter('summary'));
+        self::assertSame(
+            $nav->filter('[data-nav-list="desktop"] a')->each(static fn (Crawler $link): string => (string) $link->attr('href')),
+            $mobile->filter('a')->each(static fn (Crawler $link): string => (string) $link->attr('href')),
+        );
+    }
+
+    #[DataProvider('locales')]
+    public function testTheHeroCarriesNoRepeatedTagline(string $locale): void
+    {
+        $home = $this->anonymousHome($locale);
+        $tagline = 'fr_FR' === $locale ? 'Interlocuteur dédié' : 'Dedicated account manager';
+
+        self::assertCount(0, $home->filter('[data-home-section="hero"] .b2b-home-pill'));
+        self::assertSame(1, substr_count($home->filter('body')->text(), $tagline), 'the tagline is in the top bar only');
+    }
+
+    public function testTheLogoMarkSpellsFP(): void
+    {
+        $mark = $this->anonymousHome('fr_FR')->filter('a.b2b-logo .b2b-logo__mark');
+
+        self::assertCount(1, $mark);
+        self::assertSame('FP', trim($mark->text()));
+        self::assertSame('true', $mark->attr('aria-hidden'));
+    }
+
     public function testTheMotionRespectsTheReducedMotionPreference(): void
     {
         $styles = (string) file_get_contents(\dirname(__DIR__, 3) . '/assets/shop/styles/_home.scss');
