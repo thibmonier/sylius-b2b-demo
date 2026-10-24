@@ -47,31 +47,33 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-177-01 | [DOC] | Cadrage : fonctionnement des recettes Flex (manifeste, `copy-from-recipe`, `bundles`), endpoint de recettes local pour l'essai, contenu des recettes tiré des gestes d'US-176, règles de `recipes-contrib` (conventions, lecture seule) ; plan du projet jetable et du nettoyage | 0,75 h | US-176 mergée | Claude | 🔲 |
-| T-177-02 | [OPS] | Essai de la porte de décision : projet jetable minimal avec Flex, métapaquet de pack avec recette servie par l'endpoint local ; la recette est-elle appliquée à un métapaquet ? Commandes et sorties consignées, espace libre relevé, projet supprimé avec `/bin/rm` | 1,5 h | T-177-01 | Claude | 🔲 |
-| T-177-03 | [DOC] | Résultat de l'essai consigné dans l'ADR 0015 (question ouverte 3) et décision d'arrêt ou de poursuite ; si arrêt : T-177-04 à T-177-13 écartées avec le motif | 0,25 h | T-177-02 | Orchestrateur | 🔲 |
-| T-177-04 | [TEST] | Tests rouges, commités seuls et cités dans la PR de chaque dépôt : manifeste valide, fichiers de la recette présents, bundles de la recette égaux aux bundles du fichier de gestes, fichier d'application déjà présent non écrasé (dossier fictif) | 1 h | T-177-03 | Claude | 🔲 |
-| T-177-05 | [BE] | Recette du pack « IA et headless » : manifeste, `config/packages/`, `config/routes/` | 1,25 h | T-177-04 | Claude | 🔲 |
-| T-177-06 | [BE] | Recette du pack « Conformité et outillage » | 0,75 h | T-177-04 | Claude | 🔲 |
-| T-177-07 | [TEST] | Essai d'installation puis de retrait (`composer remove`) dans un projet jetable : la recette retire ce qu'elle a ajouté, un fichier préexistant n'est pas écrasé ; sorties citées ; projet supprimé | 1 h | T-177-05, T-177-06 | Claude | 🔲 |
-| T-177-08 | [OPS] | Variante de la CI d'US-176 sans les gestes du README (recette appliquée par l'endpoint local), en matrice Sylius 2.2 et 2.3 | 1 h | T-177-07 | Claude | 🔲 |
-| T-177-09 | [DOC] | README FR et EN : gestes remplacés par « appliqué par la recette » là où c'est vrai, gestes restants (classes de l'application) conservés ; texte relu contre la recette | 0,5 h | T-177-08 | Claude | 🔲 |
-| T-177-10 | [OPS] | 📅 Thibaut donne son GO pour pousser les branches, ouvrir les PR et les fusionner dans les deux dépôts de packs (sans tag ni release) | 0,25 h | T-177-09 | Thibaut | 📅 |
-| T-177-11 | [OPS] | Push, PR et CI des deux dépôts après GO, corrections jusqu'au vert, puis merge (CI terminée) ; aucun tag | 0,75 h | T-177-10 | Orchestrateur | 📅 |
+| T-177-01 | [DOC] | Cadrage : fonctionnement des recettes Flex (manifeste, `copy-from-recipe`, `bundles`), endpoint de recettes local pour l'essai, contenu des recettes tiré des gestes d'US-176, règles de `recipes-contrib` (conventions, lecture seule) ; plan du projet jetable et du nettoyage | 0,75 h | US-176 mergée | Claude | ✅ |
+| T-177-02 | [OPS] | Essai de la porte de décision : projet jetable minimal avec Flex, métapaquet de pack avec recette servie par l'endpoint local ; la recette est-elle appliquée à un métapaquet ? Commandes et sorties consignées, espace libre relevé, projet supprimé avec `/bin/rm` | 1,5 h | T-177-01 | Claude | ✅ |
+| T-177-03 | [DOC] | Résultat de l'essai consigné dans l'ADR 0015 (question ouverte 3) et décision d'arrêt ou de poursuite ; si arrêt : T-177-04 à T-177-13 écartées avec le motif | 0,25 h | T-177-02 | Orchestrateur | ✅ |
+| T-177-04 | [TEST] | Tests rouges, commités seuls et cités dans la PR de chaque dépôt : manifeste valide, fichiers de la recette présents, bundles de la recette égaux aux bundles du fichier de gestes, fichier d'application déjà présent non écrasé (dossier fictif) | 1 h | T-177-03 | Claude | ✅ |
+| T-177-05 | [BE] | Recette du pack « IA et headless » : manifeste, `config/packages/`, `config/routes/` | 1,25 h | T-177-04 | Claude | ✅ |
+| T-177-06 | [BE] | Recette du pack « Conformité et outillage » | 0,75 h | T-177-04 | Claude | ✅ |
+| T-177-07 | [TEST] | Essai d'installation puis de retrait (`composer remove`) dans un projet jetable : la recette retire ce qu'elle a ajouté, un fichier préexistant n'est pas écrasé ; sorties citées ; projet supprimé | 1 h | T-177-05, T-177-06 | Claude | ✅ |
+| T-177-08 | [OPS] | Variante de la CI d'US-176 sans les gestes du README (recette appliquée par l'endpoint local), en matrice Sylius 2.2 et 2.3 | 1 h | T-177-07 | Claude | ✅ |
+| T-177-09 | [DOC] | README FR et EN : gestes remplacés par « appliqué par la recette » là où c'est vrai, gestes restants (classes de l'application) conservés ; texte relu contre la recette | 0,5 h | T-177-08 | Claude | ✅ |
+| T-177-10 | [OPS] | 📅 Thibaut donne son GO pour pousser les branches, ouvrir les PR et les fusionner dans les deux dépôts de packs (sans tag ni release) | 0,25 h | T-177-09 | Thibaut | ✅ |
+| T-177-11 | [OPS] | Push, PR et CI des deux dépôts après GO, corrections jusqu'au vert, puis merge (CI terminée) ; aucun tag | 0,75 h | T-177-10 | Orchestrateur | ✅ |
 | T-177-12 | [OPS] | 📅 Thibaut donne (ou refuse) son GO explicite pour la PR publique sur `symfony/recipes-contrib` ; sans GO, aucune PR | 0,25 h | T-177-11 | Thibaut | 📅 |
 | T-177-13 | [OPS] | Après GO seulement : fork, branche, PR sur `symfony/recipes-contrib` selon les conventions du dépôt, lien consigné ; texte de la PR relu contre la recette | 0,75 h | T-177-12 | Claude | 📅 |
-| T-177-14 | [REV] | Revue (essai rejouable, aucun écrasement, ton neutre, parité FR et EN, aucune PR sans GO) et table « scénario → preuve » remplie | 0,5 h | T-177-11 | Claude | 🔲 |
+| T-177-14 | [REV] | Revue (essai rejouable, aucun écrasement, ton neutre, parité FR et EN, aucune PR sans GO) et table « scénario → preuve » remplie | 0,5 h | T-177-11 | Claude | ✅ |
 
 **Total estimé : 10,5 h** (14 tâches, dont 0,5 h de Thibaut ; 10 h pour Claude et l'orchestrateur).
 
 ## Scénarios et preuves (action 1 de la rétro du sprint 22)
 
+PR fusionnées (squash) : Conformité #2 (`8277b69`), IA #2 (`8e1af4e`). Commits rouges, tests seuls : IA `5b5fded` `f7ecec2` ; Conformité `2a9654c` `e0db542`.
+
 À remplir avant le passage en done : chaque scénario renvoie à un test (classe et méthode) ou à une preuve (commande et sortie, run de CI, état de la PR). Une ligne vide laisse la story en review.
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Pack installé sans geste manuel (nominal) | |
-| Désinstallation propre (alternatif) | |
-| Recette non appliquée à un métapaquet (alternatif) | |
-| Fichier de l'application déjà présent (erreur) | |
-| Publication sans accord (erreur) | |
+| Pack installé sans geste manuel (nominal) | Jobs `recipe`, runs 40038113308 (IA) et 40038119600 (Conformité) : « Configuring … From local/recipes:main », `--verify-applied`, migrations, lint, schéma, Sylius 2.2.4 et 2.3.0 |
+| Désinstallation propre (alternatif) | `bin/flex-trial` (installation, retrait, fichier préexistant), rejoué dans le job `flex-trial` : runs 40037450669 (IA, lignes PASS relues) et 40037454014 (Conformité, vert) |
+| Recette non appliquée à un métapaquet (alternatif) | Sans objet : la porte T-177-02 est franchie, Flex applique la recette d'un métapaquet ; résultat consigné dans l'ADR 0015 (T-177-03) |
+| Fichier de l'application déjà présent (erreur) | `bin/flex-trial` : fichier non écrasé à l'installation ; limite (supprimé à `composer remove`) écrite dans les README et l'ADR 0015 |
+| Publication sans accord (erreur) | Aucune PR sur `symfony/recipes-contrib` : arbre, patch et texte préparés hors dépôt, en attente du GO (T-177-12) |

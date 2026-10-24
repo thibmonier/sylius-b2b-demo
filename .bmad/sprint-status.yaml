@@ -422,10 +422,10 @@ sprints:
     capacity_points: 17  # 43,7 h de capacité (17 × 2,1 h + 8 h transverses) ; vélocité de référence : S22 23, S23 11, S24 19
     goal: "Prouver que les packs s'installent vraiment et deviennent clé en main (installation réelle en CI, recettes Flex, page dans la démo), et poser la transmission des factures électroniques par un port remplaçable avec son journal de statuts"
     stories:
-      - {id: US-176, title: "Installation réelle d'un pack en CI", points: 5, status: ready-for-dev}  # EPIC-14, Should ; ADR 0015 story 2 ; dépôts des packs
-      - {id: US-178, title: "Page « Installer un pack » dans la démo", points: 2, status: ready-for-dev}  # EPIC-14, Should ; ADR 0015 story 4
-      - {id: US-177, title: "Recettes Symfony Flex des packs", points: 5, status: ready-for-dev}  # EPIC-14, Could ; ADR 0015 story 3 ; PR publique sur symfony/recipes-contrib seulement sur GO explicite de Thibaut ; sacrifice n°1
-      - {id: US-180, title: "Transmission des factures électroniques, tranche A : port, journal et statuts", points: 5, status: ready-for-dev}  # EPIC-14, Should ; ADR 0016 story A ; nouveau plugin, dépôt et publication sur GO de Thibaut ; sacrifice n°2
+      - {id: US-176, title: "Installation réelle d'un pack en CI", points: 5, status: done}  # EPIC-14, Should ; ADR 0015 story 2 ; faite le 2026-10-24 par wP (PR #1 des deux packs, CI verte) ; dépôts des packs
+      - {id: US-178, title: "Page « Installer un pack » dans la démo", points: 2, status: review}  # EPIC-14, Should ; ADR 0015 story 4 ; code livré par wD, en review jusqu'à la preuve de production (T-178-07)
+      - {id: US-177, title: "Recettes Symfony Flex des packs", points: 5, status: review}  # EPIC-14, Could ; recettes fusionnées (PR #2 des deux packs) ; T-177-12/13 attendent le GO de Thibaut ; ADR 0015 story 3 ; PR publique sur symfony/recipes-contrib seulement sur GO explicite de Thibaut ; sacrifice n°1
+      - {id: US-180, title: "Transmission des factures électroniques, tranche A : port, journal et statuts", points: 5, status: in-progress}  # EPIC-14, Should ; ADR 0016 story A ; nouveau plugin, dépôt et publication sur GO de Thibaut ; sacrifice n°2
     notes: "Lancé le 2026-10-24. Ordre de sacrifice : US-177, puis US-180. ADR 0017 (ERP) : rien ce sprint (décision de Thibaut). Railway déploie main automatiquement. Actions 1 à 3 de la rétro du sprint 24 appliquées au planning (checklist-integration.md, consigne-worker.md) ; action 4 mesurée sur l'orchestrateur."
 
 backlog:

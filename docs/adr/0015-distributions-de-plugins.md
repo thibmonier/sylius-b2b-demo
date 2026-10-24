@@ -142,3 +142,13 @@ Total : 15 points, dont 5 conditionnés à une décision de publication. L'ordre
 ## Décision (2026-10-23)
 
 Thibaut accepte la décision proposée : métapaquet d'abord, recette Flex ensuite ; les deux packs tels que composés ci-dessus ; la réalisation en quatre stories, créées au backlog : [US-175](../../project-management/backlog/user-stories/US-175.md) (métapaquets, 3), [US-176](../../project-management/backlog/user-stories/US-176.md) (installation réelle en CI, 5), [US-177](../../project-management/backlog/user-stories/US-177.md) (recettes Flex, 5), [US-178](../../project-management/backlog/user-stories/US-178.md) (page dans la démo, 2). Les questions ouvertes 1 (noms des paquets) et 4 (pull request sur recipes-contrib) restent à trancher au cadrage d'US-175 et d'US-177 ; toute création de dépôt, tag, publication ou pull request publique attend le GO de Thibaut.
+
+## Résultat de l'essai Flex (US-177, 2026-10-24)
+
+Réponse à la question ouverte 3, consignée par T-177-03 : **poursuite**, la recette n'est pas abandonnée.
+
+- Flex applique la recette d'un paquet de type `metapackage` : bundles déclarés, fichiers de `config/packages` et `config/routes` écrits, le tout consigné dans `symfony.lock`. `composer remove` retire bundles et fichiers. Un fichier déjà présent dans l'application n'est pas écrasé à l'installation.
+- Essai fait avec le paquet en dépôt `path` et la recette servie par un endpoint local, et non avec un paquet venu de Packagist par `symfony/recipes-contrib`. Ce dernier chemin ne sera vérifié qu'après la publication de la recette.
+- Limite observée : à `composer remove`, Flex supprime aussi un fichier que l'application avait écrit sous le même nom avant l'installation, parce qu'il le consigne dans `symfony.lock`. Les README des deux packs le disent.
+- La CI des deux packs rejoue la recette (job `recipe`, Sylius 2.2 et 2.3) et l'aller-retour installation puis retrait (job `flex-trial`).
+- La pull request sur `symfony/recipes-contrib` (question ouverte 4) est préparée mais pas ouverte : elle attend le GO de Thibaut, et les deux paquets sont déjà sur Packagist.
