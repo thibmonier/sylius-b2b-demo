@@ -22,6 +22,7 @@ final readonly class SelectionImporter
     /** @return array{photos: int, skus: int, removed: list<string>} */
     public function import(PhotoSelection $selection, string $sourceDir, string $imagesDir, ImageManifest $manifest, string $date): array
     {
+        $this->assertUsableSource($sourceDir);
         foreach ($selection->photos() as $photo) {
             if (!\is_file($sourceDir . '/' . $photo->file)) {
                 throw new \RuntimeException(\sprintf('The original "%s" of the type "%s" is missing from "%s".', $photo->file, $photo->type, $sourceDir));
@@ -38,6 +39,15 @@ final readonly class SelectionImporter
         }
 
         return ['photos' => \count($selection->photos()), 'skus' => $skus, 'removed' => $this->removeOrphans($imagesDir, $manifest)];
+    }
+
+    /** A source that is empty, missing or the root of the disk is refused before anything is read or written. */
+    private function assertUsableSource(string $sourceDir): void
+    {
+        $real = $sourceDir === '' ? false : \realpath($sourceDir);
+        if ($real === false || !\is_dir($real) || \dirname($real) === $real) {
+            throw new \RuntimeException(\sprintf('The source folder "%s" is empty, missing or the root of the disk: give the folder of the original photos.', $sourceDir));
+        }
     }
 
     private function write(SelectedPhoto $photo, string $sourceDir, string $imagesDir): string

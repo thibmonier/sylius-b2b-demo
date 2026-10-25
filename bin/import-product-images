@@ -32,8 +32,9 @@ foreach (\array_slice($argv, 1) as $argument) {
         exit(2);
     }
 }
-if ($sourceDir === null || !\is_dir($sourceDir)) {
-    \fwrite(\STDERR, "--source-dir must name the folder of the original photos.\n");
+$realSource = $sourceDir === null || $sourceDir === '' ? false : \realpath($sourceDir);
+if ($realSource === false || !\is_dir($realSource) || \dirname($realSource) === $realSource) {
+    \fwrite(\STDERR, "--source-dir must name the folder of the original photos (not empty, not the root of the disk).\n");
     exit(2);
 }
 \ini_set('memory_limit', '1G');
