@@ -29,12 +29,24 @@ final readonly class SelectionImporter
             }
         }
 
+        foreach ($selection->neutral() as $type) {
+            if (!\is_file($imagesDir . '/' . $type['file'])) {
+                throw new \RuntimeException(\sprintf('The neutral visual "%s" of the type "%s" is missing from "%s".', $type['file'], $type['type'], $imagesDir));
+            }
+        }
+
         $skus = 0;
         foreach ($selection->photos() as $photo) {
             $file = $this->write($photo, $sourceDir, $imagesDir);
             foreach ($photo->skus as $sku) {
                 $manifest->add($this->row($photo, $sku, $file, $date));
                 ++$skus;
+            }
+        }
+
+        foreach ($selection->neutral() as $type) {
+            foreach ($type['skus'] as $sku) {
+                $manifest->add($this->neutralRow($sku, $type['file'], $date));
             }
         }
 
@@ -67,6 +79,17 @@ final readonly class SelectionImporter
             'sku' => $sku, 'file' => $file, 'source' => \strtolower($photo->source), 'creator' => $photo->creator, 'title' => $photo->title,
             'origin_url' => $photo->originUrl, 'license' => \strtolower($photo->source), 'license_url' => $photo->licenseUrl, 'fetched_at' => $date,
             'scope' => \count($photo->skus) > 1 ? 'family' : 'own', 'status' => ImageManifest::STATUS_VALIDATED,
+        ];
+    }
+
+    /** @return array<string, string> a neutral visual of the category, drawn for the demo (CC0) */
+    private function neutralRow(string $sku, string $file, string $date): array
+    {
+        return [
+            'sku' => $sku, 'file' => $file, 'source' => ImageManifest::SOURCE_GENERATED, 'creator' => 'Thibaut Monier',
+            'title' => 'Neutral visual: ' . (\preg_replace('/^category-|\.webp$/', '', $file) ?? ''), 'origin_url' => 'https://github.com/thibmonier/sylius-b2b-demo',
+            'license' => 'cc0', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/', 'fetched_at' => $date,
+            'scope' => 'category', 'status' => ImageManifest::STATUS_FALLBACK,
         ];
     }
 

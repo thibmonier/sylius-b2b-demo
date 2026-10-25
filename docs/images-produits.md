@@ -46,10 +46,10 @@ son auteur, sa source, sa licence et le nombre de produits qu'il illustre.
 
 ## Photos par type d'article (US-196, sprint 28)
 
-Depuis le sprint 28, 204 des 210 produits montrent la **photo de leur type d'article** (casque, gant en cuir, carton, tournevis...),
-une photo par type, jamais partagée entre deux types différents, sans marque lisible. Les 6 autres (type `neutral` de la sélection : veste de pluie) montrent un visuel neutre de leur catégorie.
+Depuis le sprint 28, 201 des 210 produits montrent la **photo de leur type d'article** (casque, gant en cuir, carton, tournevis...),
+une photo par type, jamais partagée entre deux types différents, sans marque lisible. Les 9 autres (types `neutral` de la sélection : veste de pluie, botte en caoutchouc) montrent un visuel neutre de leur catégorie.
 
-- Source : Pexels (24 types) et Unsplash (5 types), licence relue sur https://www.pexels.com/license/ le 2026-10-25 (usage libre, attribution non obligatoire mais gardée,
+- Source : Pexels (23 types) et Unsplash (5 types), licence relue sur https://www.pexels.com/license/ le 2026-10-25 (usage libre, attribution non obligatoire mais gardée,
   modification autorisée ; interdit : suggérer l'aval d'une personne ou d'une marque, revendre les copies non modifiées).
   Les photos ont été choisies par Thibaut Monier sur une planche, puis téléchargées avec son accord ; les originaux (6 000 px)
   ne sont pas versionnés.

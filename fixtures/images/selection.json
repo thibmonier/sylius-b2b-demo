@@ -90,27 +90,6 @@
       "review": "ok"
     },
     {
-      "type": "botte-caoutchouc",
-      "name_fr": "Botte en caoutchouc ou PVC",
-      "skus": [
-        "EPI-CHAU-006",
-        "EPI-CHAU-010",
-        "EPI-CHAU-017"
-      ],
-      "file": "p-11345838.jpg",
-      "title": "Pair of black rubber boots",
-      "creator": "Hurrah suhail",
-      "creator_url": "https://www.pexels.com/@hurrahsuhail/",
-      "origin_url": "https://www.pexels.com/photo/11345838/",
-      "source": "Pexels",
-      "license_url": "https://www.pexels.com/license/",
-      "focus": [
-        0.5,
-        0.505
-      ],
-      "review": "ok"
-    },
-    {
       "type": "gilet-haute-visibilite",
       "name_fr": "Gilet haute visibilité",
       "skus": [
@@ -742,6 +721,16 @@
         "EPI-VEST-013"
       ],
       "file": "category-protection-corps.webp"
+    },
+    {
+      "type": "botte-caoutchouc",
+      "name_fr": "Botte en caoutchouc ou PVC",
+      "skus": [
+        "EPI-CHAU-006",
+        "EPI-CHAU-010",
+        "EPI-CHAU-017"
+      ],
+      "file": "category-chaussures-securite.webp"
     }
   ]
 }
