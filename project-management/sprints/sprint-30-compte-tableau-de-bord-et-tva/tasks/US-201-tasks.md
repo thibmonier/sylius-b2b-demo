@@ -42,8 +42,8 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-201-01 | [DOC] | Cadrage : gabarits et hooks du plugin relus contre le code (`dashboard`, `widgets`, `monthly`, `rankings`, `variation`, `sorts`, `breakdown`, widgets approbations et crédit, export), ce qui se surcharge par hook et ce qui demande `templates/bundles/` ; données d'Acme sur 18 mois ; droits (Isabelle, Claire) ; tests existants ; plan des tests | 0,75 h | - | Claude | 🔲 |
-| T-201-02 | [TEST] | État de référence « avant » : tests du tableau de bord verts sur `main` ; captures connectées locales (bureau et 360 px) d'Isabelle (période par défaut, période sans commande) | 0,5 h | T-201-01, T-TECH-30-01 | Claude | 🔲 |
+| T-201-01 | [DOC] | Cadrage : gabarits et hooks du plugin relus contre le code (`dashboard`, `widgets`, `monthly`, `rankings`, `variation`, `sorts`, `breakdown`, widgets approbations et crédit, export), ce qui se surcharge par hook et ce qui demande `templates/bundles/` ; données d'Acme sur 18 mois ; droits (Isabelle, Claire) ; tests existants ; plan des tests | 0,75 h | - | Claude | ✅ |
+| T-201-02 | [TEST] | État de référence « avant » : tests du tableau de bord verts sur `main` ; captures connectées locales (bureau et 360 px) d'Isabelle (période par défaut, période sans commande) | 0,5 h | T-201-01, T-TECH-30-01 | Claude | ✅ |
 | T-201-03 | [FE-WEB] | Maquette Claude Design (bureau 1440 px et téléphone 390 px), page « Tableau de bord des achats » du canevas : rangée d'indicateurs (valeur, évolution, période de comparaison), graphique mensuel avec N-1 distinct sans la seule couleur, tops compacts avec parts, sélecteur de période, états « aucune donnée » et « période partielle », place réservée à US-154 ; vraies données ; table « Acquis » mise à jour | 2 h | T-201-01, T-TECH-30-01 | Orchestrateur | 🔲 |
 | T-201-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-201-03 | Thibaut | 📅 |
 | T-201-05 | [TEST] | 📅 Tests rouges, commités seuls et cités dans la PR : indicateurs en premier avec période de comparaison, graphique annonçant chaque mois et N-1, changement de période qui met tout à jour, Claire refusée, état vide, 360 px, charte des textes, plugin non modifié (`composer.lock`) | 1 h | T-201-04 | Claude | 📅 |
@@ -55,6 +55,22 @@
 | T-201-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,5 h | T-201-10 | Claude | 📅 |
 
 **Total estimé : 10,5 h** (11 tâches ; 10 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
+
+## Cadrage (T-201-01) et état « avant » (T-201-02), 2026-10-25
+
+**Surcharge.** `dashboard.html.twig` du plugin est un bloc unique (période, filtres, export, titre, indicateurs, « en attente ») : un hook ne le découpe pas. Il est désactivé dans `config/packages/demo_theme_b2b_insights.yaml` et remplacé par des gabarits de `templates/shop/theme_b2b/insights/`. Les blocs `widgets`, `monthly`, `breakdown` et `rankings` sont des hooks distincts (priorités -15 à -30), remplaçables et réordonnables. `variation`, `sorts`, `table_region` et `ranking/*` n'ont pas de hook : réutilisés tels quels ou surchargés dans `templates/bundles/`, un seul à la fois et justifié. Les attributs `data-test-*` sont conservés (lus par les tests existants).
+
+**Contraintes.** Le graphique (`chart_controller.js`, ApexCharts, barres N pleines et N-1 hachurées, `aria-hidden`) et le donut des catégories sont dans le plugin : non paramétrables sans le modifier ; la table de 12 mois reste la référence pour le clavier et le lecteur d'écran, ou un contrôleur Stimulus de la démo remplace le graphique. Les 12 mois du graphique ne dépendent pas de la période choisie. Aucun état hors base (règle 16).
+
+**Données d'Isabelle (12 derniers mois, base `b2b_w201`).** Dépense 29 771,10 € HT (+112,9 %), 30 commandes (+114,3 %), panier moyen 992,37 € (-0,6 %), 4 acheteurs actifs (stable) ; top acheteurs Isabelle 45 %, Paul 39 %, Claire 13 %, Sébastien (désactivé) 2 % ; 10 produits, 10 catégories, 3 sites, 2 centres de coût ; 1 commande en attente (813,00 €). Montants HT uniquement : US-202 ne change aucun libellé du tableau de bord. Claire : 403 avec message. Données complètes : `scratchpad/w201/maquette-data.json`.
+
+**Couverture N-1.** L'historique de 18 mois (`DemoOrderHistory`, `MONTHS_BACK = 17`) n'offre un N-1 que pour 6 des 12 mois (mai à octobre) ; novembre à avril ont N-1 = 0. Les variations de la période de 12 mois sont gonflées. Un N-1 complet demande `MONTHS_BACK = 23` : décision attendue de Thibaut.
+
+**États vides.** Période sans commande : bandeau « Aucune commande sur la période. » mais indicateurs à zéro, « Pas de comparaison » et graphique conservés, écart avec le critère d'acceptation. Mois en cours marqué « en cours » avec une note.
+
+**Fuseau horaire.** Avec PHP en UTC (local), la période s'affiche décalée d'un jour (31 oct. au lieu du 1 nov.) ; la production (`docker/php.ini`, Europe/Paris) est correcte. Rendus faits avec `-d date.timezone=Europe/Paris`.
+
+**État « avant ».** `tests/Smoke/PurchasingDashboardSmokeTest.php` vert via `WORKER_ID=w201 TEST_DB_NAME=b2b_w201 TEST_CACHE_DIR=var/cache-w201 bin/run-tests` : 11 tests, 73 assertions, 2 deprecations. Captures locales (1280 et 360 px, FR, EN, période sans commande) : aucun défilement horizontal ; hauteur 6 885 px (1280) et 11 839 px (360).
 
 ## Table « scénario → test ou preuve »
 
