@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Images\Import;
 
-/** US-196: the photo chosen for one type of article, and how to frame it. */
+/** US-196: the photo chosen for one type of article, and how to frame it. US-197: `focal` is the point focal of the 4:3 file shown by the cards ("x y" in percent, empty = centered). */
 final readonly class SelectedPhoto
 {
     /**
@@ -22,6 +22,7 @@ final readonly class SelectedPhoto
         public float $focusX,
         public float $focusY,
         public string $review,
+        public string $focal = '',
     ) {
     }
 }

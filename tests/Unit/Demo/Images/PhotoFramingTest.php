@@ -94,7 +94,7 @@ final class PhotoFramingTest extends TestCase
     /** @param array<string, string> $focals focal point by SKU */
     private function manifest(array $focals): void
     {
-        $lines = ["sku,file,focal"];
+        $lines = ['sku,file,focal'];
         foreach ($focals as $sku => $focal) {
             $lines[] = \sprintf('%s,%s.webp,"%s"', $sku, \strtolower($sku), $focal);
         }

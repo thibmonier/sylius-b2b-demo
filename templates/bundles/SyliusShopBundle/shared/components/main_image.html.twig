@@ -1,16 +1,29 @@
-{# US-078: copy of the Sylius component. The image states its size (no layout shift), offers two widths (a phone downloads the small one), loads when it approaches the screen and falls back on an inline visual (no request that could fail) when the product has none. All the product filters keep the 3:4 ratio of the 600 x 800 file. #}
+{# US-078: copy of the Sylius component. The image states its size (no layout shift), offers two widths (a phone downloads the small one), loads when it approaches the screen and falls back on an inline visual (no request that could fail) when the product has none. The Sylius filters keep the 3:4 ratio of the 600 x 800 file. #}
+{# US-197: without an explicit filter (the portrait card of the lists) the image is the 4:3 file (800 x 600) that the card cuts in the browser (object-fit: cover) around the point focal of the photo (object-position), so that the subject stays whole. #}
+{% set framed = null is same as filter|default(null) %}
 {% set filter = filter|default('sylius_shop_product_thumbnail') %}
 {% set image = product.imagesByType('thumbnail') is not empty ? product.imagesByType('thumbnail').first : product.images.first %}
-{% set width = 'sylius_shop_product_small_thumbnail' == filter ? 300 : 600 %}
+{% set width = framed ? 800 : ('sylius_shop_product_small_thumbnail' == filter ? 300 : 600) %}
+{% set height = framed ? 600 : width * 4 // 3 %}
 {% set srcset = null %}
+{% set sizes = null %}
+{% set position = framed ? demo_photo_position(product.code) : null %}
 
 {% if image and image.path %}
-    {% set path = image.path|imagine_filter(filter) %}
-    {% if 'sylius_shop_product_thumbnail' == filter %}
-        {% set srcset = image.path|imagine_filter('sylius_shop_product_small_thumbnail') ~ ' 300w, ' ~ path ~ ' 600w' %}
+    {% if framed %}
+        {% set path = image.path|imagine_filter('b2b_photo') %}
+        {# The card is 3:4: the 4:3 file is shown at 16/9 of the width of the card (cut on the sides). #}
+        {% set srcset = image.path|imagine_filter('b2b_photo_small') ~ ' 400w, ' ~ path ~ ' 800w' %}
+        {% set sizes = '(min-width: 1200px) 466px, (min-width: 768px) 59vw, 89vw' %}
+    {% else %}
+        {% set path = image.path|imagine_filter(filter) %}
+        {% if 'sylius_shop_product_thumbnail' == filter %}
+            {% set srcset = image.path|imagine_filter('sylius_shop_product_small_thumbnail') ~ ' 300w, ' ~ path ~ ' 600w' %}
+            {% set sizes = '(min-width: 1200px) 262px, (min-width: 768px) 33vw, 50vw' %}
+        {% endif %}
     {% endif %}
 {% else %}
     {% set path = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'%3E%3Crect width='600' height='800' fill='%23eef1f5'/%3E%3Cpath d='M210 340h180v140H210z' fill='none' stroke='%236b7686' stroke-width='14'/%3E%3C/svg%3E" %}
 {% endif %}
 
-<img {{ attributes.without('product', 'filter').defaults({ class: 'img-fluid', loading: 'lazy', decoding: 'async' }) }} src="{{ path }}"{% if srcset %} srcset="{{ srcset }}" sizes="(min-width: 1200px) 262px, (min-width: 768px) 33vw, 50vw"{% endif %} width="{{ width }}" height="{{ width * 4 // 3 }}" {{ sylius_test_html_attribute('main-image') }} alt="{{ 'sylius.ui.product'|trans }} {{ product.name }} {{ 'sylius.ui.image'|trans }}" />
+<img {{ attributes.without('product', 'filter').defaults({ class: 'img-fluid', loading: 'lazy', decoding: 'async' }) }} src="{{ path }}"{% if srcset %} srcset="{{ srcset }}" sizes="{{ sizes }}"{% endif %}{% if position %} style="object-position: {{ position }}"{% endif %} width="{{ width }}" height="{{ height }}" {{ sylius_test_html_attribute('main-image') }} alt="{{ 'sylius.ui.product'|trans }} {{ product.name }} {{ 'sylius.ui.image'|trans }}" />

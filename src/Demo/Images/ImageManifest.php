@@ -13,6 +13,14 @@ final class ImageManifest
 {
     public const FIELDS = ['sku', 'file', 'source', 'creator', 'title', 'origin_url', 'license', 'license_url', 'fetched_at', 'scope', 'status'];
 
+    /**
+     * US-197: the point focal of the photo, "x y" in percent of the 4:3 file (`object-position` of the card and of the product page).
+     * Empty or absent: the default framing (centered). Not required, so it is not part of FIELDS.
+     */
+    public const FOCAL = 'focal';
+
+    private const FOCAL_PATTERN = '/^(\d{1,3}(?:\.\d+)?) (\d{1,3}(?:\.\d+)?)$/';
+
     /** US-092: a person looked at the image and judged it fit for the products that show it. */
     public const STATUS_VALIDATED = 'validated';
 
@@ -75,6 +83,24 @@ final class ImageManifest
         return $this->rows[$sku]['file'] ?? null;
     }
 
+    /** @return array{float, float}|null x and y in percent, null when the photo has no (valid) point focal */
+    public function focalFor(string $sku): ?array
+    {
+        $focal = $this->rows[$sku][self::FOCAL] ?? '';
+        if (!self::isValidFocal($focal)) {
+            return null;
+        }
+        [$x, $y] = \explode(' ', $focal);
+
+        return [(float) $x, (float) $y];
+    }
+
+    /** Well formed: two percentages between 0 and 100 (the audit refuses the others and names the SKU). */
+    public static function isValidFocal(string $focal): bool
+    {
+        return \preg_match(self::FOCAL_PATTERN, $focal, $matches) === 1 && (float) $matches[1] <= 100.0 && (float) $matches[2] <= 100.0;
+    }
+
     /** @return list<string> */
     public function skus(): array
     {
@@ -106,9 +132,10 @@ final class ImageManifest
         if ($handle === false) {
             throw new \RuntimeException(\sprintf('Cannot write the manifest "%s".', $this->path));
         }
-        \fputcsv($handle, self::FIELDS, ',', '"', '');
+        $columns = [...self::FIELDS, self::FOCAL];
+        \fputcsv($handle, $columns, ',', '"', '');
         foreach ($this->rows as $row) {
-            \fputcsv($handle, \array_map(static fn (string $field): string => $row[$field] ?? '', self::FIELDS), ',', '"', '');
+            \fputcsv($handle, \array_map(static fn (string $field): string => $row[$field] ?? '', $columns), ',', '"', '');
         }
         \fclose($handle);
     }

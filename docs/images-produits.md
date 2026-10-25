@@ -73,6 +73,21 @@ partagée entre types, cadre 4:3), `PhotoSelectionTest` (sélection complète, l
 Pour ajouter un type : déposer l'original dans le dossier, ajouter l'entrée à `selection.json` (et la retirer de `pending`), relire la
 photo en entier à 800 px (marque, texte, personne), puis relancer l'import.
 
+## Point focal et cadrage (US-197, sprint 29)
+
+Les fichiers sont en 4:3 (800 x 600). La fiche produit les affiche en 4:3, les cartes des listes en portrait 3:4 : le navigateur coupe alors les
+côtés du fichier (`object-fit: cover`). Le **point focal** dit quelle partie garder, sans retoucher la photo :
+
+- `selection.json` : `position: [x, y]` (en % du fichier 4:3, `100` = bord droit) pour les photos dont le sujet n'est pas au centre ;
+- `manifest.csv` : colonne facultative `focal` (`"100 50"`), écrite par l'import ; vide = cadrage centré, comme avant ;
+- `PhotoFraming` et la fonction Twig `demo_photo_position(product.code)` donnent la valeur de `object-position` ; le composant
+  `main_image` (cartes) et la fiche produit l'appliquent ; `ImageManifestAuditor` refuse une valeur hors de 0 à 100 en nommant le SKU ;
+- les cartes et la fiche utilisent les filtres `b2b_photo_small`, `b2b_photo` et `b2b_photo_large` (400, 800 et 1200 px de large, 4:3) ;
+  les filtres Sylius (3:4) restent pour le panier, les commandes et l'administration.
+
+Le cadre rouge d'une planche de contrôle (475 px sur 800) montre ce que garde la carte : 14 types de photos ont un point focal (casque, écrous,
+cône, marteau, etc.), les autres sont centrés.
+
 ## Récupération Openverse (sprint 15, historique)
 
 ```bash
