@@ -72,13 +72,15 @@ final class ProductPhotoColourTest extends TestCase
         }
     }
 
-    public function testEveryHardHatColourOfTheBoardHasItsOwnPhotoShownOnlyByItsSkus(): void
+    public function testEveryHardHatColourOfTheBoardHasItsOwnPhotoShownOnlyBySkusOfThatColour(): void
     {
         foreach (self::HARD_HAT_TYPES as $colour => $type) {
             $skus = $this->skusOf($type);
             self::assertNotSame([], $skus, $type);
             foreach ($skus as $sku) {
-                self::assertStringContainsString($colour, $this->texts[$sku] ?? '', $sku . ' does not announce ' . $colour);
+                $announced = $this->colourOf($this->texts[$sku] ?? '', \array_keys(self::HARD_HAT_TYPES));
+                $whiteByDefault = $colour === 'blanc' && ($announced === null || \in_array($sku, self::KEPT_WHITE, true));
+                self::assertTrue($announced === $colour || $whiteByDefault, $sku . ' does not announce ' . $colour);
             }
         }
     }

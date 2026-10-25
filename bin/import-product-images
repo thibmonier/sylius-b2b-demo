@@ -5,7 +5,8 @@ declare(strict_types=1);
 
 // US-196: imports the photos of fixtures/images/selection.json from a folder of originals (not versioned) into
 // fixtures/images/*.webp and manifest.csv. Local files only: nothing is downloaded, and the same originals always give the same files.
-//   php bin/import-product-images --source-dir=/path/to/originals [--selection=fixtures/images/selection.json] [--date=YYYY-MM-DD]
+//   php bin/import-product-images --source-dir=/path/to/originals [--selection=fixtures/images/selection.json] [--date=YYYY-MM-DD] [--only=type,type]
+// US-197: --only imports only these types of the selection (the other rows and files are left as they are).
 
 use App\Demo\Images\Fetch\ImageProcessor;
 use App\Demo\Images\ImageManifest;
@@ -20,15 +21,18 @@ $imagesDir = $projectDir . '/fixtures/images';
 $selectionPath = $imagesDir . '/selection.json';
 $sourceDir = null;
 $date = \date('Y-m-d');
+$only = [];
 foreach (\array_slice($argv, 1) as $argument) {
     if (\str_starts_with($argument, '--source-dir=')) {
         $sourceDir = \substr($argument, 13);
     } elseif (\str_starts_with($argument, '--selection=')) {
         $selectionPath = \substr($argument, 12);
+    } elseif (\str_starts_with($argument, '--only=')) {
+        $only = \array_values(\array_filter(\explode(',', \substr($argument, 7)), static fn (string $type): bool => $type !== ''));
     } elseif (\str_starts_with($argument, '--date=') && \preg_match('/^\d{4}-\d{2}-\d{2}$/', \substr($argument, 7)) === 1) {
         $date = \substr($argument, 7);
     } else {
-        \fwrite(\STDERR, "usage: php bin/import-product-images --source-dir=DIR [--selection=FILE] [--date=YYYY-MM-DD]\n");
+        \fwrite(\STDERR, "usage: php bin/import-product-images --source-dir=DIR [--selection=FILE] [--date=YYYY-MM-DD] [--only=type,type]\n");
         exit(2);
     }
 }
@@ -46,6 +50,7 @@ try {
         $imagesDir,
         ImageManifest::load($imagesDir . '/manifest.csv'),
         $date,
+        $only,
     );
 } catch (\RuntimeException $exception) {
     \fwrite(\STDERR, $exception->getMessage() . "\n");

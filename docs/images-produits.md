@@ -46,8 +46,8 @@ son auteur, sa source, sa licence et le nombre de produits qu'il illustre.
 
 ## Photos par type d'article (US-196, sprint 28)
 
-Depuis le sprint 28, 201 des 210 produits montrent la **photo de leur type d'article** (casque, gant en cuir, carton, tournevis...),
-une photo par type, jamais partagée entre deux types différents, sans marque lisible. Les 9 autres (types `neutral` de la sélection : veste de pluie, botte en caoutchouc) montrent un visuel neutre de leur catégorie.
+Depuis le sprint 28, 204 des 210 produits montrent la **photo de leur type d'article** (casque, gant en cuir, carton, tournevis...),
+une photo par type, jamais partagée entre deux types différents, sans marque lisible. Les 6 autres (type `neutral` de la sélection : veste de pluie) montrent un visuel neutre de leur catégorie.
 
 - Source : Pexels (23 types) et Unsplash (5 types), licence relue sur https://www.pexels.com/license/ le 2026-10-25 (usage libre, attribution non obligatoire mais gardée,
   modification autorisée ; interdit : suggérer l'aval d'une personne ou d'une marque, revendre les copies non modifiées).
@@ -72,6 +72,28 @@ partagée entre types, cadre 4:3), `PhotoSelectionTest` (sélection complète, l
 
 Pour ajouter un type : déposer l'original dans le dossier, ajouter l'entrée à `selection.json` (et la retirer de `pending`), relire la
 photo en entier à 800 px (marque, texte, personne), puis relancer l'import.
+
+## Couleurs annoncées par le nom (US-197, sprint 29)
+
+Les photos des familles dont le nom annonce une couleur ont été choisies par Thibaut Monier sur une planche le 2026-10-25 (licences relues le même jour
+sur les pages de Pexels et d'Unsplash : usage libre, attribution non obligatoire, modification autorisée ; aucune photo Unsplash+). Les originaux
+(Pexels en 6 000 px, Unsplash au maximum fourni par leur CDN) ne sont pas versionnés ; seuls les WebP 4:3 de 800 x 600 le sont.
+
+| Type | Couleur | SKU | Photo | Banque |
+|------|---------|-----|-------|--------|
+| `casque-chantier` | blanc | 8 | casque blanc (déjà en place) ; le casque vert EPI-CASK-017 la garde, faute de photo libre d'un casque vert sans personne | Pexels |
+| `casque-jaune` | jaune | 4 | Richard Heinen | Unsplash |
+| `casque-rouge` | rouge | 2 | Ümit Yıldırım | Unsplash |
+| `casque-orange` | orange | 4 | Thirdman | Pexels |
+| `casque-bleu` | bleu | 2 | Carsten Ruthemann | Pexels |
+| `gilet-haute-visibilite` | jaune | 3 | Tanya Paquet | Unsplash |
+| `botte-caoutchouc` | vert | 3 | Jonathan Cosens Photography | Unsplash |
+
+La veste de pluie garde son visuel neutre : aucune photo libre sans marque ni décor encombrant n'a convenu (planche du 2026-10-25). Le visuel neutre
+`category-chaussures-securite.webp`, qui n'était plus montré par aucun produit, a été retiré. Rejouer l'import d'un seul type : `--only=casque-jaune`
+(autres lignes et fichiers laissés tels quels).
+
+`ProductPhotoColourTest` garde ces choix : un casque est montré dans la couleur que son nom annonce, les exceptions sont nommées.
 
 ## Point focal et cadrage (US-197, sprint 29)
 
