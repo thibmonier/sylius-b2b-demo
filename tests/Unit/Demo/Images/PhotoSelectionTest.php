@@ -18,9 +18,13 @@ final class PhotoSelectionTest extends TestCase
         $this->selection = PhotoSelection::load(\dirname(__DIR__, 4) . '/fixtures/images/selection.json');
     }
 
-    public function testEverySkuOfTheCatalogueBelongsToExactlyOneTypeSelectedOrPending(): void
+    public function testEverySkuOfTheCatalogueBelongsToExactlyOneTypePhotographedNeutralOrPending(): void
     {
-        $listed = [...\array_merge(...\array_map(static fn ($photo): array => $photo->skus, $this->selection->photos())), ...$this->selection->pendingSkus()];
+        $listed = [
+            ...\array_merge(...\array_map(static fn ($photo): array => $photo->skus, $this->selection->photos())),
+            ...\array_merge([], ...\array_column($this->selection->neutral(), 'skus')),
+            ...$this->selection->pendingSkus(),
+        ];
 
         $catalogue = $this->catalogueSkus();
         \sort($catalogue);
@@ -28,15 +32,25 @@ final class PhotoSelectionTest extends TestCase
         self::assertSame($catalogue, $listed, 'A SKU missing from the selection, listed twice, or unknown to the catalogue.');
     }
 
-    public function testEveryPhotoNamesItsAuthorItsPexelsPageAndItsLicence(): void
+    public function testEveryPhotoNamesItsAuthorItsPageAndItsLicence(): void
     {
         self::assertNotEmpty($this->selection->photos());
+        $banks = ['Pexels' => ['#^https://www\.pexels\.com/photo/\d+/$#', 'https://www.pexels.com/license/'], 'Unsplash' => ['#^https://unsplash\.com/photos/[\w-]+$#', 'https://unsplash.com/license']];
         foreach ($this->selection->photos() as $photo) {
+            self::assertArrayHasKey($photo->source, $banks, $photo->type);
             self::assertNotSame('', $photo->creator, $photo->type . ': creator');
             self::assertNotSame('', $photo->title, $photo->type . ': title');
-            self::assertMatchesRegularExpression('#^https://www\.pexels\.com/photo/\d+/$#', $photo->originUrl, $photo->type);
-            self::assertSame('https://www.pexels.com/license/', $photo->licenseUrl, $photo->type);
-            self::assertMatchesRegularExpression('/^full-\d+\.jpg$/', $photo->file, $photo->type);
+            self::assertMatchesRegularExpression($banks[$photo->source][0], $photo->originUrl, $photo->type);
+            self::assertSame($banks[$photo->source][1], $photo->licenseUrl, $photo->type);
+            self::assertMatchesRegularExpression('/^(full-\d+|[up]-[\w-]+)\.jpg$/', $photo->file, $photo->type);
+        }
+    }
+
+    public function testTheNeutralTypesNameAnExistingCategoryVisual(): void
+    {
+        foreach ($this->selection->neutral() as $type) {
+            self::assertMatchesRegularExpression('/^category-[\w-]+\.webp$/', $type['file'], $type['type']);
+            self::assertFileExists(\dirname(__DIR__, 4) . '/fixtures/images/' . $type['file'], $type['type']);
         }
     }
 

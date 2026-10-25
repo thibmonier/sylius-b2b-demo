@@ -79,9 +79,17 @@ final class ImageManifestAuditorTest extends TestCase
         self::assertStringContainsString('licence', $violations[0]);
     }
 
-    public function testALicenceThatIsNeitherCc0NorPexelsIsStillRefused(): void
+    public function testAnUnsplashPhotoWithItsLicencePageIsAccepted(): void
     {
-        $violations = (new ImageManifestAuditor())->violations([$this->pexels(['sku' => 'P-10', 'license' => 'unsplash', 'license_url' => 'https://unsplash.com/license'])]);
+        $row = $this->pexels(['source' => 'unsplash', 'license' => 'unsplash', 'license_url' => 'https://unsplash.com/license', 'origin_url' => 'https://unsplash.com/photos/brown-boots-s8TQiOfGlz0']);
+
+        self::assertSame([], (new ImageManifestAuditor())->violations([$row]));
+        self::assertCount(1, (new ImageManifestAuditor())->violations([['license_url' => 'https://www.pexels.com/license/'] + $row]));
+    }
+
+    public function testALicenceThatIsNeitherCc0NorPexelsNorUnsplashIsStillRefused(): void
+    {
+        $violations = (new ImageManifestAuditor())->violations([$this->pexels(['sku' => 'P-10', 'license' => 'by', 'license_url' => 'https://creativecommons.org/licenses/by/4.0/'])]);
 
         self::assertCount(1, $violations);
         self::assertStringContainsString('P-10', $violations[0]);

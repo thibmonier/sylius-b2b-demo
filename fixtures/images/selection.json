@@ -609,9 +609,7 @@
       ],
       "blur": [],
       "review": "ok"
-    }
-  ],
-  "pending": [
+    },
     {
       "type": "gant-manutention",
       "name_fr": "Gant de manutention enduit",
@@ -628,7 +626,19 @@
         "EPI-GANT-011",
         "EPI-GANT-021"
       ],
-      "reason": "brand legible or wrong article, new search"
+      "file": "u-0zkZ-4Gustk.jpg",
+      "title": "Blue and grey coated gloves",
+      "creator": "Zachary Keimig",
+      "creator_url": "https://unsplash.com/@zacharykeimig",
+      "origin_url": "https://unsplash.com/photos/blue-and-gray-gloves-on-black-soil-0zkZ-4Gustk",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "blur": [],
+      "review": "ok"
     },
     {
       "type": "chaussure-securite",
@@ -652,20 +662,19 @@
         "EPI-CHAU-019",
         "EPI-CHAU-020"
       ],
-      "reason": "brand legible or wrong article, new search"
-    },
-    {
-      "type": "veste-pluie",
-      "name_fr": "Veste ou ensemble de protection extérieur",
-      "skus": [
-        "EPI-VEST-002",
-        "EPI-VEST-005",
-        "EPI-VEST-008",
-        "EPI-VEST-010",
-        "EPI-VEST-012",
-        "EPI-VEST-013"
+      "file": "u-s8TQiOfGlz0.jpg",
+      "title": "Brown leather lace-up boots",
+      "creator": "Glenn Carstens-Peters",
+      "creator_url": "https://unsplash.com/@glenncarstenspeters",
+      "origin_url": "https://unsplash.com/photos/brown-leather-lace-up-boots-s8TQiOfGlz0",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
       ],
-      "reason": "brand legible or wrong article, new search"
+      "blur": [],
+      "review": "ok"
     },
     {
       "type": "ruban-adhesif",
@@ -677,7 +686,26 @@
         "EMBA-020",
         "PAPE-013"
       ],
-      "reason": "brand legible or wrong article, new search"
+      "file": "p-5691615.jpg",
+      "title": "Masking tape rolls",
+      "creator": "Ksenia Chernaya",
+      "creator_url": "https://www.pexels.com/@kseniachernaya/",
+      "origin_url": "https://www.pexels.com/photo/5691615/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "blur": [
+        [
+          0.38,
+          0.3,
+          0.5,
+          0.23
+        ]
+      ],
+      "review": "reserve"
     },
     {
       "type": "marteau-outil-frappe-coupe",
@@ -690,7 +718,19 @@
         "OUTI-021",
         "OUTI-022"
       ],
-      "reason": "brand legible or wrong article, new search"
+      "file": "u-YU2mCvXR0wA.jpg",
+      "title": "Claw hammer on wooden boards",
+      "creator": "Andrew George",
+      "creator_url": "https://unsplash.com/@andrewjoegeorge",
+      "origin_url": "https://unsplash.com/photos/black-and-silver-claw-hammer-YU2mCvXR0wA",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "blur": [],
+      "review": "ok"
     },
     {
       "type": "equerre-platine",
@@ -706,7 +746,19 @@
         "FIXA-019",
         "FIXA-020"
       ],
-      "reason": "no photo chosen yet"
+      "file": "p-4049356.jpg",
+      "title": "Small perforated metal brackets and parts",
+      "creator": "Dan Cristian Pădureț",
+      "creator_url": "https://www.pexels.com/@paduret/",
+      "origin_url": "https://www.pexels.com/photo/4049356/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "blur": [],
+      "review": "reserve"
     },
     {
       "type": "collier-serrage",
@@ -718,7 +770,35 @@
         "FIXA-011",
         "FIXA-015"
       ],
-      "reason": "no photo chosen yet"
+      "file": "u-sOucbS9lUd8.jpg",
+      "title": "Metal hose clamp on white",
+      "creator": "Spencer Liao",
+      "creator_url": "https://unsplash.com/@spencerliao",
+      "origin_url": "https://unsplash.com/photos/metal-band-with-hinged-latch-sOucbS9lUd8",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "blur": [],
+      "review": "ok"
+    }
+  ],
+  "pending": [],
+  "neutral": [
+    {
+      "type": "veste-pluie",
+      "name_fr": "Veste ou ensemble de protection extérieur",
+      "skus": [
+        "EPI-VEST-002",
+        "EPI-VEST-005",
+        "EPI-VEST-008",
+        "EPI-VEST-010",
+        "EPI-VEST-012",
+        "EPI-VEST-013"
+      ],
+      "file": "category-protection-corps.webp"
     }
   ]
 }

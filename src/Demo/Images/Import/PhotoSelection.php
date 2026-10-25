@@ -13,10 +13,12 @@ final readonly class PhotoSelection
     /**
      * @param list<SelectedPhoto> $photos
      * @param list<string>        $pendingSkus
+     * @param list<array{type: string, skus: list<string>, file: string}> $neutral types shown by a neutral visual of the category
      */
     private function __construct(
         private array $photos,
         private array $pendingSkus,
+        private array $neutral,
     ) {
     }
 
@@ -48,7 +50,13 @@ final readonly class PhotoSelection
             $pending = [...$pending, ...self::strings(self::map($type)['skus'] ?? null)];
         }
 
-        return new self($photos, $pending);
+        $neutral = [];
+        foreach (self::list($data['neutral'] ?? []) as $item) {
+            $type = self::map($item);
+            $neutral[] = ['type' => self::string($type['type'] ?? null), 'skus' => self::strings($type['skus'] ?? null), 'file' => self::string($type['file'] ?? null)];
+        }
+
+        return new self($photos, $pending, $neutral);
     }
 
     /** @return list<SelectedPhoto> */
@@ -61,6 +69,12 @@ final readonly class PhotoSelection
     public function pendingSkus(): array
     {
         return $this->pendingSkus;
+    }
+
+    /** @return list<array{type: string, skus: list<string>, file: string}> */
+    public function neutral(): array
+    {
+        return $this->neutral;
     }
 
     /** @return array<string, mixed> */

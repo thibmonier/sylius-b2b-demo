@@ -49,15 +49,19 @@ final class ProductPhotosPerTypeTest extends TestCase
         self::assertSame([], $shared, 'A file shown by SKUs of different types.');
     }
 
-    public function testThePendingTypesDoNotShareTheirImageWithASelectedType(): void
+    public function testTheNeutralTypesShowTheirNeutralVisualAndNothingElseDoes(): void
     {
-        $selectedFiles = [];
-        foreach ($this->selection->photos() as $photo) {
-            $selectedFiles[(string) $this->manifest->fileFor($photo->skus[0])] = true;
+        $neutralFiles = [];
+        foreach ($this->selection->neutral() as $type) {
+            foreach ($type['skus'] as $sku) {
+                self::assertSame($type['file'], $this->manifest->fileFor($sku), $sku);
+                self::assertSame('fallback', ($this->manifest->row($sku) ?? [])['status'] ?? '', $sku);
+            }
+            $neutralFiles[$type['file']] = true;
         }
-
-        $clashes = \array_filter($this->selection->pendingSkus(), fn (string $sku): bool => isset($selectedFiles[(string) $this->manifest->fileFor($sku)]));
-        self::assertSame([], \array_values($clashes));
+        foreach ($this->selection->photos() as $photo) {
+            self::assertArrayNotHasKey((string) $this->manifest->fileFor($photo->skus[0]), $neutralFiles, $photo->type . ' shows a neutral visual');
+        }
     }
 
     public function testThePhotosAreLicensedTracedAndInTheFrameOfTheProductPage(): void
@@ -65,7 +69,7 @@ final class ProductPhotosPerTypeTest extends TestCase
         foreach ($this->selection->photos() as $photo) {
             $row = $this->manifest->row($photo->skus[0]);
             self::assertNotNull($row, $photo->type);
-            self::assertSame([$photo->creator, $photo->originUrl, $photo->licenseUrl, 'pexels', 'validated'], [$row['creator'], $row['origin_url'], $row['license_url'], $row['license'], $row['status']], $photo->type);
+            self::assertSame([$photo->creator, $photo->originUrl, $photo->licenseUrl, $row['license'], 'validated'], [$row['creator'], $row['origin_url'], $row['license_url'], \strtolower($photo->source), $row['status']], $photo->type);
             $size = \getimagesize($this->imagesDir . '/' . $row['file']);
             self::assertIsArray($size, $row['file']);
             self::assertEqualsWithDelta(4 / 3, $size[0] / $size[1], 0.01, $row['file'] . ' is not 4:3');
