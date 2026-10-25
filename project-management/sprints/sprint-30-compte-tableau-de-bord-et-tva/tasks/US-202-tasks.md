@@ -1,0 +1,65 @@
+# Tâches : US-202 : Catégories de taxe sur le catalogue de démonstration : TVA affichée au panier et sur les commandes
+
+## Informations US
+
+- **Epic** : EPIC-12
+- **Persona** : Claire (acheteuse d'Acme Industries) ; Camille (recruteuse IT)
+- **Story Points** : 3 (Should, **sacrifice : n°1**)
+- **Sprint** : sprint-30-compte-tableau-de-bord-et-tva
+- **Worker proposé** : w202
+- **Story** : [US-202](../../../backlog/user-stories/US-202.md)
+
+## Résumé de la US
+
+**En tant qu'** acheteuse B2B  
+**Je veux** voir le montant hors taxes, la TVA et le total TTC de mon panier et de mes commandes  
+**Afin de** retrouver les montants de ma facture et de mon budget
+
+## Règles et contraintes
+
+- **Sans maquette** : la maquette du panier validée au sprint 29 montre déjà HT, TVA et TTC ; la ligne TVA et le total TTC reprennent la place qu'elle leur donne (masquées au sprint 29 faute de catégorie de taxe).
+- **Ce qui existe déjà** (relevé au planning) : catégorie `standard` (« TVA normale ») et taux `fr_standard` (20 %, zone `FR`, `included_in_price: false`) dans `config/packages/demo_fixtures.yaml` ; aucun produit ne porte de catégorie (`ProductCsvFixture` ne l'affecte pas) ; l'historique de 18 mois est écrit en masse (`BulkOrderWriter`).
+- **Prix B2B affichés HT, inchangés** : aucun prix de la liste, de la fiche ou du panier ne doit bouger ; comparaison avant/après consignée.
+- **Limite d'approbation comparée au total HT** (décision de Thibaut du 2026-10-25). **Constat du planning** : le plugin purchase-approval compare `$order->getTotal()` (`ApprovalRequirementChecker`, `ApprovalPolicy`, `OrderApprovalRequestListener`), qui inclura la TVA. Cadrage T-202-01 : décoration de ces services **dans la démo**, sans modifier le plugin ; si la décoration n'est pas possible proprement, question à Thibaut (option du plugin = PR, tag et release sur son GO) **avant tout code**, notée au registre ; le message d'approbation du panier (`CartApprovalNotice`) annonce le même montant.
+- Commandes de l'historique : TVA présente ou décision notée (les montants du tableau de bord des achats, US-201, restent HT ou TTC de façon documentée, sans changement silencieux ; coordination avec w201 par l'orchestrateur).
+- Produits créés par l'import ERP simulé (US-187, US-188) : catégorie de taxe affectée.
+- **État hors base** (règle 16) : aucun attendu ; les nouveaux prix et taxes n'arrivent en production qu'à la remise à zéro de 03:00 suivant le déploiement (dit à l'avance).
+- Fichiers communs (règle 21) : `config/packages/demo_fixtures.yaml` et `fixtures/` : US-202 seule ce sprint ; gabarits du panier `templates/shop/theme_b2b/cart/` : US-202 seule ce sprint ; domaine de traduction `cart` : US-202 seule.
+- Tests uniquement par `WORKER_ID=w202 TEST_DB_NAME=b2b_w202 TEST_CACHE_DIR=var/cache-w202 bin/run-tests`, dans l'arbre partagé (règle 22) ; preuve : `bin/proof-rebase`.
+
+## Lieu de vérification
+
+**Local et image reconstruite** : panier de Claire (HT, livraison, TVA 20 %, TTC), commande passée, produit importé, limite. **Production** (lecture seule, sans connexion, après la remise à zéro de 03:00) : prix HT publics inchangés sur la liste et la fiche.
+
+## Fichiers principaux touchés
+
+- `src/Demo/DataFixtures/ProductCsvFixture.php` (ou configuration des fixtures), import ERP simulé de la démo, `src/Demo/Theme/Cart*` et une décoration d'approbation dans `src/Demo/` si le cadrage la retient
+- `templates/shop/theme_b2b/cart/` (récapitulatif), `translations/cart.{fr,en}.yaml`
+- `tests/Functional/Demo/`, `tests/Unit/Demo/` (nouveaux fichiers ; tests du panier, des paliers, de l'approbation et du tunnel relus)
+- `config/demo/proof.json` (par `bin/proof-rebase`), `docs/images/cart-*`, `docs/theme-b2b.md` (section du panier)
+
+## Vue d'ensemble des tâches
+
+| ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
+|----|------|-------|------------|-----------|-------------|--------|
+| T-202-01 | [DOC] | Cadrage : affectation de la catégorie (fixtures CSV, import ERP, historique en masse), mode de calcul (`included_in_price: false`), récapitulatif du panier et des commandes, **comparaison HT de la limite** (services du plugin à décorer dans la démo ou question à Thibaut), montants du tableau de bord des achats ; plan des tests ; prix de référence relevés (liste, fiche, panier de Claire) | 0,75 h | - | Claude | 🔲 |
+| T-202-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : panier HT, livraison, TVA 20 %, TTC ; prix affichés inchangés ; commande avec TVA ; produit importé avec catégorie ; limite comparée au HT et message du panier cohérent | 0,75 h | T-202-01 | Claude | 🔲 |
+| T-202-03 | [DB] | Catégorie `standard` affectée aux produits des fixtures et aux produits de l'import ERP simulé ; historique de commandes cohérent (ou décision notée) ; fixtures rechargées en local | 1 h | T-202-02 | Claude | 🔲 |
+| T-202-04 | [FE-WEB] | Récapitulatif du panier : ligne TVA et total TTC réaffichés à la place de la maquette validée ; récapitulatif de commande et e-mails relus ; AAA et 360 px conservés | 0,75 h | T-202-03 | Claude | 🔲 |
+| T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | 🔲 |
+| T-202-06 | [TEST] | Suite ciblée par `bin/run-tests` (panier, paliers, approbation, tunnel de commande de bout en bout, import ERP, tableau de bord des achats), prix comparés avant/après, PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y du panier FR et EN ; commande exacte et dernière ligne citées | 0,75 h | T-202-04, T-202-05 | Claude | 🔲 |
+| T-202-07 | [DOC] | Captures `docs/images/cart-*` mises à jour par `bin/render-page`, section du panier de `docs/theme-b2b.md` | 0,5 h | T-202-06 | Claude | 🔲 |
+| T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | 🔲 |
+| T-202-09 | [REV] | Revue (ton neutre, parité FR et EN, prix inchangés, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,25 h | T-202-08 | Claude | 🔲 |
+
+**Total estimé : 6 h** (9 tâches, toutes pour Claude).
+
+## Table « scénario → test ou preuve »
+
+| Scénario | Tâche | Test ou preuve |
+|----------|-------|----------------|
+| Panier avec TVA (nominal) | T-202-02, T-202-07 | |
+| Prix affichés inchangés (alternatif) | T-202-02, T-202-06 | |
+| Commande avec TVA (alternatif) | T-202-02 | |
+| Produit importé par l'ERP (erreur) | T-202-02 | |
+| Limite d'approbation (erreur) | T-202-02, T-202-05 | |
