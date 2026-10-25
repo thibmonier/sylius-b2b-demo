@@ -686,26 +686,19 @@
         "EMBA-020",
         "PAPE-013"
       ],
-      "file": "p-5691615.jpg",
-      "title": "Masking tape rolls",
-      "creator": "Ksenia Chernaya",
-      "creator_url": "https://www.pexels.com/@kseniachernaya/",
-      "origin_url": "https://www.pexels.com/photo/5691615/",
-      "source": "Pexels",
-      "license_url": "https://www.pexels.com/license/",
+      "file": "u-p10qtOive_E.jpg",
+      "title": "Red tape dispenser with clear packing tape",
+      "creator": "Barry A",
+      "creator_url": "https://unsplash.com/@barryalbert24",
+      "origin_url": "https://unsplash.com/photos/red-tape-dispenser-with-clear-packing-tape-p10qtOive_E",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
       "focus": [
         0.5,
         0.5
       ],
-      "blur": [
-        [
-          0.38,
-          0.3,
-          0.5,
-          0.23
-        ]
-      ],
-      "review": "reserve"
+      "blur": [],
+      "review": "ok"
     },
     {
       "type": "marteau-outil-frappe-coupe",
