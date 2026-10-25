@@ -1,0 +1,136 @@
+# US-199: the page "My account" of the B2B channel (domain `account`). The sentences are assembled by AccountDashboardProvider
+# from the services of the shop and of the plugins; the templates carry no text of their own.
+nav:
+    label: 'Your account'
+    home: 'Account home'
+    insights: 'Purchasing dashboard'
+    pending: '%count% approval pending|%count% approvals pending'
+    group:
+        purchases: 'My purchases'
+        company: 'My company'
+        profile: 'My profile'
+        tools: 'Tools'
+
+greeting: 'Hello %name%'
+identity:
+    at_company: 'at %company%'
+    verified: 'verified account'
+    unverified: 'unverified account'
+actions:
+    edit: 'Edit my details'
+    password: 'Change my password'
+
+todo:
+    title:
+        start: 'Getting started'
+        do: 'To do'
+        follow: 'To follow'
+    decide:
+        title: '%count% order to review|%count% orders to review'
+        text: '%number% from %buyer%, %total%, placed on %date%.'
+        link: 'Review the approvals'
+    held:
+        title: 'Order %number% is waiting for approval'
+        text: '%total% excl. VAT is above your order limit of %limit% excl. VAT: %approver% has to approve it before payment.'
+        link: 'View the order'
+    overdue:
+        title: 'Order %number% is overdue'
+        text: '%total% on account, due date passed %count% day ago.|%total% on account, due date passed %count% days ago.'
+        link: 'View the order'
+    due:
+        title: 'Due on %date%'
+        text: 'Order %number% on account: %total% to pay.'
+        link: 'View the account statement'
+    quote:
+        title: 'Proposal received for quote %number%'
+        text: '%count% line, valid until %date%.|%count% lines, valid until %date%.'
+        link: 'View the proposal'
+    nothing:
+        title: 'Nothing is waiting for you'
+        text: 'No approval, payment or proposal to deal with.'
+        link: 'View my orders'
+    start:
+        order:
+            title: 'Place a first order'
+            text: 'The negotiated prices of %company% are shown across the catalogue.'
+            link: 'Browse the catalogue'
+        limits:
+            title: 'Set the limits of your buyers'
+            text: 'Orders above the limit of a buyer will wait for an approval.'
+            link: 'Purchase limits'
+
+quick:
+    title: 'Shortcuts'
+    quick_order:
+        title: 'Quick order'
+        text: 'Type references or paste a list.'
+    list:
+        title: '“%name%” list'
+        text: '%count% item to reorder in one click.|%count% items to reorder in one click.'
+        title_none: 'Shopping lists'
+        text_none: 'Create the first shared list.'
+    quote:
+        title: 'Request a quote'
+        text: 'For quantities or a negotiated price.'
+    insights:
+        title: 'Purchasing dashboard'
+        text: 'Spending, trends and buyers.'
+    equipment:
+        title: 'My equipment'
+        text: 'Tracked machines and consumables.'
+
+orders:
+    title: 'My latest orders'
+    all: 'All my orders (%count%)'
+    col:
+        number: 'Order'
+        date: 'Date'
+        state: 'Status'
+        total: 'Total'
+        actions: 'Actions'
+    reorder: 'Order again'
+    reorder_label: 'Order again: %number%'
+    empty: 'You have not placed an order yet. The prices of %company% already show in the catalogue.'
+    empty_plain: 'You have not placed an order yet.'
+    browse: 'Browse the catalogue'
+    quick: 'Quick order by reference'
+
+order_state:
+    pending_approval: 'Pending approval'
+    cancelled: 'Cancelled'
+    refunded: 'Refunded'
+    payment_late: 'Payment overdue'
+    due_on: 'To pay before %date%'
+    awaiting_payment: 'Awaiting payment'
+    delivered: 'Delivered'
+    paid_preparing: 'Paid, being prepared'
+    in_progress: 'In progress'
+
+company:
+    link: 'My company'
+    role: 'Your role'
+    members: 'Members'
+    order_limit: 'Order limit'
+    approval_limit: 'Approval limit'
+    no_limit: 'none'
+    excl_vat: '%amount% excl. VAT'
+    spend: 'Spending excl. VAT, rolling year'
+
+credit:
+    title: 'Trade credit'
+    available_on: 'available out of %limit%'
+    overdue: '%amount% overdue on the company account.'
+    none_open: 'No open item.'
+    nothing_overdue: 'Nothing is overdue.'
+    statement: 'Account statement'
+
+lists:
+    title: 'Lists and quotes'
+    none: 'No shared shopping list yet.'
+    first:
+        you: '“%name%” company list: %count% item, created by you.|“%name%” company list: %count% items, created by you.'
+        colleague: '“%name%” company list: %count% item.|“%name%” company list: %count% items.'
+quotes:
+    never: 'You have not requested a quote yet.'
+    none_running: 'No quote in progress.'
+    running: 'Quote %number%: %status%.'

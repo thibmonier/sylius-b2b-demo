@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 final class AccountTextCharterTest extends TestCase
 {
     /** Names of shop features, not offers: the quote request is a plugin of the demo (the charter flags the word "devis"). */
-    private const FEATURE_NAMES = [];
+    private const FEATURE_NAMES = ['todo.quote.title', 'quick.quote.title', 'quotes.never', 'quotes.none_running', 'quotes.running', 'lists.title'];
 
     private const COMPARISONS = ['/sylius\s+plus/i', '/concurren/i', '/competitor/i', '/\bmeilleur\b/i', '/\bbest\b/i', '/\bleader\b/i', '/\bgaranti/i', '/\bguarantee/i'];
 

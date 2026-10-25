@@ -1,0 +1,134 @@
+{#
+    US-199: the home of "My account" of a B2B buyer (mock-up validated by Thibaut, see the decisions register of sprint 30): what is
+    waiting for the person, four shortcuts, the last five orders, and beside them the company, its credit and the lists and quotes.
+    Everything comes from AccountDashboardProvider (read from the services of the shop and of the plugins); no text is written here.
+    The core card of the dashboard, its titles and the company card of the plugin stay on the consumer channel (demo_theme_b2b_account.yaml).
+#}
+{% set d = app_b2b_account_dashboard() %}
+{% if d is not null %}
+    {% set member = tmonier_company_current_member() %}
+    <div class="b2b-account">
+        <div class="b2b-account__head">
+            <div class="b2b-account__who">
+                <h1 class="b2b-account__title">{{ 'greeting'|trans({'%name%': d.firstName}, 'account') }}</h1>
+                <p class="b2b-account__identity" {{ sylius_test_html_attribute('b2b-account-identity') }}>
+                    {% if d.roleLabel is not null %}<span class="b2b-account__role" {{ sylius_test_html_attribute('b2b-account-role') }}>{{ d.roleLabel }}</span>{% endif %}
+                    {% if d.companyName is not null %}{{ 'identity.at_company'|trans({'%company%': d.companyName}, 'account') }} &middot; {% endif %}{{ d.email }} &middot; {{ (d.verified ? 'identity.verified' : 'identity.unverified')|trans({}, 'account') }}
+                </p>
+            </div>
+            <div class="b2b-account__actions" {{ sylius_test_html_attribute('b2b-account-actions') }}>
+                <a class="b2b-account__action b2b-account__action--outline" href="{{ path('sylius_shop_account_profile_update') }}">{{ 'actions.edit'|trans({}, 'account') }}</a>
+                <a class="b2b-account__action" href="{{ path('sylius_shop_account_change_password') }}">{{ 'actions.password'|trans({}, 'account') }}</a>
+            </div>
+        </div>
+
+        <section class="b2b-account__section" aria-labelledby="b2b-account-todo-title" {{ sylius_test_html_attribute('b2b-account-todo') }}>
+            <h2 class="b2b-account__h2" id="b2b-account-todo-title">{{ d.todoTitle }}</h2>
+            <div class="b2b-account__todo">
+                {% for todo in d.todos %}
+                    <div class="b2b-account-card b2b-account-card--{{ todo.tone.value }}" {{ sylius_test_html_attribute('b2b-account-todo-item') }}>
+                        <span class="b2b-account-card__icon" aria-hidden="true">{{ todo.icon }}</span>
+                        <div class="b2b-account-card__body">
+                            <strong class="b2b-account-card__title">{{ todo.title }}</strong>
+                            <span>{{ todo.text }}</span>
+                            <a class="b2b-account__action" href="{{ todo.url }}">{{ todo.linkLabel }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="b2b-account__section" aria-labelledby="b2b-account-quick-title" {{ sylius_test_html_attribute('b2b-account-quick') }}>
+            <h2 class="visually-hidden" id="b2b-account-quick-title">{{ 'quick.title'|trans({}, 'account') }}</h2>
+            <div class="b2b-account__quick">
+                {% for shortcut in d.shortcuts %}
+                    <a class="b2b-account-tile" href="{{ shortcut.url }}" {{ sylius_test_html_attribute('b2b-account-quick-item') }}>
+                        <strong class="b2b-account-tile__title">{{ shortcut.title }}</strong>
+                        <span class="b2b-account-tile__text">{{ shortcut.text }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div class="b2b-account__main">
+            <section class="b2b-account-panel" aria-labelledby="b2b-account-orders-title" {{ sylius_test_html_attribute('b2b-account-orders') }}>
+                <div class="b2b-account-panel__head">
+                    <h2 class="b2b-account__h2 b2b-account__h2--panel" id="b2b-account-orders-title">{{ 'orders.title'|trans({}, 'account') }}</h2>
+                    {% if d.orders is not empty %}
+                        <a class="b2b-account__link" href="{{ path('sylius_shop_account_order_index') }}" {{ sylius_test_html_attribute('b2b-account-orders-all') }}>{{ 'orders.all'|trans({'%count%': d.ordersTotal}, 'account') }}</a>
+                    {% endif %}
+                </div>
+                {% if d.orders is not empty %}
+                    <div class="b2b-account__scroll" tabindex="0" role="region" aria-label="{{ 'orders.title'|trans({}, 'account') }}">
+                        <table class="b2b-account-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{ 'orders.col.number'|trans({}, 'account') }}</th>
+                                    <th scope="col">{{ 'orders.col.date'|trans({}, 'account') }}</th>
+                                    <th scope="col">{{ 'orders.col.state'|trans({}, 'account') }}</th>
+                                    <th scope="col" class="b2b-account-table__num">{{ 'orders.col.total'|trans({}, 'account') }}</th>
+                                    <th scope="col"><span class="visually-hidden">{{ 'orders.col.actions'|trans({}, 'account') }}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in d.orders %}
+                                    <tr {{ sylius_test_html_attribute('b2b-account-order') }}>
+                                        <th scope="row"><a class="b2b-account-table__number" href="{{ order.url }}">{{ order.number }}</a></th>
+                                        <td class="b2b-account-table__nowrap">{{ order.date }}</td>
+                                        <td><span class="b2b-account-badge b2b-account-badge--{{ order.tone.value }}" {{ sylius_test_html_attribute('b2b-account-order-state') }}>{{ order.state }}</span></td>
+                                        <td class="b2b-account-table__num b2b-account-table__nowrap">{{ order.total }}</td>
+                                        <td class="b2b-account-table__num">
+                                            <form method="post" action="{{ order.reorderUrl }}" class="b2b-account-table__form" {{ sylius_test_html_attribute('b2b-account-reorder') }}>
+                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('tmonier_quick_order') }}">
+                                                <button type="submit" class="b2b-account__action" aria-label="{{ 'orders.reorder_label'|trans({'%number%': order.number}, 'account') }}">{{ 'orders.reorder'|trans({}, 'account') }}</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="b2b-account__empty">
+                        <p>{{ (d.companyName is null ? 'orders.empty_plain' : 'orders.empty')|trans({'%company%': d.companyName}, 'account') }}</p>
+                        <div class="b2b-account__buttons">
+                            <a class="b2b-account__action b2b-account__action--solid" href="{{ path('sylius_shop_homepage') }}">{{ 'orders.browse'|trans({}, 'account') }}</a>
+                            <a class="b2b-account__action b2b-account__action--outline" href="{{ path('tmonier_quick_order_shop_index') }}">{{ 'orders.quick'|trans({}, 'account') }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+
+            <aside class="b2b-account__aside">
+                {% if d.companyName is not null %}
+                    <section class="b2b-account-panel b2b-account-panel--side" aria-labelledby="b2b-account-company-title" {{ sylius_test_html_attribute('b2b-account-company') }}>
+                        <h2 class="b2b-account__h2 b2b-account__h2--side" id="b2b-account-company-title">{{ d.companyName }}</h2>
+                        <dl class="b2b-account-facts">
+                            {% for fact in d.facts %}
+                                <dt>{{ fact.label }}</dt>
+                                <dd>{{ fact.value }}</dd>
+                            {% endfor %}
+                        </dl>
+                        {% if member is not null and is_granted('COMPANY_VIEW', member.company) %}
+                            <a class="b2b-account__link" href="{{ path('tmonier_company_accounts_shop_company_show') }}">{{ 'company.link'|trans({}, 'account') }}</a>
+                        {% endif %}
+                    </section>
+                {% endif %}
+                {% if d.credit is not null %}
+                    <section class="b2b-account-panel b2b-account-panel--side" aria-labelledby="b2b-account-credit-title" {{ sylius_test_html_attribute('b2b-account-credit') }}>
+                        <h2 class="b2b-account__h2 b2b-account__h2--side" id="b2b-account-credit-title">{{ 'credit.title'|trans({}, 'account') }}</h2>
+                        <span><strong>{{ d.credit.available }}</strong> {{ 'credit.available_on'|trans({'%limit%': d.credit.limit}, 'account') }}</span>
+                        <progress class="b2b-account-meter" max="100" value="{{ d.credit.usedPercent }}" aria-hidden="true">{{ d.credit.usedPercent }}</progress>
+                        <span class="b2b-account-note b2b-account-note--{{ d.credit.noteTone.value }}" {{ sylius_test_html_attribute('b2b-account-credit-note') }}>{{ d.credit.note }}</span>
+                        <a class="b2b-account__link" href="{{ d.credit.statementUrl }}">{{ 'credit.statement'|trans({}, 'account') }}</a>
+                    </section>
+                {% endif %}
+                <section class="b2b-account-panel b2b-account-panel--side" aria-labelledby="b2b-account-lists-title" {{ sylius_test_html_attribute('b2b-account-lists') }}>
+                    <h2 class="b2b-account__h2 b2b-account__h2--side" id="b2b-account-lists-title">{{ 'lists.title'|trans({}, 'account') }}</h2>
+                    <span>{{ d.listsText }}</span>
+                    <span>{{ d.quotesText }}</span>
+                </section>
+            </aside>
+        </div>
+    </div>
+{% endif %}

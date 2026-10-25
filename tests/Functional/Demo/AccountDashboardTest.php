@@ -44,8 +44,8 @@ final class AccountDashboardTest extends WebTestCase
         self::assertStringContainsString('Acme Industries', $identity);
         self::assertStringContainsString(self::CLAIRE, $identity);
         self::assertStringContainsString('compte vérifié', $identity);
-        self::assertCount(1, $page->filter('main a[href$="/account/profile/edit"]'));
-        self::assertCount(1, $page->filter('main a[href$="/account/change-password"]'));
+        self::assertCount(1, $page->filter('[data-test-b2b-account-actions] a[href$="/account/profile/edit"]'));
+        self::assertCount(1, $page->filter('[data-test-b2b-account-actions] a[href$="/account/change-password"]'));
     }
 
     public function testClaireSeesFirstWhatIsWaitingForHer(): void
@@ -154,7 +154,7 @@ final class AccountDashboardTest extends WebTestCase
         self::assertSame('Approbateur', $this->text($page->filter('[data-test-b2b-account-role]')));
         self::assertSame('À faire', $this->text($page->filter('[data-test-b2b-account-todo] h2')));
         $first = $page->filter('[data-test-b2b-account-todo-item]')->eq(0);
-        self::assertMatchesRegularExpression('/^1 commande à examiner/u', $this->text($first));
+        self::assertMatchesRegularExpression('/\b1 commande à examiner/u', $this->text($first));
         self::assertStringContainsString('Claire Dupont', $this->text($first));
         self::assertStringContainsString('approvals', (string) $first->filter('a')->attr('href'));
         $entry = $page->filter('[data-test-b2b-account-nav] [data-test-b2b-account-nav-item="tmonier_approvals"]');
@@ -185,7 +185,7 @@ final class AccountDashboardTest extends WebTestCase
         foreach (['tmonier_approvals', 'tmonier_purchase_limits', 'app_insights', 'tmonier_company'] as $entry) {
             self::assertContains($entry, $names);
         }
-        self::assertStringContainsString('Dépense HT sur 12 mois', $this->text($page->filter('[data-test-b2b-account-company]')));
+        self::assertStringContainsString('Dépense HT, année glissante', $this->text($page->filter('[data-test-b2b-account-company]')));
         self::assertStringContainsString('à régler', $this->text($page->filter('[data-test-b2b-account-todo]')), 'her order paid on account, with its due date');
     }
 

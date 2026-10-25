@@ -42,7 +42,7 @@ final class AccountStylesTest extends TestCase
 
     public function testTheMenuComesAfterThePageOnAPhone(): void
     {
-        self::assertMatchesRegularExpression('/@media \(max-width: 991\.98px\)\s*\{[^@]*b2b-account-nav-col[^@]*order:\s*2/s', $this->read('_account.scss'));
+        self::assertMatchesRegularExpression('/@media \(max-width: 991\.98px\)\s*\{[^@]*has\(> \.b2b-account-nav\)[^@]*order:\s*2/s', $this->read('_account.scss'));
     }
 
     public function testTransitionsAreSwitchedOffForReducedMotion(): void
