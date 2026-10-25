@@ -164,6 +164,18 @@ final class ProductListRedesignTest extends WebTestCase
         self::assertCount(1, $page->filter('nav[data-list-pagination] a[href*="view=list"]')->first(), 'the display is kept on the next page');
     }
 
+    /** The photo of a card is 4:3 and small: the browser must pick the 400 px file, not the 800 px one (grid: about 290 px wide; list: 120 px). */
+    public function testThePhotoOfACardAnnouncesItsRealWidth(): void
+    {
+        $client = $this->signedIn('claire@acme.example');
+
+        $grid = $client->request('GET', \sprintf(self::CATEGORY, 'fr_FR'));
+        self::assertSame('(min-width: 900px) 292px, (min-width: 420px) 50vw, 100vw', $grid->filter('.products-grid [data-b2b-card] img[srcset]')->first()->attr('sizes'));
+
+        $list = $client->request('GET', \sprintf(self::CATEGORY, 'fr_FR'), ['view' => 'list']);
+        self::assertSame('120px', $list->filter('.products-grid [data-b2b-card] img[srcset]')->first()->attr('sizes'));
+    }
+
     public function testASearchWithoutResultExplainsItAndOffersThreeWaysOut(): void
     {
         $page = $this->signedIn('claire@acme.example')->request('GET', \sprintf(self::CATEGORY, 'fr_FR'), ['criteria' => ['search' => ['value' => 'zzzz-no-such-product']]]);
