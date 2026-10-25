@@ -1,10 +1,14 @@
 # US-200: loaded after tmonier_plugins.yaml (alphabetical order), so that it wins the merge of the Twig hooks.
 # The quote request and the quick order of the cart keep their hookable (same hook, same name) and only change template: on B2B
 # they are two cards under the lines (shop/theme_b2b/cart/), the consumer channel keeps the templates of the plugins.
+# The form (live component) and the summary of the cart keep their hookable and only change the template of their props.
 # The cards sit between two wrappers (priorities 60 and 46) that make them one row; the plugin badges (45, 44) come after.
 sylius_twig_hooks:
     hooks:
         'sylius_shop.cart.index.content':
+            form:
+                props:
+                    template: 'shop/theme_b2b/cart/form.html.twig'
             b2b_secondary_open:
                 template: 'shop/theme_b2b/cart/secondary_open.html.twig'
                 priority: 60
@@ -19,3 +23,7 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/cart/secondary_close.html.twig'
                 priority: 46
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.cart.index.content.form.sections.general#right':
+            summary:
+                props:
+                    template: 'shop/theme_b2b/cart/summary.html.twig'
