@@ -1,4 +1,8 @@
 # US-156: the company administrator (Isabelle) decides too, within her own approval limit (decision of 2026-10-22).
 # The rule stays the plugin's: who can decide sees the pending count in the header. Buyers (Claire) never do.
+#
+# US-202: the prices of the B2B channel are shown excluding tax and the VAT is added to the cart: the order limit and the
+# approval limits are compared to the total excluding tax (decision of Thibaut, 2026-10-25). Plugin >= 1.4.
 tmonier_sylius_purchase_approval:
     approver_roles: [approver, admin]
+    amount_basis: net

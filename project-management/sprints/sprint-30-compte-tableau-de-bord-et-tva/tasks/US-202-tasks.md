@@ -60,7 +60,8 @@
 - **Import ERP simulé** : il ne crée aucun produit, il met à jour les prix et les stocks de variantes du catalogue ; elles portent donc la catégorie (test `CartTaxTest`).
 - **Panier** : `templates/shop/theme_b2b/cart/summary.html.twig` affichait déjà la ligne TVA et « Total TTC » dès que la TVA existe : aucun Twig modifié.
 - **Historique de commandes** (`BulkOrderWriter`) : laissé sans TVA (montants HT, comme avant), pour ne pas changer en silence les montants du tableau de bord des achats (US-201) ; choix d'orchestrateur, noté au registre par l'orchestrateur.
-- **Limite d'approbation** : T-202-05 en attente de la décision de Thibaut (le plugin compare `getTotal()`, TVA comprise ; ses services sont `final` et injectés par type concret, sans décoration possible). Le message d'approbation du panier n'est pas touché.
+- **Limite d'approbation** (décision de Thibaut, option A, registre 57f6d56) : le plugin compare `getTotal()` et ses services sont `final` (pas de décoration possible) : plugin purchase-approval 1.4.0 (réglage `amount_basis`, PR #9 et #10), `amount_basis: net` dans `config/packages/demo_purchase_approval.yaml`. Le message du panier (`CartApprovalNoticeProvider`) annonce le même montant (hors taxes) par le résolveur ; le calcul de l'approbateur est dans `ApproverNameProvider::firstNameFor()`.
+- **Constat de la livraison** : la zone `EU` (zone de livraison) était aussi retenue comme zone de taxe dès que l'adresse de livraison était connue : la TVA disparaissait au checkout. Zone `EU` en portée `shipping` (fixtures) ; `CartToOrderTest` vérifie la TVA de la commande passée.
 - Test d'isolation corrigé dans `tests/Support/BuildsDemoCarts.php` (deux paniers créés dans la même seconde).
 
 ## Table « scénario → test ou preuve »

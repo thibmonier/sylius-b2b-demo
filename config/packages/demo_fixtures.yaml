@@ -27,6 +27,9 @@ sylius_fixtures:
                                 countries: ['FR']
                             EU:
                                 name: 'Europe'
+                                # US-202: a delivery zone only. As a tax zone it would hide the VAT of France once the delivery address is known
+                                # (the shop picks one zone for an address that belongs to both).
+                                scope: 'shipping'
                                 countries: ['FR', 'BE', 'LU', 'DE', 'ES', 'IT', 'NL']
 
                 channel:

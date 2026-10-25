@@ -10,8 +10,8 @@ steps:
 title: 'Your cart'
 approval:
     title: 'Order submitted for approval'
-    text_named: 'Your order limit is %limit% and the total of this cart reaches %total%. Once validated, the order will wait for the approval of %company% (%approver%, approver); you can pay it after it is approved.'
-    text_company: 'Your order limit is %limit% and the total of this cart reaches %total%. Once validated, the order will wait for the approval of %company%; you can pay it after it is approved.'
+    text_named: 'Your order limit is %limit% and the total excluding tax of this cart reaches %total%. Once validated, the order will wait for the approval of %company% (%approver%, approver); you can pay it after it is approved.'
+    text_company: 'Your order limit is %limit% and the total excluding tax of this cart reaches %total%. Once validated, the order will wait for the approval of %company%; you can pay it after it is approved.'
     text_generic: 'Once validated, the order will wait for the approval of your company; you can pay it after it is approved.'
 lines:
     title: 'Products in the cart'
