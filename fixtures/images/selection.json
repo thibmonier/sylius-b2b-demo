@@ -1,0 +1,747 @@
+{
+  "ratio": "4:3",
+  "photos": [
+    {
+      "type": "casque-chantier",
+      "name_fr": "Casque de chantier (coque ventilée ou non)",
+      "skus": [
+        "EPI-CASK-001",
+        "EPI-CASK-002",
+        "EPI-CASK-003",
+        "EPI-CASK-004",
+        "EPI-CASK-005",
+        "EPI-CASK-006",
+        "EPI-CASK-007",
+        "EPI-CASK-008",
+        "EPI-CASK-009",
+        "EPI-CASK-010",
+        "EPI-CASK-011",
+        "EPI-CASK-012",
+        "EPI-CASK-013",
+        "EPI-CASK-014",
+        "EPI-CASK-015",
+        "EPI-CASK-016",
+        "EPI-CASK-017",
+        "EPI-CASK-018",
+        "EPI-CASK-019",
+        "EPI-CASK-020"
+      ],
+      "file": "full-5583255.jpg",
+      "title": "White hard hat on a desk",
+      "creator": "Thirdman",
+      "creator_url": "https://www.pexels.com/@thirdman/",
+      "origin_url": "https://www.pexels.com/photo/5583255/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.72,
+        0.55
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "gant-cuir",
+      "name_fr": "Gant de travail en cuir",
+      "skus": [
+        "EPI-GANT-002",
+        "EPI-GANT-004",
+        "EPI-GANT-005",
+        "EPI-GANT-006",
+        "EPI-GANT-007",
+        "EPI-GANT-012",
+        "EPI-GANT-013",
+        "EPI-GANT-014",
+        "EPI-GANT-016",
+        "EPI-GANT-018"
+      ],
+      "file": "full-7541997.jpg",
+      "title": "Worn leather work glove",
+      "creator": "cottonbro studio",
+      "creator_url": "https://www.pexels.com/@cottonbro/",
+      "origin_url": "https://www.pexels.com/photo/7541997/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "gant-jetable",
+      "name_fr": "Gant jetable nitrile ou latex",
+      "skus": [
+        "EPI-GANT-009",
+        "EPI-GANT-010",
+        "EPI-GANT-017",
+        "EPI-GANT-022"
+      ],
+      "file": "full-7856723.jpg",
+      "title": "Blue disposable gloves",
+      "creator": "Callum Hilton",
+      "creator_url": "https://www.pexels.com/@skelm/",
+      "origin_url": "https://www.pexels.com/photo/7856723/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "botte-caoutchouc",
+      "name_fr": "Botte en caoutchouc ou PVC",
+      "skus": [
+        "EPI-CHAU-006",
+        "EPI-CHAU-010",
+        "EPI-CHAU-017"
+      ],
+      "file": "p-11345838.jpg",
+      "title": "Pair of black rubber boots",
+      "creator": "Hurrah suhail",
+      "creator_url": "https://www.pexels.com/@hurrahsuhail/",
+      "origin_url": "https://www.pexels.com/photo/11345838/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.505
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "gilet-haute-visibilite",
+      "name_fr": "Gilet haute visibilité",
+      "skus": [
+        "EPI-VEST-001",
+        "EPI-VEST-009",
+        "EPI-VEST-015"
+      ],
+      "file": "full-17858119.jpg",
+      "title": "High-visibility vest",
+      "creator": "Estefania Milazzo",
+      "creator_url": "https://www.pexels.com/@estefania-milazzo-436474929/",
+      "origin_url": "https://www.pexels.com/photo/17858119/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.3
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "combinaison-tablier",
+      "name_fr": "Combinaison de travail",
+      "skus": [
+        "EPI-VEST-003",
+        "EPI-VEST-004",
+        "EPI-VEST-006",
+        "EPI-VEST-007",
+        "EPI-VEST-011",
+        "EPI-VEST-014"
+      ],
+      "file": "full-9222653.jpg",
+      "title": "Orange work coverall",
+      "creator": "cottonbro studio",
+      "creator_url": "https://www.pexels.com/@cottonbro/",
+      "origin_url": "https://www.pexels.com/photo/9222653/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.33
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "carton",
+      "name_fr": "Carton d'expédition ou boîte",
+      "skus": [
+        "EMBA-001",
+        "EMBA-002",
+        "EMBA-003",
+        "EMBA-013",
+        "EMBA-014",
+        "EMBA-015"
+      ],
+      "file": "full-4498122.jpg",
+      "title": "Open cardboard boxes",
+      "creator": "Karola G (kaboompics)",
+      "creator_url": "https://www.pexels.com/@karola-g/",
+      "origin_url": "https://www.pexels.com/photo/4498122/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "film-bulles",
+      "name_fr": "Film à bulles et matériaux de calage",
+      "skus": [
+        "EMBA-004",
+        "EMBA-005",
+        "EMBA-009",
+        "EMBA-016",
+        "EMBA-019"
+      ],
+      "file": "full-3616731.jpg",
+      "title": "Bubble wrap",
+      "creator": "La Miko",
+      "creator_url": "https://www.pexels.com/@lamiko/",
+      "origin_url": "https://www.pexels.com/photo/3616731/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "palette-bois",
+      "name_fr": "Palette en bois",
+      "skus": [
+        "EMBA-008"
+      ],
+      "file": "full-34908275.jpg",
+      "title": "Stacked pallets",
+      "creator": "Nikita Grishin",
+      "creator_url": "https://www.pexels.com/@nikita-grishin-128711293/",
+      "origin_url": "https://www.pexels.com/photo/34908275/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "film-etirable",
+      "name_fr": "Film étirable et cerclage",
+      "skus": [
+        "EMBA-010",
+        "EMBA-011",
+        "EMBA-012"
+      ],
+      "file": "full-5532843.jpg",
+      "title": "Stack wrapped in stretch film",
+      "creator": "cottonbro studio",
+      "creator_url": "https://www.pexels.com/@cottonbro/",
+      "origin_url": "https://www.pexels.com/photo/5532843/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "reserve"
+    },
+    {
+      "type": "etiquettes",
+      "name_fr": "Étiquettes et autocollants",
+      "skus": [
+        "EMBA-017",
+        "SIGN-009",
+        "SIGN-012",
+        "SIGN-013",
+        "SIGN-014"
+      ],
+      "file": "full-6169021.jpg",
+      "title": "Shipping labels on padded envelopes",
+      "creator": "Tima Miroshnichenko",
+      "creator_url": "https://www.pexels.com/@tima-miroshnichenko/",
+      "origin_url": "https://www.pexels.com/photo/6169021/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "panneau-signalisation",
+      "name_fr": "Panneau de signalisation ou de danger",
+      "skus": [
+        "SIGN-001",
+        "SIGN-002",
+        "SIGN-003",
+        "SIGN-004",
+        "SIGN-007",
+        "SIGN-008",
+        "SIGN-015"
+      ],
+      "file": "full-33893298.jpg",
+      "title": "Triangular road sign",
+      "creator": "Jan van der Wolf",
+      "creator_url": "https://www.pexels.com/@jan-van-der-wolf-11680885/",
+      "origin_url": "https://www.pexels.com/photo/33893298/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.55,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "cone-barriere",
+      "name_fr": "Cône, ruban et barrière de chantier",
+      "skus": [
+        "SIGN-005",
+        "SIGN-006",
+        "SIGN-010",
+        "SIGN-011"
+      ],
+      "file": "p-17387892.jpg",
+      "title": "Red traffic cone on asphalt",
+      "creator": "Mak_ jp",
+      "creator_url": "https://www.pexels.com/@mak_-jp-107017486/",
+      "origin_url": "https://www.pexels.com/photo/17387892/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.47
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "ramette-classeur",
+      "name_fr": "Classeur, chemise et ramette",
+      "skus": [
+        "PAPE-001",
+        "PAPE-004",
+        "PAPE-005"
+      ],
+      "file": "full-357514.jpg",
+      "title": "Stacked binders and paper",
+      "creator": "Pixabay",
+      "creator_url": "https://www.pexels.com/@pixabay/",
+      "origin_url": "https://www.pexels.com/photo/357514/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "reserve"
+    },
+    {
+      "type": "stylo-marqueur",
+      "name_fr": "Stylos, marqueurs et petit matériel d'écriture",
+      "skus": [
+        "PAPE-002",
+        "PAPE-003",
+        "PAPE-006",
+        "PAPE-011",
+        "PAPE-015"
+      ],
+      "file": "full-6192514.jpg",
+      "title": "Pens, highlighters and scissors",
+      "creator": "KATRIN BOLOVTSOVA",
+      "creator_url": "https://www.pexels.com/@ekaterina-bolovtsova/",
+      "origin_url": "https://www.pexels.com/photo/6192514/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "review": "reserve"
+    },
+    {
+      "type": "agrafeuse-bureau",
+      "name_fr": "Agrafeuse et petit matériel de bureau",
+      "skus": [
+        "PAPE-007",
+        "PAPE-008",
+        "PAPE-009",
+        "PAPE-010",
+        "PAPE-012",
+        "PAPE-014"
+      ],
+      "file": "full-6991328.jpg",
+      "title": "Desk stapler",
+      "creator": "DS stories",
+      "creator_url": "https://www.pexels.com/@ds-stories/",
+      "origin_url": "https://www.pexels.com/photo/6991328/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.55,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "vis-boulon",
+      "name_fr": "Vis, boulon et tige filetée",
+      "skus": [
+        "VISS-001",
+        "VISS-002",
+        "VISS-003",
+        "VISS-004",
+        "VISS-013",
+        "VISS-014",
+        "VISS-015",
+        "VISS-016",
+        "VISS-017",
+        "VISS-018",
+        "VISS-019",
+        "VISS-020",
+        "VISS-021",
+        "VISS-022",
+        "VISS-023",
+        "VISS-024",
+        "VISS-025",
+        "VISS-026",
+        "VISS-029",
+        "VISS-030"
+      ],
+      "file": "full-17372998.jpg",
+      "title": "Stainless steel bolts and nuts",
+      "creator": "Győző Mórocz",
+      "creator_url": "https://www.pexels.com/@gyozo-morocz-517633466/",
+      "origin_url": "https://www.pexels.com/photo/17372998/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "ecrou-rondelle",
+      "name_fr": "Écrou et rondelle",
+      "skus": [
+        "VISS-005",
+        "VISS-006",
+        "VISS-007",
+        "VISS-008",
+        "VISS-009",
+        "VISS-010",
+        "VISS-011",
+        "VISS-012",
+        "VISS-027",
+        "VISS-028"
+      ],
+      "file": "full-28119521.jpg",
+      "title": "Stacked hex nuts",
+      "creator": "Nic Wood",
+      "creator_url": "https://www.pexels.com/@nic-scrollstoppingphotos/",
+      "origin_url": "https://www.pexels.com/photo/28119521/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.88,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "cle",
+      "name_fr": "Clé plate, mixte, à molette ou douille",
+      "skus": [
+        "OUTI-001",
+        "OUTI-002",
+        "OUTI-010",
+        "OUTI-011",
+        "OUTI-012",
+        "OUTI-013",
+        "OUTI-014",
+        "OUTI-023",
+        "OUTI-024",
+        "OUTI-026",
+        "OUTI-028"
+      ],
+      "file": "p-6789021.jpg",
+      "title": "Wrenches on a black background",
+      "creator": "Dmitry Demidov",
+      "creator_url": "https://www.pexels.com/@dmitry-demidov-515774/",
+      "origin_url": "https://www.pexels.com/photo/6789021/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "tournevis",
+      "name_fr": "Tournevis",
+      "skus": [
+        "OUTI-003",
+        "OUTI-004",
+        "OUTI-005",
+        "OUTI-027"
+      ],
+      "file": "full-5583095.jpg",
+      "title": "Screwdrivers on a wooden table",
+      "creator": "Polina Tankilevitch",
+      "creator_url": "https://www.pexels.com/@polina-tankilevitch/",
+      "origin_url": "https://www.pexels.com/photo/5583095/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "pince",
+      "name_fr": "Pince",
+      "skus": [
+        "OUTI-006",
+        "OUTI-007",
+        "OUTI-025"
+      ],
+      "file": "full-5583068.jpg",
+      "title": "Pliers with red handles",
+      "creator": "Polina Tankilevitch",
+      "creator_url": "https://www.pexels.com/@polina-tankilevitch/",
+      "origin_url": "https://www.pexels.com/photo/5583068/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "reserve"
+    },
+    {
+      "type": "niveau-mesure",
+      "name_fr": "Niveau, mètre ruban et pied à coulisse",
+      "skus": [
+        "OUTI-015",
+        "OUTI-016",
+        "OUTI-017",
+        "OUTI-018",
+        "OUTI-029",
+        "OUTI-030"
+      ],
+      "file": "full-4312841.jpg",
+      "title": "Hand tools laid flat",
+      "creator": "Anna Shvets",
+      "creator_url": "https://www.pexels.com/@shvetsa/",
+      "origin_url": "https://www.pexels.com/photo/4312841/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "reserve"
+    },
+    {
+      "type": "cheville",
+      "name_fr": "Cheville et ancrage",
+      "skus": [
+        "FIXA-001",
+        "FIXA-002",
+        "FIXA-003",
+        "FIXA-004",
+        "FIXA-017",
+        "FIXA-018"
+      ],
+      "file": "full-5691641.jpg",
+      "title": "Nylon wall plugs",
+      "creator": "Ksenia Chernaya",
+      "creator_url": "https://www.pexels.com/@kseniachernaya/",
+      "origin_url": "https://www.pexels.com/photo/5691641/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "gant-manutention",
+      "name_fr": "Gant de manutention enduit",
+      "skus": [
+        "EPI-GANT-001",
+        "EPI-GANT-008",
+        "EPI-GANT-015",
+        "EPI-GANT-019",
+        "EPI-GANT-020",
+        "EPI-GANT-023",
+        "EPI-GANT-024",
+        "EPI-GANT-025",
+        "EPI-GANT-003",
+        "EPI-GANT-011",
+        "EPI-GANT-021"
+      ],
+      "file": "u-0zkZ-4Gustk.jpg",
+      "title": "Blue and grey coated gloves",
+      "creator": "Zachary Keimig",
+      "creator_url": "https://unsplash.com/@zacharykeimig",
+      "origin_url": "https://unsplash.com/photos/blue-and-gray-gloves-on-black-soil-0zkZ-4Gustk",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "chaussure-securite",
+      "name_fr": "Chaussure ou brodequin de sécurité",
+      "skus": [
+        "EPI-CHAU-001",
+        "EPI-CHAU-002",
+        "EPI-CHAU-003",
+        "EPI-CHAU-004",
+        "EPI-CHAU-005",
+        "EPI-CHAU-007",
+        "EPI-CHAU-008",
+        "EPI-CHAU-009",
+        "EPI-CHAU-011",
+        "EPI-CHAU-012",
+        "EPI-CHAU-013",
+        "EPI-CHAU-014",
+        "EPI-CHAU-015",
+        "EPI-CHAU-016",
+        "EPI-CHAU-018",
+        "EPI-CHAU-019",
+        "EPI-CHAU-020"
+      ],
+      "file": "u-s8TQiOfGlz0.jpg",
+      "title": "Brown leather lace-up boots",
+      "creator": "Glenn Carstens-Peters",
+      "creator_url": "https://unsplash.com/@glenncarstenspeters",
+      "origin_url": "https://unsplash.com/photos/brown-leather-lace-up-boots-s8TQiOfGlz0",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "ruban-adhesif",
+      "name_fr": "Ruban adhésif d'emballage",
+      "skus": [
+        "EMBA-006",
+        "EMBA-007",
+        "EMBA-018",
+        "EMBA-020",
+        "PAPE-013"
+      ],
+      "file": "u-p10qtOive_E.jpg",
+      "title": "Red tape dispenser with clear packing tape",
+      "creator": "Barry A",
+      "creator_url": "https://unsplash.com/@barryalbert24",
+      "origin_url": "https://unsplash.com/photos/red-tape-dispenser-with-clear-packing-tape-p10qtOive_E",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "marteau-outil-frappe-coupe",
+      "name_fr": "Marteau et outil de frappe ou de coupe",
+      "skus": [
+        "OUTI-008",
+        "OUTI-009",
+        "OUTI-019",
+        "OUTI-020",
+        "OUTI-021",
+        "OUTI-022"
+      ],
+      "file": "u-YU2mCvXR0wA.jpg",
+      "title": "Claw hammer on wooden boards",
+      "creator": "Andrew George",
+      "creator_url": "https://unsplash.com/@andrewjoegeorge",
+      "origin_url": "https://unsplash.com/photos/black-and-silver-claw-hammer-YU2mCvXR0wA",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "equerre-platine",
+      "name_fr": "Équerre, platine, bride et profilé",
+      "skus": [
+        "FIXA-005",
+        "FIXA-006",
+        "FIXA-009",
+        "FIXA-012",
+        "FIXA-013",
+        "FIXA-014",
+        "FIXA-016",
+        "FIXA-019",
+        "FIXA-020"
+      ],
+      "file": "p-4049356.jpg",
+      "title": "Small perforated metal brackets and parts",
+      "creator": "Dan Cristian Pădureț",
+      "creator_url": "https://www.pexels.com/@paduret/",
+      "origin_url": "https://www.pexels.com/photo/4049356/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "reserve"
+    },
+    {
+      "type": "collier-serrage",
+      "name_fr": "Collier de serrage et de câble",
+      "skus": [
+        "FIXA-007",
+        "FIXA-008",
+        "FIXA-010",
+        "FIXA-011",
+        "FIXA-015"
+      ],
+      "file": "u-sOucbS9lUd8.jpg",
+      "title": "Metal hose clamp on white",
+      "creator": "Spencer Liao",
+      "creator_url": "https://unsplash.com/@spencerliao",
+      "origin_url": "https://unsplash.com/photos/metal-band-with-hinged-latch-sOucbS9lUd8",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    }
+  ],
+  "pending": [],
+  "neutral": [
+    {
+      "type": "veste-pluie",
+      "name_fr": "Veste ou ensemble de protection extérieur",
+      "skus": [
+        "EPI-VEST-002",
+        "EPI-VEST-005",
+        "EPI-VEST-008",
+        "EPI-VEST-010",
+        "EPI-VEST-012",
+        "EPI-VEST-013"
+      ],
+      "file": "category-protection-corps.webp"
+    }
+  ]
+}

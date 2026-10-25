@@ -25,11 +25,13 @@ about:
     trademarks: 'Sylius and other trademarks mentioned belong to their respective owners; this demo is neither affiliated with nor endorsed by them.'
 credits:
     title: 'Image credits'
-    intro: 'The %count% product images of the demo are free of rights (CC0); each one is credited below with its source.'
+    intro: 'The %count% product images of the demo are free of rights (CC0 public domain, or the Pexels or Unsplash licence: free to use, no attribution required); each one is credited below with its source.'
     by: 'Photo by'
     generated_by: 'Visual made for the demo by %author%'
     source_generated: 'neutral category visual'
-    licence: 'CC0 licence (public domain)'
+    licence_cc0: 'CC0 licence (public domain)'
+    licence_pexels: 'Pexels licence (free to use)'
+    licence_unsplash: 'Unsplash licence (free to use)'
     products: '{1} Shown by 1 product|]1,Inf[ Shown by %count% products'
     note: 'When no free photo matched a product, a neutral visual of its category is shown instead.'
     home:

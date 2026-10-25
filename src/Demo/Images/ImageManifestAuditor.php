@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Demo\Images;
 
 /**
- * US-092: the rules every row of the image manifest must meet. An image is shown only when its licence is free (CC0) and
+ * US-092: the rules every row of the image manifest must meet. An image is shown only when its licence is free (CC0, or the Pexels or Unsplash licence since US-196) and
  * a person reviewed it against its product (`validated`), or when it is a neutral category visual drawn for the demo
  * (`fallback`): a photo that does not fit its product is never kept (cf. docs/images-produits.md).
  */
@@ -29,6 +29,22 @@ final class ImageManifestAuditor
     }
 
     /**
+     * Free of rights: CC0 (Creative Commons zero page), or a Pexels or Unsplash photo with the licence of its bank (US-196: free to use, no
+     * attribution required, but the credit is kept).
+     *
+     * @param array<string, string> $row
+     */
+    private function hasAFreeLicence(array $row): bool
+    {
+        return match ($row['license'] ?? '') {
+            'cc0' => \str_contains($row['license_url'] ?? '', 'publicdomain/zero'),
+            'pexels' => ($row['license_url'] ?? '') === 'https://www.pexels.com/license/',
+            'unsplash' => ($row['license_url'] ?? '') === 'https://unsplash.com/license',
+            default => false,
+        };
+    }
+
+    /**
      * @param array<string, string> $row
      *
      * @return list<string>
@@ -41,8 +57,8 @@ final class ImageManifestAuditor
                 $problems[] = $field . ' is empty';
             }
         }
-        if (($row['license'] ?? '') !== 'cc0' || !\str_contains($row['license_url'] ?? '', 'publicdomain/zero')) {
-            $problems[] = 'licence is not CC0';
+        if (!$this->hasAFreeLicence($row)) {
+            $problems[] = 'licence is neither CC0, nor the Pexels licence, nor the Unsplash licence';
         }
         if (!str_starts_with($row['license_url'] ?? '', 'https://')) {
             $problems[] = 'license_url must be an https URL';

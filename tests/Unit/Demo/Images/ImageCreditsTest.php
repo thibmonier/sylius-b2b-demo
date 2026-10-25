@@ -47,6 +47,13 @@ final class ImageCreditsTest extends TestCase
         self::assertTrue($credit->generated);
     }
 
+    public function testTheLicenceOfEachFileIsKeptForTheCreditsPage(): void
+    {
+        $this->manifest([$this->row('P-1', 'a.webp', 'Jane', 'Hard Hat'), $this->row('P-2', 'b.webp', 'John', 'Wrench', 'pexels', 'pexels')]);
+
+        self::assertSame(['cc0', 'pexels'], \array_map(static fn ($credit): string => $credit->license, (new ImageCredits($this->path))->all()));
+    }
+
     public function testAnEmptyManifestGivesNoCredit(): void
     {
         self::assertSame([], (new ImageCredits($this->path))->all());
@@ -65,11 +72,11 @@ final class ImageCreditsTest extends TestCase
     }
 
     /** @return array<string, string> */
-    private function row(string $sku, string $file, string $creator, string $title, string $source = 'flickr'): array
+    private function row(string $sku, string $file, string $creator, string $title, string $source = 'flickr', string $license = 'cc0'): array
     {
         return [
             'sku' => $sku, 'file' => $file, 'source' => $source, 'creator' => $creator, 'title' => $title,
-            'origin_url' => 'https://example.test/' . $file, 'license' => 'cc0', 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/',
+            'origin_url' => 'https://example.test/' . $file, 'license' => $license, 'license_url' => 'https://creativecommons.org/publicdomain/zero/1.0/',
             'fetched_at' => '2026-10-17', 'scope' => 'family', 'status' => 'validated',
         ];
     }

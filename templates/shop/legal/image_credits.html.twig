@@ -29,7 +29,7 @@
                         </span>
                     </p>
                     <p class="mb-0">
-                        <a href="{{ credit.licenseUrl }}" rel="noopener noreferrer" target="_blank">{{ 'credits.licence'|trans({}, 'legal') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
+                        <a href="{{ credit.licenseUrl }}" rel="noopener noreferrer" target="_blank">{{ ('credits.licence_' ~ credit.license)|trans({}, 'legal') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a>
                         · {{ 'credits.products'|trans({'%count%': credit.products}, 'legal') }}
                     </p>
                 </li>

@@ -65,6 +65,46 @@ final class ImageManifestAuditorTest extends TestCase
         self::assertStringContainsString('P-6', $violations[0]);
     }
 
+    public function testAPexelsPhotoWithItsLicencePageIsAccepted(): void
+    {
+        self::assertSame([], (new ImageManifestAuditor())->violations([$this->pexels()]));
+    }
+
+    public function testAPexelsPhotoWhoseLicenceLinkIsNotThePexelsLicenceIsRefused(): void
+    {
+        $violations = (new ImageManifestAuditor())->violations([$this->pexels(['sku' => 'P-8', 'license_url' => 'https://example.test/license'])]);
+
+        self::assertCount(1, $violations);
+        self::assertStringContainsString('P-8', $violations[0]);
+        self::assertStringContainsString('licence', $violations[0]);
+    }
+
+    public function testAnUnsplashPhotoWithItsLicencePageIsAccepted(): void
+    {
+        $row = $this->pexels(['source' => 'unsplash', 'license' => 'unsplash', 'license_url' => 'https://unsplash.com/license', 'origin_url' => 'https://unsplash.com/photos/brown-boots-s8TQiOfGlz0']);
+
+        self::assertSame([], (new ImageManifestAuditor())->violations([$row]));
+        self::assertCount(1, (new ImageManifestAuditor())->violations([['license_url' => 'https://www.pexels.com/license/'] + $row]));
+    }
+
+    public function testALicenceThatIsNeitherCc0NorPexelsNorUnsplashIsStillRefused(): void
+    {
+        $violations = (new ImageManifestAuditor())->violations([$this->pexels(['sku' => 'P-10', 'license' => 'by', 'license_url' => 'https://creativecommons.org/licenses/by/4.0/'])]);
+
+        self::assertCount(1, $violations);
+        self::assertStringContainsString('P-10', $violations[0]);
+    }
+
+    /**
+     * @param array<string, string> $override
+     *
+     * @return array<string, string>
+     */
+    private function pexels(array $override = []): array
+    {
+        return $override + $this->row(['source' => 'pexels', 'license' => 'pexels', 'license_url' => 'https://www.pexels.com/license/', 'origin_url' => 'https://www.pexels.com/photo/5583255/']);
+    }
+
     /**
      * @param array<string, string> $override
      *

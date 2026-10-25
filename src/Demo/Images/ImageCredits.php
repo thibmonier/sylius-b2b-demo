@@ -28,6 +28,7 @@ final readonly class ImageCredits
                 $row['source'],
                 $row['origin_url'],
                 $row['license_url'],
+                $row['license'],
                 $generated = ImageManifest::SOURCE_GENERATED === $row['source'],
                 $generated ? preg_replace('/^category-|\.webp$/', '', $file) ?? '' : '',
                 ($credits[$file]->products ?? 0) + 1,

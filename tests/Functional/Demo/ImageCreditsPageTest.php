@@ -28,10 +28,14 @@ final class ImageCreditsPageTest extends WebTestCase
         $manifest = ImageManifest::load(\dirname(__DIR__, 3) . '/fixtures/images/manifest.csv');
         self::assertGreaterThan(0, \count($manifest->files()));
         self::assertCount(\count($manifest->files()), $page->filter('[data-image-credit]'));
+        $licences = [];
+        foreach ($manifest->rows() as $row) {
+            $licences[$row['file']] = $row['license_url'];
+        }
         foreach ($manifest->files() as $file) {
             $item = $page->filter('[data-image-credit="' . $file . '"]');
             self::assertCount(1, $item, $file);
-            self::assertCount(1, $item->filter('a[href*="publicdomain/zero"]'), $file . ': licence link');
+            self::assertSame($licences[$file], $item->filter('a[href^="https://"][href*="licen"], a[href*="publicdomain/zero"]')->attr('href'), $file . ': licence link');
             self::assertNotSame('', trim($item->filter('[data-credit-creator]')->text()), $file . ': creator');
             self::assertNotSame('', trim($item->filter('[data-credit-source]')->text()), $file . ': source');
         }
