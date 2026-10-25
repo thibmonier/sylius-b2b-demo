@@ -479,6 +479,10 @@ sprints:
 
 backlog:
   - {id: US-197, title: "Photos du catalogue : cadrage des cartes et variantes de couleur", points: 3, status: backlog}  # EPIC-12, Should ; sortie de la rétro du sprint 28 (2026-10-25) ; candidate au sprint 29 ; point focal par photo, variantes de couleur, visuels neutres de la veste de pluie et de la botte
+  - {id: US-198, title: "Refonte de la page de liste des produits dans la continuité de la home", points: 5, status: backlog} # EPIC-12, Should ; demande de Thibaut du 2026-10-25 (suite des refontes de la home US-186 et de la fiche produit US-189) ; maquette Claude Design validée par Thibaut avant le Twig ; points à confirmer au planning
+  - {id: US-199, title: "Refonte de la page « Mon compte » dans la continuité de la home", points: 5, status: backlog} # EPIC-12, Should ; demande de Thibaut du 2026-10-25 (suite des refontes de la home US-186 et de la fiche produit US-189) ; maquette Claude Design validée par Thibaut avant le Twig ; points à confirmer au planning
+  - {id: US-200, title: "Refonte de la page panier dans la continuité de la home", points: 5, status: backlog} # EPIC-12, Should ; demande de Thibaut du 2026-10-25 (suite des refontes de la home US-186 et de la fiche produit US-189) ; maquette Claude Design validée par Thibaut avant le Twig ; points à confirmer au planning
+  - {id: US-201, title: "Tableau de bord des achats plus lisible, dans la continuité de la home", points: 5, status: backlog} # EPIC-12, Should ; demande de Thibaut du 2026-10-25 (suite des refontes de la home US-186 et de la fiche produit US-189) ; maquette Claude Design validée par Thibaut avant le Twig ; points à confirmer au planning ; surcharge dans la démo (recommandé) ou modification du plugin company-insights à trancher au planning
   # --- Sprint 28 (planifié le 2026-10-25) : US-195, US-196 et US-187 sont dans la section sprint-28
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)
   # --- Décisions des spikes du sprint 23 (2026-10-23, Thibaut)
