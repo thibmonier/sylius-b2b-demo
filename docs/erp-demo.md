@@ -48,6 +48,18 @@ Un fichier dont **l'en-tête n'est pas celui du contrat**, ou qui ne contient au
 
 Le journal du simulateur est le fichier caché `.erp-demo-journal.jsonl` du répertoire d'échange, une ligne JSON par fichier traité. La remise à zéro nocturne recharge les fixtures `demo` ; la fixture `demo_erp_export` vide le répertoire (fichiers de commandes, accusés, journal), place les dernières commandes de chaque canal dans l'outbox, lance **un** export puis **une** passe du simulateur. L'état de la démo est donc le même chaque matin : un fichier de commandes, son accusé, une ligne de journal. La rétention du répertoire d'échange est celle de la remise à zéro.
 
+## Les fichiers de prix et de stock (US-187, tranche B)
+
+Après l'accusé de réception, l'ERP Démo (fictif) dépose **trois fichiers** dans le répertoire d'échange, de façon atomique, puis le plugin les **importe** (`ExchangeDirectoryImporter`, commande `tmonier:erp-flatfile:import-batches`) :
+
+| Fichier | Contenu | Résultat attendu |
+|---------|---------|------------------|
+| `prices-<date UTC>-<empreinte>.csv` | `variant_code;price_minor;currency;channel` pour trois variantes réelles du catalogue, **avec les prix qu'elles ont déjà** | lot appliqué (les prix de la démo ne bougent pas) |
+| `prices-<date UTC>-invalid-<empreinte>.csv` | la même première ligne, puis un **montant négatif** et une **devise étrangère au canal** | lot **rejeté en entier** : une ligne invalide rejette un lot de prix, la ligne valide n'est pas appliquée non plus |
+| `stock-<date UTC>-<empreinte>.csv` | `variant_code;on_hand` pour trois variantes réelles, avec leur quantité actuelle | lot appliqué, ligne par ligne ; la quantité réservée n'est jamais modifiée |
+
+Les trois fichiers sont ensuite déplacés dans `processed/`. Un lot est son nom de fichier et le SHA-256 de son contenu : un lot déjà traité serait ignoré. La page **Échanges ERP** liste chaque lot importé (nom, empreinte tronquée, lignes lues, appliquées, rejetées) et, pour un lot rejeté, le **rapport** ligne par ligne (« Ligne 3 : devise différente de celle du canal »). Le journal des lots est celui du plugin (`tmonier_erp_flatfile_import_batch`, en base) ; la remise à zéro le régénère, comme le répertoire d'échange. Le CSV est simulé de bout en bout : les valeurs viennent du catalogue de la démo, aucun logiciel réel n'est nommé ni appelé.
+
 ## Après un déploiement (US-195)
 
 Le répertoire d'échange (`var/erp-exchange`) vit dans le système de fichiers du conteneur : chaque déploiement Railway démarre un conteneur neuf, donc un répertoire vide, alors que la base (outbox, journal d'export du plugin) survit et que les fixtures ne se rechargent pas (le marqueur de chargement est là). Sans correctif, la page `/echange-fichier` et l'écran Échanges ERP restent vides jusqu'à la remise à zéro de 03:00.
@@ -64,7 +76,8 @@ Le répertoire n'est **pas** sur le volume public `media` : les fichiers contien
 
 - Simulé : l'ERP, son accusé, ses contrôles, ses statuts et ses chiffres.
 - Réel : l'export du plugin, le contrat du fichier, l'écriture atomique, le journal d'export.
-- Hors périmètre, avec US-187 : l'import de prix et de stock, son rapport de rejet, les scénarios « prix mis à jour » et « lot rejeté à l'import ».
+- Réel aussi : l'import de prix et de stock du plugin (v0.2.0), son rapport de rejet et son journal des lots (US-187).
+- Hors périmètre : une API d'import, les prix par groupe de clients, une rétention des fichiers (la remise à zéro nocturne fait la rétention de la démo).
 - Garde-fous : le simulateur ne lit et n'écrit que des fichiers du répertoire d'échange ; le client HTTP de la démo reste borné au récepteur local (voir [webhooks-demo.md](webhooks-demo.md)). Données fictives : adresses en `.example`, masquées sur la page publique.
 
 Voir aussi l'[ADR 0017](adr/0017-connecteur-erp-de-reference.md) et la page publique `/{locale}/echange-fichier`.

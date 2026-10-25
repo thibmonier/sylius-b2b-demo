@@ -1,7 +1,7 @@
 erp:
     menu: 'ERP exchanges'
     title: 'Exchanges with the Demo ERP (fictitious)'
-    subtitle: 'The files of orders sent and the simulated acknowledgements that come back'
+    subtitle: 'The files of orders sent, the simulated acknowledgements, and the files of prices and stock received then imported'
     banner: 'The statuses and the figures are simulated: the Demo ERP (fictitious) runs inside the demo, only reads the files of the exchange directory and calls nothing outside. It stands for no real software.'
     empty: 'No exchange yet.'
     direction: 'Direction'
@@ -15,5 +15,27 @@ erp:
         out: 'Sent'
         in: 'Received'
     reasons:
-        header: 'Header differs from the contract: file rejected'
-        empty: 'No line: file rejected'
+        columns: "Number of columns differs from the contract"
+        duplicate: "Variant already present higher in the file"
+        unknown_variant: "Variant code unknown to the shop"
+        channel: "Channel unknown to the shop"
+        currency: "Currency differs from the one of the channel"
+        price: "Price that is not a positive integer (minor unit)"
+        on_hand: "Quantity that is not a positive or null integer"
+        below_on_hold: "Quantity below the quantity already on hold"
+        empty: "No line: file rejected"
+        encoding: "Encoding other than UTF-8 without byte order mark: file rejected"
+        truncated: "Truncated file (no final line break): file rejected"
+        header: "Header differs from the contract: file rejected"
+    kinds:
+        orders: "Orders"
+        acknowledgement: "Acknowledgement"
+        import-prices: "Price import"
+        import-stock: "Stock import"
+    outcomes:
+        applied: "Applied"
+        partial: "Partial"
+        rejected: "Rejected"
+    checksum: "Checksum"
+    report_line: "Line %line%: %reason%"
+    report_file: "Whole file: %reason%"

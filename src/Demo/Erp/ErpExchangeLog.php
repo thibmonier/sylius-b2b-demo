@@ -14,6 +14,7 @@ final readonly class ErpExchangeLog
         private string $directory,
         private OutboundBatches $outbound,
         private SimulatorJournal $simulator,
+        private ?ImportedBatches $imports = null,
     ) {
     }
 
@@ -22,10 +23,13 @@ final readonly class ErpExchangeLog
     {
         $batches = [];
         foreach ($this->outbound->all() as $sent) {
-            $batches[] = new ExchangeBatch('out', $sent->file, $sent->file, $sent->at, $this->linesOf($sent), null, null, null);
+            $batches[] = new ExchangeBatch('out', $sent->file, $sent->file, $sent->at, $this->linesOf($sent), null, null, null, 'orders');
         }
         foreach ($this->simulator->all() as $answer) {
-            $batches[] = new ExchangeBatch('in', $answer->name, $answer->source, $answer->at, $answer->read, $answer->accepted, $answer->rejected, $answer->reason);
+            $batches[] = new ExchangeBatch('in', $answer->name, $answer->source, $answer->at, $answer->read, $answer->accepted, $answer->rejected, $answer->reason, 'acknowledgement');
+        }
+        foreach ($this->imports?->all() ?? [] as $import) {
+            $batches[] = new ExchangeBatch('in', $import->name, $import->name, $import->at, $import->read, $import->applied, $import->rejected, null, 'import-' . $import->kind, $import->checksum, $import->outcome, $import->rejections);
         }
         usort($batches, static fn (ExchangeBatch $a, ExchangeBatch $b): int => $b->at <=> $a->at);
 

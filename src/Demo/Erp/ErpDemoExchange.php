@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Uid\Uuid;
 use Tmonier\SyliusErpFlatfilePlugin\Export\OrderExporter;
+use Tmonier\SyliusErpFlatfilePlugin\Import\ExchangeDirectoryImporter;
 use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEventInterface;
 use Tmonier\SyliusWebhookOutboxPlugin\Payload\OrderPayloadNormalizer;
 
@@ -45,6 +46,8 @@ final readonly class ErpDemoExchange
         private OrderExporter $exporter,
         private ErpDemoSimulator $simulator,
         private SimulatorJournal $journal,
+        private DemoPriceStockFiles $files,
+        private ExchangeDirectoryImporter $imports,
         #[Autowire(service: 'doctrine.dbal.default_connection')]
         private Connection $connection,
         #[Autowire(param: 'tmonier_webhook.model.outbox_event.class')]
@@ -61,6 +64,9 @@ final readonly class ErpDemoExchange
         $this->recordTheLatestOrders();
         $this->exporter->export();
         $this->simulator->process();
+        // US-187 (B): the simulated ERP sends its files of prices and stock, which the plugin imports.
+        $this->files->deposit();
+        $this->imports->importPending();
     }
 
     /** @return bool true when the exchange was rebuilt, false when a file of orders was already there */
@@ -70,7 +76,7 @@ final readonly class ErpDemoExchange
             return false;
         }
 
-        // No file of orders: the rows of the journal of the export plugin point to files that are gone.
+        // No file of orders: the rows of the journals of the export plugin (orders exported, batches imported) point to files that are gone.
         $this->connection->executeStatement('DELETE FROM tmonier_erp_flatfile_exported_event');
         $this->build();
 
@@ -114,8 +120,13 @@ final readonly class ErpDemoExchange
     {
         $filesystem = new Filesystem();
         $filesystem->mkdir($this->directory);
-        $files = [...(glob(rtrim($this->directory, '/') . '/orders-*.csv') ?: []), ...(glob(rtrim($this->directory, '/') . '/ack-*.csv') ?: [])];
+        $root = rtrim($this->directory, '/');
+        $files = [];
+        foreach (['orders-*.csv', 'ack-*.csv', 'prices-*.csv', 'stock-*.csv', ExchangeDirectoryImporter::PROCESSED . '/*.csv'] as $pattern) {
+            $files = [...$files, ...(glob($root . '/' . $pattern) ?: [])];
+        }
         $filesystem->remove($files);
         $this->journal->clear();
+        $this->connection->executeStatement('DELETE FROM tmonier_erp_flatfile_import_batch');
     }
 }

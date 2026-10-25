@@ -13,6 +13,7 @@
                             <tr>
                                 <th class="text-body">{{ 'erp.direction'|trans({}, 'demo_erp') }}</th>
                                 <th class="text-body">{{ 'erp.file'|trans({}, 'demo_erp') }}</th>
+                                <th class="text-body">{{ 'erp.checksum'|trans({}, 'demo_erp') }}</th>
                                 <th class="text-body">{{ 'erp.date'|trans({}, 'demo_erp') }}</th>
                                 <th class="text-body">{{ 'erp.read'|trans({}, 'demo_erp') }}</th>
                                 <th class="text-body">{{ 'erp.accepted'|trans({}, 'demo_erp') }}</th>
@@ -22,14 +23,25 @@
                         </thead>
                         <tbody>
                             {% for batch in batches %}
-                                <tr data-erp-row data-erp-direction="{{ batch.direction }}" data-erp-name="{{ batch.name ?: batch.source }}">
+                                <tr data-erp-row data-erp-direction="{{ batch.direction }}" data-erp-kind="{{ batch.kind }}" data-erp-name="{{ batch.name ?: batch.source }}"{% if batch.outcome %} data-erp-outcome="{{ batch.outcome }}"{% endif %}>
                                     <td><span class="badge {{ batch.direction == 'out' ? 'bg-azure-lt' : 'bg-green-lt' }}">{{ ('erp.directions.' ~ batch.direction)|trans({}, 'demo_erp') }}</span></td>
-                                    <td style="overflow-wrap: anywhere;"><code>{{ batch.name ?: batch.source }}</code></td>
+                                    <td style="overflow-wrap: anywhere;"><code>{{ batch.name ?: batch.source }}</code><br><span class="text-secondary">{{ ('erp.kinds.' ~ batch.kind)|trans({}, 'demo_erp') }}</span></td>
+                                    <td><code data-erp-checksum>{{ batch.checksum ? batch.checksum|slice(0, 12) : '-' }}</code></td>
                                     <td><time datetime="{{ batch.at|date('c') }}">{{ batch.at|date('Y-m-d H:i:s') }}</time></td>
                                     <td data-erp-read>{{ batch.read ?? '-' }}</td>
                                     <td data-erp-accepted>{{ batch.accepted ?? '-' }}</td>
                                     <td data-erp-rejected>{{ batch.rejected ?? '-' }}</td>
-                                    <td data-erp-reason style="overflow-wrap: anywhere;">{{ batch.reason ? ('erp.reasons.' ~ batch.reason)|trans({}, 'demo_erp') : (batch.direction == 'in' and not batch.name ? '' : '-') }}</td>
+                                    <td data-erp-reason style="overflow-wrap: anywhere;">
+                                        {% if batch.report|length > 0 %}
+                                            <ul class="list-unstyled mb-0" data-erp-report>
+                                                {% for rejected in batch.report %}
+                                                    <li>{{ (rejected.line == 0 ? 'erp.report_file' : 'erp.report_line')|trans({'%line%': rejected.line, '%reason%': ('erp.reasons.' ~ rejected.reason)|trans({}, 'demo_erp')}, 'demo_erp') }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            {{ batch.reason ? ('erp.reasons.' ~ batch.reason)|trans({}, 'demo_erp') : (batch.direction == 'in' and not batch.name ? '' : '-') }}
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

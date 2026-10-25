@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "700bfdc83fadf8aacc659b31de323e0c",
+    "content-hash": "7e4bb4b3ed3b47c07e7fbee243ddd7a9",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17588,16 +17588,16 @@
         },
         {
             "name": "tmonier/sylius-erp-flatfile-plugin",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-erp-flatfile-plugin.git",
-                "reference": "39ab6090f7575d67367fbafef4aebdd20aa7c0d3"
+                "reference": "88e262e829849efbe02c73d8d462d751e038bde9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-erp-flatfile-plugin/zipball/39ab6090f7575d67367fbafef4aebdd20aa7c0d3",
-                "reference": "39ab6090f7575d67367fbafef4aebdd20aa7c0d3",
+                "url": "https://api.github.com/repos/thibmonier/sylius-erp-flatfile-plugin/zipball/88e262e829849efbe02c73d8d462d751e038bde9",
+                "reference": "88e262e829849efbe02c73d8d462d751e038bde9",
                 "shasum": ""
             },
             "require": {
@@ -17663,9 +17663,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/tree/v0.2.0"
             },
-            "time": "2026-10-24T11:04:46+00:00"
+            "time": "2026-10-25T06:39:48+00:00"
         },
         {
             "name": "tmonier/sylius-facturx-plugin",

@@ -1,7 +1,7 @@
 erp:
     menu: 'Échanges ERP'
     title: 'Échanges avec l''ERP Démo (fictif)'
-    subtitle: 'Les fichiers de commandes envoyés et les accusés de réception simulés qui reviennent'
+    subtitle: 'Les fichiers de commandes envoyés, les accusés de réception simulés, et les fichiers de prix et de stock reçus puis importés'
     banner: 'Les statuts et les chiffres sont simulés : l''ERP Démo (fictif) tourne dans la démo, lit seulement les fichiers du répertoire d''échange et n''appelle rien à l''extérieur. Il ne représente aucun logiciel réel.'
     empty: 'Aucun échange pour le moment.'
     direction: 'Sens'
@@ -15,5 +15,27 @@ erp:
         out: 'Envoyé'
         in: 'Reçu'
     reasons:
-        header: 'En-tête différent du contrat : fichier rejeté'
-        empty: 'Aucune ligne : fichier rejeté'
+        columns: "Nombre de colonnes différent du contrat"
+        duplicate: "Variante déjà présente plus haut dans le fichier"
+        unknown_variant: "Code de variante inconnu de la boutique"
+        channel: "Canal inconnu de la boutique"
+        currency: "Devise différente de celle du canal"
+        price: "Prix qui n'est pas un entier positif (unité mineure)"
+        on_hand: "Quantité qui n'est pas un entier positif ou nul"
+        below_on_hold: "Quantité inférieure à la quantité déjà réservée"
+        empty: "Aucune ligne : fichier rejeté"
+        encoding: "Encodage autre qu'UTF-8 sans marque d'ordre des octets : fichier rejeté"
+        truncated: "Fichier tronqué (pas de saut de ligne final) : fichier rejeté"
+        header: "En-tête différent du contrat : fichier rejeté"
+    kinds:
+        orders: "Commandes"
+        acknowledgement: "Accusé de réception"
+        import-prices: "Import de prix"
+        import-stock: "Import de stock"
+    outcomes:
+        applied: "Appliqué"
+        partial: "Partiel"
+        rejected: "Rejeté"
+    checksum: "Empreinte"
+    report_line: "Ligne %line% : %reason%"
+    report_file: "Fichier entier : %reason%"

@@ -49,7 +49,7 @@ final class ErpExchangesAdminTest extends DemoAdminWebTestCase
         $page = $this->sophieClient($locale)->request('GET', self::URL);
 
         $out = $page->filter('[data-erp-row][data-erp-direction="out"]');
-        $in = $page->filter('[data-erp-row][data-erp-direction="in"]');
+        $in = $page->filter('[data-erp-row][data-erp-kind="acknowledgement"]');
         self::assertCount(1, $out, 'the batch exported at the load');
         self::assertCount(1, $in, 'the acknowledgement of the simulator');
         self::assertMatchesRegularExpression('/^orders-\d{8}T\d{6}Z-[0-9a-f]{8}\.csv$/', (string) $out->attr('data-erp-name'));
@@ -85,5 +85,49 @@ final class ErpExchangesAdminTest extends DemoAdminWebTestCase
         foreach (self::ERP_NAMES as $name) {
             self::assertStringNotContainsStringIgnoringCase($name, $text);
         }
+    }
+
+    #[DataProvider('localeCodes')]
+    public function testTheImportBatchesOfPricesAndStockAreListedWithTheirFigures(string $locale): void
+    {
+        $page = $this->sophieClient($locale)->request('GET', self::URL);
+
+        $prices = $page->filter('[data-erp-row][data-erp-kind="import-prices"]');
+        $stock = $page->filter('[data-erp-row][data-erp-kind="import-stock"]');
+        self::assertCount(2, $prices, 'the valid price file and the one invalid on purpose');
+        self::assertCount(1, $stock);
+        foreach ($page->filter('[data-erp-row][data-erp-kind^="import-"]') as $row) {
+            $row = new \Symfony\Component\DomCrawler\Crawler($row);
+            self::assertSame('in', $row->attr('data-erp-direction'));
+            self::assertMatchesRegularExpression('/^[0-9a-f]{12}$/', trim($row->filter('[data-erp-checksum]')->text()), 'the start of the checksum identifies the batch');
+            self::assertNotSame('', trim($row->filter('time')->text()));
+        }
+        self::assertSame([3, 3, 0], $this->figures($stock));
+    }
+
+    #[DataProvider('localeCodes')]
+    public function testTheRejectedBatchShowsAReadableReportAndNothingWasApplied(string $locale): void
+    {
+        $page = $this->sophieClient($locale)->request('GET', self::URL);
+
+        $rejected = $page->filter('[data-erp-row][data-erp-kind="import-prices"][data-erp-outcome="rejected"]');
+        self::assertCount(1, $rejected);
+        self::assertSame(0, $this->figures($rejected)[1], 'applied');
+        self::assertGreaterThanOrEqual(2, $this->figures($rejected)[2], 'rejected lines');
+        $report = $rejected->filter('[data-erp-report] li');
+        self::assertGreaterThanOrEqual(2, $report->count());
+        foreach ($report as $item) {
+            self::assertMatchesRegularExpression('/\d+/', (new \Symfony\Component\DomCrawler\Crawler($item))->text(), 'the number of the line');
+            self::assertDoesNotMatchRegularExpression('/\b(?:price|currency)\b$/', trim((new \Symfony\Component\DomCrawler\Crawler($item))->text()), 'a sentence, not a code');
+        }
+        $applied = $page->filter('[data-erp-row][data-erp-kind="import-prices"][data-erp-outcome="applied"]');
+        self::assertCount(1, $applied);
+        self::assertCount(0, $applied->filter('[data-erp-report] li'));
+    }
+
+    /** @return list<int> read, applied, rejected */
+    private function figures(\Symfony\Component\DomCrawler\Crawler $row): array
+    {
+        return [(int) $row->filter('[data-erp-read]')->text(), (int) $row->filter('[data-erp-accepted]')->text(), (int) $row->filter('[data-erp-rejected]')->text()];
     }
 }
