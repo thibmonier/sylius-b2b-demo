@@ -1,0 +1,35 @@
+{# Purchases per delivery site and per analytical axis supplied by the application (cost centre...), one pair of cards per currency. #}
+{% set locale = app.request.locale %}
+{% set several = ctx.breakdowns|length > 1 %}
+{% for set in ctx.breakdowns %}
+    <div class="b2b-insights__two">
+        {% for breakdown in [set.sites]|merge(set.dimensions) %}
+            {% set shares = breakdown.shares %}
+            {% set heading = 'b2b-insights-breakdown-' ~ breakdown.code ~ '-' ~ set.currencyCode %}
+            <section class="b2b-insights__card" aria-labelledby="{{ heading }}" {{ sylius_test_html_attribute('tmonier-insights-breakdown', breakdown.code ~ '-' ~ set.currencyCode) }}>
+                <div>
+                    <h2 id="{{ heading }}">{{ (breakdown.code == 'sites' ? 'breakdown.sites_title'|trans({}, 'insights') : breakdown.title|trans) }}{{ several ? ' (' ~ set.currencyCode ~ ')' }}</h2>
+                    {% if breakdown.code == 'sites' %}<p class="b2b-insights__hint">{{ 'breakdown.sites_intro'|trans({}, 'insights') }}</p>{% endif %}
+                </div>
+                {% if breakdown.empty %}
+                    <p {{ sylius_test_html_attribute('tmonier-insights-breakdown-empty') }}>{{ 'tmonier_company_insights.breakdown.empty'|trans }}</p>
+                {% else %}
+                    <ul class="b2b-insights__list">
+                        {% for row in breakdown.rows %}
+                            {% include 'shop/theme_b2b/insights/_share_row.html.twig' with {
+                                test_attribute: sylius_test_html_attribute('tmonier-insights-breakdown-row'),
+                                name: row.label ?? (breakdown.code == 'sites' ? 'tmonier_company_insights.breakdown.other_addresses'|trans : 'tmonier_company_insights.breakdown.not_set'|trans),
+                                badge: null,
+                                badge_test: '',
+                                meta: 'count.orders'|trans({'count': row.ordersCount}, 'insights'),
+                                amount: row.spend|sylius_format_money(set.currencyCode, locale),
+                                share: shares[loop.index0],
+                                tone: 'navy',
+                            } only %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </section>
+        {% endfor %}
+    </div>
+{% endfor %}

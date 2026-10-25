@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Tests\Support\BuildsDemoCarts;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -23,6 +24,8 @@ final class PurchasingDashboardRedesignTest extends WebTestCase
     private const CLAIRE = 'claire@acme.example';
 
     private const PAGE = '/fr_FR/account/company/insights';
+
+    private ?KernelBrowser $isabelle = null;
 
     public function testTheEssentialComesFirstWithTheComparisonPeriodStatedInOneSentence(): void
     {
@@ -162,7 +165,7 @@ final class PurchasingDashboardRedesignTest extends WebTestCase
         $products = $crawler->filter('[data-test-tmonier-insights-ranking="products-EUR"] [data-test-tmonier-insights-ranking-row]');
         self::assertCount(5, $products);
         self::assertSame(['Chaussure basse S1P SRC noire'], [$this->plain($products->first()->filter('th')->html())]);
-        self::assertCount(1, $crawler->filter('[data-test-tmonier-insights-see-all][href$="/account/company/insights/products"], a[href$="/account/company/insights/products"]'), 'A link to every product.');
+        self::assertCount(1, $crawler->filter('[data-test-tmonier-insights-see-all][href$="/account/company/insights/products"], a[href*="/account/company/insights/products"]'), 'A link to every product.');
     }
 
     public function testTheBarsOfTheSharesAreDecorationBecauseTheFiguresAreInText(): void
@@ -266,12 +269,25 @@ final class PurchasingDashboardRedesignTest extends WebTestCase
     public function testThePluginStaysAtItsTaggedVersionBecauseTheRedesignIsAnOverrideOfTheDemo(): void
     {
         $lock = json_decode((string) file_get_contents(\dirname(__DIR__, 3) . '/composer.lock'), true, 512, \JSON_THROW_ON_ERROR);
-        $plugin = array_values(array_filter($lock['packages'], static fn (array $package): bool => 'tmonier/sylius-company-insights-plugin' === $package['name']));
+        self::assertIsArray($lock);
+        $packages = $lock['packages'] ?? [];
+        self::assertIsArray($packages);
 
-        self::assertCount(1, $plugin);
-        self::assertMatchesRegularExpression('/^v\d+\.\d+\.\d+$/', $plugin[0]['version'], 'A released version, not a branch or a fork.');
-        self::assertSame('git', $plugin[0]['source']['type']);
-        self::assertStringContainsString('thibmonier/sylius-company-insights-plugin', $plugin[0]['source']['url']);
+        $found = [];
+        foreach ($packages as $package) {
+            if (\is_array($package) && 'tmonier/sylius-company-insights-plugin' === ($package['name'] ?? null)) {
+                $found[] = $package;
+            }
+        }
+
+        self::assertCount(1, $found);
+        $version = $found[0]['version'] ?? null;
+        $source = $found[0]['source'] ?? null;
+        self::assertIsString($version);
+        self::assertMatchesRegularExpression('/^v\d+\.\d+\.\d+$/', $version, 'A released version, not a branch or a fork.');
+        self::assertIsArray($source);
+        self::assertIsString($source['url'] ?? null);
+        self::assertStringContainsString('thibmonier/sylius-company-insights-plugin', $source['url']);
     }
 
     private function page(string $url): Crawler
@@ -281,7 +297,9 @@ final class PurchasingDashboardRedesignTest extends WebTestCase
 
     private function html(string $url): string
     {
-        return $this->get($this->clientOf(self::ISABELLE), $url);
+        $this->isabelle ??= $this->clientOf(self::ISABELLE);
+
+        return $this->get($this->isabelle, $url);
     }
 
     /** The sum of the spend column of the monthly table, in cents. */

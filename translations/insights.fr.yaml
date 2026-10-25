@@ -1,0 +1,68 @@
+# US-201: texts of the purchasing dashboard of the B2B channel (domain `insights`). The plugin keeps its own texts (period names, trend words,
+# filters, export); only the wordings of the redesign are here. Plurals: insights+intl-icu.fr.yaml.
+toolbar:
+    label: 'Période, filtres et export'
+    filters: 'Filtres'
+    filters_summary: '%members%, %sites%'
+    all_members: 'tous les membres'
+    all_sites: 'tous les sites'
+    export_help: 'Une ligne par ligne de commande, hors taxes, pour la période et les filtres choisis. Fichier à séparateur point-virgule, lisible directement dans un tableur.'
+summary:
+    compared: 'comparé à la période du %from% au %to%'
+    note: 'montants hors taxes, commandes annulées exclues'
+todo:
+    title: 'À traiter'
+    approval:
+        link: 'Voir les approbations'
+    credit:
+        title: '%amount% échus sur votre encours'
+        link: 'Voir le relevé de compte'
+        next_due: 'Prochaine échéance le %date% (%amount%).'
+kpi:
+    title: 'Indicateurs de la période'
+    compared: 'Évolution par rapport à la période précédente de même durée (du %from% au %to%).'
+    average_basket_note: 'Dépense HT divisée par le nombre de commandes'
+    buyers_note: 'Membres ayant passé au moins une commande'
+    orders_previous: '%count% sur la période précédente'
+monthly:
+    subtitle: 'Les douze derniers mois et les mêmes mois de l''année précédente.'
+    legend_current: 'Douze derniers mois'
+    legend_previous: 'Même mois, année précédente'
+    label_amount: 'Dépense HT par mois sur douze mois, comparée aux mêmes mois de l''année précédente ; valeurs détaillées dans le tableau sous le graphique.'
+    label_orders: 'Nombre de commandes par mois sur douze mois, comparé aux mêmes mois de l''année précédente ; valeurs détaillées dans le tableau sous le graphique.'
+    in_progress: 'Le mois en cours n''est pas terminé (barre claire) : ne le comparez pas au mois complet de l''année précédente.'
+    table: 'Voir les valeurs en tableau'
+who:
+    title: 'Qui achète'
+    intro: 'Membres classés par dépense HT ; jamais d''adresse e-mail.'
+    link: 'Voir tous les acheteurs'
+what:
+    title: 'Ce qui est acheté'
+    intro: 'Catégories principales, part de la dépense HT.'
+    link: 'Voir toutes les catégories'
+    others: 'Autres catégories'
+products:
+    title: 'Produits les plus achetés'
+    intro: 'Classés par dépense HT sur la période, avec la date du dernier achat.'
+    link: 'Voir tous les produits'
+    reference: 'Référence'
+breakdown:
+    sites_title: 'Par site de livraison'
+    sites_intro: 'Adresses du carnet de l''entreprise.'
+approvals:
+    title: 'Approbations sur la période'
+    pending: 'En attente maintenant'
+    pending_value: '%count% · %amount% HT'
+    median: 'Délai médian de décision'
+    refusal: 'Taux de refus'
+    refusal_value: '%rate% % (%refused% sur %decided%)'
+    submitted: 'Acheteur le plus souvent soumis'
+    submitted_value: '%name% · %approvals% sur %orders%'
+credit:
+    title: 'Encours'
+    used: '%used% utilisés sur %limit% (%percent% %)'
+empty:
+    title: 'Aucune commande sur cette période'
+    text: 'Du %from% au %to%, aucune commande validée ne correspond à la période et aux filtres choisis. Les indicateurs et le graphique reviennent dès qu''une période contient des commandes.'
+    reset: 'Revenir à la période par défaut (%period%)'
+    remove_filters: 'Retirer les filtres'

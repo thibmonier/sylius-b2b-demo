@@ -1,0 +1,18 @@
+{# One indicator: label, value, change (arrow + sign + hidden word: never the colour alone) and a note. #}
+{% set variation = indicator.variation %}
+<div class="b2b-insights__kpi" {{ sylius_test_html_attribute('b2b-insights-kpi') }} {{ test_attribute }}>
+    <span class="b2b-insights__kpi-label">{{ label }}</span>
+    <span class="b2b-insights__kpi-value">{{ value }}</span>
+    {% if variation.percent is null %}
+        <span class="b2b-insights__chip b2b-insights__chip--flat" {{ sylius_test_html_attribute('tmonier-insights-variation', 'unknown') }}>{{ 'tmonier_company_insights.variation.unknown'|trans }}</span>
+    {% else %}
+        {% set trend = variation.trend.value %}
+        {% set formatted = (variation.percent / 100)|format_percent_number({min_fraction_digit: 1, max_fraction_digit: 1}) %}
+        <span class="b2b-insights__chip b2b-insights__chip--{{ trend }}" {{ sylius_test_html_attribute('tmonier-insights-variation', trend) }}>
+            <span class="visually-hidden" {{ sylius_test_html_attribute('b2b-insights-trend-word') }}>{{ ('tmonier_company_insights.variation.' ~ trend)|trans }}</span>
+            <span aria-hidden="true">{% if trend == 'up' %}&#9650;{% elseif trend == 'down' %}&#9660;{% else %}&#9654;{% endif %}</span>
+            {% if trend == 'up' %}+{% endif %}{{ formatted }}
+        </span>
+    {% endif %}
+    <span class="b2b-insights__kpi-note">{{ note }}</span>
+</div>

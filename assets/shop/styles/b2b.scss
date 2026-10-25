@@ -6,6 +6,7 @@
 @use 'pdp';
 @use 'list';
 @use 'cart';
+@use 'insights';
 
 :root {
     --bs-primary: #{$b2b-navy};

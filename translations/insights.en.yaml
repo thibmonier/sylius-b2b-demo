@@ -1,0 +1,68 @@
+# US-201: texts of the purchasing dashboard of the B2B channel (domain `insights`). The plugin keeps its own texts (period names, trend words,
+# filters, export); only the wordings of the redesign are here. Plurals: insights+intl-icu.en.yaml.
+toolbar:
+    label: 'Period, filters and export'
+    filters: 'Filters'
+    filters_summary: '%members%, %sites%'
+    all_members: 'all members'
+    all_sites: 'all sites'
+    export_help: 'One row per order line, excluding tax, for the chosen period and filters. File with a semicolon separator, readable directly in a spreadsheet.'
+summary:
+    compared: 'compared with the period from %from% to %to%'
+    note: 'amounts exclude tax, cancelled orders are left out'
+todo:
+    title: 'To handle'
+    approval:
+        link: 'See the approvals'
+    credit:
+        title: '%amount% overdue on your outstanding balance'
+        link: 'See the account statement'
+        next_due: 'Next due date %date% (%amount%).'
+kpi:
+    title: 'Indicators of the period'
+    compared: 'Change against the previous period of the same length (%from% to %to%).'
+    average_basket_note: 'Spend excluding tax divided by the number of orders'
+    buyers_note: 'Members who placed at least one order'
+    orders_previous: '%count% in the previous period'
+monthly:
+    subtitle: 'The last twelve months and the same months of the year before.'
+    legend_current: 'Last twelve months'
+    legend_previous: 'Same month, year before'
+    label_amount: 'Spend excluding tax per month over twelve months, compared with the same months of the year before; detailed values are in the table under the chart.'
+    label_orders: 'Number of orders per month over twelve months, compared with the same months of the year before; detailed values are in the table under the chart.'
+    in_progress: 'The current month is not over (light bar): do not compare it with the full month of the year before.'
+    table: 'Show the values as a table'
+who:
+    title: 'Who buys'
+    intro: 'Members ranked by spend excluding tax; never an e-mail address.'
+    link: 'See all buyers'
+what:
+    title: 'What is bought'
+    intro: 'Main categories, share of the spend excluding tax.'
+    link: 'See all categories'
+    others: 'Other categories'
+products:
+    title: 'Most purchased products'
+    intro: 'Ranked by spend excluding tax over the period, with the date of the last purchase.'
+    link: 'See all products'
+    reference: 'Reference'
+breakdown:
+    sites_title: 'By delivery site'
+    sites_intro: 'Addresses of the company address book.'
+approvals:
+    title: 'Approvals over the period'
+    pending: 'Waiting now'
+    pending_value: '%count% · %amount% excl. tax'
+    median: 'Median decision time'
+    refusal: 'Refusal rate'
+    refusal_value: '%rate% % (%refused% of %decided%)'
+    submitted: 'Buyer most often submitted'
+    submitted_value: '%name% · %approvals% of %orders%'
+credit:
+    title: 'Outstanding balance'
+    used: '%used% used of %limit% (%percent% %)'
+empty:
+    title: 'No order in this period'
+    text: 'From %from% to %to%, no validated order matches the chosen period and filters. The indicators and the chart come back as soon as a period contains orders.'
+    reset: 'Back to the default period (%period%)'
+    remove_filters: 'Remove the filters'

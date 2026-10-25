@@ -1,0 +1,14 @@
+# US-201: plural forms of the purchasing dashboard (ICU), domain `insights`.
+todo:
+    approval:
+        title: '{count, plural, one {# commande attend votre approbation} other {# commandes attendent votre approbation}}'
+        detail: 'N° {number} de {buyer}, {amount} HT, {days, plural, one {en attente depuis # jour} other {en attente depuis # jours}}.'
+        detail_today: 'N° {number} de {buyer}, {amount} HT, reçue aujourd''hui.'
+        more: '{count, plural, one {Une autre commande attend aussi.} other {# autres commandes attendent aussi.}}'
+    credit:
+        detail: '{count, plural, one {# facture échue} other {# factures échues}}, la plus ancienne depuis {days, plural, one {# jour} other {# jours}}.'
+count:
+    orders: '{count, plural, one {# commande} other {# commandes}}'
+    categories: '{count, plural, one {# catégorie} other {# catégories}}'
+kpi:
+    spend_note: '{count, plural, one {# commande validée} other {# commandes validées}}'

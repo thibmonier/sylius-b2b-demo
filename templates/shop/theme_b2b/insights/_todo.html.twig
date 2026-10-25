@@ -1,0 +1,32 @@
+{# What waits for the administrator: an order to approve, an overdue invoice. Nothing to handle, nothing shown. #}
+{% set locale = app.request.locale %}
+{% set pending = approvals and approvals.data.pending.count > 0 ? approvals.data.pending : null %}
+{% set overdue = credit and credit.data.account and credit.data.overdue_count > 0 ? credit.data : null %}
+{% if pending or overdue %}
+    <section class="b2b-insights__todo" aria-labelledby="b2b-insights-todo" {{ sylius_test_html_attribute('b2b-insights-todo') }}>
+        <h2 class="visually-hidden" id="b2b-insights-todo">{{ 'todo.title'|trans({}, 'insights') }}</h2>
+        {% if pending %}
+            {% set first = pending.items|first %}
+            <div class="b2b-insights__alert b2b-insights__alert--warning" {{ sylius_test_html_attribute('b2b-insights-todo-item') }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <div>
+                    <strong>{{ 'todo.approval.title'|trans({'count': pending.count}, 'insights') }}</strong>
+                    <span {{ sylius_test_html_attribute('tmonier-insights-approvals-pending-row') }}>{{ (first.days == 0 ? 'todo.approval.detail_today' : 'todo.approval.detail')|trans({'number': first.number, 'buyer': first.buyer, 'amount': first.amount|sylius_format_money(first.currency, locale), 'days': first.days}, 'insights') }}</span>
+                    {% if pending.count > 1 %}<span>{{ 'todo.approval.more'|trans({'count': pending.count - 1}, 'insights') }}</span>{% endif %}
+                    {% if approvals.data.url %}<a href="{{ approvals.data.url }}">{{ 'todo.approval.link'|trans({}, 'insights') }}</a>{% endif %}
+                </div>
+            </div>
+        {% endif %}
+        {% if overdue %}
+            <div class="b2b-insights__alert b2b-insights__alert--danger" {{ sylius_test_html_attribute('b2b-insights-todo-item') }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l10 18H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v5M12 18v.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                <div>
+                    <strong>{{ 'todo.credit.title'|trans({'%amount%': overdue.overdue_amount|sylius_format_money(overdue.currency, locale)}, 'insights') }}</strong>
+                    <span>{{ 'todo.credit.detail'|trans({'count': overdue.overdue_count, 'days': overdue.oldest_overdue_days}, 'insights') }}
+                        {% if overdue.next_due %}{{ 'todo.credit.next_due'|trans({'%date%': overdue.next_due.date|format_date('medium'), '%amount%': overdue.next_due.amount|sylius_format_money(overdue.currency, locale)}, 'insights') }}{% endif %}</span>
+                    {% if overdue.url %}<a href="{{ overdue.url }}">{{ 'todo.credit.link'|trans({}, 'insights') }}</a>{% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% endif %}

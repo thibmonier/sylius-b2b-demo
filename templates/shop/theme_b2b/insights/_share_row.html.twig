@@ -1,0 +1,8 @@
+{# A line of a ranking: a name, a note, the amount and its share, then a bar that only repeats the share (the figures are text). #}
+<li {{ test_attribute }}>
+    <div class="b2b-insights__line">
+        <span><strong {{ sylius_test_html_attribute('b2b-insights-name') }}>{{ name }}</strong>{% if badge %} <span class="b2b-insights__badge" {{ badge_test }}>{{ badge }}</span>{% endif %}{% if meta %} <span class="b2b-insights__meta">{{ meta }}</span>{% endif %}</span>
+        <span class="b2b-insights__amount"><strong>{{ amount }}</strong> · {{ (share / 100)|format_percent_number }}</span>
+    </div>
+    <progress class="b2b-insights__share b2b-insights__share--{{ tone }}" value="{{ share }}" max="100" aria-hidden="true" {{ sylius_test_html_attribute('b2b-insights-share-bar') }}></progress>
+</li>

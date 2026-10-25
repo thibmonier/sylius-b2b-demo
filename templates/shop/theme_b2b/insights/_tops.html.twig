@@ -1,0 +1,80 @@
+{# Who buys (members) and what is bought (main categories), one pair per currency. The categories beyond the fourth are one line. #}
+{% set locale = app.request.locale %}
+{% set several = ctx.rankings|length > 1 %}
+{% for set in ctx.rankings %}
+    {% set suffix = several ? ' (' ~ set.currencyCode ~ ')' : '' %}
+    {% set buyers = set.buyers %}
+    {% set categories = set.categories %}
+    <div class="b2b-insights__two">
+        <section class="b2b-insights__card" aria-labelledby="b2b-insights-who-{{ set.currencyCode }}" {{ sylius_test_html_attribute('tmonier-insights-ranking', 'buyers-' ~ set.currencyCode) }}>
+            <div>
+                <h2 id="b2b-insights-who-{{ set.currencyCode }}">{{ 'who.title'|trans({}, 'insights') }}{{ suffix }}</h2>
+                <p class="b2b-insights__hint">{{ 'who.intro'|trans({}, 'insights') }}</p>
+            </div>
+            {% if buyers.rows is empty %}
+                <p {{ sylius_test_html_attribute('tmonier-insights-ranking-empty') }}>{{ 'tmonier_company_insights.ranking.empty'|trans }}</p>
+            {% else %}
+                <ol class="b2b-insights__list">
+                    {% for row in buyers.rows %}
+                        {% set name = ((row.firstName ?? '') ~ ' ' ~ (row.lastName ?? ''))|trim %}
+                        {% include 'shop/theme_b2b/insights/_share_row.html.twig' with {
+                            test_attribute: sylius_test_html_attribute('tmonier-insights-ranking-row'),
+                            name: name is empty ? 'tmonier_company_insights.ranking.buyers.unknown'|trans : name,
+                            badge: row.active ? null : 'tmonier_company_insights.ranking.buyers.deactivated'|trans,
+                            badge_test: sylius_test_html_attribute('tmonier-insights-deactivated'),
+                            meta: 'count.orders'|trans({'count': row.ordersCount}, 'insights'),
+                            amount: row.spend|sylius_format_money(buyers.currencyCode, locale),
+                            share: buyers.shares[loop.index0],
+                            tone: 'teal',
+                        } only %}
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            <a href="{{ path('tmonier_company_insights_shop_ranking', ctx.selection.query|merge({ranking: 'buyers', currency: set.currencyCode})) }}" {{ sylius_test_html_attribute('tmonier-insights-see-all') }}>{{ 'who.link'|trans({}, 'insights') }}</a>
+        </section>
+
+        <section class="b2b-insights__card" aria-labelledby="b2b-insights-what-{{ set.currencyCode }}" {{ sylius_test_html_attribute('tmonier-insights-ranking', 'categories-' ~ set.currencyCode) }}>
+            <div>
+                <h2 id="b2b-insights-what-{{ set.currencyCode }}">{{ 'what.title'|trans({}, 'insights') }}{{ suffix }}</h2>
+                <p class="b2b-insights__hint">{{ 'what.intro'|trans({}, 'insights') }}</p>
+            </div>
+            {% if categories.rows is empty %}
+                <p {{ sylius_test_html_attribute('tmonier-insights-ranking-empty') }}>{{ 'tmonier_company_insights.ranking.empty'|trans }}</p>
+            {% else %}
+                {% set grouped = categories.totalRows > 5 %}
+                {% set shown = grouped ? categories.rows|slice(0, 4) : categories.rows %}
+                <ol class="b2b-insights__list">
+                    {% set shown_share = 0 %}
+                    {% set shown_spend = 0 %}
+                    {% for row in shown %}
+                        {% set shown_share = shown_share + categories.shares[loop.index0] %}
+                        {% set shown_spend = shown_spend + row.spend %}
+                        {% include 'shop/theme_b2b/insights/_share_row.html.twig' with {
+                            test_attribute: sylius_test_html_attribute('tmonier-insights-ranking-row'),
+                            name: row.name ?? row.code ?? 'tmonier_company_insights.ranking.categories.uncategorized'|trans,
+                            badge: null,
+                            badge_test: '',
+                            meta: '',
+                            amount: row.spend|sylius_format_money(categories.currencyCode, locale),
+                            share: categories.shares[loop.index0],
+                            tone: 'teal',
+                        } only %}
+                    {% endfor %}
+                    {% if grouped %}
+                        {% include 'shop/theme_b2b/insights/_share_row.html.twig' with {
+                            test_attribute: sylius_test_html_attribute('tmonier-insights-ranking-row') ~ ' ' ~ sylius_test_html_attribute('tmonier-insights-ranking-others'),
+                            name: 'what.others'|trans({}, 'insights'),
+                            badge: null,
+                            badge_test: '',
+                            meta: 'count.categories'|trans({'count': categories.totalRows - 4}, 'insights'),
+                            amount: (categories.totalSpend - shown_spend)|sylius_format_money(categories.currencyCode, locale),
+                            share: max(0, 100 - shown_share),
+                            tone: 'teal',
+                        } only %}
+                    {% endif %}
+                </ol>
+            {% endif %}
+            <a href="{{ path('tmonier_company_insights_shop_ranking', ctx.selection.query|merge({ranking: 'categories', currency: set.currencyCode})) }}" {{ sylius_test_html_attribute('tmonier-insights-see-all') }}>{{ 'what.link'|trans({}, 'insights') }}</a>
+        </section>
+    </div>
+{% endfor %}

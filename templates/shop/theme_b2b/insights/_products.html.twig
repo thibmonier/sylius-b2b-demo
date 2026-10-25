@@ -1,0 +1,46 @@
+{# The five products that weigh most in the period, with the date of the last purchase; the page of every product has the sorts. #}
+{% set locale = app.request.locale %}
+{% set several = ctx.rankings|length > 1 %}
+{% for set in ctx.rankings %}
+    {% set products = set.products %}
+    {% set heading = 'b2b-insights-products-' ~ set.currencyCode %}
+    {% set label = 'products.title'|trans({}, 'insights') %}
+    <section class="b2b-insights__card" aria-labelledby="{{ heading }}" {{ sylius_test_html_attribute('tmonier-insights-ranking', 'products-' ~ set.currencyCode) }}>
+        <div class="b2b-insights__row">
+            <div>
+                <h2 id="{{ heading }}">{{ label }}{{ several ? ' (' ~ set.currencyCode ~ ')' }}</h2>
+                <p class="b2b-insights__hint">{{ 'products.intro'|trans({}, 'insights') }}</p>
+            </div>
+            <a href="{{ path('tmonier_company_insights_shop_ranking', ctx.selection.query|merge({ranking: 'products', currency: set.currencyCode})) }}" {{ sylius_test_html_attribute('tmonier-insights-see-all') }}>{{ 'products.link'|trans({}, 'insights') }}</a>
+        </div>
+        {% if products.rows is empty %}
+            <p {{ sylius_test_html_attribute('tmonier-insights-ranking-empty') }}>{{ 'tmonier_company_insights.ranking.empty'|trans }}</p>
+        {% else %}
+            <div class="b2b-insights__scroll" tabindex="0" role="region" aria-label="{{ label }}" {{ sylius_test_html_attribute('tmonier-insights-table-region') }}>
+                <table {{ sylius_test_html_attribute('tmonier-insights-ranking-table', 'products') }}>
+                    <caption class="visually-hidden">{{ 'tmonier_company_insights.ranking.products.caption'|trans({'%currency%': set.currencyCode}) }}</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ 'tmonier_company_insights.ranking.column.product'|trans }}</th>
+                            <th scope="col" class="b2b-insights__text">{{ 'products.reference'|trans({}, 'insights') }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.ranking.column.quantity'|trans }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.ranking.column.spend'|trans }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.ranking.column.last_purchase'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in products.rows|slice(0, 5) %}
+                            <tr data-code="{{ row.code }}" {{ sylius_test_html_attribute('tmonier-insights-ranking-row') }}>
+                                <th scope="row">{{ row.displayName }}</th>
+                                <td class="b2b-insights__text"><code>{{ row.code }}</code></td>
+                                <td>{{ row.quantity|format_number }}</td>
+                                <td><strong>{{ row.spend|sylius_format_money(products.currencyCode, locale) }}</strong></td>
+                                <td>{{ row.lastPurchase|format_date('medium', timezone: row.timezoneName) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </section>
+{% endfor %}
