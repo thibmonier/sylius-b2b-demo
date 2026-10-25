@@ -24,9 +24,10 @@ Faire de la démo une **preuve vérifiable** de ce qu'affirme le profil de Thiba
 | [US-111](../user-stories/US-111.md) | Bloc de preuve technique : qualité, compatibilité, versions | Should | 3 | 18 |
 | [US-113](../user-stories/US-113.md) | Accueil réorganisé : trois colonnes, pourquoi cette démo, qui l'a conçue | Should | 3 | 20 |
 | [US-108](../user-stories/US-108.md) | Page « Intégrations » : ERP, PIM, transporteurs, e-facture, grands comptes, assistants | Should | 3 | 20 |
-| [US-198](../user-stories/US-198.md) | Refonte de la page de liste des produits dans la continuité de la home | Should | 5 | non planifiée |
+| [US-197](../user-stories/US-197.md) | Photos du catalogue : cadrage des cartes et variantes de couleur | Should | 3 | 29 |
+| [US-198](../user-stories/US-198.md) | Refonte de la page de liste des produits dans la continuité de la home | Should | 5 | 29 |
 | [US-199](../user-stories/US-199.md) | Refonte de la page « Mon compte » dans la continuité de la home | Should | 5 | non planifiée |
-| [US-200](../user-stories/US-200.md) | Refonte de la page panier dans la continuité de la home | Should | 5 | non planifiée |
+| [US-200](../user-stories/US-200.md) | Refonte de la page panier dans la continuité de la home | Should | 5 | 29 |
 | [US-201](../user-stories/US-201.md) | Tableau de bord des achats plus lisible, dans la continuité de la home | Should | 5 | non planifiée |
 | ~~US-069~~ | La page Plugins renvoie vers le site | retirée (absorbée par US-158) | 2 | - |
 | ~~US-109~~ | Cas d'usage sectoriels avec appel à l'action | retirée | 5 | - |

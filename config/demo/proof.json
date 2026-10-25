@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-25T12:08:36Z",
+    "generated_at": "2026-10-25T13:17:22Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -484,7 +484,7 @@
         },
         "sylius-erp-flatfile-plugin": {
             "version": {
-                "value": "v0.1.0",
+                "value": "v0.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
                 "checked_at": "2026-10-25"
             },
@@ -1004,7 +1004,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40188853121",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40192996109",
             "checked_at": "2026-10-25"
         },
         "phpstan": {
