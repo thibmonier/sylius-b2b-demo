@@ -16,6 +16,6 @@
 | 2026-10-25 | Panier : « enregistrer en liste d'achat » retiré du périmètre (la fonction n'existe pas depuis le panier) ; actions groupées : devis et commande rapide | Thibaut | T-200-03 |
 | 2026-10-25 | Panier : test fonctionnel de commande de bout en bout ajouté (panier de Claire → validation → commande soumise à approbation, ≈1,5 h) | Thibaut | T-200-05 |
 | 2026-10-25 | Capacité : stock (1 h) et ajouts du panier (2,5 h) dépassent la marge de 1,8 h d'environ 1,7 h ; l'ordre de sacrifice validé s'applique (US-197 d'abord) | Orchestrateur | T-TECH-29-05 |
-| _à venir_ | GO de la maquette de la liste | Thibaut | T-198-04 |
-| _à venir_ | GO de la maquette du panier | Thibaut | T-200-04 |
+| 2026-10-25 | GO de la maquette de la liste (projet de maquettes unique, page « Liste des produits ») : grille et liste, stock sur la carte, devis en cas de rupture, visiteur sans prix, état « aucun résultat » | Thibaut | T-198-04 |
+| 2026-10-25 | GO de la maquette du panier (page « Panier ») : message d'approbation dès le panier, paliers par ligne, récapitulatif HT, TVA, TTC, commande rapide et devis, panier vide | Thibaut | T-200-04 |
 | _à venir_ | Choix sur la planche et GO de téléchargement | Thibaut | T-197-05 |
