@@ -89,6 +89,7 @@ services:
         parent: sylius.fixture.example_factory.order
         calls:
             - setVariantRepository: ['@sylius.repository.product_variant']
+            - setHistoryWithoutTax: ['@App\Demo\Order\HistoryWithoutTax']
 
     # US-022: Factur-X BT-10 BuyerReference from the order PO reference (decorates the plugin XML writer).
     App\Invoice\PoReferenceCiiXmlWriter:

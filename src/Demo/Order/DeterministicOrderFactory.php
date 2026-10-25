@@ -45,6 +45,13 @@ final class DeterministicOrderFactory extends OrderExampleFactory
     /** @var RepositoryInterface<ProductVariantInterface>|null */
     private ?RepositoryInterface $variantRepository = null;
 
+    private HistoryWithoutTax $historyWithoutTax;
+
+    public function setHistoryWithoutTax(HistoryWithoutTax $historyWithoutTax): void
+    {
+        $this->historyWithoutTax = $historyWithoutTax;
+    }
+
     /** @param RepositoryInterface<ProductVariantInterface> $variantRepository */
     public function setVariantRepository(RepositoryInterface $variantRepository): void
     {
@@ -96,7 +103,7 @@ final class DeterministicOrderFactory extends OrderExampleFactory
         unset($options['items'], $options['po_reference'], $options['cost_center'], $options['company'], $options['payment_method'], $options['delivery_site']);
 
         $this->faker->seed(crc32((string) $poReference));
-        $order = parent::create($options);
+        $order = $this->historyWithoutTax->during(fn (): OrderInterface => parent::create($options));
         if ($order instanceof OrderPoReferenceAwareInterface) {
             $order->setPoReference($poReference);
             $order->setCostCenter($costCenter);
