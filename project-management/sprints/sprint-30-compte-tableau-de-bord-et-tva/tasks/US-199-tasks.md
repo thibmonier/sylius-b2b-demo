@@ -51,8 +51,8 @@
 | T-199-07 | [DOC] | 📅 Textes FR et EN (domaine `account`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-199-06 | Claude | ✅ |
 | T-199-08 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (compte, menus, approbations, devis, listes, badges), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN pour les trois comptes, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-199-06, T-199-07 | Claude | ✅ |
 | T-199-09 | [DOC] | 📅 Captures `docs/images/account-*` par `bin/render-page` (connecté, local, trois comptes, bureau et 360 px), section « Mon compte » de `docs/theme-b2b.md` | 0,5 h | T-199-08 | Claude | ✅ |
-| T-199-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : compte des trois rôles vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse du compte renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 📅 |
-| T-199-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie | 0,5 h | T-199-10 | Claude | 📅 |
+| T-199-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : compte des trois rôles vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse du compte renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 📅 production |
+| T-199-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie | 0,5 h | T-199-10 | Claude | 📅 production |
 
 **Total estimé : 10,5 h** (11 tâches ; 10 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
 

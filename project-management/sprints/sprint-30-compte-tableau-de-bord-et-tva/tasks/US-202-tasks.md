@@ -46,11 +46,11 @@
 | T-202-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : panier HT, livraison, TVA 20 %, TTC ; prix affichés inchangés ; commande avec TVA ; produit importé avec catégorie ; limite comparée au HT et message du panier cohérent | 0,75 h | T-202-01 | Claude | ✅ |
 | T-202-03 | [DB] | Catégorie `standard` affectée aux produits des fixtures et aux produits de l'import ERP simulé ; historique de commandes cohérent (ou décision notée) ; fixtures rechargées en local | 1 h | T-202-02 | Claude | ✅ |
 | T-202-04 | [FE-WEB] | Récapitulatif du panier : ligne TVA et total TTC réaffichés à la place de la maquette validée ; récapitulatif de commande et e-mails relus ; AAA et 360 px conservés | 0,75 h | T-202-03 | Claude | ✅ |
-| T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | ✅ |
+| T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | 🟡 |
 | T-202-06 | [TEST] | Suite ciblée par `bin/run-tests` (panier, paliers, approbation, tunnel de commande de bout en bout, import ERP, tableau de bord des achats), prix comparés avant/après, PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y du panier FR et EN ; commande exacte et dernière ligne citées | 0,75 h | T-202-04, T-202-05 | Claude | ✅ |
 | T-202-07 | [DOC] | Captures `docs/images/cart-*` mises à jour par `bin/render-page`, section du panier de `docs/theme-b2b.md` | 0,5 h | T-202-06 | Claude | ✅ |
-| T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | 🔲 |
-| T-202-09 | [REV] | Revue (ton neutre, parité FR et EN, prix inchangés, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,25 h | T-202-08 | Claude | 🔲 |
+| T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | 📅 production |
+| T-202-09 | [REV] | Revue (ton neutre, parité FR et EN, prix inchangés, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,25 h | T-202-08 | Claude | 📅 production |
 
 **Total estimé : 6 h** (9 tâches, toutes pour Claude).
 
