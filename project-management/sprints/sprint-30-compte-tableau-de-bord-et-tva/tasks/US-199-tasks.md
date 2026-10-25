@@ -44,13 +44,13 @@
 |----|------|-------|------------|-----------|-------------|--------|
 | T-199-01 | [DOC] | Cadrage : inventaire du tableau de bord du compte relu contre le code (hooks `sylius_shop.account.dashboard.*`, entrées des plugins : société et membres, approbations, devis, listes d'achat, liste Atelier, actifs client, relevé de crédit, tableau de bord des achats, connexions MCP ; `account_menu` ; droits de chaque rôle ; sous-pages ; badges « propulsé par ») ; données par rôle (commandes, devis, approbations en attente) ; plan des tests | 0,75 h | - | Claude | ✅ |
 | T-199-02 | [TEST] | État de référence « avant » : tests du compte et des menus verts sur `main` ; captures connectées locales (bureau et 360 px) des trois comptes et du compte B2C | 0,5 h | T-199-01, T-TECH-30-01 | Claude | ✅ |
-| T-199-03 | [FE-WEB] | Maquette Claude Design (bureau 1440 px et téléphone 390 px), page « Mon compte » du canevas : accueil par rôle (Claire : dernières commandes, devis, listes ; Paul : approbations en attente et compteur ; Isabelle : membres, limites, crédit), cartes de raccourcis groupées (Achats, Validation, Société, Profil), menu latéral et accès compact, vraies données des fixtures ; table « Acquis » mise à jour | 2 h | T-199-01, T-TECH-30-01 | Orchestrateur | 🔲 |
-| T-199-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-199-03 | Thibaut | 📅 |
-| T-199-05 | [TEST] | 📅 Tests rouges, commités seuls et cités dans la PR : accueil de Claire, de Paul (compteur d'approbations en premier) et d'Isabelle, raccourcis absents sans droit, B2C inchangé, 360 px, charte des textes, cibles de 44 px | 1 h | T-199-04 | Claude | 📅 |
-| T-199-06 | [FE-WEB] | 📅 Gabarits et hooks du compte (fichier de hooks propre), partial `_account.scss`, menu latéral et accès compact, AAA, `prefers-reduced-motion` ; entrées des plugins par leurs hooks ; canal B2B seulement ; sous-pages négociables | 3 h | T-199-05 | Claude | 📅 |
-| T-199-07 | [DOC] | 📅 Textes FR et EN (domaine `account`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-199-06 | Claude | 📅 |
-| T-199-08 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (compte, menus, approbations, devis, listes, badges), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN pour les trois comptes, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-199-06, T-199-07 | Claude | 📅 |
-| T-199-09 | [DOC] | 📅 Captures `docs/images/account-*` par `bin/render-page` (connecté, local, trois comptes, bureau et 360 px), section « Mon compte » de `docs/theme-b2b.md` | 0,5 h | T-199-08 | Claude | 📅 |
+| T-199-03 | [FE-WEB] | Maquette Claude Design (bureau 1440 px et téléphone 390 px), page « Mon compte » du canevas : accueil par rôle (Claire : dernières commandes, devis, listes ; Paul : approbations en attente et compteur ; Isabelle : membres, limites, crédit), cartes de raccourcis groupées (Achats, Validation, Société, Profil), menu latéral et accès compact, vraies données des fixtures ; table « Acquis » mise à jour | 2 h | T-199-01, T-TECH-30-01 | Orchestrateur | ✅ |
+| T-199-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-199-03 | Thibaut | ✅ |
+| T-199-05 | [TEST] | 📅 Tests rouges, commités seuls et cités dans la PR : accueil de Claire, de Paul (compteur d'approbations en premier) et d'Isabelle, raccourcis absents sans droit, B2C inchangé, 360 px, charte des textes, cibles de 44 px | 1 h | T-199-04 | Claude | ✅ |
+| T-199-06 | [FE-WEB] | 📅 Gabarits et hooks du compte (fichier de hooks propre), partial `_account.scss`, menu latéral et accès compact, AAA, `prefers-reduced-motion` ; entrées des plugins par leurs hooks ; canal B2B seulement ; sous-pages négociables | 3 h | T-199-05 | Claude | ✅ |
+| T-199-07 | [DOC] | 📅 Textes FR et EN (domaine `account`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-199-06 | Claude | ✅ |
+| T-199-08 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (compte, menus, approbations, devis, listes, badges), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN pour les trois comptes, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-199-06, T-199-07 | Claude | ✅ |
+| T-199-09 | [DOC] | 📅 Captures `docs/images/account-*` par `bin/render-page` (connecté, local, trois comptes, bureau et 360 px), section « Mon compte » de `docs/theme-b2b.md` | 0,5 h | T-199-08 | Claude | ✅ |
 | T-199-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : compte des trois rôles vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse du compte renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 📅 |
 | T-199-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie | 0,5 h | T-199-10 | Claude | 📅 |
 
@@ -60,13 +60,13 @@
 
 | Scénario | Tâche | Test ou preuve |
 |----------|-------|----------------|
-| Accueil de l'acheteuse (nominal) | T-199-05, T-199-09 | |
-| Accueil de l'approbateur (alternatif) | T-199-05 | |
-| Accueil de l'administratrice (alternatif) | T-199-05 | |
-| Canal B2C (alternatif) | T-199-05 | |
-| Entrée de plugin sans droit (erreur) | T-199-05 | |
-| Débordement sur téléphone (erreur) | T-199-05, T-199-08 | |
-| Régression d'accessibilité (erreur) | T-199-08 | |
+| Accueil de l'acheteuse (nominal) | T-199-05, T-199-09 | `AccountDashboardTest::testClaireSeesFirstWhatIsWaitingForHer`, `…testClaireReadsHerLatestOrdersWithTheStateInPlainWords`, `…testEachOrderCanBeOrderedAgainWithAPostedForm` ; captures `docs/images/account-buyer-fr.jpg` |
+| Accueil de l'approbateur (alternatif) | T-199-05 | `AccountDashboardTest::testThePendingApprovalOfPaulIsFirstAndCountedInTheMenu`, `…testPaulIsWarnedOfHisOwnOverdueOrder` |
+| Accueil de l'administratrice (alternatif) | T-199-05 | `AccountDashboardTest::testIsabelleGetsTheShortcutsAndEntriesOfAnAdministrator`, `…testTheMenuIsGroupedInFourBlocksAndStaysOnOtherAccountPages` ; `AccountNavGrouperTest` |
+| Canal B2C (alternatif) | T-199-05 | `AccountDashboardTest::testTheConsumerChannelKeepsTheThemeOfTheShop` |
+| Entrée de plugin sans droit (erreur) | T-199-05 | `AccountDashboardTest::testThereAreExactlyFourShortcutsAndNoneForAPageClaireCannotOpen` |
+| Débordement sur téléphone (erreur) | T-199-05, T-199-08 | `AccountStylesTest`, `…testTheOrdersTableScrollsInsideItsOwnRegionOnAPhone` ; relevé à 360 px : aucun élément de la page ne dépasse (hors tiroir du panier de l'en-tête, existant) |
+| Régression d'accessibilité (erreur) | T-199-08 | pa11y WCAG2AAA en local, FR et EN, Claire, Paul, Isabelle et Nathalie : « No issues found! » (8 pages) |
 
 ## Cadrage (T-199-01) et état « avant » (T-199-02)
 
