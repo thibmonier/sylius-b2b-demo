@@ -8,11 +8,7 @@
 $account-nav: 15.625rem; // 250 px
 $account-aside: 21.25rem; // 340 px
 
-// Wider container and a two-column row for the pages that carry the grouped menu; the breadcrumb takes the whole row.
-.container:has(.b2b-account-nav) {
-    max-width: 81rem;
-}
-
+// A two-column row for the pages that carry the grouped menu (the container keeps the width of the header); the breadcrumb takes the whole row.
 main:has(.b2b-account-nav) {
     background: $b2b-paper;
 }
@@ -307,11 +303,18 @@ main:has(.b2b-account-nav) {
         }
     }
 
+    // Beside the orders when the page is wide, else after them: in three columns on a tablet, in one on a phone.
     &__aside {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
         gap: 1rem;
         min-width: 0;
+
+        @container (min-width: 40rem) and (max-width: 61.99rem) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: stretch;
+        }
     }
 
     &__empty {
