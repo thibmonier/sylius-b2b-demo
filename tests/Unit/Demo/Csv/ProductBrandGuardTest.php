@@ -29,10 +29,7 @@ final class ProductBrandGuardTest extends TestCase
     {
         $violations = [];
         foreach ($this->csvFiles() as $file) {
-            $handle = \fopen($file, 'r') ?: throw new \RuntimeException($file);
-            $header = \fgetcsv($handle, escape: '\\') ?: [];
-            for ($line = 2; ($row = \fgetcsv($handle, escape: '\\')) !== false; ++$line) {
-                $values = \array_combine($header, $row);
+            foreach ($this->rows($file) as $line => $values) {
                 foreach (self::COLUMNS as $column) {
                     $brand = $this->brandIn($values[$column] ?? '');
                     if ($brand !== null) {
@@ -40,7 +37,6 @@ final class ProductBrandGuardTest extends TestCase
                     }
                 }
             }
-            \fclose($handle);
         }
 
         self::assertSame([], $violations, "A real brand is back in a fixture:\n" . \implode("\n", $violations));
@@ -94,8 +90,10 @@ final class ProductBrandGuardTest extends TestCase
 
     public function testTheBlacklistIsReadAndMatchesWholeWordsAsWrittenOrInUpperCase(): void
     {
-        self::assertSame('Jalatte', $this->brandIn('Chaussure Jalatte noire'));
-        self::assertSame('Jalatte', $this->brandIn('chaussure JALATTE-001'));
+        $brand = $this->brands()[1];
+
+        self::assertSame($brand, $this->brandIn('Chaussure ' . $brand . ' noire'));
+        self::assertSame($brand, $this->brandIn('chaussure ' . \strtoupper($brand) . '-001'));
         self::assertNull($this->brandIn('Profil 3m de long'));
         self::assertNull($this->brandIn('Casque de chantier blanc'));
     }
@@ -127,14 +125,15 @@ final class ProductBrandGuardTest extends TestCase
         return \glob($this->root . '/fixtures/csv/*.csv') ?: [];
     }
 
-    /** @return list<array<string, string>> */
+    /** @return array<int, array<string, string>> the rows by line number of the file */
     private function rows(string $file): array
     {
         $handle = \fopen($file, 'r') ?: throw new \RuntimeException($file);
+        /** @var list<string> $header */
         $header = \fgetcsv($handle, escape: '\\') ?: [];
         $rows = [];
-        while (($row = \fgetcsv($handle, escape: '\\')) !== false) {
-            $rows[] = \array_combine($header, $row);
+        for ($line = 2; ($row = \fgetcsv($handle, escape: '\\')) !== false; ++$line) {
+            $rows[$line] = \array_combine($header, \array_map(strval(...), $row));
         }
         \fclose($handle);
 
@@ -148,6 +147,7 @@ final class ProductBrandGuardTest extends TestCase
         $this_ = __FILE__;
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS));
         foreach ($iterator as $file) {
+            \assert($file instanceof \SplFileInfo);
             $path = $file->getPathname();
             if ($path === $list || $path === $this_ || !\in_array($file->getExtension(), self::SCANNED_EXTENSIONS, true)) {
                 continue;
