@@ -35,12 +35,12 @@ final class LiveDemoDataSmokeTest extends WebTestCase
         $client->request('GET', '/fr_FR/cart/');
         self::assertResponseIsSuccessful();
         $content = (string) $client->getResponse()->getContent();
-        self::assertStringContainsString('Casque de chantier MSA V-Gard blanc', $content);
-        self::assertStringContainsString('Gants Ansell HyFlex', $content);
+        self::assertStringContainsString('Casque de chantier blanc HDPE', $content);
+        self::assertStringContainsString('Gants de précision nitrile mousse', $content);
 
         $client->request('GET', '/en_US/cart/');
         self::assertResponseIsSuccessful();
-        self::assertStringContainsString('MSA V-Gard Hard Hat White', (string) $client->getResponse()->getContent());
+        self::assertStringContainsString('White HDPE construction hard hat', (string) $client->getResponse()->getContent());
     }
 
     public function testTheCartOfClaireHoldsExactlyTheAtelierQuantities(): void

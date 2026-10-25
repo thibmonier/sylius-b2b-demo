@@ -16,7 +16,7 @@ CSV files versioned under `fixtures/csv/` feed the `demo_products_csv` fixture
 | Column | Required | Type | Description |
 |--------|----------|------|-------------|
 | `sku` | YES | string | Unique product code — also used as Sylius product code and variant code. Must be unique within each file. |
-| `mpn` | no | string | Manufacturer Part Number |
+| `mpn` | no | string | Manufacturer Part Number: a fictional reference (`DEMO-<sku>`). No real brand in this column, nor in the names and descriptions (guard: `config/demo/forbidden-brands.txt`, `ProductBrandGuardTest`). |
 | `ean` | no | string (13 digits) | EAN-13 barcode |
 | `name_fr` | YES | string | Product name in French |
 | `name_en` | YES | string | Product name in English |

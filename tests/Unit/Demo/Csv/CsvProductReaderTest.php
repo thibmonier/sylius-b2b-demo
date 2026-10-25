@@ -37,8 +37,8 @@ final class CsvProductReaderTest extends TestCase
     {
         $csvPath = $this->writeCsv([
             'sku,mpn,ean,name_fr,name_en,description_fr,description_en,taxon,attributes_json,weight_kg,width_cm,height_cm,depth_cm,price_eur_ht',
-            'EPI-CASK-001,MSA-001,3701000000010,Casque blanc,White helmet,Casque de chantier blanc,White construction helmet,protection-tete,"{""epi_norm"":""EN 397""}",0.45,22,16,18,19.90',
-            'EPI-CASK-002,MSA-002,3701000000027,Casque jaune,Yellow helmet,Casque de chantier jaune,Yellow construction helmet,protection-tete,"{""epi_norm"":""EN 397""}",0.45,22,16,18,19.90',
+            'EPI-CASK-001,REF-001,3701000000010,Casque blanc,White helmet,Casque de chantier blanc,White construction helmet,protection-tete,"{""epi_norm"":""EN 397""}",0.45,22,16,18,19.90',
+            'EPI-CASK-002,REF-002,3701000000027,Casque jaune,Yellow helmet,Casque de chantier jaune,Yellow construction helmet,protection-tete,"{""epi_norm"":""EN 397""}",0.45,22,16,18,19.90',
         ]);
 
         $rows = $this->reader->read($csvPath);
@@ -56,9 +56,9 @@ final class CsvProductReaderTest extends TestCase
     {
         $csvPath = $this->writeCsv([
             'sku,mpn,ean,name_fr,name_en,description_fr,description_en,taxon,attributes_json,weight_kg,width_cm,height_cm,depth_cm,price_eur_ht',
-            'EPI-CASK-001,MSA-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'EPI-CASK-001,REF-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
             '',
-            'EPI-CASK-002,MSA-002,3701000000027,Casque jaune,Yellow helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,21.50',
+            'EPI-CASK-002,REF-002,3701000000027,Casque jaune,Yellow helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,21.50',
         ]);
 
         $rows = $this->reader->read($csvPath);
@@ -75,7 +75,7 @@ final class CsvProductReaderTest extends TestCase
         // 'name_fr' column is absent
         $csvPath = $this->writeCsv([
             'sku,mpn,ean,name_en,description_fr,description_en,taxon,attributes_json,weight_kg,width_cm,height_cm,depth_cm,price_eur_ht',
-            'EPI-CASK-001,MSA-001,3701000000010,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'EPI-CASK-001,REF-001,3701000000010,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
         ]);
 
         $this->expectException(CsvImportException::class);
@@ -89,7 +89,7 @@ final class CsvProductReaderTest extends TestCase
     {
         $csvPath = $this->writeCsv([
             'mpn,ean,name_fr,name_en,description_fr,description_en,taxon,attributes_json,weight_kg,width_cm,height_cm,depth_cm,price_eur_ht',
-            'MSA-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'REF-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
         ]);
 
         $this->expectException(CsvImportException::class);
@@ -107,9 +107,9 @@ final class CsvProductReaderTest extends TestCase
         $csvPath = $this->writeCsv([
             'sku,mpn,ean,name_fr,name_en,description_fr,description_en,taxon,attributes_json,weight_kg,width_cm,height_cm,depth_cm,price_eur_ht',
             // line 2 — first occurrence of EPI-CASK-001
-            'EPI-CASK-001,MSA-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'EPI-CASK-001,REF-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
             // line 3 — duplicate
-            'EPI-CASK-001,MSA-001B,3701000000027,Casque blanc bis,White helmet bis,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'EPI-CASK-001,REF-001B,3701000000027,Casque blanc bis,White helmet bis,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
         ]);
 
         try {
@@ -132,8 +132,8 @@ final class CsvProductReaderTest extends TestCase
     {
         $csvPath = $this->writeCsv([
             self::HEADER,
-            'EPI-CASK-001,MSA-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
-            'EPI-CASK-002,MSA-002,3701000000027,Casque jaune,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18',
+            'EPI-CASK-001,REF-001,3701000000010,Casque blanc,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18,19.90',
+            'EPI-CASK-002,REF-002,3701000000027,Casque jaune,White helmet,Desc FR,Desc EN,protection-tete,"{}",0.45,22,16,18',
         ]);
 
         $message = $this->failureOf(fn () => $this->reader->read($csvPath));
@@ -146,7 +146,7 @@ final class CsvProductReaderTest extends TestCase
 
     public function testARowWithTooManyColumnsFails(): void
     {
-        $csvPath = $this->writeCsv([self::HEADER, 'EPI-CASK-001,MSA-001,3701000000010,Casque,Helmet,D,D,protection-tete,"{}",0.45,22,16,18,19.90,surplus']);
+        $csvPath = $this->writeCsv([self::HEADER, 'EPI-CASK-001,REF-001,3701000000010,Casque,Helmet,D,D,protection-tete,"{}",0.45,22,16,18,19.90,surplus']);
 
         self::assertStringContainsString($csvPath . ':2', $this->failureOf(fn () => $this->reader->read($csvPath)));
     }
