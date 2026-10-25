@@ -65,7 +65,8 @@ final class CartToOrderTest extends WebTestCase
 
         self::assertSame(OrderInterface::STATE_NEW, $order->getState(), 'The order is placed.');
         self::assertSame('pending', $this->stringValue('SELECT state FROM tmonier_purchase_approval_order_approval WHERE order_id = ?', [$order->getId()]), 'It waits for the approval of the company.');
-        self::assertSame($order->getTotal(), $this->intValue('SELECT total FROM tmonier_purchase_approval_order_approval WHERE order_id = ?', [$order->getId()]));
+        self::assertSame($order->getTotal() - $order->getTaxTotal(), $this->intValue('SELECT total FROM tmonier_purchase_approval_order_approval WHERE order_id = ?', [$order->getId()]));
+        self::assertGreaterThan(0, $order->getTaxTotal(), 'US-202: the placed order carries its VAT; the approval freezes the amount excluding tax.');
     }
 
     public function testACartUnderHerLimitIsPlacedWithoutApproval(): void
