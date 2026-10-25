@@ -42,6 +42,7 @@ final readonly class PhotoSelection
                 self::float($focus[0] ?? 0.5),
                 self::float($focus[1] ?? 0.5),
                 self::string($photo['review'] ?? null),
+                self::focal(self::list($photo['position'] ?? [])),
             );
         }
         $pending = [];
@@ -101,6 +102,16 @@ final readonly class PhotoSelection
     private static function strings(mixed $value): array
     {
         return \array_map(self::string(...), self::list($value));
+    }
+
+    /**
+     * @param list<mixed> $position
+     *
+     * @return string "x y" in percent, or '' when the photo has no point focal
+     */
+    private static function focal(array $position): string
+    {
+        return $position === [] ? '' : \sprintf('%s %s', self::float($position[0] ?? null), self::float($position[1] ?? null));
     }
 
     private static function float(mixed $value): float

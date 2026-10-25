@@ -62,7 +62,8 @@ app:
         prices_excl_vat: 'Prices shown excl. VAT'
         packaging: 'Packaging'
         in_stock: 'In stock'
-        on_order: 'On order'
+        out_of_stock: 'Out of stock'
+        stock_low: 'Low stock: %count% unit|Low stock: %count% units'
         from_price: 'from %price% excl. VAT with volume tiers'
         price_breaks:
             caption: 'Unit prices excluding VAT by ordered quantity'

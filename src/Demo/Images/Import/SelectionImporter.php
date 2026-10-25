@@ -19,24 +19,30 @@ final readonly class SelectionImporter
     ) {
     }
 
-    /** @return array{photos: int, skus: int, removed: list<string>} */
-    public function import(PhotoSelection $selection, string $sourceDir, string $imagesDir, ImageManifest $manifest, string $date): array
+    /**
+     * @param list<string> $only US-197: the types to import (the others keep their rows and files); empty = the whole selection
+     *
+     * @return array{photos: int, skus: int, removed: list<string>}
+     */
+    public function import(PhotoSelection $selection, string $sourceDir, string $imagesDir, ImageManifest $manifest, string $date, array $only = []): array
     {
         $this->assertUsableSource($sourceDir);
-        foreach ($selection->photos() as $photo) {
+        $photos = $this->photosToImport($selection, $only);
+        foreach ($photos as $photo) {
             if (!\is_file($sourceDir . '/' . $photo->file)) {
                 throw new \RuntimeException(\sprintf('The original "%s" of the type "%s" is missing from "%s".', $photo->file, $photo->type, $sourceDir));
             }
         }
 
-        foreach ($selection->neutral() as $type) {
+        $neutral = $only === [] ? $selection->neutral() : [];
+        foreach ($neutral as $type) {
             if (!\is_file($imagesDir . '/' . $type['file'])) {
                 throw new \RuntimeException(\sprintf('The neutral visual "%s" of the type "%s" is missing from "%s".', $type['file'], $type['type'], $imagesDir));
             }
         }
 
         $skus = 0;
-        foreach ($selection->photos() as $photo) {
+        foreach ($photos as $photo) {
             $file = $this->write($photo, $sourceDir, $imagesDir);
             foreach ($photo->skus as $sku) {
                 $manifest->add($this->row($photo, $sku, $file, $date));
@@ -44,13 +50,32 @@ final readonly class SelectionImporter
             }
         }
 
-        foreach ($selection->neutral() as $type) {
+        foreach ($neutral as $type) {
             foreach ($type['skus'] as $sku) {
                 $manifest->add($this->neutralRow($sku, $type['file'], $date));
             }
         }
 
-        return ['photos' => \count($selection->photos()), 'skus' => $skus, 'removed' => $this->removeOrphans($imagesDir, $manifest)];
+        return ['photos' => \count($photos), 'skus' => $skus, 'removed' => $this->removeOrphans($imagesDir, $manifest)];
+    }
+
+    /**
+     * @param list<string> $only
+     *
+     * @return list<SelectedPhoto>
+     */
+    private function photosToImport(PhotoSelection $selection, array $only): array
+    {
+        if ($only === []) {
+            return $selection->photos();
+        }
+        $known = \array_map(static fn (SelectedPhoto $photo): string => $photo->type, $selection->photos());
+        $unknown = \array_diff($only, $known);
+        if ($unknown !== []) {
+            throw new \RuntimeException(\sprintf('Unknown photo type(s) "%s": expected one of %s.', \implode('", "', $unknown), \implode(', ', $known)));
+        }
+
+        return \array_values(\array_filter($selection->photos(), static fn (SelectedPhoto $photo): bool => \in_array($photo->type, $only, true)));
     }
 
     /** A source that is empty, missing or the root of the disk is refused before anything is read or written. */
@@ -78,7 +103,7 @@ final readonly class SelectionImporter
         return [
             'sku' => $sku, 'file' => $file, 'source' => \strtolower($photo->source), 'creator' => $photo->creator, 'title' => $photo->title,
             'origin_url' => $photo->originUrl, 'license' => \strtolower($photo->source), 'license_url' => $photo->licenseUrl, 'fetched_at' => $date,
-            'scope' => \count($photo->skus) > 1 ? 'family' : 'own', 'status' => ImageManifest::STATUS_VALIDATED,
+            'scope' => \count($photo->skus) > 1 ? 'family' : 'own', 'status' => ImageManifest::STATUS_VALIDATED, ImageManifest::FOCAL => $photo->focal,
         ];
     }
 

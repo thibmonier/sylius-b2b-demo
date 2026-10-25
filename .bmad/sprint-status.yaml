@@ -494,6 +494,7 @@ sprints:
 backlog:
   - {id: US-199, title: "Refonte de la page « Mon compte » dans la continuité de la home", points: 5, status: backlog} # EPIC-12, Should ; demande de Thibaut du 2026-10-25 (suite des refontes de la home US-186 et de la fiche produit US-189) ; maquette Claude Design validée par Thibaut avant le Twig ; points à confirmer au planning
   - {id: US-201, title: "Tableau de bord des achats plus lisible, dans la continuité de la home", points: 5, status: backlog} # EPIC-12, Should ; demande de Thibaut du 2026-10-25 (suite des refontes de la home US-186 et de la fiche produit US-189) ; maquette Claude Design validée par Thibaut avant le Twig ; points à confirmer au planning ; surcharge dans la démo (recommandé) ou modification du plugin company-insights à trancher au planning
+  - {id: US-202, title: "Catégories de taxe sur le catalogue de démonstration : TVA affichée au panier et sur les commandes", points: 3, status: backlog} # EPIC-12, Should ; décision de Thibaut du 2026-10-25 (registre sprint 29, T-200-06) : le panier d'US-200 masque la TVA faute de catégorie de taxe
   # --- Sprint 29 (planifié le 2026-10-25) : US-197, US-198 et US-200 sont dans la section sprint-29
   # --- Sprint 28 (planifié le 2026-10-25) : US-195, US-196 et US-187 sont dans la section sprint-28
   # --- Suites de l'ADR 0017 (2026-10-24, acceptée par Thibaut : story A au sprint 26 ; B et C ici)

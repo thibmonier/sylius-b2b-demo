@@ -1,0 +1,6 @@
+# US-198: messages of the "add to cart" button of the product list (domain `flashes`, next to the ones of Sylius).
+app:
+    list:
+        added: 'Le produit a été ajouté au panier.'
+        not_added: "Le produit n'a pas pu être ajouté au panier."
+        invalid_token: "Le formulaire a expiré : le produit n'a pas été ajouté. Réessayez."

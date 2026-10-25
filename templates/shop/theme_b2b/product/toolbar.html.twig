@@ -1,0 +1,38 @@
+{# US-198: search, sort, page size and display in ONE form (GET): it works without JavaScript, the display buttons are submit buttons that keep the other fields. #}
+{% set resources = hookable_metadata.context.resources %}
+{% set pager = resources.data %}
+{% set state = app_b2b_list_state() %}
+<form class="b2b-list__toolbar" method="get" action="{{ path('sylius_shop_product_index', {slug: app.request.attributes.get('slug')}) }}" role="search" data-list-toolbar>
+    <div class="b2b-list__field b2b-list__field--grow">
+        <label for="b2b-list-search">{{ 'toolbar.search_label'|trans({}, 'product_list') }}</label>
+        <input id="b2b-list-search" type="search" name="criteria[search][value]" value="{{ state.search }}" maxlength="100" autocomplete="off" placeholder="{{ 'toolbar.search_placeholder'|trans({}, 'product_list') }}">
+    </div>
+    <div class="b2b-list__field">
+        <label for="b2b-list-sort">{{ 'toolbar.sort_label'|trans({}, 'product_list') }}</label>
+        <select id="b2b-list-sort" name="sort">
+            {% for choice in ['', 'name-asc', 'name-desc', 'price-asc', 'price-desc', 'newest'] %}
+                <option value="{{ choice }}"{% if choice == state.sortChoice %} selected{% endif %}>{{ ('toolbar.sort.' ~ (choice is empty ? 'position' : choice|replace({'-': '_'})))|trans({}, 'product_list') }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="b2b-list__field b2b-list__field--narrow">
+        <label for="b2b-list-limit">{{ 'toolbar.limit_label'|trans({}, 'product_list') }}</label>
+        <select id="b2b-list-limit" name="limit">
+            {% for limit in resources.definition.limits %}
+                <option value="{{ limit }}"{% if limit == pager.maxPerPage %} selected{% endif %}>{{ limit }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <input type="hidden" name="view" value="{{ state.view }}">
+    <button type="submit" class="b2b-list__apply">{{ 'toolbar.apply'|trans({}, 'product_list') }}</button>
+    <div class="b2b-list__views" role="group" aria-label="{{ 'toolbar.view_label'|trans({}, 'product_list') }}">
+        {% for view in ['grid', 'list'] %}
+            <button type="submit" name="view" value="{{ view }}" aria-pressed="{{ state.view == view ? 'true' : 'false' }}">{{ ('toolbar.view_' ~ view)|trans({}, 'product_list') }}</button>
+        {% endfor %}
+    </div>
+</form>
+{% if pager.nbResults > 0 %}
+    <p class="b2b-list__results" data-list-results aria-live="polite">
+        {{- 'results.range'|trans({'%from%': (pager.currentPage - 1) * pager.maxPerPage + 1, '%to%': min(pager.currentPage * pager.maxPerPage, pager.nbResults), '%total%': pager.nbResults}, 'product_list') }} · {{ 'results.sorted_by'|trans({'%sort%': ('toolbar.sort.' ~ (state.sortChoice is empty ? 'position' : state.sortChoice|replace({'-': '_'})))|trans({}, 'product_list')|lower}, 'product_list') -}}
+    </p>
+{% endif %}

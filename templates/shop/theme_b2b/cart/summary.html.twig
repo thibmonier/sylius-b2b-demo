@@ -1,0 +1,52 @@
+{# Rendered with \Sylius\Bundle\ShopBundle\Twig\Component\Cart\SummaryComponent #}
+{#
+    US-200: summary of the cart. B2C: the core template (its sub-hooks). B2B: the rows of the mock-up, all read from the order as the
+    shop computes it (items, tier discounts, shipping, tax, total): nothing is estimated here, and a cart without tax shows no tax row
+    (the products of the demo carry no tax category).
+#}
+{% import '@SyliusShop/shared/macro/loader.html.twig' as loader %}
+{% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <div class="position-relative" {{ attributes }}>
+        {{ loader.render() }}
+        <div class="p-4 bg-light mb-4 rounded-3">
+            <h3 class="mb-4">{{ 'sylius.ui.summary'|trans }}</h3>
+            {% hook 'summary' with {cart} %}
+        </div>
+    </div>
+{% else %}
+    {% set discount = app_b2b_cart_tier_discount(cart) %}
+    {% set tax_label = cart.getAdjustmentsRecursively('tax')|first.label|default(null) %}
+    {% set shipping_method = cart.shipments|first.method.name|default(null) %}
+    <div class="b2b-cart__summary position-relative" {{ attributes }} {{ sylius_test_html_attribute('b2b-cart-summary') }}>
+        {{ loader.render() }}
+        <h2 id="b2b-cart-summary-title">{{ 'summary.title'|trans({}, 'cart') }}</h2>
+        <dl>
+            <dt>{{ 'summary.subtotal'|trans({}, 'cart') }}</dt>
+            <dd class="fw-semibold" {{ sylius_test_html_attribute('cart-items-total') }}>{{ money.convertAndFormat(cart.itemsSubtotal) }}</dd>
+            {% if discount is not null and discount.tierAmount > 0 %}
+                <dt class="b2b-cart__summary-saving">{{ 'summary.tier_discount'|trans({}, 'cart') }}</dt>
+                <dd class="b2b-cart__summary-saving" {{ sylius_test_html_attribute('cart-tier-discount') }}>−{{ money.convertAndFormat(discount.tierAmount) }}</dd>
+            {% endif %}
+            {% if discount is not null and discount.negotiatedAmount > 0 %}
+                <dt class="b2b-cart__summary-saving">{{ 'summary.negotiated_discount'|trans({}, 'cart') }}</dt>
+                <dd class="b2b-cart__summary-saving" {{ sylius_test_html_attribute('cart-negotiated-discount') }}>−{{ money.convertAndFormat(discount.negotiatedAmount) }}</dd>
+            {% endif %}
+            {% if cart.orderAndItemPromotionTotal %}
+                <dt>{{ 'summary.promotion'|trans({}, 'cart') }}</dt>
+                <dd {{ sylius_test_html_attribute('cart-promotion-total') }}>{{ money.convertAndFormat(cart.orderAndItemPromotionTotal) }}</dd>
+            {% endif %}
+            {% if cart.shipments is not empty %}
+                <dt>{{ 'summary.shipping'|trans({}, 'cart') }}{% if shipping_method %} <span class="b2b-cart__summary-note">· {{ shipping_method }}</span>{% endif %}</dt>
+                <dd {{ sylius_test_html_attribute('cart-shipping-total') }}>{{ money.convertAndFormat(cart.shippingTotal) }}</dd>
+            {% endif %}
+            {% if cart.taxTotal != 0 %}
+                <dt>{{ tax_label ?? 'summary.vat'|trans({}, 'cart') }}</dt>
+                <dd {{ sylius_test_html_attribute('b2b-cart-vat') }}>{{ money.convertAndFormat(cart.taxTotal) }}</dd>
+            {% endif %}
+            <dt class="b2b-cart__summary-total">{{ (cart.taxTotal > 0 ? 'summary.total_with_tax' : 'summary.total')|trans({}, 'cart') }}</dt>
+            <dd class="b2b-cart__summary-total" {{ sylius_test_html_attribute('b2b-cart-total') }} {{ sylius_test_html_attribute('cart-grand-total') }}>{{ money.convertAndFormat(cart.total) }}</dd>
+        </dl>
+    </div>
+{% endif %}

@@ -8,3 +8,22 @@ liip_imagine:
     # which floods the Railway logs (deprecations go to stderr in prod).
     twig:
         mode: lazy
+    # US-197: the photos of the catalogue are 4:3 files (800 x 600). The portrait card and the product page cut them in the browser
+    # (object-fit + object-position, around the point focal of the manifest) instead of a centered cut made here, which lost the subject.
+    # The Sylius filters (3:4) stay for the other pages (cart, orders, admin).
+    filter_sets:
+        b2b_photo_small:
+            format: webp
+            quality: 80
+            filters:
+                thumbnail: { size: [400, 300], mode: outbound }
+        b2b_photo:
+            format: webp
+            quality: 80
+            filters:
+                thumbnail: { size: [800, 600], mode: outbound }
+        b2b_photo_large:
+            format: webp
+            quality: 80
+            filters:
+                thumbnail: { size: [1200, 900], mode: outbound }

@@ -3,28 +3,16 @@
   "photos": [
     {
       "type": "casque-chantier",
-      "name_fr": "Casque de chantier (coque ventilée ou non)",
+      "name_fr": "Casque de chantier blanc (coque ventilée ou non ; le casque vert garde cette photo faute de photo libre verte)",
       "skus": [
         "EPI-CASK-001",
-        "EPI-CASK-002",
-        "EPI-CASK-003",
-        "EPI-CASK-004",
         "EPI-CASK-005",
         "EPI-CASK-006",
-        "EPI-CASK-007",
-        "EPI-CASK-008",
-        "EPI-CASK-009",
         "EPI-CASK-010",
-        "EPI-CASK-011",
-        "EPI-CASK-012",
-        "EPI-CASK-013",
         "EPI-CASK-014",
-        "EPI-CASK-015",
         "EPI-CASK-016",
         "EPI-CASK-017",
-        "EPI-CASK-018",
-        "EPI-CASK-019",
-        "EPI-CASK-020"
+        "EPI-CASK-018"
       ],
       "file": "full-5583255.jpg",
       "title": "White hard hat on a desk",
@@ -36,6 +24,102 @@
       "focus": [
         0.72,
         0.55
+      ],
+      "position": [
+        100,
+        50
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "casque-jaune",
+      "name_fr": "Casque de chantier jaune",
+      "skus": [
+        "EPI-CASK-002",
+        "EPI-CASK-003",
+        "EPI-CASK-008",
+        "EPI-CASK-015"
+      ],
+      "file": "u-cigfVTfU39I.jpg",
+      "title": "A yellow hard hat rests on a wooden pallet",
+      "creator": "Richard Heinen",
+      "creator_url": "https://unsplash.com/@richard_he",
+      "origin_url": "https://unsplash.com/photos/a-yellow-hard-hat-rests-on-a-wooden-pallet-cigfVTfU39I",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "casque-rouge",
+      "name_fr": "Casque de chantier rouge",
+      "skus": [
+        "EPI-CASK-004",
+        "EPI-CASK-011"
+      ],
+      "file": "u-9OB46apMbC4.jpg",
+      "title": "red hard hat on pavement",
+      "creator": "Ümit Yıldırım",
+      "creator_url": "https://unsplash.com/@umityildirim",
+      "origin_url": "https://unsplash.com/photos/red-hard-hat-on-pavement-9OB46apMbC4",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.7,
+        0.5
+      ],
+      "position": [
+        60,
+        50
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "casque-orange",
+      "name_fr": "Casque de chantier orange",
+      "skus": [
+        "EPI-CASK-007",
+        "EPI-CASK-013",
+        "EPI-CASK-019",
+        "EPI-CASK-020"
+      ],
+      "file": "full-5583614.jpg",
+      "title": "Orange Hardhat on the Table",
+      "creator": "Thirdman",
+      "creator_url": "https://www.pexels.com/@thirdman/",
+      "origin_url": "https://www.pexels.com/photo/5583614/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.8,
+        0.55
+      ],
+      "position": [
+        100,
+        50
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "casque-bleu",
+      "name_fr": "Casque de chantier bleu",
+      "skus": [
+        "EPI-CASK-009",
+        "EPI-CASK-012"
+      ],
+      "file": "full-34442873.jpg",
+      "title": "Orange Safety Vests and Blue Helmets Hanging",
+      "creator": "Carsten Ruthemann",
+      "creator_url": "https://www.pexels.com/@cannontaler/",
+      "origin_url": "https://www.pexels.com/photo/34442873/",
+      "source": "Pexels",
+      "license_url": "https://www.pexels.com/license/",
+      "focus": [
+        0.5,
+        0.5
       ],
       "review": "ok"
     },
@@ -87,26 +171,30 @@
         0.5,
         0.5
       ],
+      "position": [
+        20,
+        50
+      ],
       "review": "ok"
     },
     {
       "type": "gilet-haute-visibilite",
-      "name_fr": "Gilet haute visibilité",
+      "name_fr": "Gilet ou blouson haute visibilité jaune",
       "skus": [
         "EPI-VEST-001",
         "EPI-VEST-009",
         "EPI-VEST-015"
       ],
-      "file": "full-17858119.jpg",
-      "title": "High-visibility vest",
-      "creator": "Estefania Milazzo",
-      "creator_url": "https://www.pexels.com/@estefania-milazzo-436474929/",
-      "origin_url": "https://www.pexels.com/photo/17858119/",
-      "source": "Pexels",
-      "license_url": "https://www.pexels.com/license/",
+      "file": "u-wjHdeYmI-XU.jpg",
+      "title": "Four orange hard hats and neon yellow safety vests hanging on a wall",
+      "creator": "Tanya Paquet",
+      "creator_url": "https://unsplash.com/@tanyapaquet",
+      "origin_url": "https://unsplash.com/photos/hard-hats-and-safety-vests-wjHdeYmI-XU",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
       "focus": [
         0.5,
-        0.3
+        0.52
       ],
       "review": "ok"
     },
@@ -131,6 +219,10 @@
       "focus": [
         0.5,
         0.33
+      ],
+      "position": [
+        55,
+        50
       ],
       "review": "ok"
     },
@@ -242,6 +334,10 @@
         0.5,
         0.55
       ],
+      "position": [
+        60,
+        50
+      ],
       "review": "ok"
     },
     {
@@ -267,6 +363,10 @@
         0.55,
         0.5
       ],
+      "position": [
+        15,
+        50
+      ],
       "review": "ok"
     },
     {
@@ -288,6 +388,10 @@
       "focus": [
         0.5,
         0.47
+      ],
+      "position": [
+        70,
+        50
       ],
       "review": "ok"
     },
@@ -333,6 +437,10 @@
         0.5,
         0.55
       ],
+      "position": [
+        55,
+        50
+      ],
       "review": "reserve"
     },
     {
@@ -356,6 +464,10 @@
       "focus": [
         0.55,
         0.5
+      ],
+      "position": [
+        70,
+        50
       ],
       "review": "ok"
     },
@@ -395,6 +507,10 @@
         0.5,
         0.55
       ],
+      "position": [
+        45,
+        50
+      ],
       "review": "ok"
     },
     {
@@ -422,6 +538,10 @@
       "focus": [
         0.88,
         0.5
+      ],
+      "position": [
+        100,
+        50
       ],
       "review": "ok"
     },
@@ -473,6 +593,10 @@
       "focus": [
         0.5,
         0.55
+      ],
+      "position": [
+        40,
+        50
       ],
       "review": "ok"
     },
@@ -572,6 +696,10 @@
         0.5,
         0.5
       ],
+      "position": [
+        45,
+        50
+      ],
       "review": "ok"
     },
     {
@@ -606,6 +734,31 @@
       "focus": [
         0.5,
         0.5
+      ],
+      "review": "ok"
+    },
+    {
+      "type": "botte-caoutchouc",
+      "name_fr": "Botte en caoutchouc verte",
+      "skus": [
+        "EPI-CHAU-006",
+        "EPI-CHAU-010",
+        "EPI-CHAU-017"
+      ],
+      "file": "u-G3I3yVDetuQ.jpg",
+      "title": "Pair of green rubber boots with a towel",
+      "creator": "Jonathan Cosens Photography",
+      "creator_url": "https://unsplash.com/@jcosens",
+      "origin_url": "https://unsplash.com/photos/pair-of-green-rubber-boots-with-a-towel-G3I3yVDetuQ",
+      "source": "Unsplash",
+      "license_url": "https://unsplash.com/license",
+      "focus": [
+        0.4,
+        0.5
+      ],
+      "position": [
+        55,
+        50
       ],
       "review": "ok"
     },
@@ -653,6 +806,10 @@
       "focus": [
         0.5,
         0.5
+      ],
+      "position": [
+        20,
+        50
       ],
       "review": "ok"
     },
@@ -721,16 +878,6 @@
         "EPI-VEST-013"
       ],
       "file": "category-protection-corps.webp"
-    },
-    {
-      "type": "botte-caoutchouc",
-      "name_fr": "Botte en caoutchouc ou PVC",
-      "skus": [
-        "EPI-CHAU-006",
-        "EPI-CHAU-010",
-        "EPI-CHAU-017"
-      ],
-      "file": "category-chaussures-securite.webp"
     }
   ]
 }

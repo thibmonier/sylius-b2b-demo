@@ -1,6 +1,23 @@
 {# US-044: the PunchOut plugin and the container-fill plugin both replace the "checkout" hookable of the cart. This template
    merges them: outside a PunchOut session the container-fill button (disabled, with the reason, while the B2B fill rules
    are not met); in a session the banner offers the transfer. #}
-{% if not is_granted('PUNCHOUT_SESSION') %}
+{% if is_granted('PUNCHOUT_SESSION') %}
+{% elseif is_granted('DEMO_CONSUMER_CHANNEL') %}
     {{ include('@TmonierSyliusContainerFillPlugin/shop/cart/checkout.html.twig') }}
+{% else %}
+    {# US-200: B2B button of the cart, the same rule as the plugin's (disabled, with the reason, while the fill rules are not met). #}
+    {% set cart = hookable_metadata.context.cart|default(null) %}
+    {% if cart is null %}{% set cart = hookable_metadata.context.form.vars.data|default(null) %}{% endif %}
+    {% set report = tmonier_container_fill_cart_gauge_enabled() ? tmonier_container_fill_report(cart) : null %}
+    {% set blocked = report is not null and not report.satisfied %}
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary b2b-cart__checkout"{% if blocked %} disabled aria-describedby="tmonier-container-fill-checkout-reason"{% endif %} {{ sylius_test_html_attribute('cart-checkout-button') }}>
+            {{ 'summary.checkout'|trans({}, 'cart') }}
+        </button>
+        {% if blocked %}
+            <p id="tmonier-container-fill-checkout-reason" class="small text-danger mt-2 mb-0" {{ sylius_test_html_attribute('tmonier-container-fill-checkout-reason') }}>
+                {{ 'tmonier_container_fill.ui.checkout_disabled'|trans }}
+            </p>
+        {% endif %}
+    </div>
 {% endif %}

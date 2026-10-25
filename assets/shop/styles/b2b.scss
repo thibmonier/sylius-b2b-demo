@@ -4,6 +4,8 @@
 @use 'pricing';
 @use 'home';
 @use 'pdp';
+@use 'list';
+@use 'cart';
 
 :root {
     --bs-primary: #{$b2b-navy};

@@ -7,12 +7,16 @@ namespace App\Tests\Unit\Theme;
 use App\Demo\Theme\B2bThemeExtension;
 use App\Demo\Theme\CartTierDiscountProvider;
 use App\Demo\Theme\HomeSelectionProvider;
+use App\Demo\Theme\ListBuyer;
+use App\Demo\Theme\ListCategories;
+use App\Demo\Theme\ListState;
 use App\Demo\Theme\PackagingUnitProvider;
 use App\Demo\Theme\PackagingUnitRows;
 use App\Demo\Theme\PriceBreaksProvider;
 use App\Demo\Theme\ProductListPreloader;
 use App\Demo\Theme\RelatedProductsProvider;
 use App\Demo\Theme\TierFromPriceProvider;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -22,7 +26,9 @@ use Sylius\Component\Core\Model\Product;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Tmonier\SyliusCompanyAccountsPlugin\Repository\CompanyMemberRepositoryInterface;
+use Tmonier\SyliusPurchaseApprovalPlugin\Repository\MemberLimitRepositoryInterface;
 use Tmonier\SyliusTierPricingPlugin\Pricing\TierPriceCalculatorInterface;
 use Tmonier\SyliusTierPricingPlugin\Pricing\TierPriceRow;
 use Tmonier\SyliusTierPricingPlugin\Pricing\TierPriceTable;
@@ -248,6 +254,9 @@ final class B2bThemeTest extends TestCase
                 $this->priceBreaks($table),
             ),
             new RelatedProductsProvider($this->createStub(EntityManagerInterface::class), $this->createStub(ChannelContextInterface::class)),
+            new ListCategories($this->createStub(Connection::class), $this->createStub(ChannelContextInterface::class), $this->locale('fr_FR')),
+            new ListBuyer($this->createStub(CustomerContextInterface::class), $this->createStub(CompanyMemberRepositoryInterface::class), $this->createStub(MemberLimitRepositoryInterface::class)),
+            new ListState(new RequestStack()),
         ));
         $twig->addFilter(new TwigFilter('trans', static fn (string $id, array $params = []): string => match ($id) {
             'app.theme_b2b.from_price' => 'from ' . ($params['%price%'] ?? ''),

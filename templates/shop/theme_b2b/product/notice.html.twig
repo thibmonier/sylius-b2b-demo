@@ -1,0 +1,17 @@
+{# US-198: the buyer is told whose prices apply and from which amount an order waits for an approval; the visitor is invited to sign in with a demo account. #}
+{% if is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES') %}
+    {% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+    {% set buyer = app_b2b_list_buyer() %}
+    <div class="b2b-list__notice" data-list-notice="buyer">
+        <span class="b2b-list__notice-dot" aria-hidden="true"></span>
+        <p>
+            {%- if buyer.company is not empty %}{{ 'notice.buyer'|trans({'%company%': buyer.company}, 'product_list') }}{% else %}{{ 'notice.buyer_generic'|trans({}, 'product_list') }}{% endif -%}
+            {%- if buyer.orderLimit is not null %} {{ 'notice.approval'|trans({'%limit%': money.convertAndFormat(buyer.orderLimit)}, 'product_list') }}{% endif -%}
+        </p>
+    </div>
+{% else %}
+    <div class="b2b-list__notice b2b-list__notice--visitor" data-list-notice="visitor">
+        <p>{{ 'notice.visitor'|trans({}, 'product_list') }}</p>
+        <a class="b2b-list__notice-action" href="{{ path('app_demo_accounts') }}" data-demo-link="accounts">{{ 'notice.visitor_action'|trans({}, 'product_list') }}</a>
+    </div>
+{% endif %}

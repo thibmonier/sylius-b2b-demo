@@ -38,6 +38,18 @@ final class CartTierDiscountProvider
         return $tier + $negotiated > 0 ? new CartTierDiscount($tier, $negotiated) : null;
     }
 
+    /** Null when the line is not priced by a tier: the catalogue price, the amount and the rate the line saves. */
+    public function forItem(OrderItemInterface $item): ?CartLineDiscount
+    {
+        $withoutTier = TierPriceOrderProcessor::priceWithoutTier($item);
+        if (null === $withoutTier || $withoutTier <= $item->getUnitPrice()) {
+            return null;
+        }
+        $perUnit = $withoutTier - $item->getUnitPrice();
+
+        return new CartLineDiscount($withoutTier, $perUnit * $item->getQuantity(), round($perUnit * 100 / $withoutTier, 1), $this->isNegotiated($item));
+    }
+
     /** The tier applied to the line comes from a rule of the customer group (the company price). */
     public function isNegotiated(OrderItemInterface $item): bool
     {

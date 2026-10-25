@@ -57,6 +57,10 @@ final class ImageManifestAuditor
                 $problems[] = $field . ' is empty';
             }
         }
+        $focal = $row[ImageManifest::FOCAL] ?? '';
+        if ($focal !== '' && !ImageManifest::isValidFocal($focal)) {
+            $problems[] = 'focal must be two percentages between 0 and 100 ("x y"), or empty';
+        }
         if (!$this->hasAFreeLicence($row)) {
             $problems[] = 'licence is neither CC0, nor the Pexels licence, nor the Unsplash licence';
         }

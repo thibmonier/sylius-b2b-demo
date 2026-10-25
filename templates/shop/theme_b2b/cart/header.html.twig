@@ -1,0 +1,19 @@
+{# US-200: steps of the order, title and size of the cart. B2B only (the core header stays on B2C). #}
+{% set cart = hookable_metadata.context.form.vars.data|default(hookable_metadata.context.cart|default(null)) %}
+{% set company = cart.customer.group.name|default(null) %}
+<nav class="b2b-cart__steps" aria-label="{{ 'steps.label'|trans({}, 'cart') }}">
+    <ol>
+        <li aria-current="step">{{ 'steps.cart'|trans({}, 'cart') }}</li>
+        <li>{{ 'steps.address'|trans({}, 'cart') }}</li>
+        <li>{{ 'steps.shipping'|trans({}, 'cart') }}</li>
+        <li>{{ 'steps.payment'|trans({}, 'cart') }}</li>
+        <li>{{ 'steps.confirm'|trans({}, 'cart') }}</li>
+    </ol>
+</nav>
+<div class="b2b-cart__heading">
+    <h1 class="b2b-cart__title">{{ 'title'|trans({}, 'cart') }}</h1>
+    <p class="b2b-cart__count" {{ sylius_test_html_attribute('b2b-cart-count') }}>
+        {{- 'count.products'|trans({'count': cart.items|length}, 'cart') }} · {{ 'count.articles'|trans({'count': cart.totalQuantity}, 'cart') -}}
+        {%- if company %} · {{ company }}{% endif -%}
+    </p>
+</div>

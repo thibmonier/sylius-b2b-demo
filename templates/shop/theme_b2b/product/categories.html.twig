@@ -1,0 +1,18 @@
+{# US-198: the categories of the catalogue with the number of products of each (one query), the current one marked. Hidden on a phone: the breadcrumb and the home lead to the aisles. #}
+{% set categories = app_b2b_list_categories() %}
+{% set current = app.request.attributes.get('slug') %}
+{% if categories is not empty %}
+    <nav class="b2b-list__categories d-none d-lg-block" aria-labelledby="b2b-list-categories-title" data-list-categories>
+        <p class="b2b-list__side-title" id="b2b-list-categories-title">{{ 'categories.title'|trans({}, 'product_list') }}</p>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{{ path('sylius_shop_product_index', {slug: category.slug, _locale: app.request.locale}) }}"{% if category.slug == current %} aria-current="page"{% endif %}>
+                        <span>{{ category.name }}</span>
+                        <span class="b2b-list__count">{{ category.count }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

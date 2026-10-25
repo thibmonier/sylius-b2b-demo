@@ -1,0 +1,34 @@
+{#
+    US-200: the cart form of the Sylius cart page (live component sylius_shop:cart:form, template set by the hook). B2C: the core
+    template. B2B: the same form, and for an empty cart the state of the mock-up (catalogue, quick order) instead of a plain message.
+#}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    {% include '@SyliusShop/cart/index/content/form.html.twig' %}
+{% else %}
+    {% form_theme form '@SyliusShop/form/theme.html.twig' %}
+
+    <div {{ attributes }}>
+        <div class="b2b-cart" {{ sylius_test_html_attribute('b2b-cart') }}>
+            {% if resource.empty %}
+                <h1 class="b2b-cart__title">{{ 'title'|trans({}, 'cart') }}</h1>
+                <section class="b2b-cart__empty" aria-labelledby="b2b-cart-empty-title" {{ sylius_test_html_attribute('b2b-cart-empty') }}>
+                    <h2 id="b2b-cart-empty-title">{{ 'empty.title'|trans({}, 'cart') }}</h2>
+                    <p>{{ 'empty.text'|trans({}, 'cart') }}</p>
+                    <div class="b2b-cart__empty-actions">
+                        <a class="btn btn-primary" href="{{ path('sylius_shop_product_index', {slug: 'epi'}) }}" {{ sylius_test_html_attribute('b2b-cart-empty-catalogue') }}>{{ 'empty.catalogue'|trans({}, 'cart') }}</a>
+                        <a class="btn btn-outline-primary" href="{{ path('tmonier_quick_order_shop_index') }}" {{ sylius_test_html_attribute('b2b-cart-empty-quick-order') }}>{{ 'empty.quick_order'|trans({}, 'cart') }}</a>
+                    </div>
+                </section>
+            {% else %}
+                {% set form_options = {'action': path('sylius_shop_cart_checkout'), 'attr': {'novalidate': 'novalidate', 'id': form.vars.id}} %}
+                {{ form_start(form, form_options) }}
+                <input type="hidden" name="_method" value="PATCH"/>
+                {{ form_errors(form) }}
+
+                {% hook 'form' with { form } %}
+
+                {{ form_end(form, {render_rest: hookable.configuration.render_rest|default(false)}) }}
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

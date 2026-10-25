@@ -1,0 +1,24 @@
+{# US-200: copy of the Sylius template. B2B channel: the lines and the summary in two columns of the mock-up (the summary stays in view). B2C: the core markup, unchanged. #}
+{% import '@SyliusShop/shared/macro/loader.html.twig' as loader %}
+
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    <div class="row">
+        <div class="col-12 col-xl-8 mb-4 position-relative">
+            {{ loader.render() }}
+            {% hook 'general#left' %}
+        </div>
+        <div class="col-12 col-xl-4 ps-xl-5 mb-4">
+            {% hook 'general#right' %}
+        </div>
+    </div>
+{% else %}
+    <div class="b2b-cart__layout">
+        <section class="b2b-cart__main position-relative" aria-labelledby="b2b-cart-lines-title">
+            {{ loader.render() }}
+            {% hook 'general#left' %}
+        </section>
+        <aside class="b2b-cart__aside" aria-labelledby="b2b-cart-summary-title" {{ sylius_test_html_attribute('b2b-cart-aside') }}>
+            {% hook 'general#right' %}
+        </aside>
+    </div>
+{% endif %}

@@ -1,0 +1,42 @@
+{# US-198: pagination with 44 px targets; the sort, the search and the display stay in every link, the current page is marked with aria-current. #}
+{% set pager = hookable_metadata.context.resources.data %}
+{% if pager.haveToPaginate %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% set route_params = app.request.attributes.get('_route_params') %}
+    {% set query = app.request.query.all %}
+    {% set current = pager.currentPage %}
+    {% set last = pager.nbPages %}
+    {% set pages = [] %}
+    {% for number in 1..last %}
+        {% if last <= 7 or number == 1 or number == last or (number - current)|abs <= 1 %}
+            {% set pages = pages|merge([number]) %}
+        {% endif %}
+    {% endfor %}
+    <nav class="b2b-list__pagination" aria-label="{{ 'pagination.label'|trans({}, 'product_list') }}" data-list-pagination>
+        <ul>
+            <li>
+                {% if pager.hasPreviousPage %}
+                    <a class="b2b-list__page b2b-list__page--step" rel="prev" href="{{ path(route, route_params|merge(query)|merge({page: current - 1 > 1 ? current - 1 : null})) }}">{{ 'pagination.previous'|trans({}, 'product_list') }}</a>
+                {% else %}
+                    <span class="b2b-list__page b2b-list__page--step b2b-list__page--off">{{ 'pagination.previous'|trans({}, 'product_list') }}</span>
+                {% endif %}
+            </li>
+            {% for number in pages %}
+                {% if not loop.first and number - pages[loop.index0 - 1] > 1 %}
+                    <li><span class="b2b-list__page b2b-list__page--off" aria-hidden="true">&hellip;</span></li>
+                {% endif %}
+                <li>
+                    <a class="b2b-list__page{% if number == current %} b2b-list__page--current{% endif %}" href="{{ path(route, route_params|merge(query)|merge({page: number > 1 ? number : null})) }}"
+                        {%- if number == current %} aria-current="page"{% else %} aria-label="{{ 'pagination.page'|trans({'%number%': number}, 'product_list') }}"{% endif %}>{{ number }}</a>
+                </li>
+            {% endfor %}
+            <li>
+                {% if pager.hasNextPage %}
+                    <a class="b2b-list__page b2b-list__page--step" rel="next" href="{{ path(route, route_params|merge(query)|merge({page: current + 1})) }}">{{ 'pagination.next'|trans({}, 'product_list') }}</a>
+                {% else %}
+                    <span class="b2b-list__page b2b-list__page--step b2b-list__page--off">{{ 'pagination.next'|trans({}, 'product_list') }}</span>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+{% endif %}

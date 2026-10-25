@@ -72,7 +72,8 @@ final class AccessibleLabelsTest extends WebTestCase
         $page = self::createClient()->request('GET', '/en_US/taxons/quincaillerie');
 
         $labels = $page->filter('[aria-label]')->each(static fn ($node): string => (string) $node->attr('aria-label'));
-        foreach (['breadcrumbs', 'search button', 'clear filters', 'Toggle navigation', 'Account button'] as $expected) {
+        // US-198: the B2B list has its own toolbar (visible labels, no icon button), so the core icon buttons "search button" and "clear filters" are B2C only.
+        foreach (['breadcrumbs', 'Toggle navigation', 'Account button'] as $expected) {
             self::assertContains($expected, $labels, $expected);
         }
     }

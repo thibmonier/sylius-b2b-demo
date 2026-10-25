@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Theme;
 
-use App\Demo\Theme\CartTierDiscount;
 use App\Demo\Theme\PriceBreakRow;
 use App\Demo\Theme\PriceBreaks;
 use PHPUnit\Framework\TestCase;
@@ -47,24 +46,6 @@ final class PriceBreaksTemplatesTest extends TestCase
     public function testAProductWithoutTierHasNoTable(): void
     {
         self::assertSame('', trim($this->productPage(null)));
-    }
-
-    public function testTheCartSummaryShowsBothDiscountsAndNothingWithoutDiscount(): void
-    {
-        $html = $this->render('cart_tier_discount.html.twig', ['cart' => 'cart'], new CartTierDiscount(500, 1200));
-
-        self::assertStringContainsString('data-test-cart-tier-discount', $html);
-        self::assertStringContainsString('-5', $html);
-        self::assertStringContainsString('data-test-cart-negotiated-discount', $html);
-        self::assertSame('', trim($this->render('cart_tier_discount.html.twig', ['cart' => 'cart'], null)));
-    }
-
-    public function testTheCartSummaryOmitsTheNegotiatedLineWhenThereIsNone(): void
-    {
-        $html = $this->render('cart_tier_discount.html.twig', ['cart' => 'cart'], new CartTierDiscount(500, 0));
-
-        self::assertStringContainsString('data-test-cart-tier-discount', $html);
-        self::assertStringNotContainsString('cart-negotiated-discount', $html);
     }
 
     public function testTheCardShowsTheCompanyPriceOnItsOwnLine(): void
@@ -111,7 +92,6 @@ final class PriceBreaksTemplatesTest extends TestCase
         $twig->addFilter(new TwigFilter('trans', static fn (string $id, array $params = []): string => [] === $params ? $id : $id . '|' . implode('|', array_map(static fn ($k, $v): string => $k . '=' . $v, array_keys($params), $params))));
         $twig->addFunction(new TwigFunction('app_b2b_price_breaks', static fn (): ?PriceBreaks => $subject instanceof PriceBreaks ? $subject : null));
         $twig->addFunction(new TwigFunction('app_b2b_tier_from_price', static fn (): ?int => $fromPrice));
-        $twig->addFunction(new TwigFunction('app_b2b_cart_tier_discount', static fn (): ?CartTierDiscount => $subject instanceof CartTierDiscount ? $subject : null));
         $twig->addFunction(new TwigFunction('tmonier_tier_pricing_tax_convention', static fn (): string => 'excluded'));
         $twig->addFunction(new TwigFunction('sylius_test_html_attribute', static fn (string $name, mixed $value = null): string => 'data-test-' . $name, ['is_safe' => ['html']]));
 
