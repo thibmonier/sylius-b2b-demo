@@ -89,7 +89,7 @@ Chaque écran clé montre un état « vivant » : les dates sont **relatives au 
 
 Les fixtures du panier, des brouillons, des suggestions et du journal passent **avant** le point d'accès webhook (-80) : elles ne mettent aucun webhook en file. Contrôles : `tests/Smoke/LiveDemoDataSmokeTest.php` (un écran vide est nommé dans le message d'échec ; `App\Demo\Check\QuoteNumberingCheck` refuse un numéro de devis d'une autre année que sa date), `tests/Functional/Demo/LiveAdminScreensTest.php` (écrans d'administration, FR et EN).
 
-La fixture `demo_erp_export` (priorité -90) passe **après** lui : elle vide le répertoire d'échange (`var/erp-exchange` : fichiers de commandes, accusés, journal du simulateur), place les dernières commandes de chaque canal dans l'outbox sans mettre de webhook en file, lance un export puis une passe de l'ERP Démo (fictif) ; voir [erp-demo.md](erp-demo.md).
+La fixture `demo_erp_export` (priorité -90) passe **après** lui : elle vide le répertoire d'échange (`var/erp-exchange` : fichiers de commandes, accusés, journal du simulateur), place les dernières commandes de chaque canal dans l'outbox sans mettre de webhook en file, lance un export, une passe de l'ERP Démo (fictif) puis l'import de ses fichiers de prix et de stock (journal des lots d'import régénéré) ; voir [erp-demo.md](erp-demo.md).
 
 Le reset est la seule occasion où cet état est reconstruit **sans** déploiement : à chaque démarrage de conteneur, l'entrypoint lance `app:demo:erp-refresh`, qui reconstruit le répertoire d'échange s'il ne contient aucun fichier de commandes (nouveau conteneur après un déploiement, la base survivant) ; voir « Après un déploiement » dans [erp-demo.md](erp-demo.md).
 

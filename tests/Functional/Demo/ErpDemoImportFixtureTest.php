@@ -27,7 +27,7 @@ final class ErpDemoImportFixtureTest extends KernelTestCase
         $rejected = array_values(array_filter($rows, static fn (array $row): bool => 'rejected' === $row['outcome']))[0];
         self::assertSame('prices', $rejected['kind']);
         self::assertStringContainsString('-invalid-', \is_string($rejected['name']) ? $rejected['name'] : '');
-        self::assertSame('0', (string) $rejected['lines_applied'], 'all or nothing: the valid line of the invalid file is not applied either');
+        self::assertSame('0', \is_scalar($rejected['lines_applied']) ? (string) $rejected['lines_applied'] : '', 'all or nothing: the valid line of the invalid file is not applied either');
         $report = \is_string($rejected['report']) ? $rejected['report'] : '';
         self::assertStringContainsString('"reason":"price"', $report);
         self::assertStringContainsString('"reason":"currency"', $report);

@@ -14,6 +14,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\NullLogger;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\Console\Command\Command;
@@ -177,6 +180,9 @@ final class ErpDemoExchangeRefreshTest extends KernelTestCase
         $factory = $container->get('sylius.factory.channel_pricing');
         $variants = $container->get('sylius.repository.product_variant');
         $channelRepository = $container->get('sylius.repository.channel');
+        self::assertInstanceOf(FactoryInterface::class, $factory);
+        self::assertInstanceOf(ProductVariantRepositoryInterface::class, $variants);
+        self::assertInstanceOf(RepositoryInterface::class, $channelRepository);
         $catalog = new DoctrineCatalog($entityManager, $factory, $variants, $channelRepository);
 
         return new ErpDemoExchange(
