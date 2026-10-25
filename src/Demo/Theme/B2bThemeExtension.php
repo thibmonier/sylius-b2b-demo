@@ -22,6 +22,9 @@ final class B2bThemeExtension extends AbstractExtension
         private readonly CartTierDiscountProvider $cartDiscounts,
         private readonly HomeSelectionProvider $homeSelection,
         private readonly RelatedProductsProvider $relatedProducts,
+        private readonly ListCategories $listCategories,
+        private readonly ListBuyer $listBuyer,
+        private readonly ListState $listState,
     ) {
     }
 
@@ -36,6 +39,10 @@ final class B2bThemeExtension extends AbstractExtension
             new TwigFunction('app_b2b_percent', static fn (float $rate, string $locale): string => self::percent($rate, $locale)),
             new TwigFunction('app_b2b_home_selection', fn (): HomeSelection => $this->homeSelection->forCurrentCustomer()),
             new TwigFunction('app_b2b_related_products', fn (ProductInterface $product): array => $this->relatedProducts->forProduct($product)),
+            new TwigFunction('app_b2b_stock', fn (?ProductInterface $product): StockStatus => StockStatus::ofVariant($this->firstVariant($product))),
+            new TwigFunction('app_b2b_list_categories', fn (): array => $this->listCategories->all()),
+            new TwigFunction('app_b2b_list_state', fn (): ListState => $this->listState),
+            new TwigFunction('app_b2b_list_buyer', fn (): array => $this->listBuyer->current()),
             new TwigFunction('app_b2b_preload_product_list', fn (iterable $products): string => $this->preload($products)),
         ];
     }

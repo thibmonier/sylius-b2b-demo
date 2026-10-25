@@ -1,0 +1,16 @@
+{# US-198: header of the category in the continuation of the home: the aisle above the title, the title, what the category holds. #}
+{% set taxon = app_seo_taxon() %}
+{% set pager = hookable_metadata.context.resources.data %}
+{% if taxon is not null %}
+    <div class="b2b-list__header" data-b2b-list data-list-header>
+        {% if taxon.parent is not null and not taxon.parent.isRoot() %}
+            <p class="b2b-list__eyebrow" data-list-eyebrow>{{ taxon.parent.name }}</p>
+        {% endif %}
+        <h1 class="b2b-list__title">{{ taxon.name }}</h1>
+        <p class="b2b-list__lead">
+            {%- if taxon.description is not empty %}{{ taxon.description }} {% endif -%}
+            {%- if app_b2b_list_state().search == '' %}<strong>{{ 'header.count'|trans({'%count%': pager.nbResults}, 'product_list') }}</strong> {% endif -%}
+            {%- if is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES') %}{{ 'header.prices_note'|trans({}, 'product_list') }}{% endif -%}
+        </p>
+    </div>
+{% endif %}

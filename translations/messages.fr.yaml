@@ -62,7 +62,8 @@ app:
         prices_excl_vat: 'Prix affichés hors taxes'
         packaging: 'Conditionnement'
         in_stock: 'En stock'
-        on_order: 'Sur commande'
+        out_of_stock: 'En rupture de stock'
+        stock_low: 'Stock faible : %count% unité|Stock faible : %count% unités'
         from_price: 'dès %price% HT par palier'
         price_breaks:
             caption: 'Prix unitaires hors taxes selon la quantité commandée'

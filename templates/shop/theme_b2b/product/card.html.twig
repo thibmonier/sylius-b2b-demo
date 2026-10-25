@@ -1,0 +1,4 @@
+{# US-198: the card of the B2B list, the same hooks as the core card (reference, packaging, stock, prices, plugins) in a box of its own. #}
+<div class="b2b-card" data-b2b-card {{ sylius_test_html_attribute('product', '%s'|format(product.code)) }}>
+    {% hook 'card' with {_prefixes: hookable_metadata.prefixes|default([])|merge(['sylius_shop.shared.product'])} %}
+</div>

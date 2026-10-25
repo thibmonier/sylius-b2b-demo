@@ -59,15 +59,21 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/product_card_meta.html.twig'
                 priority: -20
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        # US-198: the action of the card of the list (cart, quote or sign-in), after the prices (0) and before the favourites button (-10, see tmonier_plugins_overrides.yaml).
+        'sylius_shop.shared.product.card':
+            b2b_list_action:
+                template: 'shop/theme_b2b/product/card_cta.html.twig'
+                priority: -5
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.shared.product.card.prices':
             b2b_from_price:
                 template: 'shop/theme_b2b/product_card_from_price.html.twig'
                 priority: -20
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
             b2b_price_note:
                 template: 'shop/theme_b2b/product_card_price_note.html.twig'
                 priority: -10
-                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES')"
 
         # US-200: the cart page in the continuation of the home (shop/theme_b2b/cart/, mock-up validated on 2026-10-25). The core
         # hookables that the B2B channel replaces keep their name and stay on B2C (condition); the form and the summary keep the live
@@ -95,6 +101,12 @@ sylius_twig_hooks:
                 template: 'shop/theme_b2b/cart/items.html.twig'
                 priority: 200
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            coupon:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_coupon:
+                template: 'shop/theme_b2b/cart/coupon.html.twig'
+                priority: 100
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
         'sylius_shop.cart.index.content.form.sections.general#right':
             summary:
                 props:
@@ -109,6 +121,40 @@ sylius_twig_hooks:
             b2b_preload:
                 template: 'shop/theme_b2b/product_list_preload.html.twig'
                 priority: 150
+
+            # US-198: the list of the B2B channel (mock-up validated by Thibaut): header (300), notice of the prices (280), search / sort / page size /
+            # display and the range shown (200), cards (core, 100), pagination (0). The core blocks stay on B2C. Plugins add their blocks around
+            # (the equipment filter is at 250).
+            header:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            filters:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            pagination:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_header:
+                template: 'shop/theme_b2b/product/header.html.twig'
+                priority: 300
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_notice:
+                template: 'shop/theme_b2b/product/notice.html.twig'
+                priority: 280
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_toolbar:
+                template: 'shop/theme_b2b/product/toolbar.html.twig'
+                priority: 200
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_pagination:
+                template: 'shop/theme_b2b/product/pagination.html.twig'
+                priority: 0
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        # US-198: the categories with their counts replace the sub-categories of the side on B2B.
+        'sylius_shop.product.index.content.body.sidebar':
+            taxonomy:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_categories:
+                template: 'shop/theme_b2b/product/categories.html.twig'
+                priority: 0
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
         # US-189: editorial product page (shop/theme_b2b/pdp/, layout of the four bundle overrides under templates/bundles/SyliusShopBundle/product/show).
         # Right column: aisle above the title (520, core header 500), reference (490), rating (400), BUY BOX from the price (300) to the

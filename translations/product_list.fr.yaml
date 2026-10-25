@@ -1,0 +1,52 @@
+# US-198: texts of the B2B product list (domain `product_list`). Figures come from the data (counts, limits), never from the text.
+header:
+    count: '%count% produit.|%count% produits.'
+    prices_note: 'Les prix affichés sont ceux de votre société, hors taxes.'
+categories:
+    title: 'Catégories'
+notice:
+    buyer: 'Prix %company% appliqués, paliers de quantité compris.'
+    buyer_generic: 'Prix de votre société appliqués, paliers de quantité compris.'
+    approval: 'Commande soumise à approbation au-delà de %limit% HT.'
+    visitor: 'Les prix sont réservés aux comptes professionnels. Connectez-vous avec un compte de démonstration pour voir les prix de la société rattachée à ce compte.'
+    visitor_action: 'Choisir un compte de démo'
+toolbar:
+    search_label: 'Rechercher dans la catégorie'
+    search_placeholder: 'Nom du produit, par exemple « M8 inox »'
+    sort_label: 'Trier par'
+    sort:
+        position: 'Pertinence'
+        name_asc: 'Nom, de A à Z'
+        name_desc: 'Nom, de Z à A'
+        price_asc: 'Prix croissant'
+        price_desc: 'Prix décroissant'
+        newest: 'Plus récents'
+    limit_label: 'Par page'
+    apply: 'Appliquer'
+    view_label: 'Affichage'
+    view_grid: 'Grille'
+    view_list: 'Liste'
+results:
+    range: 'Produits %from% à %to% sur %total%'
+    sorted_by: 'tri : %sort%'
+pagination:
+    label: 'Pagination'
+    previous: 'Précédent'
+    next: 'Suivant'
+    page: 'Page %number%'
+card:
+    add: 'Ajouter au panier'
+    add_label: 'Ajouter au panier : %name%'
+    quantity_label: 'Quantité de %name%'
+    quote: 'Demander un devis'
+    quote_label: 'Demander un devis : %name%'
+    view: 'Voir le produit'
+    view_label: 'Voir le produit : %name%'
+    signin: 'Se connecter pour voir le prix'
+empty:
+    title: 'Aucun produit ne correspond à « %query% »'
+    title_category: 'Aucun produit dans cette catégorie'
+    text: 'La recherche porte sur le nom des produits de cette catégorie. Essayez un autre terme, par exemple une dimension (« M8 ») ou une matière (« inox »), ou parcourez les autres catégories.'
+    clear: 'Effacer la recherche'
+    categories: 'Voir toutes les catégories'
+    quick_order: 'Commande rapide par référence'

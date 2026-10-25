@@ -1,0 +1,13 @@
+{# US-198: no result: what was searched, why nothing came out, and three ways out. #}
+{% set state = app_b2b_list_state() %}
+<div class="b2b-list__empty" data-list-empty>
+    <h2>{{ state.search is empty ? 'empty.title_category'|trans({}, 'product_list') : 'empty.title'|trans({'%query%': state.search}, 'product_list') }}</h2>
+    <p>{{ 'empty.text'|trans({}, 'product_list') }}</p>
+    <div class="b2b-list__empty-actions">
+        {% if state.search is not empty %}
+            <a class="b2b-list__button b2b-list__button--primary" href="{{ path('sylius_shop_product_index', {slug: app.request.attributes.get('slug')}) }}">{{ 'empty.clear'|trans({}, 'product_list') }}</a>
+        {% endif %}
+        <a class="b2b-list__button" href="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}">{{ 'empty.categories'|trans({}, 'product_list') }}</a>
+        <a class="b2b-list__button b2b-list__button--link" href="{{ path('tmonier_quick_order_shop_index') }}">{{ 'empty.quick_order'|trans({}, 'product_list') }}</a>
+    </div>
+</div>

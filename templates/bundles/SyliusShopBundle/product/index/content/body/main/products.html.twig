@@ -1,14 +1,18 @@
 {# US-167: copy of the Sylius list that tells each card its position (the first thumbnails are the LCP of the page). #}
+{# US-198: on the B2B channel the grid carries the display chosen (grid or list), the cards are the ones of the theme and the empty state is its own. #}
 {% import '@SyliusShop/shared/messages.html.twig' as messages %}
 
 {% set resources = hookable_metadata.context.resources %}
+{% set b2b = not is_granted('DEMO_CONSUMER_CHANNEL') %}
 
 {% if resources.data|length > 0 %}
-    <div class="products-grid" {{ sylius_test_html_attribute('products') }}>
+    <div class="products-grid{% if b2b %} b2b-products b2b-products--{{ app_b2b_list_state().view }}{% endif %}" {{ sylius_test_html_attribute('products') }}>
         {% for product in resources.data %}
-            {{ component('sylius_shop:product:card', { product: product, position: loop.index0, template: hookable_metadata.configuration.product_template|default('@SyliusShop/product/common/card.html.twig'), hookableMetadata: hookable_metadata }) }}
+            {{ component('sylius_shop:product:card', { product: product, position: loop.index0, template: b2b ? 'shop/theme_b2b/product/card.html.twig' : hookable_metadata.configuration.product_template|default('@SyliusShop/product/common/card.html.twig'), hookableMetadata: hookable_metadata }) }}
         {% endfor %}
     </div>
+{% elseif b2b %}
+    {% include 'shop/theme_b2b/product/empty.html.twig' %}
 {% else %}
     {{ messages.info('sylius.ui.no_results_to_display') }}
 {% endif %}

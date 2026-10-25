@@ -1,0 +1,28 @@
+{# US-198: the action of a card of the list: add to the cart (or a quote when the stock is out), or the invitation to sign in. Only on the list: the other pages that show cards keep theirs. #}
+{% if app.request.attributes.get('_route') == 'sylius_shop_product_index' %}
+    {% set product = hookable_metadata.context.product %}
+    {% if is_granted('TMONIER_CHANNEL_ACCESS_SEE_PRICES') %}
+        {% set variants = product.enabledVariants %}
+        {% set stock = app_b2b_stock(product) %}
+        <div class="b2b-card__actions" data-list-actions>
+            {% if variants|length != 1 %}
+                <a class="b2b-card__link" href="{{ path('sylius_shop_product_show', {slug: product.slug, _locale: product.translation.locale}) }}" aria-label="{{ 'card.view_label'|trans({'%name%': product.name}, 'product_list') }}">{{ 'card.view'|trans({}, 'product_list') }}</a>
+            {% elseif not stock.canBuy %}
+                <a class="b2b-card__link" href="{{ path('tmonier_quote_request_shop_new') }}" data-list-quote aria-label="{{ 'card.quote_label'|trans({'%name%': product.name}, 'product_list') }}">{{ 'card.quote'|trans({}, 'product_list') }}</a>
+            {% else %}
+                <form class="b2b-card__add" method="post" action="{{ path('app_b2b_list_add') }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('b2b_list_add') }}">
+                    <input type="hidden" name="code" value="{{ variants.first.code }}">
+                    <input type="hidden" name="return" value="{{ app.request.requestUri }}">
+                    <label class="visually-hidden" for="b2b-qty-{{ product.id }}">{{ 'card.quantity_label'|trans({'%name%': product.name}, 'product_list') }}</label>
+                    <input id="b2b-qty-{{ product.id }}" class="b2b-card__qty" type="number" name="quantity" min="1" max="999" value="1" inputmode="numeric">
+                    <button type="submit" aria-label="{{ 'card.add_label'|trans({'%name%': product.name}, 'product_list') }}">{{ 'card.add'|trans({}, 'product_list') }}</button>
+                </form>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="b2b-card__actions" data-list-actions>
+            <a class="b2b-card__link b2b-card__link--plain" href="{{ path('sylius_shop_login') }}" data-list-signin>{{ 'card.signin'|trans({}, 'product_list') }}</a>
+        </div>
+    {% endif %}
+{% endif %}

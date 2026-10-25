@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Demo\DataFixtures;
 
+use App\Demo\Theme\StockStatus;
+
 /**
  * The fictitious stock of a variant (US-198, T-198-12), a pure function of its SKU: no random draw, so every reset of the demo
  * gives the same shelves. About 5 % of the catalogue is out of stock, about 10 % is low (below LOW_THRESHOLD), the rest is available.
  */
 final class DemoStockLevel
 {
-    public const LOW_THRESHOLD = 10;
+    public const LOW_THRESHOLD = StockStatus::LOW_THRESHOLD;
 
     private const OUT_OF_STOCK_PERCENT = 5;
 

@@ -1,0 +1,643 @@
+// US-198: the product list of the B2B channel, in the continuation of the home (US-186) and of the product page (US-189): same tokens, same fonts.
+// Layout: grids with minmax(0, 1fr) and no fixed width under 900 px, so a 360 px phone has no horizontal scroll. Every control is 44 px (2.75 rem) high.
+// The B2C list keeps the core markup (the classes below are on the B2B templates only: shop/theme_b2b/product/).
+@use 'variables' as *;
+
+$card-gutter: 1.125rem;
+$target: 2.75rem;
+
+main:has(.b2b-list__header) {
+    background: $b2b-paper;
+}
+
+.b2b-list {
+    &__header {
+        display: flex;
+        flex-direction: column;
+        gap: .625rem;
+        max-width: 51rem;
+        margin-bottom: 1.5rem;
+    }
+
+    &__eyebrow {
+        margin: 0;
+        color: $b2b-accent;
+        font-size: .8125rem;
+        font-weight: 600;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin: 0;
+        color: $b2b-ink;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.875rem;
+        font-weight: 600;
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+        text-wrap: balance;
+
+        @media (min-width: 900px) {
+            font-size: 2.75rem;
+        }
+    }
+
+    &__lead {
+        margin: 0;
+        color: $b2b-muted;
+        line-height: 1.6;
+    }
+
+    // Prices of the company (buyer) or invitation to sign in (visitor).
+    &__notice {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem 1rem;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: .875rem 1.125rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .75rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+
+        p {
+            flex: 1 1 18rem;
+            margin: 0;
+        }
+
+        &--visitor {
+            justify-content: space-between;
+            padding: 1.125rem 1.25rem;
+            border-color: $b2b-navy;
+            background: $b2b-navy;
+            color: $b2b-white;
+        }
+    }
+
+    &__notice-dot {
+        flex: 0 0 auto;
+        width: .625rem;
+        height: .625rem;
+        border-radius: 50%;
+        background: $b2b-teal;
+    }
+
+    &__notice-action {
+        display: inline-flex;
+        align-items: center;
+        min-height: $target;
+        padding: 0 1.125rem;
+        border-radius: .625rem;
+        background: $b2b-white;
+        color: $b2b-navy;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    // Categories of the side.
+    &__side-title {
+        margin: 0 0 .625rem;
+        color: $b2b-muted;
+        font-family: inherit;
+        font-size: .9375rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    &__categories {
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: .125rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            justify-content: space-between;
+            min-height: $target;
+            padding: .625rem .75rem;
+            border-radius: .5rem;
+            color: $b2b-ink;
+            text-decoration: none;
+
+            &:hover {
+                background: $b2b-surface;
+            }
+
+            &[aria-current='page'] {
+                background: $b2b-sand;
+                font-weight: 600;
+            }
+        }
+    }
+
+    &__count {
+        color: $b2b-muted;
+        font-weight: 400;
+    }
+
+    // Search, sort, page size, display.
+    &__toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .75rem;
+        background: $b2b-white;
+
+        label {
+            font-size: .875rem;
+            font-weight: 600;
+        }
+
+        input[type='search'],
+        select {
+            min-height: $target;
+            padding: 0 .875rem;
+            border: 1px solid $b2b-muted;
+            border-radius: .625rem;
+            background: $b2b-white;
+            color: $b2b-ink;
+            font: inherit;
+        }
+    }
+
+    &__field {
+        display: flex;
+        flex: 1 1 12.5rem;
+        flex-direction: column;
+        gap: .375rem;
+        min-width: 0;
+
+        &--grow {
+            flex: 999 1 15rem;
+        }
+
+        &--narrow {
+            flex: 0 1 7.5rem;
+        }
+    }
+
+    &__apply {
+        min-height: $target;
+        padding: 0 1.125rem;
+        border: 0;
+        border-radius: .625rem;
+        background: $b2b-navy;
+        color: $b2b-white;
+        font-weight: 600;
+
+        &:hover {
+            background: $b2b-navy-dark;
+        }
+    }
+
+    &__views {
+        display: flex;
+        flex: 0 0 auto;
+        gap: .25rem;
+        padding: .25rem;
+        border-radius: .75rem;
+        background: $b2b-sand;
+
+        button {
+            min-width: $target;
+            min-height: $target;
+            padding: 0 .875rem;
+            border: 0;
+            border-radius: .5625rem;
+            background: transparent;
+            color: $b2b-ink;
+            font-size: .875rem;
+            font-weight: 600;
+
+            &[aria-pressed='true'] {
+                background: $b2b-white;
+            }
+        }
+    }
+
+    &__results {
+        margin: 0 0 1rem;
+        color: $b2b-muted;
+        font-size: .875rem;
+    }
+
+    // Pagination.
+    &__pagination {
+        margin-top: 2rem;
+
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    }
+
+    &__page {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: $target;
+        min-height: $target;
+        border: 1px solid $b2b-border;
+        border-radius: .625rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+        font-weight: 400;
+        text-decoration: none;
+
+        &--current {
+            border-color: $b2b-navy;
+            background: $b2b-navy;
+            color: $b2b-white;
+            font-weight: 600;
+        }
+
+        &--step {
+            padding: 0 .875rem;
+            border-color: transparent;
+            background: transparent;
+            color: $b2b-navy;
+            font-weight: 600;
+        }
+
+        &--off {
+            border-color: transparent;
+            background: transparent;
+            color: $b2b-muted;
+            font-weight: 400;
+        }
+    }
+
+    // No result.
+    &__empty {
+        display: flex;
+        flex-direction: column;
+        gap: .875rem;
+        align-items: flex-start;
+        padding: 2.5rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+
+        h2 {
+            margin: 0;
+            color: $b2b-ink;
+            font-family: var(--b2b-font-serif);
+            font-size: 1.75rem;
+            overflow-wrap: anywhere;
+        }
+
+        p {
+            max-width: 38.75rem;
+            margin: 0;
+            color: $b2b-muted;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 899.98px) {
+            padding: 1.5rem;
+        }
+    }
+
+    &__empty-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem;
+    }
+
+    &__button {
+        display: inline-flex;
+        align-items: center;
+        min-height: $target;
+        padding: 0 1.125rem;
+        border: 1px solid $b2b-navy;
+        border-radius: .625rem;
+        color: $b2b-navy;
+        font-weight: 600;
+        text-decoration: none;
+
+        &--primary {
+            border-color: $b2b-accent;
+            background: $b2b-accent;
+            color: $b2b-white;
+
+            &:hover {
+                background: $b2b-accent-dark;
+            }
+        }
+
+        &--link {
+            border-color: transparent;
+            text-decoration: underline;
+        }
+    }
+}
+
+// The grid of cards. The core grid class stays (the first thumbnails and the other tests read it); the display is the modifier.
+.b2b-products {
+    display: grid;
+    gap: 1.5rem;
+
+    &--grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        @media (max-width: 899.98px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: .75rem;
+        }
+
+        @media (max-width: 419.98px) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    &--list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: .75rem;
+    }
+}
+
+// The card: reference and packaging on one line, name, stock, then the price block and the action.
+.b2b-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid $b2b-sand-line;
+    border-radius: .875rem;
+    background: $b2b-white;
+    color: $b2b-ink;
+
+    > a {
+        display: flex;
+        flex: 1 1 auto;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        align-items: baseline;
+        column-gap: .5rem;
+        row-gap: .375rem;
+        color: inherit;
+        text-decoration: none;
+
+        > * {
+            margin-inline: $card-gutter;
+        }
+
+        // The photo: 4:3, full width of the card.
+        > .mb-4 {
+            flex: 0 0 100%;
+            margin: 0 0 .875rem !important;
+            border-radius: 0;
+        }
+    }
+
+    .b2b-sku {
+        order: 1;
+        flex: 0 0 auto;
+        margin-inline-end: 0;
+    }
+
+    .b2b-meta {
+        display: contents !important;
+    }
+
+    .b2b-packaging {
+        order: 2;
+        margin-inline-start: 0;
+        color: $b2b-muted;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: .8125rem;
+
+        &::before {
+            content: '\00b7';
+            margin-inline-end: .5rem;
+        }
+    }
+
+    .h6 {
+        order: 3;
+        flex: 0 0 calc(100% - #{2 * $card-gutter});
+        margin-block: 0;
+        color: $b2b-ink;
+        font-size: 1.0625rem;
+        font-weight: 600;
+        line-height: 1.35;
+    }
+
+    .b2b-stock {
+        order: 4;
+        display: inline-flex;
+        flex: 0 0 calc(100% - #{2 * $card-gutter});
+        gap: .5rem;
+        align-items: center;
+        font-size: .875rem;
+        font-weight: 600;
+
+        &--low {
+            color: $b2b-warning;
+        }
+
+        &--out {
+            color: $b2b-danger;
+        }
+    }
+
+    .b2b-stock__dot {
+        flex: 0 0 auto;
+        width: .5rem;
+        height: .5rem;
+        border-radius: 50%;
+        background: currentcolor;
+    }
+
+    // The price block: the core price, the price of the company and the "from" price, the mention "excl. VAT".
+    > div:has(.b2b-price-note) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .125rem .375rem;
+        align-items: baseline;
+        margin: .75rem $card-gutter 0;
+        padding-top: .5rem;
+        border-top: 1px solid $b2b-sand;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .b2b-price-note,
+    .b2b-from-price,
+    .b2b-negotiated-line {
+        font-family: var(--bs-body-font-family);
+        font-size: .875rem;
+    }
+
+    .b2b-negotiated-line {
+        flex: 0 0 100%;
+        color: $b2b-teal;
+        font-weight: 600;
+    }
+
+    .b2b-from-price {
+        flex: 0 0 100%;
+        color: $b2b-muted;
+    }
+
+    // Anything else a plugin adds to the card (favourites button).
+    > :not(a, .b2b-card__actions, :has(.b2b-price-note)) {
+        margin-inline: $card-gutter;
+    }
+
+    &__actions {
+        margin: .75rem $card-gutter $card-gutter;
+    }
+
+    &__add {
+        display: flex;
+        gap: .5rem;
+
+        button {
+            flex: 1 1 auto;
+            min-height: $target;
+            border: 0;
+            border-radius: .625rem;
+            background: $b2b-accent;
+            color: $b2b-white;
+            font-size: .9375rem;
+            font-weight: 600;
+
+            &:hover {
+                background: $b2b-accent-dark;
+            }
+        }
+    }
+
+    &__qty {
+        display: none;
+        width: 4.5rem;
+        min-height: $target;
+        padding: 0 .625rem;
+        border: 1px solid $b2b-muted;
+        border-radius: .625rem;
+        color: $b2b-ink;
+        font: inherit;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: $target;
+        border: 1px solid $b2b-navy;
+        border-radius: .625rem;
+        color: $b2b-navy;
+        font-size: .9375rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        &--plain {
+            justify-content: flex-start;
+            border-color: transparent;
+            font-size: .875rem;
+            text-decoration: underline;
+        }
+    }
+}
+
+// The list view: one row per product, to compare. On a phone the price and the action go under the text.
+.b2b-products--list .b2b-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 10.625rem 12.5rem;
+    gap: .75rem 1.25rem;
+    align-items: center;
+    height: auto;
+    padding: .75rem;
+    border-radius: .75rem;
+
+    > a {
+        display: grid;
+        grid-template-columns: 7.5rem auto minmax(0, 1fr);
+        grid-template-areas:
+            'photo ref pack'
+            'photo name name'
+            'photo stock stock';
+        column-gap: 1.25rem;
+        row-gap: .25rem;
+        align-content: center;
+        align-items: center;
+
+        > * {
+            margin-inline: 0;
+        }
+
+        > .mb-4 {
+            grid-area: photo;
+            margin: 0 !important;
+            overflow: hidden;
+            border-radius: .5rem;
+        }
+    }
+
+    .b2b-sku {
+        grid-area: ref;
+    }
+
+    .b2b-packaging {
+        grid-area: pack;
+    }
+
+    .h6 {
+        grid-area: name;
+        font-size: 1rem;
+    }
+
+    .b2b-stock {
+        grid-area: stock;
+    }
+
+    > div:has(.b2b-price-note) {
+        margin: 0;
+        padding-top: 0;
+        border-top: 0;
+        font-size: 1.375rem;
+    }
+
+    .b2b-card__actions {
+        margin: 0;
+    }
+
+    .b2b-card__qty {
+        display: block;
+    }
+
+    > :not(a, .b2b-card__actions, :has(.b2b-price-note)) {
+        grid-column: 1 / -1;
+        margin-inline: 0;
+    }
+
+    @media (max-width: 899.98px) {
+        grid-template-columns: minmax(0, 1fr);
+
+        > a {
+            grid-template-columns: 5.5rem auto minmax(0, 1fr);
+            column-gap: .75rem;
+        }
+    }
+}

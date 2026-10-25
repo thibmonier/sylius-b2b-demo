@@ -1,0 +1,52 @@
+# US-198: texts of the B2B product list (domain `product_list`). Figures come from the data (counts, limits), never from the text.
+header:
+    count: '%count% product.|%count% products.'
+    prices_note: 'The prices shown are those of your company, excluding VAT.'
+categories:
+    title: 'Categories'
+notice:
+    buyer: '%company% prices applied, quantity tiers included.'
+    buyer_generic: 'The prices of your company are applied, quantity tiers included.'
+    approval: 'Orders above %limit% excl. VAT are submitted for approval.'
+    visitor: 'Prices are reserved for business accounts. Sign in with a demo account to see the prices of the company linked to that account.'
+    visitor_action: 'Pick a demo account'
+toolbar:
+    search_label: 'Search this category'
+    search_placeholder: 'Product name, for example “M8 stainless”'
+    sort_label: 'Sort by'
+    sort:
+        position: 'Relevance'
+        name_asc: 'Name, A to Z'
+        name_desc: 'Name, Z to A'
+        price_asc: 'Price, low to high'
+        price_desc: 'Price, high to low'
+        newest: 'Newest first'
+    limit_label: 'Per page'
+    apply: 'Apply'
+    view_label: 'Display'
+    view_grid: 'Grid'
+    view_list: 'List'
+results:
+    range: 'Products %from% to %to% of %total%'
+    sorted_by: 'sort: %sort%'
+pagination:
+    label: 'Pagination'
+    previous: 'Previous'
+    next: 'Next'
+    page: 'Page %number%'
+card:
+    add: 'Add to cart'
+    add_label: 'Add to cart: %name%'
+    quantity_label: 'Quantity of %name%'
+    quote: 'Request a quote'
+    quote_label: 'Request a quote: %name%'
+    view: 'View product'
+    view_label: 'View product: %name%'
+    signin: 'Sign in to see the price'
+empty:
+    title: 'No product matches “%query%”'
+    title_category: 'No product in this category'
+    text: 'The search looks at the names of the products of this category. Try another term, for example a size (“M8”) or a material (“stainless”), or browse the other categories.'
+    clear: 'Clear the search'
+    categories: 'See all categories'
+    quick_order: 'Quick order by reference'
