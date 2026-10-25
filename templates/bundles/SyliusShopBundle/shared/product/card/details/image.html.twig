@@ -1,10 +1,13 @@
 {# US-198: 4/3 on the cards of the B2B list (mock-up), 3/4 on B2C. US-167: copy of the Sylius block; the first thumbnails of a list are what the visitor sees first: loaded at once, the very first with a high priority. The list passes the position of the card (product/index products.html.twig). #}
 {% set product = hookable_metadata.context.product %}
 {% set position = hookable_metadata.context.position ?? null %}
+{% set b2b_list = not is_granted('DEMO_CONSUMER_CHANNEL') and app.request.attributes.get('_route') == 'sylius_shop_product_index' %}
+{# US-198: width of the photo in the grid (3 columns, then 2, then 1) or in the list view (120 px), for the srcset. #}
+{% set sizes = b2b_list ? {sizes: 'list' == app_b2b_list_state().view ? '120px' : '(min-width: 900px) 292px, (min-width: 420px) 50vw, 100vw'} : {} %}
 {% set priority = null is same as position or position >= 4 ? {} : (0 == position ? {loading: 'eager', fetchpriority: 'high'} : {loading: 'eager'}) %}
 
 <div class="mb-4">
-    <div class="overflow-auto bg-light rounded-3" style="aspect-ratio: {{ is_granted('DEMO_CONSUMER_CHANNEL') or app.request.attributes.get('_route') != 'sylius_shop_product_index' ? '3/4' : '4/3' }}; ">
-        {{ component('sylius_shop:main_image', { product: product, class: "w-100 h-100 object-fit-cover" }|merge(priority)) }}
+    <div class="overflow-auto bg-light rounded-3" style="aspect-ratio: {{ b2b_list ? '4/3' : '3/4' }}; ">
+        {{ component('sylius_shop:main_image', { product: product, class: "w-100 h-100 object-fit-cover" }|merge(priority)|merge(sizes)) }}
     </div>
 </div>
