@@ -16,6 +16,7 @@ main:has(.b2b-insights) {
     min-width: 0;
     padding-bottom: 3rem;
     color: $b2b-ink;
+    container-type: inline-size;
 
     h2 {
         margin: 0;
@@ -293,10 +294,19 @@ main:has(.b2b-insights) {
     }
 
     // The figures.
+    // Two by two in the width the account layout leaves, four in a row when the page is wide, one per line on a phone.
     &__kpis {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem;
+
+        @container (min-width: 56rem) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        @container (max-width: 28rem) {
+            grid-template-columns: minmax(0, 1fr);
+        }
     }
 
     &__kpi {

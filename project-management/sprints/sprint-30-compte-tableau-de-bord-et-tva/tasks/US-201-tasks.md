@@ -46,11 +46,11 @@
 | T-201-02 | [TEST] | État de référence « avant » : tests du tableau de bord verts sur `main` ; captures connectées locales (bureau et 360 px) d'Isabelle (période par défaut, période sans commande) | 0,5 h | T-201-01, T-TECH-30-01 | Claude | ✅ |
 | T-201-03 | [FE-WEB] | Maquette Claude Design (bureau 1440 px et téléphone 390 px), page « Tableau de bord des achats » du canevas : rangée d'indicateurs (valeur, évolution, période de comparaison), graphique mensuel avec N-1 distinct sans la seule couleur, tops compacts avec parts, sélecteur de période, états « aucune donnée » et « période partielle », place réservée à US-154 ; vraies données ; table « Acquis » mise à jour | 2 h | T-201-01, T-TECH-30-01 | Orchestrateur | 🔲 |
 | T-201-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-201-03 | Thibaut | 📅 |
-| T-201-05 | [TEST] | 📅 Tests rouges, commités seuls et cités dans la PR : indicateurs en premier avec période de comparaison, graphique annonçant chaque mois et N-1, changement de période qui met tout à jour, Claire refusée, état vide, 360 px, charte des textes, plugin non modifié (`composer.lock`) | 1 h | T-201-04 | Claude | 📅 |
-| T-201-06 | [FE-WEB] | 📅 Surcharge dans la démo : fichier de hooks propre, gabarits, partial `_insights.scss`, graphique accessible (ou table de repli), tops compacts, AAA, `prefers-reduced-motion` ; canal B2B seulement | 3 h | T-201-05 | Claude | 📅 |
-| T-201-07 | [DOC] | 📅 Textes FR et EN (domaine `insights`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-201-06 | Claude | 📅 |
-| T-201-08 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (tableau de bord, classements, export, droits), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-201-06, T-201-07 | Claude | 📅 |
-| T-201-09 | [DOC] | 📅 Captures `docs/images/insights-*` par `bin/render-page` (Isabelle, local, bureau et 360 px), section du tableau de bord dans `docs/theme-b2b.md` | 0,5 h | T-201-08 | Claude | 📅 |
+| T-201-05 | [TEST] | Tests rouges, commités seuls et cités dans la PR : indicateurs en premier avec période de comparaison, graphique annonçant chaque mois et N-1, changement de période qui met tout à jour, Claire refusée, état vide, 360 px, charte des textes, plugin non modifié (`composer.lock`) | 1 h | T-201-04 | Claude | ✅ |
+| T-201-06 | [FE-WEB] | Surcharge dans la démo : fichier de hooks propre, gabarits, partial `_insights.scss`, graphique accessible (ou table de repli), tops compacts, AAA, `prefers-reduced-motion` ; canal B2B seulement | 3 h | T-201-05 | Claude | ✅ |
+| T-201-07 | [DOC] | Textes FR et EN (domaine `insights`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-201-06 | Claude | ✅ |
+| T-201-08 | [TEST] | Suite ciblée par `bin/run-tests` (tableau de bord, classements, export, droits), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-201-06, T-201-07 | Claude | ✅ |
+| T-201-09 | [DOC] | Captures `docs/images/insights-*` par `bin/render-page` (Isabelle, local, bureau et 360 px), section du tableau de bord dans `docs/theme-b2b.md` | 0,5 h | T-201-08 | Claude | ✅ |
 | T-201-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : tableau de bord d'Isabelle vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 📅 |
 | T-201-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,5 h | T-201-10 | Claude | 📅 |
 
@@ -71,6 +71,22 @@
 **Fuseau horaire.** Avec PHP en UTC (local), la période s'affiche décalée d'un jour (31 oct. au lieu du 1 nov.) ; la production (`docker/php.ini`, Europe/Paris) est correcte. Rendus faits avec `-d date.timezone=Europe/Paris`.
 
 **État « avant ».** `tests/Smoke/PurchasingDashboardSmokeTest.php` vert via `WORKER_ID=w201 TEST_DB_NAME=b2b_w201 TEST_CACHE_DIR=var/cache-w201 bin/run-tests` : 11 tests, 73 assertions, 2 deprecations. Captures locales (1280 et 360 px, FR, EN, période sans commande) : aucun défilement horizontal ; hauteur 6 885 px (1280) et 11 839 px (360).
+
+## Preuves du développement (2026-10-25)
+
+| Contrôle | Commande exacte | Dernière ligne |
+|----------|-----------------|----------------|
+| Tests ciblés | `WORKER_ID=w201 TEST_DB_NAME=b2b_w201 TEST_CACHE_DIR=var/cache-w201 bin/run-tests tests/Unit/Demo/Insights tests/Functional/Demo/PurchasingDashboardRedesignTest.php tests/Smoke/PurchasingDashboardSmokeTest.php` | `OK, but there were issues! Tests: 157, Assertions: 1637, Deprecations: 2.` |
+| PHPStan (dépôt entier) | `php -d memory_limit=2G vendor/bin/phpstan analyse --no-progress` | `[OK] No errors` |
+| ECS | `php -d memory_limit=2G vendor/bin/ecs check src tests` | `[OK] No errors found. Great job - your code is shiny in style!` |
+| Rector | `php vendor/bin/rector process --dry-run` | `[OK] Rector is done!` |
+| Twig | `APP_ENV=test APP_CACHE_DIR=var/cache-w201 php -d memory_limit=-1 bin/console lint:twig templates/shop/theme_b2b/insights` | `[OK] All 14 Twig files contain valid syntax.` |
+| YAML | `Symfony\Component\Yaml\Yaml::parseFile` sur le hook et les quatre fichiers de textes | cinq fois `ok` |
+| pa11y WCAG2AAA local | `pa11y.js --config` (Chromium local, `"standard": "WCAG2AAA"`) sur le rendu de `bin/render-page` : FR par défaut, FR période sans commande, EN, FR métrique commandes sur 30 jours | `No issues found!` quatre fois |
+| 360 px | `puppeteer`, viewport 360 `isMobile`, `scrollWidth` contre `clientWidth` | 360 pour 360 (défaut, vide, EN, commandes) |
+
+Écarts à la maquette : les filtres sont un bloc repliable sous la rangée période et export (pas à côté du bouton d'export) ; « Personnalisée » n'apparaît que lorsque des dates sont choisies ; l'aide de l'export est lue par `aria-describedby` mais n'est plus affichée. Le graphique est dessiné par le serveur (SVG), la mesure et la période se changent par des liens.
+
 
 ## Table « scénario → test ou preuve »
 
