@@ -91,8 +91,9 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-198-09 | [DOC] | Captures `docs/images/product-list-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-198-08 | Claude | 📅 |
 | T-198-10 | [TEST] | Vérification en production après le déploiement (lecture seule, trois pages types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-198-02 ; **comparaison avant/après consignée le jour du déploiement** (le catalogue n'affiche les nouvelles photos qu'après la remise à zéro de 03:00 suivante) | 0,75 h | merge de la PR | Claude | 📅 |
 | T-198-11 | [REV] | Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie ; `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-198-10 | Claude | 📅 |
+| T-198-12 | [DB] | Stock suivi dans les fixtures (décision de Thibaut, registre 242b30e) : `tracked = 1` sur toutes les variantes, quantités fictives déterministes d'après le SKU (`DemoStockLevel`, environ 5 % de ruptures, environ 10 % de stocks faibles), `on_hold = 0`, fixture `demo_catalog_stock` (priorité -85, après les commandes et avant l'échange ERP) ; test rouge commité seul, import ERP vérifié cohérent | 1 h | T-198-01 | Claude | 🔄 |
 
-**Total estimé : 11 h** (11 tâches ; 10,5 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
+**Total estimé : 12 h** (12 tâches ; 11,5 h pour Claude et l'orchestrateur, 0,5 h de Thibaut ; T-198-12, 1 h, prise sur la marge).
 
 ## Scénarios et preuves
 

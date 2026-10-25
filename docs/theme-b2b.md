@@ -28,6 +28,7 @@ Règle : on **ajoute** des hookables, on ne remplace jamais ceux des plugins (le
 ## Cartes produit (liste)
 
 SKU, conditionnement (attribut `packaging_unit`), disponibilité (variantes suivies : « En stock » / « Sur commande »), mention HT, et prix « dès » = prix unitaire le plus bas des paliers du plugin tier-pricing (`TierPriceCalculatorInterface::table()`, dernière ligne). Sans palier, sans attribut ou sans variante : la zone est omise (aucun libellé vide).
+Stock (US-198) : toutes les variantes sont suivies par la fixture `demo_catalog_stock` (quantités fictives déterministes d'après le SKU, `DemoStockLevel` : environ 5 % de ruptures, environ 10 % de stocks faibles sous 10).
 Pas de N+1 : le conditionnement est lu en une requête pour tous les produits, les règles de palier viennent du cache du plugin.
 
 ## Fiche produit
