@@ -76,8 +76,8 @@ La fiche annonce 8 points. La décomposition donne **16,75 h pour Claude** (8 ×
 | T-187-17 | [FE-WEB] | [B] Page « Échanges ERP (fictif) » étendue : lots entrants d'import (nom, total de contrôle, lignes lues, appliquées, rejetées), rapport de rejet lisible, lot ignoré signalé, bandeau « simulé », FR et EN ; accessible (AAA), sans défilement horizontal à 360 px | 1,25 h | T-187-16 | Claude | ✅ |
 | T-187-18 | [DOC] | [B] `docs/erp-demo.md` (schéma, fichiers de prix et de stock, ce qui est simulé), lien depuis `/echange-fichier`, ADR 0017, README ; texte relu contre le code | 0,5 h | T-187-17 | Claude | ✅ |
 | T-187-19 | [TEST] | [B] Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; image reconstruite démarrée en conteneur neuf (échange et lots d'import présents) ; commande exacte et dernière ligne citées | 0,75 h | T-187-18 | Claude | ✅ |
-| T-187-20 | [TEST] | [B] Vérification après déploiement : pages publiques en production (`/echange-fichier`, documentation : pa11y, 360 px) ; page du back-office en local et sur l'image reconstruite (aucun identifiant saisi en production) ; échange présent après le déploiement ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🔲 |
-| T-187-21 | [REV] | [B] Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé, aucune comparaison avec Sylius Plus) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-187-20 | Claude | 🔲 |
+| T-187-20 | [TEST] | [B] Vérification après déploiement : pages publiques en production (`/echange-fichier`, documentation : pa11y, 360 px) ; page du back-office en local et sur l'image reconstruite (aucun identifiant saisi en production) ; échange présent après le déploiement ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🟡 (`/echange-fichier` et `/healthz` vérifiés en production le 2026-10-25 ; page d'administration vérifiée en local seulement) |
+| T-187-21 | [REV] | [B] Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé, aucune comparaison avec Sylius Plus) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-187-20 | Claude | ✅ |
 
 **Sous-total B : 6,75 h** (9 tâches ; 6,75 h pour Claude).
 
@@ -96,11 +96,11 @@ Une ligne vide laisse la story en review. Plugin : 1 nominal, 2 alternatifs, 2 e
 | Fichier illisible (erreur, plugin) | plugin : `BatchImporterTest::testAnUnreadableFileIsRejectedWholeWithItsReason` (7 jeux : encodage, marque d'ordre des octets, tronqué, vide, en-tête seul, autre en-tête, en-tête de l'autre type) |
 | Fichier de prix et de stock d'exemple importé et visible à la page des échanges (nominal, démonstration) | `DemoPriceStockFilesTest` (fichiers atomiques, valeurs actuelles) ; `ErpDemoImportFixtureTest` (3 lots journalisés, fichiers dans `processed/`, quantités du fichier de stock appliquées) ; `ErpExchangesAdminTest::testTheImportBatchesOfPricesAndStockAreListedWithTheirFigures` |
 | Lot volontairement invalide rejeté, rapport lisible, aucune écriture de prix (erreur, démonstration) | `DemoPriceStockFilesTest::testTheInvalidPriceFileHoldsANegativeAmountAndAForeignCurrency` ; `ErpDemoImportFixtureTest::testThreeBatchesAreJournalledTwoAppliedAndTheInvalidOneRejected`, `::testThePricesOfTheDemoDidNotMoveAndTheInvalidAmountsWereNeverWritten` ; `ErpExchangesAdminTest::testTheRejectedBatchShowsAReadableReportAndNothingWasApplied` ; `ImportReasonTranslationsTest` |
-| Échange et lots d'import présents après un déploiement (conteneur neuf) | `ErpDemoExchangeRefreshTest::testTheImportBatchesAreImportedAgainAndTheJournalIsRegeneratedNotAccumulated` (le journal des lots est oublié puis régénéré, jamais cumulé) ; **conteneur neuf démarré avec l'image reconstruite : à faire (T-187-19, ouverte)** |
+| Échange et lots d'import présents après un déploiement (conteneur neuf) | `ErpDemoExchangeRefreshTest::testTheImportBatchesAreImportedAgainAndTheJournalIsRegeneratedNotAccumulated` (le journal des lots est oublié puis régénéré, jamais cumulé) ; conteneur neuf démarré avec l'image reconstruite : voir les mesures de production ci-dessous |
 
 ## Mesures de production (jour du déploiement)
 
-_À consigner par T-187-20 : pages publiques (pa11y, 360 px), échange présent après le déploiement._
+- 2026-10-25, après le déploiement de #105 : `/echange-fichier` affiche l'extrait ; `/healthz` répond 200. La page d'administration « Échanges ERP » n'est vérifiée qu'en local (aucun identifiant saisi en production). pa11y et largeur à 360 px de la documentation : non consignés.
 
 ## Politique Sylius Plus : résultat de T-187-01 (2026-10-25)
 
