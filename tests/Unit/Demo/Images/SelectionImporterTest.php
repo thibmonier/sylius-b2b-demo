@@ -36,6 +36,7 @@ final class SelectionImporterTest extends TestCase
                 $this->photo('vis', ['P-3'], 'full-2.jpg', 'Bolts'),
             ],
             'pending' => [['type' => 'gants', 'name_fr' => 'Gants', 'skus' => ['P-9'], 'reason' => 'new search']],
+            'neutral' => [['type' => 'bottes', 'name_fr' => 'Bottes', 'skus' => ['P-5', 'P-6'], 'file' => 'category-gants.webp']],
         ], \JSON_THROW_ON_ERROR));
     }
 
@@ -64,6 +65,32 @@ final class SelectionImporterTest extends TestCase
         }
         self::assertSame(['photos' => 2, 'skus' => 3], ['photos' => $report['photos'], 'skus' => $report['skus']]);
         self::assertSame([], (new ImageManifestAuditor())->violations(\array_filter($manifest->rows(), static fn (array $row): bool => $row['source'] === 'pexels')));
+    }
+
+    public function testANeutralTypeIsWrittenAsAGeneratedCategoryVisualOfTheDemo(): void
+    {
+        $this->import();
+
+        $manifest = ImageManifest::load($this->dir . '/images/manifest.csv');
+        foreach (['P-5', 'P-6'] as $sku) {
+            $row = $manifest->row($sku) ?? [];
+            self::assertSame(['category-gants.webp', 'generated', 'category', 'fallback', 'cc0'], [$row['file'] ?? '', $row['source'] ?? '', $row['scope'] ?? '', $row['status'] ?? '', $row['license'] ?? ''], $sku);
+            self::assertSame('Neutral visual: gants', $row['title'] ?? '');
+        }
+        self::assertSame([], (new ImageManifestAuditor())->violations(\array_filter($manifest->rows(), static fn (array $row): bool => $row['scope'] === 'category')));
+    }
+
+    public function testANeutralTypeWhoseVisualIsMissingStopsTheImportBeforeAnythingIsWritten(): void
+    {
+        \unlink($this->dir . '/images/category-gants.webp');
+
+        try {
+            $this->import();
+            self::fail('The missing neutral visual must stop the import.');
+        } catch (\RuntimeException $exception) {
+            self::assertStringContainsString('category-gants.webp', $exception->getMessage());
+        }
+        self::assertFileExists($this->dir . '/images/orphan0000aa.webp');
     }
 
     public function testTheOrphanPhotosAreRemovedButNeutralVisualsAndPendingTypesKeepTheirImage(): void
