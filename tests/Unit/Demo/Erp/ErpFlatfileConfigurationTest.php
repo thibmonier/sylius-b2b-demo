@@ -17,7 +17,7 @@ final class ErpFlatfileConfigurationTest extends TestCase
     {
         $composer = json_decode((string) file_get_contents(self::ROOT . '/composer.json'), true, 512, \JSON_THROW_ON_ERROR);
 
-        self::assertSame('^0.1', Typed::at($composer, 'require', 'tmonier/sylius-erp-flatfile-plugin'));
+        self::assertSame('^0.2', Typed::at($composer, 'require', 'tmonier/sylius-erp-flatfile-plugin'));
         self::assertArrayNotHasKey('repositories', \is_array($composer) ? $composer : [], 'no VCS repository as a workaround');
     }
 
