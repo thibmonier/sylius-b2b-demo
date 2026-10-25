@@ -161,7 +161,7 @@ final class SelectionImporterTest extends TestCase
     private function photo(string $type, array $skus, string $file, string $title): array
     {
         return ['type' => $type, 'name_fr' => $title, 'skus' => $skus, 'file' => $file, 'title' => $title, 'creator' => 'Jane Doe', 'creator_url' => 'https://www.pexels.com/@jane/',
-            'origin_url' => 'https://www.pexels.com/photo/123/', 'source' => 'Pexels', 'license_url' => 'https://www.pexels.com/license/', 'focus' => [0.5, 0.5], 'blur' => [], 'review' => 'ok'];
+            'origin_url' => 'https://www.pexels.com/photo/123/', 'source' => 'Pexels', 'license_url' => 'https://www.pexels.com/license/', 'focus' => [0.5, 0.5], 'review' => 'ok'];
     }
 
     /**

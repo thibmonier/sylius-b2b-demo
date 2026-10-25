@@ -8,8 +8,7 @@ namespace App\Demo\Images\Import;
 final readonly class SelectedPhoto
 {
     /**
-     * @param list<string>                              $skus
-     * @param list<array{float, float, float, float}> $blurs  areas to blur, as fractions of the original: x, y, width, height
+     * @param list<string> $skus
      */
     public function __construct(
         public string $type,
@@ -22,7 +21,6 @@ final readonly class SelectedPhoto
         public string $licenseUrl,
         public float $focusX,
         public float $focusY,
-        public array $blurs,
         public string $review,
     ) {
     }

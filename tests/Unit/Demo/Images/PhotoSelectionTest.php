@@ -64,19 +64,13 @@ final class PhotoSelectionTest extends TestCase
         }
     }
 
-    public function testTheFocusAndTheBlurredAreasStayInsideThePhoto(): void
+    public function testTheFocusStaysInsideThePhoto(): void
     {
         foreach ($this->selection->photos() as $photo) {
             self::assertGreaterThanOrEqual(0.0, $photo->focusX, $photo->type);
             self::assertLessThanOrEqual(1.0, $photo->focusX, $photo->type);
             self::assertGreaterThanOrEqual(0.0, $photo->focusY, $photo->type);
             self::assertLessThanOrEqual(1.0, $photo->focusY, $photo->type);
-            foreach ($photo->blurs as [$x, $y, $width, $height]) {
-                self::assertGreaterThanOrEqual(0.0, $x, $photo->type);
-                self::assertGreaterThanOrEqual(0.0, $y, $photo->type);
-                self::assertLessThanOrEqual(1.0, $x + $width, $photo->type);
-                self::assertLessThanOrEqual(1.0, $y + $height, $photo->type);
-            }
         }
     }
 

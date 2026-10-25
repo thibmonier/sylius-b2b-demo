@@ -41,7 +41,6 @@ final readonly class PhotoSelection
                 self::string($photo['license_url'] ?? null),
                 self::float($focus[0] ?? 0.5),
                 self::float($focus[1] ?? 0.5),
-                \array_map(static fn (mixed $area): array => self::area($area), self::list($photo['blur'] ?? [])),
                 self::string($photo['review'] ?? null),
             );
         }
@@ -107,13 +106,5 @@ final readonly class PhotoSelection
     private static function float(mixed $value): float
     {
         return \is_int($value) || \is_float($value) ? (float) $value : throw new \RuntimeException('The photo selection is malformed: a number was expected.');
-    }
-
-    /** @return array{float, float, float, float} */
-    private static function area(mixed $value): array
-    {
-        $area = self::list($value);
-
-        return [self::float($area[0] ?? null), self::float($area[1] ?? null), self::float($area[2] ?? null), self::float($area[3] ?? null)];
     }
 }

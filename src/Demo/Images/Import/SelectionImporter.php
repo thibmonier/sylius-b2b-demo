@@ -52,7 +52,7 @@ final readonly class SelectionImporter
 
     private function write(SelectedPhoto $photo, string $sourceDir, string $imagesDir): string
     {
-        $cropped = $this->cropper->crop((string) \file_get_contents($sourceDir . '/' . $photo->file), $photo->focusX, $photo->focusY, $photo->blurs);
+        $cropped = $this->cropper->crop((string) \file_get_contents($sourceDir . '/' . $photo->file), $photo->focusX, $photo->focusY);
         $webp = $this->processor->toWebp($cropped) ?? throw new \RuntimeException(\sprintf('The photo of the type "%s" does not fit the image budget.', $photo->type));
         $file = \substr(\sha1($webp), 0, 12) . '.webp';
         \file_put_contents($imagesDir . '/' . $file, $webp);

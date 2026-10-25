@@ -49,14 +49,13 @@ son auteur, sa source, sa licence et le nombre de produits qu'il illustre.
 Depuis le sprint 28, 204 des 210 produits montrent la **photo de leur type d'article** (casque, gant en cuir, carton, tournevis...),
 une photo par type, jamais partagée entre deux types différents, sans marque lisible. Les 6 autres (type `neutral` de la sélection : veste de pluie) montrent un visuel neutre de leur catégorie.
 
-- Source : Pexels (25 types) et Unsplash (4 types), licence relue sur https://www.pexels.com/license/ le 2026-10-25 (usage libre, attribution non obligatoire mais gardée,
+- Source : Pexels (24 types) et Unsplash (5 types), licence relue sur https://www.pexels.com/license/ le 2026-10-25 (usage libre, attribution non obligatoire mais gardée,
   modification autorisée ; interdit : suggérer l'aval d'une personne ou d'une marque, revendre les copies non modifiées).
   Les photos ont été choisies par Thibaut Monier sur une planche, puis téléchargées avec son accord ; les originaux (6 000 px)
   ne sont pas versionnés.
 - Choix : `fixtures/images/selection.json` (versionné) liste, par type, les SKU couverts, le fichier d'origine, l'auteur, la page Pexels,
-  le cadrage (`focus`, point à garder dans le cadre 4:3) et les zones à flouter (`blur`, fractions de la photo) quand une gravure ou un
-  autocollant restait lisible. `pending` liste les types qui attendent encore une photo.
-- Flou : trois photos (clés, botte, cône) et le ruban adhésif ont une zone floutée. Le ruban l'est par précaution : la note de réserve sur son mandrin (impression bleue et verte illisible) vient de l'agent photo, pas d'un choix de Thibaut.
+  le cadrage (`focus`, point à garder dans le cadre 4:3). `neutral` liste les types montrés par un visuel neutre de catégorie, `pending` ceux qui attendent une photo.
+- Aucune retouche : une photo où une marque reste lisible est remplacée, jamais floutée ni pixellisée (décision de Thibaut, 2026-10-25).
 - Format : cadre 4:3 comme la fiche produit (800 x 600), WebP, 80 Ko au plus.
 - Page publique « Crédits des images » : chaque photo y figure avec son auteur, sa page d'origine, sa licence (CC0, Pexels ou Unsplash) et le
   nombre de produits illustrés.

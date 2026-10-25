@@ -7,12 +7,12 @@ namespace App\Tests\Unit\Demo\Images;
 use App\Demo\Images\Import\PhotoCropper;
 use PHPUnit\Framework\TestCase;
 
-/** US-196: every photo is cut to the 4:3 frame of the product page around the point that matters, and a brand can be blurred. */
+/** US-196: every photo is cut to the 4:3 frame of the product page around the point that matters, . */
 final class PhotoCropperTest extends TestCase
 {
     public function testALandscapePhotoIsCutToFourByThreeAroundTheFocus(): void
     {
-        $image = $this->decode((new PhotoCropper())->crop($this->photo(1200, 600, 'left'), 0.0, 0.5, []));
+        $image = $this->decode((new PhotoCropper())->crop($this->photo(1200, 600, 'left'), 0.0, 0.5));
 
         self::assertSame([800, 600], [\imagesx($image), \imagesy($image)]);
         self::assertSame($this->red(), $this->colour($image, 10, 300), 'the focus is on the left: the left part is kept');
@@ -20,21 +20,10 @@ final class PhotoCropperTest extends TestCase
 
     public function testAPortraitPhotoIsCutToFourByThreeAroundTheFocus(): void
     {
-        $image = $this->decode((new PhotoCropper())->crop($this->photo(600, 1200, 'top'), 0.5, 0.0, []));
+        $image = $this->decode((new PhotoCropper())->crop($this->photo(600, 1200, 'top'), 0.5, 0.0));
 
         self::assertSame([600, 450], [\imagesx($image), \imagesy($image)]);
         self::assertSame($this->red(), $this->colour($image, 300, 10));
-    }
-
-    public function testTheBlurredAreaLosesItsDetailAndTheRestIsUntouched(): void
-    {
-        $source = $this->photo(800, 600, 'stripes');
-        $cropper = new PhotoCropper();
-        $plain = $this->decode($cropper->crop($source, 0.5, 0.5, []));
-        $blurred = $this->decode($cropper->crop($source, 0.5, 0.5, [[0.0, 0.0, 0.5, 0.5]]));
-
-        self::assertNotSame($this->colour($plain, 100, 100), $this->colour($blurred, 100, 100), 'the stripe is smoothed inside the area');
-        self::assertSame($this->colour($plain, 700, 500), $this->colour($blurred, 700, 500), 'outside the area nothing changes');
     }
 
     private function red(): int
@@ -55,11 +44,6 @@ final class PhotoCropperTest extends TestCase
         }
         if ($kind === 'top') {
             \imagefilledrectangle($image, 0, 0, $width, 300, $this->red());
-        }
-        if ($kind === 'stripes') {
-            for ($x = 0; $x < $width; $x += 4) {
-                \imagefilledrectangle($image, $x, 0, $x + 1, $height, 0xFFFFFF);
-            }
         }
         \ob_start();
         \imagepng($image);
