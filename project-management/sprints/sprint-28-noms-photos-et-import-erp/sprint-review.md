@@ -88,6 +88,6 @@
 
 ## Prochaines étapes
 
-1. GO de Thibaut sur la revue et la rétrospective.
-2. Contrôles de production après la remise à zéro de 03:00 du 2026-10-26 (T-195-06, T-196-09, T-196-10), puis clôture du sprint 28.
+1. Sprint 28 clos le 2026-10-25 sur GO de Thibaut.
+2. Point ouvert : contrôles de production après la remise à zéro de 03:00 du 2026-10-26 (T-195-06, T-196-09, T-196-10), en lecture seule.
 3. Planning du sprint 29 (US-197 et actions reportées).
