@@ -29,13 +29,15 @@ final class ErpDemoExchangeFixtureTest extends KernelTestCase
         self::assertSame(0, $batches[0]->rejected);
     }
 
-    public function testNothingIsWrittenOutsideTheExchangeDirectoryOfTheTest(): void
+    public function testTheExchangeDirectoryOfTheTestIsInTheCacheOfTheTestAndNotTheOneOfTheDemo(): void
     {
         self::bootKernel();
         $directory = self::getContainer()->getParameter('tmonier_erp_flatfile.exchange_directory');
+        $cache = self::getContainer()->getParameter('kernel.cache_dir');
         self::assertIsString($directory);
+        self::assertIsString($cache);
 
-        self::assertStringNotContainsString('/var/erp-exchange', $directory);
-        self::assertSame([], glob(\dirname(__DIR__, 3) . '/var/erp-exchange/ack-*') ?: [], 'the demo directory is not the one of the tests');
+        self::assertStringStartsWith($cache . '/', $directory, 'the test reads and writes in its own directory: a local load of the fixtures leaves its files in var/erp-exchange, which does not matter here');
+        self::assertNotSame(\dirname(__DIR__, 3) . '/var/erp-exchange', $directory);
     }
 }
