@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-25T06:24:48Z",
+    "generated_at": "2026-10-25T06:45:36Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -500,7 +500,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/40084707360",
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/40169800116",
                 "checked_at": "2026-10-25"
             },
             "phpstan": {
@@ -514,7 +514,7 @@
                 "checked_at": "2026-10-25"
             },
             "tests": {
-                "value": 5,
+                "value": 9,
                 "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/tree/main/tests",
                 "checked_at": "2026-10-25"
             }
@@ -1004,7 +1004,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40133022891",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40168816296",
             "checked_at": "2026-10-25"
         },
         "phpstan": {
@@ -1033,7 +1033,7 @@
             "checked_at": "2026-10-25"
         },
         "tests": {
-            "value": 267,
+            "value": 270,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-25"
         }
