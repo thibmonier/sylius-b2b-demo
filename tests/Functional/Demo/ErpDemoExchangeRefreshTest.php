@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use App\Demo\Command\ErpRefreshCommand;
+use App\Demo\Erp\DbalCatalogSample;
+use App\Demo\Erp\DemoPriceStockFiles;
 use App\Demo\Erp\ErpDemoExchange;
 use App\Demo\Erp\ErpDemoSimulator;
 use App\Demo\Erp\SimulatorJournal;
@@ -20,6 +22,10 @@ use Tmonier\SyliusErpFlatfilePlugin\Deposit\AtomicFileDepositor;
 use Tmonier\SyliusErpFlatfilePlugin\Export\DbalExportJournal;
 use Tmonier\SyliusErpFlatfilePlugin\Export\DoctrinePendingOrderEvents;
 use Tmonier\SyliusErpFlatfilePlugin\Export\OrderExporter;
+use Tmonier\SyliusErpFlatfilePlugin\Import\BatchImporter;
+use Tmonier\SyliusErpFlatfilePlugin\Import\DbalImportJournal;
+use Tmonier\SyliusErpFlatfilePlugin\Import\DoctrineCatalog;
+use Tmonier\SyliusErpFlatfilePlugin\Import\ExchangeDirectoryImporter;
 use Tmonier\SyliusWebhookOutboxPlugin\Entity\OutboxEventInterface;
 use Tmonier\SyliusWebhookOutboxPlugin\Payload\OrderPayloadNormalizer;
 
@@ -82,6 +88,19 @@ final class ErpDemoExchangeRefreshTest extends KernelTestCase
         self::assertLessThanOrEqual(4, $events, 'four orders per channel at most, and the demo has one channel with orders');
         self::assertSame(0, $this->intValue('SELECT COUNT(*) FROM tmonier_webhook_delivery'), 'no webhook is queued');
         self::assertCount(1, glob($this->directory . '/orders-*.csv') ?: []);
+    }
+
+    public function testTheImportBatchesAreImportedAgainAndTheJournalIsRegeneratedNotAccumulated(): void
+    {
+        $before = $this->intValue('SELECT COUNT(*) FROM tmonier_erp_flatfile_import_batch');
+        self::assertSame(3, $before, 'the fixtures imported three batches');
+
+        self::assertTrue($this->exchange($this->directory)->refreshIfEmpty());
+
+        self::assertSame(3, $this->intValue('SELECT COUNT(*) FROM tmonier_erp_flatfile_import_batch'), 'the rows that point to files that are gone are forgotten, three new ones are written');
+        self::assertCount(3, glob($this->directory . '/processed/*.csv') ?: []);
+        self::assertSame([], glob($this->directory . '/prices-*.csv') ?: []);
+        self::assertSame([], glob($this->directory . '/stock-*.csv') ?: []);
     }
 
     public function testNothingIsDoneWhenAFileOfOrdersIsThere(): void
@@ -155,6 +174,10 @@ final class ErpDemoExchangeRefreshTest extends KernelTestCase
 
         $journal = new SimulatorJournal($directory);
         $clock = new MockClock('2026-10-24T10:15:00Z');
+        $factory = $container->get('sylius.factory.channel_pricing');
+        $variants = $container->get('sylius.repository.product_variant');
+        $channelRepository = $container->get('sylius.repository.channel');
+        $catalog = new DoctrineCatalog($entityManager, $factory, $variants, $channelRepository);
 
         return new ErpDemoExchange(
             $entityManager,
@@ -164,6 +187,8 @@ final class ErpDemoExchangeRefreshTest extends KernelTestCase
             new OrderExporter(new DoctrinePendingOrderEvents($entityManager, $class, ['order.placed']), new DbalExportJournal($this->db()), new AtomicFileDepositor($directory), $clock, new NullLogger(), 500),
             new ErpDemoSimulator($directory, $journal, $clock),
             $journal,
+            new DemoPriceStockFiles($directory, new DbalCatalogSample($this->db()), $clock),
+            new ExchangeDirectoryImporter($directory, new BatchImporter($catalog, $catalog, new DbalImportJournal($this->db(), $clock))),
             $this->db(),
             $class,
             $directory,

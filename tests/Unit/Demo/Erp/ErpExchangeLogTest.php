@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Demo\Erp;
 
 use App\Demo\Erp\ErpExchangeLog;
+use App\Demo\Erp\ImportedBatches;
+use App\Demo\Erp\ImportedBatchRow;
 use App\Demo\Erp\InboundBatch;
 use App\Demo\Erp\OutboundBatch;
 use App\Demo\Erp\OutboundBatches;
@@ -68,6 +70,33 @@ final class ErpExchangeLogTest extends TestCase
 
         self::assertSame([], $journal->all());
         self::assertFalse($journal->processed('orders-a.csv'));
+    }
+
+    public function testTheImportBatchesOfTheJournalOfThePluginAreListedWithTheirReport(): void
+    {
+        $imports = new class() implements ImportedBatches {
+            public function all(): array
+            {
+                return [new ImportedBatchRow('prices-a.csv', str_repeat('ab', 32), 'prices', 'rejected', new \DateTimeImmutable('2026-10-24T12:00:00Z'), 3, 0, 2, [['line' => 3, 'reason' => 'price'], ['line' => 4, 'reason' => 'currency']])];
+            }
+        };
+
+        $batches = (new ErpExchangeLog($this->directory, $this->outbound(), new SimulatorJournal($this->directory), $imports))->batches();
+
+        self::assertCount(1, $batches);
+        self::assertSame(['in', 'import-prices', 'prices-a.csv', 'rejected', [3, 0, 2]], [$batches[0]->direction, $batches[0]->kind, $batches[0]->name, $batches[0]->outcome, [$batches[0]->read, $batches[0]->accepted, $batches[0]->rejected]]);
+        self::assertSame(str_repeat('ab', 32), $batches[0]->checksum);
+        self::assertSame([['line' => 3, 'reason' => 'price'], ['line' => 4, 'reason' => 'currency']], $batches[0]->report);
+    }
+
+    public function testTheKindOfTheOtherBatchesIsOrdersOrAcknowledgement(): void
+    {
+        $journal = new SimulatorJournal($this->directory);
+        $journal->record(new InboundBatch('orders-a.csv', 'ack-orders-a.csv', new \DateTimeImmutable('2026-10-24T10:20:00Z'), 1, 1, 0, null));
+
+        $batches = (new ErpExchangeLog($this->directory, $this->outbound(new OutboundBatch('orders-a.csv', new \DateTimeImmutable('2026-10-24T10:15:00Z'), 1)), $journal))->batches();
+
+        self::assertSame(['acknowledgement', 'orders'], array_map(static fn ($batch): ?string => $batch->kind, $batches));
     }
 
     private function outbound(OutboundBatch ...$batches): OutboundBatches
