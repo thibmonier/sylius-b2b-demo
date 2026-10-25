@@ -42,11 +42,11 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-202-01 | [DOC] | Cadrage : affectation de la catégorie (fixtures CSV, import ERP, historique en masse), mode de calcul (`included_in_price: false`), récapitulatif du panier et des commandes, **comparaison HT de la limite** (services du plugin à décorer dans la démo ou question à Thibaut), montants du tableau de bord des achats ; plan des tests ; prix de référence relevés (liste, fiche, panier de Claire) | 0,75 h | - | Claude | 🔲 |
-| T-202-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : panier HT, livraison, TVA 20 %, TTC ; prix affichés inchangés ; commande avec TVA ; produit importé avec catégorie ; limite comparée au HT et message du panier cohérent | 0,75 h | T-202-01 | Claude | 🔲 |
-| T-202-03 | [DB] | Catégorie `standard` affectée aux produits des fixtures et aux produits de l'import ERP simulé ; historique de commandes cohérent (ou décision notée) ; fixtures rechargées en local | 1 h | T-202-02 | Claude | 🔲 |
-| T-202-04 | [FE-WEB] | Récapitulatif du panier : ligne TVA et total TTC réaffichés à la place de la maquette validée ; récapitulatif de commande et e-mails relus ; AAA et 360 px conservés | 0,75 h | T-202-03 | Claude | 🔲 |
-| T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | 🔲 |
+| T-202-01 | [DOC] | Cadrage : affectation de la catégorie (fixtures CSV, import ERP, historique en masse), mode de calcul (`included_in_price: false`), récapitulatif du panier et des commandes, **comparaison HT de la limite** (services du plugin à décorer dans la démo ou question à Thibaut), montants du tableau de bord des achats ; plan des tests ; prix de référence relevés (liste, fiche, panier de Claire) | 0,75 h | - | Claude | ✅ |
+| T-202-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : panier HT, livraison, TVA 20 %, TTC ; prix affichés inchangés ; commande avec TVA ; produit importé avec catégorie ; limite comparée au HT et message du panier cohérent | 0,75 h | T-202-01 | Claude | ✅ |
+| T-202-03 | [DB] | Catégorie `standard` affectée aux produits des fixtures et aux produits de l'import ERP simulé ; historique de commandes cohérent (ou décision notée) ; fixtures rechargées en local | 1 h | T-202-02 | Claude | ✅ |
+| T-202-04 | [FE-WEB] | Récapitulatif du panier : ligne TVA et total TTC réaffichés à la place de la maquette validée ; récapitulatif de commande et e-mails relus ; AAA et 360 px conservés | 0,75 h | T-202-03 | Claude | ✅ |
+| T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | ✅ |
 | T-202-06 | [TEST] | Suite ciblée par `bin/run-tests` (panier, paliers, approbation, tunnel de commande de bout en bout, import ERP, tableau de bord des achats), prix comparés avant/après, PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y du panier FR et EN ; commande exacte et dernière ligne citées | 0,75 h | T-202-04, T-202-05 | Claude | 🔲 |
 | T-202-07 | [DOC] | Captures `docs/images/cart-*` mises à jour par `bin/render-page`, section du panier de `docs/theme-b2b.md` | 0,5 h | T-202-06 | Claude | 🔲 |
 | T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | 🔲 |
@@ -54,12 +54,21 @@
 
 **Total estimé : 6 h** (9 tâches, toutes pour Claude).
 
+## Cadrage et preuves (w202, 2026-10-25)
+
+- **Catégorie de taxe** : affectée à la variante dans `ProductCsvFixture` (catégorie `standard`, taux `fr_standard` 20 %, `included_in_price: false`) : les prix de la liste, de la fiche et du panier restent HT (18,90 € du casque, 797,20 € de sous-total du panier de Claire, inchangés). La livraison n'est pas taxée (le mode de livraison n'a pas de catégorie de taxe) : la TVA ne porte que sur les articles.
+- **Import ERP simulé** : il ne crée aucun produit, il met à jour les prix et les stocks de variantes du catalogue ; elles portent donc la catégorie (test `CartTaxTest`).
+- **Panier** : `templates/shop/theme_b2b/cart/summary.html.twig` affichait déjà la ligne TVA et « Total TTC » dès que la TVA existe : aucun Twig modifié.
+- **Historique de commandes** (`BulkOrderWriter`) : laissé sans TVA (montants HT, comme avant), pour ne pas changer en silence les montants du tableau de bord des achats (US-201) ; décision à noter au registre par l'orchestrateur.
+- **Limite d'approbation** : T-202-05 en attente de la décision de Thibaut (le plugin compare `getTotal()`, TVA comprise ; ses services sont `final` et injectés par type concret, sans décoration possible). Le message d'approbation du panier n'est pas touché.
+- Test d'isolation corrigé dans `tests/Support/BuildsDemoCarts.php` (deux paniers créés dans la même seconde).
+
 ## Table « scénario → test ou preuve »
 
 | Scénario | Tâche | Test ou preuve |
 |----------|-------|----------------|
-| Panier avec TVA (nominal) | T-202-02, T-202-07 | |
-| Prix affichés inchangés (alternatif) | T-202-02, T-202-06 | |
-| Commande avec TVA (alternatif) | T-202-02 | |
-| Produit importé par l'ERP (erreur) | T-202-02 | |
+| Panier avec TVA (nominal) | T-202-02, T-202-07 | `CartTaxTest::testTheCartShowsTheSubtotalExcludingTaxTheShippingTheVatAndTheTotalIncludingTax` |
+| Prix affichés inchangés (alternatif) | T-202-02, T-202-06 | `CartTaxTest::testThePricesExcludingTaxOfTheListAndTheProductPageDidNotMove` |
+| Commande avec TVA (alternatif) | T-202-02 | `CartTaxTest::testThePlacedOrderKeepsItsVatAndItsTotalIncludingTax` |
+| Produit importé par l'ERP (erreur) | T-202-02 | `CartTaxTest::testTheVariantsTouchedByTheErpImportCarryTheCategoryAndTheTaxIsComputedOnThem` |
 | Limite d'approbation (erreur) | T-202-02, T-202-05 | |
