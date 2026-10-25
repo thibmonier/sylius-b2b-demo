@@ -3,7 +3,7 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut | ⚠️ Sacrifiable | 🟡 Faite avec écart | ⊘ Sans objet
 
-**Sprint planifié le 2026-10-25.** Total décomposé : **48 tâches, 34,2 h** pour 13 points engagés. État au planning : **2 ✅, 39 🔲, 7 📅, 0 🔄, 0 🚫**. Ordre de sacrifice **proposé** : tranche B d'US-187, puis US-196 (US-195 protégée), à confirmer par Thibaut.
+**Sprint planifié le 2026-10-25.** Décisions de Thibaut du 2026-10-25 : ordre de sacrifice validé, questions 3, 4 et 6 de l'ADR tranchées (T-187-02 ✅), GO du tag `v0.2.0` à demander quand la tranche A sera prête (T-187-10 📅). Total décomposé : **48 tâches, 34,2 h** pour 13 points engagés. État au planning : **3 ✅, 39 🔲, 6 📅, 0 🔄, 0 🚫**. Ordre de sacrifice **validé** : tranche B d'US-187, puis US-196 (US-195 protégée).
 
 Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre.
 
@@ -61,7 +61,6 @@ _Aucune tâche._
 |----|-----|------|-------|------------|-------------|
 | T-196-04 | US-196 | OPS | 📅 Thibaut choisit une photo par famille sur la planche (une photo avec marque est écartée et remplacée) et donne le **GO … | 0,5 h | Thibaut |
 | T-196-06 | US-196 | DOC | 📅 **Après le GO (T-196-04) seulement** : téléchargement des seules photos choisies, optimisation WebP, … | 0,75 h | Claude |
-| T-187-02 | US-187 | OPS | [A] 📅 Thibaut tranche les questions 3, 4 et 6 de l'ADR (propositions : prix par canal, sans groupe de clients ; stock en valeur … | 0,25 h | Thibaut |
 | T-187-10 | US-187 | OPS | [A] 📅 **GO de Thibaut pour push, tag et release** du plugin (branche, PR, tag `v0.2.0`, release) ; aucun push, tag ni release … | 0,1 h | Thibaut |
 | T-187-11 | US-187 | OPS | [A] 📅 Après le GO : push de la branche, PR du plugin, CI verte (run terminé), merge sur GO, tag `v0.2.0` et release ; concordance … | 0,5 h | Claude |
 | T-187-12 | US-187 | OPS | [A] 📅 Thibaut soumet ou met à jour le paquet sur Packagist s'il le faut (Claude ne soumet jamais) et confirme que `v0.2.0` y est … | 0,1 h | Thibaut |
@@ -83,5 +82,6 @@ _Aucune tâche._
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
+| T-187-02 | US-187 | OPS | [A] Thibaut a tranché les questions 3, 4 et 6 de l'ADR le 2026-10-25 : prix par canal (code de variante + canal + prix, … | 0,25 h | Thibaut |
 | T-TECH-28-03 | Transverse | DOC | **Action 3** : « que devient cet état après un déploiement ? » dans `project-management/templates/consigne-worker.md` (règle 16) … | 0,25 h | Orchestrateur |
 | T-TECH-28-04 | Transverse | DOC | **Action 4** : règle 13 complétée (numéro de story du message de commit relu contre la branche et le titre de la PR par `git show … | 0,25 h | Orchestrateur |

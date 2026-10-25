@@ -4,7 +4,7 @@
 
 - **Epic** : EPIC-14
 - **Persona** : Thibaut ; lead développeur d'une agence
-- **Story Points** : 8 (Could), découpée en **tranche A (plugin, 5 points)** et **tranche B (démonstration, 3 points)** ; sacrifice : **n°1 pour la tranche B**
+- **Story Points** : 8 (Could), découpée en **tranche A (plugin, 5 points)** et **tranche B (démonstration, 3 points)** ; sacrifice : **n°1 pour la tranche B (validé par Thibaut le 2026-10-25)**
 - **Sprint** : sprint-28-noms-photos-et-import-erp
 - **Worker proposé** : w187
 - **Story** : [US-187](../../../backlog/user-stories/US-187.md) ; décision : [ADR 0017](../../../../docs/adr/0017-connecteur-erp-de-reference.md), story B de l'ADR
@@ -23,7 +23,7 @@ La fiche annonce 8 points. La décomposition donne **16,75 h pour Claude** (8 ×
 ## Règles et contraintes
 
 - **Contrat de l'ADR 0017** : prix `variant_code;price_minor;currency;channel`, stock `variant_code;on_hand` ; UTF-8, séparateur `;`, entiers ; lot identifié par nom unique + total de contrôle, lot déjà traité ignoré ; prix en tout ou rien ; stock : lignes valides appliquées, autres rejetées.
-- **Questions 3, 4 et 6** : réponses de Thibaut en T-187-02 avant l'affinage (propositions : prix par canal sans groupe de clients, stock absolu sans toucher aux réservations, aucune rétention dans le plugin).
+- **Questions 3, 4 et 6 : tranchées par Thibaut le 2026-10-25** (T-187-02 faite) : prix par canal (code de variante + canal + prix, `ChannelPricing`), sans groupe de clients ; stock en valeur absolue `on_hand`, sans toucher à `on_hold` ; aucune rétention dans le plugin, remise à zéro nocturne dans la démo.
 - **Plugin** : TDD (test rouge commité seul), matrice CI du dépôt lue avant d'écrire du code (PHP le plus bas de la matrice), ECS, PHPStan max, Rector, README FR et EN, CHANGELOG ; MySQL de la démo, base supprimée à la fin, jamais de `.env*`. **Aucun push, tag, release ni dépôt sans le GO de Thibaut (T-187-10)**, qui soumet lui-même à Packagist s'il le faut.
 - **Politique Sylius Plus** : aucune promotion d'un plugin qui recouvre Plus. T-187-01 lit la documentation officielle de Plus (import de prix et de stock, inventaire multi-source) et note le résultat ; tant que le recouvrement n'est pas levé, ni README comparatif, ni annonce, ni fiche Marketplace.
 - **Démonstration** : « ERP Démo (fictif) » seulement, statuts simulés dits tels à l'écran, aucun ERP réel nommé, aucun appel sortant, dépôt atomique, page du back-office en lecture seule. Le plugin d'export de commandes (v0.1.0) n'est pas modifié ; l'import est dans la même bibliothèque, publié en `v0.2.0`.
@@ -51,7 +51,7 @@ La fiche annonce 8 points. La décomposition donne **16,75 h pour Claude** (8 ×
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
 | T-187-01 | [DOC] | [A] Cadrage : ADR 0017 (contrat, questions 3, 4 et 6), plugin `sylius-erp-flatfile-plugin` v0.1.0 (`OrderLinesCsv`, `AtomicFileDepositor`, `ExportJournal`, `ExportedEvent`), simulateur et journal de la démo, `DemoResetCommand`, modèle `ChannelPricing` et stock de Sylius ; **politique Sylius Plus** : documentation officielle de Plus lue sur l'import de prix et de stock, sources notées ; propositions de réponse aux questions 3, 4 et 6 | 0,5 h | - | Claude | 🔲 |
-| T-187-02 | [OPS] | [A] 📅 Thibaut tranche les questions 3, 4 et 6 de l'ADR (propositions : prix par canal, sans groupe de clients ; stock en valeur absolue `on_hand` sans toucher aux réservations ; aucune rétention dans le plugin, remise à zéro nocturne dans la démo) | 0,25 h | T-187-01 | Thibaut | 📅 |
+| T-187-02 | [OPS] | [A] Thibaut a tranché les questions 3, 4 et 6 de l'ADR le 2026-10-25 : prix par canal (code de variante + canal + prix, `ChannelPricing`), sans groupe de clients ; stock en valeur absolue `on_hand`, sans toucher à `on_hold` ; aucune rétention dans le plugin, remise à zéro nocturne dans la démo | 0,25 h | T-187-01 | Thibaut | ✅ |
 | T-187-03 | [DOC] | [A] Affinage de la fiche : scénarios (1 nominal, 2 alternatifs, 2 erreurs pour le plugin ; 1 nominal et 1 erreur pour la démonstration), découpage A (plugin) / B (démo), ADR 0017 section « Décision (2026-10-24, sprint 28) » | 0,5 h | T-187-02 | Claude | 🔲 |
 | T-187-04 | [TEST] | [A] Tests rouges du plugin, commités seuls et cités dans la PR du plugin : lot de prix valide, lot de stock partiellement valide, lot déjà traité, lot de prix invalide (aucune écriture), fichier tronqué ou d'un autre encodage | 1,75 h | T-187-03 | Claude | 🔲 |
 | T-187-05 | [BE] | [A] Plugin, lecture et validation : encodage UTF-8, séparateur `;`, en-tête, total de contrôle ; prix (code de variante connu, entier positif, devise du canal) ; stock (code connu, entier) ; rapport de rejet ligne par ligne | 2 h | T-187-04 | Claude | 🔲 |
@@ -104,4 +104,5 @@ _À consigner par T-187-20 : pages publiques (pa11y, 360 px), échange présent 
 
 ## Registre des GO
 
-_À remplir : réponses aux questions 3, 4 et 6 (T-187-02), GO push/tag/release du plugin (T-187-10), confirmation Packagist (T-187-12)._
+- 2026-10-25 : questions 3, 4 et 6 tranchées par Thibaut (T-187-02) ; ordre de sacrifice validé ; le GO du tag `v0.2.0` sera demandé quand la tranche A sera prête.
+- _À remplir : GO push/tag/release du plugin (T-187-10), confirmation Packagist (T-187-12)._

@@ -16,7 +16,7 @@
 
 **Total décomposé : 13 points, 48 tâches, 34,2 h**, dont 0,95 h d'actions de Thibaut (4 tâches : choix sur la planche, trois sur le plugin : questions, GO, Packagist) : **33,25 h pour Claude**, orchestrateur compris.
 
-> **Périmètre validé par Thibaut le 2026-10-24.** Noms sans marque (US-195), photos cohérentes (US-196), import de prix et de stock (US-187). L'ordre de sacrifice est **proposé** et soumis à la confirmation de Thibaut.
+> **Périmètre validé par Thibaut le 2026-10-24.** Noms sans marque (US-195), photos cohérentes (US-196), import de prix et de stock (US-187). L'ordre de sacrifice est **validé par Thibaut le 2026-10-25**.
 
 ## Capacité
 
@@ -26,7 +26,7 @@ Méthode des sprints précédents : 2,1 h par point + 8 h de tâches transverses
 |-----------|----------|------------------|-------|
 | 13 points | 13 × 2,1 + 8 = **35,3 h** | 33,25 h | **2,05 h** |
 
-La marge (2,05 h) est supérieure à celle du sprint 27 (1,55 h) mais US-187 occupe 8 points à 16,75 h, soit 16,8 h attendues : **l'estimation à 8 points tient sans marge propre**. Ordre de sacrifice **proposé** (à confirmer par Thibaut) : **la tranche B d'US-187, puis US-196** ; US-195 est protégée.
+La marge (2,05 h) est supérieure à celle du sprint 27 (1,55 h) mais US-187 occupe 8 points à 16,75 h, soit 16,8 h attendues : **l'estimation à 8 points tient sans marge propre**. Ordre de sacrifice **validé par Thibaut le 2026-10-25** : **la tranche B d'US-187, puis US-196** ; US-195 est protégée.
 
 | # | Sacrifice | Heures Claude libérées | Charge restante | Capacité du périmètre restant | Conséquence |
 |---|-----------|------------------------|-----------------|-------------------------------|-------------|

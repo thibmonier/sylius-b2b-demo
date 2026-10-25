@@ -13,7 +13,7 @@
 | Vélocité de référence | S24 19, S25 17, S26 29, S27 13 (moyenne 19,5) |
 | Branche | `feature/sprint-28-dev` (branche partagée, créée depuis `main` ; pas de checkout dans l'arbre partagé) |
 
-Le périmètre (13 points) est sous la moyenne (19,5), mais deux stories passent par des feux verts de Thibaut (planche de photos, GO du plugin) et US-187 occupe 8 points sans marge propre. L'ordre de sacrifice ci-dessous est **proposé** et attend la confirmation de Thibaut.
+Le périmètre (13 points) est sous la moyenne (19,5), mais deux stories passent par des feux verts de Thibaut (planche de photos, GO du plugin) et US-187 occupe 8 points sans marge propre. L'ordre de sacrifice ci-dessous est **validé par Thibaut le 2026-10-25**.
 
 ## Sprint Goal
 
@@ -26,8 +26,8 @@ Gherkin : au minimum 1 nominal, 2 alternatifs et 2 erreurs par story. « Fiche �
 | ID | Titre | Pts | MoSCoW | Statut | Sacrifice |
 |----|-------|-----|--------|--------|-----------|
 | [US-195](../../backlog/user-stories/US-195.md) | Noms de produits sans marque réelle | 2 | Should | ready-for-dev | **protégée** |
-| [US-196](../../backlog/user-stories/US-196.md) | Photos du catalogue cohérentes et sans marque | 3 | Should | ready-for-dev (planche et GO de Thibaut avant tout téléchargement) | **n°2 (proposé)** |
-| [US-187](../../backlog/user-stories/US-187.md) | Import CSV de prix et de stock : plugin (tranche A, 5 pts) puis démonstration (tranche B, 3 pts) | 8 | Could | ready-for-dev (questions 3, 4 et 6 à trancher, GO du plugin) | **n°1 pour la tranche B (proposé)** |
+| [US-196](../../backlog/user-stories/US-196.md) | Photos du catalogue cohérentes et sans marque | 3 | Should | ready-for-dev (planche et GO de Thibaut avant tout téléchargement) | **n°2 (validé)** |
+| [US-187](../../backlog/user-stories/US-187.md) | Import CSV de prix et de stock : plugin (tranche A, 5 pts) puis démonstration (tranche B, 3 pts) | 8 | Could | ready-for-dev (questions 3, 4 et 6 tranchées le 2026-10-25, GO du plugin à venir) | **n°1 pour la tranche B (validé)** |
 
 Total engagé : **13 points**.
 
@@ -37,6 +37,12 @@ Total engagé : **13 points**.
 - Les **cinq actions de la rétrospective du sprint 27** sont des tâches transverses T-TECH-28-01 à T-TECH-28-05 (voir [tasks/technical-tasks.md](./tasks/technical-tasks.md)) ; deux d'entre elles (règles 13 et 16 de la consigne, lignes de la checklist) sont déjà écrites au planning.
 
 **Hors sprint** : API d'import et adaptateurs d'éditeur (stories D et E de l'ADR 0017), US-128 (attend ses données), US-103 et US-121 (conditionnées au transcript T-103-03), US-154, US-062.
+
+## Décisions de Thibaut (2026-10-25)
+
+1. Ordre de sacrifice validé : tranche B d'US-187 (démo), puis US-196 ; US-195 protégée.
+2. Questions 3, 4 et 6 de l'ADR 0017 : prix par canal (code de variante + canal + prix, `ChannelPricing`), sans groupe de clients ; stock en valeur absolue `on_hand`, sans toucher à `on_hold` ; aucune rétention dans le plugin, remise à zéro nocturne dans la démo.
+3. Le GO du tag `v0.2.0` sera demandé quand la tranche A sera prête : T-187-10 reste 📅.
 
 ## Estimation d'US-187
 
@@ -69,7 +75,7 @@ Aucun plugin qui recouvre Sylius Plus n'est promu. Un recouvrement **possible**,
 - [x] Sprint backlog visible : [task-board.md](./task-board.md), [tasks/README.md](./tasks/README.md)
 - [x] Dépendances : [sprint-dependencies.md](./sprint-dependencies.md)
 - [x] Consigne de worker et checklist du sprint : [consigne-worker.md](./consigne-worker.md), [checklist-integration.md](./checklist-integration.md)
-- [ ] Questions 3, 4 et 6 de l'ADR 0017 tranchées par Thibaut (T-187-02)
+- [x] Questions 3, 4 et 6 de l'ADR 0017 tranchées par Thibaut le 2026-10-25 (T-187-02)
 - [ ] Planche de photos présentée à Thibaut et GO de téléchargement (T-196-04)
 - [ ] GO de Thibaut pour push, tag et release du plugin (T-187-10)
 
@@ -79,7 +85,7 @@ Aucun plugin qui recouvre Sylius Plus n'est promu. Un recouvrement **possible**,
 |----|-------|----------------------|-----------|------|
 | US-195 | oui | oui (1+2+2) | inventaire T-189-01 ; fixtures `fixtures/csv/*.csv` ; 6 Go libres | prête |
 | US-196 | oui | oui (1+2+2) | US-195 pour les noms de la planche ; sélection et GO de Thibaut avant téléchargement ; `bin/fetch-product-images` à adapter ; un seul cache de rendu | prête (porte : planche, puis GO) |
-| US-187 | oui (affinée à l'étape T-187-03) | oui (1+2+2 plugin, 1+1 démonstration) | questions 3, 4 et 6 à trancher (T-187-02, propositions fournies) ; plugin v0.1.0 dans son dépôt ; GO de Thibaut avant push, tag et release ; 6 Go libres | prête (porte : questions, puis GO plugin) |
+| US-187 | oui (affinée à l'étape T-187-03) | oui (1+2+2 plugin, 1+1 démonstration) | questions 3, 4 et 6 tranchées le 2026-10-25 ; plugin v0.1.0 dans son dépôt ; GO de Thibaut avant push, tag et release ; 6 Go libres | prête (porte : GO plugin, demandé quand la tranche A sera prête) |
 
 ## Definition of Done (rappel)
 
@@ -97,7 +103,7 @@ Aucun plugin qui recouvre Sylius Plus n'est promu. Un recouvrement **possible**,
 
 ## Actions de Thibaut
 
-- Trancher les questions 3, 4 et 6 de l'ADR 0017 (T-187-02) ; confirmer l'ordre de sacrifice.
+- ✅ Questions 3, 4 et 6 de l'ADR 0017 tranchées et ordre de sacrifice validé le 2026-10-25.
 - Choisir les photos sur la planche et donner le GO de téléchargement (T-196-04).
 - Donner le GO pour push, tag et release du plugin (T-187-10) ; soumettre ou mettre à jour le paquet sur Packagist s'il le faut (T-187-12).
 - Quitter les applications lourdes si le swap dépasse la moitié de l'espace libre (relevé avant chaque lot).
