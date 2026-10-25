@@ -103,6 +103,28 @@ final class SelectionImporterTest extends TestCase
         self::assertSame('category-gants.webp', ImageManifest::load($this->dir . '/images/manifest.csv')->fileFor('P-9'));
     }
 
+    public function testThePointFocalOfAPhotoIsWrittenToTheManifestForEverySkuOfItsType(): void
+    {
+        $selection = \json_decode((string) \file_get_contents($this->dir . '/selection.json'), true, 512, \JSON_THROW_ON_ERROR);
+        \assert(\is_array($selection) && \is_array($selection['photos']) && \is_array($selection['photos'][0]));
+        $selection['photos'][0]['position'] = [100, 50];
+        \file_put_contents($this->dir . '/selection.json', \json_encode($selection, \JSON_THROW_ON_ERROR));
+
+        $this->import();
+
+        $manifest = ImageManifest::load($this->dir . '/images/manifest.csv');
+        self::assertSame([[100.0, 50.0], [100.0, 50.0], null], [$manifest->focalFor('P-1'), $manifest->focalFor('P-2'), $manifest->focalFor('P-3')]);
+    }
+
+    public function testAPhotoWithoutPointFocalIsFramedByDefaultAndTheManifestStaysValid(): void
+    {
+        $this->import();
+
+        $manifest = ImageManifest::load($this->dir . '/images/manifest.csv');
+        self::assertNull($manifest->focalFor('P-1'));
+        self::assertSame([], (new ImageManifestAuditor())->violations(\array_filter($manifest->rows(), static fn (array $row): bool => $row['source'] === 'pexels')));
+    }
+
     public function testTheSameInputGivesTheSameFileNames(): void
     {
         $this->import();
