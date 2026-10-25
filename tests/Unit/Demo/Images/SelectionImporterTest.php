@@ -99,14 +99,54 @@ final class SelectionImporterTest extends TestCase
         self::assertCount(2, \glob($this->dir . '/images/*.webp') ?: []);
     }
 
+    public function testAnEmptyOrRootSourceFolderIsRefusedBeforeAnythingIsWritten(): void
+    {
+        foreach (['', '/', $this->dir . '/missing'] as $source) {
+            try {
+                $this->importFrom($source);
+                self::fail('The source "' . $source . '" must be refused.');
+            } catch (\RuntimeException $exception) {
+                self::assertStringContainsString('source', $exception->getMessage());
+            }
+        }
+        self::assertFileExists($this->dir . '/images/orphan0000aa.webp');
+        self::assertCount(2, \glob($this->dir . '/images/*.webp') ?: []);
+    }
+
+    public function testASourceFolderWithNoneOfTheSelectedPhotosIsRefused(): void
+    {
+        \mkdir($this->dir . '/other');
+
+        $this->expectException(\RuntimeException::class);
+        $this->importFrom($this->dir . '/other');
+    }
+
+    public function testOnlyTheWebpFilesOfTheImageFolderItselfAreEverRemoved(): void
+    {
+        \mkdir($this->dir . '/images/nested');
+        \file_put_contents($this->dir . '/images/nested/keep0000bb.webp', 'x');
+        \file_put_contents($this->dir . '/images/notes.txt', 'x');
+
+        $this->import();
+
+        self::assertFileExists($this->dir . '/images/nested/keep0000bb.webp');
+        self::assertFileExists($this->dir . '/images/notes.txt');
+    }
+
     /** @return array{photos: int, skus: int, removed: list<string>} */
     private function import(): array
+    {
+        return $this->importFrom($this->dir . '/source');
+    }
+
+    /** @return array{photos: int, skus: int, removed: list<string>} */
+    private function importFrom(string $source): array
     {
         $manifest = ImageManifest::load($this->dir . '/images/manifest.csv');
 
         return (new SelectionImporter(new ImageProcessor(), new PhotoCropper()))->import(
             PhotoSelection::load($this->dir . '/selection.json'),
-            $this->dir . '/source',
+            $source,
             $this->dir . '/images',
             $manifest,
             '2026-10-25',
