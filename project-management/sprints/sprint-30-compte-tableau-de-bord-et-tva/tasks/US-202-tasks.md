@@ -47,8 +47,8 @@
 | T-202-03 | [DB] | Catégorie `standard` affectée aux produits des fixtures et aux produits de l'import ERP simulé ; historique de commandes cohérent (ou décision notée) ; fixtures rechargées en local | 1 h | T-202-02 | Claude | ✅ |
 | T-202-04 | [FE-WEB] | Récapitulatif du panier : ligne TVA et total TTC réaffichés à la place de la maquette validée ; récapitulatif de commande et e-mails relus ; AAA et 360 px conservés | 0,75 h | T-202-03 | Claude | ✅ |
 | T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | ✅ |
-| T-202-06 | [TEST] | Suite ciblée par `bin/run-tests` (panier, paliers, approbation, tunnel de commande de bout en bout, import ERP, tableau de bord des achats), prix comparés avant/après, PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y du panier FR et EN ; commande exacte et dernière ligne citées | 0,75 h | T-202-04, T-202-05 | Claude | 🔲 |
-| T-202-07 | [DOC] | Captures `docs/images/cart-*` mises à jour par `bin/render-page`, section du panier de `docs/theme-b2b.md` | 0,5 h | T-202-06 | Claude | 🔲 |
+| T-202-06 | [TEST] | Suite ciblée par `bin/run-tests` (panier, paliers, approbation, tunnel de commande de bout en bout, import ERP, tableau de bord des achats), prix comparés avant/après, PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y du panier FR et EN ; commande exacte et dernière ligne citées | 0,75 h | T-202-04, T-202-05 | Claude | ✅ |
+| T-202-07 | [DOC] | Captures `docs/images/cart-*` mises à jour par `bin/render-page`, section du panier de `docs/theme-b2b.md` | 0,5 h | T-202-06 | Claude | ✅ |
 | T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | 🔲 |
 | T-202-09 | [REV] | Revue (ton neutre, parité FR et EN, prix inchangés, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,25 h | T-202-08 | Claude | 🔲 |
 
@@ -63,6 +63,19 @@
 - **Limite d'approbation** (décision de Thibaut, option A, registre 57f6d56) : le plugin compare `getTotal()` et ses services sont `final` (pas de décoration possible) : plugin purchase-approval 1.4.0 (réglage `amount_basis`, PR #9 et #10), `amount_basis: net` dans `config/packages/demo_purchase_approval.yaml`. Le message du panier (`CartApprovalNoticeProvider`) annonce le même montant (hors taxes) par le résolveur ; le calcul de l'approbateur est dans `ApproverNameProvider::firstNameFor()`.
 - **Constat de la livraison** : la zone `EU` (zone de livraison) était aussi retenue comme zone de taxe dès que l'adresse de livraison était connue : la TVA disparaissait au checkout. Zone `EU` en portée `shipping` (fixtures) ; `CartToOrderTest` vérifie la TVA de la commande passée.
 - Test d'isolation corrigé dans `tests/Support/BuildsDemoCarts.php` (deux paniers créés dans la même seconde).
+
+## Mesures (w202, 2026-10-25, local : rendu du noyau `APP_ENV=test` avec `--login`, Claire, vignettes réelles)
+
+| Contrôle | Commande | Résultat |
+|----------|----------|----------|
+| Lint Twig | `php -d memory_limit=1G bin/console lint:twig templates/shop/theme_b2b/cart` | `All 11 Twig files contain valid syntax.` |
+| Lint YAML | `php -d memory_limit=1G bin/console lint:yaml config translations` | `All 171 YAML files contain valid syntax.` |
+| pa11y WCAG2AAA, panier FR | `pa11y --config cfg.json http://127.0.0.1:8731/fr_FR-cart.html` | `No issues found!` |
+| pa11y WCAG2AAA, panier EN | idem `en_US-cart.html` | `No issues found!` |
+| Débordement horizontal à 1280 px et à 360 px | puppeteer, `scrollWidth - clientWidth` | 0 et 0 |
+| Captures | `docs/images/cart-buyer-fr.jpg` (1280), `cart-buyer-360-fr.jpg` (360) | relues : TVA (20%), Total TTC, vignettes réelles |
+
+Limite de `bin/render-page` : il ne génère les vignettes que pour les URL absolues `http://127.0.0.1/media/cache/...` ; le panier émet des URL relatives (`/media/cache/...`), la copie de travail du script en tient compte (non commitée, fichier de l'orchestrateur).
 
 ## Table « scénario → test ou preuve »
 

@@ -81,7 +81,7 @@ sylius_fixtures:
                         custom:
                             fr_standard:
                                 code: 'fr_standard'
-                                name: 'TVA 20 %'
+                                name: 'TVA'
                                 zone: 'FR'
                                 category: 'standard'
                                 amount: 0.2
