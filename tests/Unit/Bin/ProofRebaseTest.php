@@ -16,6 +16,7 @@ use Symfony\Component\Process\Process;
 final class ProofRebaseTest extends TestCase
 {
     private string $root;
+
     private string $clone;
 
     protected function setUp(): void
@@ -97,7 +98,7 @@ final class ProofRebaseTest extends TestCase
         self::assertSame(1, $process->getExitCode());
         self::assertStringContainsString('README.md', $process->getErrorOutput());
         self::assertSame($before, trim($this->git($this->clone, 'rev-parse', 'HEAD')));
-        self::assertFalse(is_dir($this->clone . '/.git/rebase-merge'), 'no rebase left in progress');
+        self::assertDirectoryNotExists($this->clone . '/.git/rebase-merge', 'no rebase left in progress');
     }
 
     public function testAProofThatStillFailsTheCheckFails(): void
