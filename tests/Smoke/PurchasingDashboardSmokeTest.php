@@ -49,7 +49,10 @@ final class PurchasingDashboardSmokeTest extends WebTestCase
         $crawler = $client->request('GET', self::PAGE);
 
         self::assertGreaterThanOrEqual(4, $crawler->filter('[data-test-tmonier-insights-ranking="buyers-EUR"] [data-test-tmonier-insights-ranking-row]')->count());
-        self::assertGreaterThanOrEqual(10, $crawler->filter('[data-test-tmonier-insights-ranking="products-EUR"] [data-test-tmonier-insights-ranking-row]')->count());
+        self::assertCount(5, $crawler->filter('[data-test-tmonier-insights-ranking="products-EUR"] [data-test-tmonier-insights-ranking-row]'), 'US-201: the dashboard shows the five first products.');
+
+        $full = $client->request('GET', self::PAGE . '/products');
+        self::assertGreaterThanOrEqual(10, $full->filter('[data-test-tmonier-insights-ranking-row]')->count(), 'The page of every product lists at least ten of them.');
         self::assertStringContainsString('désactivé', $crawler->filter('[data-test-tmonier-insights-ranking="buyers-EUR"]')->text(), 'The buyer who left stays in the ranking, marked as deactivated.');
     }
 
@@ -92,7 +95,7 @@ final class PurchasingDashboardSmokeTest extends WebTestCase
         $block = $client->request('GET', self::PAGE)->filter('[data-test-tmonier-insights-breakdown="sites-EUR"]');
 
         self::assertCount(1, $block);
-        $labels = $block->filter('[data-test-tmonier-insights-breakdown-row] th')->each(static fn (Crawler $cell): string => trim($cell->text()));
+        $labels = $block->filter('[data-test-tmonier-insights-breakdown-row] [data-test-b2b-insights-name]')->each(static fn (Crawler $cell): string => trim($cell->text()));
         foreach (['Usine de Lyon', 'Entrepôt de Saint-Priest', 'Atelier de Grenoble'] as $site) {
             self::assertContains($site, $labels);
         }
@@ -107,7 +110,7 @@ final class PurchasingDashboardSmokeTest extends WebTestCase
 
         self::assertCount(1, $block);
         self::assertStringContainsString('Centre de coût', $block->text());
-        $labels = $block->filter('[data-test-tmonier-insights-breakdown-row] th')->each(static fn (Crawler $cell): string => trim($cell->text()));
+        $labels = $block->filter('[data-test-tmonier-insights-breakdown-row] [data-test-b2b-insights-name]')->each(static fn (Crawler $cell): string => trim($cell->text()));
         sort($labels);
         self::assertSame(['ATELIER-01', 'MAINT-02'], $labels);
     }
