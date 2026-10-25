@@ -4,15 +4,15 @@
 declare(strict_types=1);
 
 use App\Kernel;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\Dotenv\Dotenv;
-use Sylius\Component\Core\Model\CustomerInterface;
 
 /*
  * Renders pages of the demo with the kernel itself, in the command line (T-TECH-27-05): no web server, so no gate and no 503, the
  * same HTML as the production for the same environment. Meant for captures and for the measures of the rendering (pa11y, widths).
  *
- *   bin/render-page --out=DIR [--channel=B2B|B2C] [--login=EMAIL] PATH...
+ *   WORKER_ID=<worker> bin/render-page --out=DIR [--channel=B2B|B2C] [--login=EMAIL] PATH...
  *   e.g. bin/render-page --out=/tmp/pages --login=claire@acme.example /fr_FR/ /fr_FR/products/outi-001-fr
  *
  * One file DIR/<path>.html per page (the path with its slashes turned into dashes). The thumbnails of the products are generated
@@ -67,6 +67,46 @@ if (null !== $login && 'test' !== ($_SERVER['APP_ENV'] ?? '')) {
 
     exit(2);
 }
+
+// T-TECH-30-01: one render cache per worker, reused from one render to the next (a cache is about 150 MB), under var/
+// so that bin/clean-test-caches removes it with the worker's other resources.
+$worker = (string) ($_SERVER['WORKER_ID'] ?? '');
+if (1 !== preg_match('/^[A-Za-z0-9]+$/', $worker)) {
+    fwrite(\STDERR, "set WORKER_ID=<worker> (letters and digits): the render cache is var/cache-<worker>-render, one per worker\n");
+
+    exit(2);
+}
+$cache = 'var/cache-' . $worker . '-render';
+$requested = rtrim((string) ($_SERVER['APP_CACHE_DIR'] ?? ''), '/');
+if ('' !== $requested && !\in_array($requested, [$cache, $root . '/' . $cache], true)) {
+    fwrite(\STDERR, 'one render cache per worker: unset APP_CACHE_DIR, ' . $worker . ' renders with ' . $cache . "\n");
+
+    exit(2);
+}
+$_SERVER['APP_CACHE_DIR'] = $_ENV['APP_CACHE_DIR'] = $root . '/' . $cache;
+
+// No render below the disk threshold: bin/check-disk exits 1 when frozen; 3 is an alert, shown, the render goes on.
+passthru(escapeshellarg($root . '/bin/check-disk') . ' 1>&2', $disk);
+if (1 === $disk) {
+    fwrite(\STDERR, "no render: bin/check-disk says the disk is below the threshold, free some space first (bin/clean-test-caches)\n");
+
+    exit(4);
+}
+
+// T-TECH-30-03: in APP_ENV=test (--login) the images are read from <cache>/test/media-test/image (config/packages/test/
+// demo_media.yaml), empty in a render cache: the thumbnails (b2b_photo*) could not be generated and the captures showed empty
+// cards. The render only reads pages, so that directory links to the images of the demo database (public/media/image). Removing
+// the cache removes the link, never the images.
+if ('test' === ($_SERVER['APP_ENV'] ?? '')) {
+    $images = $root . '/' . $cache . '/test/media-test/image';
+    if (!is_link($images) && !file_exists($images)) {
+        @mkdir(\dirname($images), 0o755, true);
+        symlink($root . '/public/media/image', $images);
+    }
+}
+
+// The first render of an empty cache compiles the container, which needs more than the 128 MB of the default php.ini.
+ini_set('memory_limit', '1G');
 
 // Nothing may be printed before the session starts: the report is built and shown at the end.
 ob_start();

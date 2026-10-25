@@ -73,6 +73,10 @@ final class RenderPageTest extends TestCase
         self::assertDirectoryDoesNotExist(\dirname(__DIR__, 3) . '/var/cache-wz-render', 'the kernel is not booted, no cache is created');
     }
 
+    /**
+     * @param list<string>                $arguments
+     * @param array<string, string|false> $environment
+     */
     private function render(array $arguments, array $environment = []): Process
     {
         $process = new Process(['php', \dirname(__DIR__, 3) . '/bin/render-page', ...$arguments], null, $environment);
