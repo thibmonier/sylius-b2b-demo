@@ -12,6 +12,10 @@
 | 2026-10-25 | Règles 18 à 20 de la consigne (garde des chemins variables, séquence de la CI rejouée, aucune fusion avec une question ouverte) et ce registre, issus de la rétro du sprint 28 | Orchestrateur | T-TECH-29-04 |
 | 2026-10-25 | Stock activé dans les fixtures (suivi activé sur les variantes, quantités fictives cohérentes avec quelques ruptures), pour l'état de stock de la carte d'US-198 ; environ 1 h prise sur la marge | Thibaut | T-198-06 |
 | 2026-10-25 | Toutes les maquettes (home, fiche produit, liste, panier, puis Mon compte et tableau de bord) regroupées dans un seul projet Claude Design, avec une planche « Acquis » ; les deux anciens artefacts restent jusqu'à la vérification de Thibaut | Thibaut | T-198-03, T-200-03 |
+| 2026-10-25 | Panier : message d'approbation et de limite affiché dès le panier (contenu nouveau, calculé dans la démo à partir de la limite existante, ≈1 h) | Thibaut | T-200-03, T-200-06 |
+| 2026-10-25 | Panier : « enregistrer en liste d'achat » retiré du périmètre (la fonction n'existe pas depuis le panier) ; actions groupées : devis et commande rapide | Thibaut | T-200-03 |
+| 2026-10-25 | Panier : test fonctionnel de commande de bout en bout ajouté (panier de Claire → validation → commande soumise à approbation, ≈1,5 h) | Thibaut | T-200-05 |
+| 2026-10-25 | Capacité : stock (1 h) et ajouts du panier (2,5 h) dépassent la marge de 1,8 h d'environ 1,7 h ; l'ordre de sacrifice validé s'applique (US-197 d'abord) | Orchestrateur | T-TECH-29-05 |
 | _à venir_ | GO de la maquette de la liste | Thibaut | T-198-04 |
 | _à venir_ | GO de la maquette du panier | Thibaut | T-200-04 |
 | _à venir_ | Choix sur la planche et GO de téléchargement | Thibaut | T-197-05 |
