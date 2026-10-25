@@ -48,7 +48,7 @@
 | T-197-05 | [OPS] | 📅 Thibaut choisit les photos sur la planche (une photo avec marque ou pixellisée est écartée, aucune retouche) et donne le **GO explicite de téléchargement** ; GO noté au registre des décisions avant T-197-06 | 0,5 h | T-197-04 | Thibaut | ✅ |
 | T-197-06 | [DOC] | 📅 **Après le GO (T-197-05) seulement** : téléchargement des seules photos choisies, optimisation WebP, `manifest.csv`, anciens fichiers orphelins retirés par `git rm`, `docs/images-produits.md` ; texte relu contre le manifeste | 0,75 h | T-197-05, T-197-02 | Claude | ✅ |
 | T-197-07 | [BE] | 📅 Variantes de couleur : rattachement par couleur dans `ProductImageAttacher`, crédits (`ImageCredits`) avec auteur, source et licence ; visuels neutres de la veste de pluie et de la botte remplacés si une photo a été retenue | 0,75 h | T-197-06 | Claude | ✅ |
-| T-197-08 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt, ECS, Rector, lint ; **captures avant/après** des cartes portrait et de la fiche pour les familles touchées (rendu du noyau en mode prod, un seul cache de rendu) ; commande exacte et dernière ligne citées | 0,5 h | T-197-03, T-197-07 | Claude | 🔄 |
+| T-197-08 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt, ECS, Rector, lint ; **captures avant/après** des cartes portrait et de la fiche pour les familles touchées (rendu du noyau en mode prod, un seul cache de rendu) ; commande exacte et dernière ligne citées | 0,5 h | T-197-03, T-197-07 | Claude | 🟡 (lot ciblé vert ; captures avant/après simulées sur les vrais WebP, pas un rendu du noyau) |
 | T-197-09 | [TEST] | Vérification en production après le déploiement **et la remise à zéro de 03:00** : pa11y et largeurs (catalogue, une fiche par famille touchée, page Crédits), LCP mobile du catalogue ; mesures consignées le jour du contrôle ; puis revue (licences relues contre le manifeste, ton neutre, aucune marque visible), table « scénario → test ou preuve » remplie, `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,75 h | merge de la PR | Claude | 📅 |
 
 **Total estimé : 6,75 h** (9 tâches ; 6,25 h pour Claude, 0,5 h de Thibaut).
@@ -57,11 +57,11 @@
 
 | Scénario | Tâche de test | Test ou preuve |
 |----------|---------------|----------------|
-| Le sujet reste entier sur la carte et sur la fiche (nominal) | T-197-02 (rouge), T-197-08 (captures avant/après) | |
-| La couleur annoncée par le nom correspond à la photo (alternatif) | T-197-02, T-197-08 | |
-| Produit sans point focal (alternatif) | T-197-02 | |
-| Photo avec marque ou licence non conforme (erreur) | T-197-02 (manifeste, échec nommant le SKU), T-197-04 (planche relue) | |
-| Aucune photo libre trouvée pour la veste de pluie ou la botte (erreur) | T-197-02 (visuel neutre conservé), T-197-04 (raison consignée) | |
+| Le sujet reste entier sur la carte et sur la fiche (nominal) | T-197-02 (rouge), T-197-08 (captures avant/après) | `ProductPhotoFramingTest` (cartes et fiche, point focal), `PhotoFramingTest` ; captures avant/après simulées (T-197-08) ; production après 03:00 (T-197-09) |
+| La couleur annoncée par le nom correspond à la photo (alternatif) | T-197-02, T-197-08 | `ProductPhotoColourTest::testAHardHatIsShownInTheColourItsNameAnnounces`, `testEveryHardHatColourOfTheBoardHasItsOwnPhotoShownOnlyBySkusOfThatColour` ; exception nommée : casque vert (`testTheGreenHardHatKeepsTheWhitePhotoForALackOfAFreeOneAndSaysSo`) |
+| Produit sans point focal (alternatif) | T-197-02 | `PhotoFramingTest::testAProductWithoutAFocalPointKeepsTheDefaultFraming`, `ProductPhotoFramingTest::testTheCardOfAPhotoWithoutPointFocalKeepsTheDefaultFraming` |
+| Photo avec marque ou licence non conforme (erreur) | T-197-02 (manifeste, échec nommant le SKU), T-197-04 (planche relue) | `PhotoFramingTest::testAFocalPointOutsideTheFrameIsRefusedAndNamedByTheAudit`, `ProductPhotoColourTest::testThePhotosChosenOnTheBoardAreCreditedToTheirAuthorWithTheLicenceOfTheirBank` ; planche relue aperçu par aperçu, photos à texte écartées |
+| Aucune photo libre trouvée pour la veste de pluie ou la botte (erreur) | T-197-02 (visuel neutre conservé), T-197-04 (raison consignée) | `ProductPhotoColourTest::testTheRubberBootIsAPhotoNowAndTheRainJacketKeepsItsNeutralVisualForALackOfAFreePhoto` ; GO de Thibaut au registre |
 
 ## Registre de la planche et du GO
 

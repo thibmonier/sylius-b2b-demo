@@ -82,16 +82,16 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 |----|------|-------|------------|-----------|-------------|--------|
 | T-198-01 | [DOC] | Cadrage : inventaire de la liste relu contre le code (hooks `product_card_*`, gabarits de la grille, filtres, tri, pagination, recherche, état vide, canal B2C, tests existants du catalogue) ; trois pages types retenues (catégorie de plus d'une page, recherche, recherche sans résultat) ; plan des tests | 0,75 h | - | Claude | ✅ |
 | T-198-02 | [TEST] | Mesure « avant » en production (lecture seule) sur les trois pages types : LCP mobile (médiane de 5 passes), poids et requêtes, largeur à 360 px, pa11y, FR et EN ; chiffres notés dans ce fichier (reprise possible de T-196-09 s'il est fait au même protocole) | 0,75 h | T-198-01 | Claude | ✅ |
-| T-198-03 | [FE-WEB] | Maquette Claude Design (bureau et téléphone) : en-tête de catégorie, filtres et tri, carte produit (photo, nom, référence, prix HT de la société, paliers ou « à partir de », stock, action rapide), grille et vue liste, pagination, état vide, visiteur anonyme, B2C inchangé ; jetons de `b2b.scss`, Fraunces et Inter ; publiée en artefact privé, captures sur le rendu du noyau en mode prod | 2 h | T-198-01, T-TECH-29-01 | Orchestrateur | 🔲 |
-| T-198-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-198-03 | Thibaut | 📅 |
+| T-198-03 | [FE-WEB] | Maquette Claude Design (bureau et téléphone) : en-tête de catégorie, filtres et tri, carte produit (photo, nom, référence, prix HT de la société, paliers ou « à partir de », stock, action rapide), grille et vue liste, pagination, état vide, visiteur anonyme, B2C inchangé ; jetons de `b2b.scss`, Fraunces et Inter ; publiée en artefact privé, captures sur le rendu du noyau en mode prod | 2 h | T-198-01, T-TECH-29-01 | Orchestrateur | ✅ (canevas unique, page « Liste des produits ») |
+| T-198-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-198-03 | Thibaut | ✅ (GO de Thibaut, registre 8028523) |
 | T-198-05 | [TEST] | Tests rouges, commités seuls et cités dans la PR : cartes B2B (photo, nom, référence, prix HT, stock), anonyme sans prix avec invitation, tri conservé au changement de page et page courante annoncée, B2C inchangé, état vide, 360 px, polices auto-hébergées et CSP, charte, cibles de 44 px | 1 h | T-198-04 | Claude | ✅ |
 | T-198-06 | [FE-WEB] | Gabarits et hooks de la liste, styles `b2b.scss` (jetons d'US-186 réutilisés), responsive 360 et 1280 px, AAA, `prefers-reduced-motion` ; hooks sur le canal B2B seulement ; vue liste en dernier (négociable) ; point focal d'US-197 si T-197-03 est mergée | 3 h | T-198-05 | Claude | ✅ |
 | T-198-07 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, `alt` des photos ; texte relu contre la maquette validée | 0,5 h | T-198-06 | Claude | ✅ |
 | T-198-08 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 360 px ; commande exacte et dernière ligne citées | 0,75 h | T-198-06, T-198-07 | Claude | ✅ |
 | T-198-09 | [DOC] | Captures `docs/images/product-list-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-198-08 | Claude | ✅ |
 | T-198-10 | [TEST] | Vérification en production après le déploiement (lecture seule, trois pages types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-198-02 ; **comparaison avant/après consignée le jour du déploiement** (le catalogue n'affiche les nouvelles photos qu'après la remise à zéro de 03:00 suivante) | 0,75 h | merge de la PR | Claude | ✅ |
-| T-198-11 | [REV] | Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie ; `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-198-10 | Claude | 📅 |
-| T-198-12 | [DB] | Stock suivi dans les fixtures (décision de Thibaut, registre 242b30e) : `tracked = 1` sur toutes les variantes, quantités fictives déterministes d'après le SKU (`DemoStockLevel`, environ 5 % de ruptures, environ 10 % de stocks faibles), `on_hold = 0`, fixture `demo_catalog_stock` (priorité -85, après les commandes et avant l'échange ERP) ; test rouge commité seul, import ERP vérifié cohérent | 1 h | T-198-01 | Claude | 🔄 |
+| T-198-11 | [REV] | Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie ; `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-198-10 | Claude | ✅ (table remplie à la clôture ; preuve publiée à jour, 287 fichiers de tests) |
+| T-198-12 | [DB] | Stock suivi dans les fixtures (décision de Thibaut, registre 242b30e) : `tracked = 1` sur toutes les variantes, quantités fictives déterministes d'après le SKU (`DemoStockLevel`, environ 5 % de ruptures, environ 10 % de stocks faibles), `on_hold = 0`, fixture `demo_catalog_stock` (priorité -85, après les commandes et avant l'échange ERP) ; test rouge commité seul, import ERP vérifié cohérent | 1 h | T-198-01 | Claude | ✅ `76222f5` (rouge), `1fbda36` |
 
 **Total estimé : 12 h** (12 tâches ; 11,5 h pour Claude et l'orchestrateur, 0,5 h de Thibaut ; T-198-12, 1 h, prise sur la marge).
 
@@ -101,13 +101,13 @@ Chaque scénario Gherkin de la fiche est relié à une tâche de test. Une ligne
 
 | Scénario | Tâche de test | Test ou preuve |
 |----------|---------------|----------------|
-| Liste lisible et cohérente avec la fiche produit (nominal) | T-198-05 (rouge), T-198-08 | |
-| Visiteur anonyme (alternatif) | T-198-05, T-198-10 (production, visiteur) | |
-| Filtres, tri et pagination (alternatif) | T-198-05, T-198-08 | |
-| Canal B2C (alternatif) | T-198-05 | |
-| Recherche sans résultat (erreur) | T-198-05, T-198-10 | |
-| Débordement sur téléphone (erreur) | T-198-05, T-198-08 (`bin/measure-mobile`), T-198-10 (360 px) | |
-| Régression d'accessibilité ou de performance (erreur) | T-198-08 (pa11y local), T-198-10 (pa11y AAA FR et EN, LCP) | |
+| Liste lisible et cohérente avec la fiche produit (nominal) | T-198-05 (rouge), T-198-08 | `ProductListRedesignTest::testEveryCardOfABuyerCarriesReferenceNameStockPriceAndAnAction`, `testThePageShowsTheThreeLevelsOfStock`, `testABuyerSeesTheCategoryHeaderTheNoticeAndTheCategories` ; captures `docs/images/product-list-*-fr.jpg` |
+| Visiteur anonyme (alternatif) | T-198-05, T-198-10 (production, visiteur) | `ProductListRedesignTest::testAVisitorSeesNoPriceAndAnInvitationToSignIn`, `ProductListAddToCartTest::testAVisitorIsSentToTheLoginAndAddsNothing` ; production : aucun prix ni stock, invitation présente (T-198-10) |
+| Filtres, tri et pagination (alternatif) | T-198-05, T-198-08 | `ProductListRedesignTest::testTheSortIsKeptWhenThePageChangesAndTheCurrentPageIsAnnounced`, `testSortingByPriceOrdersTheCards`, `testTheToolbarOffersSearchSortPageSizeAndDisplayWithLabels`, `testTheListViewIsServerSideAndKeepsTheCards` |
+| Canal B2C (alternatif) | T-198-05 | `ProductListRedesignTest::testTheConsumerChannelKeepsTheCoreList` |
+| Recherche sans résultat (erreur) | T-198-05, T-198-10 | `ProductListRedesignTest::testASearchWithoutResultExplainsItAndOffersThreeWaysOut` ; production : page C sans problème pa11y (T-198-10) |
+| Débordement sur téléphone (erreur) | T-198-05, T-198-08 (`bin/measure-mobile`), T-198-10 (360 px) | Puppeteer local 360 et 1280 px sans débordement (T-198-08) ; production : `scrollWidth` égal à l'écran sur les six pages (T-198-10) ; `bin/measure-mobile` non lancé |
+| Régression d'accessibilité ou de performance (erreur) | T-198-08 (pa11y local), T-198-10 (pa11y AAA FR et EN, LCP) | pa11y WCAG2AAA local et production « No issues found! » ; LCP mobile 464 à 632 ms (T-198-10) |
 
 ## Réalisation (GO de Thibaut sur la maquette, registre 8028523)
 
