@@ -31,7 +31,8 @@ use Tmonier\SyliusTierPricingPlugin\Entity\TierPriceRuleInterface;
  */
 final class HomeSelectionProvider implements ResetInterface
 {
-    private const LIMIT = 4;
+    // One row of the home grid: a fourth card wraps to a second row on a desktop.
+    private const LIMIT = 3;
 
     private ?HomeSelection $selection = null;
 
