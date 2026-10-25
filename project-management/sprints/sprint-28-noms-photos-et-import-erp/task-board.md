@@ -26,19 +26,6 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-196-08 | US-196 | TEST | Revue visuelle famille par famille (rendu du noyau en mode prod par `bin/render-page`, **un seul cache de rendu**, … | 0,5 h | Claude |
 | T-196-09 | US-196 | TEST | Vérification après déploiement : pa11y et largeurs (catalogue, une fiche, page Crédits), LCP mobile du catalogue **après** … | 0,5 h | Claude |
 | T-196-10 | US-196 | REV | Revue (licences, ton neutre, aucune marque visible) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis … | 0,25 h | Claude |
-| T-187-01 | US-187 | DOC | [A] Cadrage : ADR 0017 (contrat, questions 3, 4 et 6), plugin `sylius-erp-flatfile-plugin` v0.1.0 (`OrderLinesCsv`, … | 0,5 h | Claude |
-| T-187-03 | US-187 | DOC | [A] Affinage de la fiche : scénarios (1 nominal, 2 alternatifs, 2 erreurs pour le plugin ; 1 nominal et 1 erreur pour la … | 0,5 h | Claude |
-| T-187-04 | US-187 | TEST | [A] Tests rouges du plugin, commités seuls et cités dans la PR du plugin : lot de prix valide, lot de stock partiellement valide, … | 1,75 h | Claude |
-| T-187-05 | US-187 | BE | [A] Plugin, lecture et validation : encodage UTF-8, séparateur `;`, en-tête, total de contrôle ; prix (code de variante connu, … | 2 h | Claude |
-| T-187-06 | US-187 | DB | [A] Plugin, journal des lots : entité et migration (nom, total de contrôle, date, lignes lues, appliquées, rejetées, rapport), … | 1,5 h | Claude |
-| T-187-07 | US-187 | BE | [A] Plugin, application et commande : prix en tout ou rien dans une transaction (aucune écriture partielle), stock : lignes … | 2 h | Claude |
-| T-187-08 | US-187 | DOC | [A] Plugin : README FR et EN (contrat des deux fichiers, journal, idempotence, ce qui n'est pas fait), CHANGELOG, mention de la … | 0,75 h | Claude |
-| T-187-09 | US-187 | TEST | [A] Plugin : ECS, PHPStan max, Rector, tests sur la matrice CI du dépôt (Docker, MySQL de la démo, base supprimée à la fin) ; … | 0,5 h | Claude |
-| T-187-13 | US-187 | TEST | [B] Tests rouges de la démo, commités seuls et cités dans la PR : simulateur qui dépose un fichier de prix et de stock d'exemple … | 0,75 h | Claude |
-| T-187-15 | US-187 | BE | [B] Simulateur « ERP Démo (fictif) » : produit un fichier de prix et de stock d'exemple à partir du catalogue de la démo (codes … | 1,25 h | Claude |
-| T-187-16 | US-187 | BE | [B] Import dans la démo : commande du plugin lancée après la simulation, au chargement des fixtures et à la remise à zéro … | 1 h | Claude |
-| T-187-17 | US-187 | FE-WEB | [B] Page « Échanges ERP (fictif) » étendue : lots entrants d'import (nom, total de contrôle, lignes lues, appliquées, rejetées), … | 1,25 h | Claude |
-| T-187-18 | US-187 | DOC | [B] `docs/erp-demo.md` (schéma, fichiers de prix et de stock, ce qui est simulé), lien depuis `/echange-fichier`, ADR 0017, … | 0,5 h | Claude |
 | T-187-19 | US-187 | TEST | [B] Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; image … | 0,75 h | Claude |
 | T-187-20 | US-187 | TEST | [B] Vérification après déploiement : pages publiques en production (`/echange-fichier`, documentation : pa11y, 360 px) ; page du … | 0,5 h | Claude |
 | T-187-21 | US-187 | REV | [B] Revue (ton neutre, « ERP Démo (fictif) » partout, aucun éditeur nommé, aucune comparaison avec Sylius Plus) et table « … | 0,5 h | Claude |
@@ -61,10 +48,6 @@ _Aucune tâche._
 |----|-----|------|-------|------------|-------------|
 | T-196-04 | US-196 | OPS | 📅 Thibaut choisit une photo par famille sur la planche (une photo avec marque est écartée et remplacée) et donne le **GO … | 0,5 h | Thibaut |
 | T-196-06 | US-196 | DOC | 📅 **Après le GO (T-196-04) seulement** : téléchargement des seules photos choisies, optimisation WebP, … | 0,75 h | Claude |
-| T-187-10 | US-187 | OPS | [A] 📅 **GO de Thibaut pour push, tag et release** du plugin (branche, PR, tag `v0.2.0`, release) ; aucun push, tag ni release … | 0,1 h | Thibaut |
-| T-187-11 | US-187 | OPS | [A] 📅 Après le GO : push de la branche, PR du plugin, CI verte (run terminé), merge sur GO, tag `v0.2.0` et release ; concordance … | 0,5 h | Claude |
-| T-187-12 | US-187 | OPS | [A] 📅 Thibaut soumet ou met à jour le paquet sur Packagist s'il le faut (Claude ne soumet jamais) et confirme que `v0.2.0` y est … | 0,1 h | Thibaut |
-| T-187-14 | US-187 | BE | [B] 📅 Montée de version : `tmonier/sylius-erp-flatfile-plugin` en `^0.2`, `composer.lock`, migration du plugin, configuration ; … | 0,25 h | Claude |
 
 ## 🚫 Bloqué ou écarté
 
@@ -85,3 +68,20 @@ _Aucune tâche._
 | T-187-02 | US-187 | OPS | [A] Thibaut a tranché les questions 3, 4 et 6 de l'ADR le 2026-10-25 : prix par canal (code de variante + canal + prix, … | 0,25 h | Thibaut |
 | T-TECH-28-03 | Transverse | DOC | **Action 3** : « que devient cet état après un déploiement ? » dans `project-management/templates/consigne-worker.md` (règle 16) … | 0,25 h | Orchestrateur |
 | T-TECH-28-04 | Transverse | DOC | **Action 4** : règle 13 complétée (numéro de story du message de commit relu contre la branche et le titre de la PR par `git show … | 0,25 h | Orchestrateur |
+| T-187-01 | US-187 | DOC | [A] Cadrage : ADR 0017 (contrat, questions 3, 4 et 6), plugin `sylius-erp-flatfile-plugin` v0.1.0 (`OrderLinesCsv`, … | 0,5 h | Claude |
+| T-187-03 | US-187 | DOC | [A] Affinage de la fiche : scénarios (1 nominal, 2 alternatifs, 2 erreurs pour le plugin ; 1 nominal et 1 erreur pour la … | 0,5 h | Claude |
+| T-187-04 | US-187 | TEST | [A] Tests rouges du plugin, commités seuls et cités dans la PR du plugin : lot de prix valide, lot de stock partiellement valide, … | 1,75 h | Claude |
+| T-187-05 | US-187 | BE | [A] Plugin, lecture et validation : encodage UTF-8, séparateur `;`, en-tête, total de contrôle ; prix (code de variante connu, … | 2 h | Claude |
+| T-187-06 | US-187 | DB | [A] Plugin, journal des lots : entité et migration (nom, total de contrôle, date, lignes lues, appliquées, rejetées, rapport), … | 1,5 h | Claude |
+| T-187-07 | US-187 | BE | [A] Plugin, application et commande : prix en tout ou rien dans une transaction (aucune écriture partielle), stock : lignes … | 2 h | Claude |
+| T-187-08 | US-187 | DOC | [A] Plugin : README FR et EN (contrat des deux fichiers, journal, idempotence, ce qui n'est pas fait), CHANGELOG, mention de la … | 0,75 h | Claude |
+| T-187-09 | US-187 | TEST | [A] Plugin : ECS, PHPStan max, Rector, tests sur la matrice CI du dépôt (Docker, MySQL de la démo, base supprimée à la fin) ; … | 0,5 h | Claude |
+| T-187-13 | US-187 | TEST | [B] Tests rouges de la démo, commités seuls et cités dans la PR : simulateur qui dépose un fichier de prix et de stock d'exemple … | 0,75 h | Claude |
+| T-187-15 | US-187 | BE | [B] Simulateur « ERP Démo (fictif) » : produit un fichier de prix et de stock d'exemple à partir du catalogue de la démo (codes … | 1,25 h | Claude |
+| T-187-16 | US-187 | BE | [B] Import dans la démo : commande du plugin lancée après la simulation, au chargement des fixtures et à la remise à zéro … | 1 h | Claude |
+| T-187-17 | US-187 | FE-WEB | [B] Page « Échanges ERP (fictif) » étendue : lots entrants d'import (nom, total de contrôle, lignes lues, appliquées, rejetées), … | 1,25 h | Claude |
+| T-187-18 | US-187 | DOC | [B] `docs/erp-demo.md` (schéma, fichiers de prix et de stock, ce qui est simulé), lien depuis `/echange-fichier`, ADR 0017, … | 0,5 h | Claude |
+| T-187-10 | US-187 | OPS | [A] 📅 **GO de Thibaut pour push, tag et release** du plugin (branche, PR, tag `v0.2.0`, release) ; aucun push, tag ni release … | 0,1 h | Thibaut |
+| T-187-11 | US-187 | OPS | [A] 📅 Après le GO : push de la branche, PR du plugin, CI verte (run terminé), merge sur GO, tag `v0.2.0` et release ; concordance … | 0,5 h | Claude |
+| T-187-12 | US-187 | OPS | [A] 📅 Thibaut soumet ou met à jour le paquet sur Packagist s'il le faut (Claude ne soumet jamais) et confirme que `v0.2.0` y est … | 0,1 h | Thibaut |
+| T-187-14 | US-187 | BE | [B] 📅 Montée de version : `tmonier/sylius-erp-flatfile-plugin` en `^0.2`, `composer.lock`, migration du plugin, configuration ; … | 0,25 h | Claude |
