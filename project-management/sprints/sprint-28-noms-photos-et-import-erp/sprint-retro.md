@@ -86,16 +86,16 @@ La PR #106 a été fusionnée par l'enchaînement automatique avant la réponse 
 
 ### Thème 6 : actions de la rétro du sprint 27 (priorité moyenne)
 
-Trois actions sur cinq ne sont pas faites (1, 2 et 5). L'action 2 (`bin/proof-rebase`) n'existe pas : aucun conflit de `proof.json` n'a été signalé dans les sources consultées, mais le comptage n'a pas été fait. Le sprint à 13 points aurait laissé la place de les faire ; elles ont été repoussées derrière les stories.
+Trois actions sur cinq ne sont pas faites (1, 2 et 5). L'action 2 (`bin/proof-rebase`) n'existe pas encore : des conflits de `config/demo/proof.json` entre PR parallèles se sont produits (#104 rebasée après #103, #105 après #104), résolus sans incident par rebase et régénération avec un script du scratchpad (`rebase-proof.sh`), donc encore un geste manuel de l'orchestrateur. Le sprint à 13 points aurait laissé la place de les faire ; elles ont été repoussées derrière les stories.
 
 ## Suivi des actions de la rétrospective du sprint 27
 
 | # | Action | Résultat au sprint 28 |
 |---|--------|------------------------|
 | 1 | Un seul cache de rendu et seuil disque pour les rendus | 🔲 Non faite (T-TECH-28-01), reportée au sprint 29 ; espace libre sous 5 Go plusieurs fois |
-| 2 | `bin/proof-rebase` | 🔲 Non faite (T-TECH-28-02), reportée au sprint 29 ; aucun conflit de `proof.json` relevé sur les PR fusionnées en série |
+| 2 | `bin/proof-rebase` | 🔲 Non faite (T-TECH-28-02), reportée au sprint 29 ; 2 conflits de `proof.json` (#104, #105), résolus par un script du scratchpad : le besoin est confirmé |
 | 3 | « Que devient cet état après un déploiement ? » dans la checklist | ✅ Règle 16 écrite au planning et appliquée : le contrôle de production d'US-195 et d'US-196 est planifié après la remise à zéro ; 0 défaut visible seulement en production à ce stade |
-| 4 | Numéro de story relu avant chaque commit | ✅ Règle 13 complétée au planning ; aucun commit au mauvais numéro signalé dans les sources consultées (non recompté) |
+| 4 | Numéro de story relu avant chaque commit | ✅ Règle 13 complétée au planning ; aucun commit mal numéroté vu dans le sprint (US-195, US-196 et US-187 portent le bon numéro) |
 | 5 | LCP de la home sous contrôle | 🔲 Mesure non consignée (T-TECH-28-05), reportée ; à refaire aussi après US-196 |
 
 ## Bilan des indicateurs
@@ -106,7 +106,7 @@ Trois actions sur cinq ne sont pas faites (1, 2 et 5). L'action 2 (`bin/proof-re
 | Espace libre minimal | 5 Go | **sous 5 Go plusieurs fois, disque plein le 2026-10-25** | 3 à 4 Go |
 | Suite complète lancée sous le seuil | 0 | 0 relevé | 0 relevé |
 | CI rouges après tests ciblés verts | 0 | **1** (PR #2 du plugin) | 0 |
-| Commit au mauvais numéro de story | 0 | 0 relevé | 2 |
+| Commit au mauvais numéro de story | 0 | 0 | 2 |
 | Tâches de contrôle en production ouvertes à la clôture | 0 | **3** (T-195-06, T-196-09, T-196-10), imposées par la remise à zéro du 2026-10-26 | 0 |
 | Défauts trouvés en production après merge | 0 | 0 relevé à ce stade | 1 |
 | Commande récursive sur un chemin non vérifié | 0 | **1** | n/a |
