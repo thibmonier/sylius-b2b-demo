@@ -43,8 +43,8 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-200-01 | [DOC] | Cadrage : inventaire du panier relu contre le code (hooks `cart_item` et `cart_tier_discount`, blocs des plugins : PO, limite et approbation, devis, liste d'achat, commande rapide, tunnel de commande, canal B2C, tests existants) ; scénarios types retenus (trois lignes, palier, dépassement de limite, panier vide) ; plan des tests | 0,75 h | - | Claude | 🔲 |
-| T-200-02 | [TEST] | État de référence « avant » : tests du panier et du tunnel de commande de bout en bout verts sur `main`, captures connectées locales (bureau et 360 px) des quatre cas ; production sans objet pour la page connectée (relevé de ce qui est public) | 0,5 h | T-200-01 | Claude | 🔲 |
+| T-200-01 | [DOC] | Cadrage : inventaire du panier relu contre le code (hooks `cart_item` et `cart_tier_discount`, blocs des plugins : PO, limite et approbation, devis, liste d'achat, commande rapide, tunnel de commande, canal B2C, tests existants) ; scénarios types retenus (trois lignes, palier, dépassement de limite, panier vide) ; plan des tests | 0,75 h | - | Claude | ✅ |
+| T-200-02 | [TEST] | État de référence « avant » : tests du panier et du tunnel de commande de bout en bout verts sur `main`, captures connectées locales (bureau et 360 px) des quatre cas ; production sans objet pour la page connectée (relevé de ce qui est public) | 0,5 h | T-200-01 | Claude | 🔄 (tests ✅ ; captures non faites : disque sous 5 Go) |
 | T-200-03 | [FE-WEB] | Maquette Claude Design (bureau et téléphone) : tableau des lignes (photo, nom, référence, quantité, prix unitaire HT, remise de palier, total), récapitulatif collant (sous-total HT, remises, TVA, total TTC), messages d'approbation et de limite, actions secondaires groupées, panier vide, récapitulatif en bas d'écran sur téléphone, B2C inchangé ; publiée en artefact privé | 2 h | T-200-01, T-TECH-29-01 | Orchestrateur | 🔲 |
 | T-200-04 | [OPS] | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au registre des décisions | 0,5 h | T-200-03 | Thibaut | 📅 |
 | T-200-05 | [TEST] | Tests rouges, commités seuls et cités dans la PR : panier lisible (référence, quantité, prix HT, total, récapitulatif HT, TVA, TTC), remise de palier après changement de quantité sans perdre les autres lignes, message d'approbation au dépassement, devis et liste d'achat aboutissent, panier vide, 360 px avec total visible, B2C inchangé, tunnel de commande de bout en bout | 1 h | T-200-04 | Claude | 📅 |
@@ -56,6 +56,51 @@
 | T-200-11 | [REV] | Revue (ton neutre, parité FR et EN, B2C et tunnel inchangés) et table « scénario → test ou preuve » remplie ; `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-200-10 | Claude | 📅 |
 
 **Total estimé : 10,75 h** (11 tâches ; 10,25 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
+
+## Cadrage (T-200-01, relu contre le code le 2026-10-25)
+
+**Ce que contient aujourd'hui le panier (canal B2B).** Le panier est celui du thème Sylius ; la refonte part de ces hooks :
+
+| Zone | Hook ou source | Origine |
+|------|----------------|---------|
+| Lignes | `sylius_shop.cart.index.content.form.sections.general.items.body` → `item` (gabarit `shop/theme_b2b/cart_item.html.twig`, déclaré dans `config/packages/tmonier_plugins_overrides_pricing.yaml`, il remplace celui du plugin de prix dégressifs) | thème (US-091) : fiche produit, palier appliqué, prix négocié, invitation « ajoutez-en N de plus » |
+| Remise de palier | `...general.summary` → `b2b_tier_discount` (priorité 450, `cart_tier_discount.html.twig`, `not is_granted('DEMO_CONSUMER_CHANNEL')`) | thème (`demo_theme_b2b.yaml`) |
+| Devis | `sylius_shop.cart.index.content` → `tmonier_quote_request_notice` (150) et `tmonier_quote_request` (50) | plugin quote-request (hors formulaire) |
+| Commande rapide | `sylius_shop.cart.index.content` → `tmonier_quick_order_link` (50) | plugin quick-order (affiché aussi panier vide) |
+| Session PunchOut | `sylius_shop.cart.index.content` → `tmonier_punchout_session` (200) ; `checkout` remplacé dans `...general#right` | plugin punchout-cxml |
+| Jauge de conteneur et bouton de paiement | `...general#right` → `tmonier_container_fill_gauge` (50) ; `checkout` (gabarit de la démo `shop/container_fill/cart_checkout.html.twig`, `tmonier_plugins_overrides.yaml`) | plugin container-fill |
+| Pastilles « propulsé par » | `sylius_shop.cart.index.content` (45, 44) et `...general#right` (40) | démo (`demo_plugin_badges.yaml`) |
+
+**Surprises par rapport à la fiche de la story** (à répercuter dans la maquette et les tests) :
+
+1. **La référence de commande (PO) n'est pas dans le panier** : elle est à la dernière étape du tunnel (`sylius_shop.checkout.complete.content.form`, `templates/checkout/po_reference_block.html.twig`).
+2. **La limite et l'approbation n'ont aucun bloc dans le panier.** Le plugin n'a pas de hook de panier : le message « attend l'approbation » n'existe qu'après la commande (flash `awaiting_approval`). Le scénario « message d'approbation au dépassement » est donc du **contenu nouveau**, pas la reprise d'un bloc. Limite de Claire : 500,00 € (`tmonier_purchase_approval_member_limit`, membre 49, sans limite d'approbation) ; son panier (862,79 € pour cinq lignes) la dépasse : le dépassement est son panier par défaut.
+3. **« Enregistrer en liste d'achat » n'existe pas depuis le panier** : les listes partagées (Atelier…) n'ont que le sens liste → panier (`app_shop_company_wishlist_add_to_cart`). Le critère « demander un devis ou enregistrer en liste aboutit comme avant » ne peut viser que le devis ; l'enregistrement en liste est à retirer de la fiche ou à créer (hors périmètre sans décision).
+4. **Il n'existe aucun test de commande de bout en bout** dans `tests/` (aucun test ne franchit `checkout/complete` puis `thank_you`) : la phrase « tunnel de commande vert » de la story n'a pas de test à relancer. À créer en T-200-05 (ou à décider avec l'orchestrateur).
+5. Le panier de Claire a **cinq lignes** (liste « Atelier »), pas trois ; les trois lignes types de la maquette sont ses trois premières. Aucune ligne de taxe n'est écrite en base sur ce panier (variantes sans catégorie de taxe, pas d'adresse) : la TVA affichée à l'écran est celle du calcul au moment du rendu, à vérifier au premier rendu réel.
+6. Pas d'état hors base (règle 16) : le panier vit en base ; la story n'ajoute ni fichier ni cache.
+
+**Tests existants qui touchent le panier** : `Smoke/LiveDemoDataSmokeTest` (panier de départ de Claire, FR et EN), `Smoke/PluginBadgesSmokeTest`, `Smoke/ChannelAccessSmokeTest` et `Smoke/PagesTest` (visiteur anonyme renvoyé vers la connexion), `Functional/Demo/ContainerFillDemoTest` (jauge et bouton de paiement), `Functional/Demo/JourneyTest` (parcours qui remplit le panier), `Smoke/RawTranslationKeysSmokeTest` (clés de traduction brutes), `Unit/Theme/CartTierDiscountProviderTest` et `PriceBreaksTemplatesTest`, `Unit/ContainerFill/ContainerFillCheckoutGuardTest`, `Unit/PunchOut/PunchOutQuoteCheckoutBlockerTest`, `Unit/Order/OrderPoReferenceTest`, `Smoke/ApprovalWorkflowSmokeTest` (limite de Claire).
+
+**Scénarios types retenus** (panier de Claire, Acme Industries, base locale) :
+
+| Scénario | Données |
+|----------|---------|
+| Trois lignes | casque (EPI-CASK-001) ×10, chaussure (EPI-CHAU-001) ×6, gants (EPI-GANT-001) ×24 : 797,20 € HT |
+| Palier atteint | les trois lignes : −12 % dès 2 pièces, 108,80 € de remise comprise dans les prix unitaires |
+| Dépassement de limite | 797,20 € (ou 862,79 € avec livraison pour cinq lignes) contre une limite de 500,00 € |
+| Panier vide | panier sans ligne : lien du devis masqué, commande rapide proposée |
+
+Données de la maquette : `<scratchpad>/w200/maquette-data.json`.
+
+**Plan des tests (T-200-05)** : les sept scénarios du tableau ci-dessous, plus un test de commande de bout en bout (point 4), tous dans de nouveaux fichiers de `tests/Functional/Demo/` ou `tests/Smoke/`, comptes partagés isolés par `IsolatesSharedAccounts`.
+
+## État de référence « avant » (T-200-02, sur `feature/sprint-29-dev`)
+
+- Commande : `WORKER_ID=w200 TEST_DB_NAME=b2b_w200 TEST_CACHE_DIR=var/cache-w200 bin/run-tests --filter 'CartTierDiscountProviderTest|PriceBreaksTemplatesTest|PluginBadgesSmokeTest|LiveDemoDataSmokeTest|ApprovalWorkflowSmokeTest|ChannelAccessSmokeTest|ContainerFillDemoTest|JourneyTest|RawTranslationKeysSmokeTest|PagesTest|PunchOutQuoteCheckoutBlockerTest|ContainerFillCheckoutGuardTest|OrderPoReferenceTest'`
+- Dernière ligne : `Tests: 177, Assertions: 1473, Deprecations: 23, Skipped: 1.` (code de sortie 0, « OK, but there were issues! », 1 min 45).
+- **Captures connectées locales (bureau et 360 px) : non faites.** L'espace libre est tombé à 4,4 Gio après le lot (seuil de 5 Go, règle 2) ; à refaire quand l'espace le permet, avant le GO de la maquette ou en début d'intégration.
+- Production : sans objet pour la page connectée ; seul le panier d'un visiteur anonyme (renvoi vers la connexion) est public, déjà couvert par `PagesTest`.
 
 ## Scénarios et preuves
 
