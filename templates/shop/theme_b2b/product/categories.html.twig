@@ -3,7 +3,7 @@
 {% set current = app.request.attributes.get('slug') %}
 {% if categories is not empty %}
     <nav class="b2b-list__categories d-none d-lg-block" aria-labelledby="b2b-list-categories-title" data-list-categories>
-        <h2 class="b2b-list__side-title" id="b2b-list-categories-title">{{ 'categories.title'|trans({}, 'product_list') }}</h2>
+        <p class="b2b-list__side-title" id="b2b-list-categories-title">{{ 'categories.title'|trans({}, 'product_list') }}</p>
         <ul>
             {% for category in categories %}
                 <li>
