@@ -50,7 +50,7 @@ _Aucune tâche._
 | T-198-07 | US-198 | DOC | 📅 Textes FR et EN de la liste … | 0,5 h | Claude |
 | T-198-08 | US-198 | TEST | 📅 Suite ciblée, PHPStan dépôt entier, ECS, Rector, pa11y local, `bin/measure-mobile` … | 0,75 h | Claude |
 | T-198-09 | US-198 | DOC | 📅 Captures `docs/images/product-list-*`, `docs/theme-b2b.md` … | 0,5 h | Claude |
-| T-198-10 | US-198 | TEST | 📅 Vérification en production : pa11y AAA, 360 et 1280 px, LCP après (jour du déploiement) … | 0,75 h | Claude |
+| T-198-10 | US-198 | TEST | ✅ Vérification en production : pa11y AAA, 360 et 1280 px, LCP après (jour du déploiement) … | 0,75 h | Claude |
 | T-198-11 | US-198 | REV | 📅 Revue et table « scénario → test ou preuve » de la liste … | 0,5 h | Claude |
 | T-200-05 | US-200 | TEST | 📅 Tests rouges du panier (lignes, palier, approbation, actions, vide, 360 px, tunnel) … | 1 h | Claude |
 | T-200-06 | US-200 | FE-WEB | 📅 Gabarits, hooks et styles du panier, récapitulatif collant … | 3 h | Claude |

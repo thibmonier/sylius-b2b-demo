@@ -89,7 +89,7 @@ La colonne « Réalisé par » dit qui fait la tâche : **Claude**, **Orchestrat
 | T-198-07 | [DOC] | Textes FR et EN (domaine de traduction dédié), charte `PublicTextCharter`, `alt` des photos ; texte relu contre la maquette validée | 0,5 h | T-198-06 | Claude | ✅ |
 | T-198-08 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 360 px ; commande exacte et dernière ligne citées | 0,75 h | T-198-06, T-198-07 | Claude | ✅ |
 | T-198-09 | [DOC] | Captures `docs/images/product-list-*` sur un rendu du noyau en mode prod, `docs/theme-b2b.md` et README mis à jour | 0,5 h | T-198-08 | Claude | ✅ |
-| T-198-10 | [TEST] | Vérification en production après le déploiement (lecture seule, trois pages types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-198-02 ; **comparaison avant/après consignée le jour du déploiement** (le catalogue n'affiche les nouvelles photos qu'après la remise à zéro de 03:00 suivante) | 0,75 h | merge de la PR | Claude | 📅 |
+| T-198-10 | [TEST] | Vérification en production après le déploiement (lecture seule, trois pages types) : pa11y WCAG2AAA FR et EN, 360 et 1280 px, LCP mobile « après » au même protocole que T-198-02 ; **comparaison avant/après consignée le jour du déploiement** (le catalogue n'affiche les nouvelles photos qu'après la remise à zéro de 03:00 suivante) | 0,75 h | merge de la PR | Claude | ✅ |
 | T-198-11 | [REV] | Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie ; `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,5 h | T-198-10 | Claude | 📅 |
 | T-198-12 | [DB] | Stock suivi dans les fixtures (décision de Thibaut, registre 242b30e) : `tracked = 1` sur toutes les variantes, quantités fictives déterministes d'après le SKU (`DemoStockLevel`, environ 5 % de ruptures, environ 10 % de stocks faibles), `on_hold = 0`, fixture `demo_catalog_stock` (priorité -85, après les commandes et avant l'échange ERP) ; test rouge commité seul, import ERP vérifié cohérent | 1 h | T-198-01 | Claude | 🔄 |
 
@@ -135,4 +135,21 @@ Pages types (production, `https://sylius-b2b.thibaut-monier.fr`) : A = `/{locale
 - **pa11y WCAG2AAA** : « No issues found! » sur les six pages (A, B, C en FR et en EN).
 - **1280 px** : `scrollWidth` 1280, aucun élément ne dépasse. **360 px** : `scrollWidth` 360 sur A, B et C, aucun défilement horizontal ; le script signale cinq éléments dont le bord droit dépasse 360 px (`DIV`, `STRONG`, `UL.list-unstyled`, `LI`, `A.text-white`), cause non identifiée (probablement un panneau hors-champ, la page ne défile pas) : à confirmer avec `bin/measure-mobile` en local au cadrage de T-198-08.
 - **Cartes** : les photos sont celles d'avant la remise à zéro ; le LCP se joue sur du texte et les premières vignettes.
+
+_Après : consigné le 2026-10-25, jour du déploiement de la PR #111 (T-198-10)._ Même protocole, mêmes pages, visiteur anonyme, lecture seule. Les noms et photos des sprints 28 et 29 n'arrivent en production qu'à la remise à zéro de 03:00 du 2026-10-26.
+
+| Page | Langue | LCP médian avant (ms) | LCP médian après (ms) | Passes après (ms) | Poids après (Ko) | Requêtes | CLS |
+|------|--------|-----------------------|-----------------------|-------------------|------------------|----------|-----|
+| A catégorie | FR | 532 | 632 | 548/572/632/792/832 | 739 | 17 | 0,000 |
+| A catégorie | EN | 496 | 556 | 496/512/556/584/604 | 739 | 17 | 0,000 |
+| B recherche « vis » | FR | 520 | 544 | 504/508/544/568/592 | 739 | 17 | 0,000 |
+| B recherche « vis » | EN | 504 | 520 | 468/488/520/560/580 | 381 | 13 | 0,000 |
+| C sans résultat | FR | 492 | 496 | 472/492/496/512/556 | 381 | 13 | 0,000 |
+| C sans résultat | EN | 488 | 464 | 464/464/464/468/548 | 381 | 13 | 0,000 |
+
+- **Seuil d'US-189** : tous les LCP restent très en dessous de 2,5 s (maximum 632 ms). La hausse de A en FR (+100 ms) reste dans la dispersion des passes (548 à 832 ms) ; le poids baisse (798 → 739 Ko), avec 2 requêtes de moins.
+- **pa11y WCAG2AAA** : « No issues found! » sur les six pages (A, B, C en FR et en EN).
+- **Largeurs** : `scrollWidth` égal à la largeur de l'écran à 360 et 1280 px sur les six pages, aucun défilement horizontal.
+- **Visiteur anonyme** : aucun prix ni état de stock dans la page, invitation « Connectez-vous avec un compte de démonstration pour voir les prix de la société rattachée à ce compte. » ; les 9 vignettes annoncent `sizes="(min-width: 900px) 292px, (min-width: 420px) 50vw, 100vw"`.
+- **Pages connectées** (prix, stock, ajout au panier) : vérifiées en local seulement (aucune connexion en production), voir les captures `docs/images/product-list-*-fr.jpg`.
 
