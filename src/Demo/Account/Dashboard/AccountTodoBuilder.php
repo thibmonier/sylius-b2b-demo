@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Account\Dashboard;
 
+use App\Demo\Theme\ApproverNameProvider;
 use Sylius\Component\Core\Model\OrderInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -31,7 +32,7 @@ final class AccountTodoBuilder
         private readonly DecidableApprovalCounter $decidable,
         #[Autowire(service: 'tmonier_quote_request.repository.quote_request')]
         private readonly QuoteRequestRepositoryInterface $quotes,
-        private readonly ApproverFinder $approvers,
+        private readonly ApproverNameProvider $approvers,
         private readonly AccountFormatter $formatter,
         private readonly AuthorizationCheckerInterface $authorization,
         private readonly UrlGeneratorInterface $urls,
