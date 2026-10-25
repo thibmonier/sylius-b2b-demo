@@ -92,6 +92,7 @@ sylius_fixtures:
                                 name: 'Messagerie (48 h)'
                                 description: 'Livraison par messagerie sous 48 h ouvrées'
                                 zone: 'EU'
+                                tax_category: 'standard'
                                 enabled: true
                                 channels: ['B2B', 'B2C']
                                 calculator:

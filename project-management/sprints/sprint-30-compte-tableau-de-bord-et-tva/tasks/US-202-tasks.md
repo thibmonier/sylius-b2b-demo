@@ -56,10 +56,10 @@
 
 ## Cadrage et preuves (w202, 2026-10-25)
 
-- **Catégorie de taxe** : affectée à la variante dans `ProductCsvFixture` (catégorie `standard`, taux `fr_standard` 20 %, `included_in_price: false`) : les prix de la liste, de la fiche et du panier restent HT (18,90 € du casque, 797,20 € de sous-total du panier de Claire, inchangés). La livraison n'est pas taxée (le mode de livraison n'a pas de catégorie de taxe) : la TVA ne porte que sur les articles.
+- **Catégorie de taxe** : affectée à la variante dans `ProductCsvFixture` (catégorie `standard`, taux `fr_standard` 20 %, `included_in_price: false`) : les prix de la liste, de la fiche et du panier restent HT (18,90 € du casque, 797,20 € de sous-total du panier de Claire, inchangés). La livraison est taxée comme la marchandise (catégorie `standard` sur la méthode `carrier`, décision de l'orchestrateur : la maquette validée applique la TVA sur le sous-total et la livraison).
 - **Import ERP simulé** : il ne crée aucun produit, il met à jour les prix et les stocks de variantes du catalogue ; elles portent donc la catégorie (test `CartTaxTest`).
 - **Panier** : `templates/shop/theme_b2b/cart/summary.html.twig` affichait déjà la ligne TVA et « Total TTC » dès que la TVA existe : aucun Twig modifié.
-- **Historique de commandes** (`BulkOrderWriter`) : laissé sans TVA (montants HT, comme avant), pour ne pas changer en silence les montants du tableau de bord des achats (US-201) ; décision à noter au registre par l'orchestrateur.
+- **Historique de commandes** (`BulkOrderWriter`) : laissé sans TVA (montants HT, comme avant), pour ne pas changer en silence les montants du tableau de bord des achats (US-201) ; choix d'orchestrateur, noté au registre par l'orchestrateur.
 - **Limite d'approbation** : T-202-05 en attente de la décision de Thibaut (le plugin compare `getTotal()`, TVA comprise ; ses services sont `final` et injectés par type concret, sans décoration possible). Le message d'approbation du panier n'est pas touché.
 - Test d'isolation corrigé dans `tests/Support/BuildsDemoCarts.php` (deux paniers créés dans la même seconde).
 
