@@ -130,6 +130,15 @@ final class PriceBreaksAndHomeSmokeTest extends WebTestCase
         self::assertLessThan(strpos($html, 'Ajouter aux favoris'), strpos($html, '€'), 'The price is read first, the favourite is a secondary action.');
     }
 
+    public function testEachProductBlockHoldsOneRowOfThreeCards(): void
+    {
+        $crawler = $this->signedIn('claire@acme.example')->request('GET', '/fr_FR/');
+
+        foreach (['usual', 'restock', 'negotiated'] as $block) {
+            self::assertCount(3, $crawler->filter(sprintf('[data-b2b-home="%s"] .products-grid > div', $block)), $block.': a fourth card would wrap to a second row');
+        }
+    }
+
     public function testTheHomeIsLocalised(): void
     {
         $client = $this->signedIn('claire@acme.example');
