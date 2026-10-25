@@ -38,13 +38,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-195-01 | [DOC] | Cadrage : inventaire T-189-01 relu contre `fixtures/csv/*.csv` (77 produits sur 210), colonnes `name_fr`, `name_en`, `description_fr`, `description_en`, `mpn`, `ProductCsvFixture`, `fixtures/csv/SCHEMA.md` ; confirmation que les slugs sont dérivés du SKU (`strtolower(sku)` + `-fr`/`-en`) donc inchangés ; recherche et filtres du catalogue relus | 0,5 h | - | Claude | 🔲 |
-| T-195-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : garde de liste noire (nom, `description_fr`, `description_en`, `mpn` ; échec nommant fichier, ligne et marque), noms distincts au sein d'une famille, URL et code produit de `EPI-CASK-001` inchangés | 0,75 h | T-195-01 | Claude | 🔲 |
-| T-195-03 | [DOC] | Liste noire dans un fichier unique, relue avec l'inventaire T-189-01 ; tableau ancien → nouveau pour les 77 produits en FR et EN (matière, couleur, norme, usage ; noms distincts par famille), relu avant application ; dernier état communiqué à US-196 (noms de la planche) | 1 h | T-195-02 | Claude | 🔲 |
-| T-195-04 | [BE] | Application du tableau dans `epi.csv`, `fournitures.csv` et `quincaillerie.csv` (noms, descriptions, `mpn`) ; SKU et slugs inchangés ; `ProductCsvFixture` modifié seulement si un test l'exige | 0,5 h | T-195-03 | Claude | 🔲 |
-| T-195-05 | [TEST] | Suite ciblée par `bin/run-tests` (garde, catalogue, recherche, filtres), PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et dernière ligne citées ; recherche et filtres vérifiés avec les nouveaux noms | 0,5 h | T-195-04 | Claude | 🔲 |
+| T-195-01 | [DOC] | Cadrage : inventaire T-189-01 relu contre `fixtures/csv/*.csv` (77 produits sur 210), colonnes `name_fr`, `name_en`, `description_fr`, `description_en`, `mpn`, `ProductCsvFixture`, `fixtures/csv/SCHEMA.md` ; confirmation que les slugs sont dérivés du SKU (`strtolower(sku)` + `-fr`/`-en`) donc inchangés ; recherche et filtres du catalogue relus | 0,5 h | - | Claude | ✅ (slugs : `strtolower(sku)` + `-fr`/`-en`, `ProductCsvFixture.php:170`, inchangés ; 86 produits touchés, dont 9 citant une marque déposée hors inventaire) |
+| T-195-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : garde de liste noire (nom, `description_fr`, `description_en`, `mpn` ; échec nommant fichier, ligne et marque), noms distincts au sein d'une famille, URL et code produit de `EPI-CASK-001` inchangés | 0,75 h | T-195-01 | Claude | ✅ (`0b9feeb`, commité seul) |
+| T-195-03 | [DOC] | Liste noire dans un fichier unique, relue avec l'inventaire T-189-01 ; tableau ancien → nouveau pour les 77 produits en FR et EN (matière, couleur, norme, usage ; noms distincts par famille), relu avant application ; dernier état communiqué à US-196 (noms de la planche) | 1 h | T-195-02 | Claude | ✅ (`config/demo/forbidden-brands.txt` ; tableau ancien → nouveau relu par le lead, mpn `DEMO-<SKU>` validé par Thibaut) |
+| T-195-04 | [BE] | Application du tableau dans `epi.csv`, `fournitures.csv` et `quincaillerie.csv` (noms, descriptions, `mpn`) ; SKU et slugs inchangés ; `ProductCsvFixture` modifié seulement si un test l'exige | 0,5 h | T-195-03 | Claude | ✅ (`db3da0f`) |
+| T-195-05 | [TEST] | Suite ciblée par `bin/run-tests` (garde, catalogue, recherche, filtres), PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et dernière ligne citées ; recherche et filtres vérifiés avec les nouveaux noms | 0,5 h | T-195-04 | Claude | ✅ (PHPStan dépôt entier « [OK] No errors », ECS `src tests` OK, Rector OK, lint Twig et YAML OK, suite ciblée 600 tests sans échec) |
 | T-195-06 | [TEST] | Vérification après déploiement : URL de `EPI-CASK-001` en 200 avec le même slug, aucun nom de la liste noire dans le rendu public FR et EN, pa11y sur une page du catalogue, largeur à 360 et 1280 px ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🔲 |
-| T-195-07 | [REV] | Revue (ton neutre, aucune marque réelle dans le dépôt public hors la liste noire elle-même) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-195-06 | Claude | 🔲 |
+| T-195-07 | [REV] | Revue (ton neutre, aucune marque réelle dans le dépôt public hors la liste noire elle-même) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-195-06 | Claude | 🔄 (table remplie ; reste `php bin/proof-refresh` puis `php bin/proof-check`, réseau) |
 
 **Total estimé : 4 h** (7 tâches ; 4 h pour Claude). La mesure du LCP de la home (action 5) est consignée ici par T-TECH-28-05.
 
@@ -54,11 +54,11 @@ Une ligne vide laisse la story en review.
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Noms génériques après chargement (nominal) | |
-| Codes produits et liens conservés (alternatif) | |
-| Noms distincts au sein d'une famille (alternatif) | |
-| Marque réintroduite dans une fixture (erreur) | |
-| Marque dans une description ou une référence fabricant (erreur) | |
+| Noms génériques après chargement (nominal) | `ProductBrandGuardTest::testNoCatalogueFixtureNamesARealBrand` (les 210 produits, FR et EN) ; `ProductQueryBuilderTest` (mêmes termes de recherche d'images) |
+| Codes produits et liens conservés (alternatif) | `ProductBrandGuardTest::testTheProductCodeAndTheSlugOfTheFirstHardHatAreUnchanged` ; règle du slug lue dans `ProductCsvFixture.php:170` |
+| Noms distincts au sein d'une famille (alternatif) | `ProductBrandGuardTest::testProductNamesAreDistinctWithinAFamily` |
+| Marque réintroduite dans une fixture (erreur) | `ProductBrandGuardTest::testNoCatalogueFixtureNamesARealBrand` (échec : fichier, ligne, colonne, marque) ; `testNoOtherFileOfTheRepositoryNamesARealBrand` pour le reste du dépôt |
+| Marque dans une description ou une référence fabricant (erreur) | mêmes colonnes `description_fr`, `description_en`, `mpn` scannées par `testNoCatalogueFixtureNamesARealBrand` |
 
 ## Mesures de production (jour du déploiement)
 
