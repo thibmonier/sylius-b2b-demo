@@ -29,6 +29,8 @@ lines:
     decrease_label: 'Remove one unit: %name%'
     increase_label: 'Add one unit: %name%'
     quantity_label: 'Quantity of %name%'
+coupon:
+    label: 'Coupon code'
 quick_order:
     title: 'Add products by reference'
     text: 'Quick order: type a reference, or paste a list on the quick order page.'

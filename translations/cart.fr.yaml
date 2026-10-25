@@ -29,6 +29,8 @@ lines:
     decrease_label: 'Retirer une unité : %name%'
     increase_label: 'Ajouter une unité : %name%'
     quantity_label: 'Quantité de %name%'
+coupon:
+    label: 'Code promo'
 quick_order:
     title: 'Ajouter des produits par référence'
     text: 'Commande rapide : saisissez une référence, ou collez une liste sur la page de la commande rapide.'

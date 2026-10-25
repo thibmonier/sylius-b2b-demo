@@ -1,11 +1,23 @@
 // US-200: the cart page of the B2B channel, in the continuation of the home (US-186) and of the product page (US-189): same tokens
-// and fonts. Layout: lines on the left, summary on the right (in view while the lines scroll); below 900 px one column, the summary
+// and fonts. Layout: lines on the left, summary on the right (in view while the lines scroll); below 1200 px one column, the summary
 // after the lines. Grids use minmax(0, 1fr) and names wrap: a 360 px phone has no horizontal scroll. The B2C page keeps the core markup
 // (every class here is rendered on B2B only).
 @use 'variables' as *;
 
+// Two columns (lines, summary) from 1200 px, the five columns of a line from 760 px: below, the summary comes after the lines and a
+// line is a photo and a column of text.
+$cart-wide: 1200px;
+$cart-line: 760px;
+
 main:has(.b2b-cart) {
     background: $b2b-paper;
+}
+
+// Every button of the page is a 44 px target (the core buttons are 42 px high on a wide screen); the cards of the quote and of the
+// quick order are rendered after the cart form, outside .b2b-cart.
+.b2b-cart .btn,
+.b2b-cart__card .btn {
+    min-height: 44px;
 }
 
 .b2b-cart {
@@ -14,6 +26,12 @@ main:has(.b2b-cart) {
     gap: 1.75rem;
     padding-bottom: 3rem;
     color: $b2b-ink;
+
+
+    // The loading plan of the container-fill plugin draws Bootstrap's green (4.5:1): the theme green, 8:1.
+    .text-success {
+        color: $b2b-success !important;
+    }
 
     // Steps of the order: the current one in strong, the next ones in plain text separated by a chevron.
     &__steps ol {
@@ -54,7 +72,7 @@ main:has(.b2b-cart) {
         line-height: 1.1;
         overflow-wrap: anywhere;
 
-        @media (min-width: 901px) {
+        @media (min-width: $cart-line) {
             font-size: 2.75rem;
         }
     }
@@ -102,9 +120,9 @@ main:has(.b2b-cart) {
         gap: 1.5rem;
         align-items: start;
 
-        @media (min-width: 901px) {
-            grid-template-columns: minmax(0, 1fr) 25rem;
-            gap: 2.5rem;
+        @media (min-width: $cart-wide) {
+            grid-template-columns: minmax(0, 1fr) 22rem;
+            gap: 2rem;
         }
     }
 
@@ -125,7 +143,7 @@ main:has(.b2b-cart) {
         border: 1px solid $b2b-sand-line;
         border-radius: 1rem;
 
-        @media (min-width: 901px) {
+        @media (min-width: $cart-wide) {
             position: sticky;
             top: 1.5rem;
         }
@@ -139,9 +157,9 @@ main:has(.b2b-cart) {
         gap: .75rem;
         align-items: center;
 
-        @media (min-width: 901px) {
-            grid-template-columns: 112px minmax(0, 1fr) 150px 140px 130px;
-            gap: 1.25rem;
+        @media (min-width: $cart-line) {
+            grid-template-columns: 96px minmax(0, 1fr) 7.5rem 8.25rem 6.875rem;
+            gap: 1rem;
         }
     }
 
@@ -154,7 +172,7 @@ main:has(.b2b-cart) {
         letter-spacing: .06em;
         text-transform: uppercase;
 
-        @media (min-width: 901px) {
+        @media (min-width: $cart-line) {
             display: grid;
         }
     }
@@ -179,7 +197,7 @@ main:has(.b2b-cart) {
     &__unit,
     &__quantity,
     &__line-total {
-        @media (max-width: 900px) {
+        @media (max-width: #{$cart-line - 1}) {
             grid-column: 2 / -1;
         }
     }
@@ -247,6 +265,7 @@ main:has(.b2b-cart) {
 
     &__remove {
         align-self: flex-start;
+        min-width: 44px;
         min-height: 44px;
         padding: 0;
         color: $b2b-danger;
@@ -275,7 +294,7 @@ main:has(.b2b-cart) {
     }
 
     &__line-total {
-        @media (min-width: 901px) {
+        @media (min-width: $cart-line) {
             text-align: right;
         }
     }
@@ -300,6 +319,7 @@ main:has(.b2b-cart) {
     &__step,
     &__quantity-input {
         box-sizing: border-box;
+        flex: none;
         height: 44px;
         color: $b2b-ink;
         font-size: 1rem;
@@ -309,6 +329,7 @@ main:has(.b2b-cart) {
 
     &__step {
         width: 44px;
+        min-width: 44px;
         font-size: 1.25rem;
         line-height: 1;
         cursor: pointer;
@@ -324,6 +345,7 @@ main:has(.b2b-cart) {
 
     &__quantity-input {
         width: 56px;
+        min-width: 56px;
         padding: 0;
         text-align: center;
         border-width: 1px 0;
