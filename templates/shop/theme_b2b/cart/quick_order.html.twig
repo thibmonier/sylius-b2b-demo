@@ -1,0 +1,19 @@
+{#
+    US-200: the quick order of the quick-order plugin as a card of the cart: a reference typed here leads to the preview of the
+    plugin (same route, same token), the page of the plugin takes lists and files. The consumer channel keeps the link of the plugin.
+    An empty cart offers the quick order in its own state.
+#}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    {% include '@TmonierSyliusQuickOrderPlugin/shop/cart/quick_order_link.html.twig' %}
+{% elseif hookable_metadata.context.cart is not null and hookable_metadata.context.cart.items|length > 0 %}
+    <section class="b2b-cart__card" aria-labelledby="b2b-cart-quick-order-title" {{ sylius_test_html_attribute('b2b-cart-quick-order') }}>
+        <h2 id="b2b-cart-quick-order-title">{{ 'quick_order.title'|trans({}, 'cart') }}</h2>
+        <p>{{ 'quick_order.text'|trans({}, 'cart') }}</p>
+        <form method="post" action="{{ path('tmonier_quick_order_shop_preview') }}" class="b2b-cart__quick-form">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('tmonier_quick_order') }}">
+            <label class="visually-hidden" for="b2b-cart-quick-order-lines">{{ 'quick_order.reference'|trans({}, 'cart') }}</label>
+            <input id="b2b-cart-quick-order-lines" class="form-control" type="text" name="lines" placeholder="{{ 'quick_order.placeholder'|trans({}, 'cart') }}" autocomplete="off">
+            <button type="submit" class="btn btn-outline-primary">{{ 'quick_order.submit'|trans({}, 'cart') }}</button>
+        </form>
+    </section>
+{% endif %}

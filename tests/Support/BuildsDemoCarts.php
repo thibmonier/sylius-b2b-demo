@@ -63,6 +63,16 @@ trait BuildsDemoCarts
         return $order;
     }
 
+    /** The shop shows the latest cart that has lines: with none left, it opens a new empty one. */
+    private function emptyTheCartsOf(string $email): void
+    {
+        $carts = $this->entityManager()->getRepository(OrderInterface::class)->findBy(['customer' => $this->customer($email), 'state' => OrderInterface::STATE_CART]);
+        foreach ($carts as $cart) {
+            $cart->clearItems();
+        }
+        $this->entityManager()->flush();
+    }
+
     private function get(KernelBrowser $client, string $url): string
     {
         $client->request('GET', $url);

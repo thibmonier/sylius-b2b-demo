@@ -1,0 +1,4 @@
+# US-200: plural forms of the cart page (ICU), domain `cart`.
+count:
+    products: '{count, plural, one {# produit} other {# produits}}'
+    articles: '{count, plural, one {# article} other {# articles}}'

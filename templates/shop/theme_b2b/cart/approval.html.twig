@@ -1,0 +1,20 @@
+{# US-200: the order will wait for the approval of the company (the rule is the one of the purchase-approval plugin). #}
+{% import '@SyliusShop/shared/macro/money.html.twig' as money %}
+{% set cart = hookable_metadata.context.form.vars.data|default(hookable_metadata.context.cart|default(null)) %}
+{% set notice = app_b2b_cart_approval(cart) %}
+{% if notice is not null %}
+    {% set amounts = notice.orderLimit is null ? {} : {'%limit%': money.format(notice.orderLimit, notice.currencyCode), '%total%': money.format(notice.total, notice.currencyCode)} %}
+    <div class="b2b-cart__notice" role="status" {{ sylius_test_html_attribute('b2b-cart-approval') }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"></circle><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg>
+        <div>
+            <strong>{{ 'approval.title'|trans({}, 'cart') }}</strong>
+            {% if notice.orderLimit is null or notice.company is null %}
+                <span>{{ 'approval.text_generic'|trans({}, 'cart') }}</span>
+            {% elseif notice.approver is null %}
+                <span>{{ 'approval.text_company'|trans(amounts|merge({'%company%': notice.company}), 'cart') }}</span>
+            {% else %}
+                <span>{{ 'approval.text_named'|trans(amounts|merge({'%company%': notice.company, '%approver%': notice.approver}), 'cart') }}</span>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

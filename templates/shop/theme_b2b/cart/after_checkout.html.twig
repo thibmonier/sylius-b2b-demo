@@ -1,0 +1,4 @@
+{# US-200: what happens at the validation, and the way back to the catalogue. Under the checkout button, B2B only. #}
+{% set cart = hookable_metadata.context.form.vars.data|default(hookable_metadata.context.cart|default(null)) %}
+<p class="b2b-cart__next" {{ sylius_test_html_attribute('b2b-cart-next') }}>{{ (app_b2b_cart_approval(cart) is null ? 'summary.next' : 'summary.next_approval')|trans({}, 'cart') }}</p>
+<a class="b2b-cart__continue" href="{{ path('sylius_shop_product_index', {slug: 'epi'}) }}">{{ 'summary.continue'|trans({}, 'cart') }}</a>

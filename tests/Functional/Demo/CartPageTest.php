@@ -51,17 +51,17 @@ final class CartPageTest extends WebTestCase
         $client = $this->clientOf(self::CLAIRE);
         $order = $this->cartOf(self::CLAIRE, self::THREE_LINES);
 
-        $summary = $this->plain((new Crawler($this->get($client, '/fr_FR/cart/')))->filter('[data-test-b2b-cart-summary]')->html());
+        $crawler = new Crawler($this->get($client, '/fr_FR/cart/'));
+        $summary = $this->plain($crawler->filter('[data-test-b2b-cart-summary]')->html());
 
         self::assertStringContainsString('Sous-total HT', $summary);
         self::assertStringContainsString('797,20', $summary);
-        self::assertStringContainsString('dont remises de palier', $summary);
+        self::assertStringContainsString('dont remise de prix négocié', $summary, 'The reduction of Acme comes from the price of her company.');
         self::assertStringContainsString('108,80', $summary);
-        self::assertStringContainsString('Valider la commande', $summary);
-        $total = number_format($order->getTotal() / 100, 2, ',', '');
-        self::assertStringContainsString($total, $this->plain((new Crawler($this->get($client, '/fr_FR/cart/')))->filter('[data-test-b2b-cart-total]')->html()), 'The total is the one of the order.');
-        $tax = number_format($order->getTaxTotal() / 100, 2, ',', '');
-        self::assertStringContainsString($tax, $this->plain((new Crawler($this->get($client, '/fr_FR/cart/')))->filter('[data-test-b2b-cart-vat]')->html()), 'The tax is the one of the order, never invented.');
+        self::assertStringContainsString('Valider la commande', $this->plain($crawler->filter('[data-test-b2b-cart-aside]')->html()), 'The validation sits under the summary.');
+        self::assertStringContainsString(number_format($order->getTotal() / 100, 2, ',', ''), $this->plain($crawler->filter('[data-test-b2b-cart-total]')->html()), 'The total is the one of the order.');
+        self::assertSame(0, $order->getTaxTotal(), 'The products of the demo carry no tax category: the shop computes no tax.');
+        self::assertCount(0, $crawler->filter('[data-test-b2b-cart-vat]'), 'A tax that the shop does not compute is not shown.');
     }
 
     public function testAVolumePriceShowsOnlyOnTheLinesThatReachTheTierAndKeepsTheOthers(): void
@@ -73,7 +73,7 @@ final class CartPageTest extends WebTestCase
 
         self::assertCount(2, $crawler->filter('[data-test-b2b-cart-line]'), 'Both lines stay.');
         self::assertCount(1, $crawler->filter('[data-test-b2b-cart-tier]'), 'Only the line that reaches 2 pieces carries the tier.');
-        self::assertStringContainsString('Prix dégressif dès 2 pièces', $this->plain($crawler->filter('[data-test-b2b-cart-tier]')->text()));
+        self::assertStringContainsString('Prix négocié Acme Industries dès 2 pièces', $this->plain($crawler->filter('[data-test-b2b-cart-tier]')->text()));
         self::assertStringContainsString('−12', $this->plain($crawler->filter('[data-test-b2b-cart-tier]')->text()));
         self::assertStringContainsString('dont −35,76', $this->plain($crawler->filter('[data-test-b2b-cart-line-discount]')->text()));
 
@@ -140,7 +140,7 @@ final class CartPageTest extends WebTestCase
     public function testAnEmptyCartOffersTheCatalogueAndTheQuickOrder(): void
     {
         $client = $this->clientOf(self::CLAIRE);
-        $this->cartOf(self::CLAIRE, []);
+        $this->emptyTheCartsOf(self::CLAIRE);
 
         $crawler = new Crawler($this->get($client, '/fr_FR/cart/'));
 
@@ -161,8 +161,8 @@ final class CartPageTest extends WebTestCase
         self::assertCount(1, $crawler->filter('nav[aria-label="Étapes de la commande"] [aria-current="step"]'));
         self::assertCount(1, $crawler->filter('aside[aria-labelledby] [data-test-b2b-cart-total]'), 'The total sits in the labelled summary that the stylesheet keeps in view (sticky, or at the foot of a phone).');
         self::assertCount(1, $crawler->filter('aside [data-test-cart-checkout-button]'));
-        foreach ($crawler->filter('[data-test-b2b-cart-line] button') as $button) {
-            self::assertNotSame('', trim((string) $button->getAttribute('aria-label')), 'Every button of a line has an accessible name.');
+        foreach ($crawler->filter('[data-test-b2b-cart-line] button')->extract(['aria-label']) as $name) {
+            self::assertNotSame('', trim((string) $name), 'Every button of a line has an accessible name.');
         }
     }
 

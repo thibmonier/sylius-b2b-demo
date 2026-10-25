@@ -63,6 +63,27 @@ final class CartTierDiscountProviderTest extends TestCase
         self::assertTrue($provider->isNegotiated($negotiated));
     }
 
+    public function testALineSavesTheGapToTheCataloguePriceAndItsRate(): void
+    {
+        $item = $this->item(1663, 10, withoutTier: 1890, ruleId: 2);
+
+        $saving = $this->provider([2 => $this->rule(true)])->forItem($item);
+
+        self::assertNotNull($saving);
+        self::assertSame(1890, $saving->catalogueUnitPrice);
+        self::assertSame(2270, $saving->amount, '10 pieces at 2,27 € less.');
+        self::assertSame(12.0, $saving->percent);
+        self::assertTrue($saving->negotiated);
+    }
+
+    public function testALineWithoutTierOrWithoutGainHasNoSaving(): void
+    {
+        $provider = $this->provider([]);
+
+        self::assertNull($provider->forItem($this->item(1850, 5)), 'No tier marker.');
+        self::assertNull($provider->forItem($this->item(1850, 5, withoutTier: 1850, ruleId: 1)), 'Same price as the catalogue.');
+    }
+
     private function item(int $unitPrice, int $quantity, ?int $withoutTier = null, ?int $ruleId = null): OrderItem
     {
         $item = new OrderItem();

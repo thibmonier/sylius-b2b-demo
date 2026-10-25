@@ -69,12 +69,40 @@ sylius_twig_hooks:
                 priority: -10
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
 
-        # US-091: discount of the volume tiers and of the company price in the cart summary, under the items total.
-        'sylius_shop.cart.index.content.form.sections.general.summary':
-            b2b_tier_discount:
-                template: 'shop/theme_b2b/cart_tier_discount.html.twig'
-                priority: 450
+        # US-200: the cart page in the continuation of the home (shop/theme_b2b/cart/, mock-up validated on 2026-10-25). The core
+        # hookables that the B2B channel replaces keep their name and stay on B2C (condition); the form and the summary keep the live
+        # component and switch template. The discount of the tiers (US-091) is read by the summary itself. The quote request and
+        # the quick order, which are plugin hookables, are re-templated in tmonier_plugins_overrides_cart.yaml.
+        'sylius_shop.cart.index.content':
+            form:
+                props:
+                    template: 'shop/theme_b2b/cart/form.html.twig'
+        'sylius_shop.cart.index.content.form.sections':
+            header:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_header:
+                template: 'shop/theme_b2b/cart/header.html.twig'
+                priority: 100
                 condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_approval:
+                template: 'shop/theme_b2b/cart/approval.html.twig'
+                priority: 90
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.cart.index.content.form.sections.general#left':
+            items:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_items:
+                template: 'shop/theme_b2b/cart/items.html.twig'
+                priority: 200
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+        'sylius_shop.cart.index.content.form.sections.general#right':
+            summary:
+                props:
+                    template: 'shop/theme_b2b/cart/summary.html.twig'
+            b2b_after_checkout:
+                template: 'shop/theme_b2b/cart/after_checkout.html.twig'
+                priority: -10
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL') and not is_granted('PUNCHOUT_SESSION')"
 
         # S4-R3: one batch for the cards of the page (variants, prices, images) instead of a few queries per card.
         'sylius_shop.product.index.content.body.main':

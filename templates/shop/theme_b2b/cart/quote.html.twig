@@ -1,0 +1,19 @@
+{#
+    US-200: "request a quote for this cart" of the quote-request plugin as a card of the cart (same route, same token, same test
+    attributes, same conditions). The consumer channel keeps the template of the plugin.
+#}
+{% if is_granted('DEMO_CONSUMER_CHANNEL') %}
+    {% include '@TmonierSyliusQuoteRequestPlugin/shop/cart/request_quote.html.twig' %}
+{% else %}
+    {% set cart = hookable_metadata.context.cart|default(null) %}
+    {% if tmonier_quote_request_setting('from_cart') and cart is not null and cart.items|length > 0 and tmonier_quote_request_cart_quote(cart) is null %}
+        <section class="b2b-cart__card" aria-labelledby="b2b-cart-quote-title" {{ sylius_test_html_attribute('tmonier-request-quote-from-cart') }}>
+            <h2 id="b2b-cart-quote-title">{{ 'quote.title'|trans({}, 'cart') }}</h2>
+            <p>{{ 'tmonier_quote_request.ui.request_quote_for_cart_help'|trans }}</p>
+            <form method="post" action="{{ path('tmonier_quote_request_shop_from_cart') }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('tmonier_quote_request_from_cart') }}">
+                <button type="submit" class="btn btn-outline-primary" {{ sylius_test_html_attribute('tmonier-request-quote-from-cart-button') }}>{{ 'tmonier_quote_request.ui.request_quote_for_cart'|trans }}</button>
+            </form>
+        </section>
+    {% endif %}
+{% endif %}

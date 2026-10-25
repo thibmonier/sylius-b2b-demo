@@ -57,6 +57,7 @@ final class CartToOrderTest extends WebTestCase
         self::assertResponseRedirects();
         self::assertStringContainsString('/checkout', (string) $client->getResponse()->headers->get('Location'), 'The cart leads to the checkout.');
 
+        $order = $this->reload($order);
         $this->prepareCheckout($order);
         $this->forgetNextInvoiceFile();
         $this->stateMachine()->apply($order, OrderCheckoutTransitions::GRAPH, OrderCheckoutTransitions::TRANSITION_COMPLETE);
@@ -75,6 +76,7 @@ final class CartToOrderTest extends WebTestCase
         $client->request('GET', '/fr_FR/cart/');
         self::assertResponseIsSuccessful();
 
+        $order = $this->reload($order);
         $this->prepareCheckout($order);
         $this->forgetNextInvoiceFile();
         $this->stateMachine()->apply($order, OrderCheckoutTransitions::GRAPH, OrderCheckoutTransitions::TRANSITION_COMPLETE);
@@ -82,6 +84,15 @@ final class CartToOrderTest extends WebTestCase
 
         self::assertSame(OrderInterface::STATE_NEW, $order->getState());
         self::assertSame(0, $this->intValue('SELECT COUNT(*) FROM tmonier_purchase_approval_order_approval WHERE order_id = ?', [$order->getId()]));
+    }
+
+    /** A request leaves the entities of the test detached from the entity manager of the kernel. */
+    private function reload(OrderInterface $order): OrderInterface
+    {
+        $reloaded = $this->entityManager()->find(OrderInterface::class, $order->getId());
+        self::assertInstanceOf(OrderInterface::class, $reloaded);
+
+        return $reloaded;
     }
 
     private function checkoutForm(Crawler $crawler): \Symfony\Component\DomCrawler\Form

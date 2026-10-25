@@ -1,0 +1,58 @@
+# US-200: texts of the B2B cart page (domain `cart`). The quote request and the quick order keep the keys of their plugins;
+# the core labels (unit price, quantity, total) are written here because the mock-up words them for a company buyer.
+steps:
+    label: 'Étapes de la commande'
+    cart: 'Panier'
+    address: 'Adresse'
+    shipping: 'Livraison'
+    payment: 'Paiement'
+    confirm: 'Validation'
+title: 'Votre panier'
+approval:
+    title: 'Commande soumise à approbation'
+    text_named: "Votre limite de commande est de %limit% et le total de ce panier atteint %total%. Une fois validée, la commande attendra l'approbation de %company% (%approver%, approbateur) ; vous pourrez la payer après son approbation."
+    text_company: "Votre limite de commande est de %limit% et le total de ce panier atteint %total%. Une fois validée, la commande attendra l'approbation de %company% ; vous pourrez la payer après son approbation."
+    text_generic: "Une fois validée, la commande attendra l'approbation de votre entreprise ; vous pourrez la payer après son approbation."
+lines:
+    title: 'Produits du panier'
+    product: 'Produit'
+    unit_price: 'Prix unitaire HT'
+    quantity: 'Quantité'
+    total: 'Total HT'
+    reference: 'Réf. %sku%'
+    catalogue_price: 'prix catalogue'
+    tier: 'Prix dégressif dès %quantity% pièces · −%percent%'
+    negotiated: 'Prix négocié %company% dès %quantity% pièces · −%percent%'
+    saving: 'dont −%amount%'
+    remove: 'Retirer'
+    remove_label: 'Retirer du panier : %name%'
+    decrease_label: 'Retirer une unité : %name%'
+    increase_label: 'Ajouter une unité : %name%'
+    quantity_label: 'Quantité de %name%'
+quick_order:
+    title: 'Ajouter des produits par référence'
+    text: 'Commande rapide : saisissez une référence, ou collez une liste sur la page de la commande rapide.'
+    reference: 'Référence du produit'
+    placeholder: 'Référence du produit'
+    submit: 'Ajouter'
+quote:
+    title: "Besoin d'un prix négocié ?"
+summary:
+    title: 'Récapitulatif'
+    subtotal: 'Sous-total HT'
+    tier_discount: 'dont remises de palier'
+    negotiated_discount: 'dont remise de prix négocié'
+    promotion: 'Remises'
+    shipping: 'Livraison estimée'
+    vat: 'TVA'
+    total_with_tax: 'Total TTC'
+    total: 'Total'
+    checkout: 'Valider la commande'
+    next: "À l'étape suivante : l'adresse de livraison. La référence PO et le centre de coût se saisissent à la dernière étape."
+    next_approval: "À l'étape suivante : l'adresse de livraison. La référence PO et le centre de coût se saisissent à la dernière étape, puis la commande est soumise à approbation."
+    continue: 'Continuer mes achats'
+empty:
+    title: 'Votre panier est vide'
+    text: 'Parcourez le catalogue, ou ajoutez directement des produits par leur référence si vous savez déjà ce qu’il vous faut.'
+    catalogue: 'Parcourir le catalogue'
+    quick_order: 'Commande rapide par référence'
