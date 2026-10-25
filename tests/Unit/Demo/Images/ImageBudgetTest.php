@@ -124,6 +124,6 @@ final class ImageBudgetTest extends TestCase
     /** @return list<string> */
     private function imageFiles(): array
     {
-        return \array_values(\array_filter(\glob($this->imagesDir . '/*') ?: [], static fn (string $path): bool => \basename($path) !== 'manifest.csv' && \basename($path) !== 'README.md'));
+        return \array_values(\array_filter(\glob($this->imagesDir . '/*') ?: [], static fn (string $path): bool => !\in_array(\basename($path), ['manifest.csv', 'README.md', 'selection.json'], true)));
     }
 }

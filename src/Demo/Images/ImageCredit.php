@@ -14,6 +14,8 @@ final readonly class ImageCredit
         public string $source,
         public string $originUrl,
         public string $licenseUrl,
+        /** Licence of the file: cc0 or pexels. */
+        public string $license,
         public bool $generated,
         /** Taxon of a generated neutral visual (empty for a photo), to translate its title. */
         public string $category,

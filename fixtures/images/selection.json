@@ -111,7 +111,14 @@
         0.5,
         0.38
       ],
-      "blur": [],
+      "blur": [
+        [
+          0.26,
+          0.49,
+          0.15,
+          0.12
+        ]
+      ],
       "review": "reserve"
     },
     {
@@ -131,7 +138,7 @@
       "license_url": "https://www.pexels.com/license/",
       "focus": [
         0.5,
-        0.42
+        0.3
       ],
       "blur": [],
       "review": "ok"
@@ -156,7 +163,7 @@
       "license_url": "https://www.pexels.com/license/",
       "focus": [
         0.5,
-        0.5
+        0.33
       ],
       "blur": [],
       "review": "ok"
@@ -320,9 +327,16 @@
       "license_url": "https://www.pexels.com/license/",
       "focus": [
         0.5,
-        0.72
+        0.52
       ],
-      "blur": [],
+      "blur": [
+        [
+          0.48,
+          0.505,
+          0.095,
+          0.1
+        ]
+      ],
       "review": "reserve"
     },
     {
@@ -491,7 +505,14 @@
         0.5,
         0.5
       ],
-      "blur": [],
+      "blur": [
+        [
+          0.45,
+          0.3,
+          0.17,
+          0.3
+        ]
+      ],
       "review": "reserve"
     },
     {
