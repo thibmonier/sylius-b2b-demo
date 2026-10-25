@@ -151,6 +151,8 @@ final class ContainerFillDemoTest extends WebTestCase
         $client = $this->clientOf(self::CLAIRE);
         $client->request('GET', '/fr_FR/');
         $variant = $this->variant('VISS-001');
+        // The test is about the quantity rule of the container, not about the stock (US-198 tracks it): enough boxes on the shelf for 200 of them.
+        $variant->setOnHand(1000);
         $cart = $this->cartOf(self::CLAIRE, [], 'B2B');
         $validator = self::getContainer()->get('validator');
         self::assertInstanceOf(ValidatorInterface::class, $validator);
