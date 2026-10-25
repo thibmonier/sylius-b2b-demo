@@ -13,3 +13,4 @@
 | 2026-10-25 | Règles 21 à 23 de la consigne (fichiers partagés déclarés, aucun test depuis un worktree au `vendor` en lien symbolique, capture à 1280 px relue avant la PR), issues de la rétro du sprint 29 | Orchestrateur | T-TECH-30-05 |
 | _à venir_ | GO de la maquette « Mon compte » | Thibaut | T-199-04 |
 | _à venir_ | GO de la maquette du tableau de bord des achats | Thibaut | T-201-04 |
+| 2026-10-25 | US-202, limite comparée au total HT : le plugin sylius-purchase-approval-plugin évolue (résolveur de montant, HT par défaut ou configurable, tests) ; branche et PR du plugin autorisées ; **tag et release sur un GO séparé** de Thibaut ; montée de version dans la démo ensuite ; ordre de sacrifice applicable si la marge est dépassée | Thibaut | T-202-05 |
