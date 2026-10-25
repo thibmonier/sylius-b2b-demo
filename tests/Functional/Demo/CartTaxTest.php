@@ -57,9 +57,9 @@ final class CartTaxTest extends WebTestCase
         $crawler = new Crawler($this->get($client, '/fr_FR/cart/'));
         $summary = $this->plain($crawler->filter('[data-test-b2b-cart-summary]')->html());
 
-        $beforeTax = $order->getTotal() - $order->getTaxTotal() - $order->getShippingTotal();
-        self::assertEqualsWithDelta((int) round($beforeTax * 0.2), $order->getTaxTotal(), 40, 'VAT 20 % of the items after reductions (cent rounding per unit).');
-        self::assertSame(1500, $order->getShippingTotal(), 'The shipping is not taxed.');
+        $beforeTax = $order->getTotal() - $order->getTaxTotal();
+        self::assertEqualsWithDelta((int) round($beforeTax * 0.2), $order->getTaxTotal(), 40, 'VAT 20 % of the items after reductions and of the shipping (cent rounding per unit).');
+        self::assertSame(1500, $order->getShippingTotal(), 'The shipping excluding tax did not move.');
         self::assertStringContainsString('Sous-total HT', $summary);
         self::assertStringContainsString('797,20', $summary, 'The prices excluding tax did not move.');
         self::assertStringContainsString('15,00', $summary, 'The shipping.');
