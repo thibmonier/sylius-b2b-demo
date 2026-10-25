@@ -69,6 +69,18 @@ La fiche du canal B2B suit la maquette validée par Thibaut (2026-10-24). **Le c
 - **Styles** : `assets/shop/styles/_pdp.scss`, jetons et polices de la home ; pas de nouvelle image ni de nouvelle police. Tests : `ProductPageRedesignTest` (trois fiches types, connecté et visiteur, FR et EN, B2C), `ProductTextCharterTest`, `ProductPageStylesTest`.
 - **Captures** : `docs/images/product-buyer-fr.jpg` (1280 px, Claire, fiche à paliers), `product-visitor-fr.jpg` (visiteur, nom de 61 caractères, sécurité du produit), `product-buyer-360-fr.jpg` (360 px). Rendues par le noyau en ligne de commande, vignettes générées par LiipImagine.
 
+## Liste des produits B2B (US-198, sprint 29)
+
+La liste (catégorie, filtre de recherche, état vide) suit la maquette validée par Thibaut. **Le canal B2C garde la liste du cœur** (test) : chaque bloc du cœur remplacé reste actif sous `is_granted('DEMO_CONSUMER_CHANNEL')`.
+
+- **Gabarits** (`templates/shop/theme_b2b/product/`, hooks dans `config/packages/demo_theme_b2b.yaml`) : `header` (rayon, titre, nombre de produits lu sur la pagination), `notice` (prix de la société et seuil d'approbation lus sur la société et le plafond du compte ; invitation à choisir un compte de démo pour le visiteur), `categories` (catégories feuilles avec leur nombre de produits, une requête, `ListCategories`), `toolbar` (recherche, tri, nombre par page, grille ou liste dans **un seul formulaire GET**, sans JavaScript ; `ListSortParameter` traduit `sort=price-asc` en `sorting[price]=asc` du cœur), `pagination` (cibles de 44 px, `aria-current`, tri, recherche et affichage conservés), `empty`, `card` et `card_cta` (action de la carte : ajout au panier, devis en rupture, connexion pour le visiteur). La carte garde les hooks du cœur et les blocs des plugins.
+- **Stock** : trois niveaux lus par `StockStatus` (en stock, faible sous 10, rupture) ; le suivi du stock est activé par la fixture `demo_catalog_stock` (`DemoStockLevel`).
+- **Ajout au panier** : `ListAddToCartController` (POST `/{locale}/cart/add-from-list`, jeton CSRF, retour limité à un chemin du site) confie la ligne à l'ajouteur du plugin de commande rapide (mêmes contrôles qu'une liste collée).
+- **Affichage grille ou liste** : paramètre `view=list`, géré côté serveur (`ListState`) ; la liste est une variante de style des mêmes cartes.
+- **Styles** : `assets/shop/styles/_list.scss` (jetons de la home, cibles de 44 px, une colonne sous 420 px, aucune largeur fixe sous 900 px).
+- **Tests** : `ProductListRedesignTest`, `ProductListAddToCartTest`, `StockStatusTest`, `ProductListTextCharterTest`, `CatalogStockFixtureTest`.
+- **Captures** : `docs/images/product-list-grid-fr.jpg`, `product-list-list-fr.jpg`, `product-list-360-fr.jpg`, `product-list-empty-fr.jpg` (rendu du noyau en ligne de commande, `APP_ENV=test` avec `--login`, Claire ; trois vignettes sans photo locale).
+
 ## Panier B2B (US-200, sprint 29)
 
 Le panier suit la maquette validée par Thibaut. **Le canal B2C garde le panier du cœur** (test) : chaque gabarit du cœur remplacé a une branche B2C identique (`is_granted('DEMO_CONSUMER_CHANNEL')`) ou un hookable gardé par `condition`.
