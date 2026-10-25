@@ -42,6 +42,10 @@ final class PhotoCropperTest extends TestCase
         return 0xFF0000;
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     private function photo(int $width, int $height, string $kind): string
     {
         $image = \imagecreatetruecolor($width, $height);

@@ -51,9 +51,9 @@ final class SelectionImporterTest extends TestCase
         $manifest = ImageManifest::load($this->dir . '/images/manifest.csv');
         self::assertSame($manifest->fileFor('P-1'), $manifest->fileFor('P-2'));
         self::assertNotSame($manifest->fileFor('P-1'), $manifest->fileFor('P-3'));
-        self::assertSame(['family', 'family', 'own'], [$manifest->row('P-1')['scope'], $manifest->row('P-2')['scope'], $manifest->row('P-3')['scope']]);
+        self::assertSame(['family', 'family', 'own'], [($manifest->row('P-1') ?? [])['scope'], ($manifest->row('P-2') ?? [])['scope'], ($manifest->row('P-3') ?? [])['scope']]);
         self::assertSame(['pexels', 'pexels', 'https://www.pexels.com/license/', '2026-10-25', 'validated'], [
-            $manifest->row('P-1')['source'], $manifest->row('P-1')['license'], $manifest->row('P-1')['license_url'], $manifest->row('P-1')['fetched_at'], $manifest->row('P-1')['status'],
+            ($manifest->row('P-1') ?? [])['source'], ($manifest->row('P-1') ?? [])['license'], ($manifest->row('P-1') ?? [])['license_url'], ($manifest->row('P-1') ?? [])['fetched_at'], ($manifest->row('P-1') ?? [])['status'],
         ]);
         foreach (['P-1', 'P-3'] as $sku) {
             $path = $this->dir . '/images/' . $manifest->fileFor($sku);
@@ -124,6 +124,10 @@ final class SelectionImporterTest extends TestCase
             'origin_url' => 'https://www.pexels.com/photo/123/', 'source' => 'Pexels', 'license_url' => 'https://www.pexels.com/license/', 'focus' => [0.5, 0.5], 'blur' => [], 'review' => 'ok'];
     }
 
+    /**
+     * @param int<1, max> $width
+     * @param int<1, max> $height
+     */
     private function jpeg(string $path, int $width, int $height, int $colour): void
     {
         $image = \imagecreatetruecolor($width, $height);
