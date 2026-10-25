@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-25T16:26:43Z",
+    "generated_at": "2026-10-25T20:49:28Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -685,7 +685,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/40066459378",
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/40224506528",
                 "checked_at": "2026-10-25"
             },
             "phpstan": {
@@ -699,7 +699,7 @@
                 "checked_at": "2026-10-25"
             },
             "tests": {
-                "value": 24,
+                "value": 27,
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/main/tests",
                 "checked_at": "2026-10-25"
             }
@@ -1004,7 +1004,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40198239350",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40222544889",
             "checked_at": "2026-10-25"
         },
         "phpstan": {
@@ -1033,7 +1033,7 @@
             "checked_at": "2026-10-25"
         },
         "tests": {
-            "value": 287,
+            "value": 298,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-25"
         }
