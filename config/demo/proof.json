@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-25T20:49:28Z",
+    "generated_at": "2026-10-25T21:13:02Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -669,7 +669,7 @@
         },
         "sylius-purchase-approval-plugin": {
             "version": {
-                "value": "v1.3.0",
+                "value": "v1.4.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
                 "checked_at": "2026-10-25"
             },
@@ -1033,7 +1033,7 @@
             "checked_at": "2026-10-25"
         },
         "tests": {
-            "value": 298,
+            "value": 299,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-25"
         }
