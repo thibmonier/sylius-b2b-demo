@@ -39,7 +39,7 @@ final class AccountDashboardTest extends WebTestCase
         $page = $this->page(self::CLAIRE);
 
         self::assertSame('Bonjour Claire', $this->text($page->filter('h1')));
-        self::assertSame('Acheteuse', $this->text($page->filter('[data-test-b2b-account-role]')));
+        self::assertSame('Acheteur', $this->text($page->filter('[data-test-b2b-account-role]')));
         $identity = $this->text($page->filter('[data-test-b2b-account-identity]'));
         self::assertStringContainsString('Acme Industries', $identity);
         self::assertStringContainsString(self::CLAIRE, $identity);
@@ -126,7 +126,7 @@ final class AccountDashboardTest extends WebTestCase
 
         $company = $this->text($page->filter('[data-test-b2b-account-company]'));
         self::assertStringContainsString('Acme Industries', $company);
-        self::assertStringContainsString('Acheteuse', $company);
+        self::assertStringContainsString('Acheteur', $company);
         self::assertStringContainsString('Limite de commande', $company);
         self::assertStringContainsString('500,00', $company);
         $credit = $this->text($page->filter('[data-test-b2b-account-credit]'));
@@ -177,7 +177,7 @@ final class AccountDashboardTest extends WebTestCase
     {
         $page = $this->page(self::ISABELLE);
 
-        self::assertSame('Administratrice', $this->text($page->filter('[data-test-b2b-account-role]')));
+        self::assertSame('Administrateur', $this->text($page->filter('[data-test-b2b-account-role]')));
         $shortcuts = $page->filter('[data-test-b2b-account-quick-item]');
         self::assertCount(4, $shortcuts);
         self::assertStringContainsString('/account/company/insights', (string) $shortcuts->eq(3)->attr('href'));
