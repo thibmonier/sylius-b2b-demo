@@ -27,6 +27,9 @@ sylius_fixtures:
                                 countries: ['FR']
                             EU:
                                 name: 'Europe'
+                                # US-202: a delivery zone only. As a tax zone it would hide the VAT of France once the delivery address is known
+                                # (the shop picks one zone for an address that belongs to both).
+                                scope: 'shipping'
                                 countries: ['FR', 'BE', 'LU', 'DE', 'ES', 'IT', 'NL']
 
                 channel:
@@ -78,7 +81,7 @@ sylius_fixtures:
                         custom:
                             fr_standard:
                                 code: 'fr_standard'
-                                name: 'TVA 20 %'
+                                name: 'TVA'
                                 zone: 'FR'
                                 category: 'standard'
                                 amount: 0.2
@@ -92,6 +95,7 @@ sylius_fixtures:
                                 name: 'Messagerie (48 h)'
                                 description: 'Livraison par messagerie sous 48 h ouvrées'
                                 zone: 'EU'
+                                tax_category: 'standard'
                                 enabled: true
                                 channels: ['B2B', 'B2C']
                                 calculator:

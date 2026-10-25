@@ -1,0 +1,27 @@
+{# Credit line: what is used, what is available, what is overdue, the next due date. #}
+<h2 id="{{ heading }}">{{ 'credit.title'|trans({}, 'insights') }}</h2>
+{% if not data.account %}
+    <p {{ sylius_test_html_attribute('tmonier-insights-credit-none') }}>{{ 'tmonier_company_insights.widget.credit.no_account'|trans }}</p>
+{% else %}
+    {% set currency = data.currency %}
+    {% if data.on_hold %}
+        <p class="b2b-insights__notice" role="status" {{ sylius_test_html_attribute('tmonier-insights-credit-hold') }}>{{ 'tmonier_company_insights.widget.credit.on_hold'|trans }}</p>
+    {% endif %}
+    <div {{ sylius_test_html_attribute('tmonier-insights-credit-gauge') }}>
+        {% if data.used_percent is null %}
+            <p>{{ 'tmonier_company_insights.widget.credit.no_limit'|trans }}</p>
+        {% else %}
+            <p {{ sylius_test_html_attribute('tmonier-insights-credit-usage') }}>{{ 'credit.used'|trans({'%used%': data.used|sylius_format_money(currency, locale), '%limit%': data.limit|sylius_format_money(currency, locale), '%percent%': data.used_percent}, 'insights') }}</p>
+            <progress class="b2b-insights__share b2b-insights__share--navy b2b-insights__share--thick" value="{{ data.used_percent }}" max="100" aria-hidden="true"></progress>
+        {% endif %}
+    </div>
+    <dl class="b2b-insights__facts">
+        <dt>{{ 'tmonier_company_insights.widget.credit.available'|trans }}</dt>
+        <dd {{ sylius_test_html_attribute('tmonier-insights-credit-available') }}>{{ data.available|sylius_format_money(currency, locale) }}</dd>
+        <dt class="{{ data.overdue_count > 0 ? 'b2b-insights__overdue' }}">{{ 'tmonier_company_insights.widget.credit.overdue'|trans }}</dt>
+        <dd class="{{ data.overdue_count > 0 ? 'b2b-insights__overdue' }}" {{ sylius_test_html_attribute('tmonier-insights-credit-overdue') }}>{{ data.overdue_count == 0 ? 'tmonier_company_insights.widget.credit.no_overdue'|trans : data.overdue_amount|sylius_format_money(currency, locale) }}</dd>
+        <dt>{{ 'tmonier_company_insights.widget.credit.next_due'|trans }}</dt>
+        <dd {{ sylius_test_html_attribute('tmonier-insights-credit-next-due') }}>{{ data.next_due is null ? 'tmonier_company_insights.widget.credit.no_next_due'|trans : 'tmonier_company_insights.widget.credit.next_due_value'|trans({'%date%': data.next_due.date|format_date('medium'), '%amount%': data.next_due.amount|sylius_format_money(currency, locale)}) }}</dd>
+    </dl>
+    {% if data.url %}<a href="{{ data.url }}" {{ sylius_test_html_attribute('tmonier-insights-credit-link') }}>{{ 'tmonier_company_insights.widget.credit.link'|trans }}</a>{% endif %}
+{% endif %}

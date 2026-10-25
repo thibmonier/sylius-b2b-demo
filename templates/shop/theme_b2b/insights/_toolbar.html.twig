@@ -1,0 +1,67 @@
+{# Period, export, filters (folded away) and the one sentence that says which period, compared with which, in which unit. #}
+{% set dashboard = ctx.dashboard %}
+{% set periods = dashboard.periods %}
+{% set selection = ctx.selection %}
+{% set display_parameters = (ctx.metric.value != 'amount' ? {metric: ctx.metric.value} : {})|merge(ctx.sort.value != 'spend' ? {sort: ctx.sort.value} : {}) %}
+{% set member_name = null %}
+{% set site_name = null %}
+{% for choice in ctx.members %}{% if selection.filter.customerId == choice.customerId %}{% set member_name = choice.name %}{% endif %}{% endfor %}
+{% for choice in ctx.sites %}{% if selection.filter.addressId == choice.addressId %}{% set site_name = choice.label %}{% endif %}{% endfor %}
+
+<section class="b2b-insights__card b2b-insights__toolbar" aria-label="{{ 'toolbar.label'|trans({}, 'insights') }}" {{ sylius_test_html_attribute('b2b-insights-toolbar') }}>
+    <div class="b2b-insights__row">
+        <div class="b2b-insights__periods" role="group" aria-label="{{ 'tmonier_company_insights.ui.period_selector'|trans }}" {{ sylius_test_html_attribute('b2b-insights-periods') }} {{ sylius_test_html_attribute('tmonier-insights-periods') }}>
+            {% for key in ctx.period_keys %}
+                <a href="{{ path('tmonier_company_insights_shop_insights', {period: key.value}|merge(selection.filterQuery)|merge(display_parameters)) }}"{% if key == periods.key %} aria-current="page"{% endif %} {{ sylius_test_html_attribute('tmonier-insights-period', key.value) }}>{{ key.label|trans }}</a>
+            {% endfor %}
+            {% if selection.custom %}<span aria-current="page">{{ periods.key.label|trans }}</span>{% endif %}
+        </div>
+
+        <div class="b2b-insights__export" {{ sylius_test_html_attribute('tmonier-insights-export') }}>
+            {% if ctx.export_allowed %}
+                <a class="b2b-insights__button" href="{{ path('tmonier_company_insights_shop_export', selection.query) }}" aria-describedby="b2b-insights-export-help" {{ sylius_test_html_attribute('tmonier-insights-export-link') }}>{{ 'tmonier_company_insights.export.button'|trans }}</a>
+                <span class="visually-hidden" id="b2b-insights-export-help">{{ 'toolbar.export_help'|trans({}, 'insights') }}</span>
+            {% else %}
+                <span {{ sylius_test_html_attribute('tmonier-insights-export-too-long') }}>{{ 'tmonier_company_insights.export.refused.period_too_long'|trans }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if ctx.export_error %}
+        <div class="alert alert-danger mb-0" role="alert" {{ sylius_test_html_attribute('tmonier-insights-export-error') }}>{{ ctx.export_error|trans }}</div>
+    {% endif %}
+
+    <details class="b2b-insights__filters"{{ not selection.filter.empty or selection.custom ? ' open' }} {{ sylius_test_html_attribute('b2b-insights-filters') }}>
+        <summary>{{ 'toolbar.filters'|trans({}, 'insights') }} · {{ 'toolbar.filters_summary'|trans({'%members%': member_name ?? 'toolbar.all_members'|trans({}, 'insights'), '%sites%': site_name ?? 'toolbar.all_sites'|trans({}, 'insights')}, 'insights') }}</summary>
+        <form method="get" action="{{ path('tmonier_company_insights_shop_insights') }}" aria-label="{{ 'tmonier_company_insights.filter.title'|trans }}" {{ sylius_test_html_attribute('tmonier-insights-filters') }}>
+            {% if not selection.custom %}<input type="hidden" name="period" value="{{ periods.key.value }}">{% endif %}
+            {% for name, value in display_parameters %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+            <label for="insights-filter-member">{{ 'tmonier_company_insights.filter.member'|trans }}
+                <select id="insights-filter-member" name="member" {{ sylius_test_html_attribute('tmonier-insights-filter-member') }}>
+                    <option value="">{{ 'tmonier_company_insights.filter.all_members'|trans }}</option>
+                    {% for choice in ctx.members %}<option value="{{ choice.customerId }}"{{ selection.filter.customerId == choice.customerId ? ' selected' }}>{{ choice.name }}</option>{% endfor %}
+                </select>
+            </label>
+            <label for="insights-filter-site">{{ 'tmonier_company_insights.filter.site'|trans }}
+                <select id="insights-filter-site" name="site" {{ sylius_test_html_attribute('tmonier-insights-filter-site') }}>
+                    <option value="">{{ 'tmonier_company_insights.filter.all_sites'|trans }}</option>
+                    {% for choice in ctx.sites %}<option value="{{ choice.addressId }}"{{ selection.filter.addressId == choice.addressId ? ' selected' }}>{{ choice.label }}</option>{% endfor %}
+                </select>
+            </label>
+            <label for="insights-filter-from">{{ 'tmonier_company_insights.filter.from'|trans }}
+                <input type="date" id="insights-filter-from" name="from" min="2000-01-01" value="{{ selection.custom ? periods.current.from|date('Y-m-d', false) }}" {{ sylius_test_html_attribute('tmonier-insights-filter-from') }}>
+            </label>
+            <label for="insights-filter-to">{{ 'tmonier_company_insights.filter.to'|trans }}
+                <input type="date" id="insights-filter-to" name="to" min="2000-01-01" value="{{ selection.custom ? periods.current.lastDay|date('Y-m-d', false) }}" {{ sylius_test_html_attribute('tmonier-insights-filter-to') }}>
+            </label>
+            <button type="submit" class="b2b-insights__button b2b-insights__button--solid" {{ sylius_test_html_attribute('tmonier-insights-filter-apply') }}>{{ 'tmonier_company_insights.filter.apply'|trans }}</button>
+            <a href="{{ path('tmonier_company_insights_shop_insights') }}" {{ sylius_test_html_attribute('tmonier-insights-filter-reset') }}>{{ 'tmonier_company_insights.filter.reset'|trans }}</a>
+        </form>
+        <p class="b2b-insights__hint">{{ 'tmonier_company_insights.filter.help'|trans }}</p>
+    </details>
+
+    <p class="b2b-insights__summary" {{ sylius_test_html_attribute('b2b-insights-summary') }} {{ sylius_test_html_attribute('tmonier-insights-period-title') }}>
+        <strong>{{ 'tmonier_company_insights.ui.period_title'|trans({'%period%': periods.key.label|trans, '%from%': periods.current.from|format_date('medium'), '%to%': periods.current.lastDay|format_date('medium')}) }}</strong>
+        <span>· {{ 'summary.compared'|trans({'%from%': periods.previous.from|format_date('medium'), '%to%': periods.previous.lastDay|format_date('medium')}, 'insights') }} · {{ 'summary.note'|trans({}, 'insights') }}</span>
+    </p>
+</section>

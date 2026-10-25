@@ -1,0 +1,550 @@
+// US-199: "My account" of the B2B channel, in the continuation of the home (US-186), of the product page (US-189) and of the cart
+// (US-200): same tokens and fonts. Page: a menu of four blocks (250 px) and the home of the account; below 992 px the menu comes after
+// the page. Inside the page the layout follows the width of the page itself (container queries), not of the screen: the menu column
+// takes a quarter of the container. Grids use minmax(0, 1fr) and texts wrap: a 360 px phone has no horizontal scroll (the table of
+// orders scrolls inside its own region). The consumer channel keeps the core markup (every class here is rendered on B2B only).
+@use 'variables' as *;
+
+$account-nav: 15.625rem; // 250 px
+$account-aside: 21.25rem; // 340 px
+
+// A two-column row for the pages that carry the grouped menu (the container keeps the width of the header); the breadcrumb takes the whole row.
+main:has(.b2b-account-nav) {
+    background: $b2b-paper;
+}
+
+.row:has(> * > .b2b-account-nav) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem 2.5rem;
+    margin: 0;
+    color: $b2b-ink;
+
+    > * {
+        width: auto;
+        max-width: none;
+        padding: 0;
+    }
+
+    @media (min-width: 992px) {
+        grid-template-columns: $account-nav minmax(0, 1fr);
+        align-items: start;
+
+        > :first-child:not(:has(.b2b-account-nav)) {
+            grid-column: 1 / -1;
+        }
+    }
+
+    // Phone and tablet: the page first, the menu after it.
+    @media (max-width: 991.98px) {
+        > :has(> .b2b-account-nav) {
+            order: 2;
+        }
+    }
+}
+
+// ---- Menu -----------------------------------------------------------------------------------------------------------------
+.b2b-account-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background: $b2b-white;
+    border: 1px solid $b2b-sand-line;
+    border-radius: .875rem;
+
+    &__home,
+    &__link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+        min-height: 2.75rem;
+        padding: 0 .625rem;
+        border-radius: .5rem;
+        color: $b2b-ink;
+        font-size: .9375rem;
+        text-decoration: none;
+
+        &:hover {
+            background: $b2b-surface;
+            color: $b2b-ink;
+        }
+
+        &:focus-visible {
+            outline: 3px solid $b2b-navy;
+            outline-offset: 2px;
+        }
+
+        &[aria-current='page'] {
+            background: $b2b-sand;
+            color: $b2b-ink;
+            font-weight: 700;
+        }
+    }
+
+    &__home {
+        font-weight: 700;
+    }
+
+    &__group {
+        display: flex;
+        flex-direction: column;
+        gap: .125rem;
+    }
+
+    &__title {
+        margin: 0;
+        padding: .25rem .625rem;
+        color: $b2b-muted;
+        font-size: .8125rem;
+        font-weight: 600;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.375rem;
+        height: 1.375rem;
+        padding: 0 .375rem;
+        border-radius: 999px;
+        background: $b2b-warning;
+        color: $b2b-white;
+        font-size: .8125rem;
+        font-weight: 700;
+    }
+}
+
+// The table of orders scrolls inside its own region, never the page; every link of the menu and every action is a 44 px target.
+.b2b-account__scroll {
+    overflow-x: auto;
+}
+
+.b2b-account-nav__link {
+    min-height: 2.75rem;
+}
+
+.b2b-account__action {
+    min-height: 2.75rem;
+}
+
+// ---- Home of the account ----------------------------------------------------------------------------------------------------
+.b2b-account {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    min-width: 0;
+    padding-bottom: 3rem;
+    color: $b2b-ink;
+
+    &__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    &__who {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        min-width: 0;
+    }
+
+    &__title {
+        margin: 0;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.875rem;
+        line-height: 1.1;
+
+        @container (min-width: 36rem) {
+            font-size: 2.5rem;
+        }
+    }
+
+    &__identity {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .25rem .5rem;
+        margin: 0;
+        color: $b2b-muted;
+        font-size: .9375rem;
+        overflow-wrap: anywhere;
+    }
+
+    &__role {
+        display: inline-block;
+        padding: .1875rem .625rem;
+        border-radius: 999px;
+        background: $b2b-teal;
+        color: $b2b-white;
+        font-size: .8125rem;
+        font-weight: 600;
+    }
+
+    &__actions,
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .625rem;
+    }
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+    }
+
+    &__h2 {
+        margin: 0;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.625rem;
+
+        &--panel {
+            font-size: 1.5rem;
+        }
+
+        &--side {
+            font-size: 1.375rem;
+        }
+    }
+
+    // A link on its own line and every button of the page: a 44 px target.
+    &__action,
+    &__link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+        padding: 0;
+        border: 0;
+        background: none;
+        color: $b2b-navy;
+        font: inherit;
+        font-size: .9375rem;
+        font-weight: 600;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--b2b-accent);
+        }
+
+        &:focus-visible {
+            outline: 3px solid $b2b-navy;
+            outline-offset: 2px;
+        }
+    }
+
+    &__action {
+        &--outline,
+        &--solid {
+            padding: 0 1.125rem;
+            border: 1px solid $b2b-navy;
+            border-radius: .625rem;
+            text-decoration: none;
+        }
+
+        &--solid {
+            background: $b2b-accent;
+            border-color: $b2b-accent;
+            color: $b2b-white;
+
+            &:hover {
+                background: $b2b-accent-dark;
+                color: $b2b-white;
+            }
+        }
+    }
+
+    &__todo {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .875rem;
+
+        @container (min-width: 36rem) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    &__quick {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .875rem;
+
+        @container (min-width: 28rem) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @container (min-width: 46rem) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    &__main {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 1.75rem;
+
+        @container (min-width: 62rem) {
+            grid-template-columns: minmax(0, 1fr) $account-aside;
+        }
+    }
+
+    // Beside the orders when the page is wide, else after them: in three columns on a tablet, in one on a phone.
+    &__aside {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+        gap: 1rem;
+        min-width: 0;
+
+        @container (min-width: 40rem) and (max-width: 61.99rem) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: stretch;
+        }
+    }
+
+    &__empty {
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+        align-items: flex-start;
+        color: $b2b-muted;
+        font-size: 1rem;
+        line-height: 1.6;
+
+        p {
+            margin: 0;
+        }
+    }
+}
+
+// A card of "what is waiting": the border, the round icon and the title take the colour of the tone; the sentence says it too.
+.b2b-account-card {
+    --account-tone: #{$b2b-navy};
+    display: flex;
+    align-items: flex-start;
+    gap: .875rem;
+    padding: 1rem 1.25rem;
+    background: $b2b-white;
+    border: 2px solid var(--account-tone);
+    border-radius: .75rem;
+
+    &--good { --account-tone: #{$b2b-teal}; }
+    &--waiting { --account-tone: #{$b2b-warning}; }
+    &--late { --account-tone: #{$b2b-danger}; }
+    &--neutral { --account-tone: #{$b2b-muted}; }
+
+    &__icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 1.625rem;
+        height: 1.625rem;
+        border: 2px solid var(--account-tone);
+        border-radius: 999px;
+        color: var(--account-tone);
+        font-size: .9375rem;
+        font-weight: 700;
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+        min-width: 0;
+        font-size: .9375rem;
+        line-height: 1.5;
+    }
+
+    &__title {
+        color: var(--account-tone);
+    }
+}
+
+.b2b-account-tile {
+    display: flex;
+    flex-direction: column;
+    gap: .375rem;
+    min-height: 6.5rem;
+    padding: 1.125rem;
+    background: $b2b-white;
+    border: 1px solid $b2b-sand-line;
+    border-radius: .875rem;
+    color: $b2b-ink;
+    text-decoration: none;
+
+    &:hover {
+        border-color: $b2b-muted;
+        color: $b2b-ink;
+    }
+
+    &:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+
+    &__title {
+        color: $b2b-navy;
+        font-size: 1rem;
+    }
+
+    &__text {
+        color: $b2b-muted;
+        font-size: .875rem;
+        line-height: 1.45;
+    }
+}
+
+.b2b-account-panel {
+    display: flex;
+    flex-direction: column;
+    gap: .875rem;
+    min-width: 0;
+    padding: 1.5rem;
+    background: $b2b-white;
+    border: 1px solid $b2b-sand-line;
+    border-radius: .875rem;
+    font-size: .9375rem;
+    line-height: 1.5;
+
+    &--side {
+        gap: .625rem;
+        padding: 1.25rem;
+    }
+
+    &__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: .75rem;
+    }
+}
+
+.b2b-account-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9375rem;
+
+    th,
+    td {
+        padding: .625rem .75rem;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    th.b2b-account-table__num,
+    td.b2b-account-table__num {
+        text-align: right;
+    }
+
+    thead tr {
+        background: $b2b-sand;
+        font-size: .875rem;
+    }
+
+    tbody tr {
+        border-top: 1px solid $b2b-sand-line;
+    }
+
+    &__nowrap {
+        white-space: nowrap;
+    }
+
+    &__number {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: .875rem;
+    }
+
+    &__form {
+        margin: 0;
+    }
+
+    &__form .b2b-account__action {
+        white-space: nowrap;
+    }
+}
+
+// The state of an order: a word, and a tint of the same family as the card; the word is always there.
+.b2b-account-badge {
+    display: inline-block;
+    padding: .1875rem .625rem;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+    background: $b2b-surface;
+    font-size: .8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &--good { color: $b2b-teal; }
+    &--waiting { color: $b2b-warning; }
+    &--late { color: $b2b-danger; }
+    &--neutral,
+    &--info { color: $b2b-muted; }
+}
+
+.b2b-account-facts {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .5rem .75rem;
+    margin: 0;
+
+    dt {
+        color: $b2b-muted;
+        font-weight: 400;
+    }
+
+    dd {
+        margin: 0;
+        font-weight: 600;
+        text-align: right;
+    }
+}
+
+.b2b-account-meter {
+    appearance: none;
+    width: 100%;
+    height: .625rem;
+    border: 0;
+    border-radius: 999px;
+    background: $b2b-sand;
+    overflow: hidden;
+
+    &::-webkit-progress-bar {
+        background: $b2b-sand;
+    }
+
+    &::-webkit-progress-value {
+        background: $b2b-navy;
+        border-radius: 999px;
+    }
+
+    &::-moz-progress-bar {
+        background: $b2b-navy;
+        border-radius: 999px;
+    }
+}
+
+.b2b-account-note {
+    color: $b2b-muted;
+    font-size: .875rem;
+
+    &--late {
+        color: $b2b-danger;
+    }
+}

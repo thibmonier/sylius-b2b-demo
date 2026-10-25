@@ -1,0 +1,29 @@
+{#
+ # US-201: the purchasing dashboard of the B2B channel, in the continuation of the home. One hookable draws all of it from the context
+ # of the plugin controller (hookable_metadata.context); the hookables of the plugin keep the consumer channel. Order: period and
+ # filters, what to handle, the figures, the monthly chart, who buys and what is bought, the products, the breakdowns, the cards of the
+ # other plugins. A period without any order shows one explained state instead of figures at zero.
+ #}
+{% set ctx = hookable_metadata.context %}
+{% set approvals = null %}
+{% set credit = null %}
+{% for widget in ctx.widgets %}
+    {% if widget.code == 'approvals' and not widget.unavailable %}{% set approvals = widget %}{% endif %}
+    {% if widget.code == 'credit' and not widget.unavailable %}{% set credit = widget %}{% endif %}
+{% endfor %}
+
+<div class="b2b-insights" {{ sylius_test_html_attribute('b2b-insights') }}>
+    {% include 'shop/theme_b2b/insights/_toolbar.html.twig' with {ctx: ctx} only %}
+
+    {% if ctx.dashboard.empty %}
+        {% include 'shop/theme_b2b/insights/_empty.html.twig' with {ctx: ctx} only %}
+    {% else %}
+        {% include 'shop/theme_b2b/insights/_todo.html.twig' with {approvals: approvals, credit: credit} only %}
+        {% include 'shop/theme_b2b/insights/_kpis.html.twig' with {ctx: ctx} only %}
+        {% include 'shop/theme_b2b/insights/_monthly.html.twig' with {ctx: ctx} only %}
+        {% include 'shop/theme_b2b/insights/_tops.html.twig' with {ctx: ctx} only %}
+        {% include 'shop/theme_b2b/insights/_products.html.twig' with {ctx: ctx} only %}
+        {% include 'shop/theme_b2b/insights/_breakdowns.html.twig' with {ctx: ctx} only %}
+        {% include 'shop/theme_b2b/insights/_cards.html.twig' with {ctx: ctx} only %}
+    {% endif %}
+</div>

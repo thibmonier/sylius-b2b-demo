@@ -1,0 +1,21 @@
+# US-201: the purchasing dashboard of the B2B channel is redrawn here, with no change to the plugin (company-insights): the five blocks of the
+# main hook (period and filters, widgets, monthly chart, breakdowns, rankings) keep their hookable and stay for the consumer channel only; one
+# template of the demo draws them all on B2B (shop/theme_b2b/insights/). The header (title, tabs), the breadcrumbs, the pages of the full
+# rankings and the export are the ones of the plugin.
+sylius_twig_hooks:
+    hooks:
+        'tmonier_company_insights_shop.account.company.insights.index.content.main':
+            section:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            widgets:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            monthly:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            breakdown:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            rankings:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_dashboard:
+                template: 'shop/theme_b2b/insights/dashboard.html.twig'
+                priority: -10
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"

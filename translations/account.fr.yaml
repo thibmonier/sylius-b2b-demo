@@ -1,0 +1,136 @@
+# US-199: the page "My account" of the B2B channel (domain `account`). The sentences are assembled by AccountDashboardProvider
+# from the services of the shop and of the plugins; the templates carry no text of their own.
+nav:
+    label: 'Votre compte'
+    home: 'Accueil du compte'
+    insights: 'Tableau de bord des achats'
+    pending: '%count% approbation en attente|%count% approbations en attente'
+    group:
+        purchases: 'Mes achats'
+        company: 'Mon entreprise'
+        profile: 'Mon profil'
+        tools: 'Outils'
+
+greeting: 'Bonjour %name%'
+identity:
+    at_company: 'chez %company%'
+    verified: 'compte vérifié'
+    unverified: 'compte non vérifié'
+actions:
+    edit: 'Modifier mes informations'
+    password: 'Changer mon mot de passe'
+
+todo:
+    title:
+        start: 'Pour démarrer'
+        do: 'À faire'
+        follow: 'À suivre'
+    decide:
+        title: '%count% commande à examiner|%count% commandes à examiner'
+        text: '%number% de %buyer%, %total%, passée le %date%.'
+        link: 'Examiner les approbations'
+    held:
+        title: 'Commande %number% en attente d''approbation'
+        text: '%total% HT dépasse votre limite de commande de %limit% HT : %approver% doit l''approuver avant le paiement.'
+        link: 'Voir la commande'
+    overdue:
+        title: 'Commande %number% en retard de paiement'
+        text: '%total% payés à terme, échéance dépassée depuis %count% jour.|%total% payés à terme, échéance dépassée depuis %count% jours.'
+        link: 'Voir la commande'
+    due:
+        title: 'Échéance du %date%'
+        text: 'Commande %number% payée à terme : %total% à régler.'
+        link: 'Voir le relevé de compte'
+    quote:
+        title: 'Proposition reçue pour le devis %number%'
+        text: '%count% ligne, valable jusqu''au %date%.|%count% lignes, valable jusqu''au %date%.'
+        link: 'Voir la proposition'
+    nothing:
+        title: 'Rien ne vous attend'
+        text: 'Aucune approbation, aucun paiement ni aucune proposition à traiter.'
+        link: 'Voir mes commandes'
+    start:
+        order:
+            title: 'Passez une première commande'
+            text: 'Les prix négociés de %company% sont affichés dans tout le catalogue.'
+            link: 'Parcourir le catalogue'
+        limits:
+            title: 'Fixez les limites de vos acheteurs'
+            text: 'Les commandes au-delà de la limite d''un acheteur attendront une approbation.'
+            link: 'Plafonds d''achat'
+
+quick:
+    title: 'Raccourcis'
+    quick_order:
+        title: 'Commande rapide'
+        text: 'Saisir des références ou coller une liste.'
+    list:
+        title: 'Liste « %name% »'
+        text: '%count% article à recommander en un clic.|%count% articles à recommander en un clic.'
+        title_none: 'Listes d''achat'
+        text_none: 'Créer la première liste partagée.'
+    quote:
+        title: 'Demander un devis'
+        text: 'Pour des quantités ou un prix négocié.'
+    insights:
+        title: 'Tableau de bord des achats'
+        text: 'Dépense, tendances et acheteurs.'
+    equipment:
+        title: 'Mon matériel'
+        text: 'Équipements suivis et consommables.'
+
+orders:
+    title: 'Mes dernières commandes'
+    all: 'Toutes mes commandes (%count%)'
+    col:
+        number: 'Commande'
+        date: 'Date'
+        state: 'État'
+        total: 'Total'
+        actions: 'Actions'
+    reorder: 'Commander à nouveau'
+    reorder_label: 'Commander à nouveau : %number%'
+    empty: 'Vous n''avez pas encore passé de commande. Les prix de %company% s''affichent déjà dans le catalogue.'
+    empty_plain: 'Vous n''avez pas encore passé de commande.'
+    browse: 'Parcourir le catalogue'
+    quick: 'Commande rapide par référence'
+
+order_state:
+    pending_approval: 'En attente d''approbation'
+    cancelled: 'Annulée'
+    refunded: 'Remboursée'
+    payment_late: 'Paiement en retard'
+    due_on: 'À payer avant le %date%'
+    awaiting_payment: 'En attente de paiement'
+    delivered: 'Livrée'
+    paid_preparing: 'Payée, en préparation'
+    in_progress: 'En cours'
+
+company:
+    link: 'Mon entreprise'
+    role: 'Votre rôle'
+    members: 'Membres'
+    order_limit: 'Limite de commande'
+    approval_limit: 'Plafond d''approbation'
+    no_limit: 'aucun'
+    excl_vat: '%amount% HT'
+    spend: 'Dépense HT, année glissante'
+
+credit:
+    title: 'Paiement à terme'
+    available_on: 'disponibles sur %limit%'
+    overdue: '%amount% échus sur le compte de l''entreprise.'
+    none_open: 'Aucune pièce ouverte.'
+    nothing_overdue: 'Aucune échéance dépassée.'
+    statement: 'Relevé de compte'
+
+lists:
+    title: 'Listes et devis'
+    none: 'Aucune liste d''achat partagée pour le moment.'
+    first:
+        you: 'Liste « %name% » de l''entreprise : %count% article, créée par vous.|Liste « %name% » de l''entreprise : %count% articles, créée par vous.'
+        colleague: 'Liste « %name% » de l''entreprise : %count% article.|Liste « %name% » de l''entreprise : %count% articles.'
+quotes:
+    never: 'Vous n''avez encore demandé aucun devis.'
+    none_running: 'Aucun devis en cours.'
+    running: 'Devis %number% : %status%.'

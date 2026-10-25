@@ -47,9 +47,35 @@ final class RenderPageTest extends TestCase
         self::assertStringContainsString('APP_ENV=test only', $process->getErrorOutput());
     }
 
+    public function testAWorkerIdentifierIsRequiredForTheRenderCache(): void
+    {
+        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], ['WORKER_ID' => false, 'APP_CACHE_DIR' => false]);
+
+        self::assertSame(2, $process->getExitCode());
+        self::assertStringContainsString('WORKER_ID=<worker>', $process->getErrorOutput());
+    }
+
+    public function testASecondRenderCacheForTheSameWorkerIsRefused(): void
+    {
+        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], ['WORKER_ID' => 'wz', 'APP_CACHE_DIR' => '/tmp/another-render-cache']);
+
+        self::assertSame(2, $process->getExitCode());
+        self::assertStringContainsString('one render cache per worker', $process->getErrorOutput());
+        self::assertStringContainsString('var/cache-wz-render', $process->getErrorOutput());
+    }
+
+    public function testNoPageIsRenderedBelowTheDiskThreshold(): void
+    {
+        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], ['WORKER_ID' => 'wz', 'APP_CACHE_DIR' => false, 'CHECK_DISK_WARN_GB' => '100000', 'MIN_FREE_GB' => '100000', 'MYSQL_CONTAINER' => 'no-such-container']);
+
+        self::assertSame(4, $process->getExitCode());
+        self::assertStringContainsString('bin/check-disk', $process->getErrorOutput());
+        self::assertDirectoryDoesNotExist(\dirname(__DIR__, 3) . '/var/cache-wz-render', 'the kernel is not booted, no cache is created');
+    }
+
     /**
-     * @param list<string>          $arguments
-     * @param array<string, string> $environment
+     * @param list<string>                $arguments
+     * @param array<string, string|false> $environment
      */
     private function render(array $arguments, array $environment = []): Process
     {

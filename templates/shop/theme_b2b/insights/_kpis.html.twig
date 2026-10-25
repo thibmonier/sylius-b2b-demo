@@ -1,0 +1,43 @@
+{# Four indicators of the period: spend, orders, average basket, active buyers (one spend and one basket per currency). #}
+{% set dashboard = ctx.dashboard %}
+{% set periods = dashboard.periods %}
+{% set locale = app.request.locale %}
+{% set several = dashboard.currencies|length > 1 %}
+<section class="b2b-insights__section" aria-labelledby="b2b-insights-kpis">
+    <h2 class="visually-hidden" id="b2b-insights-kpis">{{ 'kpi.title'|trans({}, 'insights') }}</h2>
+    <div class="b2b-insights__kpis" {{ sylius_test_html_attribute('tmonier-insights-indicators') }}>
+        {% for currency in dashboard.currencies %}
+            {% include 'shop/theme_b2b/insights/_kpi.html.twig' with {
+                label: 'tmonier_company_insights.indicator.spend'|trans ~ (several ? ' (' ~ currency.currencyCode ~ ')' : ''),
+                value: currency.spend.value|sylius_format_money(currency.currencyCode, locale),
+                indicator: currency.spend,
+                note: 'kpi.spend_note'|trans({'count': dashboard.ordersCount.value}, 'insights'),
+                test_attribute: sylius_test_html_attribute('tmonier-insights-spend', currency.currencyCode),
+            } only %}
+        {% endfor %}
+        {% include 'shop/theme_b2b/insights/_kpi.html.twig' with {
+            label: 'tmonier_company_insights.indicator.orders'|trans,
+            value: dashboard.ordersCount.value|format_number,
+            indicator: dashboard.ordersCount,
+            note: 'kpi.orders_previous'|trans({'%count%': dashboard.ordersCount.previous|format_number}, 'insights'),
+            test_attribute: sylius_test_html_attribute('tmonier-insights-orders'),
+        } only %}
+        {% for currency in dashboard.currencies %}
+            {% include 'shop/theme_b2b/insights/_kpi.html.twig' with {
+                label: 'tmonier_company_insights.indicator.average_basket'|trans ~ (several ? ' (' ~ currency.currencyCode ~ ')' : ''),
+                value: currency.averageBasket.value|sylius_format_money(currency.currencyCode, locale),
+                indicator: currency.averageBasket,
+                note: 'kpi.average_basket_note'|trans({}, 'insights'),
+                test_attribute: sylius_test_html_attribute('tmonier-insights-average', currency.currencyCode),
+            } only %}
+        {% endfor %}
+        {% include 'shop/theme_b2b/insights/_kpi.html.twig' with {
+            label: 'tmonier_company_insights.indicator.active_buyers'|trans,
+            value: dashboard.activeBuyers.value|format_number,
+            indicator: dashboard.activeBuyers,
+            note: 'kpi.buyers_note'|trans({}, 'insights'),
+            test_attribute: sylius_test_html_attribute('tmonier-insights-buyers'),
+        } only %}
+    </div>
+    <p class="b2b-insights__hint">{{ 'kpi.compared'|trans({'%from%': periods.previous.from|format_date('medium'), '%to%': periods.previous.lastDay|format_date('medium')}, 'insights') }}</p>
+</section>

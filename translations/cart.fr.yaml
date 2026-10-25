@@ -10,8 +10,8 @@ steps:
 title: 'Votre panier'
 approval:
     title: 'Commande soumise à approbation'
-    text_named: "Votre limite de commande est de %limit% et le total de ce panier atteint %total%. Une fois validée, la commande attendra l'approbation de %company% (%approver%, approbateur) ; vous pourrez la payer après son approbation."
-    text_company: "Votre limite de commande est de %limit% et le total de ce panier atteint %total%. Une fois validée, la commande attendra l'approbation de %company% ; vous pourrez la payer après son approbation."
+    text_named: "Votre limite de commande est de %limit% et le total hors taxes de ce panier atteint %total%. Une fois validée, la commande attendra l'approbation de %company% (%approver%, approbateur) ; vous pourrez la payer après son approbation."
+    text_company: "Votre limite de commande est de %limit% et le total hors taxes de ce panier atteint %total%. Une fois validée, la commande attendra l'approbation de %company% ; vous pourrez la payer après son approbation."
     text_generic: "Une fois validée, la commande attendra l'approbation de votre entreprise ; vous pourrez la payer après son approbation."
 lines:
     title: 'Produits du panier'

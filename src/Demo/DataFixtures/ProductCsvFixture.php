@@ -15,6 +15,7 @@ use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Model\TaxonInterface;
 use Sylius\Component\Product\Model\ProductAttributeInterface;
 use Sylius\Component\Product\Model\ProductAttributeValueInterface;
+use Sylius\Component\Taxation\Model\TaxCategoryInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -35,6 +36,9 @@ final class ProductCsvFixture extends AbstractFixture
 
     private const BATCH_SIZE = 25;
 
+    /** US-202: the prices of the catalogue are excluding tax; the shop adds the VAT of this category (20 %, zone FR). */
+    private const TAX_CATEGORY = 'standard';
+
     /**
      * Lookups shared by the products of a batch (S2-R7): the entity manager is cleared after each batch, which
      * detaches these entities, so they are dropped with it and read again once per batch instead of once per product.
@@ -49,6 +53,8 @@ final class ProductCsvFixture extends AbstractFixture
     /** @var array<string, ProductAttributeInterface|null> */
     private array $attributes = [];
 
+    private ?TaxCategoryInterface $taxCategory = null;
+
     /**
      * @param FactoryInterface<ProductInterface>            $productFactory
      * @param FactoryInterface<ProductVariantInterface>     $productVariantFactory
@@ -59,6 +65,7 @@ final class ProductCsvFixture extends AbstractFixture
      * @param RepositoryInterface<TaxonInterface>           $taxonRepository
      * @param RepositoryInterface<ProductAttributeInterface> $attributeRepository
      * @param RepositoryInterface<ChannelInterface>         $channelRepository
+     * @param RepositoryInterface<TaxCategoryInterface>     $taxCategoryRepository
      */
     public function __construct(
         private readonly CsvProductReader $csvProductReader,
@@ -84,6 +91,8 @@ final class ProductCsvFixture extends AbstractFixture
         #[Autowire(service: 'sylius.factory.product_taxon')]
         private readonly FactoryInterface $productTaxonFactory,
         private readonly ProductImageAttacher $imageAttacher,
+        #[Autowire(service: 'sylius.repository.tax_category')]
+        private readonly RepositoryInterface $taxCategoryRepository,
     ) {
     }
 
@@ -106,6 +115,7 @@ final class ProductCsvFixture extends AbstractFixture
             $this->channels = null;
             $this->taxons = [];
             $this->attributes = [];
+            $this->taxCategory = null;
         }
     }
 
@@ -220,6 +230,7 @@ final class ProductCsvFixture extends AbstractFixture
             $variant->setName(\trim($row[$nameKey]));
         }
 
+        $variant->setTaxCategory($this->taxCategory());
         $this->applyDimensions($variant, $row);
         $this->applyPrice($variant, (int) \round((float) ($row['price_eur_ht'] ?? 0) * 100));
 
@@ -338,6 +349,16 @@ final class ProductCsvFixture extends AbstractFixture
         }
 
         return $this->channels;
+    }
+
+    private function taxCategory(): TaxCategoryInterface
+    {
+        $category = $this->taxCategory ??= $this->taxCategoryRepository->findOneBy(['code' => self::TAX_CATEGORY]);
+        if (!$category instanceof TaxCategoryInterface) {
+            throw new \LogicException(\sprintf('Tax category "%s" must exist before the products (fixtures "tax_category").', self::TAX_CATEGORY));
+        }
+
+        return $category;
     }
 
     private function taxon(string $code): ?TaxonInterface

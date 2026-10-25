@@ -1,0 +1,13 @@
+{# A period (and filters) without any order: one explained state, no figure at zero, no empty chart. #}
+{% set periods = ctx.dashboard.periods %}
+{% set selection = ctx.selection %}
+<section class="b2b-insights__card b2b-insights__empty" aria-labelledby="b2b-insights-empty-title" {{ sylius_test_html_attribute('b2b-insights-empty') }} {{ sylius_test_html_attribute('tmonier-insights-empty') }}>
+    <h2 id="b2b-insights-empty-title">{{ 'empty.title'|trans({}, 'insights') }}</h2>
+    <p>{{ 'empty.text'|trans({'%from%': periods.current.from|format_date('medium'), '%to%': periods.current.lastDay|format_date('medium')}, 'insights') }}</p>
+    <div class="b2b-insights__row">
+        <a class="b2b-insights__button b2b-insights__button--accent" href="{{ path('tmonier_company_insights_shop_insights') }}">{{ 'empty.reset'|trans({'%period%': 'tmonier_company_insights.period.last_12_months'|trans}, 'insights') }}</a>
+        {% if not selection.filter.empty %}
+            <a class="b2b-insights__button" href="{{ path('tmonier_company_insights_shop_insights', selection.query|filter((value, key) => key not in ['member', 'site'])) }}">{{ 'empty.remove_filters'|trans({}, 'insights') }}</a>
+        {% endif %}
+    </div>
+</section>

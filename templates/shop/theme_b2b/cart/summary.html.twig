@@ -39,7 +39,7 @@
             {% endif %}
             {% if cart.shipments is not empty %}
                 <dt>{{ 'summary.shipping'|trans({}, 'cart') }}{% if shipping_method %} <span class="b2b-cart__summary-note">· {{ shipping_method }}</span>{% endif %}</dt>
-                <dd {{ sylius_test_html_attribute('cart-shipping-total') }}>{{ money.convertAndFormat(cart.shippingTotal) }}</dd>
+                <dd {{ sylius_test_html_attribute('cart-shipping-total') }}>{{ money.convertAndFormat((cart.getAdjustmentsTotalRecursively('shipping') + cart.getAdjustmentsTotalRecursively('order_shipping_promotion'))) }}</dd>
             {% endif %}
             {% if cart.taxTotal != 0 %}
                 <dt>{{ tax_label ?? 'summary.vat'|trans({}, 'cart') }}</dt>

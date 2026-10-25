@@ -1,0 +1,53 @@
+# US-199: "My account" of the B2B channel, in the continuation of the home (mock-up validated by Thibaut, see the decisions
+# register of sprint 30). Hooks of this story only: the file of the cart and of the home are not touched. Everything is limited to the
+# B2B channel; the consumer channel keeps the core card, the core menu and the company card of the plugin (conditions below).
+# The data comes from App\Demo\Account\Dashboard (twig functions app_b2b_account_dashboard and app_b2b_account_nav).
+sylius_twig_hooks:
+    hooks:
+        # The menu of every page of the account (index, show, create and update pages): four blocks instead of one flat list.
+        'sylius_shop.account.common.index.content.menu':
+            account:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_account_nav:
+                template: 'shop/theme_b2b/account/nav.html.twig'
+                priority: 0
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        'sylius_shop.account.common.create.content.menu':
+            account:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_account_nav:
+                template: 'shop/theme_b2b/account/nav.html.twig'
+                priority: 0
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        'sylius_shop.account.common.show.content.menu':
+            account:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_account_nav:
+                template: 'shop/theme_b2b/account/nav.html.twig'
+                priority: 0
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        'sylius_shop.account.common.update.content.menu':
+            account:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_account_nav:
+                template: 'shop/theme_b2b/account/nav.html.twig'
+                priority: 0
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"
+
+        # The home of the account: the core titles, card and company card of the plugin give way to the page of the story.
+        'sylius_shop.account.dashboard.index.content.main':
+            header:
+                template: '@SyliusShop/account/common/content/main/header.html.twig'
+                priority: 0
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            section:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            tmonier_company:
+                condition: "@=is_granted('DEMO_CONSUMER_CHANNEL')"
+            b2b_account_dashboard:
+                template: 'shop/theme_b2b/account/dashboard.html.twig'
+                priority: 100
+                condition: "@=not is_granted('DEMO_CONSUMER_CHANNEL')"

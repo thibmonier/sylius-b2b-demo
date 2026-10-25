@@ -1,0 +1,34 @@
+{# Approvals over the period: what waits now, how fast it is decided, how often it is refused, who is submitted most. #}
+{% set pending = data.pending %}
+{% set amounts = [] %}
+{% for currency, amount in pending.amounts %}{% set amounts = amounts|merge([amount|sylius_format_money(currency, locale)]) %}{% endfor %}
+<h2 id="{{ heading }}">{{ 'approvals.title'|trans({}, 'insights') }}</h2>
+<dl class="b2b-insights__facts">
+    <dt>{{ 'approvals.pending'|trans({}, 'insights') }}</dt>
+    <dd {{ sylius_test_html_attribute('tmonier-insights-approvals-pending-count') }}>{{ pending.count == 0 ? 'tmonier_company_insights.ui.no_pending'|trans : 'approvals.pending_value'|trans({'%count%': pending.count|format_number, '%amount%': amounts|join(' + ')}, 'insights') }}</dd>
+    <dt>{{ 'approvals.median'|trans({}, 'insights') }}</dt>
+    <dd {{ sylius_test_html_attribute('tmonier-insights-approvals-median') }}>
+        {% if data.median_seconds is null %}
+            {{ 'tmonier_company_insights.widget.approvals.none_decided'|trans }}
+        {% elseif data.median_seconds < 172800 %}
+            {{ 'tmonier_company_insights.widget.approvals.hours'|trans({'%value%': (data.median_seconds / 3600)|round(1)|format_number}) }}
+        {% else %}
+            {{ 'tmonier_company_insights.widget.approvals.days_value'|trans({'%value%': (data.median_seconds / 86400)|round(1)|format_number}) }}
+        {% endif %}
+    </dd>
+    <dt>{{ 'approvals.refusal'|trans({}, 'insights') }}</dt>
+    <dd {{ sylius_test_html_attribute('tmonier-insights-approvals-refusal') }}>
+        {% if data.refusal_rate is null %}
+            {{ 'tmonier_company_insights.widget.approvals.none_decided'|trans }}
+        {% else %}
+            {{ 'approvals.refusal_value'|trans({'%rate%': data.refusal_rate, '%refused%': data.refused, '%decided%': data.decided}, 'insights') }}
+        {% endif %}
+    </dd>
+    {% if data.buyers is not empty %}
+        {% set top = data.buyers|first %}
+        <dt>{{ 'approvals.submitted'|trans({}, 'insights') }}</dt>
+        <dd {{ sylius_test_html_attribute('tmonier-insights-approvals-buyer') }}>{{ 'approvals.submitted_value'|trans({'%name%': top.name, '%approvals%': top.approvals|format_number, '%orders%': top.orders|format_number}, 'insights') }}</dd>
+    {% endif %}
+</dl>
+{% if data.buyers is not empty %}<p class="b2b-insights__hint">{{ 'tmonier_company_insights.widget.approvals.buyers_help'|trans }}</p>{% endif %}
+{% if data.url %}<a href="{{ data.url }}" {{ sylius_test_html_attribute('tmonier-insights-approvals-link') }}>{{ 'tmonier_company_insights.widget.approvals.link'|trans }}</a>{% endif %}

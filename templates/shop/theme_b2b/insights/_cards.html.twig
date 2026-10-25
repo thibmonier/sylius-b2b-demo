@@ -1,0 +1,20 @@
+{# The blocks supplied by other plugins (approvals, credit...). A block whose figures could not be computed says so in a few words. #}
+{% set locale = app.request.locale %}
+<div class="b2b-insights__two">
+    {% for widget in ctx.widgets %}
+        {% set heading = 'b2b-insights-widget-' ~ widget.code %}
+        <section class="b2b-insights__card" aria-labelledby="{{ heading }}" {{ sylius_test_html_attribute('tmonier-insights-widget', widget.code) }}>
+            {% if widget.unavailable %}
+                <h2 id="{{ heading }}">{{ widget.title|trans }}</h2>
+                <p role="status" {{ sylius_test_html_attribute('tmonier-insights-widget-unavailable') }}>{{ 'tmonier_company_insights.widget.unavailable'|trans }}</p>
+            {% elseif widget.code == 'approvals' %}
+                {% include 'shop/theme_b2b/insights/_card_approvals.html.twig' with {heading: heading, data: widget.data, locale: locale} only %}
+            {% elseif widget.code == 'credit' %}
+                {% include 'shop/theme_b2b/insights/_card_credit.html.twig' with {heading: heading, data: widget.data, locale: locale} only %}
+            {% else %}
+                <h2 id="{{ heading }}">{{ widget.title|trans }}</h2>
+                {% include widget.template with {widget: widget, data: widget.data, locale: locale} only %}
+            {% endif %}
+        </section>
+    {% endfor %}
+</div>

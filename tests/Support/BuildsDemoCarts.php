@@ -23,6 +23,8 @@ trait BuildsDemoCarts
 {
     use IsolatesSharedAccounts;
 
+    private static int $cartSequence = 0;
+
     private function clientOf(string $email): KernelBrowser
     {
         $client = self::createClient();
@@ -56,7 +58,8 @@ trait BuildsDemoCarts
         self::assertInstanceOf(OrderProcessorInterface::class, $processor);
         $processor->process($order);
         // Sylius shows the latest cart of the customer (createdAt DESC, to the second): this one wins, and is rolled back.
-        $order->setCreatedAt(new \DateTime('+1 hour'));
+        // One second apart: the cart shown is the latest one, and the column keeps whole seconds (two carts in the same second tied).
+        $order->setCreatedAt(new \DateTime(sprintf('+%d seconds', 3600 + ++self::$cartSequence)));
         $this->entityManager()->persist($order);
         $this->entityManager()->flush();
 

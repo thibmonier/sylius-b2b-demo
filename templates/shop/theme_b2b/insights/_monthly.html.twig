@@ -1,0 +1,94 @@
+{#
+ # Purchases per month over twelve months, each next to the same month of the year before. The chart is drawn by the server (SVG, no
+ # script): the year before is hatched, the month in progress is lighter, and the table folded under it carries every value.
+ #}
+{% set metric = ctx.metric %}
+{% set locale = app.request.locale %}
+{% set several = ctx.monthly|length > 1 %}
+<section class="b2b-insights__card" aria-labelledby="b2b-insights-monthly" {{ sylius_test_html_attribute('tmonier-insights-monthly') }}>
+    <div class="b2b-insights__row">
+        <div>
+            <h2 id="b2b-insights-monthly">{{ 'tmonier_company_insights.monthly.title'|trans }}</h2>
+            <p class="b2b-insights__hint">{{ 'monthly.subtitle'|trans({}, 'insights') }}</p>
+        </div>
+        <nav aria-label="{{ 'tmonier_company_insights.monthly.metric_selector'|trans }}">
+            <ul class="b2b-insights__metrics" {{ sylius_test_html_attribute('b2b-insights-metrics') }} {{ sylius_test_html_attribute('tmonier-insights-metrics') }}>
+                {% for choice in ctx.metrics %}
+                    <li><a href="{{ path('tmonier_company_insights_shop_insights', ctx.selection.query|merge({metric: choice.value})|merge(ctx.sort.value != 'spend' ? {sort: ctx.sort.value} : {})) }}"{% if choice == metric %} aria-current="true"{% endif %} {{ sylius_test_html_attribute('tmonier-insights-metric', choice.value) }}>{{ choice.label|trans }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+
+    {% for series in ctx.monthly %}
+        {% set current = [] %}
+        {% set previous = [] %}
+        {% for point in series.points %}
+            {% set current = current|merge([metric.value == 'orders' ? point.ordersCount : point.spend]) %}
+            {% set previous = previous|merge([metric.value == 'orders' ? point.previousOrdersCount : point.previousSpend]) %}
+        {% endfor %}
+        {% set plan = demo_insights_chart(current, previous, metric.value == 'orders' ? 1 : 100) %}
+        {% set hatch = 'b2b-insights-hatch-' ~ series.currencyCode %}
+        {% set caption = 'tmonier_company_insights.monthly.table_caption'|trans({'%currency%': series.currencyCode}) %}
+
+        {% if several %}<h3 class="b2b-insights__subtitle">{{ series.currencyCode }}</h3>{% endif %}
+        <ul class="b2b-insights__legend" aria-hidden="true">
+            <li><span class="b2b-insights__swatch b2b-insights__swatch--current"></span>{{ 'monthly.legend_current'|trans({}, 'insights') }}</li>
+            <li><span class="b2b-insights__swatch b2b-insights__swatch--previous"></span>{{ 'monthly.legend_previous'|trans({}, 'insights') }}</li>
+        </ul>
+        <div class="b2b-insights__scroll" tabindex="0" role="region" aria-label="{{ 'tmonier_company_insights.monthly.title'|trans }}">
+            <svg class="b2b-insights__chart" viewBox="0 0 960 300" role="img" aria-label="{{ (metric.value == 'orders' ? 'monthly.label_orders' : 'monthly.label_amount')|trans({}, 'insights') }}" {{ sylius_test_html_attribute('b2b-insights-chart') }} {{ sylius_test_html_attribute('tmonier-insights-chart') }}>
+                <defs>
+                    <pattern id="{{ hatch }}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                        <rect class="b2b-insights__hatch-back" width="6" height="6"/>
+                        <rect class="b2b-insights__hatch-line" width="3" height="6"/>
+                    </pattern>
+                </defs>
+                {% for tick in plan.ticks %}
+                    <line class="b2b-insights__grid" x1="80" x2="950" y1="{{ tick.y }}" y2="{{ tick.y }}"/>
+                    <text class="b2b-insights__axis" x="72" y="{{ tick.y + 4 }}" text-anchor="end">{{ metric.value == 'orders' ? tick.value|format_number : (tick.value / 100)|format_currency(series.currencyCode, {fraction_digit: 0}) }}</text>
+                {% endfor %}
+                {% for point in series.points %}
+                    {% set bar = plan.bars[loop.index0] %}
+                    <rect class="b2b-insights__bar-previous" x="{{ bar.previousX }}" y="{{ bar.previousY }}" width="26" height="{{ bar.previousHeight }}" fill="url(#{{ hatch }})" {{ sylius_test_html_attribute('b2b-insights-bar-previous') }}/>
+                    <rect class="b2b-insights__bar{{ point.inProgress ? ' b2b-insights__bar--running' }}" x="{{ bar.x }}" y="{{ bar.y }}" width="26" height="{{ bar.height }}" data-month="{{ point.month|date('Y-m', false) }}" data-in-progress="{{ point.inProgress ? 'true' : 'false' }}" {{ sylius_test_html_attribute('b2b-insights-bar') }}/>
+                    <text class="b2b-insights__axis b2b-insights__axis--month" x="{{ bar.previousX + 27 }}" y="276" text-anchor="middle">{{ point.month|format_date(pattern: 'LLL', timezone: point.timezoneName) }}</text>
+                    <text class="b2b-insights__axis" x="{{ bar.previousX + 27 }}" y="292" text-anchor="middle">{{ point.month|format_date(pattern: 'y', timezone: point.timezoneName) }}</text>
+                {% endfor %}
+            </svg>
+        </div>
+
+        <details class="b2b-insights__table" {{ sylius_test_html_attribute('b2b-insights-table') }}>
+            <summary>{{ 'monthly.table'|trans({}, 'insights') }}</summary>
+            <div class="b2b-insights__scroll" tabindex="0" role="region" aria-label="{{ caption }}" {{ sylius_test_html_attribute('tmonier-insights-table-region') }}>
+                <table {{ sylius_test_html_attribute('tmonier-insights-monthly-table', series.currencyCode) }}>
+                    <caption class="visually-hidden">{{ caption }}</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ 'tmonier_company_insights.monthly.month'|trans }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.monthly.spend'|trans }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.monthly.orders'|trans }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.monthly.previous_spend'|trans }}</th>
+                            <th scope="col">{{ 'tmonier_company_insights.monthly.previous_orders'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for point in series.points %}
+                            <tr data-month="{{ point.month|date('Y-m', false) }}">
+                                <th scope="row">
+                                    {{ point.month|format_date(pattern: 'LLLL y', timezone: point.timezoneName) }}
+                                    {% if point.inProgress %}<span class="b2b-insights__badge" {{ sylius_test_html_attribute('tmonier-insights-month-in-progress') }}>{{ 'tmonier_company_insights.monthly.in_progress'|trans }}</span>{% endif %}
+                                </th>
+                                <td data-value="{{ point.spend }}" {{ sylius_test_html_attribute('tmonier-insights-monthly-spend') }}>{{ point.spend|sylius_format_money(series.currencyCode, locale) }}</td>
+                                <td data-value="{{ point.ordersCount }}" {{ sylius_test_html_attribute('tmonier-insights-monthly-orders') }}>{{ point.ordersCount|format_number }}</td>
+                                <td data-value="{{ point.previousSpend }}" {{ sylius_test_html_attribute('tmonier-insights-monthly-previous-spend') }}>{{ point.previousSpend|sylius_format_money(series.currencyCode, locale) }}</td>
+                                <td data-value="{{ point.previousOrdersCount }}" {{ sylius_test_html_attribute('tmonier-insights-monthly-previous-orders') }}>{{ point.previousOrdersCount|format_number }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </details>
+    {% endfor %}
+    <p class="b2b-insights__hint" {{ sylius_test_html_attribute('b2b-insights-chart-note') }}>{{ 'monthly.in_progress'|trans({}, 'insights') }}</p>
+</section>

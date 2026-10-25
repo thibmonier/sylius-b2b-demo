@@ -1,0 +1,28 @@
+{#
+    US-199: the menu of the account in four blocks (My purchases, My company, My profile, Tools), on every page of the account of the
+    B2B channel. The entries are the ones of the Sylius menu `sylius_shop.account` that the core and the plugins fill, so the rights of
+    the account decide what is shown (no link to a refusal). The number on "Approvals" is the one of the header. The core menu stays
+    on the consumer channel (condition of the hookables in demo_theme_b2b_account.yaml).
+#}
+{% set nav = app_b2b_account_nav() %}
+<nav class="b2b-account-nav" aria-label="{{ 'nav.label'|trans({}, 'account') }}" {{ sylius_test_html_attribute('b2b-account-nav') }}>
+    <a class="b2b-account-nav__home" href="{{ nav.homeUri }}"{% if nav.homeCurrent %} aria-current="page"{% endif %}>{{ 'nav.home'|trans({}, 'account') }}</a>
+    {% for group in nav.groups %}
+        <div class="b2b-account-nav__group" {{ sylius_test_html_attribute('b2b-account-nav-group', group.key) }}>
+            <p class="b2b-account-nav__title" id="b2b-account-nav-{{ group.key }}">{{ ('nav.group.' ~ group.key)|trans({}, 'account') }}</p>
+            <ul class="b2b-account-nav__list" aria-labelledby="b2b-account-nav-{{ group.key }}">
+                {% for item in group.items %}
+                    <li>
+                        <a class="b2b-account-nav__link" href="{{ item.uri }}"{% if item.current %} aria-current="page"{% endif %} {{ sylius_test_html_attribute('b2b-account-nav-item', item.name) }}>
+                            <span>{{ item.label|trans }}</span>
+                            {% if item.count is not null %}
+                                <span class="b2b-account-nav__count" aria-hidden="true" {{ sylius_test_html_attribute('b2b-account-nav-count') }}>{{ item.count > 99 ? '99+' : item.count }}</span>
+                                <span class="visually-hidden">{{ 'nav.pending'|trans({'%count%': item.count}, 'account') }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</nav>

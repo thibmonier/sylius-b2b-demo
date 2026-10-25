@@ -60,8 +60,8 @@ final class CartPageTest extends WebTestCase
         self::assertStringContainsString('108,80', $summary);
         self::assertStringContainsString('Valider la commande', $this->plain($crawler->filter('[data-test-b2b-cart-aside]')->html()), 'The validation sits under the summary.');
         self::assertStringContainsString(number_format($order->getTotal() / 100, 2, ',', ''), $this->plain($crawler->filter('[data-test-b2b-cart-total]')->html()), 'The total is the one of the order.');
-        self::assertSame(0, $order->getTaxTotal(), 'The products of the demo carry no tax category: the shop computes no tax.');
-        self::assertCount(0, $crawler->filter('[data-test-b2b-cart-vat]'), 'A tax that the shop does not compute is not shown.');
+        self::assertGreaterThan(0, $order->getTaxTotal(), 'US-202: the products carry a tax category, the shop computes the VAT.');
+        self::assertCount(1, $crawler->filter('[data-test-b2b-cart-vat]'), 'US-202: the VAT line is shown.');
     }
 
     public function testAVolumePriceShowsOnlyOnTheLinesThatReachTheTierAndKeepsTheOthers(): void
