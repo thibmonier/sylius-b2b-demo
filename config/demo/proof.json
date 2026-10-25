@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-25T09:18:51Z",
+    "generated_at": "2026-10-25T11:12:31Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -1004,7 +1004,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40171207681",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40181195170",
             "checked_at": "2026-10-25"
         },
         "phpstan": {
