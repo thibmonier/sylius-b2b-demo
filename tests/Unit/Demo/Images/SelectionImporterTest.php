@@ -125,6 +125,33 @@ final class SelectionImporterTest extends TestCase
         self::assertSame([], (new ImageManifestAuditor())->violations(\array_filter($manifest->rows(), static fn (array $row): bool => $row['source'] === 'pexels')));
     }
 
+    public function testOnlyTheTypesAskedAreImportedAndTheOthersKeepTheirRowsAndFiles(): void
+    {
+        $this->import();
+        $before = ImageManifest::load($this->dir . '/images/manifest.csv');
+        $vis = $before->fileFor('P-3');
+        $this->jpeg($this->dir . '/source/full-1.jpg', 1600, 1200, 0x33CC66);
+
+        $report = $this->importFrom($this->dir . '/source', ['casque']);
+
+        $after = ImageManifest::load($this->dir . '/images/manifest.csv');
+        self::assertSame(['photos' => 1, 'skus' => 2], ['photos' => $report['photos'], 'skus' => $report['skus']]);
+        self::assertNotSame($before->fileFor('P-1'), $after->fileFor('P-1'));
+        self::assertSame($vis, $after->fileFor('P-3'));
+        self::assertSame('category-gants.webp', $after->fileFor('P-5'));
+    }
+
+    public function testAnUnknownTypeAskedForStopsTheImportBeforeAnythingIsWritten(): void
+    {
+        try {
+            $this->importFrom($this->dir . '/source', ['casqe']);
+            self::fail('An unknown type must stop the import.');
+        } catch (\RuntimeException $exception) {
+            self::assertStringContainsString('casqe', $exception->getMessage());
+        }
+        self::assertFileExists($this->dir . '/images/orphan0000aa.webp');
+    }
+
     public function testTheSameInputGivesTheSameFileNames(): void
     {
         $this->import();
@@ -188,8 +215,12 @@ final class SelectionImporterTest extends TestCase
         return $this->importFrom($this->dir . '/source');
     }
 
-    /** @return array{photos: int, skus: int, removed: list<string>} */
-    private function importFrom(string $source): array
+    /**
+     * @param list<string> $only
+     *
+     * @return array{photos: int, skus: int, removed: list<string>}
+     */
+    private function importFrom(string $source, array $only = []): array
     {
         $manifest = ImageManifest::load($this->dir . '/images/manifest.csv');
 
@@ -199,6 +230,7 @@ final class SelectionImporterTest extends TestCase
             $this->dir . '/images',
             $manifest,
             '2026-10-25',
+            $only,
         );
     }
 
