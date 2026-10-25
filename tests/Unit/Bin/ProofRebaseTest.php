@@ -98,7 +98,7 @@ final class ProofRebaseTest extends TestCase
         self::assertSame(1, $process->getExitCode());
         self::assertStringContainsString('README.md', $process->getErrorOutput());
         self::assertSame($before, trim($this->git($this->clone, 'rev-parse', 'HEAD')));
-        self::assertDirectoryNotExists($this->clone . '/.git/rebase-merge', 'no rebase left in progress');
+        self::assertDirectoryDoesNotExist($this->clone . '/.git/rebase-merge', 'no rebase left in progress');
     }
 
     public function testAProofThatStillFailsTheCheckFails(): void
@@ -116,6 +116,9 @@ final class ProofRebaseTest extends TestCase
         $this->commitAll($directory, $message);
     }
 
+    /**
+     * @param array<string, string> $environment
+     */
     private function rebase(array $environment = []): Process
     {
         $process = new Process([$this->clone . '/bin/proof-rebase'], $this->clone, $environment + ['GIT_AUTHOR_NAME' => 'T', 'GIT_AUTHOR_EMAIL' => 't@example.test', 'GIT_COMMITTER_NAME' => 'T', 'GIT_COMMITTER_EMAIL' => 't@example.test']);
