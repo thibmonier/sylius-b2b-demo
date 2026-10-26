@@ -1,0 +1,48 @@
+# US-103 (T-103-03, décision de Thibaut du 2026-10-26) : conversation réelle menée par Claude (Claude Code) sur une copie
+# locale de la démo (données de la remise à zéro, compte de démonstration de Claire). Chaque réponse reprend le résultat
+# des outils MCP appelés, sans retouche des montants ; le journal brut des appels est hors dépôt.
+recorded_at: '2026-10-26'
+locale: fr
+assistant: Claude (Claude Code, sur une copie locale de la démo)
+exchanges:
+    - user: "Liste mes dernières commandes."
+      tools: [list_my_orders]
+      assistant: |-
+          Vous avez 19 commandes sur la boutique. Les cinq plus récentes :
+          • 000000006 du 22 octobre : 813,00 €, 50 articles, en attente de paiement (nouvelle) ;
+          • 000000053 du 1er octobre : 301,50 €, 35 articles, payée et expédiée ;
+          • 000000051 du 19 septembre : 357,60 €, 34 articles, payée et expédiée ;
+          • 000000050 du 12 septembre : 287,70 €, 23 articles, payée et expédiée ;
+          • 000000004 du 26 août : 43,60 €, 5 articles, annulée.
+    - user: "Donne-moi le détail de la plus récente."
+      tools: [get_order]
+      assistant: |-
+          Commande 000000006 du 22 octobre, livrée à Acme Industries (Lyon) :
+          • 40 casques de chantier blancs HDPE (EPI-CASK-001) à 15,88 € : 635,20 € ;
+          • 10 clés à molette 250 mm chrome-vanadium (OUTI-001) à 16,28 € : 162,80 €.
+          Articles 798,00 €, livraison par messagerie (48 h) 15,00 €, total 813,00 €, paiement par virement.
+          Elle dépasse votre limite de commande de 500,00 € : elle attend une approbation depuis le 22 octobre, sans décision pour l'instant.
+    - user: "Prépare un réassort identique pour la semaine prochaine."
+      tools: [reorder]
+      assistant: |-
+          C'est fait : les deux lignes ont été ajoutées à votre panier aux prix du jour, inchangés (40 casques à 15,88 € et 10 clés à molette à 16,28 €).
+          Votre panier contenait déjà des articles ; il compte maintenant 50 casques, 6 paires de chaussures basses S1P, 24 paires de gants nitrile, 5 boîtes de vis M6x20, 2 boîtes de vis M8x30 et 10 clés à molette, pour 1 983,95 € TTC livraison comprise.
+          Rien n'est commandé : c'est vous qui vérifiez le panier et passez la commande sur la boutique, à la date qui vous convient.
+    - user: "Ajoute aussi 5 boîtes de vis VISS-001 en commande rapide."
+      tools: [quick_order_add]
+      assistant: |-
+          J'ai d'abord vérifié la ligne sans toucher au panier : la référence VISS-001 (vis hexagonale M6x20 inox A2) est vendue et la quantité de 5 est valide.
+          Puis je l'ai ajoutée : vous avez maintenant 10 boîtes de VISS-001 dans le panier, qui compte 102 articles pour 2 030,93 € TTC livraison comprise.
+    - user: "Où en est mon crédit sur compte ?"
+      tools: [get_trade_credit_statement]
+      assistant: |-
+          Le crédit sur compte d'Acme Industries :
+          • plafond 10 000,00 €, engagé 5 185,20 €, disponible 4 814,80 € ; le compte n'est pas bloqué ;
+          • 2 363,80 € en retard de 1 à 30 jours : la commande 000000007 de Paul Martin, échue le 8 octobre ;
+          • 2 821,40 € non échus : la commande 000000008 d'Isabelle Renard, à régler avant le 14 novembre.
+          Le panier en cours (2 030,93 €) tient dans le disponible, mais le retard de paiement mérite d'être régularisé.
+    - user: "Donne-moi le lien pour finaliser."
+      tools: [get_checkout_link]
+      assistant: |-
+          Voici le lien vers votre panier sur la boutique (102 articles, 2 030,93 € TTC) ; son adresse n'est pas reproduite dans ce transcript. Ouvrez-le connectée avec votre compte : vous y choisissez la livraison et le paiement, puis vous passez la commande vous-même.
+          Comme elle dépasse votre limite de 500,00 €, elle partira en approbation avant traitement. Je ne passe pas de commande et je ne paie pas.
