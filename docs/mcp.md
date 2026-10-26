@@ -41,7 +41,7 @@ L'API REST Sylius (`/api/v2/*`) est désactivée en prod et répond `404`. Le MC
 
 ## Transcript d'une vraie conversation (US-103)
 
-La page du guide peut afficher, avant les étapes, un bloc « Une vraie conversation avec un assistant » : 4 à 6 échanges réels, datés, les outils MCP appelés, le rappel que l'assistant ne paie jamais, et une vidéo ou une animation facultative. **Le bloc reste masqué tant que `config/demo/mcp-transcript.yaml` n'existe pas** (la conversation réelle est faite par Thibaut, voir `communication/sprint-18/assistants-ia/script-conversation.md`, hors dépôt public).
+La page du guide peut afficher, avant les étapes, un bloc « Une vraie conversation avec un assistant » : 4 à 6 échanges réels, datés, les outils MCP appelés, le rappel que l'assistant ne paie jamais, et une vidéo ou une animation facultative. **Le bloc reste masqué tant que `config/demo/mcp-transcript.yaml` n'existe pas** (le script est `communication/sprint-18/assistants-ia/script-conversation.md`, hors dépôt public). Le transcript en place depuis le 2026-10-26 est une conversation réelle menée par Claude (Claude Code) sur une copie locale de la démo, compte de démonstration de Claire, données de la remise à zéro : les réponses reprennent les résultats des outils appelés, et le bloc le dit (« sur une copie locale de la démo ») ; il n'a pas de vidéo. Décision de Thibaut du 2026-10-26 ; un enregistrement fait sur la production peut le remplacer plus tard.
 
 Format du fichier (variable `DEMO_MCP_TRANSCRIPT_FILE` pour pointer un autre fichier, utilisée par les tests) :
 
