@@ -43,7 +43,10 @@
         <ul class="list-unstyled d-grid gap-3 mt-3 mb-0" aria-labelledby="credits-home">
             {% for photo in demo_home_photos() %}
                 <li class="border rounded p-3 d-flex flex-wrap gap-3 align-items-start" data-home-photo-credit="{{ photo.slot }}">
-                    {% include 'shop/theme_b2b/_home_photo.html.twig' with { slot: photo.slot, class: 'rounded', sizes: '12rem' } only %}
+                    {# A 12rem thumbnail at most the width of the item: the files are 800 px wide (inline style: the B2C channel has no B2B stylesheet). #}
+                    <div class="flex-shrink-0" style="width: 12rem; max-width: 100%" data-credit-thumb>
+                        {% include 'shop/theme_b2b/_home_photo.html.twig' with { slot: photo.slot, class: 'rounded img-fluid', sizes: '12rem' } only %}
+                    </div>
                     <p class="mb-0">
                         {{ 'credits.by'|trans({}, 'legal') }} <span data-credit-creator>{{ photo.creator }}</span> ·
                         <a href="{{ photo.originUrl }}" rel="noopener noreferrer" target="_blank" data-credit-origin>{{ 'credits.home.origin'|trans({'%source%': photo.source}, 'legal') }}<span class="visually-hidden"> {{ 'external_link'|trans({}, 'shop_layout') }}</span></a><br>

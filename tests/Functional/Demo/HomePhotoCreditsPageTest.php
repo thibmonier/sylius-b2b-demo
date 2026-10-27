@@ -35,6 +35,22 @@ final class HomePhotoCreditsPageTest extends WebTestCase
         }
     }
 
+    /**
+     * The photos are 800 px files shown as thumbnails: without a width bound, the page was 1046 px wide on a 360 px phone
+     * (production check of 2026-10-27). Bootstrap classes only: the page also shows on the B2C channel.
+     */
+    public function testThePhotosAreBoundedThumbnails(): void
+    {
+        $page = self::createClient()->request('GET', '/fr_FR/credits-images');
+
+        foreach ($page->filter('[data-home-photo-credit]') as $item) {
+            $thumb = (new \Symfony\Component\DomCrawler\Crawler($item))->filter('[data-credit-thumb]');
+            self::assertCount(1, $thumb);
+            self::assertStringContainsString('max-width: 100%', (string) $thumb->attr('style'));
+            self::assertContains('img-fluid', explode(' ', (string) $thumb->filter('img')->attr('class')));
+        }
+    }
+
     public function testThePhotosOfTheHomeDoNotChangeTheCountOfTheProductImages(): void
     {
         $page = self::createClient()->request('GET', '/fr_FR/credits-images');
