@@ -507,11 +507,12 @@ sprints:
 
 backlog:
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
-  - {id: US-203, title: "Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur la refonte « Mon compte »", points: 5, status: ready-for-dev}  # EPIC-12, Should ; surcharge dans la démo décidée par Thibaut le 2026-10-27 (plugins intacts) ; page de consentement OAuth : cadre B2B seulement, à confirmer ; planche de maquette du relevé à valider avant le Twig
+  - {id: US-203, title: "Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur la refonte « Mon compte »", points: 5, status: ready-for-dev}  # EPIC-12, Should ; surcharge dans la démo décidée par Thibaut le 2026-10-27 (plugins intacts) ; page de consentement OAuth : cadre B2B seulement (décision de Thibaut du 2026-10-27) ; planche de maquette du relevé à valider avant le Twig
   - {id: US-204, title: "Refonte de la page « Plugins » dans la continuité de la home", points: 3, status: ready-for-dev}  # EPIC-12, Should ; maquette Claude Design validée par Thibaut avant tout Twig
   - {id: US-205, title: "Refonte de la page « Preuve technique » dans la continuité de la home", points: 3, status: ready-for-dev}  # EPIC-12, Should ; maquette validée avant tout Twig
   - {id: US-206, title: "Refonte de la page « Architecture » dans la continuité de la home", points: 5, status: ready-for-dev}  # EPIC-12, Should ; maquette validée avant tout Twig
-  - {id: US-207, title: "Indexer les pages vitrine : sitemap, hreflang, métadonnées et données structurées", points: 5, status: ready-for-dev}  # EPIC-10, Should ; décision de Thibaut du 2026-10-27 ; ordre recommandé : après US-204 à US-206 (à confirmer) ; ton neutre, plugins en recoupement exclus des données structurées
+  - {id: US-207, title: "Indexer les pages vitrine : sitemap, hreflang, métadonnées et données structurées", points: 5, status: ready-for-dev}  # EPIC-10, Should ; décision de Thibaut du 2026-10-27 ; ordre décidé par Thibaut le 2026-10-27 : après US-204 à US-206 ; ton neutre, plugins en recoupement exclus des données structurées
+  - {id: US-208, title: "Chaîne d'approvisionnement PHP : politique Composer, revue du verrou et durcissement des workflows", points: 5, status: ready-for-dev}  # EPIC-10, Should ; demande de Thibaut du 2026-10-27 (article supply chain PHP / Packagist 2026) ; suite d'US-081 ; plugins hors périmètre (story de suivi possible)
   # --- Sprint 30 (planifié le 2026-10-25) : US-199, US-201 et US-202 sont dans la section sprint-30
   # --- Sprint 29 (planifié le 2026-10-25) : US-197, US-198 et US-200 sont dans la section sprint-29
   # --- Sprint 28 (planifié le 2026-10-25) : US-195, US-196 et US-187 sont dans la section sprint-28
