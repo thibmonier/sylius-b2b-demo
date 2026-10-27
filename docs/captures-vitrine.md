@@ -45,3 +45,7 @@ Aucun manque de face (boutique ou admin) hors de ces cas : pas de capture de com
 
 - PunchOut : le simulateur est refusé en local (403, l'URL de retour doit être HTTPS et le domaine autorisé) ; `/punchout/cxml` est réservé au simulateur en mode démo. Pas de capture d'une session PunchOut ni d'un journal d'échanges réussis en local.
 - PunchOut : le titre et le fil d'Ariane des pages d'administration des acheteurs affichent la clé brute `tmonier_punchout.ui.buyers` (traduction manquante du plugin).
+
+## Pages de compte des plugins (US-203, sprint 31)
+
+Devis (liste et détail), paiements à terme et assistants IA dans le cadre de « Mon compte » : `account-quotes-fr.png`, `account-quote-detail-fr.png`, `account-statement-fr.png`, `account-connections-fr.png` (1280 px) et leurs versions `-320-fr.png` (320 px), dans `docs/images/`. Rendu du noyau en ligne de commande (`bin/render-page`, `APP_ENV=test` avec `--login` : Claire pour les devis, Isabelle pour le relevé et les assistants IA), feuille de style compilée à part depuis `b2b.scss` (le `public/build` local était périmé). Aucune vignette de produit sur ces pages ; la page de consentement n'a pas de capture publiée.
