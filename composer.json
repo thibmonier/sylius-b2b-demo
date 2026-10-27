@@ -30,7 +30,7 @@
         "sylius/mcp-server-plugin": "^0.2",
         "sylius/refund-plugin": "^2.2.1",
         "sylius/sylius": "^2.3.2",
-        "sylius/wishlist-plugin": "1.4.x-dev",
+        "sylius/wishlist-plugin": "^1.4",
         "symfony/ai-bundle": "^0.14.1",
         "symfony/dotenv": "^8.1.6",
         "symfony/flex": "^2.11",
@@ -98,6 +98,21 @@
         "bump-after-update": true,
         "platform": {
             "php": "8.5.12"
+        },
+        "policy": {
+            "advisories": {
+                "block": true,
+                "audit": "fail"
+            },
+            "abandoned": {
+                "block": false,
+                "audit": "report"
+            },
+            "malware": {
+                "block": true,
+                "block-scope": "all",
+                "audit": "fail"
+            }
         }
     },
     "extra": {
