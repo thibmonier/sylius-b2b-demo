@@ -1,6 +1,6 @@
 # EPIC-14 — Feuille de route plugins B2B (preuve d'expertise)
 
-> Exigences : Audit fonctionnel §4.2 et §5 · 14 stories · 55 points (dont 5 reprises de stories existantes)
+> Exigences : Audit fonctionnel §4.2 et §5 · 15 stories · 63 points (dont 5 reprises de stories existantes)
 
 ## Description
 
@@ -29,5 +29,6 @@
 | [US-136](../user-stories/US-136.md) | Connecteur ERP, tranche 1 : export des commandes et contrat d'événements | Should | 5 | non planifié (arbitrage de Thibaut) |
 | [US-137](../user-stories/US-137.md) | Connecteur ERP, tranche 2 : import des prix et du stock | Could | 5 | non planifié (arbitrage de Thibaut) |
 | [US-138](../user-stories/US-138.md) | Assortiments par société, tranche 1 | Could | 8 | non planifié (arbitrage de Thibaut) |
+| [US-209](../user-stories/US-209.md) | Chaîne d'approvisionnement des dépôts de plugins : workflows durcis, audit Composer et politique explicite | Should | 8 | à planifier (après US-208) |
 
 **Notes** : P1 reprend US-056 à US-060 (sans duplication). Les plugins P6, P9, P10, P11, P12, P13 sont consignés dans la feuille de route, non planifiés.

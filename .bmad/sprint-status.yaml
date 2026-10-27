@@ -513,6 +513,7 @@ backlog:
   - {id: US-206, title: "Refonte de la page « Architecture » dans la continuité de la home", points: 5, status: ready-for-dev}  # EPIC-12, Should ; maquette validée avant tout Twig
   - {id: US-207, title: "Indexer les pages vitrine : sitemap, hreflang, métadonnées et données structurées", points: 5, status: ready-for-dev}  # EPIC-10, Should ; décision de Thibaut du 2026-10-27 ; ordre décidé par Thibaut le 2026-10-27 : après US-204 à US-206 ; ton neutre, plugins en recoupement exclus des données structurées
   - {id: US-208, title: "Chaîne d'approvisionnement PHP : politique Composer, revue du verrou et durcissement des workflows", points: 5, status: ready-for-dev}  # EPIC-10, Should ; demande de Thibaut du 2026-10-27 (article supply chain PHP / Packagist 2026) ; suite d'US-081 ; plugins hors périmètre (story de suivi possible)
+  - {id: US-209, title: "Chaîne d'approvisionnement des dépôts de plugins : workflows durcis, audit Composer et politique explicite", points: 8, status: ready-for-dev}  # EPIC-14 (lien EPIC-10), Should ; demande de Thibaut du 2026-10-27, suite d'US-208 (dépend d'elle) ; 27 plugins + 2 packs ; push et PR par dépôt après GO de Thibaut ; découpable en workflows / Composer
   # --- Sprint 30 (planifié le 2026-10-25) : US-199, US-201 et US-202 sont dans la section sprint-30
   # --- Sprint 29 (planifié le 2026-10-25) : US-197, US-198 et US-200 sont dans la section sprint-29
   # --- Sprint 28 (planifié le 2026-10-25) : US-195, US-196 et US-187 sont dans la section sprint-28
