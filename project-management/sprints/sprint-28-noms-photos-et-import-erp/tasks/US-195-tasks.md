@@ -43,7 +43,7 @@
 | T-195-03 | [DOC] | Liste noire dans un fichier unique, relue avec l'inventaire T-189-01 ; tableau ancien → nouveau pour les 77 produits en FR et EN (matière, couleur, norme, usage ; noms distincts par famille), relu avant application ; dernier état communiqué à US-196 (noms de la planche) | 1 h | T-195-02 | Claude | ✅ |
 | T-195-04 | [BE] | Application du tableau dans `epi.csv`, `fournitures.csv` et `quincaillerie.csv` (noms, descriptions, `mpn`) ; SKU et slugs inchangés ; `ProductCsvFixture` modifié seulement si un test l'exige | 0,5 h | T-195-03 | Claude | ✅ |
 | T-195-05 | [TEST] | Suite ciblée par `bin/run-tests` (garde, catalogue, recherche, filtres), PHPStan max sur tout le dépôt (`src` et `tests`), ECS, Rector, lint Twig et YAML ; commande exacte et dernière ligne citées ; recherche et filtres vérifiés avec les nouveaux noms | 0,5 h | T-195-04 | Claude | ✅ |
-| T-195-06 | [TEST] | Vérification après déploiement : URL de `EPI-CASK-001` en 200 avec le même slug, aucun nom de la liste noire dans le rendu public FR et EN, pa11y sur une page du catalogue, largeur à 360 et 1280 px ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🔲 (après la remise à zéro de 03:00 du 2026-10-26) |
+| T-195-06 | [TEST] | Vérification après déploiement : URL de `EPI-CASK-001` en 200 avec le même slug, aucun nom de la liste noire dans le rendu public FR et EN, pa11y sur une page du catalogue, largeur à 360 et 1280 px ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | ✅ (2026-10-27, production après la remise à zéro de 03:00 : voir « Mesures de production ») |
 | T-195-07 | [REV] | Revue (ton neutre, aucune marque réelle dans le dépôt public hors la liste noire elle-même) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-195-06 | Claude | ✅ |
 
 **Total estimé : 4 h** (7 tâches ; 4 h pour Claude). La mesure du LCP de la home (action 5) est consignée ici par T-TECH-28-05.
@@ -62,4 +62,13 @@ Une ligne vide laisse la story en review.
 
 ## Mesures de production (jour du déploiement)
 
-_Non consignées à la revue (2026-10-25)._ Les nouveaux noms ne seront visibles en production qu'après la remise à zéro de 03:00 du 2026-10-26 (la base survit aux déploiements) : T-195-06 reste ouverte, à faire ce jour-là. La mesure du LCP de la home (T-TECH-28-05) n'a pas été consignée.
+_Contrôle du 2026-10-27 (T-195-06), production `https://sylius-b2b.thibaut-monier.fr`, lecture seule, sans connexion, après les remises à zéro de 03:00 des 2026-10-26 et 2026-10-27._
+
+| Contrôle | Mesure | Résultat |
+|----------|--------|----------|
+| URL de `EPI-CASK-001` | `/fr_FR/products/epi-cask-001-fr` et `/en_US/products/epi-cask-001-en` : 200, même slug qu'avant | ✅ |
+| Liste noire (68 lignes de `config/demo/forbidden-brands.txt`, mêmes règles que `ProductBrandGuardTest` : graphie exacte ou en majuscules, mot entier) | 438 pages lues, FR et EN : 210 fiches produits, pages de catégories, accueil, Crédits des images, plugins, preuve, packs : **0 occurrence** | ✅ |
+| pa11y WCAG2AAA (une page du catalogue) | catalogue `visserie` FR et EN, catégorie `epi` FR, fiches FR et EN : « No issues found! » | ✅ |
+| Largeur à 360 et 1280 px | `scrollWidth` égal à la largeur de l'écran sur ces pages, sauf la page Crédits des images à 360 px (voir T-196-09) | ✅ pour le catalogue et les fiches |
+
+Remarque : « kevlar » (en minuscules, comme matière dans l'attribut « Matière principale » de la fiche `EPI-GANT-016`) et « 3m » (trois mètres, dans le nom d'un profilé) ne sont pas des occurrences de la liste noire au sens du test (graphie exacte ou majuscules). Le LCP de la home (T-TECH-28-05) est consigné avec T-TECH-29-03 dans `US-198-tasks.md`.
