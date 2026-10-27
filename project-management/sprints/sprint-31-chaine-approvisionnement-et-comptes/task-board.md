@@ -3,11 +3,52 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut ou d'un déploiement | ⚠️ Sacrifiable | 🟡 Faite avec écart | ⊘ Sans objet
 
-Total décomposé : **48 tâches, 36,25 h** (13 points). État au planning (2026-10-27) : **1 ✅, 32 🔲, 15 📅**. Les 📅 attendent un GO de Thibaut (planche du relevé, maquette « Plugins », contrôles requis de `main`) ou le déploiement de `main` (vérifications de production).
+Total décomposé : **48 tâches, 36,25 h** (13 points). État à la clôture (2026-10-27, revue et rétrospective) : **33 ✅, 7 🟡, 8 📅**. Les 📅 attendent la fusion et le déploiement de `main` (vérifications de production), ou l'action de Thibaut (zizmor dans les contrôles requis). Voir [sprint-review.md](./sprint-review.md) et [sprint-retro.md](./sprint-retro.md).
 
 Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre.
 
 ## 🔲 À Faire
+
+_Aucune tâche._
+
+## 🔄 En cours
+
+_Aucune tâche._
+
+## 👀 En review
+
+_Aucune tâche._
+
+## 🚫 Bloqué ou écarté
+
+_Aucune tâche._
+
+## 📅 En attente (déploiement, production ou GO de Thibaut)
+
+| ID | US | Type | Tâche | Estimation | Réalisé par |
+|----|-----|------|-------|------------|-------------|
+| T-208-10 | US-208 | OPS | Après le déploiement de `main` : image reconstruite et conteneur neuf (règle 16 : rien hors base), … | 0,5 h | Claude |
+| T-208-11 | US-208 | OPS | 📅 Thibaut ajoute le job zizmor aux contrôles requis de `main` (« Quality and smoke tests », « Docker image … | 0,25 h | Thibaut |
+| T-203-14 | US-203 | TEST | Image reconstruite et conteneur neuf : les quatre pages et la page de consentement pour Claire, Paul et … | 0,5 h | Claude |
+| T-203-15 | US-203 | REV | Revue (ton neutre, parité FR et EN, B2C inchangé, plugins intacts, aucun accès élargi) et table « scénario … | 0,25 h | Claude |
+| T-204-08 | US-204 | TEST | 📅 Suite ciblée par `bin/run-tests` (les quatre tests existants **non modifiés**, nouveaux tests), PHPStan … | 0,75 h | Claude |
+| T-204-09 | US-204 | DOC | 📅 Captures `docs/images/plugins-*` par `bin/render-page` (FR et EN, bureau et 320 px), section de … | 0,5 h | Claude |
+| T-204-10 | US-204 | TEST | Image reconstruite et conteneur neuf (règle 16 : rien hors base) ; production **le jour du déploiement**, … | 0,5 h | Claude |
+| T-204-11 | US-204 | REV | Revue (ton neutre, parité FR et EN, contenu inchangé, plugins en recoupement neutres) et table « scénario … | 0,25 h | Claude |
+
+## 🟡 Faites avec écart
+
+| ID | US | Type | Tâche | Estimation | Réalisé par |
+|----|-----|------|-------|------------|-------------|
+| T-208-08 | US-208 | TEST | Suite ciblée par `bin/run-tests` (scripts, fixtures, workflows, Dockerfile), puis suite complète si le … | 0,75 h | Claude |
+| T-TECH-31-01 | Transverse | OPS | **Parallélisme réglé sur la machine** : avant de lancer les workers, relevé de `df -h /`, de la mémoire … | 0,75 h | Orchestrateur |
+| T-TECH-31-02 | Transverse | OPS | **Suite complète locale avant le push de la PR de sprint**, ou attente explicite : si le disque l'empêche, … | 0,5 h | Orchestrateur |
+| T-TECH-31-04 | Transverse | OPS | **Outils de rendu et de console** : `bin/render-page` génère les vignettes pour les URL d'images relatives … | 0,75 h | Orchestrateur |
+| T-TECH-31-06 | Transverse | REV | Tenue du registre des décisions et des GO de Thibaut (planche du relevé, page « Plugins », réglage des … | 0,75 h | Orchestrateur |
+| T-TECH-31-07 | Transverse | OPS | **Disque et machine** : avant chaque lot `df -h .`, `bin/check-disk`, mémoire libre et swap ; après chaque … | 0,5 h | Orchestrateur |
+| T-TECH-31-11 | Transverse | TEST | LCP mobile de la home revenu sous 1 456 ms (ressources comparées au sprint 26, correction, remesure en production) | 2 h | Claude |
+
+## ✅ Terminé
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
@@ -18,7 +59,6 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-208-05 | US-208 | OPS | Workflows : `permissions: {}` au niveau du workflow et `contents: read` par job ; `persist-credentials: … | 0,75 h | Claude |
 | T-208-06 | US-208 | OPS | Job zizmor obligatoire : version figée, image figée par condensat, `--offline` ; alertes corrigées ou … | 1,25 h | Claude |
 | T-208-07 | US-208 | DOC | `docs/durcissement-demo.md` (ligne « chaîne d'approvisionnement », sans détail sensible) ; **inventaire … | 0,5 h | Claude |
-| T-208-08 | US-208 | TEST | Suite ciblée par `bin/run-tests` (scripts, fixtures, workflows, Dockerfile), puis suite complète si le … | 0,75 h | Claude |
 | T-208-09 | US-208 | REV | Revue (aucun secret ni détail d'infrastructure dans le dépôt, la PR et les messages ; plugins de la démo … | 0,5 h | Claude |
 | T-203-01 | US-203 | DOC | Cadrage : relire contre le code les quatre templates du `vendor/` (devis liste et détail, relevé, … | 0,75 h | Claude |
 | T-203-02 | US-203 | TEST | État de référence « avant » : tests du compte et des menus verts sur `main` ; captures connectées locales … | 0,5 h | Claude |
@@ -33,57 +73,17 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-204-01 | US-204 | DOC | Cadrage : gabarit (61 lignes) et contrôleur relus ; données et familles de plugins disponibles ; badges … | 0,5 h | Claude |
 | T-204-02 | US-204 | TEST | État de référence « avant » : les quatre tests existants verts sur `main` ; captures locales (bureau 1280 … | 0,5 h | Claude |
 | T-204-03 | US-204 | FE-WEB | Maquette Claude Design (bureau 1440 px et téléphone 390 px), nouvelle page « Plugins » du canevas : … | 1,25 h | Orchestrateur |
-| T-TECH-31-01 | Transverse | OPS | **Parallélisme réglé sur la machine** : avant de lancer les workers, relevé de `df -h /`, de la mémoire … | 0,75 h | Orchestrateur |
-| T-TECH-31-02 | Transverse | OPS | **Suite complète locale avant le push de la PR de sprint**, ou attente explicite : si le disque l'empêche, … | 0,5 h | Orchestrateur |
 | T-TECH-31-03 | Transverse | TEST | **Cohérence HT et TTC des montants** : un test vérifie que les commandes d'historique sont toutes sans TVA … | 0,75 h | Orchestrateur |
-| T-TECH-31-04 | Transverse | OPS | **Outils de rendu et de console** : `bin/render-page` génère les vignettes pour les URL d'images relatives … | 0,75 h | Orchestrateur |
-| T-TECH-31-06 | Transverse | REV | Tenue du registre des décisions et des GO de Thibaut (planche du relevé, page « Plugins », réglage des … | 0,75 h | Orchestrateur |
-| T-TECH-31-07 | Transverse | OPS | **Disque et machine** : avant chaque lot `df -h .`, `bin/check-disk`, mémoire libre et swap ; après chaque … | 0,5 h | Orchestrateur |
 | T-TECH-31-08 | Transverse | OPS | ECS (`src tests`), PHPStan max sur **tout le dépôt** et Rector rejoués sur l'arbre exact avant chaque push … | 0,75 h | Orchestrateur |
 | T-TECH-31-09 | Transverse | TEST | **Capture à 1280 px relue avant la PR** (règle 23) : home connectée et chaque page touchée (devis, relevé, … | 0,5 h | Orchestrateur |
 | T-TECH-31-10 | Transverse | DOC | Revue et rétrospective du sprint 31 : indicateurs (0 arrêt de worker pour cause de disque, 0 CI rouge … | 1 h | Orchestrateur |
-| T-TECH-31-11 | Transverse | TEST | LCP mobile de la home revenu sous 1 456 ms (ressources comparées au sprint 26, correction, remesure en production) | 2 h | Claude |
-
-## 📅 En attente (GO de Thibaut ou déploiement)
-
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
-| T-208-10 | US-208 | OPS | Après le déploiement de `main` : image reconstruite et conteneur neuf (règle 16 : rien hors base), … | 0,5 h | Claude |
-| T-208-11 | US-208 | OPS | 📅 Thibaut ajoute le job zizmor aux contrôles requis de `main` (« Quality and smoke tests », « Docker image … | 0,25 h | Thibaut |
 | T-203-04 | US-203 | OPS | 📅 Thibaut valide la planche (ou demande des retouches) : **aucun Twig du relevé avant son GO**, noté au … | 0,5 h | Thibaut |
 | T-203-09 | US-203 | TEST | 📅 Tests rouges du relevé, commités seuls : tableau et tranches d'ancienneté lisibles à 320 px sans … | 0,25 h | Claude |
 | T-203-10 | US-203 | FE-WEB | 📅 Surcharge du relevé de paiements à terme selon la planche validée : tableau, tranches d'ancienneté, … | 1,25 h | Claude |
-| T-203-14 | US-203 | TEST | Image reconstruite et conteneur neuf : les quatre pages et la page de consentement pour Claire, Paul et … | 0,5 h | Claude |
-| T-203-15 | US-203 | REV | Revue (ton neutre, parité FR et EN, B2C inchangé, plugins intacts, aucun accès élargi) et table « scénario … | 0,25 h | Claude |
 | T-204-04 | US-204 | OPS | 📅 Thibaut valide la maquette (ou demande des retouches) : **aucun gabarit Twig avant son GO**, noté au … | 0,5 h | Thibaut |
 | T-204-05 | US-204 | TEST | 📅 Tests rouges, commités seuls et cités dans la PR : cartes avec nom, rôle, badges et liens vers le code, … | 0,5 h | Claude |
 | T-204-06 | US-204 | FE-WEB | 📅 Gabarit et styles de la page (partial `_plugins.scss`, classes `b2b-home-*`), regroupement par famille, … | 1,75 h | Claude |
 | T-204-07 | US-204 | DOC | 📅 Textes FR et EN (domaine `plugins`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,25 h | Claude |
-| T-204-08 | US-204 | TEST | 📅 Suite ciblée par `bin/run-tests` (les quatre tests existants **non modifiés**, nouveaux tests), PHPStan … | 0,75 h | Claude |
-| T-204-09 | US-204 | DOC | 📅 Captures `docs/images/plugins-*` par `bin/render-page` (FR et EN, bureau et 320 px), section de … | 0,5 h | Claude |
-| T-204-10 | US-204 | TEST | Image reconstruite et conteneur neuf (règle 16 : rien hors base) ; production **le jour du déploiement**, … | 0,5 h | Claude |
-| T-204-11 | US-204 | REV | Revue (ton neutre, parité FR et EN, contenu inchangé, plugins en recoupement neutres) et table « scénario … | 0,25 h | Claude |
-
-## 🔄 En cours
-
-_Aucune tâche._
-
-## 👀 En review
-
-_Aucune tâche._
-
-## 🚫 Bloqué ou écarté
-
-_Aucune tâche._
-
-## 🟡 Faites avec écart
-
-_Aucune tâche._
-
-## ✅ Terminé
-
-| ID | US | Type | Tâche | Estimation | Réalisé par |
-|----|-----|------|-------|------------|-------------|
 | T-TECH-31-05 | Transverse | DOC | **Échanges avec les workers** : règles 24 (parallélisme) et 25 (chaque réponse de l'orchestrateur cite … | 0,25 h | Orchestrateur |
 
 ## Métriques

@@ -8,10 +8,10 @@
 
 | US | Titre | Points | Tâches | Heures | Sacrifice | Statut |
 |----|-------|--------|--------|--------|-----------|--------|
-| [US-208](./US-208-tasks.md) | Chaîne d'approvisionnement PHP : politique Composer, revue du verrou, workflows durcis | 5 | 11 | 9,5 h | **protégée** | 🔲 (sans maquette) |
-| [US-203](./US-203-tasks.md) | Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur « Mon compte » | 5 | 15 | 11 h | **n°2** | 🔲 (Twig du relevé 📅 jusqu'au GO de la planche) |
-| [US-204](./US-204-tasks.md) | Refonte de la page « Plugins » | 3 | 11 | 7,25 h | **n°1** | 🔲 (code 📅 jusqu'au GO de la maquette) |
-| [Transverse](./technical-tasks.md) | Actions de la rétro du sprint 30, contrôles, clôture (sans points) | 0 | 11 | 8,5 h | non sacrifiable | 1 ✅, 10 🔲 |
+| [US-208](./US-208-tasks.md) | Chaîne d'approvisionnement PHP : politique Composer, revue du verrou, workflows durcis | 5 | 11 | 9,5 h | **protégée** | ✅ code livré, 📅 contrôles après fusion |
+| [US-203](./US-203-tasks.md) | Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur « Mon compte » | 5 | 15 | 11 h | **n°2** | ✅ code livré, 📅 contrôles après fusion |
+| [US-204](./US-204-tasks.md) | Refonte de la page « Plugins » | 3 | 11 | 7,25 h | **n°1** | ✅ code livré, 📅 contrôles après déploiement |
+| [Transverse](./technical-tasks.md) | Actions de la rétro du sprint 30, contrôles, clôture (sans points) | 0 | 11 | 8,5 h | non sacrifiable | 5 ✅, 6 🟡 |
 | **Total** | | **13** | **48** | **36,25 h** | | |
 
 **Total décomposé : 13 points, 48 tâches, 36,25 h**, dont 1,25 h d'actions de Thibaut (3 tâches : GO de la planche du relevé, GO de la maquette « Plugins », contrôles requis de `main`) : **35 h pour Claude**, orchestrateur compris.
