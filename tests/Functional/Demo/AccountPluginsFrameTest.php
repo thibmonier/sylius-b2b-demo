@@ -163,6 +163,49 @@ final class AccountPluginsFrameTest extends WebTestCase
         self::assertStringNotContainsString('b2b-consent', (string) $client->getResponse()->getContent());
     }
 
+    public function testTheStatementIsInTheFrameWithItsFiguresAndItsAgeingBuckets(): void
+    {
+        $page = $this->open(self::ISABELLE, '/fr_FR/account/trade-credit');
+
+        self::assertCount(1, $page->filter('[data-test-b2b-account-nav]'));
+        self::assertCount(1, $page->filter('[data-test-b2b-account-nav-item="tmonier_trade_credit"][aria-current="page"]'));
+        self::assertCount(1, $page->filter('[data-test-b2b-account-plugin-page] .b2b-account__head h1.b2b-account__title'));
+        self::assertCount(0, $page->filter('.col-md-3 a.link-reset'));
+        self::assertCount(1, $page->filter('[data-test-tmonier-trade-credit-summary]'));
+        foreach (['tmonier-credit-limit' => '1000000', 'tmonier-committed' => '518520', 'tmonier-available' => '481480'] as $attribute => $cents) {
+            self::assertSame($cents, preg_replace('/\D/', '', $page->filter('[data-test-' . $attribute . ']')->text()), $attribute);
+        }
+        self::assertCount(1, $page->filter('[data-test-tmonier-overdue-alert]'));
+        self::assertCount(1, $page->filter('[data-test-tmonier-ageing]'));
+        self::assertCount(5, $page->filter('[data-test-tmonier-ageing-bucket]'), 'five buckets of ageing');
+    }
+
+    public function testTheOpenItemsKeepTheirDataTestAndStackOnAPhone(): void
+    {
+        $page = $this->open(self::ISABELLE, '/fr_FR/account/trade-credit');
+
+        self::assertCount(1, $page->filter('table[data-test-tmonier-open-items]'));
+        $rows = $page->filter('[data-test-tmonier-open-item]');
+        self::assertGreaterThanOrEqual(2, $rows->count());
+        self::assertCount(1, $page->filter('[data-test-tmonier-open-item="000000007"], [data-test-tmonier-open-item="#000000007"]'));
+        self::assertGreaterThanOrEqual(3, $rows->first()->filter('td[data-label]')->count(), 'each cell carries its label for the phone layout');
+        self::assertCount(1, $page->filter('[data-test-b2b-account-plugin-page] [role="region"][tabindex="0"] [data-test-tmonier-open-items]'));
+    }
+
+    public function testTheStatementOfTheConsumerChannelIsNotFramed(): void
+    {
+        $page = $this->open(self::LEA, '/fr_FR/account/trade-credit', 'B2C');
+
+        self::assertCount(0, $page->filter('[data-test-b2b-account-nav], [data-test-b2b-account-plugin-page]'));
+    }
+
+    public function testThePhoneLayoutOfTheStatementIsInThePartial(): void
+    {
+        $scss = (string) file_get_contents(\dirname(__DIR__, 3) . '/assets/shop/styles/_account-plugins.scss');
+
+        self::assertStringContainsString('attr(data-label)', $scss);
+    }
+
     public function testThePartialOfTheStoryKeepsTargetsOf44Pixels(): void
     {
         $scss = (string) file_get_contents(\dirname(__DIR__, 3) . '/assets/shop/styles/_account-plugins.scss');
