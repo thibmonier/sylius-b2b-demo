@@ -166,6 +166,12 @@
         }
     }
 
+    &__table th a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+
     // On a phone the table of open items becomes one card per item: nothing scrolls sideways.
     &__table {
         @media (max-width: 640px) {
