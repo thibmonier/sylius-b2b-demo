@@ -97,6 +97,33 @@ final class DemoPluginCatalogTest extends TestCase
         }
     }
 
+    public function testAPluginIsListedUnlessTheEntrySaysOtherwise(): void
+    {
+        $catalog = new DemoPluginCatalog([
+            self::entry('sylius-a-plugin', ['category' => 'admin']),
+            self::entry('sylius-hidden-plugin', ['category' => 'admin', 'listed' => false]),
+            self::entry('sylius-b-plugin', ['category' => 'billing']),
+        ], self::accounts());
+
+        self::assertSame(3, $catalog->count(), 'the figure of the home, About and architecture pages counts every plugin');
+        self::assertSame(2, $catalog->countListed());
+        self::assertSame(['sylius-a-plugin', 'sylius-b-plugin'], array_map(static fn ($plugin): string => $plugin->slug, $catalog->listed()));
+        self::assertSame(['admin', 'billing'], array_keys($catalog->listedByCategory()));
+        self::assertCount(1, $catalog->listedByCategory()['admin']);
+        self::assertCount(3, $catalog->all());
+        self::assertNotNull($catalog->get('sylius-hidden-plugin'));
+    }
+
+    public function testTheErpPluginStaysInTheCatalogueButIsNotListed(): void
+    {
+        $erp = self::catalog()->get('sylius-erp-flatfile-plugin');
+
+        self::assertNotNull($erp);
+        self::assertFalse($erp->listed);
+        self::assertSame(DemoCatalogs::pluginCount() - 1, self::catalog()->countListed());
+        self::assertSame(DemoCatalogs::pluginCount(), self::catalog()->count());
+    }
+
     public function testAnUnknownAdvisedAccountNamesThePlugin(): void
     {
         $this->expectException(InvalidArgumentException::class);

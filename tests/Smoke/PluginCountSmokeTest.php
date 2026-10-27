@@ -9,7 +9,7 @@ use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/** US-087: the number of plugins shown on the home, About and Plugins pages is counted from config/demo/plugins.yaml. */
+/** US-087 (US-204: the Plugins page shows no figure, it lists fewer plugins than the catalogue counts): the number of plugins shown on the home and About pages is counted from config/demo/plugins.yaml. */
 final class PluginCountSmokeTest extends WebTestCase
 {
     /** @return iterable<string, array{string, string}> */
@@ -19,8 +19,6 @@ final class PluginCountSmokeTest extends WebTestCase
         yield 'home en' => ['/en_US/', 'built with %d open source plugins'];
         yield 'about fr' => ['/fr_FR/a-propos', 'Les %d plugins ci-dessous'];
         yield 'about en' => ['/en_US/a-propos', 'The %d plugins below'];
-        yield 'plugins fr' => ['/fr_FR/plugins', 'Les %d plugins open source'];
-        yield 'plugins en' => ['/en_US/plugins', 'The %d open source plugins'];
     }
 
     #[DataProvider('pages')]
