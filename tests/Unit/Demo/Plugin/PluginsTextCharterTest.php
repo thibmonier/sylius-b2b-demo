@@ -14,6 +14,7 @@ final class PluginsTextCharterTest extends TestCase
 {
     private const COMPARISONS = ['/sylius\s+plus/i', '/concurren/i', '/competitor/i', '/\bmeilleur\b/i', '/\bbest\b/i', '/\bleader\b/i', '/\bgaranti/i', '/\bguarantee/i', '/gratuit/i', '/\bfree\b/i'];
 
+    /** @return iterable<string, array{string, string}> */
     public static function texts(): iterable
     {
         foreach (['fr', 'en'] as $language) {
@@ -54,6 +55,7 @@ final class PluginsTextCharterTest extends TestCase
         self::assertSame('', trim((string) preg_replace('/(?:&[a-z]+;|\s|[|·])+/', '', $withoutTags)));
     }
 
+    /** @return array<mixed> */
     private static function load(string $language): array
     {
         $texts = Yaml::parseFile(\dirname(__DIR__, 4) . '/translations/plugins.' . $language . '.yaml');
@@ -61,6 +63,11 @@ final class PluginsTextCharterTest extends TestCase
         return \is_array($texts) ? $texts : [];
     }
 
+    /**
+     * @param array<mixed> $tree
+     *
+     * @return array<string, string>
+     */
     private static function flatten(array $tree, string $prefix): array
     {
         $flat = [];
