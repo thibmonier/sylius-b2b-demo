@@ -506,6 +506,12 @@ sprints:
     notes: "Planifié le 2026-10-25. Ordre de sacrifice décidé par Thibaut : US-202, puis US-201 ; US-199 protégée. Tâches transverses T-TECH-30-01 à 04 en tête (cache de rendu unique et bin/proof-rebase, reportés trois fois ; vignettes b2b_photo dans bin/render-page ; test d'échange ERP isolé) ; T-TECH-30-05 faite au planning : règles 21 à 23 de consigne-worker.md (fichiers communs attribués, aucun test depuis un worktree au vendor en lien symbolique, capture à 1280 px relue avant la PR). Workers proposés : w202 (dès le planning), w199, w201. Branche partagée feature/sprint-30-dev. Contrôles de production des sprints 28 et 29 (T-197-09, T-195-06, T-196-09, T-196-10, T-TECH-29-03) hors budget, après la remise à zéro de 03:00 du 2026-10-26."
 
 backlog:
+  # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
+  - {id: US-203, title: "Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur la refonte « Mon compte »", points: 5, status: ready-for-dev}  # EPIC-12, Should ; surcharge dans la démo décidée par Thibaut le 2026-10-27 (plugins intacts) ; page de consentement OAuth : cadre B2B seulement, à confirmer ; planche de maquette du relevé à valider avant le Twig
+  - {id: US-204, title: "Refonte de la page « Plugins » dans la continuité de la home", points: 3, status: ready-for-dev}  # EPIC-12, Should ; maquette Claude Design validée par Thibaut avant tout Twig
+  - {id: US-205, title: "Refonte de la page « Preuve technique » dans la continuité de la home", points: 3, status: ready-for-dev}  # EPIC-12, Should ; maquette validée avant tout Twig
+  - {id: US-206, title: "Refonte de la page « Architecture » dans la continuité de la home", points: 5, status: ready-for-dev}  # EPIC-12, Should ; maquette validée avant tout Twig
+  - {id: US-207, title: "Indexer les pages vitrine : sitemap, hreflang, métadonnées et données structurées", points: 5, status: ready-for-dev}  # EPIC-10, Should ; décision de Thibaut du 2026-10-27 ; ordre recommandé : après US-204 à US-206 (à confirmer) ; ton neutre, plugins en recoupement exclus des données structurées
   # --- Sprint 30 (planifié le 2026-10-25) : US-199, US-201 et US-202 sont dans la section sprint-30
   # --- Sprint 29 (planifié le 2026-10-25) : US-197, US-198 et US-200 sont dans la section sprint-29
   # --- Sprint 28 (planifié le 2026-10-25) : US-195, US-196 et US-187 sont dans la section sprint-28

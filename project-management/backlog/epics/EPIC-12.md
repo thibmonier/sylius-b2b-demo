@@ -1,6 +1,6 @@
 # EPIC-12 — La démo comme preuve : parcours, guide technique et preuve de qualité
 
-> Exigences : décision de Thibaut du 2026-10-21 (la démo sert la recherche d'emploi, plus la vente de conseil) · 9 stories actives · 36 points · 4 stories retirées le 2026-10-21 (US-069, US-109, US-110, US-112, US-114 : 21 points) · titre d'origine : « Conversion et contenu commercial »
+> Exigences : décision de Thibaut du 2026-10-21 (la démo sert la recherche d'emploi, plus la vente de conseil) · 13 stories actives · 52 points · 4 stories retirées le 2026-10-21 (US-069, US-109, US-110, US-112, US-114 : 21 points) · titre d'origine : « Conversion et contenu commercial »
 
 ## Description
 
@@ -30,6 +30,10 @@ Faire de la démo une **preuve vérifiable** de ce qu'affirme le profil de Thiba
 | [US-200](../user-stories/US-200.md) | Refonte de la page panier dans la continuité de la home | Should | 5 | 29 |
 | [US-201](../user-stories/US-201.md) | Tableau de bord des achats plus lisible, dans la continuité de la home | Should | 5 | sprint 30 |
 | [US-202](../user-stories/US-202.md) | Catégories de taxe sur le catalogue de démonstration : TVA affichée au panier et sur les commandes | Should | 3 | sprint 30 |
+| [US-203](../user-stories/US-203.md) | Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur « Mon compte » | Should | 5 | à planifier |
+| [US-204](../user-stories/US-204.md) | Refonte de la page « Plugins » dans la continuité de la home | Should | 3 | à planifier |
+| [US-205](../user-stories/US-205.md) | Refonte de la page « Preuve technique » dans la continuité de la home | Should | 3 | à planifier |
+| [US-206](../user-stories/US-206.md) | Refonte de la page « Architecture » dans la continuité de la home | Should | 5 | à planifier |
 | ~~US-069~~ | La page Plugins renvoie vers le site | retirée (absorbée par US-158) | 2 | - |
 | ~~US-109~~ | Cas d'usage sectoriels avec appel à l'action | retirée | 5 | - |
 | ~~US-110~~ | Mini-diagnostic en six questions | retirée | 5 | - |
