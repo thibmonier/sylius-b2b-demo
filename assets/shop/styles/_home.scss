@@ -161,16 +161,26 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 1.5rem;
+        container-type: inline-size;
 
         p {
             margin: 0;
         }
     }
 
+    // One line when both buttons fit the text column, else stacked at the same width: never a lone wrapped button.
     &__actions {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
         gap: .75rem;
+
+        .b2b-home-btn {
+            padding-inline: 1.25rem;
+            white-space: nowrap;
+        }
+
+        @container (min-width: 34rem) {
+            display: flex;
+        }
     }
 
     &__author {
@@ -648,15 +658,37 @@
         }
     }
 
+    // Same rule for the author buttons: one line when they fit, else stacked at the width of the widest (right column
+    // from 992 px). Four buttons (contact URL configured) never fit the line: always stacked.
     &__actions {
-        display: flex;
-        flex-wrap: wrap;
+        container-type: inline-size;
+    }
+
+    &__buttons {
+        display: grid;
         gap: .75rem;
-        align-content: flex-start;
 
         @media (min-width: 992px) {
-            justify-content: flex-end;
+            width: max-content;
+            max-width: 100%;
+            margin-left: auto;
         }
+
+        @container (min-width: 45rem) {
+            &:not(:has([data-cta-contact])) {
+                display: flex;
+            }
+        }
+
+        .b2b-btn-gold,
+        .b2b-btn-ghost {
+            justify-content: center;
+            white-space: nowrap;
+        }
+    }
+
+    &__cta {
+        display: contents;
     }
 }
 
