@@ -51,8 +51,8 @@
 | T-199-07 | [DOC] | 📅 Textes FR et EN (domaine `account`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-199-06 | Claude | ✅ |
 | T-199-08 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (compte, menus, approbations, devis, listes, badges), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN pour les trois comptes, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-199-06, T-199-07 | Claude | ✅ |
 | T-199-09 | [DOC] | 📅 Captures `docs/images/account-*` par `bin/render-page` (connecté, local, trois comptes, bureau et 360 px), section « Mon compte » de `docs/theme-b2b.md` | 0,5 h | T-199-08 | Claude | ✅ |
-| T-199-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : compte des trois rôles vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse du compte renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 📅 production |
-| T-199-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie | 0,5 h | T-199-10 | Claude | 📅 production |
+| T-199-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : compte des trois rôles vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse du compte renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | ✅ (2026-10-27, production : l'adresse du compte renvoie vers la connexion, FR et EN) |
+| T-199-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, B2C inchangé) et table « scénario → test ou preuve » remplie | 0,5 h | T-199-10 | Claude | ✅ (2026-10-27, table complétée ; revue de production faite avec T-199-10) |
 
 **Total estimé : 10,5 h** (11 tâches ; 10 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
 
@@ -67,6 +67,7 @@
 | Entrée de plugin sans droit (erreur) | T-199-05 | `AccountDashboardTest::testThereAreExactlyFourShortcutsAndNoneForAPageClaireCannotOpen` |
 | Débordement sur téléphone (erreur) | T-199-05, T-199-08 | `AccountStylesTest`, `…testTheOrdersTableScrollsInsideItsOwnRegionOnAPhone` ; relevé à 360 px : aucun élément de la page ne dépasse (hors tiroir du panier de l'en-tête, existant) |
 | Régression d'accessibilité (erreur) | T-199-08 | pa11y WCAG2AAA en local, FR et EN, Claire, Paul, Isabelle et Nathalie : « No issues found! » (8 pages) |
+| Page connectée non exposée à un visiteur (erreur) | T-199-10 | production 2026-10-27, sans connexion : l'adresse du compte renvoie en 302 vers la connexion en FR et en EN (aucune page de compte lue) |
 
 ## Cadrage (T-199-01) et état « avant » (T-199-02)
 

@@ -49,8 +49,8 @@
 | T-202-05 | [BE] | Limite d'approbation comparée au HT par décoration dans la démo (contrôle, politique, montant de la demande, message du panier) ; plugin non modifié ; si impossible, arrêt et question à Thibaut notée au registre | 0,75 h | T-202-03 | Claude | 🟡 |
 | T-202-06 | [TEST] | Suite ciblée par `bin/run-tests` (panier, paliers, approbation, tunnel de commande de bout en bout, import ERP, tableau de bord des achats), prix comparés avant/après, PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y du panier FR et EN ; commande exacte et dernière ligne citées | 0,75 h | T-202-04, T-202-05 | Claude | ✅ |
 | T-202-07 | [DOC] | Captures `docs/images/cart-*` mises à jour par `bin/render-page`, section du panier de `docs/theme-b2b.md` | 0,5 h | T-202-06 | Claude | ✅ |
-| T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | 📅 production |
-| T-202-09 | [REV] | Revue (ton neutre, parité FR et EN, prix inchangés, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,25 h | T-202-08 | Claude | 📅 production |
+| T-202-08 | [TEST] | Image reconstruite et conteneur neuf : panier et commande avec TVA ; production **après la remise à zéro de 03:00** suivant le déploiement, lecture seule : prix HT publics inchangés ; mesures consignées | 0,5 h | merge de la PR | Claude | ✅ (2026-10-27, production après la remise à zéro : prix HT publics inchangés, 50 relevés sur 25 produits tirés au hasard, 0 écart) |
+| T-202-09 | [REV] | Revue (ton neutre, parité FR et EN, prix inchangés, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,25 h | T-202-08 | Claude | ✅ (2026-10-27, table complétée) |
 
 **Total estimé : 6 h** (9 tâches, toutes pour Claude).
 
@@ -85,4 +85,14 @@ Limite de `bin/render-page` : il ne génère les vignettes que pour les URL abso
 | Prix affichés inchangés (alternatif) | T-202-02, T-202-06 | `CartTaxTest::testThePricesExcludingTaxOfTheListAndTheProductPageDidNotMove` |
 | Commande avec TVA (alternatif) | T-202-02 | `CartTaxTest::testThePlacedOrderKeepsItsVatAndItsTotalIncludingTax` |
 | Produit importé par l'ERP (erreur) | T-202-02 | `CartTaxTest::testTheVariantsTouchedByTheErpImportCarryTheCategoryAndTheTaxIsComputedOnThem` |
-| Limite d'approbation (erreur) | T-202-02, T-202-05 | |
+| Limite d'approbation (erreur) | T-202-02, T-202-05 | `CartApprovalNetLimitTest::testACartAboveTheLimitExcludingTaxAnnouncesTheAmountExcludingTax`, `testACartUnderTheLimitExcludingTaxButAboveItIncludingTaxNeedsNoApproval` |
+
+## Mesures de production (2026-10-27, T-202-08)
+
+Production, lecture seule, sans connexion, après les remises à zéro de 03:00 des 2026-10-26 et 2026-10-27. Les prix HT sont publics sur le canal B2C (le canal B2B n'affiche aucun prix à un visiteur) ; le canal est choisi par le cookie de la démo, sans compte ni formulaire.
+
+| Contrôle | Mesure | Résultat |
+|----------|--------|----------|
+| Prix HT des fiches comparés aux fixtures (`price_eur_ht` de `fixtures/csv/*.csv`, 210 produits) | 25 produits tirés au hasard, FR et EN : 50 relevés, 0 écart (par exemple casque `EPI-CASK-001` : 18,90 €) | ✅ |
+| Page de compte et tableau de bord | redirection vers la connexion (voir US-199 et US-201) | ✅ |
+| La TVA du panier et la commande | non vérifiables sans connexion ni ajout au panier : vérifiées en local et sur l'image reconstruite (T-202-06) | non contrôlé en production |

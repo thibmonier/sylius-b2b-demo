@@ -153,3 +153,34 @@ _Après : consigné le 2026-10-25, jour du déploiement de la PR #111 (T-198-10)
 - **Visiteur anonyme** : aucun prix ni état de stock dans la page, invitation « Connectez-vous avec un compte de démonstration pour voir les prix de la société rattachée à ce compte. » ; les 9 vignettes annoncent `sizes="(min-width: 900px) 292px, (min-width: 420px) 50vw, 100vw"`.
 - **Pages connectées** (prix, stock, ajout au panier) : vérifiées en local seulement (aucune connexion en production), voir les captures `docs/images/product-list-*-fr.jpg`.
 
+## LCP mobile de la home remesuré (T-TECH-29-03, 2026-10-27)
+
+Production, lecture seule, sans connexion, après les remises à zéro de 03:00 des 2026-10-26 et 2026-10-27. Protocole de w186 : Chromium mobile 360 × 740, ratio 2, processeur x4, réseau 1,6 Mbit/s et 150 ms (Slow 4G), **cache désactivé**, 5 passes, médiane. Seuil de la rétro du sprint 27 : 1456 ms.
+
+| Page | LCP médian | Passes (ms) | Poids | Requêtes | CLS | Seuil 1456 ms |
+|------|-----------:|-------------|------:|---------:|----:|---------------|
+| `/fr_FR/` | **1616 ms** | 1588/1604/1616/1660/1728 | 443 Ko | 13 | 0 | **dépassé de 160 ms** |
+| `/en_US/` | 1588 ms | 1580/1584/1588/1588/1600 | 464 Ko | 14 | 0 | **dépassé de 132 ms** |
+
+Références : sprint 26 avant 1324 ms (349 Ko, 11 requêtes), sprint 27 après 1576 ms (436 Ko, 13 requêtes). Le LCP de la home FR est donc à +22 % du sprint 26 (+2,5 % du sprint 27) et reste sous le seuil absolu de 2,5 s d'US-189.
+
+Comparaison des ressources chargées (home FR, cache désactivé) : document 10,7 Ko, trois feuilles de style (12,1 + 41,4 + 4,7 Ko), police Inter 65 Ko, police Fraunces 17,8 Ko, photo du hero 62,6 Ko, scripts 25,6 + 198,6 + 0,7 Ko, favicon 5,9 Ko. L'élément LCP est le titre `h1` de la home : son affichage attend les feuilles de style et les polices ; les ajouts depuis le sprint 26 sont la photo du hero (62,6 Ko) et la police Fraunces (17,8 Ko), soit +2 requêtes et +87 Ko, déjà relevés au sprint 27. Aucune ressource nouvelle depuis le sprint 27 (13 requêtes, 443 contre 436 Ko).
+
+Le script `scripts/lcp.cjs` (sans cache désactivé explicite, contextes vierges) donne pour la même page FR 552 ms (520/524/552/652/780) et EN 532 ms : un autre ordre de grandeur, non comparable aux 1324 et 1576 ms du sprint 26 et 27, qui ont été pris avec le cache désactivé.
+
+Verdict : **🚫 seuil de 1456 ms dépassé** ; la cause est cherchée comme demandée (ressources ci-dessus) ; aucun correctif appliqué par ce contrôle.
+
+## Home après la PR #120 (2026-10-27)
+
+Production, lecture seule, Chromium (puppeteer), `https://sylius-b2b.thibaut-monier.fr/{fr_FR,en_US}/`, quatre largeurs.
+
+| Langue | Largeur | Boutons du hero | Trois boutons de `#auteur` | Défilement horizontal |
+|--------|--------:|-----------------|----------------------------|-----------------------|
+| FR | 375 px | deux lignes, largeurs égales (299 px) | une ligne chacun (3 × 335 px) | 0 |
+| FR | 992 px | deux lignes, largeurs égales (299 px) | une ligne chacun (3 × 244 px) | 0 |
+| FR | 1280 et 1440 px | une seule ligne (244 et 299 px) | une ligne chacun (3 × 244 px) | 0 |
+| EN | 375 px | deux lignes, largeurs égales (242 px) | une ligne chacun (3 × 335 px) | 0 |
+| EN | 992 px | deux lignes, largeurs égales (242 px) | une ligne chacun (3 × 253 px) | 0 |
+| EN | 1280 et 1440 px | une seule ligne (242 et 231 px) | une ligne chacun (3 × 253 px) | 0 |
+
+Résultat : conforme aux trois critères (hero sur une ligne à 1280 et 1440 px, ou empilé à largeur égale ; jamais deux boutons d'auteur sur une ligne et un seul sur l'autre ; aucun débordement).

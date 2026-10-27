@@ -51,8 +51,8 @@
 | T-201-07 | [DOC] | Textes FR et EN (domaine `insights`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,5 h | T-201-06 | Claude | ✅ |
 | T-201-08 | [TEST] | Suite ciblée par `bin/run-tests` (tableau de bord, classements, export, droits), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, 360 et 1280 px ; commande exacte et dernière ligne citées | 0,75 h | T-201-06, T-201-07 | Claude | ✅ |
 | T-201-09 | [DOC] | Captures `docs/images/insights-*` par `bin/render-page` (Isabelle, local, bureau et 360 px), section du tableau de bord dans `docs/theme-b2b.md` | 0,5 h | T-201-08 | Claude | ✅ |
-| T-201-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : tableau de bord d'Isabelle vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 📅 production |
-| T-201-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,5 h | T-201-10 | Claude | 📅 production |
+| T-201-10 | [TEST] | 📅 Image reconstruite et conteneur neuf : tableau de bord d'Isabelle vérifié (règle 16 : rien hors base) ; production après le déploiement, lecture seule : l'adresse renvoie vers la connexion ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | ✅ (2026-10-27, production : l'adresse du tableau de bord renvoie vers la connexion) |
+| T-201-11 | [REV] | 📅 Revue (ton neutre, parité FR et EN, plugin non modifié) et table « scénario → test ou preuve » remplie | 0,5 h | T-201-10 | Claude | ✅ (2026-10-27, table complétée) |
 
 **Total estimé : 10,5 h** (11 tâches ; 10 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
 
@@ -92,10 +92,10 @@
 
 | Scénario | Tâche | Test ou preuve |
 |----------|-------|----------------|
-| L'essentiel en premier (nominal) | T-201-05, T-201-09 | |
-| Graphique mensuel accessible (alternatif) | T-201-05, T-201-08 | |
-| Changement de période (alternatif) | T-201-05 | |
-| Accès refusé (erreur) | T-201-05 | |
-| Aucune donnée sur la période (erreur) | T-201-05 | |
-| Débordement sur téléphone (erreur) | T-201-05, T-201-08 | |
-| Régression d'accessibilité (erreur) | T-201-08 | |
+| L'essentiel en premier (nominal) | T-201-05, T-201-09 | `PurchasingDashboardRedesignTest::testTheEssentialComesFirstWithTheComparisonPeriodStatedInOneSentence`, `testTheFiguresComeBeforeTheChartAndTheThingsToHandleBeforeTheFigures`, `testThePendingApprovalAndTheOverdueInvoicesAreToBeHandledFirst` |
+| Graphique mensuel accessible (alternatif) | T-201-05, T-201-08 | `testTheMonthlyChartAnnouncesEveryMonthAndTheYearBeforeWithoutRelyingOnColour`, `testTheMetricOfTheChartIsChosenWithoutScript` ; `MonthlyChartTest` |
+| Changement de période (alternatif) | T-201-05 | `testChangingThePeriodUpdatesTheFiguresAndNamesTheChosenPeriod`, `testThePeriodsAndTheFiltersAreInOneBlockWithTheExportAndTheFiltersFoldAway` |
+| Accès refusé (erreur) | T-201-05 | `testClaireWhoIsNotAnAdministratorIsRefusedWithAnExplanationAsBefore` ; production 2026-10-27 : l'adresse renvoie en 302 vers la connexion pour un visiteur |
+| Aucune donnée sur la période (erreur) | T-201-05 | `testThePeriodWithoutAnyOrderShowsAnExplainedEmptyStateInsteadOfFiguresAtZero` |
+| Débordement sur téléphone (erreur) | T-201-05, T-201-08 | `testTheTablesAreInRegionsThatScrollSoThatAPhoneNeverScrollsSideways` ; relevé à 360 px : 360 pour 360 (preuves du développement) |
+| Régression d'accessibilité (erreur) | T-201-08 | pa11y WCAG2AAA local, quatre rendus : « No issues found! » (preuves du développement) |
