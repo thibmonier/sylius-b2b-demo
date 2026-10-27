@@ -40,9 +40,11 @@
                 </div>
             </div>
             <div class="b2b-home-author__actions">
-                {% include 'shared/_contact_cta.html.twig' with { variant: 'dark', placement: 'home', locale: app.request.locale } only %}
-                <a class="b2b-btn-ghost" href="{{ app_demo_repository_url() }}" target="_blank" rel="noopener noreferrer" data-author-repository>{{ 'app.home_b2b.author.repository'|trans }}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>
-                <a class="b2b-btn-ghost" href="{{ path('app_demo_proof', {_locale: app.request.locale}) }}" data-author-proof>{{ 'app.home_b2b.author.proof'|trans }}</a>
+                <div class="b2b-home-author__buttons">
+                    {% include 'shared/_contact_cta.html.twig' with { variant: 'dark', placement: 'home', locale: app.request.locale } only %}
+                    <a class="b2b-btn-ghost" href="{{ app_demo_repository_url() }}" target="_blank" rel="noopener noreferrer" data-author-repository>{{ 'app.home_b2b.author.repository'|trans }}<span class="visually-hidden"> {{ 'cta.new_window'|trans({}, 'theme_demo') }}</span></a>
+                    <a class="b2b-btn-ghost" href="{{ path('app_demo_proof', {_locale: app.request.locale}) }}" data-author-proof>{{ 'app.home_b2b.author.proof'|trans }}</a>
+                </div>
             </div>
         </div>
     </div>

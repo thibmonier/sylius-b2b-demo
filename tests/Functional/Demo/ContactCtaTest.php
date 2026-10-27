@@ -58,6 +58,21 @@ final class ContactCtaTest extends WebTestCase
         self::assertStringContainsString('b2b-btn-ghost', (string) $cta->filter('a[data-cta-contact]')->attr('class'));
     }
 
+    /**
+     * The author buttons of the home are one group (profile, repository, proof) laid out on one line or stacked, never two
+     * plus one: the call to action wrapper takes no Bootstrap display utility, which would win over its `display: contents`.
+     */
+    public function testTheHomeAuthorButtonsFormOneGroup(): void
+    {
+        $this->setEnvironment(['DEMO_PROFILE_URL' => self::PROFILE, 'DEMO_CONTACT_URL' => '']);
+
+        $group = $this->page('/fr_FR/')->filter('[data-home-author] .b2b-home-author__buttons');
+
+        self::assertCount(1, $group);
+        self::assertCount(3, $group->filter('a'));
+        self::assertSame('b2b-home-author__cta', $group->filter('[data-cta="home"]')->attr('class'));
+    }
+
     public function testOnlyTheBookingTargetWhenTheContactUrlIsEmpty(): void
     {
         $this->setEnvironment(['DEMO_PROFILE_URL' => self::PROFILE, 'DEMO_CONTACT_URL' => '']);

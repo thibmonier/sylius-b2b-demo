@@ -37,6 +37,7 @@
             </div>
         </section>
     {% else %}
-        <span class="d-inline-flex flex-wrap gap-3" data-cta="{{ placement }}">{{ buttons }}</span>
+        {# The dark variant takes part in the button group of the home author block (display: contents, _home.scss). #}
+        <span class="{{ variant == 'dark' ? 'b2b-home-author__cta' : 'd-inline-flex flex-wrap gap-3' }}" data-cta="{{ placement }}">{{ buttons }}</span>
     {% endif %}
 {% endif %}
