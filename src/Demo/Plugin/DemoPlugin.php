@@ -19,6 +19,7 @@ final readonly class DemoPlugin
         public string $advisedAccount,
         public bool $published = true,
         public bool $installed = true,
+        public bool $listed = true,
     ) {
     }
 

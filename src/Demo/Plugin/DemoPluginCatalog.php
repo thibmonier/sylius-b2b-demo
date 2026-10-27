@@ -44,6 +44,21 @@ final class DemoPluginCatalog
         return \count($this->plugins);
     }
 
+    /**
+     * The plugins shown on the public Plugins page; the figure of the other pages keeps counting all of them (count()).
+     *
+     * @return list<DemoPlugin>
+     */
+    public function listed(): array
+    {
+        return array_values(array_filter($this->plugins, static fn (DemoPlugin $plugin): bool => $plugin->listed));
+    }
+
+    public function countListed(): int
+    {
+        return \count($this->listed());
+    }
+
     public function get(string $slug): ?DemoPlugin
     {
         foreach ($this->plugins as $plugin) {
@@ -58,8 +73,24 @@ final class DemoPluginCatalog
     /** @return array<string, list<DemoPlugin>> plugins grouped by category, in catalogue order */
     public function byCategory(): array
     {
+        return self::group($this->plugins);
+    }
+
+    /** @return array<string, non-empty-list<DemoPlugin>> */
+    public function listedByCategory(): array
+    {
+        return self::group($this->listed());
+    }
+
+    /**
+     * @param list<DemoPlugin> $plugins
+     *
+     * @return array<string, non-empty-list<DemoPlugin>>
+     */
+    private static function group(array $plugins): array
+    {
         $groups = [];
-        foreach ($this->plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             $groups[$plugin->category][] = $plugin;
         }
 
@@ -102,6 +133,7 @@ final class DemoPluginCatalog
             $account,
             ($entry['published'] ?? true) !== false,
             ($entry['installed'] ?? true) !== false,
+            ($entry['listed'] ?? true) !== false,
         );
     }
 

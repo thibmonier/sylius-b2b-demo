@@ -1,0 +1,337 @@
+// US-204: the public "Plugins" page in the look of the home (introduction, links, one section per family, cards, closing).
+// Same rules as _home.scss: palette tokens only (every pair is measured in ThemeColorTokensTest), 44 px targets,
+// grids with minmax(0, 1fr) and no fixed width so that a 320 px phone has no horizontal scroll. Nothing here moves
+// (no transition, no animation), so nothing needs the reduced-motion guard (the test of the partial keeps it that way).
+@use 'variables' as *;
+
+.b2b-plugins-intro {
+    padding-block: 2.5rem 2rem;
+
+    .b2b-home-lead {
+        margin-top: 1.25rem;
+    }
+
+    .b2b-home-wrap > [data-cta] {
+        display: flex;
+        margin-top: .5rem;
+    }
+}
+
+.b2b-plugins-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .625rem;
+    margin-top: 1.5rem;
+}
+
+// Family chips: anchors to the sections of the page.
+.b2b-plugins-chip {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1rem;
+    border: 1px solid $b2b-muted;
+    border-radius: 999px;
+    background: $b2b-white;
+    color: $b2b-navy;
+    font-size: .9375rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+        background: $b2b-sand;
+        color: $b2b-navy;
+    }
+
+    &__count {
+        color: $b2b-muted;
+        font-weight: 500;
+    }
+}
+
+.b2b-plugins-chip:focus-visible,
+.b2b-plugins-tile:focus-visible,
+.b2b-plugins-details summary:focus-visible {
+    outline: .1875rem solid $b2b-navy;
+    outline-offset: .125rem;
+}
+
+// Links to the other presentation pages.
+.b2b-plugins-more {
+    padding-block: 2rem;
+}
+
+.b2b-plugins-tiles {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 700px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1100px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.b2b-plugins-tile {
+    min-height: 2.75rem;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: .375rem;
+    padding: 1.25rem 1.375rem;
+    border: 1px solid $b2b-sand-line;
+    border-radius: .875rem;
+    background: $b2b-white;
+    color: $b2b-muted;
+    font-size: .9375rem;
+    line-height: 1.5;
+    text-decoration: none;
+
+    strong {
+        color: $b2b-navy;
+        font-size: 1.1875rem;
+    }
+
+    &:hover {
+        color: $b2b-muted;
+        border-color: $b2b-navy;
+    }
+}
+
+// One section per family.
+.b2b-plugins-family {
+    padding-block: 2.5rem;
+    scroll-margin-top: 1rem;
+
+    @media (min-width: 992px) {
+        padding-block: 3.5rem;
+    }
+
+    &__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: .25rem 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: .75rem;
+        border-bottom: 1px solid $b2b-sand-line;
+
+        .b2b-home-h2 {
+            color: $b2b-navy;
+            font-size: 1.75rem;
+
+            @media (min-width: 700px) {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    &__count {
+        margin: 0;
+        color: $b2b-muted;
+        font-size: .9375rem;
+    }
+}
+
+.b2b-plugins-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 700px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    @media (min-width: 1100px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+.b2b-plugins-card {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: .875rem;
+    padding: 1.25rem;
+    border: 1px solid $b2b-sand-line;
+    border-radius: 1rem;
+    background: $b2b-white;
+    color: $b2b-ink;
+
+    @media (min-width: 700px) {
+        padding: 1.5rem;
+    }
+
+    &__name {
+        margin: 0;
+        color: $b2b-ink;
+        font-size: 1.375rem;
+        line-height: 1.2;
+    }
+
+    // The role is the description of the catalogue, cut at four lines (the whole text stays in the page).
+    &__role {
+        display: -webkit-box;
+        margin: 0;
+        overflow: hidden;
+        color: $b2b-muted;
+        font-size: .9375rem;
+        line-height: 1.55;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+    }
+
+    &__links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .25rem 1.125rem;
+        margin-top: auto;
+        padding-top: .625rem;
+        border-top: 1px solid $b2b-sand;
+
+        a {
+            min-height: 2.75rem;
+            display: inline-flex;
+            align-items: center;
+            color: $b2b-accent;
+            font-size: .9375rem;
+            font-weight: 600;
+        }
+    }
+
+    &__note,
+    &__status {
+        color: $b2b-muted;
+        font-size: .875rem;
+        line-height: 1.4;
+    }
+}
+
+// Badges: state drawn from the proof file; the colour is never the only signal (the text says it).
+.b2b-plugins-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.b2b-plugins-badge {
+    padding: .25rem .625rem;
+    border: 1px solid $b2b-muted;
+    border-radius: 999px;
+    background: $b2b-white;
+    color: $b2b-muted;
+    font-size: .8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+
+    &--version {
+        border-color: $b2b-sand;
+        background: $b2b-sand;
+        color: $b2b-navy;
+    }
+
+    &--ci-success {
+        border-color: $b2b-success;
+        color: $b2b-success;
+    }
+
+    &--ci-failure {
+        border-color: $b2b-danger;
+        color: $b2b-danger;
+    }
+
+    &--sylius {
+        border-color: $b2b-teal;
+        color: $b2b-teal;
+    }
+}
+
+.b2b-plugins-details {
+    color: $b2b-muted;
+    font-size: .875rem;
+    line-height: 1.5;
+
+    summary {
+        min-height: 2.75rem;
+        display: flex;
+        align-items: center;
+        color: $b2b-navy;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    p {
+        margin: 0 0 .5rem;
+    }
+
+    code {
+        overflow-wrap: anywhere;
+    }
+}
+
+// Closing band and compatibility note.
+.b2b-plugins-closing {
+    padding-block: 3rem;
+
+    .b2b-home-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+
+        @media (min-width: 992px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    &__body {
+        max-width: 43.75rem;
+
+        p {
+            margin: .625rem 0 0;
+            font-size: 1.0625rem;
+            line-height: 1.6;
+        }
+    }
+
+    .b2b-home-h2 {
+        font-size: 1.75rem;
+
+        @media (min-width: 700px) {
+            font-size: 2rem;
+        }
+    }
+
+    [data-cta] {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem;
+    }
+}
+
+.b2b-plugins-note {
+    margin: 0;
+    padding-block: 2rem 3.5rem;
+    color: $b2b-muted;
+    font-size: .9375rem;
+}

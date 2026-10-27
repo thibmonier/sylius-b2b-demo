@@ -1,0 +1,51 @@
+# US-204: texts of the public "Plugins" page (domain `plugins`), continuing the editorial home. The compatibility note
+# keeps its key (messages domain: app.plugins.sylius_version). Versions and figures come from the proof file, never from here.
+eyebrow: 'Open source plugins'
+title_start: 'Sylius plugins,'
+title_accent: 'shown in context.'
+lead: 'The open source plugins showcased by this demo, by theme. Each card links to the GitHub repository and, when the plugin is visible in the shop, to its demo page.'
+families:
+    label: 'Plugin families'
+    purchasing: 'B2B purchasing'
+    billing: 'Billing and payment'
+    catalog: 'Catalogue and pricing'
+    integration: 'Integrations'
+    compliance: 'Compliance'
+    admin: 'Administration'
+more:
+    label: 'Go further'
+    integrate:
+        title: 'Integration guide'
+        text: 'Prerequisites, installation, typical architecture, repositories.'
+    proof:
+        title: 'Technical proof'
+        text: 'Version, Sylius compatibility and quality of each plugin, with their sources.'
+    compatibility:
+        title: 'Compatibility'
+        text: 'Tested versions of each plugin and links between plugins.'
+    simulator:
+        title: 'PunchOut simulator'
+        text: 'Try the PunchOut procurement tool simulator.'
+badge:
+    label: 'Plugin status'
+    version: 'Version %version%'
+    ci:
+        success: 'CI passing'
+        failure: 'CI failing'
+        other: 'CI: %status%'
+    sylius: 'Sylius %version% compatible'
+card:
+    details: 'Scenario and advised account'
+    scenario: 'Scenario:'
+    account: 'Advised account:'
+    github: 'Code on GitHub'
+    packagist: 'Packagist'
+    see_in_demo: 'See it in the demo'
+    no_demo_page: 'Visible in the admin panel or at checkout'
+    mcp_guide: 'Guide to connect Claude'
+    status:
+        in_progress: 'Publication in progress'
+        upcoming: 'Coming soon'
+closing:
+    title: 'A question about a plugin or about the demo?'
+    text: "The designer's profile presents their background and contact details."

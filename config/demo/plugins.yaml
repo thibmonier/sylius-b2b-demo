@@ -161,6 +161,7 @@ parameters:
               fr: "Ouvrez la page de l'échange par fichier : les dix colonnes du contrat et un extrait de fichier produit à partir des dernières commandes passées de la démo, adresses masquées, sans aucun ERP nommé."
               en: "Open the flat-file exchange page: the ten columns of the contract and an excerpt of a file produced from the latest placed orders of the demo, addresses masked, with no ERP named."
           advised_account: claire@acme.example
+          listed: false # US-204: not shown on the Plugins page until the overlap question is settled; still counted
         - slug: sylius-facturx-plugin
           name: 'Factur-X'
           category: billing
