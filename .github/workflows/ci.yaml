@@ -6,8 +6,8 @@ on:
     pull_request: ~
     workflow_dispatch: ~
 
-permissions:
-    contents: read
+# No default token permission: every job asks for what it needs (US-208).
+permissions: {}
 
 concurrency:
     group: ci-${{ github.ref }}
@@ -17,6 +17,8 @@ jobs:
     tests:
         name: Quality and smoke tests
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
         # A hung test fails the job instead of holding the runner for hours (a deferred trap did it on 2026-10-21).
         timeout-minutes: 30
         env:
@@ -34,12 +36,14 @@ jobs:
                 options: --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=5s --health-retries=20
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
 
             - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
               with:
                   php-version: "8.5"
                   extensions: intl, gd, zip, exif, pdo_mysql, bcmath
-                  tools: composer:v2
+                  tools: composer:2.10.3
                   coverage: pcov
 
             - name: Composer cache
@@ -111,9 +115,13 @@ jobs:
     image:
         name: Docker image
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
         timeout-minutes: 20
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
 
             - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
@@ -188,17 +196,31 @@ jobs:
     audit:
         name: Dependency audit
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
         timeout-minutes: 20
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
 
             - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
               with:
                   php-version: "8.5"
-                  tools: composer:v2
+                  tools: composer:2.10.3
 
             - name: Actions and images are pinned by SHA / digest
               run: bin/check-pinned-refs
+
+            # US-208: review of the diff of composer.lock against the base branch (rewritten tag, new Composer plugin).
+            # Offline: it reads the lock of the base branch from git. The table of updates goes to the job summary.
+            - name: Review of composer.lock against the base branch
+              if: github.event_name == 'pull_request'
+              env:
+                  BASE_REF: ${{ github.base_ref }}
+              run: |
+                  git fetch --no-tags --depth=1 origin "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+                  php bin/check-lock-diff --base="origin/${BASE_REF}" --summary="$GITHUB_STEP_SUMMARY"
 
             # Abandoned packages are reported, not blocking (behat/transliterator and php-http/message-factory, transitive).
             - name: PHP dependencies (composer audit)
@@ -218,11 +240,15 @@ jobs:
     image-scan:
         name: Image scan and SBOM
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
         timeout-minutes: 20
         env:
             TRIVY_IMAGE: ghcr.io/aquasecurity/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
 
             - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
@@ -260,3 +286,20 @@ jobs:
               with:
                   name: image-scan-and-sbom
                   path: reports/
+
+    # US-208: static audit of the workflows themselves. Version and image are pinned (tag and digest), no network.
+    zizmor:
+        name: Workflow audit (zizmor)
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        timeout-minutes: 10
+        env:
+            ZIZMOR_IMAGE: ghcr.io/zizmorcore/zizmor:1.31.1@sha256:42d409dbb851d4c5d35a058cf042b828bea1e3f2884378c526eb0974780e18d9
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: zizmor (offline)
+              run: docker run --rm -v "$PWD:/work" -w /work "$ZIZMOR_IMAGE" --offline .github
