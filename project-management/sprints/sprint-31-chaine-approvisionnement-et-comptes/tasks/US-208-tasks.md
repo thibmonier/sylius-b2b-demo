@@ -64,3 +64,10 @@
 | Dépendance de branche figée (alternatif) | T-208-02, T-208-04 | test « pas de branche en production » (à nommer) |
 | Tag réécrit (erreur) | T-208-02, T-208-03 | `CheckLockDiffTest` avec la fixture « tag réécrit » (à nommer) |
 | Nouveau plugin Composer ou workflow fautif (erreur) | T-208-02, T-208-05, T-208-06 | tests `allow-plugins`, `--no-blocking`, `persist-credentials`, nouveau `composer-plugin` (à nommer) |
+
+## Relevés du développement (w208, 2026-10-27)
+
+- **Contrôle « si vous avez été touché » (T-208-01)** : les 37 révisions de l'historique de `composer.lock` ne contiennent aucun des huit paquets cités par la source secondaire retrouvée (l'article d'origine est introuvable en ligne ; liste prise sur la page de l'attaque de mai 2026). Résultat : aucune version concernée n'a été installée.
+- **Wishlist** : `v1.4.0` (référence `391a8bf`) contient le commit verrouillé jusque-là (`bff330c`) plus sept commits (correctif des listes d'invités, intégration de la branche 1.3). La démo ne décore ni ne surcharge aucune des classes modifiées (seul le gabarit `single.html.twig` est surchargé, inchangé en 1.4.0). Contrainte `^1.4`, aucune branche de développement. Verrou régénéré dans un répertoire propre : seul ce paquet change, plus l'empreinte du contenu. `vendor/` de l'arbre partagé inchangé ; `composer install` à lancer par l'orchestrateur après la fusion.
+- **zizmor** 1.31.1 (image figée par condensat) : 9 alertes au départ (4 `persist-credentials`, 5 cooldown Dependabot), 0 après correction ; aucune justification restante.
+- **Suite complète** non lancée : 5 Go libres, sous le seuil de 6 Go (règle 2).
