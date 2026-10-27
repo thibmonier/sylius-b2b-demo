@@ -83,6 +83,133 @@
     }
 }
 
+// ---- Statement of trade credit (mock-up of the sprint 31): figures, ageing tiles, open items --------------------------------------
+.b2b-statement {
+    &__figures {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+        gap: .875rem;
+    }
+
+    &__figure,
+    &__tile {
+        display: flex;
+        flex-direction: column;
+        gap: .125rem;
+        min-width: 0;
+        padding: .75rem .875rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .75rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+
+        span {
+            color: $b2b-muted;
+            font-size: .875rem;
+        }
+    }
+
+    &__figure {
+        padding: 1.125rem 1.25rem;
+        border-radius: .875rem;
+
+        strong {
+            font-family: var(--b2b-font-serif);
+            font-size: 1.75rem;
+            line-height: 1.15;
+            overflow-wrap: anywhere;
+        }
+
+        &--available strong {
+            color: $b2b-success;
+        }
+    }
+
+    &__panel {
+        display: flex;
+        flex-direction: column;
+        gap: .875rem;
+        min-width: 0;
+        padding: 1.5rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+
+        h2 {
+            margin: 0;
+        }
+    }
+
+    &__ageing {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .75rem;
+
+        @media (min-width: 992px) {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+    }
+
+    &__tile {
+        strong {
+            font-size: 1.0625rem;
+            overflow-wrap: anywhere;
+        }
+
+        &--late strong {
+            color: $b2b-danger;
+        }
+
+        &--total {
+            background: $b2b-sand;
+            font-weight: 700;
+        }
+    }
+
+    // On a phone the table of open items becomes one card per item: nothing scrolls sideways.
+    &__table {
+        @media (max-width: 640px) {
+            thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+            }
+
+            &,
+            tbody,
+            tr,
+            th,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            tr {
+                padding: .75rem 0;
+                border-top: 1px solid $b2b-sand-line;
+            }
+
+            th,
+            td {
+                display: flex;
+                justify-content: space-between;
+                gap: .75rem;
+                padding: .25rem 0;
+                border: 0;
+                text-align: left;
+            }
+
+            td[data-label]::before {
+                content: attr(data-label);
+                color: $b2b-muted;
+                font-size: .875rem;
+            }
+        }
+    }
+}
+
 // ---- Page of consent of the MCP plugin: B2B frame only (header and charter of the shop), no menu of the account ------------------
 main:has(.b2b-consent) {
     background: $b2b-paper;

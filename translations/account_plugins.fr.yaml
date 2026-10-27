@@ -3,3 +3,4 @@
 region:
     quotes: 'Liste de vos demandes de devis'
     connections: 'Liste de vos assistants IA connectés'
+    statement: 'Pièces ouvertes à payer à terme'

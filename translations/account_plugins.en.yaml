@@ -3,3 +3,4 @@
 region:
     quotes: 'List of your quote requests'
     connections: 'List of your connected AI assistants'
+    statement: 'Open items on trade credit'
