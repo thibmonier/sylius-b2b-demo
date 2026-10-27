@@ -507,11 +507,11 @@ sprints:
 
   sprint-31:
     name: sprint-31-chaine-approvisionnement-et-comptes  # chaîne d'approvisionnement PHP de la démo, pages de compte des plugins alignées sur « Mon compte », refonte de la page « Plugins », actions de la rétro du sprint 30
-    status: in-progress  # planifié le 2026-10-27 ; décomposition faite (47 tâches, 34,25 h) ; branche de développement feature/sprint-31-dev à créer après la fusion du planning
+    status: in-progress  # planifié le 2026-10-27 ; décomposition faite (48 tâches, 36,25 h) ; branche de développement feature/sprint-31-dev à créer après la fusion du planning
     sprint_id: "sprint-31"
     start_date: "2026-10-27"
     end_date: "2026-11-09"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
-    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 47 tâches, 34,25 h dont 1,25 h de Thibaut (33 h pour Claude), marge de 2,3 h ; vélocité de référence : S26 29, S27 13, S28 13, S29 13, S30 13
+    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 48 tâches, 36,25 h dont 1,25 h de Thibaut (35 h pour Claude), marge de 0,3 h ; vélocité de référence : S26 29, S27 13, S28 13, S29 13, S30 13
     goal: "Fermer les portes d'entrée de la chaîne d'approvisionnement PHP de la démo (verrou, plugins Composer, workflows), et donner aux pages de compte des plugins et à la page « Plugins » la charte de « Mon compte » et de la home, avec des maquettes validées avant le code"
     stories:
       - {id: US-208, title: "Chaîne d'approvisionnement PHP : politique Composer, revue du verrou et durcissement des workflows", points: 5, status: ready-for-dev}  # Sprint 31, protégée ; EPIC-10, Should ; demande de Thibaut du 2026-10-27 (article supply chain PHP / Packagist 2026) ; suite d'US-081 ; plugins hors périmètre (story de suivi possible)

@@ -13,7 +13,7 @@
 | Vélocité de référence | S26 29, S27 13, S28 13, S29 13, S30 13 (moyenne 16) |
 | Branche | `feature/sprint-31-dev` (branche partagée, créée depuis `main` après la fusion du planning ; pas de checkout dans l'arbre partagé) |
 
-Le périmètre (13 points) est égal aux quatre derniers sprints. La marge est de 6,5 % : US-208, sans maquette ni porte de Thibaut, avance dès le planning ; les devis et les assistants IA réutilisent la maquette validée d'US-199 ; deux GO de Thibaut jalonnent le sprint (planche du relevé, maquette « Plugins »). L'ordre de sacrifice ci-dessous est **décidé par Thibaut le 2026-10-27**.
+Le périmètre (13 points) est égal aux quatre derniers sprints. La marge n'est plus que de 0,3 h (≈ 1 %) depuis l'ajout de T-TECH-31-11, qui devient la deuxième réserve à sacrifier ; US-208, sans maquette ni porte de Thibaut, avance dès le planning ; les devis et les assistants IA réutilisent la maquette validée d'US-199 ; deux GO de Thibaut jalonnent le sprint (planche du relevé, maquette « Plugins »). L'ordre de sacrifice ci-dessous est **décidé par Thibaut le 2026-10-27**.
 
 ## Sprint Goal
 
@@ -36,7 +36,7 @@ Total engagé : **13 points**.
 - **US-204** refond la page « Plugins » à la charte de l'accueil (cartes par famille, badges lisibles), contenu inchangé, plugins en recoupement présentés comme aujourd'hui. Maquette Claude Design validée avant tout Twig.
 - **Tâches techniques en tête du sprint** (actions 1 à 5 de la rétro du sprint 30) : parallélisme réglé sur la machine (T-TECH-31-01), suite complète locale avant le push (T-TECH-31-02), cohérence HT et TTC (T-TECH-31-03), outils de rendu et de console (T-TECH-31-04), échanges avec les workers (T-TECH-31-05, faite au planning).
 
-**Hors sprint** : US-205, US-206 (autres pages vitrine), US-207 (indexation, après US-204 à US-206), US-209 (dépôts de plugins, après US-208), US-128, US-103, US-121 (conditionnées), US-154. Les vérifications de production des 2026-10-26 et 2026-10-27 (sprints 28 à 30) se font **en parallèle, dans une PR séparée, hors budget** : elles ne sont pas comptées dans les 34,25 h.
+**Hors sprint** : US-205, US-206 (autres pages vitrine), US-207 (indexation, après US-204 à US-206), US-209 (dépôts de plugins, après US-208), US-128, US-103, US-121 (conditionnées), US-154. Les vérifications de production des 2026-10-26 et 2026-10-27 (sprints 28 à 30) se font **en parallèle, dans une PR séparée, hors budget** : elles ne sont pas comptées dans les 36,25 h.
 
 ## Décisions de Thibaut (2026-10-27)
 
@@ -48,7 +48,7 @@ Total engagé : **13 points**.
 
 ## Estimation du sprint
 
-La fiche annonce 5 + 5 + 3 points. La décomposition donne 9,25 h (US-208), 10,5 h (US-203) et 6,75 h (US-204) pour Claude, plus 6,5 h de transverses, soit **33 h pour 35,3 h : les 13 points tiennent, avec 2,3 h de marge**. Franchement : la marge est meilleure qu'au sprint 30, mais deux inconnues pèsent : la dérive des templates des plugins (les copies sont à relire à chaque mise à jour) et les alertes de zizmor sur le workflow existant, dont le nombre n'est pas connu avant T-208-06. La page de consentement (0,75 h) est la première réserve interne d'US-203.
+La fiche annonce 5 + 5 + 3 points. La décomposition donne 9,25 h (US-208), 10,5 h (US-203) et 6,75 h (US-204) pour Claude, plus 8,5 h de transverses (LCP de la home compris), soit **35 h pour 35,3 h : les 13 points tiennent, avec 0,3 h de marge**. Franchement : la marge est bien plus mince qu'aux sprints 29 et 30 (1,8 h), et deux inconnues pèsent : la dérive des templates des plugins (les copies sont à relire à chaque mise à jour) et les alertes de zizmor sur le workflow existant, dont le nombre n'est pas connu avant T-208-06. La page de consentement (0,75 h) est la première réserve interne d'US-203.
 
 ## Politique Sylius Plus
 
@@ -67,7 +67,7 @@ Aucun plugin qui recouvre Sylius Plus n'est promu. Ce sprint ne modifie aucun pl
   - action 5 : ✅ règle 25 et règle 1 en tête de la consigne (T-TECH-31-05).
 - [x] Backlog priorisé : périmètre décidé par Thibaut le 2026-10-27
 - [x] Stories estimées et « Ready » : voir la Definition of Ready ci-dessous
-- [x] Capacité calculée : 35,3 h pour 33 h de charge de Claude
+- [x] Capacité calculée : 35,3 h pour 35 h de charge de Claude
 - [x] Fiches US-208, US-203 et US-204 à jour (en-tête « Sprint 31 »)
 - [ ] Branche `feature/sprint-31-dev` à créer depuis `main` après la fusion du planning
 - [ ] Disque et mémoire : `df -h .`, `bin/check-disk`, mémoire libre et swap relevés avant le premier lot (T-TECH-31-01, T-TECH-31-07)

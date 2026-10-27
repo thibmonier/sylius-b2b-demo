@@ -3,7 +3,7 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut ou d'un déploiement | ⚠️ Sacrifiable | 🟡 Faite avec écart | ⊘ Sans objet
 
-Total décomposé : **47 tâches, 34,25 h** (13 points). État au planning (2026-10-27) : **1 ✅, 31 🔲, 15 📅**. Les 📅 attendent un GO de Thibaut (planche du relevé, maquette « Plugins », contrôles requis de `main`) ou le déploiement de `main` (vérifications de production).
+Total décomposé : **48 tâches, 36,25 h** (13 points). État au planning (2026-10-27) : **1 ✅, 32 🔲, 15 📅**. Les 📅 attendent un GO de Thibaut (planche du relevé, maquette « Plugins », contrôles requis de `main`) ou le déploiement de `main` (vérifications de production).
 
 Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le commit qui la livre.
 
@@ -91,6 +91,6 @@ _Aucune tâche._
 | Mesure | Valeur |
 |--------|--------|
 | Points engagés | 13 (US-208 5, US-203 5, US-204 3) |
-| Tâches | 47 (US-208 11, US-203 15, US-204 11, transverses 10) |
-| Heures | 34,25 h (33 h Claude, 1,25 h Thibaut) pour 35,3 h de capacité, marge de 2,3 h |
+| Tâches | 48 (US-208 11, US-203 15, US-204 11, transverses 11) |
+| Heures | 36,25 h (35 h Claude, 1,25 h Thibaut) pour 35,3 h de capacité, marge de 0,3 h |
 | Ordre de sacrifice | US-204, puis T-TECH-31-11, puis US-203 (T-203-08 d'abord) ; US-208 protégée |
