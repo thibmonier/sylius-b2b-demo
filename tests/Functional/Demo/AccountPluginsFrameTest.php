@@ -35,7 +35,7 @@ final class AccountPluginsFrameTest extends WebTestCase
     {
         yield 'devis, liste' => [self::CLAIRE, '/fr_FR/account/quotes', 'tmonier_quote_requests', 'data-test-tmonier-quotes'];
         yield 'devis, détail' => [self::CLAIRE, '/fr_FR/account/quotes/Q-2026-001', '', 'data-test-tmonier-quote'];
-        yield 'assistants IA' => [self::ISABELLE, '/fr_FR/account/ai-assistants', 'tmonier_b2b_mcp', 'data-test-tmonier-b2b-mcp-connections'];
+        yield 'assistants IA' => [self::ISABELLE, '/fr_FR/account/ai-assistants', 'tmonier_b2b_mcp', 'data-test-tmonier-b2b-mcp-no-connection'];
     }
 
     #[DataProvider('pages')]
@@ -45,14 +45,21 @@ final class AccountPluginsFrameTest extends WebTestCase
 
         self::assertCount(1, $page->filter('[data-test-b2b-account-nav]'), 'the menu of the account');
         self::assertCount(1, $page->filter('[data-test-b2b-account-plugin-page]'), 'the frame of the page');
-        self::assertCount(0, $page->filter('a.link-reset'), 'the menu of the plugin page (core) is gone');
+        self::assertCount(0, $page->filter('.col-md-3 a.link-reset'), 'the menu of the plugin page (core) is gone');
         self::assertCount(1, $page->filter('h1'));
-        self::assertStringContainsString('b2b-account__title', (string) $page->filter('h1')->attr('class'), 'the header of the charter');
         if ('' !== $active) {
             $current = $page->filter('[data-test-b2b-account-nav-item="' . $active . '"][aria-current="page"]');
             self::assertCount(1, $current, 'the entry of the page is the active one');
         }
         self::assertGreaterThanOrEqual(1, $page->filter('[' . $pluginAttribute . ']')->count(), 'the data-test of the plugin');
+    }
+
+    public function testTheTitleOfThePageIsTheHeaderOfTheCharter(): void
+    {
+        $page = $this->open(self::CLAIRE, '/fr_FR/account/quotes');
+
+        self::assertCount(1, $page->filter('[data-test-b2b-account-plugin-page] .b2b-account__head h1.b2b-account__title'));
+        self::assertCount(1, $page->filter('[data-test-b2b-account-plugin-page] .b2b-account__head .b2b-account__identity'), 'the help sentence of the plugin');
     }
 
     public function testTheListOfQuotesKeepsEveryDataTestOfTheOriginal(): void
@@ -93,11 +100,11 @@ final class AccountPluginsFrameTest extends WebTestCase
 
     public function testTheConsumerChannelKeepsTheThemeOfTheShop(): void
     {
-        $page = $this->open(self::LEA, '/fr_FR/account/quotes');
+        $page = $this->open(self::LEA, '/fr_FR/account/quotes', 'B2C');
 
         self::assertCount(0, $page->filter('[data-test-b2b-account-nav]'));
         self::assertCount(0, $page->filter('[data-test-b2b-account-plugin-page]'));
-        self::assertGreaterThanOrEqual(1, $page->filter('a.link-reset')->count(), 'the menu of the core');
+        self::assertGreaterThanOrEqual(1, $page->filter('.col-md-3 a.link-reset')->count(), 'the menu of the core');
         self::assertCount(1, $page->filter('h1'));
         self::assertStringNotContainsString('b2b-account__title', (string) $page->filter('h1')->attr('class'));
     }
@@ -148,6 +155,7 @@ final class AccountPluginsFrameTest extends WebTestCase
         $client = self::createClient();
         $this->isolateSharedAccounts($client);
         $this->login($client, self::LEA);
+        $client->request('GET', '/demo/channel/B2C');
         $query = $this->authorizationQuery($client);
 
         $client->request('GET', '/fr_FR/account/ai-assistants/authorize?' . $query);
@@ -163,11 +171,12 @@ final class AccountPluginsFrameTest extends WebTestCase
         self::assertStringContainsString('prefers-reduced-motion', $scss);
     }
 
-    private function open(string $email, string $path): Crawler
+    private function open(string $email, string $path, string $channel = 'B2B'): Crawler
     {
         $client = self::createClient();
         $this->isolateSharedAccounts($client);
         $this->login($client, $email);
+        $client->request('GET', '/demo/channel/' . $channel);
 
         $page = $client->request('GET', $path);
 
