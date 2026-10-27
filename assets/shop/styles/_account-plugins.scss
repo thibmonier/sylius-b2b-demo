@@ -1,0 +1,130 @@
+// US-203: the pages of the quote, trade-credit and MCP plugins in the frame of "My account" (US-199): same menu, same header, same tokens.
+// The page of the plugin keeps its Bootstrap markup and `data-test`; here it is only dressed in the tokens of the charter. Everything
+// is scoped to `.b2b-account-plugin` (the frame, B2B channel only) or `.b2b-consent` (the page of consent): the consumer channel keeps
+// the core markup. Tables scroll inside their own region, never the page (320 px); every button and link of a table is a 44 px target.
+@use 'variables' as *;
+
+.b2b-account-plugin {
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #{$b2b-ink};
+        --bs-table-border-color: #{$b2b-sand-line};
+        font-size: .9375rem;
+
+        thead tr {
+            background: $b2b-sand;
+        }
+
+        th {
+            font-size: .875rem;
+        }
+    }
+
+    .card {
+        border-color: $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+    }
+
+    .alert {
+        border-radius: .75rem;
+    }
+
+    h1:not(.b2b-account__title),
+    h2 {
+        font-family: var(--b2b-font-serif);
+        color: $b2b-ink;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding-inline: 1.125rem;
+        border-radius: .625rem;
+        font-weight: 600;
+    }
+
+    .btn:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+
+    // The help sentence under the title is the identity line of the home: muted, wrapping.
+    .b2b-account__identity {
+        display: block;
+    }
+}
+
+// The scrollable region of a table: focusable (keyboard), the page itself never scrolls sideways.
+.b2b-account-plugin__scroll {
+    overflow-x: auto;
+    max-width: 100%;
+
+    &:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+}
+
+// ---- Page of consent of the MCP plugin: B2B frame only (header and charter of the shop), no menu of the account ------------------
+main:has(.b2b-consent) {
+    background: $b2b-paper;
+}
+
+.b2b-consent {
+    color: $b2b-ink;
+
+    .card {
+        border-color: $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+    }
+
+    h1 {
+        font-family: var(--b2b-font-serif);
+        font-size: 1.875rem;
+        line-height: 1.15;
+    }
+
+    h2 {
+        font-family: var(--b2b-font-serif);
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding-inline: 1.125rem;
+        border-radius: .625rem;
+        font-weight: 600;
+    }
+
+    .btn:focus-visible,
+    .form-check-input:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+
+    .form-check-input {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .alert {
+        border-radius: .75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .b2b-account-plugin,
+    .b2b-consent {
+        .btn {
+            transition: none;
+        }
+    }
+}

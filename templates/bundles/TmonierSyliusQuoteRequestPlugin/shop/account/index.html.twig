@@ -1,0 +1,54 @@
+{#
+    US-203: override of the list of quotes of the plugin (tmonier/sylius-quote-request-plugin), in the frame of "My account".
+    Copied from the original; kept as is: the variables (`quote_requests`) and every `data-test`. Changed: the page frame (templates/shop/
+    theme_b2b/account_plugins/frame.html.twig) and the scrollable region of the table. If the plugin changes, tests/Unit/Demo/AccountPlugins/
+    PluginTemplateDriftTest fails and names this template.
+#}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'tmonier_quote_request.ui.my_quotes'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% embed 'shop/theme_b2b/account_plugins/frame.html.twig' with {
+        crumbs: [
+            { label: 'sylius.ui.home'|trans, path: path('sylius_shop_homepage') },
+            { label: 'sylius.ui.my_account'|trans, path: path('sylius_shop_account_dashboard') },
+            { label: 'tmonier_quote_request.ui.my_quotes'|trans, active: true },
+        ],
+        title: 'tmonier_quote_request.ui.my_quotes'|trans,
+        help: 'tmonier_quote_request.ui.my_quotes_help'|trans,
+    } %}
+        {% block body %}
+            {% if quote_requests is empty %}
+                <div class="alert alert-light" {{ sylius_test_html_attribute('tmonier-quotes-empty') }}>{{ 'tmonier_quote_request.ui.no_quotes'|trans }}</div>
+            {% else %}
+                <div class="table-responsive b2b-account-plugin__scroll" tabindex="0" role="region" aria-label="{{ 'region.quotes'|trans({}, 'account_plugins') }}">
+                    <table class="table align-middle" {{ sylius_test_html_attribute('tmonier-quotes') }}>
+                        <thead>
+                            <tr>
+                                <th>{{ 'sylius.ui.number'|trans }}</th>
+                                <th>{{ 'sylius.ui.date'|trans }}</th>
+                                <th>{{ 'tmonier_quote_request.ui.lines'|trans }}</th>
+                                <th>{{ 'sylius.ui.state'|trans }}</th>
+                                <th>{{ 'tmonier_quote_request.ui.valid_until'|trans }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quote_request in quote_requests %}
+                                <tr {{ sylius_test_html_attribute('tmonier-quote-row', quote_request.number) }}>
+                                    <td class="fw-semibold">{{ quote_request.number }}</td>
+                                    <td>{{ quote_request.createdAt|date('Y-m-d') }}</td>
+                                    <td>{{ quote_request.lines|length }}</td>
+                                    <td>{% include '@TmonierSyliusQuoteRequestPlugin/shop/status.html.twig' with { status: quote_request.status } only %}</td>
+                                    <td>{{ quote_request.validUntil ? quote_request.validUntil|date('Y-m-d') : '' }}</td>
+                                    <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ path('tmonier_quote_request_shop_account_show', {'number': quote_request.number}) }}">{{ 'sylius.ui.show'|trans }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

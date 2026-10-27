@@ -1,0 +1,43 @@
+{#
+    US-203: override of the quote page of the plugin (tmonier/sylius-quote-request-plugin). Opened from the account (`from_account`), it
+    takes the frame of "My account"; opened from the e-mail link (no account), it stays as the plugin draws it. Kept as is: the variables
+    and every `data-test`; the content is the plugin's own `_content.html.twig`.
+#}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+{% from '@SyliusShop/shared/breadcrumbs.html.twig' import breadcrumbs %}
+
+{% block title %}{{ 'tmonier_quote_request.ui.quote_number'|trans({'%number%': quote_request.number}) }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% if from_account %}
+        {% embed 'shop/theme_b2b/account_plugins/frame.html.twig' with {
+            crumbs: [
+                { label: 'sylius.ui.home'|trans, path: path('sylius_shop_homepage') },
+                { label: 'sylius.ui.my_account'|trans, path: path('sylius_shop_account_dashboard') },
+                { label: 'tmonier_quote_request.ui.my_quotes'|trans, path: path('tmonier_quote_request_shop_account_index') },
+                { label: quote_request.number, active: true },
+            ],
+        } %}
+            {% block body %}
+                <div {{ sylius_test_html_attribute('tmonier-quote', quote_request.number) }}>
+                    {% include '@TmonierSyliusQuoteRequestPlugin/shop/quote_request/_content.html.twig' %}
+                </div>
+            {% endblock %}
+        {% endembed %}
+    {% else %}
+        <div class="container mb-auto">
+            <div class="row my-4">
+                <div class="col-12">
+                    {{ breadcrumbs([
+                        { label: 'sylius.ui.home'|trans, path: path('sylius_shop_homepage') },
+                        { label: 'tmonier_quote_request.ui.quote_number'|trans({'%number%': quote_request.number}), active: true },
+                    ]) }}
+                </div>
+                <div class="col-12" {{ sylius_test_html_attribute('tmonier-quote', quote_request.number) }}>
+                    {% include '@SyliusShop/shared/flashes.html.twig' %}
+                    {% include '@TmonierSyliusQuoteRequestPlugin/shop/quote_request/_content.html.twig' %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

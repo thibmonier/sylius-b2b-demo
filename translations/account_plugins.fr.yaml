@@ -1,0 +1,5 @@
+# US-203: pages of the quote, trade-credit and MCP plugins in the frame of "My account" (domain `account_plugins`).
+# The titles and the help sentences stay the ones of the plugins; the templates of the demo carry no text of their own.
+region:
+    quotes: 'Liste de vos demandes de devis'
+    connections: 'Liste de vos assistants IA connectés'
