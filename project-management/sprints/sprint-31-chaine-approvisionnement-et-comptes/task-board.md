@@ -42,6 +42,7 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-TECH-31-08 | Transverse | OPS | ECS (`src tests`), PHPStan max sur **tout le dépôt** et Rector rejoués sur l'arbre exact avant chaque push … | 0,75 h | Orchestrateur |
 | T-TECH-31-09 | Transverse | TEST | **Capture à 1280 px relue avant la PR** (règle 23) : home connectée et chaque page touchée (devis, relevé, … | 0,5 h | Orchestrateur |
 | T-TECH-31-10 | Transverse | DOC | Revue et rétrospective du sprint 31 : indicateurs (0 arrêt de worker pour cause de disque, 0 CI rouge … | 1 h | Orchestrateur |
+| T-TECH-31-11 | Transverse | TEST | LCP mobile de la home revenu sous 1 456 ms (ressources comparées au sprint 26, correction, remesure en production) | 2 h | Claude |
 
 ## 📅 En attente (GO de Thibaut ou déploiement)
 
@@ -92,4 +93,4 @@ _Aucune tâche._
 | Points engagés | 13 (US-208 5, US-203 5, US-204 3) |
 | Tâches | 47 (US-208 11, US-203 15, US-204 11, transverses 10) |
 | Heures | 34,25 h (33 h Claude, 1,25 h Thibaut) pour 35,3 h de capacité, marge de 2,3 h |
-| Ordre de sacrifice | US-204, puis US-203 (T-203-08 d'abord) ; US-208 protégée |
+| Ordre de sacrifice | US-204, puis T-TECH-31-11, puis US-203 (T-203-08 d'abord) ; US-208 protégée |

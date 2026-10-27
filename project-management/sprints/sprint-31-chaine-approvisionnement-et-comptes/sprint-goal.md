@@ -9,7 +9,7 @@
 | Numéro | 31 |
 | Début | 2026-10-27 (planning) |
 | Fin | **2026-11-09** (10 jours ouvrés) au plus tard ; clôture dès que le périmètre est vérifié |
-| Capacité | **13 points** ; 47 tâches, 34,25 h (33 h pour Claude, 1,25 h d'actions de Thibaut) pour 35,3 h de capacité (13 × 2,1 h + 8 h transverses), soit 2,3 h de marge |
+| Capacité | **13 points** ; 48 tâches, 36,25 h (35 h pour Claude, 1,25 h d'actions de Thibaut) pour 35,3 h de capacité (13 × 2,1 h + 8 h transverses), soit 0,3 h de marge après l'ajout de T-TECH-31-11 (LCP de la home, 2 h, décision de Thibaut du 2026-10-27) |
 | Vélocité de référence | S26 29, S27 13, S28 13, S29 13, S30 13 (moyenne 16) |
 | Branche | `feature/sprint-31-dev` (branche partagée, créée depuis `main` après la fusion du planning ; pas de checkout dans l'arbre partagé) |
 
@@ -41,7 +41,7 @@ Total engagé : **13 points**.
 ## Décisions de Thibaut (2026-10-27)
 
 1. Périmètre : US-208 (5), US-203 (5), US-204 (3), soit 13 points.
-2. Ordre de sacrifice : US-204 d'abord, puis US-203 ; US-208 protégée.
+2. Ordre de sacrifice : US-204 d'abord, puis T-TECH-31-11 (LCP de la home), puis US-203 ; US-208 protégée.
 3. Maquettes dans l'unique projet Claude Design (canevas G2StRQigRKD6SqNRoyHpkW) : une planche pour le relevé d'US-203 et la page « Plugins » d'US-204 ; Twig 📅 jusqu'au GO de Thibaut.
 4. Page de consentement du plugin MCP : cadre B2B seul, sans menu du compte.
 5. US-207 après US-204 à US-206 ; US-209 après US-208 : pas dans ce sprint.
