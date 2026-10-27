@@ -13,3 +13,8 @@
 | 2026-10-27 | Actions 1 à 5 de la rétro du sprint 30 reprises en T-TECH-31-01 à 05 ; règles 24 (parallélisme réglé sur la machine) et 25 (réponses aux workers avec l'identifiant de la décision, règle 1 rappelée en tête) ajoutées à la consigne de worker | Orchestrateur | T-TECH-31-05 |
 | 2026-10-27 | LCP mobile de la home en production 1 616 ms (FR) et 1 588 ms (EN) pour un seuil de 1 456 ms (T-TECH-29-03, PR #123) : **tâche technique dans le sprint 31** (T-TECH-31-11, 2 h) ; ordre de sacrifice : US-204, puis T-TECH-31-11, puis US-203 ; US-208 protégée | Thibaut | T-TECH-31-11 |
 | 2026-10-27 | Page Crédits des images à 1 046 px de large sur 360 px (T-196-09, T-197-09) : correctif hors sprint, PR #124, fusionnée verte selon le GO permanent des PR de la démo ; T-196-09 et T-197-09 remesurées après son déploiement | Orchestrateur | PR #124 |
+| 2026-10-27 | **GO de Thibaut sur la planche du relevé de paiements à terme** (canevas Claude Design, version 20) : T-203-09 et T-203-10 débloquées | Thibaut | T-203-04 |
+| 2026-10-27 | **GO de Thibaut sur la maquette de la page « Plugins »** (canevas Claude Design, version 20) : gabarit et styles d'US-204 débloqués | Thibaut | T-204-04 |
+| 2026-10-27 | Page « Plugins » : le plugin ERP à fichiers plats est **retiré de la page** tant que le recoupement avec Sylius Plus n'est pas levé (réponse « oui » à la question « faut-il le retirer ? ») | Thibaut | T-204-05, T-204-06 |
+| 2026-10-27 | Plugin Timeline : **corriger sa CI** (en échec dans la preuve) avant l'intégration de la page, par une PR dans son dépôt ; aucun tag sans nouveau GO | Thibaut | T-204-06 |
+| 2026-10-27 | Cartes de la page « Plugins » : description coupée à 4 lignes, **aucun champ « rôle en une ligne » ajouté** ce sprint | Thibaut | T-204-06 |
