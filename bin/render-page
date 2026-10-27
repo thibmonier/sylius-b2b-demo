@@ -3,6 +3,7 @@
 
 declare(strict_types=1);
 
+use App\Demo\Render\RenderedThumbnails;
 use App\Kernel;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -16,7 +17,7 @@ use Symfony\Component\Dotenv\Dotenv;
  *   e.g. bin/render-page --out=/tmp/pages --login=claire@acme.example /fr_FR/ /fr_FR/products/outi-001-fr
  *
  * One file DIR/<path>.html per page (the path with its slashes turned into dashes). The thumbnails of the products are generated
- * (LiipImagine) and linked as /media/cache/..., so that DIR can be served next to public/media and public/build (symbolic links).
+ * (LiipImagine, absolute or relative URLs: App\Demo\Render\RenderedThumbnails) and linked as /media/cache/..., so that DIR can be served next to public/media and public/build (symbolic links).
  * --login needs APP_ENV=test (the test client signs the account in); without it, APP_ENV=prod gives the page of the production.
  * The environment is the one of the shell (docs/tests-locaux.md, "Serveur local en mode prod"). Exit code 1 when a page does not answer 200.
  */
@@ -134,10 +135,9 @@ foreach ($paths as $path) {
     $client->request('GET', $path);
     $status = $client->getResponse()->getStatusCode();
     $html = (string) $client->getResponse()->getContent();
-    preg_match_all('#http://127\.0\.0\.1/media/cache/(?:resolve/)?([^"\s,]+)#', $html, $matches);
-    foreach (array_unique($matches[1]) as $rest) {
-        $client->request('GET', '/media/cache/resolve/' . $rest);
-        $html = str_replace(['http://127.0.0.1/media/cache/resolve/' . $rest, 'http://127.0.0.1/media/cache/' . $rest], '/media/cache/' . $rest, $html);
+    foreach (RenderedThumbnails::references($html) as $reference) {
+        $client->request('GET', '/media/cache/resolve/' . $reference);
+        $html = RenderedThumbnails::relink($html, $reference);
     }
     $name = trim((string) preg_replace('/[^A-Za-z0-9_]+/', '-', $path), '-');
     $file = $out . '/' . ('' === $name ? 'home' : $name) . '.html';

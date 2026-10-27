@@ -94,6 +94,7 @@ Les comptes de la démo (panier de Claire, panier de Paul, listes partagées d'A
 
 - **Répertoire des factures partagé** : `private/invoices/` est commun à toutes les bases de la copie de travail, et `demo_orders` y supprime les PDF au chargement. Deux chargements en parallèle sur la même copie se marchent dessus (test Factur-X rouge sans raison). Un chargement à la fois.
 - **Cache de test périmé** : après un `git pull` ou un changement de service, un `sylius:fixtures:load` lancé à la main peut échouer sur un constructeur ou un service inconnu : `bin/console cache:clear` en `APP_ENV=test` (le script le fait).
+- **`bin/console` à court de mémoire en local** (T-TECH-31-04) : le `php.ini` du poste limite à 128 Mo, et la compilation du conteneur (`lint:yaml`, `lint:twig`, `lint:container`) échoue sans autre message que « Allowed memory size exhausted ». Lancer `php -d memory_limit=1G bin/console …` (`-1` pour les fixtures). `bin/render-page` fixe déjà 1 Go lui-même, et génère les vignettes des URL d'image absolues comme relatives (`App\Demo\Render\RenderedThumbnails`).
 - **Base partagée** : plusieurs copies de travail peuvent utiliser le même MySQL ; leur donner chacune sa `TEST_DB_NAME` et son `TEST_CACHE_DIR`.
 - Les tests qui lancent `app:demo:reset` rechargent la suite entière dans la base (elle en ressort identique).
 - **Lecture filtrée par RTK** : le proxy RTK réécrit `cat`, `sed`, `ls` et masque les commentaires et les docblocks. Pour lire un fichier à modifier : outil Read ou `rtk proxy cat`.
