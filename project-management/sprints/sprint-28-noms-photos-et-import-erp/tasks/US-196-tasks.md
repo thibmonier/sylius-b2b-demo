@@ -47,8 +47,8 @@
 | T-196-06 | [DOC] | 📅 **Après le GO (T-196-04) seulement** : téléchargement des seules photos choisies, optimisation WebP, `fixtures/images/manifest.csv`, anciens fichiers orphelins retirés par `git rm`, `docs/images-produits.md` ; texte relu contre le manifeste | 0,75 h | T-196-04, T-196-05 | Claude | ✅ |
 | T-196-07 | [BE] | Chargeur et crédits : rattachement par famille (`ProductImageAttacher`), lecture du manifeste (`ImageManifest`), page Crédits (`ImageCredits`) avec auteur, source et licence de chaque photo | 0,5 h | T-196-06 | Claude | ✅ |
 | T-196-08 | [TEST] | Revue visuelle famille par famille (rendu du noyau en mode prod par `bin/render-page`, **un seul cache de rendu**, `bin/check-disk` avant chaque rendu) : aucune marque, aucun article hors sujet ; suite ciblée, PHPStan max sur tout le dépôt, ECS, Rector, lint ; commande exacte et dernière ligne citées | 0,5 h | T-196-07 | Claude | ✅ |
-| T-196-09 | [TEST] | Vérification après déploiement : pa11y et largeurs (catalogue, une fiche, page Crédits), LCP mobile du catalogue **après** comparé à T-196-01 ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🔲 (après la remise à zéro de 03:00 du 2026-10-26) |
-| T-196-10 | [REV] | Revue (licences, ton neutre, aucune marque visible) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-196-09 | Claude | 🔲 (dépend de T-196-09) |
+| T-196-09 | [TEST] | Vérification après déploiement : pa11y et largeurs (catalogue, une fiche, page Crédits), LCP mobile du catalogue **après** comparé à T-196-01 ; mesures consignées le jour du déploiement | 0,5 h | merge de la PR | Claude | 🚫 (2026-10-27, production : la page Crédits des images déborde à 360 px, `scrollWidth` 1046 pour 360 en FR et en EN ; le reste est conforme, voir « Mesures de production ») |
+| T-196-10 | [REV] | Revue (licences, ton neutre, aucune marque visible) et table « scénario → test ou preuve » remplie ; `php bin/proof-refresh` puis `php bin/proof-check` | 0,25 h | T-196-09 | Claude | 🚫 (2026-10-27, bloquée par T-196-09 ; table remplie, `php bin/proof-check` vert, `proof-refresh` non relancé : il réécrit `config/demo/proof.json` sans lien avec ce contrôle) |
 
 **Total estimé : 6,5 h** (10 tâches ; 6 h pour Claude, 0,5 h de Thibaut).
 
@@ -58,11 +58,11 @@ Une ligne vide laisse la story en review.
 
 | Scénario | Test ou preuve |
 |----------|----------------|
-| Une photo cohérente par famille (nominal) | |
-| Crédits tenus (alternatif) | |
-| Poids et format respectés (alternatif) | |
-| Photo avec marque visible (erreur) | |
-| Licence non conforme ou famille sans photo (erreur) | |
+| Une photo cohérente par famille (nominal) | `ProductPhotosPerTypeTest::testEverySkuPointsToThePhotoOfItsType`, `testNoPhotoIsSharedBetweenTwoDifferentTypes` ; production 2026-10-27 : 7 fiches (casques de 4 couleurs, gilet, botte, casque vert) en 200 avec une image WebP servie (11 à 53 Ko), images distinctes |
+| Crédits tenus (alternatif) | `ImageCreditsTest`, `ImageCreditsPageTest` ; production 2026-10-27 : la page Crédits (FR et EN) cite les six auteurs des photos du sprint 29 ; pa11y « No issues found! » ; **débordement horizontal à 360 px** (voir T-196-09) |
+| Poids et format respectés (alternatif) | `ImageBudgetTest::testTheImagesStayUnderTheBudgetOfTheDirectoryAndOfEachImage`, `testEveryManifestRowIsCc0AndFullyFilled` |
+| Photo avec marque visible (erreur) | revue visuelle de T-196-08 ; production 2026-10-27 : aucune occurrence de la liste noire sur 438 pages (voir US-195) |
+| Licence non conforme ou famille sans photo (erreur) | `ImageManifestAuditorTest::testANonFreeLicenceIsRefusedAndNamed`, `ImageBudgetTest::testEveryProductOfTheCatalogueHasAnImage` |
 
 ## Registre de la planche et du GO
 
@@ -71,4 +71,20 @@ Une ligne vide laisse la story en review.
 
 ## Mesures de production (jour du déploiement)
 
-_Non consignées à la revue (2026-10-25)._ Les nouvelles photos ne seront visibles en production qu'après la remise à zéro de 03:00 du 2026-10-26 : T-196-09 (pa11y, largeurs, LCP du catalogue avant et après) et T-196-10 restent ouvertes.
+_Contrôle du 2026-10-27 (T-196-09), production, lecture seule, sans connexion, après les remises à zéro de 03:00 des 2026-10-26 et 2026-10-27._
+
+| Page | pa11y WCAG2AAA | 360 px | 1280 px |
+|------|----------------|--------|---------|
+| Catalogue `visserie` FR et EN, catégorie `epi` FR | « No issues found! » | 360 / 360 | 1280 / 1280 |
+| Fiches `EPI-CASK-001`, `FIXA-001` (FR), `EPI-CASK-001` (EN) | « No issues found! » | 360 / 360 | 1280 / 1280 |
+| Page Crédits des images, FR et EN | « No issues found! » | **1046 / 360 : déborde** | 1280 / 1280 |
+
+Cause relevée (sans correction) : à 360 px, 16 éléments `li.border.rounded.p-3` de la liste des crédits mesurent 1034 px de large (bord droit à 1046 px).
+
+**LCP mobile du catalogue** (`/taxons/visserie`, FR et EN). Deux mesures, car les deux scripts du dépôt de travail donnent des ordres de grandeur différents :
+- script de la mesure « avant » d'US-198 (`scripts/lcp.cjs`, Chromium mobile 360 × 740, ratio 2, processeur x4, 1,6 Mbit/s, 150 ms, 5 passes) : FR **584 ms** (516/548/584/620/792), EN 704 ms (512/520/704/780/1284), 14 requêtes, 425 Ko, CLS 0 ; référence d'US-198 avant : FR 532 ms, EN 496 ms, soit +52 ms et +208 ms, dans la dispersion des passes ;
+- protocole de w186 avec le cache désactivé : FR **1368 ms** (1344/1344/1368/1368/1372), EN 1368 ms (1352/1360/1368/1368/1372), 16 requêtes, 424 Ko, CLS 0 ; pas de mesure « avant » à ce protocole pour le catalogue.
+
+Dans les deux cas le LCP reste sous le seuil de 2,5 s d'US-189. Le sprint 28 n'avait consigné aucune mesure « avant » de T-196-01 : la comparaison se fait avec la mesure « avant » d'US-198 (production du 2026-10-25, avant la remise à zéro).
+
+`php bin/proof-check` (revue T-196-10) : « Proof up to date: 299 test files, 27 plugins. », « Compatibility up to date: 27 plugins. », « Packs up to date: 2 packs. »

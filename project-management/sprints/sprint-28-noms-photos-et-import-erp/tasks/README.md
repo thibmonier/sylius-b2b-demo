@@ -8,8 +8,8 @@
 
 | US | Titre | Points | Tâches | Heures | Sacrifice | Statut |
 |----|-------|--------|--------|--------|-----------|--------|
-| [US-195](./US-195-tasks.md) | Noms de produits sans marque réelle | 2 | 7 | 4 h | **protégée** | ✅ (T-195-06 après la remise à zéro du 2026-10-26) |
-| [US-196](./US-196-tasks.md) | Photos du catalogue cohérentes et sans marque | 3 | 10 | 6,5 h | **n°2** | ✅ (T-196-09 et T-196-10 après la remise à zéro du 2026-10-26) |
+| [US-195](./US-195-tasks.md) | Noms de produits sans marque réelle | 2 | 7 | 4 h | **protégée** | ✅ (T-195-06 contrôlée en production le 2026-10-27) |
+| [US-196](./US-196-tasks.md) | Photos du catalogue cohérentes et sans marque | 3 | 10 | 6,5 h | **n°2** | 🚫 (T-196-09 et T-196-10 contrôlées le 2026-10-27 : la page Crédits des images déborde à 360 px) |
 | [US-187](./US-187-tasks.md) | Import CSV de prix et de stock : plugin (A, 5 pts) puis démonstration (B, 3 pts) | 8 | 21 | 17,2 h | **n°1 pour la tranche B** | ✅ (T-187-20 🟡) |
 | [Transverse](./technical-tasks.md) | Actions de la rétro du sprint 27, contrôles, GO, clôture (sans points) | 0 | 10 | 6,5 h | non sacrifiable | 3 ✅, 3 🟡, 3 🔲, 1 👀 |
 | **Total** | | **13** | **48** | **34,2 h** | | |

@@ -49,7 +49,7 @@
 | T-197-06 | [DOC] | 📅 **Après le GO (T-197-05) seulement** : téléchargement des seules photos choisies, optimisation WebP, `manifest.csv`, anciens fichiers orphelins retirés par `git rm`, `docs/images-produits.md` ; texte relu contre le manifeste | 0,75 h | T-197-05, T-197-02 | Claude | ✅ |
 | T-197-07 | [BE] | 📅 Variantes de couleur : rattachement par couleur dans `ProductImageAttacher`, crédits (`ImageCredits`) avec auteur, source et licence ; visuels neutres de la veste de pluie et de la botte remplacés si une photo a été retenue | 0,75 h | T-197-06 | Claude | ✅ |
 | T-197-08 | [TEST] | Suite ciblée par `bin/run-tests`, PHPStan max sur tout le dépôt, ECS, Rector, lint ; **captures avant/après** des cartes portrait et de la fiche pour les familles touchées (rendu du noyau en mode prod, un seul cache de rendu) ; commande exacte et dernière ligne citées | 0,5 h | T-197-03, T-197-07 | Claude | 🟡 (lot ciblé vert ; captures avant/après simulées sur les vrais WebP, pas un rendu du noyau) |
-| T-197-09 | [TEST] | Vérification en production après le déploiement **et la remise à zéro de 03:00** : pa11y et largeurs (catalogue, une fiche par famille touchée, page Crédits), LCP mobile du catalogue ; mesures consignées le jour du contrôle ; puis revue (licences relues contre le manifeste, ton neutre, aucune marque visible), table « scénario → test ou preuve » remplie, `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,75 h | merge de la PR | Claude | 📅 |
+| T-197-09 | [TEST] | Vérification en production après le déploiement **et la remise à zéro de 03:00** : pa11y et largeurs (catalogue, une fiche par famille touchée, page Crédits), LCP mobile du catalogue ; mesures consignées le jour du contrôle ; puis revue (licences relues contre le manifeste, ton neutre, aucune marque visible), table « scénario → test ou preuve » remplie, `bin/proof-rebase` ou `php bin/proof-refresh` puis `php bin/proof-check` | 0,75 h | merge de la PR | Claude | 🚫 (2026-10-27, production : la page Crédits des images déborde à 360 px, `scrollWidth` 1046 pour 360 ; le reste est conforme, voir « Mesures de production ») |
 
 **Total estimé : 6,75 h** (9 tâches ; 6,25 h pour Claude, 0,5 h de Thibaut).
 
@@ -71,4 +71,16 @@ Téléchargées le 2026-10-25 en pleine taille depuis les pages officielles (Pex
 
 ## Mesures de production (jour du contrôle)
 
-_Non consignées (sprint planifié le 2026-10-25)._
+_Contrôle du 2026-10-27 (T-197-09), production, lecture seule, sans connexion, après les remises à zéro de 03:00 des 2026-10-26 et 2026-10-27._
+
+| Contrôle | Mesure | Résultat |
+|----------|--------|----------|
+| Fiches des familles touchées (casques jaune `EPI-CASK-002`, rouge `-004`, orange `-007`, bleu `-009`, gilet jaune `EPI-VEST-001`, botte verte `EPI-CHAU-006`) | 200 ; image WebP servie en 200 (28 à 53 Ko), images distinctes d'une famille à l'autre ; casque vert `EPI-CASK-017` : image blanche inchangée (21 Ko) | ✅ |
+| pa11y WCAG2AAA sur ces six fiches, catalogue `visserie` et `epi`, home FR et EN | « No issues found! » | ✅ |
+| 360 et 1280 px : six fiches et catalogue | `scrollWidth` égal à la largeur de l'écran | ✅ |
+| Page Crédits des images, FR et EN | pa11y « No issues found! » ; les six auteurs de la planche (Richard Heinen, Ümit Yıldırım, Thirdman, Carsten Ruthemann, Tanya Paquet, Jonathan Cosens Photography) y figurent ; **à 360 px : 1046 / 360, déborde** (16 éléments `li.border.rounded.p-3` de 1034 px) ; 1280 px : 1280 / 1280 | 🚫 |
+| LCP mobile du catalogue | `scripts/lcp.cjs` : FR 584 ms, EN 704 ms ; protocole de w186 (cache désactivé) : 1368 ms FR et EN ; sous 2,5 s | ✅ |
+| Liste noire | 0 occurrence sur 438 pages (voir US-195) | ✅ |
+| `php bin/proof-check` | « Proof up to date: 299 test files, 27 plugins. » | ✅ |
+
+La table « scénario → test ou preuve » est complétée par ces mesures (ligne « Le sujet reste entier… », production après 03:00). La tâche reste 🚫 tant que la page Crédits déborde à 360 px.
