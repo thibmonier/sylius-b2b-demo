@@ -141,9 +141,9 @@ config/
 
 **ThemeBundle** :
 - Sylius 2.3 : `sylius/theme-bundle` ^2.5 (vérifié dans vendor/sylius/sylius/composer.json au 2026-10-28)
-- Sylius 2.2 : `sylius/theme-bundle` ^2.5 (supposé compatible)
+- Sylius 2.2 : `sylius/theme-bundle` ^2.4 (Packagist, v2.2.x, consulté le 2026-10-28)
 
-**Recommandation** : Contrainte Composer `"sylius/theme-bundle": "^2.5"` pour supporter les deux versions.
+**Recommandation** : contrainte Composer `"sylius/theme-bundle": "^2.4"`, qui couvre Sylius 2.2 (^2.4) et 2.3 (^2.5) ; la CI vérifie les deux.
 
 **PHP** :
 
@@ -237,7 +237,7 @@ tmonier/sylius-industry-trade-theme/
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "sylius/theme-bundle": "^2.5",
+        "sylius/theme-bundle": "^2.4",
         "sylius/sylius": "^2.3 || ^2.2"
     },
     "extra": {
