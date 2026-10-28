@@ -548,22 +548,22 @@ sprints:
 
   sprint-34:
     name: sprint-34-spikes-et-theme
-    status: in-progress  # démarré le 2026-10-28 ; spikes livrés, ADR 0018 à 0020 acceptés ; US-222 fusionnée partielle (suite US-238)
+    status: done  # clos le 2026-10-28 (GO de Thibaut, PR #132) ; spikes livrés, ADR 0018 à 0020 acceptés ; US-222 fusionnée partielle (suite US-238)
     sprint_id: "sprint-34"
     start_date: "2026-10-28"
     end_date: "2026-11-11"
     capacity_points: 14  # écart d'un point sur la vélocité de 13 accepté ; 43 tâches, 33 h (32,5 h pour Claude, 0,5 h de Thibaut) pour 31,4 h de capacité, écart de −1,6 h
     goal: "Cadrer trois capacités innovantes de la démo par leurs spikes et livrer la tranche 1 du thème Industrie & Négoce : format de rejeu du copilote sans appel LLM payant, formulation prudente du passeport produit, packaging d'un thème Sylius 2 installable par Composer, et paquet du thème avec ses jetons de design et ses composants communs"
     stories:
-      - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: review}  # EPIC-16, Must ; timebox 6 h, ADR docs/adr/0018-*, note privée de sécurité hors dépôt
-      - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: review}  # EPIC-18, Must ; timebox 6 h, ADR docs/adr/0019-*, prototype minimal ; GO de Thibaut sur l'ADR avant US-222
-      - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: review}  # EPIC-19, Must ; timebox 6 h, ADR docs/adr/0020-*, formulation prudente validée
-      - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: in-progress}  # EPIC-18, Must ; attend GO de l'ADR d'US-221 ; dépôt tmonier/sylius-industry-trade-theme créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release
+      - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; timebox 6 h, ADR docs/adr/0018-*, note privée de sécurité hors dépôt
+      - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: done}  # EPIC-18, Must ; timebox 6 h, ADR docs/adr/0019-*, prototype minimal ; GO de Thibaut sur l'ADR avant US-222
+      - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; timebox 6 h, ADR docs/adr/0020-*, formulation prudente validée
+      - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: partial}  # EPIC-18, Must ; attend GO de l'ADR d'US-221 ; dépôt tmonier/sylius-industry-trade-theme créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release
     notes: "Ordre de sacrifice (registre du 2026-10-28, auteur Thibaut) : US-222 d'abord, puis US-229 ; US-210 et US-221 protégées. Portes : GO de Thibaut sur l'ADR d'US-221 avant US-222 ; relecture au fil de l'eau des trois ADR de spikes. Disque à 4 Go libres, mémoire 1,7 Go, swap 4 Go : aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24). Actions de Thibaut : relire les ADR, donner le GO de l'ADR d'US-221, libérer le disque (cible 10 Go), soumettre le thème à Packagist. Actions de rétro S33 : règle 30 (T-TECH-34-01 faite au planning), workflows YAML validés (T-TECH-34-02), disque libéré et verrou tests (T-TECH-34-03), outils rendu et build (T-TECH-34-04), contrôles production US-207 (T-TECH-34-05). 10 jours ouvrés, planning le 2026-10-28, point d'étape après relecture des trois ADR, revue et rétro au plus tard le 2026-11-11."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
-  - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: review}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: backlog}  # EPIC-16, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-212, title: "Copilote d'achat : réassort « comme le mois dernier » avec substitution de référence", points: 8, status: backlog}  # EPIC-16, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
@@ -574,8 +574,8 @@ backlog:
   - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: backlog}  # EPIC-17, Must ; sprint 35 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: backlog}  # EPIC-17, Must ; sprint 35 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-220, title: "Commerce prédictif : score d'attrition explicable dans l'admin", points: 5, status: backlog}  # EPIC-17, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: review}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: in-progress}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: done}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: partial}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: backlog}  # EPIC-18, Must ; sprint 35 (proposé) ; décision de Thibaut du 2026-10-28 (US-222 fusionnée partielle)
@@ -583,7 +583,7 @@ backlog:
   - {id: US-226, title: "Thème Industrie & Négoce : mode sombre optionnel en AAA", points: 3, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-227, title: "Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes", points: 5, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: backlog}  # EPIC-18, Must ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: review}  # EPIC-19, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
