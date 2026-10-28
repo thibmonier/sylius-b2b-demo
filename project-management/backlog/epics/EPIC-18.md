@@ -1,6 +1,6 @@
 # EPIC-18 — Thème « Industrie & Négoce »
 
-> Exigences : décision de Thibaut du 2026-10-28 ([roadmap-innovation](../roadmap-innovation.md)) · 8 stories · 34 points · plugin `tmonier/sylius-industry-trade-theme`
+> Exigences : décision de Thibaut du 2026-10-28 ([roadmap-innovation](../roadmap-innovation.md)) · 8 stories · 34 points · paquet Composer `tmonier/sylius-industry-trade-theme` (dépôt GitHub `thibmonier/sylius-industry-trade-theme`)
 
 ## Description
 
