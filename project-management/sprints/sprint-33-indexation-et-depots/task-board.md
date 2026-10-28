@@ -20,13 +20,6 @@ Règle : une tâche passe en ✅ dans le commit qui la livre. **Rouge prouvé (r
 | T-TECH-33-12 | Transverse | OPS | ECS, PHPStan max (dépôt entier) et Rector rejoués avant chaque push ; CI verte avant le merge … | 0,5 h | Orchestrateur |
 | T-TECH-33-14 | Transverse | TEST | **Capture à 1280 px relue avant la PR** : home connectée et page vitrine listée … | 0,5 h | Orchestrateur |
 | T-TECH-33-15 | Transverse | DOC | Revue et rétrospective du sprint 33, puis clôture | 0,75 h | Orchestrateur |
-| T-207-04 | US-207 | TEST | Tests rouges, **rouge prouvé (règle 27)**, commités seuls : page listée, sitemap, données structurées, pages privées, route non listée, ton neutre … | 1,25 h | Claude |
-| T-207-05 | US-207 | BE | Liste blanche unique, `NoIndexSubscriber` (refus par défaut), `RobotsController`, réglage d'activation (désactivé par défaut) | 1,25 h | Claude |
-| T-207-06 | US-207 | BE | `sitemap.xml` : liste blanche, `hreflang` FR/EN et `x-default`, hôte canonique, référencé par `robots.txt` | 1 h | Claude |
-| T-207-07 | US-207 | FE-WEB | Titres, descriptions, canonical, Open Graph et `hreflang` par page (FR et EN, charte, ton neutre) | 1 h | Claude |
-| T-207-08 | US-207 | BE | Données structurées JSON-LD : `WebSite`, `Person`, `SoftwareSourceCode` ; exclusions | 0,75 h | Claude |
-| T-207-09 | US-207 | TEST | Tests existants de la table adaptés (ligne de registre avant), fixture du routeur, `bin/verify-public-mode` | 0,5 h | Claude |
-| T-207-10 | US-207 | DOC | Documents (`ouverture-publique`, `durcissement-demo`, `seo-et-vitesse`, `dossier-de-go`), runbook, phrase de la page Architecture | 0,75 h | Claude |
 | T-207-15 | US-207 | REV | Revue (ton neutre, exclusions, aucun détail sensible) et table « scénario → test ou preuve » | 0,25 h | Claude |
 | T-209-01 | US-209 | DOC | Cadrage et **relevé de départ sur les branches par défaut distantes** des 29 dépôts | 1,5 h | Claude |
 | T-209-02 | US-209 | TEST | Tests rouges du script, **rouge prouvé (règle 27)**, sur dépôts de fixtures | 1,5 h | Claude |
@@ -61,7 +54,6 @@ _Aucune tâche._
 | ID | US | Type | Tâche | Estimation | Réalisé par | Attend |
 |----|-----|------|-------|------------|-------------|--------|
 | T-207-02 | US-207 | TEST | État de référence « avant » : tests existants de la table lancés dès 5 Go | 0,25 h | Claude | disque |
-| T-207-03 | US-207 | OPS | 📅 Thibaut confirme la **liste blanche** et l'**activation** ; GO noté au registre avant d'activer | 0,25 h | Thibaut | Thibaut (cadrage T-207-01) |
 | T-207-11 | US-207 | TEST | Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile`, JSON-LD validé localement | 0,75 h | Claude | disque |
 | T-207-12 | US-207 | DOC | Captures : constat que le rendu est inchangé ; `docs/captures-vitrine.md` si une page change | 0,25 h | Claude | disque |
 | T-207-13 | US-207 | OPS | Image reconstruite ; production le jour du déploiement (`robots.txt`, en-têtes, sitemap, runbook, validateur, pa11y, largeurs) | 0,75 h | Claude | déploiement, T-207-03 |
@@ -82,6 +74,14 @@ _Aucune tâche._
 | T-TECH-33-01 | Transverse | DOC | **Règle 27 « rouge prouvé »** de la consigne de worker (faite au planning) | 0,25 h | Orchestrateur |
 | T-TECH-33-02 | Transverse | DOC | **Règle 28 : table « invariants de test » au cadrage**, table d'US-207 préremplie (faite au planning) | 0,25 h | Orchestrateur |
 | T-207-01 | US-207 | DOC | Cadrage : table « invariants de test » confirmée (règle 28), liste blanche proposée, canal B2C, hôte canonique, exclusions … | 0,75 h | Claude |
+| T-207-03 | US-207 | OPS | 📅 Thibaut confirme la **liste blanche** et l'**activation** ; GO noté au registre avant d'activer | 0,25 h | Thibaut | Thibaut (cadrage T-207-01) |
+| T-207-04 | US-207 | TEST | Tests rouges, **rouge prouvé (règle 27)**, commités seuls : page listée, sitemap, données structurées, pages privées, route non listée, ton neutre … | 1,25 h | Claude |
+| T-207-05 | US-207 | BE | Liste blanche unique, `NoIndexSubscriber` (refus par défaut), `RobotsController`, réglage d'activation (désactivé par défaut) | 1,25 h | Claude |
+| T-207-06 | US-207 | BE | `sitemap.xml` : liste blanche, `hreflang` FR/EN et `x-default`, hôte canonique, référencé par `robots.txt` | 1 h | Claude |
+| T-207-07 | US-207 | FE-WEB | Titres, descriptions, canonical, Open Graph et `hreflang` par page (FR et EN, charte, ton neutre) | 1 h | Claude |
+| T-207-08 | US-207 | BE | Données structurées JSON-LD : `WebSite`, `Person`, `SoftwareSourceCode` ; exclusions | 0,75 h | Claude |
+| T-207-09 | US-207 | TEST | Tests existants de la table adaptés (ligne de registre avant), fixture du routeur, `bin/verify-public-mode` | 0,5 h | Claude |
+| T-207-10 | US-207 | DOC | Documents (`ouverture-publique`, `durcissement-demo`, `seo-et-vitesse`, `dossier-de-go`), runbook, phrase de la page Architecture | 0,75 h | Claude |
 
 ## Métriques
 

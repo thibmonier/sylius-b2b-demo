@@ -82,7 +82,7 @@ operations:
         text: "Chaque nuit, les données de démonstration sont rechargées dans une seule transaction : un échec laisse la démo dans son état précédent."
     public:
         name: "Mode public"
-        text: "La démo est ouverte au public sans être indexée par les moteurs de recherche ; la bascule entre mode privé et mode public est documentée et réversible."
+        text: "La démo est ouverte au public ; seules ses pages vitrine peuvent être indexées par les moteurs de recherche, le reste du site reste hors de l'index ; la bascule entre mode privé et mode public est documentée et réversible."
 quality:
     title: "Qualité"
     gates: "Chaque changement passe par une demande de fusion et une CI bloquante : style de code (ECS), analyse statique PHPStan au niveau %phpstan%, Rector, et un seuil de couverture de lignes qui ne descend jamais."

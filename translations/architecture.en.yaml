@@ -82,7 +82,7 @@ operations:
         text: "Every night, the demo data is reloaded in a single transaction: a failure leaves the demo in its previous state."
     public:
         name: "Public mode"
-        text: "The demo is open to the public without being indexed by search engines; switching between private and public mode is documented and reversible."
+        text: "The demo is open to the public; only its showcase pages may be indexed by search engines, the rest of the site stays out of the index; switching between private and public mode is documented and reversible."
 quality:
     title: "Quality"
     gates: "Every change goes through a pull request and a blocking CI: coding standard (ECS), PHPStan static analysis at level %phpstan%, Rector, and a line coverage threshold that never goes down."

@@ -29,7 +29,7 @@ Document de décision pour Thibaut. Dépôt public : ce dossier ne donne que des
 
 Prérequis de communication du sprint 16, **non bloquants pour le GO technique** : US-144 (bandeau newsletter retiré, fait), US-142 (appel à l'action : la cible du bandeau est depuis le 2026-10-21 le profil LinkedIn, variable `DEMO_PROFILE_URL` à poser dans Railway ; « Écrire un message » attend l'adresse de la page contact du site, en construction), US-143 (mesure d'audience Umami posée le 2026-10-19 ; correctif en cours : la politique de sécurité de contenu n'autorisait pas le domaine de collecte, aucune donnée ne remontait encore).
 
-Vitesse et référencement (US-078, Should, hors bloquant) : meta description et aperçu de lien ajoutés, polices et images allégées ; démo toujours `noindex`. Voir [seo-et-vitesse.md](seo-et-vitesse.md) pour les mesures avant et après.
+Vitesse et référencement (US-078, Should, hors bloquant) : meta description et aperçu de lien ajoutés, polices et images allégées ; démo `noindex` par défaut ; seules les pages vitrine (liste blanche, US-207) sont indexables avec `DEMO_INDEXING=1`. Voir [seo-et-vitesse.md](seo-et-vitesse.md) pour les mesures avant et après.
 
 ## Revue de sécurité de réouverture (conclusions)
 
