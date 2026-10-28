@@ -176,6 +176,26 @@ final class PluginSupplyChainTest extends TestCase
         self::assertMatchesRegularExpression('/^FAIL dependabot\b.*github-actions/m', $process->getOutput());
     }
 
+    public function testADependabotEcosystemWithoutCooldownFails(): void
+    {
+        $repository = $this->repository('dependabot-cooldown', dependabot: "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n- package-ecosystem: github-actions\n  directory: \"/\"\n  schedule:\n    interval: weekly\n");
+
+        $process = $this->execute('check', $repository);
+
+        self::assertSame(1, $process->getExitCode());
+        self::assertMatchesRegularExpression('/^FAIL dependabot\b.*github-actions.*cooldown/m', $process->getOutput());
+    }
+
+    public function testApplyAddsACooldownToTheExistingDependabotEcosystems(): void
+    {
+        $repository = $this->legacyRepository('cooldown');
+
+        $this->execute('apply', $repository, '--write');
+
+        $dependabot = (string) file_get_contents($repository . '/.github/dependabot.yml');
+        self::assertSame(2, substr_count($dependabot, 'default-days: 7'));
+    }
+
     public function testItRefusesADirectoryOutsideTheAllowedRoot(): void
     {
         $outside = sys_get_temp_dir() . '/plugin-supply-chain-outside-' . bin2hex(random_bytes(4));
@@ -474,7 +494,7 @@ final class PluginSupplyChainTest extends TestCase
     }
 
     /** @param array<string, mixed>|null $composer */
-    private function repository(string $name, ?string $workflow = null, ?array $composer = null, ?string $dependabot = "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: weekly\n- package-ecosystem: github-actions\n  directory: \"/\"\n  schedule:\n    interval: weekly\n", bool $trackLock = false): string
+    private function repository(string $name, ?string $workflow = null, ?array $composer = null, ?string $dependabot = "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n- package-ecosystem: github-actions\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n", bool $trackLock = false): string
     {
         $files = [
             '.github/workflows/build.yaml' => $workflow ?? $this->conformingWorkflow(),
