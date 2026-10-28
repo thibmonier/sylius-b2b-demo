@@ -330,9 +330,10 @@ final class PluginSupplyChainTest extends TestCase
 
         $workflow = Yaml::parse((string) file_get_contents($repository . '/.github/workflows/build.yaml'));
         $steps = $workflow['jobs']['resolve']['steps'];
-        $names = array_column($steps, 'name');
+        $names = array_map(static fn (array $step): string => $step['name'] ?? '', $steps);
         $audit = array_search('Audit of the resolved PHP dependencies', $names, true);
-        self::assertSame(array_search('Resolve the pack in a throwaway project', $names, true) + 1, $audit);
+        self::assertIsInt($audit);
+        self::assertSame('Resolve the pack in a throwaway project', $names[$audit - 1]);
         self::assertSame('cd "$RUNNER_TEMP/project" && composer audit --locked --abandoned=report', $steps[$audit]['run']);
     }
 
