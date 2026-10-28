@@ -35,11 +35,12 @@ Après le sprint 33 en cours (US-207, US-209).
 | 38 | EPIC-16 MVP, seconde moitié : ajout par référence, garde-fous, mode rejoué | US-213, US-214, US-215 | 13 |
 | 39 | EPIC-17 attrition ; EPIC-18 tranche 2 (mode sombre AAA, saisie rapide) | US-220, US-226, US-227 | 13 |
 | 40 | EPIC-18 pages (home, liste, fiche, panier, compte) et test de dérive (proposé, au-delà du séquencement validé) | US-223, US-224, US-225 | 13 |
-| 41 | Démo sur le thème publié, intégration du DPP, contenus transverses (proposé) | US-228, US-235, US-236, US-237 | 16 |
+| 41 | Démo sur le thème publié, intégration du DPP, contenus transverses | US-228, US-235, US-236, US-237 | 16 |
+| 42 | Copilote : adaptateur LLM réel pour les intégrateurs (la démo publique reste en mode rejoué) | US-216 | 5 |
 
-Hors sprint : US-216 (5 pts), US-234 (3 pts).
+Hors sprint : US-234 (3 pts, Could, bonus).
 
-**Écarts à la vélocité à arbitrer par Thibaut** : le sprint 34 monte à 14 points (trois spikes de 3 points plus la tranche 1 du thème), les sprints 36 et 39 sont à leur limite, le sprint 41 monte à 16 points. Les sprints 40 et 41 prolongent le séquencement validé (S34 à S39) parce que le thème complet (pages, test de dérive, démo sur le paquet publié) ne tient pas dans les sprints 34 et 39 à cette vélocité.
+**Décisions de Thibaut du 2026-10-28** (« ok pour les 3 ») : séquencement S34 à S41 validé, écarts de capacité (S34 14, S36 14, S41 16) ajustés au planning de chaque sprint ; US-216 planifiée (sprint 42, car le sprint 38 est déjà à 13 points) ; US-234 reste non planifiée. Écarts initiaux : le sprint 34 monte à 14 points (trois spikes de 3 points plus la tranche 1 du thème), les sprints 36 et 39 sont à leur limite, le sprint 41 monte à 16 points. Les sprints 40 et 41 prolongent le séquencement validé (S34 à S39) parce que le thème complet (pages, test de dérive, démo sur le paquet publié) ne tient pas dans les sprints 34 et 39 à cette vélocité.
 
 ## Risques
 
@@ -51,4 +52,4 @@ Hors sprint : US-216 (5 pts), US-234 (3 pts).
 | Maintenance des surcharges du thème | Dérive à chaque mise à jour de Sylius | Test de dérive des gabarits (US-225), CI planifiée sur Sylius 2.2/2.3, empreintes revues |
 | Recoupement avec Sylius Plus | Contradiction avec la politique de communication | Vérification dans chaque spike ; pas de promotion en cas de recoupement ; ton neutre |
 | Disque de la machine | Tests et rendus locaux impossibles (4,7 Go libres relevés le 2026-10-28) | Seuils de la consigne des workers (5 Go avant rendu, 6 Go avant suite complète), nettoyage des worktrees terminés, CI plutôt que local |
-| Surcharge de capacité | Sprints au-dessus de 13 points | Arbitrage de Thibaut ; Could non planifiées (US-216, US-234) |
+| Surcharge de capacité | Sprints au-dessus de 13 points | Ajustement au planning de chaque sprint ; US-234 non planifiée |

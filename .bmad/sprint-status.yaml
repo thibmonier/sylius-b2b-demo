@@ -541,7 +541,7 @@ backlog:
   - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-214, title: "Copilote d'achat : garde-fous et journal d'audit", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-216, title: "Copilote d'achat : adaptateur LLM réel pour les intégrateurs", points: 5, status: backlog}  # EPIC-16, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-216, title: "Copilote d'achat : adaptateur LLM réel pour les intégrateurs", points: 5, status: backlog}  # EPIC-16, Could ; planifiée au sprint 42 (décision de Thibaut du 2026-10-28)
   - {id: US-217, title: "Commerce prédictif : squelette du plugin et intervalle médian de réassort par référence", points: 5, status: backlog}  # EPIC-17, Must ; sprint 35 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: backlog}  # EPIC-17, Must ; sprint 35 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: backlog}  # EPIC-17, Must ; sprint 35 (proposé) ; décision de Thibaut du 2026-10-28
