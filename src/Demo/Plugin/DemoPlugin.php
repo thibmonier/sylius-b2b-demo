@@ -20,6 +20,7 @@ final readonly class DemoPlugin
         public bool $published = true,
         public bool $installed = true,
         public bool $listed = true,
+        public bool $structuredData = true,
     ) {
     }
 

@@ -1,4 +1,4 @@
-{# US-078: description, canonical address and share metadata (Open Graph, Twitter) of every shop page. The demo stays noindex (X-Robots-Tag, NoIndexSubscriber): these tags only make a pasted link look right. Included by the shop layout with the title of the page. #}
+{# US-078: description, canonical address and share metadata (Open Graph, Twitter) of every shop page. US-207: the pages of the whitelist (IndexablePages) are indexable once the indexing setting is on and carry their language alternates and structured data; every other page stays noindex (X-Robots-Tag, NoIndexSubscriber), these tags only make a pasted link look right. Included by the shop layout with the title of the page. #}
 {% set seo_name = '' %}
 {% set seo_text = null %}
 {% set seo_image = null %}
@@ -28,3 +28,11 @@
 <meta name="twitter:title" content="{{ seo_title }}">
 <meta name="twitter:description" content="{{ seo_description }}">
 <meta name="twitter:image" content="{{ seo_image }}">
+{% set seo_route = app.request.attributes.get('_route') %}
+{% for alternate in app_seo_alternates(seo_route) %}
+<link rel="alternate" hreflang="{{ alternate.hreflang }}" href="{{ alternate.url }}">
+{% endfor %}
+{% set seo_structured_data = app_seo_structured_data(seo_route, app.request.pathInfo, app.request.locale) %}
+{% if seo_structured_data %}
+<script type="application/ld+json">{{ seo_structured_data|raw }}</script>
+{% endif %}

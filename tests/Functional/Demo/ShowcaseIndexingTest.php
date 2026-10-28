@@ -314,7 +314,7 @@ final class ShowcaseIndexingTest extends WebTestCase
         $repositories = $this->nodesOfType($page, 'SoftwareSourceCode');
         self::assertNotSame([], $repositories);
         foreach ($repositories as $repository) {
-            self::assertMatchesRegularExpression('#^https://github\.com/thibmonier/[a-z0-9-]+$#', (string) ($repository['codeRepository'] ?? ''));
+            self::assertMatchesRegularExpression('#^https://github\.com/thibmonier/[a-z0-9-]+$#', self::repository($repository));
         }
     }
 
@@ -336,7 +336,7 @@ final class ShowcaseIndexingTest extends WebTestCase
         self::assertNotSame([], $excluded, 'The catalogue flags the plugins left out of the structured data.');
 
         $page = $client->request('GET', '/fr_FR/plugins');
-        $repositories = array_map(static fn (array $node): string => (string) ($node['codeRepository'] ?? ''), $this->nodesOfType($page, 'SoftwareSourceCode'));
+        $repositories = array_map(self::repository(...), $this->nodesOfType($page, 'SoftwareSourceCode'));
         self::assertCount(\count($allowed), $repositories);
         foreach ($excluded as $entry) {
             self::assertNotContains('https://github.com/thibmonier/' . $entry['slug'], $repositories);
@@ -391,8 +391,8 @@ final class ShowcaseIndexingTest extends WebTestCase
     private function alternates(Crawler $page): array
     {
         $alternates = [];
-        foreach ($page->filter('link[rel="alternate"][hreflang]') as $link) {
-            $alternates[(string) $link->getAttribute('hreflang')] = (string) $link->getAttribute('href');
+        foreach ($page->filter('link[rel="alternate"][hreflang]')->each(static fn (Crawler $link): array => [(string) $link->attr('hreflang'), (string) $link->attr('href')]) as [$hreflang, $href]) {
+            $alternates[$hreflang] = $href;
         }
         ksort($alternates);
 
@@ -402,7 +402,7 @@ final class ShowcaseIndexingTest extends WebTestCase
     /** @return list<string> raw JSON of every structured data block */
     private function jsonLd(Crawler $page): array
     {
-        return array_values($page->filter('script[type="application/ld+json"]')->each(static fn (Crawler $node): string => $node->html()));
+        return $page->filter('script[type="application/ld+json"]')->each(static fn (Crawler $node): string => $node->html());
     }
 
     /** @return list<array<string, mixed>> every node of the structured data (graph or single object) */
@@ -413,7 +413,10 @@ final class ShowcaseIndexingTest extends WebTestCase
             $data = json_decode($json, true, 512, \JSON_THROW_ON_ERROR);
             self::assertIsArray($data);
             self::assertSame('https://schema.org', $data['@context'] ?? null);
-            foreach ($data['@graph'] ?? [$data] as $node) {
+            $graph = $data['@graph'] ?? [$data];
+            self::assertIsArray($graph);
+            foreach ($graph as $node) {
+                self::assertIsArray($node);
                 $nodes[] = $node;
             }
         }
@@ -430,6 +433,15 @@ final class ShowcaseIndexingTest extends WebTestCase
     /** @return list<string> */
     private function types(Crawler $page): array
     {
-        return array_map(static fn (array $node): string => (string) ($node['@type'] ?? ''), $this->nodes($page));
+        return array_map(static fn (array $node): string => \is_string($node['@type'] ?? null) ? $node['@type'] : '', $this->nodes($page));
+    }
+
+    /** @param array<string, mixed> $node */
+    private static function repository(array $node): string
+    {
+        $repository = $node['codeRepository'] ?? '';
+        self::assertIsString($repository);
+
+        return $repository;
     }
 }

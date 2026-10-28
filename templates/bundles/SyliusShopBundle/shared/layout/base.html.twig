@@ -12,9 +12,11 @@
             {% hook '#metatags' with { _prefixes: prefixes } %}
         {% endblock %}
 
-        <title>{% block title %}{{ sylius.channel.name }}{% endblock %}</title>
+        {# US-207: an indexable page carries a title written for the search (translation `title.<route>` of the `seo` domain), the others keep the one of their template. #}
+        {% set seo_page_title = app_seo_title(app.request.attributes.get('_route')) %}
+        <title>{% if seo_page_title %}{{ seo_page_title }}{% else %}{% block title %}{{ sylius.channel.name }}{% endblock %}{% endif %}</title>
         {# US-078: description, canonical and share metadata #}
-        {% include 'shop/seo/metatags.html.twig' with { seo_title: app_seo_plain_text(block('title')) } %}
+        {% include 'shop/seo/metatags.html.twig' with { seo_title: app_seo_plain_text(seo_page_title ?? block('title')) } %}
 
         {% block stylesheets %}
             {% hook '#stylesheets' with { _prefixes: prefixes } %}

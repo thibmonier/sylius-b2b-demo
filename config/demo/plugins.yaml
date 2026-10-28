@@ -4,10 +4,12 @@
 # plugin's composer.json. demo_route = name of a real shop route showing the plugin (null when the
 # plugin is only visible in the admin panel, the API or at checkout). Categories: purchasing,
 # billing, catalog, integration, compliance, admin. published: false = not on Packagist yet; installed: false = not
-# installed in this demo (card marked "coming soon" instead of "in progress").
+# installed in this demo (card marked "coming soon" instead of "in progress"). structured_data: false = the plugin is left out of the
+# structured data of the indexed pages (US-207).
 parameters:
     demo.plugin_catalog:
         - slug: sylius-admin-order-creation-plugin
+          structured_data: false
           name: 'Admin Order Creation'
           category: admin
           description:
@@ -96,6 +98,7 @@ parameters:
               en: "In the admin, press Ctrl+K and type a customer name or an order number to jump straight to it."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-company-accounts-plugin
+          structured_data: false
           name: 'Company Accounts'
           category: purchasing
           description:
@@ -151,6 +154,7 @@ parameters:
               en: "Open the fictitious demonstration platform page: four simulated status scenarios, fixed by the demo data, with no real platform."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-erp-flatfile-plugin
+          structured_data: false
           name: 'ERP Flat-file'
           category: integration
           description:
@@ -207,6 +211,7 @@ parameters:
               en: "Inspect a simulated PunchOut session from a procurement system (Ariba, SAP, Coupa), then transfer the cart back to your ERP."
           advised_account: claire@acme.example
         - slug: sylius-purchase-approval-plugin
+          structured_data: false
           name: 'Purchase Approval'
           category: purchasing
           description:
@@ -218,6 +223,7 @@ parameters:
               en: "Place an order above your spending limit, then sign in as Paul (approver): the \"Approvals\" entry of the header shows how many orders wait for him and leads to the list to decide. Isabelle (administrator) has the same entry: she decides too, within her own limit. Claire (buyer) never has it."
           advised_account: claire@acme.example
         - slug: sylius-quick-order-plugin
+          structured_data: false
           name: 'Quick Order'
           category: purchasing
           description:
@@ -229,6 +235,7 @@ parameters:
               en: "Paste \"SKU;quantity\" lines into quick order, check the preview and add everything to the cart at once."
           advised_account: claire@acme.example
         - slug: sylius-quote-request-plugin
+          structured_data: false
           name: 'Quote Request'
           category: purchasing
           description:
@@ -251,6 +258,7 @@ parameters:
               en: "Register on the B2B channel: your account stays pending (waiting page, prices hidden). Then sign in as Sophie, approve it in Customers > Registrations, and find the e-mail in the demo mailbox."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-tier-pricing-plugin
+          structured_data: false
           name: 'Tier Pricing'
           category: catalog
           description:
@@ -295,6 +303,7 @@ parameters:
               en: "In the admin, browse the outgoing webhooks, retry a failed delivery and replay an event."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-withdrawal-plugin
+          structured_data: false
           name: 'Withdrawal'
           category: compliance
           description:

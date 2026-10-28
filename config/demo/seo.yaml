@@ -1,0 +1,26 @@
+# US-207: indexation of the showcase pages. The whitelist below is the only list of the indexable routes: the
+# NoIndexSubscriber (header), the RobotsController (robots.txt) and the sitemap all read it. A route that is not here
+# answers `noindex, nofollow` (refusal by default). Nothing is indexable unless DEMO_INDEXING=1 is set, in the demo
+# mode and with the private gate closed; absent or 0 = the whole site stays out of the index.
+parameters:
+    env(DEMO_INDEXING): '0'
+    demo.indexing.enabled: '%env(bool:DEMO_INDEXING)%'
+    demo.seo.indexable_routes:
+        - sylius_shop_homepage
+        - app_demo_plugins
+        - app_demo_architecture
+        - app_demo_proof
+        - app_demo_about
+        - app_demo_integrate
+        - app_demo_mcp_guide
+        - app_demo_override_guide
+        - app_demo_compatibility
+        - app_demo_packs
+    # URL locale => hreflang value; the default locale is the target of `/` and of x-default.
+    demo.seo.locales:
+        fr_FR: fr-FR
+        en_US: en-US
+    demo.seo.default_locale: fr_FR
+    # Facts of the structured data (public repositories and author), never written in a template or a translation.
+    demo.seo.author_name: 'Thibaut Monier'
+    demo.seo.demo_repository: 'https://github.com/thibmonier/sylius-b2b-demo'

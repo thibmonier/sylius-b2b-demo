@@ -87,6 +87,9 @@ export default defineRailway(() => {
       DEMO_PROFILE_URL: preserve(),
       DEMO_CONTACT_URL: preserve(),
       DEMO_SITE_URL: preserve(),
+      // US-207: indexation of the showcase pages (1 = on, absent or 0 = the whole site stays out of the index). Set by the
+      // owner in Railway once the pages are approved, so it must stay listed here.
+      DEMO_INDEXING: preserve(),
       MAILER_DSN: "smtp://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:1025",
       DEMO_MAILPIT_API_URL: "http://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:8025",
       DEMO_MAILPIT_URL: "",
