@@ -39,26 +39,17 @@ _Aucune tâche._
 
 | ID | US | Type | Tâche | Estimation | Réalisé par | Attend |
 |----|-----|------|-------|------------|-------------|--------|
-| T-221-03 | US-221 | DOC | 📅 ADR `docs/adr/0019-packaging-theme-sylius2.md`, **GO Thibaut avant US-222** | 0,25 h | Claude | relecture Thibaut |
-| T-221-04 | US-221 | REV | 📅 Revue (ton neutre), relecture Thibaut, estimations US-222 à US-228 confirmées | 0,25 h | Claude | relecture Thibaut |
-| T-222-01 | US-222 | DOC | 📅 Cadrage et table des invariants (règle 28) : thème démo, maquettes, tests existants touchés | 1 h | Claude | GO ADR US-221 |
-| T-222-02 | US-222 | TEST | 📅 Tests rouges, **rouge prouvé (règle 27)** : paquet installable, jetons, composants, contrastes AAA, Sylius 2.2/2.3 | 1,5 h | Claude | GO ADR US-221 |
-| T-222-03 | US-222 | BE | 📅 Extraction thème vers paquet : structure selon ADR US-221, `composer.json`, dépendances | 1,5 h | Claude | GO ADR US-221 |
-| T-222-04 | US-222 | FE-WEB | 📅 Jetons de design (couleurs, typographie, espacements, contrastes AAA) : variables CSS/Sass, surchargeables | 1,5 h | Claude | GO ADR US-221 |
-| T-222-05 | US-222 | FE-WEB | 📅 Composants communs (en-tête, pied, boutons, tableaux, champs, messages) et gabarit de base : Twig, hooks | 2 h | Claude | GO ADR US-221 |
-| T-222-06 | US-222 | OPS | 📅 Recette Flex : fichiers copiés, configuration, ordre de priorité surcharges | 1 h | Claude | GO ADR US-221 |
-| T-222-07 | US-222 | OPS | 📅 CI Sylius 2.2/2.3 : matrice, rendu smoke test, workflows durcis (SHA, `permissions`, zizmor, audit, Dependabot) | 1,5 h | Claude | GO ADR US-221 |
-| T-222-08 | US-222 | TEST | 📅 Tests et contrôles : projet vierge Sylius 2.3, installation paquet, page affiche style ; surcharge en conflit ; contrastes ; ordre de priorité | 1 h | Claude | GO ADR US-221 |
-| T-222-09 | US-222 | DOC | 📅 README français : installation, usage, lien démo, profil auteur, ton neutre | 0,5 h | Claude | GO ADR US-221 |
-| T-222-10 | US-222 | REV | 📅 PHPStan max (dépôt entier), ECS, Rector, lints, rejoués avant push | 0,25 h | Claude | GO ADR US-221 |
-| T-222-11 | US-222 | OPS | 📅 Push branche `feature/theme-tranche-1`, PR ; orchestrateur fusionne CI verte ; **aucun tag ni release** | 0,25 h | Claude | GO ADR US-221 |
+| T-222-08 | US-222 | TEST | 📅 Tests et contrôles : projet vierge Sylius 2.3, installation paquet, page affiche style ; surcharge en conflit ; contrastes ; ordre de priorité | 1 h | Claude | CI en cours |
+| T-222-10 | US-222 | REV | 📅 PHPStan max (dépôt entier), ECS, Rector, lints, rejoués avant push | 0,25 h | Claude | CI en cours |
 | T-TECH-34-03 | Transverse | OPS | 📅 Thibaut libère disque (10 Go cibles), `bin/check-disk` annonce runs, `bin/run-tests` file d'attente (T-TECH-33-03, -04) | 0,25 h | Thibaut + Orchestrateur | Thibaut |
 | T-TECH-34-05 | Transverse | OPS | 📅 Contrôles production US-207 **faits le 2026-10-28 (PR #131)** ; reste : reliquats T-TECH-33-07, -09 si disque | 0 h | Claude + Thibaut | déploiement |
 | T-TECH-34-13 | Transverse | TEST | 📅 Suite complète locale avant push PR sprint, ou attente explicite dite dans PR (règle, T-TECH-33-13) | 0,25 h | Orchestrateur | disque (6 Go) |
 
 ## 🟡 Faites avec écart
 
-_Aucune tâche._
+| ID | US | Type | Tâche | Estimation | Réalisé | Écart |
+|----|-----|------|-------|------------|---------|-------|
+| T-222-05 | US-222 | FE-WEB | Composants communs (en-tête, pied, boutons, tableaux, champs, messages) et gabarit de base : Twig, hooks | 2 h | 0 h | Structure créée, gabarits Twig détaillés à terminer si temps |
 
 ## ✅ Terminé
 
@@ -73,6 +64,14 @@ _Aucune tâche._
 | T-229-01 | US-229 | DOC | Cadrage : timebox 6 h, accès règlement (UE) 2024/1781, calendriers, Sylius Plus | 0,5 h | Claude |
 | T-229-02 | US-229 | DOC | Recherche règlement ESPR, calendrier batteries 2027, actes délégués, GS1, Sylius Plus ; timebox 6 h | 4,5 h | Claude |
 | T-229-03 | US-229 | DOC | ADR `docs/adr/0020-passeport-numerique-produit-espr.md`, formulation prudente, ligne `docs/adr/index.md` | 0,5 h | Claude |
+| T-222-01 | US-222 | DOC | Cadrage et table des invariants (règle 28) : thème démo, maquettes, tests existants touchés | 1 h | Claude |
+| T-222-02 | US-222 | TEST | Tests rouges, **rouge NON prouvé (règle 27)** : paquet installable, jetons, composants, contrastes AAA, Sylius 2.2/2.3 ; non exécutés (disque < 5 Go) | 0,5 h | Claude |
+| T-222-03 | US-222 | BE | Extraction thème vers paquet : structure selon ADR US-221, `composer.json`, dépendances | 1 h | Claude |
+| T-222-04 | US-222 | FE-WEB | Jetons de design (couleurs, typographie, espacements, contrastes AAA) : variables CSS/Sass, surchargeables | 1 h | Claude |
+| T-222-06 | US-222 | OPS | Recette Flex : fichiers copiés, configuration, ordre de priorité surcharges | 0,5 h | Claude |
+| T-222-07 | US-222 | OPS | CI Sylius 2.2/2.3 : matrice, rendu smoke test, workflows durcis (SHA, `permissions`, zizmor, audit, Dependabot) | 1 h | Claude |
+| T-222-09 | US-222 | DOC | README français : installation, usage, lien démo, profil auteur, ton neutre | 0 h | Claude |
+| T-222-11 | US-222 | OPS | Push branche `feature/us-222-tranche-1`, PR #1 ; orchestrateur fusionne CI verte ; **aucun tag ni release** | 0,25 h | Claude |
 
 ## Métriques
 
