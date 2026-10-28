@@ -439,9 +439,19 @@ function auditStep(array $lines, array $config): array
             [$start, $end] = stepRange($lines, $index);
             $loneDash = 1 === preg_match('/^\s*-\s*$/', $lines[$start]);
             $dash = indentOf($lines[$start]);
+            // The audit runs when the installation does: it copies the condition of the step it follows.
+            $condition = null;
+            foreach (array_slice($lines, $start, $end - $start + 1) as $stepLine) {
+                $condition ??= 1 === preg_match('/^\s*(?:-\s+)?if:\s*(.+)$/', $stepLine, $found) ? $found[1] : null;
+            }
+            $key = str_repeat(' ', $loneDash ? $dash + 4 : $dash + 2);
             $step = $loneDash
-                ? [str_repeat(' ', $dash) . '-', str_repeat(' ', $dash + 4) . 'name: ' . $anchor['name'], str_repeat(' ', $dash + 4) . 'run: ' . $anchor['command']]
-                : [str_repeat(' ', $dash) . '- name: ' . $anchor['name'], str_repeat(' ', $dash + 2) . 'run: ' . $anchor['command']];
+                ? [str_repeat(' ', $dash) . '-', $key . 'name: ' . $anchor['name']]
+                : [str_repeat(' ', $dash) . '- name: ' . $anchor['name']];
+            if (null !== $condition) {
+                $step[] = $key . 'if: ' . $condition;
+            }
+            $step[] = $key . 'run: ' . $anchor['command'];
             array_splice($lines, $end + 1, 0, ['', ...$step]);
 
             return $lines;
