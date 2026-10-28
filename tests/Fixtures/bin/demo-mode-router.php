@@ -11,6 +11,8 @@ $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 // A string key: PHP 8.5 deprecates null as an array offset (parse_url returns null or false on odd input).
 $path = (string) parse_url(\is_string($requestUri) ? $requestUri : '/', \PHP_URL_PATH);
 $broken = getenv('DEMO_STUB_BREAK') ?: null;
+// US-207: DEMO_STUB_INDEXING=1 imitates the setting DEMO_INDEXING=1 (showcase pages open to robots, sitemap).
+$indexing = '1' === getenv('DEMO_STUB_INDEXING');
 
 $respond = static function (int $code, string $body = '', array $headers = []): void {
     http_response_code($code);
@@ -42,8 +44,15 @@ $answers = [
     '/api/v2/shop/products' => [404],
     '/fr_FR/products/mug/reviews/new' => [403],
 ];
+if ($indexing) {
+    $answers['/fr_FR/'] = [200, 'home'];
+    $answers['/fr_FR/plugins'] = [200, 'plugins'];
+    $answers['/fr_FR/login'] = [200, 'login', ['X-Robots-Tag: noindex, nofollow']];
+    $answers['/robots.txt'] = [200, "User-agent: *\nDisallow: /admin\n\nSitemap: https://stub.example/sitemap.xml\n"];
+    $answers['/sitemap.xml'] = [200, '<urlset/>'];
+}
 if ($broken === $path) {
-    $answers['/fr_FR/register'] = [200, 'open registration'];
+    $answers[$path] = '/fr_FR/login' === $path ? [200, 'login'] : [200, 'open registration'];
 }
 [$code, $body, $headers] = ($answers[$path] ?? [404]) + [1 => '', 2 => []];
 $respond($code, $body, $headers);

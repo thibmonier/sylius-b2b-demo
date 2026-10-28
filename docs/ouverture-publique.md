@@ -2,7 +2,7 @@
 
 Application de l'US-050. Pas-à-pas pour passer la démo de **privée** (porte HTTP basique) à **publique**, la vérifier, et revenir en arrière en un geste. La bascule n'est jamais faite sans **GO explicite** de l'utilisateur. Contexte : [durcissement-demo.md](durcissement-demo.md), [deploiement-railway.md](deploiement-railway.md), [mcp.md](mcp.md), [ADR-0008](adr/0008-securite-de-la-demo-publique.md).
 
-Politique : la démo est **publique mais non promue** (aucune annonce sur les canaux Sylius, aucune indexation par les moteurs de recherche) et ne contient **aucune donnée réelle**.
+Politique : la démo est **publique** (aucune annonce sur les canaux Sylius) et ne contient **aucune donnée réelle**. Par défaut aucune page n'est indexée ; depuis l'US-207, les **seules pages vitrine** de la liste blanche peuvent l'être, une fois le réglage `DEMO_INDEXING=1` posé (voir « robots.txt et noindex »).
 
 ## Les deux modes
 
@@ -17,8 +17,9 @@ Politique : la démo est **publique mais non promue** (aucune annonce sur les ca
 | `POST /api/v2/shop/customers` | `404` (API désactivée en production) | `404` (idem, le `403` ne vaut que si l'API est activée) |
 | Commande invité (étape adresse du checkout) | ouverte (canal Particuliers) | `403` pour un visiteur non connecté |
 | Demande de devis invité | ouverte | redirigée vers la connexion |
-| `robots.txt` | derrière la porte (`Disallow: /` pour qui a le mot de passe) | `User-agent: *` / `Disallow: /` |
-| En-tête `X-Robots-Tag` | `noindex, nofollow` | `noindex, nofollow` |
+| `robots.txt` | derrière la porte (`Disallow: /` pour qui a le mot de passe) | `Disallow: /` ; avec `DEMO_INDEXING=1`, seules les zones sans intérêt sont exclues et la ligne `Sitemap:` est publiée |
+| `sitemap.xml` | `404` | `404` ; avec `DEMO_INDEXING=1`, les pages vitrine en français et en anglais |
+| En-tête `X-Robots-Tag` | `noindex, nofollow` | `noindex, nofollow` ; avec `DEMO_INDEXING=1`, absent des seules pages vitrine |
 | `app:demo:preflight` | exige `DEMO_BASIC_AUTH_USER` et `DEMO_BASIC_AUTH_PASSWORD_HASH` valides | n'exige pas la porte, refuse de démarrer si les inscriptions ou l'endpoint PunchOut public sont ouverts |
 
 ### Règle inscriptions et invités (décision de l'US-050)
@@ -114,9 +115,15 @@ URL=https://<domaine>   # domaine Railway ou sous-domaine (DEMO_PUBLIC_HOST), vo
 # 5. Devis invité : renvoyé vers la connexion
 /usr/bin/curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' -b 'demo_channel=B2C' "$URL/fr_FR/quote-request"   # 302 .../login
 
-# 6. Moteurs de recherche tenus à l'écart
+# 6. Moteurs de recherche (réglage d'indexation absent ou à 0 : tenus à l'écart)
 /usr/bin/curl -s "$URL/robots.txt"                                                      # User-agent: * / Disallow: /
 /usr/bin/curl -sI "$URL/fr_FR/" | /usr/bin/grep -i x-robots-tag                         # noindex, nofollow
+
+# 6 bis. Réglage d'indexation à 1 (bin/verify-public-mode --indexing "$URL")
+/usr/bin/curl -s "$URL/robots.txt"                                                      # zones exclues + Sitemap: https://<hôte canonique>/sitemap.xml
+/usr/bin/curl -sI "$URL/fr_FR/plugins" | /usr/bin/grep -ci 'x-robots-tag'                # 0 : page vitrine indexable
+/usr/bin/curl -sI "$URL/fr_FR/login" | /usr/bin/grep -i x-robots-tag                    # noindex, nofollow : hors liste
+/usr/bin/curl -s -o /dev/null -w '%{http_code}\n' "$URL/sitemap.xml"                    # 200
 
 # 7. Guide MCP : sans avertissement « démo privée »
 /usr/bin/curl -s "$URL/fr_FR/mcp" | /usr/bin/grep -c 'data-mcp-private-note'            # 0
@@ -166,9 +173,15 @@ En urgence, sans passer par le dépôt : `railway variables --service web --set 
 
 ## robots.txt et noindex
 
-La démo n'est pas promue : `GET /robots.txt` répond `Disallow: /` et chaque réponse porte `X-Robots-Tag: noindex, nofollow`, dans les deux modes (`RobotsController`, `NoIndexSubscriber`). `public/robots.txt` n'existe plus : le serveur web servirait le fichier avant l'application, qui ne pourrait plus répondre selon le mode.
+**Par défaut** (réglage `DEMO_INDEXING` absent ou à `0`) : `GET /robots.txt` répond `Disallow: /` et chaque réponse porte `X-Robots-Tag: noindex, nofollow`, dans les deux modes (`RobotsController`, `NoIndexSubscriber`). `public/robots.txt` n'existe plus : le serveur web servirait le fichier avant l'application, qui ne pourrait plus répondre selon le mode.
 
-Limite connue : `Disallow: /` empêche l'exploration, donc un moteur peut ne pas lire l'en-tête `noindex` ; une adresse partagée par un tiers peut alors apparaître sans contenu. Pour désindexer une adresse déjà connue, il faudrait autoriser l'exploration (retirer le `Disallow`) le temps que le `noindex` soit lu. Non fait : la démo n'est pas promue, personne ne la publie.
+**Pages vitrine indexables (US-207).** Avec `DEMO_INDEXING=1`, en mode public (porte privée fermée), les routes de la liste blanche (`config/demo/seo.yaml`, paramètre `demo.seo.indexable_routes` : accueil, Plugins, Architecture, Preuve technique, À propos, les guides d'intégration, MCP et surcharge, Compatibilité, Packs, en français et en anglais) perdent l'en-tête `noindex`. Cette liste est la **seule** : l'en-tête, `robots.txt` et le sitemap la lisent. Toute autre route, y compris une route ajoutée plus tard, répond `noindex, nofollow` (refus par défaut), ainsi que le canal Particuliers (cookie `demo_channel`). `robots.txt` n'exclut alors que les zones sans intérêt à explorer (administration, `/demo`, `/api`, panier, commande, compte, paramètres de tri) : ce qui doit sortir de l'index passe par l'en-tête, qu'un moteur doit pouvoir lire. `sitemap.xml` est servi par l'application (aucun fichier écrit), sur l'hôte canonique (`DEFAULT_URI`), une entrée par page et par langue avec ses `hreflang` et `x-default`. Les pages indexables portent aussi un titre de recherche, leurs alternates de langue et des données structurées (`WebSite`, `Person`, `SoftwareSourceCode`, faits vérifiables seulement). Le mode privé reste fermé : `Disallow: /`, `noindex`, pas de sitemap.
+
+Le réglage est déclaré dans `.railway/railway.ts` par `preserve()` (une variable posée à la main et non déclarée serait supprimée par `config apply`). Il se pose après le déploiement, sur décision de Thibaut : `DEMO_INDEXING=1`. Retour arrière : le retirer ou le mettre à `0`.
+
+**Déclarer le sitemap (Thibaut, après la mise en ligne).** Dans la console du moteur de recherche, sur la propriété de l'hôte canonique : section « Sitemaps », saisir `sitemap.xml`, envoyer. Aucun compte n'est touché par le dépôt ni par Claude.
+
+Limite connue : tant que le réglage est à `0`, `Disallow: /` empêche l'exploration, donc un moteur peut ne pas lire l'en-tête `noindex` ; une adresse partagée par un tiers peut alors apparaître sans contenu.
 
 ## Rappel de non-promotion
 

@@ -10,7 +10,7 @@ Application des US-032 (porte privée) et US-036 (durcissement). Le code est dan
 - Le simulateur PunchOut appelle la boutique en boucle locale : il prouve son origine avec l'en-tête `X-Demo-Internal` (HMAC de `APP_SECRET`), accepté par la porte et par les entrées PunchOut (`POST /punchout/cxml` et, depuis US-053, `POST /punchout/oci/<code>`).
 - Fail-closed : porte active sans `DEMO_BASIC_AUTH_USER` / `DEMO_BASIC_AUTH_PASSWORD_HASH` valides (le hash est celui de `password_hash`, jamais un mot de passe en clair) : toutes les pages répondent `503` et `/health` aussi. `php bin/console app:demo:preflight` fait la même vérification pour l'entrypoint du conteneur, et, porte ouverte, refuse aussi des inscriptions ouvertes ou un endpoint PunchOut public (US-050).
 - Tout ce qui dépend de la porte lit le même paramètre `demo.basic_auth.enabled` (`BasicAuthGate::isActive()`) : porte, avertissement du guide MCP, preflight.
-- `robots.txt` (`Disallow: /`) et `X-Robots-Tag: noindex, nofollow` en mode démo, dans les deux modes ; `public/robots.txt` supprimé au profit de `RobotsController` (US-050).
+- `robots.txt` (`Disallow: /`) et `X-Robots-Tag: noindex, nofollow` en mode démo, dans les deux modes ; US-207 : seules les pages vitrine de la liste blanche sont indexables, et seulement avec `DEMO_INDEXING=1` en mode public (refus par défaut pour toute autre route, mode privé inchangé) ; `public/robots.txt` supprimé au profit de `RobotsController` (US-050).
 
 Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON2ID), PHP_EOL;'`. Dans un fichier `.env`, entourer la valeur de guillemets simples (le `$` y est interprété).
 

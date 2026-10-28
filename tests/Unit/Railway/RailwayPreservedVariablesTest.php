@@ -17,7 +17,7 @@ final class RailwayPreservedVariablesTest extends TestCase
     /** @return iterable<string, array{string}> */
     public static function variablesSetByTheOwner(): iterable
     {
-        foreach (['APP_SECRET', 'DEMO_BASIC_AUTH_USER', 'DEMO_BASIC_AUTH_PASSWORD_HASH', 'DEMO_PUBLIC_HOST', 'DEMO_UMAMI_SCRIPT_URL', 'DEMO_UMAMI_WEBSITE_ID', 'DEMO_UMAMI_COLLECT_URL', 'DEMO_PROFILE_URL', 'DEMO_CONTACT_URL', 'DEMO_SITE_URL'] as $name) {
+        foreach (['APP_SECRET', 'DEMO_BASIC_AUTH_USER', 'DEMO_BASIC_AUTH_PASSWORD_HASH', 'DEMO_PUBLIC_HOST', 'DEMO_UMAMI_SCRIPT_URL', 'DEMO_UMAMI_WEBSITE_ID', 'DEMO_UMAMI_COLLECT_URL', 'DEMO_PROFILE_URL', 'DEMO_CONTACT_URL', 'DEMO_SITE_URL', 'DEMO_INDEXING'] as $name) {
             yield $name => [$name];
         }
     }

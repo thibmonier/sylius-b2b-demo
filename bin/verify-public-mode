@@ -4,6 +4,7 @@
 # connections) stay manual: they flood the demo and need two IP addresses.
 #
 #   bin/verify-public-mode https://<domain> [PRODUCT_SLUG]            # public mode (after the switch)
+#   bin/verify-public-mode --indexing https://<domain> [PRODUCT_SLUG] # public mode once DEMO_INDEXING=1 is set (US-207)
 #   bin/verify-public-mode --private https://<domain>                  # private mode (gate closed, rollback, no GO)
 #
 # PRODUCT_SLUG (a product of the catalogue) enables check 12; without it, check 12 is skipped.
@@ -11,11 +12,15 @@
 set -eu
 
 MODE=public
+INDEXING=no
 if [ "${1:-}" = "--private" ]; then
     MODE=private
     shift
+elif [ "${1:-}" = "--indexing" ]; then
+    INDEXING=yes
+    shift
 fi
-[ $# -ge 1 ] && [ $# -le 2 ] || { echo "usage: bin/verify-public-mode [--private] URL [PRODUCT_SLUG]" >&2; exit 2; }
+[ $# -ge 1 ] && [ $# -le 2 ] || { echo "usage: bin/verify-public-mode [--private|--indexing] URL [PRODUCT_SLUG]" >&2; exit 2; }
 URL="${1%/}"
 SLUG="${2:-}"
 case "$URL" in
@@ -55,6 +60,26 @@ present() {
     case "$2" in *"$1"*) echo yes ;; *) echo no ;; esac
 }
 
+# absent "needle" "text": yes when the needle is not in the text.
+absent() {
+    case "$2" in *"$1"*) echo no ;; *) echo yes ;; esac
+}
+
+# absent_line "line" "text": yes when no line of the text is exactly the given one (Disallow: / alone, not Disallow: /zone).
+absent_line() {
+    if printf '%s\n' "$2" | grep -qxF "$1"; then echo no; else echo yes; fi
+}
+
+# robots_header PATH: the X-Robots-Tag header of the page, lower case, empty when there is none.
+robots_header() {
+    curl -sI -m 20 "$URL$1" | tr 'A-Z' 'a-z' | grep '^x-robots-tag' || true
+}
+
+# indexable PATH: yes when the page is served (200) without any noindex in its X-Robots-Tag.
+indexable() {
+    if [ "$(status "$1")" = 200 ]; then absent noindex "$(robots_header "$1")"; else echo no; fi
+}
+
 # redirect_to_login PATH: "redirect to login" when the page answers 302 towards a login URL, the raw answer otherwise.
 redirect_to_login() {
     answer=$(curl -s -m 20 -o /dev/null -w '%{http_code} %{redirect_url}' -b "$B2C" "$URL$1" || true)
@@ -89,8 +114,17 @@ else
     report '3  registration refused' 403 "$(status /fr_FR/register)"
     report '4  guest checkout refused (B2C)' 403 "$(status /fr_FR/checkout/address -b "$B2C")"
     report '5  guest quote redirected to the login' 'redirect to login' "$(redirect_to_login /fr_FR/quote-request)"
-    report '6  robots.txt disallows everything' yes "$(present 'Disallow: /' "$(body /robots.txt)")"
-    report '6  X-Robots-Tag noindex' yes "$(present noindex "$(curl -sI -m 20 "$URL/fr_FR/" | tr 'A-Z' 'a-z' | grep '^x-robots-tag' || true)")"
+    if [ "$INDEXING" = yes ]; then
+        # US-207: the showcase pages are open to robots, everything else keeps the header, the sitemap exists.
+        report '6  robots.txt does not disallow everything' yes "$(absent_line 'Disallow: /' "$(body /robots.txt)")"
+        report '6  robots.txt announces the sitemap' yes "$(present 'Sitemap: ' "$(body /robots.txt)")"
+        report '6  showcase page without noindex' yes "$(indexable /fr_FR/plugins)"
+        report '6  page outside the list keeps noindex' yes "$(present noindex "$(robots_header /fr_FR/login)")"
+        report '6  sitemap.xml answers' 200 "$(status /sitemap.xml)"
+    else
+        report '6  robots.txt disallows everything' yes "$(present 'Disallow: /' "$(body /robots.txt)")"
+        report '6  X-Robots-Tag noindex' yes "$(present noindex "$(robots_header /fr_FR/)")"
+    fi
     report '7  MCP guide without the private note' 'no note' "$(mcp_guide)"
     report '8  OAuth metadata published' 200 "$(status /.well-known/oauth-authorization-server)"
     report '9  REST API disabled in production' 404 "$(status /api/v2/shop/products)"

@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-28T08:05:25Z",
+    "generated_at": "2026-10-28T11:38:43Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -19,7 +19,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/actions/runs/40065079194",
+                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/actions/runs/40668251198",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -56,7 +56,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/actions/runs/40066051784",
+                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/actions/runs/40668284610",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -93,7 +93,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/actions/runs/40065843737",
+                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/actions/runs/40668601586",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -130,7 +130,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/actions/runs/40066770512",
+                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/actions/runs/40668296493",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -167,7 +167,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/actions/runs/40084285172",
+                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/actions/runs/40668407585",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -204,7 +204,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/actions/runs/40065670096",
+                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/actions/runs/40668590016",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -241,7 +241,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/actions/runs/40066042370",
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/actions/runs/40668307718",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -278,7 +278,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/actions/runs/40065249742",
+                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/actions/runs/40669967657",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -315,7 +315,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/actions/runs/40065590454",
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/actions/runs/40670291121",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -352,7 +352,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/actions/runs/40066303870",
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/actions/runs/40670311186",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -389,7 +389,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/actions/runs/40066468401",
+                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/actions/runs/40669989259",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -426,7 +426,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/40066848146",
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/40671681413",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -463,7 +463,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/actions/runs/40085413544",
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/actions/runs/40671703174",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -500,7 +500,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/40169800116",
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/40671386138",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -537,7 +537,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/actions/runs/40066115904",
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/actions/runs/40672927436",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -574,7 +574,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/actions/runs/40066231779",
+                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/actions/runs/40672946549",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -611,7 +611,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/actions/runs/40065291280",
+                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/actions/runs/40672966946",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -648,7 +648,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/actions/runs/40065505798",
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/actions/runs/40673255563",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -685,7 +685,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/40224506528",
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/40674268583",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -722,7 +722,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/actions/runs/40067013920",
+                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/actions/runs/40666766482",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -759,7 +759,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/actions/runs/40065602853",
+                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/actions/runs/40674288812",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -796,7 +796,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/actions/runs/40066630679",
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/actions/runs/40674052622",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -833,7 +833,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/actions/runs/40066222594",
+                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/actions/runs/40675088258",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -870,7 +870,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-timeline-plugin/actions/runs/40583772888",
+                "source": "https://github.com/thibmonier/sylius-timeline-plugin/actions/runs/40675333674",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -907,7 +907,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/actions/runs/40066943739",
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/actions/runs/40675354721",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -944,7 +944,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/actions/runs/40065411775",
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/actions/runs/40675375674",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -981,7 +981,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/actions/runs/40066674550",
+                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/actions/runs/40675723805",
                 "checked_at": "2026-10-28"
             },
             "phpstan": {
@@ -1004,7 +1004,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40649851595",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/40667810552",
             "checked_at": "2026-10-28"
         },
         "phpstan": {
@@ -1033,7 +1033,7 @@
             "checked_at": "2026-10-28"
         },
         "tests": {
-            "value": 318,
+            "value": 321,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-28"
         }

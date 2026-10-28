@@ -54,6 +54,16 @@ final class DemoPluginCatalog
         return array_values(array_filter($this->plugins, static fn (DemoPlugin $plugin): bool => $plugin->listed));
     }
 
+    /**
+     * The plugins described by the structured data of the indexed pages (US-207): listed, and not flagged out by the catalogue.
+     *
+     * @return list<DemoPlugin>
+     */
+    public function described(): array
+    {
+        return array_values(array_filter($this->listed(), static fn (DemoPlugin $plugin): bool => $plugin->structuredData));
+    }
+
     public function countListed(): int
     {
         return \count($this->listed());
@@ -134,6 +144,7 @@ final class DemoPluginCatalog
             ($entry['published'] ?? true) !== false,
             ($entry['installed'] ?? true) !== false,
             ($entry['listed'] ?? true) !== false,
+            ($entry['structured_data'] ?? true) !== false,
         );
     }
 

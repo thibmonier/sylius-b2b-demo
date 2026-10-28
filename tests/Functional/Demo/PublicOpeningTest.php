@@ -126,7 +126,7 @@ final class PublicOpeningTest extends WebTestCase
         self::assertFalse($client->getResponse()->isRedirect(), 'the quote form is served to a guest');
     }
 
-    public function testPublicModeAsksSearchEnginesToStayAway(): void
+    public function testPublicModeWithoutTheIndexingSettingAsksSearchEnginesToStayAway(): void
     {
         $this->publicMode();
         $client = self::createClient();
@@ -138,6 +138,25 @@ final class PublicOpeningTest extends WebTestCase
         self::assertMatchesRegularExpression('/^User-agent: \*\R+Disallow: \/\s*$/m', (string) $client->getResponse()->getContent());
 
         $client->request('GET', '/fr_FR/');
+        self::assertResponseHeaderSame('X-Robots-Tag', 'noindex, nofollow');
+    }
+
+    public function testPublicModeWithTheIndexingSettingListsTheShowcaseOnly(): void
+    {
+        $this->publicMode();
+        $this->setEnvironment(['DEMO_INDEXING' => '1', 'DEFAULT_URI' => 'https://showcase.example']);
+        $client = self::createClient();
+
+        $client->request('GET', '/robots.txt');
+        $robots = (string) $client->getResponse()->getContent();
+        self::assertDoesNotMatchRegularExpression('/^Disallow: \/\s*$/m', $robots);
+        self::assertStringContainsString('Disallow: /admin', $robots);
+        self::assertStringContainsString('Sitemap: https://showcase.example/sitemap.xml', $robots);
+
+        $client->request('GET', '/fr_FR/');
+        self::assertFalse($client->getResponse()->headers->has('X-Robots-Tag'));
+
+        $client->request('GET', '/fr_FR/login');
         self::assertResponseHeaderSame('X-Robots-Tag', 'noindex, nofollow');
     }
 

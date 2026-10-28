@@ -1,0 +1,78 @@
+{
+    "_comment": "US-209: public names only. First entry is the pilot, then 4 lots of 7 in order. The wishlist fork is excluded.",
+    "owner": "thibmonier",
+    "repositories": [
+        "sylius-quick-order-plugin",
+        "sylius-admin-order-creation-plugin",
+        "sylius-agentic-feeds-plugin",
+        "sylius-ai-catalog-copilot-plugin",
+        "sylius-audit-log-plugin",
+        "sylius-b2b-mcp-plugin",
+        "sylius-bulk-actions-plugin",
+        "sylius-channel-access-plugin",
+        "sylius-command-palette-plugin",
+        "sylius-company-accounts-plugin",
+        "sylius-company-insights-plugin",
+        "sylius-container-fill-plugin",
+        "sylius-customer-asset-management-plugin",
+        "sylius-einvoice-transmission-plugin",
+        "sylius-erp-flatfile-plugin",
+        "sylius-facturx-plugin",
+        "sylius-gpsr-plugin",
+        "sylius-order-hold-plugin",
+        "sylius-punchout-cxml-plugin",
+        "sylius-purchase-approval-plugin",
+        "sylius-quote-request-plugin",
+        "sylius-registration-approval-plugin",
+        "sylius-tier-pricing-plugin",
+        "sylius-timeline-plugin",
+        "sylius-trade-credit-plugin",
+        "sylius-webhook-outbox-plugin",
+        "sylius-withdrawal-plugin",
+        "sylius-pack-ai-headless",
+        "sylius-pack-compliance-tooling"
+    ],
+    "pinnedActions": {
+        "actions/checkout@v4": {
+            "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "tag": "v7.0.1"
+        },
+        "actions/checkout@v7": {
+            "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "tag": "v7.0.1"
+        },
+        "SyliusLabs/BuildTestAppAction@v4": {
+            "sha": "c3b108b5f3c299c55f429a8cf0ed88734d4f4979",
+            "tag": "v4.3.1"
+        },
+        "shivammathur/setup-php@v2": {
+            "sha": "eb7c497e18156a6bbabfef1d3a82760b9eda3962",
+            "tag": "v2.40.0"
+        },
+        "actions/upload-artifact@v4": {
+            "sha": "ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "tag": "v4.6.2"
+        },
+        "actions/setup-java@v4": {
+            "sha": "cf277c60eb25467037889841efdb72551f06f6c3",
+            "tag": "v4.9.1"
+        }
+    },
+    "zizmorImage": "ghcr.io/zizmorcore/zizmor:1.31.1@sha256:42d409dbb851d4c5d35a058cf042b828bea1e3f2884378c526eb0974780e18d9",
+    "auditCommand": "composer audit --abandoned=report",
+    "policy": {
+        "advisories": {
+            "block": true,
+            "audit": "fail"
+        },
+        "abandoned": {
+            "block": false,
+            "audit": "report"
+        },
+        "malware": {
+            "block": true,
+            "block-scope": "all",
+            "audit": "fail"
+        }
+    }
+}

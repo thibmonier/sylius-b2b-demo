@@ -3,15 +3,29 @@ description:
     sylius_shop_homepage: 'Fournitures Pro, boutique B2B de démonstration sous Sylius 2.3 : commande rapide, devis, achat sur compte et prix négociés pour les sociétés.'
     sylius_shop_product_index: 'Catalogue %name% de Fournitures Pro : références professionnelles, prix dégressifs et commande rapide pour les sociétés.'
     sylius_shop_product_show: '%name% sur Fournitures Pro : prix par palier, stock et commande rapide pour les professionnels.'
-    app_demo_plugins: 'Les plugins open source Sylius de Thibaut Monier, installés dans cette démo B2B : fonctions, état et dépôts GitHub.'
+    app_demo_plugins: 'Plugins open source pour Sylius B2B de Thibaut Monier, installés dans cette démo : fonctions, état et dépôts GitHub.'
     app_demo_about: 'À propos de Fournitures Pro : une boutique B2B fictive qui présente des plugins Sylius open source. Données inventées, remise à zéro régulière.'
     app_demo_legal_notice: 'Mentions légales de la démo Fournitures Pro : démonstration non commerciale, données fictives, aucun paiement réel.'
     sylius_shop_login: 'Connexion à la démo Fournitures Pro : comptes de démonstration société, acheteur et approbateur, sans inscription.'
     app_demo_accounts: 'Parcours et comptes de démonstration de Fournitures Pro : choisissez un rôle pour parcourir la boutique B2B.'
     app_demo_integrate: "Guide d'intégration des plugins Sylius B2B de Thibaut Monier : prérequis, installation, architecture type, questions à régler, dépôts."
-    app_demo_architecture: "Architecture de la démo Sylius B2B de Thibaut Monier : schéma d'ensemble, couches, flux, exploitation, qualité et sécurité, avec les liens vers le dépôt."
+    app_demo_architecture: "Architecture Sylius 2 d'une boutique B2B de démonstration : schéma d'ensemble, couches, flux, exploitation, qualité et sécurité."
     app_demo_override_guide: "Guide pour adapter un plugin Sylius sans le modifier : gabarit, formulaire, entité et service, chaque cas avec un exemple réel de la démo."
     app_demo_mcp_guide: 'Guide pour connecter un assistant IA à la boutique de démonstration par le serveur MCP de Sylius.'
     app_demo_proof: 'Preuve technique des plugins Sylius de Thibaut Monier : version publiée sur Packagist, compatibilité Sylius, CI, PHPStan et tests, chaque valeur avec sa source.'
     app_demo_packs: "Packs de plugins Sylius B2B de Thibaut Monier : plugins de chaque pack, commande d'installation et gestes restants à faire à la main."
     app_demo_compatibility: 'Compatibilité des plugins Sylius B2B de Thibaut Monier : versions de PHP, Sylius et Symfony testées par la CI de chaque plugin, combinaison de la démo et graphe des dépendances.'
+title:
+    sylius_shop_homepage: 'Fournitures Pro : démo B2B Sylius 2, plugins open source'
+    app_demo_plugins: 'Plugins Sylius B2B open source : liste, état et dépôts'
+    app_demo_architecture: "Architecture Sylius 2 : couches, flux et qualité d'une démo B2B"
+    app_demo_proof: 'Preuve technique des plugins Sylius B2B : CI, PHPStan, tests'
+    app_demo_about: 'À propos : plugins Sylius B2B open source de Thibaut Monier'
+    app_demo_integrate: "Guide d'intégration des plugins Sylius B2B : installation"
+    app_demo_mcp_guide: 'Connecter un assistant IA à Sylius avec le serveur MCP'
+    app_demo_override_guide: 'Adapter un plugin Sylius sans le modifier : guide et exemples'
+    app_demo_compatibility: 'Compatibilité des plugins Sylius B2B : PHP, Sylius, Symfony'
+    app_demo_packs: 'Packs de plugins Sylius B2B : installation en une commande'
+structured:
+    site_name: 'Fournitures Pro, boutique B2B de démonstration'
+    demo_name: 'Démo Sylius B2B : boutique de démonstration et plugins'

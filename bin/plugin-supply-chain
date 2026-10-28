@@ -1,0 +1,703 @@
+#!/usr/bin/env php
+<?php
+
+// Supply chain of the plugin repositories (US-209): the same checks as the demo (US-208) in every repository.
+//
+//   bin/plugin-supply-chain list [--lot=N]          # repository names (config/demo/plugin-repositories.json); lot 0 = pilot
+//   bin/plugin-supply-chain check DIR               # the controls on a local copy; exit 1 on a failed control
+//   bin/plugin-supply-chain apply DIR [--write]     # the changes (dry run by default); .github/ and composer.json "config" only
+//   bin/plugin-supply-chain report [NAME...]        # the controls on the remote default branches (gh), no sensitive detail
+//
+// DIR must be under /Users/tmonier/Projects/sylius_plugins (--allowed-root=PATH for the tests) and a Git repository.
+// apply --write also fetches origin and refuses the default branch and a branch behind it (plugin-repo-branch-check).
+// Exit codes: 0 conform, 1 a control failed, 2 refused or unusable input.
+
+declare(strict_types=1);
+
+const DEFAULT_ROOT = '/Users/tmonier/Projects/sylius_plugins';
+const HARDENING_BRANCH = 'chore/supply-chain-hardening';
+
+$base = dirname(__DIR__);
+$config = json_decode((string) file_get_contents($base . '/config/demo/plugin-repositories.json'), true, flags: JSON_THROW_ON_ERROR);
+
+function refuse(string $message): never
+{
+    fwrite(STDERR, $message . "\n");
+    exit(2);
+}
+
+/** @return array{int, string} */
+function git(string $directory, string ...$arguments): array
+{
+    $process = proc_open(['git', '-C', $directory, ...$arguments], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+    if (!is_resource($process)) {
+        refuse('Cannot run git');
+    }
+    $output = (string) stream_get_contents($pipes[1]);
+    stream_get_contents($pipes[2]);
+
+    return [proc_close($process), trim($output)];
+}
+
+function guard(string $directory, string $allowedRoot): string
+{
+    $real = realpath($directory);
+    $root = realpath($allowedRoot);
+    if (false === $real || false === $root) {
+        refuse("Unknown directory: $directory");
+    }
+    if (!str_starts_with($real . '/', $root . '/')) {
+        refuse("$real is outside the allowed directory $root");
+    }
+    if (!is_dir($real . '/.git')) {
+        refuse("$real is not a Git repository");
+    }
+
+    return $real;
+}
+
+/** Plugin-repo-branch-check: fetch, not the default branch, not behind it. */
+function guardBranch(string $directory): void
+{
+    if (0 !== git($directory, 'fetch', 'origin', '--quiet')[0]) {
+        refuse('git fetch origin failed: nothing is written');
+    }
+    [, $head] = git($directory, 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD');
+    $default = '' === $head ? 'origin/main' : $head;
+    [, $current] = git($directory, 'branch', '--show-current');
+    if ($current === substr($default, strlen('origin/'))) {
+        refuse("On the default branch $current: create " . HARDENING_BRANCH . " from $default first");
+    }
+    [, $behind] = git($directory, 'rev-list', '--count', "HEAD..$default");
+    if ((int) $behind > 0) {
+        refuse("Branch $current is $behind commit(s) behind $default: start again from " . HARDENING_BRANCH . " created from $default");
+    }
+}
+
+/** @return list<string> */
+function workflowFiles(string $directory): array
+{
+    $files = glob($directory . '/.github/workflows/*.y*ml') ?: [];
+    sort($files);
+
+    return $files;
+}
+
+/** @return list<string> */
+function readLines(string $file): array
+{
+    return explode("\n", rtrim((string) file_get_contents($file), "\n"));
+}
+
+function indentOf(string $line): int
+{
+    return strlen($line) - strlen(ltrim($line, ' '));
+}
+
+/** Index of the "uses:" key and its column, or null. */
+function usesOf(string $line): ?array
+{
+    if (1 !== preg_match('/^(\s*(?:-\s+)?)uses:\s*(\S+)/', $line, $match)) {
+        return null;
+    }
+
+    return ['column' => strlen($match[1]), 'ref' => $match[2]];
+}
+
+/** @return array<string, array{start: int, end: int}> jobs of a workflow: name => line range */
+function jobsOf(array $lines): array
+{
+    $jobs = [];
+    $inJobs = false;
+    $current = null;
+    foreach ($lines as $index => $line) {
+        if (1 === preg_match('/^\S/', $line) && !str_starts_with($line, '#')) {
+            $inJobs = 'jobs:' === rtrim($line);
+            $current = null;
+            continue;
+        }
+        if (!$inJobs) {
+            continue;
+        }
+        if (1 === preg_match('/^    ([\w-]+):\s*$/', $line, $match)) {
+            $current = $match[1];
+            $jobs[$current] = ['start' => $index, 'end' => $index];
+        } elseif (null !== $current && '' !== trim($line)) {
+            $jobs[$current]['end'] = $index;
+        }
+    }
+
+    return $jobs;
+}
+
+/** Lines of the step holding $index: from its first line to the line before the next step. */
+function stepRange(array $lines, int $index): array
+{
+    $column = usesOf($lines[$index])['column'] ?? (1 === preg_match('/^(\s*-\s+)\S/', $lines[$index], $dash) ? strlen($dash[1]) : indentOf($lines[$index]));
+    $start = $index;
+    while ($start > 0 && !(1 === preg_match('/^\s*-(\s|$)/', $lines[$start]) && indentOf($lines[$start]) < $column)) {
+        --$start;
+    }
+    $end = $index;
+    for ($i = $index + 1; $i < count($lines); ++$i) {
+        if ('' !== trim($lines[$i]) && indentOf($lines[$i]) < $column) {
+            break;
+        }
+        if ('' !== trim($lines[$i])) {
+            $end = $i;
+        }
+    }
+
+    return [$start, $end];
+}
+
+/** @param list<string> $lines @return array<string, array{start: int, lines: list<string>}> ecosystem => entry */
+function dependabotEntries(array $lines): array
+{
+    $entries = [];
+    $current = null;
+    foreach ($lines as $index => $line) {
+        if (1 === preg_match('/^\s*- package-ecosystem:\s*["\']?([\w-]+)/', $line, $match)) {
+            $current = $match[1];
+            $entries[$current] = ['start' => $index, 'lines' => []];
+        }
+        if (null !== $current) {
+            $entries[$current]['lines'][] = $line;
+        }
+    }
+
+    return $entries;
+}
+
+/** @return list<array{string, string, string}> [id, PASS|FAIL|N/A, message] */
+function check(string $directory, bool $tracksLock, string $base, array $config): array
+{
+    $results = [];
+    $files = workflowFiles($directory);
+    $workflows = [];
+    foreach ($files as $file) {
+        $workflows[basename($file)] = readLines($file);
+    }
+    $verdict = static function (string $id, array $problems, string $ok) use (&$results): void {
+        $results[] = [$id, [] === $problems ? 'PASS' : 'FAIL', [] === $problems ? $ok : implode('; ', $problems)];
+    };
+
+    $process = proc_open([PHP_BINARY, $base . '/bin/check-pinned-refs', $directory], [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
+    stream_get_contents($pipes[1]);
+    $unpinned = [];
+    foreach (explode("\n", (string) stream_get_contents($pipes[2])) as $line) {
+        if (1 === preg_match('/^KO (.+(?:action not pinned|pinned action without a version comment).*)$/', $line, $match)) {
+            $unpinned[] = $match[1];
+        }
+    }
+    proc_close($process);
+    $verdict('pinned-actions', $unpinned, 'every action is pinned by SHA with its version in a comment');
+
+    $problems = [];
+    foreach ($workflows as $name => $lines) {
+        if (!in_array('permissions: {}', array_map('rtrim', $lines), true)) {
+            $problems[] = "$name workflow without 'permissions: {}'";
+        }
+        foreach (jobsOf($lines) as $job => $range) {
+            $hasPermissions = false;
+            for ($i = $range['start'] + 1; $i <= $range['end']; ++$i) {
+                $hasPermissions = $hasPermissions || 1 === preg_match('/^ {8}permissions:/', $lines[$i]);
+            }
+            if (!$hasPermissions) {
+                $problems[] = "$name job $job without its own permissions";
+            }
+        }
+    }
+    $verdict('permissions', $problems, "no default token permission, each job declares its own");
+
+    $problems = [];
+    foreach ($workflows as $name => $lines) {
+        foreach ($lines as $index => $line) {
+            if (null === ($uses = usesOf($line)) || !str_starts_with($uses['ref'], 'actions/checkout@')) {
+                continue;
+            }
+            [$start, $end] = stepRange($lines, $index);
+            if (1 !== preg_match('/persist-credentials:\s*false/', implode("\n", array_slice($lines, $start, $end - $start + 1)))) {
+                $problems[] = "$name:" . ($index + 1) . ' checkout without persist-credentials: false';
+            }
+        }
+    }
+    $verdict('persist-credentials', $problems, 'every checkout sets persist-credentials: false');
+
+    $problems = [];
+    foreach ($workflows as $name => $lines) {
+        foreach ($lines as $index => $line) {
+            if (1 === preg_match('/pull_request_target/', $line) && !str_starts_with(ltrim($line), '#')) {
+                $problems[] = "$name:" . ($index + 1) . ' pull_request_target trigger';
+            }
+        }
+    }
+    $verdict('pull-request-target', $problems, 'no pull_request_target trigger');
+
+    $zizmor = false;
+    foreach ($workflows as $lines) {
+        $text = implode("\n", $lines);
+        $zizmor = $zizmor || (str_contains($text, 'zizmor') && str_contains($text, '@sha256:') && str_contains($text, '--offline'));
+    }
+    $verdict('zizmor', $zizmor ? [] : ['no zizmor job with a pinned image and --offline'], 'zizmor job with a pinned image, offline');
+
+    $problems = [];
+    $audits = 0;
+    foreach ($workflows as $name => $lines) {
+        foreach ($lines as $index => $line) {
+            if (1 !== preg_match('/\bcomposer audit\b/', $line) || str_starts_with(ltrim($line), '#')) {
+                continue;
+            }
+            ++$audits;
+            [$start, $end] = stepRange($lines, $index);
+            $step = implode("\n", array_slice($lines, $start, $end - $start + 1));
+            if (1 === preg_match('/\|\|\s*true|continue-on-error:\s*true/', $step)) {
+                $problems[] = "$name:" . ($index + 1) . ' the audit is not blocking';
+            }
+            if ($tracksLock && !str_contains($line, '--locked')) {
+                $problems[] = "$name:" . ($index + 1) . ' composer.lock is versioned: audit with --locked';
+            }
+        }
+    }
+    if (0 === $audits) {
+        $problems[] = 'no composer audit step';
+    }
+    $verdict('composer-audit', $problems, $tracksLock ? 'blocking composer audit --locked' : 'blocking composer audit after the installation');
+
+    $composer = is_file($directory . '/composer.json') ? json_decode((string) file_get_contents($directory . '/composer.json'), true) : null;
+    $settings = is_array($composer) ? ($composer['config'] ?? []) : [];
+    $verdict('policy', isset($settings['policy']) && is_array($settings['policy']) ? [] : ['config.policy is not declared'], 'config.policy is explicit');
+    $allow = $settings['allow-plugins'] ?? null;
+    $verdict('allow-plugins', is_array($allow) && [] === array_filter($allow, static fn ($value): bool => !is_bool($value)) ? [] : ['config.allow-plugins is not an explicit list of booleans'], 'config.allow-plugins is an explicit list');
+
+    $dependabot = is_file($directory . '/.github/dependabot.yml') ? (string) file_get_contents($directory . '/.github/dependabot.yml') : '';
+    $missing = array_filter(['composer', 'github-actions'], static fn (string $ecosystem): bool => 1 !== preg_match('/package-ecosystem:\s*["\']?' . $ecosystem . '\b/', $dependabot));
+    $problems = '' === $dependabot ? ['no .github/dependabot.yml'] : array_map(static fn (string $e): string => "dependabot has no $e ecosystem", array_values($missing));
+    foreach (dependabotEntries(explode("\n", $dependabot)) as $ecosystem => $entry) {
+        if (1 !== preg_match('/^\s*cooldown:/m', implode("\n", $entry['lines']))) {
+            $problems[] = "dependabot $ecosystem without cooldown";
+        }
+    }
+    $verdict('dependabot', $problems, 'Dependabot covers composer and github-actions, each with a cooldown');
+
+    if (!$tracksLock) {
+        $results[] = ['lock-review', 'N/A', 'no composer.lock is versioned: nothing to review'];
+    } else {
+        $reviewed = false;
+        foreach ($workflows as $lines) {
+            $reviewed = $reviewed || str_contains(implode("\n", $lines), 'check-lock-diff');
+        }
+        $results[] = ['lock-review', $reviewed ? 'PASS' : 'FAIL', $reviewed ? 'the lock diff is reviewed' : 'composer.lock is versioned but its diff is not reviewed (bin/check-lock-diff)'];
+    }
+
+    return $results;
+}
+
+/** @return list<string> files that would change: relative path => new content written by $write */
+function applyAll(string $directory, array $config, bool $write): array
+{
+    $changed = [];
+    $plan = [];
+    foreach (workflowFiles($directory) as $file) {
+        $original = readLines($file);
+        $lines = pinActions($original, $config);
+        $lines = emptyPermissions($lines);
+        $lines = persistCredentials($lines);
+        $lines = auditStep($lines, $config);
+        if (str_starts_with(basename($file), 'build') && !hasZizmor($lines)) {
+            $lines = zizmorJob($lines, $config);
+        }
+        $plan['.github/workflows/' . basename($file)] = [implode("\n", $original) . "\n", implode("\n", $lines) . "\n"];
+    }
+    $dependabot = $directory . '/.github/dependabot.yml';
+    $before = is_file($dependabot) ? (string) file_get_contents($dependabot) : '';
+    $plan['.github/dependabot.yml'] = [$before, dependabot($before)];
+    $composer = (string) file_get_contents($directory . '/composer.json');
+    $plan['composer.json'] = [$composer, composerConfig($composer, $config)];
+
+    foreach ($plan as $path => [$old, $new]) {
+        if ($old === $new) {
+            continue;
+        }
+        $changed[] = $path;
+        if ($write) {
+            if (!is_dir(dirname($directory . '/' . $path))) {
+                mkdir(dirname($directory . '/' . $path), 0o755, true);
+            }
+            file_put_contents($directory . '/' . $path, $new);
+        }
+    }
+
+    return $changed;
+}
+
+/** @param list<string> $lines @return list<string> */
+function pinActions(array $lines, array $config): array
+{
+    foreach ($lines as $index => $line) {
+        if (null === ($uses = usesOf($line)) || str_starts_with($uses['ref'], './') || 1 === preg_match('/@[0-9a-f]{40}$/', $uses['ref'])) {
+            continue;
+        }
+        $pin = $config['pinnedActions'][$uses['ref']] ?? null;
+        if (null === $pin) {
+            refuse("No pinned SHA for {$uses['ref']}: add it to config/demo/plugin-repositories.json first");
+        }
+        [$action] = explode('@', $uses['ref']);
+        $lines[$index] = substr($line, 0, $uses['column']) . "uses: $action@{$pin['sha']} # {$pin['tag']}";
+    }
+
+    return $lines;
+}
+
+/** @param list<string> $lines @return list<string> */
+function emptyPermissions(array $lines): array
+{
+    $top = null;
+    foreach ($lines as $index => $line) {
+        if (1 === preg_match('/^permissions:/', $line)) {
+            $top = $index;
+        }
+    }
+    if (null !== $top && 'permissions: {}' !== rtrim($lines[$top])) {
+        $end = $top;
+        while (isset($lines[$end + 1]) && (str_starts_with($lines[$end + 1], ' ') || '' === trim($lines[$end + 1])) && '' !== trim($lines[$end + 1])) {
+            ++$end;
+        }
+        array_splice($lines, $top, $end - $top + 1, ['permissions: {}']);
+    } elseif (null === $top) {
+        $jobs = array_search('jobs:', array_map('rtrim', $lines), true);
+        if (false === $jobs) {
+            return $lines;
+        }
+        array_splice($lines, $jobs, 0, ['# No default token permission: every job asks for what it needs (US-209).', 'permissions: {}', '']);
+    }
+
+    for ($again = true; $again;) {
+        $again = false;
+        foreach (jobsOf($lines) as $range) {
+            $has = false;
+            $runsOn = null;
+            for ($i = $range['start'] + 1; $i <= $range['end']; ++$i) {
+                $has = $has || 1 === preg_match('/^ {8}permissions:/', $lines[$i]);
+                $runsOn ??= 1 === preg_match('/^ {8}runs-on:/', $lines[$i]) ? $i : null;
+            }
+            if (!$has) {
+                array_splice($lines, ($runsOn ?? $range['start']) + 1, 0, ['        permissions:', '            contents: read']);
+                $again = true;
+                break;
+            }
+        }
+    }
+
+    return $lines;
+}
+
+/** @param list<string> $lines @return list<string> */
+function persistCredentials(array $lines): array
+{
+    for ($index = 0; $index < count($lines); ++$index) {
+        if (null === ($uses = usesOf($lines[$index])) || !str_starts_with($uses['ref'], 'actions/checkout@')) {
+            continue;
+        }
+        [$start, $end] = stepRange($lines, $index);
+        if (1 === preg_match('/persist-credentials:/', implode("\n", array_slice($lines, $start, $end - $start + 1)))) {
+            continue;
+        }
+        $withLine = null;
+        for ($i = $start; $i <= $end; ++$i) {
+            if (1 === preg_match('/^\s*with:\s*$/', $lines[$i])) {
+                $withLine = $i;
+            }
+        }
+        if (null !== $withLine) {
+            $itemColumn = isset($lines[$withLine + 1]) && $withLine < $end ? indentOf($lines[$withLine + 1]) : indentOf($lines[$withLine]) + 4;
+            array_splice($lines, $withLine + 1, 0, [str_repeat(' ', $itemColumn) . 'persist-credentials: false']);
+            continue;
+        }
+        array_splice($lines, $index + 1, 0, [str_repeat(' ', $uses['column']) . 'with:', str_repeat(' ', $uses['column'] + 4) . 'persist-credentials: false']);
+    }
+
+    return $lines;
+}
+
+/** @param list<string> $lines @return list<string> */
+function auditStep(array $lines, array $config): array
+{
+    $text = implode("\n", $lines);
+    if (str_contains($text, 'composer audit')) {
+        return $lines;
+    }
+    $anchors = [
+        ['match' => 'SyliusLabs/BuildTestAppAction', 'command' => $config['auditCommand'], 'name' => 'Audit of the PHP dependencies'],
+        ['match' => 'Resolve the pack in a throwaway project', 'command' => 'cd "$RUNNER_TEMP/project" && ' . str_replace('composer audit', 'composer audit --locked', $config['auditCommand']), 'name' => 'Audit of the resolved PHP dependencies'],
+    ];
+    foreach ($anchors as $anchor) {
+        foreach ($lines as $index => $line) {
+            if (!str_contains($line, $anchor['match'])) {
+                continue;
+            }
+            [$start, $end] = stepRange($lines, $index);
+            $loneDash = 1 === preg_match('/^\s*-\s*$/', $lines[$start]);
+            $dash = indentOf($lines[$start]);
+            // The audit runs when the installation does: it copies the condition of the step it follows.
+            $condition = null;
+            foreach (array_slice($lines, $start, $end - $start + 1) as $stepLine) {
+                $condition ??= 1 === preg_match('/^\s*(?:-\s+)?if:\s*(.+)$/', $stepLine, $found) ? $found[1] : null;
+            }
+            $key = str_repeat(' ', $loneDash ? $dash + 4 : $dash + 2);
+            $step = $loneDash
+                ? [str_repeat(' ', $dash) . '-', $key . 'name: ' . $anchor['name']]
+                : [str_repeat(' ', $dash) . '- name: ' . $anchor['name']];
+            if (null !== $condition) {
+                $step[] = $key . 'if: ' . $condition;
+            }
+            $step[] = $key . 'run: ' . $anchor['command'];
+            array_splice($lines, $end + 1, 0, ['', ...$step]);
+
+            return $lines;
+        }
+    }
+
+    return $lines;
+}
+
+/** @param list<string> $lines */
+function hasZizmor(array $lines): bool
+{
+    $text = implode("\n", $lines);
+
+    return str_contains($text, 'zizmor') && str_contains($text, '--offline');
+}
+
+/** @param list<string> $lines @return list<string> */
+function zizmorJob(array $lines, array $config): array
+{
+    $checkout = $config['pinnedActions']['actions/checkout@v4'];
+    $job = [
+        '',
+        '    # Static audit of the workflows themselves (US-209). Version and image are pinned, no network.',
+        '    zizmor:',
+        '        name: Workflow audit (zizmor)',
+        '        runs-on: ubuntu-latest',
+        '        permissions:',
+        '            contents: read',
+        '        timeout-minutes: 10',
+        '        env:',
+        '            ZIZMOR_IMAGE: ' . $config['zizmorImage'],
+        '        steps:',
+        "            - uses: actions/checkout@{$checkout['sha']} # {$checkout['tag']}",
+        '              with:',
+        '                  persist-credentials: false',
+        '',
+        '            - name: zizmor (offline)',
+        '              run: docker run --rm -v "$PWD:/work" -w /work "$ZIZMOR_IMAGE" --offline .github',
+    ];
+    $jobs = jobsOf($lines);
+    $last = [] === $jobs ? count($lines) - 1 : max(array_column($jobs, 'end'));
+    array_splice($lines, $last + 1, 0, $job);
+
+    return $lines;
+}
+
+function dependabot(string $current): string
+{
+    $entries = [
+        'composer' => ['composer-minor-and-patch', '[minor, patch]'],
+        'github-actions' => ['github-actions', null],
+    ];
+    if ('' === $current) {
+        $current = "# Dependency updates (US-209): Composer and GitHub Actions, weekly.\nversion: 2\nupdates:\n";
+        $dash = '    - ';
+        $key = '      ';
+    } else {
+        $current = rtrim($current) . "\n";
+        $indented = 1 === preg_match('/^(\s+)- package-ecosystem:/m', $current, $match);
+        $dash = $indented ? $match[1] . '- ' : '- ';
+        $key = $indented ? $match[1] . '  ' : '  ';
+    }
+    $lines = explode("\n", rtrim($current, "\n"));
+    foreach (array_reverse(dependabotEntries($lines)) as $entry) {
+        if (1 === preg_match('/^\s*cooldown:/m', implode("\n", $entry['lines']))) {
+            continue;
+        }
+        $first = $lines[$entry['start']];
+        $key = str_repeat(' ', indentOf($first) + 2);
+        array_splice($lines, $entry['start'] + 1, 0, ["{$key}# A release must be a week old before it is proposed (security updates ignore the cooldown).", "{$key}cooldown:", "{$key}    default-days: 7"]);
+    }
+    $current = implode("\n", $lines) . "\n";
+    foreach ($entries as $ecosystem => [$group, $types]) {
+        if (1 === preg_match('/package-ecosystem:\s*["\']?' . $ecosystem . '\b/', $current)) {
+            continue;
+        }
+        $block = ["{$dash}package-ecosystem: $ecosystem", "{$key}directory: /", "{$key}schedule:", "{$key}    interval: weekly", "{$key}# A release must be a week old before it is proposed (security updates ignore the cooldown).", "{$key}cooldown:", "{$key}    default-days: 7", "{$key}groups:", "{$key}    $group:"];
+        $block[] = null === $types ? "{$key}        patterns: [\"*\"]" : "{$key}        update-types: $types";
+        $current .= implode("\n", $block) . "\n";
+    }
+
+    return $current;
+}
+
+function composerConfig(string $json, array $config): string
+{
+    $data = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+    $settings = $data['config'] ?? [];
+    $add = [];
+    if (!is_array($settings['allow-plugins'] ?? null)) {
+        $add['allow-plugins'] = new stdClass();
+    }
+    if (!isset($settings['policy'])) {
+        $add['policy'] = $config['policy'];
+    }
+    if ([] === $add) {
+        return $json;
+    }
+    $lines = explode("\n", rtrim($json, "\n"));
+    $unit = 1 === preg_match('/^( +)"/m', $json, $match) ? $match[1] : '    ';
+    $open = null;
+    foreach ($lines as $index => $line) {
+        if (1 === preg_match('/^' . preg_quote($unit, '/') . '"config":\s*\{\s*$/', $line)) {
+            $open = $index;
+        }
+    }
+    $text = [];
+    foreach ($add as $name => $value) {
+        $encoded = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) ?: '{}';
+        $encodedLines = explode("\n", str_replace('    ', $unit, $encoded));
+        $encodedLines[0] = '"' . $name . '": ' . $encodedLines[0];
+        foreach ($encodedLines as $line) {
+            $text[] = $line;
+        }
+        $text[array_key_last($text)] .= ',';
+    }
+    $text[array_key_last($text)] = rtrim($text[array_key_last($text)], ',');
+
+    if (null === $open) {
+        $last = count($lines) - 1;
+        while ('}' !== trim($lines[$last])) {
+            --$last;
+        }
+        $previous = $last - 1;
+        $lines[$previous] = rtrim($lines[$previous]) . ',';
+        $block = array_map(static fn (string $line): string => $unit . $unit . $line, $text);
+        array_splice($lines, $last, 0, [$unit . '"config": {', ...$block, $unit . '}']);
+    } else {
+        $close = $open + 1;
+        $depth = 1;
+        for (; $close < count($lines); ++$close) {
+            $depth += substr_count($lines[$close], '{') - substr_count($lines[$close], '}');
+            if (0 === $depth) {
+                break;
+            }
+        }
+        $lines[$close - 1] = rtrim($lines[$close - 1]) . ',';
+        $block = array_map(static fn (string $line): string => $unit . $unit . $line, $text);
+        array_splice($lines, $close, 0, $block);
+    }
+    $result = implode("\n", $lines) . "\n";
+    json_decode($result, true, flags: JSON_THROW_ON_ERROR);
+
+    return $result;
+}
+
+/** @return list<array{string, string, string}> */
+function remoteResults(string $name, array $config, string $base): array
+{
+    $owner = $config['owner'];
+    $api = static function (string $path, bool $raw = false): ?string {
+        $command = 'gh api ' . ($raw ? "-H 'Accept: application/vnd.github.raw' " : '') . escapeshellarg($path) . ' 2>/dev/null';
+        $output = shell_exec($command);
+
+        return is_string($output) && '' !== $output && !str_contains($output, '"message":"Not Found"') ? $output : null;
+    };
+    $repository = json_decode((string) $api("repos/$owner/$name"), true);
+    $branch = is_array($repository) ? (string) ($repository['default_branch'] ?? '') : '';
+    if ('' === $branch) {
+        return [['repository', 'FAIL', "$name not reachable"]];
+    }
+    $directory = sys_get_temp_dir() . '/plugin-supply-chain-report-' . bin2hex(random_bytes(4));
+    mkdir($directory . '/.github/workflows', 0o755, true);
+    $written = [];
+    foreach (json_decode((string) $api("repos/$owner/$name/contents/.github/workflows?ref=$branch"), true) ?: [] as $entry) {
+        $content = $api("repos/$owner/$name/contents/.github/workflows/{$entry['name']}?ref=$branch", true);
+        if (null !== $content) {
+            file_put_contents($written[] = $directory . '/.github/workflows/' . $entry['name'], $content);
+        }
+    }
+    foreach (['composer.json' => 'composer.json', '.github/dependabot.yml' => '.github/dependabot.yml'] as $remote => $local) {
+        $content = $api("repos/$owner/$name/contents/$remote?ref=$branch", true);
+        if (null !== $content) {
+            file_put_contents($written[] = "$directory/$local", $content);
+        }
+    }
+    $tracksLock = null !== $api("repos/$owner/$name/contents/composer.lock?ref=$branch");
+    $results = check($directory, $tracksLock, $base, $config);
+    foreach ($written as $file) {
+        unlink($file);
+    }
+    foreach (["$directory/.github/workflows", "$directory/.github", $directory] as $folder) {
+        rmdir($folder);
+    }
+    $runs = json_decode((string) $api("repos/$owner/$name/actions/runs?branch=$branch&per_page=1"), true);
+    $results[] = ['ci', 'INFO', (string) ($runs['workflow_runs'][0]['conclusion'] ?? 'no run')];
+
+    return $results;
+}
+
+$mode = $argv[1] ?? '';
+$options = [];
+$positional = [];
+foreach (array_slice($argv, 2) as $argument) {
+    if (1 === preg_match('/^--([\w-]+)(?:=(.*))?$/', $argument, $match)) {
+        $options[$match[1]] = $match[2] ?? true;
+    } else {
+        $positional[] = $argument;
+    }
+}
+
+if ('list' === $mode) {
+    $names = $config['repositories'];
+    if (isset($options['lot'])) {
+        $lot = (int) $options['lot'];
+        $names = 0 === $lot ? array_slice($names, 0, 1) : array_slice($names, 1 + ($lot - 1) * 7, 7);
+    }
+    echo implode("\n", $names), "\n";
+    exit(0);
+}
+
+if ('report' === $mode) {
+    $failed = false;
+    foreach ($positional ?: $config['repositories'] as $name) {
+        $line = [];
+        foreach (remoteResults($name, $config, $base) as [$id, $status, $message]) {
+            $line[] = $id . '=' . $status . ('INFO' === $status ? "($message)" : '');
+            $failed = $failed || 'FAIL' === $status;
+        }
+        echo $name, ': ', implode(' ', $line), "\n";
+    }
+    exit($failed ? 1 : 0);
+}
+
+if (!in_array($mode, ['check', 'apply'], true) || [] === $positional) {
+    refuse('Usage: bin/plugin-supply-chain list [--lot=N] | check DIR | apply DIR [--write] | report [NAME...]');
+}
+
+$directory = guard($positional[0], is_string($options['allowed-root'] ?? null) ? $options['allowed-root'] : DEFAULT_ROOT);
+
+if ('apply' === $mode) {
+    $write = isset($options['write']);
+    if ($write) {
+        guardBranch($directory);
+    }
+    foreach (applyAll($directory, $config, $write) as $path) {
+        echo ($write ? 'changed ' : 'would change ') . $path, "\n";
+    }
+    exit(0);
+}
+
+$tracksLock = '' !== git($directory, 'ls-files', 'composer.lock')[1];
+$failed = false;
+foreach (check($directory, $tracksLock, $base, $config) as [$id, $status, $message]) {
+    echo $status, ' ', $id, ' ', $message, "\n";
+    $failed = $failed || 'FAIL' === $status;
+}
+exit($failed ? 1 : 0);
