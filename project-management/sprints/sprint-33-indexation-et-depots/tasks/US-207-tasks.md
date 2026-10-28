@@ -85,6 +85,16 @@ DoD de la table : 0 test existant modifié sans ligne de registre ; les adaptati
 
 **Réglage d'activation proposé** : variable d'environnement `DEMO_INDEXING` (`1` actif, absente ou `0` désactivée), paramètre `demo.indexing.enabled`, lu uniquement si le mode démo est actif **et** la porte privée fermée ; déclaré par `preserve()` dans `.railway/railway.ts`.
 
+## Mesures locales (2026-10-28, w207)
+
+Rendu du noyau en ligne de commande, `APP_ENV=prod`, base de test, `DEMO_INDEXING=1` sauf mention (`bin/render-page`, 9 pages) ; pa11y 9 (`WCAG2AAA`) et mesure de largeur (`puppeteer-core`, `isMobile` sous 500 px) sur le HTML servi avec `public/build` et `public/media` ; l'option `--targets` de `bin/measure-mobile` n'a pas été lancée (elle vise un serveur local complet).
+
+- pa11y WCAG2AAA : « No issues found! » sur accueil, Plugins et Intégrer en FR et EN, et sur Architecture en FR (7 pages).
+- Largeur : `scrollWidth` égal à la largeur du viewport à 320, 375 et 1280 px sur les 7 pages (21 mesures OK).
+- `robots.txt` avec le réglage : zones exclues (administration, `/demo`, `/api`, panier, commande, compte, tri) et ligne `Sitemap:` sur l'hôte canonique ; sans : `Disallow: /` seul. `sitemap.xml` avec le réglage : 20 entrées avec `hreflang` FR, EN et `x-default` ; sans : 404.
+- Données structurées (contrôle local, pas de validateur public) : JSON valide, `@context` `https://schema.org`, accueil `WebSite` + `Person`, Plugins 19 `SoftwareSourceCode` (27 plugins moins les 8 écartés par `structured_data: false`), Architecture 1 `SoftwareSourceCode` ; test `ShowcaseIndexingTest` : aucun plugin écarté, aucune mention d'ERP, ni note ni prix.
+- Désactivé : aucun `hreflang` ni JSON-LD dans la page Plugins.
+
 ## Lieu de vérification
 
 **Local** (production simulée : `bin/verify-public-mode` sur le routeur de fixtures), **image reconstruite** et **production le jour du déploiement** : pages publiques, sans compte, lecture seule (`curl -sI`, `robots.txt`, `sitemap.xml`). Validation des données structurées : locale (JSON-LD contrôlé par test) puis par un validateur public sur l'URL de production, résultat noté au registre.
@@ -110,8 +120,8 @@ DoD de la table : 0 test existant modifié sans ligne de registre ; les adaptati
 | T-207-08 | [BE] | Données structurées JSON-LD : `WebSite`, `Person` (accueil, À propos), `SoftwareSourceCode` (Plugins, Architecture) ; faits vérifiables, exclusions ; aucun compteur écrit en dur | 0,75 h | T-207-07 | Claude | ✅ |
 | T-207-09 | [TEST] | Tests existants de la table adaptés (une ligne de registre **avant** chaque modification, citée dans la PR), fixture `demo-mode-router.php` et `bin/verify-public-mode` ; `git diff --stat` des tests inchangés vide | 0,5 h | T-207-05 | Claude | ✅ |
 | T-207-10 | [DOC] | `docs/ouverture-publique.md` (politique, section « robots.txt et noindex », étapes de déclaration du sitemap pour Thibaut), `docs/durcissement-demo.md`, `docs/seo-et-vitesse.md` (point « Indexation contrôlée » remplacé : pages vitrine, plus catalogue ni fiches), `docs/dossier-de-go.md` ; vérifications du runbook ; phrase de la page Architecture (FR et EN) | 0,75 h | T-207-06 | Claude | ✅ |
-| T-207-11 | [TEST] | Suite ciblée par `bin/run-tests` (tests de la table, nouveaux tests), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 320 et 375 px sur les pages modifiées, JSON-LD validé localement ; commande exacte et dernière ligne citées | 0,75 h | T-207-08, T-207-09 | Claude | 🟡 suite ciblée et PHPStan faits ; pa11y, mesure mobile : 📅 disque |
-| T-207-12 | [DOC] | Captures : constat que le rendu des pages est inchangé (`bin/render-page`, une page listée FR) ; `docs/captures-vitrine.md` mis à jour seulement si une page change | 0,25 h | T-207-11 | Claude | 📅 disque |
+| T-207-11 | [TEST] | Suite ciblée par `bin/run-tests` (tests de la table, nouveaux tests), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 320 et 375 px sur les pages modifiées, JSON-LD validé localement ; commande exacte et dernière ligne citées | 0,75 h | T-207-08, T-207-09 | Claude | ✅ (mesures locales du 2026-10-28, voir « Mesures locales ») |
+| T-207-12 | [DOC] | Captures : constat que le rendu des pages est inchangé (`bin/render-page`, une page listée FR) ; `docs/captures-vitrine.md` mis à jour seulement si une page change | 0,25 h | T-207-11 | Claude | ✅ rendu `bin/render-page` constaté (aucun changement visuel : métadonnées seules), `docs/captures-vitrine.md` inchangé |
 | T-207-13 | [OPS] | Image reconstruite et conteneur neuf (règle 16 : réglage d'activation déclaré, `preserve()`, sitemap servi par l'application) ; **production le jour du déploiement**, lecture seule : `robots.txt`, en-têtes d'une page listée et d'une page non listée, `sitemap.xml`, `bin/verify-public-mode` (contrôles 1 à 12), validateur public des données structurées (résultat noté au registre), pa11y WCAG2AAA FR et EN, 320, 375 et 1280 px ; mesures consignées | 0,75 h | merge de la PR, T-207-03 | Claude | 📅 déploiement |
 | T-207-14 | [OPS] | 📅 Thibaut déclare l'URL du sitemap dans Google Search Console (étapes fournies dans `docs/ouverture-publique.md`) ; Claude ne touche à aucun compte | 0,25 h | T-207-13 | Thibaut | 📅 déploiement |
 | T-207-15 | [REV] | Revue (ton neutre, plugins en recoupement et import ERP absents, aucun détail sensible, mode privé fermé, aucune liste dupliquée) et table « scénario → test ou preuve » remplie | 0,25 h | T-207-13 | Claude | 🔲 |
