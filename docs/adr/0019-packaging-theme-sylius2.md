@@ -38,7 +38,7 @@ Ce spike (6 h maximum) répond à :
 
 ### 2. Twig hooks et surcharges de gabarits
 
-**Twig hooks** (introduits dans Sylius 2.0, documentation lue le 2026-10-28) :
+**Twig hooks** (introduits dans Sylius 2.0) :
 - Configuration dans `config/packages/*.yaml` de l'application
 - Syntaxe : `sylius_twig_hooks.hooks.<hook_name>.<block_name>`
 - Champs : `template`, `priority`, `condition`, `context`
@@ -55,11 +55,11 @@ Ce spike (6 h maximum) répond à :
 **Problème** : Les Twig hooks sont configurés dans l'application, pas dans le thème lui-même. Le ThemeBundle ne supporte pas nativement les hooks Twig dans la configuration du thème.
 
 **Solutions possibles** :
-1. **Recette Flex qui copie un fichier de configuration** dans `config/packages/tmonier_sylius_industry_trade_theme.yaml`
+1. **Recette Flex qui copie un fichier de configuration** dans `config/packages/thibmonier_sylius_industry_trade_theme.yaml`
 2. **Bundle Symfony dans le thème** avec un `DependencyInjection/Configuration.php` qui enregistre les hooks
 3. **Extension Twig** dans le thème qui injecte les hooks programmatiquement
 
-**Recommandation** : **Recette Flex avec fichier de configuration**. C'est la solution la plus simple et la plus transparente. Le fichier copié sera `config/packages/tmonier_sylius_industry_trade_theme.yaml` et contiendra tous les hooks Twig du thème. L'intégrateur peut ensuite surcharger ce fichier dans son projet.
+**Recommandation** : **Recette Flex avec fichier de configuration**. C'est la solution la plus simple et la plus transparente. Le fichier copié sera `config/packages/thibmonier_sylius_industry_trade_theme.yaml` et contiendra tous les hooks Twig du thème. L'intégrateur peut ensuite surcharger ce fichier dans son projet.
 
 **Surcharges de gabarits** : Les gabarits dans `templates/bundles/SyliusShopBundle/` surchargent automatiquement ceux du bundle. Ordre de priorité (du plus au moins prioritaire) :
 1. Application : `templates/bundles/SyliusShopBundle/`
@@ -82,7 +82,7 @@ La syntaxe `@!SyliusShop/template.html.twig` dans un gabarit de thème force l'u
 - Pas de build step, assets servis directement
 - Configuration dans `config/packages/asset_mapper.yaml`
 - Import maps pour les dépendances JavaScript
-- Plus simple, mais **pas encore adopté par Sylius** (aucune mention dans la documentation officielle lue le 2026-10-28)
+- Plus simple, mais **pas encore adopté par Sylius** (non trouvé dans vendor/sylius/ au 2026-10-28)
 - Risque de compatibilité avec les assets de Sylius (Bootstrap, jQuery, etc.)
 
 **Recommandation** : **Webpack Encore** pour la version 1.x du thème. C'est le standard actuel de Sylius, documenté et compatible avec les assets existants. AssetMapper pourra être considéré dans une version ultérieure quand Sylius l'adoptera officiellement.
@@ -106,7 +106,7 @@ Une recette Flex (dépôt `symfony/recipes-contrib` ou `Sylius/SyliusRecipes`) a
 ```
 config/
   packages/
-    tmonier_sylius_industry_trade_theme.yaml  # Configuration des Twig hooks
+    thibmonier_sylius_industry_trade_theme.yaml  # Configuration des Twig hooks
 ```
 
 **Configuration automatique** (via `configurator`) :
@@ -131,7 +131,7 @@ config/
 ```
 
 **Ordre de priorité des surcharges** (après installation) :
-1. Application : `config/packages/tmonier_sylius_industry_trade_theme.yaml` (copié par Flex, modifiable)
+1. Application : `config/packages/thibmonier_sylius_industry_trade_theme.yaml` (copié par Flex, modifiable)
 2. Thème : `vendor/thibmonier/sylius-industry-trade-theme/templates/`
 3. Bundle Sylius : `vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/`
 
@@ -140,10 +140,17 @@ config/
 **Twig hooks** : Introduits dans Sylius 2.0, donc compatibles avec 2.2 et 2.3.
 
 **ThemeBundle** :
-- Sylius 2.2 : `sylius/theme-bundle` ^2.0
-- Sylius 2.3 : `sylius/theme-bundle` ^3.0 (même API, namespace différent)
+- Sylius 2.3 : `sylius/theme-bundle` ^2.5 (vérifié dans vendor/sylius/sylius/composer.json au 2026-10-28)
+- Sylius 2.2 : `sylius/theme-bundle` ^2.5 (supposé compatible)
 
-**Recommandation** : Contrainte Composer `"sylius/theme-bundle": "^3.0 || ^2.0"` pour supporter les deux versions.
+**Recommandation** : Contrainte Composer `"sylius/theme-bundle": "^2.5"` pour supporter les deux versions.
+
+**PHP** :
+- Sylius 2.3 : PHP ^8.4 (vendor/sylius/sylius/composer.json)
+- Sylius 2.2 : PHP ^8.3 ou ^8.4 (à vérifier)
+- Démo : PHP ^8.5 (composer.json)
+
+**Recommandation PHP** : `"php": "^8.4"` pour supporter Sylius 2.2 et 2.3 (^8.5 exclurait les projets encore en 8.4).
 
 **CI à créer** (US-222) :
 - Matrice : Sylius 2.2 et 2.3
@@ -152,9 +159,9 @@ config/
 
 ### 6. Vérification Sylius Plus
 
-**Documentation consultée** (2026-10-28) : [docs.sylius.com/en/latest/book/products/sylius_plus.html](https://docs.sylius.com/en/latest/book/products/sylius_plus.html)
+**Documentation consultée** (2026-10-28) : Page [Sylius Plus](https://docs.sylius.com/en/latest/book/products/sylius_plus.html) (vue mais non lue en détail ; recherche "theme" dans vendor/sylius/sylius/README.md et docs/)
 
-**Fonctionnalités Sylius Plus** (liste non exhaustive lue dans la documentation publique) :
+**Fonctionnalités Sylius Plus** (liste non exhaustive) :
 - Multi-tenant (plusieurs boutiques dans une seule instance)
 - Partial shipping (livraison partielle des commandes)
 - Return requests (demandes de retour)
@@ -180,7 +187,7 @@ thibmonier/sylius-industry-trade-theme/
 │       └── ci.yaml                  # CI Sylius 2.2/2.3, PHPStan, ECS, Rector
 ├── config/
 │   └── packages/
-│       └── tmonier_sylius_industry_trade_theme.yaml  # Twig hooks (copié par Flex)
+│       └── thibmonier_sylius_industry_trade_theme.yaml  # Twig hooks (copié par Flex)
 ├── assets/                          # Assets sources (SCSS, JS, Stimulus)
 │   ├── styles/
 │   │   ├── _variables.scss          # Jetons de design (couleurs, typo, espacements)
@@ -223,7 +230,7 @@ thibmonier/sylius-industry-trade-theme/
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "sylius/theme-bundle": "^3.0 || ^2.0",
+        "sylius/theme-bundle": "^2.5",
         "sylius/sylius": "^2.3 || ^2.2"
     },
     "extra": {
@@ -240,7 +247,7 @@ thibmonier/sylius-industry-trade-theme/
 **Dépôt** : `Sylius/SyliusRecipes` (contribution à soumettre après validation)
 
 **Fichiers copiés** :
-- `config/packages/tmonier_sylius_industry_trade_theme.yaml` : Configuration des Twig hooks
+- `config/packages/thibmonier_sylius_industry_trade_theme.yaml` : Configuration des Twig hooks
 
 **Post-install** : Instructions pour activer le thème, installer les assets et builder
 
@@ -281,7 +288,7 @@ thibmonier/sylius-industry-trade-theme/
 
 1. Thibaut valide-t-il cette approche (ThemeBundle + Webpack Encore + recette Flex) ?
 2. La recette Flex doit-elle être soumise à `Sylius/SyliusRecipes` ou rester dans un dépôt privé ?
-3. Le thème doit-il supporter PHP 8.4 uniquement (comme la démo) ou aussi PHP 8.3 ?
+3. Le thème doit-il supporter PHP ^8.4 (Sylius 2.2/2.3) ou ^8.5 (démo seule) ?
 4. Les Stimulus controllers du thème doivent-ils être préfixés (namespace) pour éviter les conflits ?
 5. US-228 (démo qui consomme le thème publié) : migration big bang ou progressive (feature flag) ?
 
