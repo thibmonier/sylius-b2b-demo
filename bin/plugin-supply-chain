@@ -133,7 +133,7 @@ function jobsOf(array $lines): array
 /** Lines of the step holding $index: from its first line to the line before the next step. */
 function stepRange(array $lines, int $index): array
 {
-    $column = usesOf($lines[$index])['column'] ?? indentOf($lines[$index]);
+    $column = usesOf($lines[$index])['column'] ?? (1 === preg_match('/^(\s*-\s+)\S/', $lines[$index], $dash) ? strlen($dash[1]) : indentOf($lines[$index]));
     $start = $index;
     while ($start > 0 && !(1 === preg_match('/^\s*-(\s|$)/', $lines[$start]) && indentOf($lines[$start]) < $column)) {
         --$start;
@@ -429,7 +429,7 @@ function auditStep(array $lines, array $config): array
     }
     $anchors = [
         ['match' => 'SyliusLabs/BuildTestAppAction', 'command' => $config['auditCommand'], 'name' => 'Audit of the PHP dependencies'],
-        ['match' => 'Resolve the pack in a throwaway project', 'command' => 'cd "$RUNNER_TEMP/project" && ' . $config['auditCommand'], 'name' => 'Audit of the resolved PHP dependencies'],
+        ['match' => 'Resolve the pack in a throwaway project', 'command' => 'cd "$RUNNER_TEMP/project" && ' . str_replace('composer audit', 'composer audit --locked', $config['auditCommand']), 'name' => 'Audit of the resolved PHP dependencies'],
     ];
     foreach ($anchors as $anchor) {
         foreach ($lines as $index => $line) {
