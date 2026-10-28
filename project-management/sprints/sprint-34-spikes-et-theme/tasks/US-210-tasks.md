@@ -4,7 +4,7 @@
 
 | Story | Points | Worker | Estimation | Réalisée |
 |-------|--------|--------|------------|----------|
-| [US-210](../../backlog/user-stories/US-210.md) | 3 | w210 | 6,5 h | _à remplir_ |
+| [US-210](../../backlog/user-stories/US-210.md) | 3 | w210 | 6,5 h | 6 h |
 
 ## Dépendances
 
@@ -19,9 +19,9 @@ graph TD
 
 | ID | Type | Tâche | Estimation | Réalisé | Statut |
 |----|------|-------|------------|---------|--------|
-| T-210-01 | DOC | Cadrage : timebox 6 h, accès à la documentation b2b-mcp, tier-pricing, purchase-approval, Sylius Plus | 0,5 h | | 🔲 |
-| T-210-02 | DOC | Recherche : format de rejeu (fichier versionné, clé de correspondance, comportement sans réponse enregistrée), adaptateur LLM (interface minimale, adaptateur rejoué, adaptateur réel), outils exposés (inventaire b2b-mcp réutilisables, interdits), recoupement Sylius Plus ; timebox 6 h | 5,5 h | | 🔲 |
-| T-210-03 | DOC | ADR `docs/adr/0018-copilote-format-rejeu-adaptateur.md` : format de rejeu, port et adaptateurs, outils autorisés et interdits, conclusion Sylius Plus, note privée de sécurité hors dépôt | 0,25 h | | 🔲 |
+| T-210-01 | DOC | Cadrage : timebox 6 h, accès à la documentation b2b-mcp, tier-pricing, purchase-approval, Sylius Plus | 0,5 h | 0,5 h | ✅ |
+| T-210-02 | DOC | Recherche : format de rejeu (fichier versionné, clé de correspondance, comportement sans réponse enregistrée), adaptateur LLM (interface minimale, adaptateur rejoué, adaptateur réel), outils exposés (inventaire b2b-mcp réutilisables, interdits), recoupement Sylius Plus ; timebox 6 h | 5,5 h | 5 h | ✅ |
+| T-210-03 | DOC | ADR `docs/adr/0018-copilote-format-rejeu-adaptateur.md` : format de rejeu, port et adaptateurs, outils autorisés et interdits, conclusion Sylius Plus, note privée de sécurité hors dépôt | 0,25 h | 0,5 h | ✅ |
 | T-210-04 | REV | Revue (aucun détail sensible dans l'ADR public, ton neutre) et relecture par Thibaut ; estimation d'US-211 à US-216 confirmée ou révisée | 0,25 h | | 🔲 |
 
 **Total** : 6,5 h

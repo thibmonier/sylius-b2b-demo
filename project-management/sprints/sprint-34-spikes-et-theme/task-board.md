@@ -11,9 +11,6 @@ Règle : une tâche passe en ✅ dans le commit qui la livre. **Rouge prouvé (r
 
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
-| T-210-01 | US-210 | DOC | Cadrage : timebox 6 h, accès documentation b2b-mcp, Sylius Plus | 0,5 h | Claude |
-| T-210-02 | US-210 | DOC | Recherche format rejeu, adaptateur LLM, outils exposés, Sylius Plus ; timebox 6 h | 5,5 h | Claude |
-| T-210-03 | US-210 | DOC | ADR `docs/adr/0018-copilote-format-rejeu-adaptateur.md`, note privée hors dépôt | 0,25 h | Claude |
 | T-210-04 | US-210 | REV | Revue (aucun détail sensible, ton neutre), relecture Thibaut, estimations US-211 à US-216 confirmées | 0,25 h | Claude |
 | T-229-01 | US-229 | DOC | Cadrage : timebox 6 h, accès règlement (UE) 2024/1781, calendriers, Sylius Plus | 0,5 h | Claude |
 | T-229-02 | US-229 | DOC | Recherche règlement ESPR, calendrier batteries 2027, actes délégués, GS1, Sylius Plus ; timebox 6 h | 5,5 h | Claude |
@@ -73,6 +70,9 @@ _Aucune tâche._
 | T-TECH-34-01 | Transverse | DOC | **Règle 30** de la consigne : GO transmis avant consignation, GO orchestrateur ne se délègue qu'explicitement (fait au planning) | 0 h | Orchestrateur |
 | T-221-01 | US-221 | DOC | Cadrage : timebox 6 h, projet vierge Sylius 2.3, maquettes G2StRQigRKD6SqNRoyHpkW | 0,5 h | Claude |
 | T-221-02 | US-221 | OPS | Recherche packaging thème Sylius 2, Twig hooks, assets, Flex, Sylius 2.2/2.3, Sylius Plus ; timebox 6 h | 5,5 h | Claude |
+| T-210-01 | US-210 | DOC | Cadrage : timebox 6 h, accès documentation b2b-mcp, Sylius Plus | 0,5 h | Claude |
+| T-210-02 | US-210 | DOC | Recherche format rejeu, adaptateur LLM, outils exposés, Sylius Plus ; timebox 6 h | 5,5 h | Claude |
+| T-210-03 | US-210 | DOC | ADR `docs/adr/0018-copilote-format-rejeu-adaptateur.md`, note privée hors dépôt | 0,25 h | Claude |
 
 ## Métriques
 
