@@ -18,5 +18,6 @@
 | [0015](0015-distributions-de-plugins.md) | Distributions de plugins : métapaquet puis recette Flex, deux packs | Accepté |
 | [0016](0016-facture-electronique-pa-pdp.md) | Facture électronique France : transmission vers une plateforme fictive | Accepté (stories A à C) |
 | [0017](0017-connecteur-erp-de-reference.md) | Connecteur ERP de référence : contrat neutre et ERP fictif | Accepté (story A) |
+| [0020](0020-passeport-numerique-produit-espr.md) | Passeport numérique de produit (DPP) : modèle de données préparatoire et formulation prudente | Proposé |
 | [0018](0018-copilote-format-rejeu-adaptateur.md) | Copilote d'achat : format de rejeu et adaptateur LLM | Proposé |
 | [0019](0019-packaging-theme-sylius2.md) | Packaging d'un thème Sylius 2 : Twig hooks, assets et Flex | Proposé |
