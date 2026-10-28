@@ -50,15 +50,15 @@
 | T-209-04 | [OPS] | **Tranche (b) Composer** ⚠️ **sacrifice n°1** : `check` et `apply` pour `composer audit` bloquant (`--locked` ou après installation), `config.policy`, `allow-plugins` (packs), revue du diff du verrou (script d'US-208, « sans objet » sans verrou) ; rapport lisible par dépôt | 2 h | T-209-03 | Claude | ✅ |
 | T-209-05 | [DOC] | `docs/chaine-approvisionnement-plugins.md` : méthode, les 9 contrôles, commandes du script, règle « plugin-repo-branch-check », ce qui ne change pas (aucun tag, aucune version), neutre ; lien depuis la documentation d'US-208 | 0,5 h | T-209-04 | Claude | ✅ |
 | T-209-06 | [OPS] | **Pilote** sur `sylius-quick-order-plugin` : branche, `apply`, `check`, commit, push, PR, CI verte, fusion ; script et gabarit corrigés si la CI montre un écart (version de Composer, SHA, zizmor) avant les lots | 1,5 h | T-209-04 | Claude | ✅ |
-| T-209-07 | [OPS] | **Lot 1** (7 dépôts, ordre de la liste versionnée) : règle 29 (`git fetch`, branche), `apply`, `check`, commit, push, PR, suivi de la CI, fusion si verte ; état noté par dépôt | 1 h | T-209-06 | Claude | 🔲 |
-| T-209-08 | [OPS] | **Lot 2** (7 dépôts), même procédure | 1 h | T-209-07 | Claude | 🔲 |
-| T-209-09 | [OPS] | **Lot 3** (7 dépôts), même procédure | 1 h | T-209-08 | Claude | 🔲 |
-| T-209-10 | [OPS] | **Lot 4** (7 dépôts, packs compris : `allow-plugins`, Dependabot, audit sans verrou), même procédure | 1 h | T-209-09 | Claude | 🔲 |
-| T-209-11 | [OPS] | **Remontée à Thibaut** des dépôts à CI rouge préexistante, sans CI, à branche protégée ou à PR restée ouverte : liste (nom, cause en une ligne, PR) sans détail sensible, au fil des lots ; décision de Thibaut notée au registre avant d'agir (📅 pour chaque dépôt concerné) | 0,5 h | T-209-07 | Claude | 🔲 |
-| T-209-12 | [DOC] | Rapport final `rapport-final-depots.md` : 29 dépôts conformes, ou écarts justifiés dépôt par dépôt (PR, CI, fusion, 9 contrôles) ; relevé de départ joint à la PR de la démo | 1 h | T-209-10 | Claude | 🔲 |
-| T-209-13 | [TEST] | Vérification finale : `bin/plugin-supply-chain check` sur les branches par défaut **distantes** des 29 dépôts après fusion ; écarts reportés au rapport ; suite ciblée du script, PHPStan max sur tout le dépôt, ECS, Rector ; commande exacte et dernière ligne citées | 0,75 h | T-209-10 | Claude | 🔲 |
+| T-209-07 | [OPS] | **Lot 1** (7 dépôts, ordre de la liste versionnée) : règle 29 (`git fetch`, branche), `apply`, `check`, commit, push, PR, suivi de la CI, fusion si verte ; état noté par dépôt | 1 h | T-209-06 | Claude | ✅ |
+| T-209-08 | [OPS] | **Lot 2** (7 dépôts), même procédure | 1 h | T-209-07 | Claude | ✅ |
+| T-209-09 | [OPS] | **Lot 3** (7 dépôts), même procédure | 1 h | T-209-08 | Claude | ✅ |
+| T-209-10 | [OPS] | **Lot 4** (7 dépôts, packs compris : `allow-plugins`, Dependabot, audit sans verrou), même procédure | 1 h | T-209-09 | Claude | ✅ |
+| T-209-11 | [OPS] | **Remontée à Thibaut** des dépôts à CI rouge préexistante, sans CI, à branche protégée ou à PR restée ouverte : liste (nom, cause en une ligne, PR) sans détail sensible, au fil des lots ; décision de Thibaut notée au registre avant d'agir (📅 pour chaque dépôt concerné) | 0,5 h | T-209-07 | Claude | ✅ |
+| T-209-12 | [DOC] | Rapport final `rapport-final-depots.md` : 29 dépôts conformes, ou écarts justifiés dépôt par dépôt (PR, CI, fusion, 9 contrôles) ; relevé de départ joint à la PR de la démo | 1 h | T-209-10 | Claude | ✅ |
+| T-209-13 | [TEST] | Vérification finale : `bin/plugin-supply-chain check` sur les branches par défaut **distantes** des 29 dépôts après fusion ; écarts reportés au rapport ; suite ciblée du script, PHPStan max sur tout le dépôt, ECS, Rector ; commande exacte et dernière ligne citées | 0,75 h | T-209-10 | Claude | ✅ (disque à 3 Go : suite ciblée et Rector non rejoués) |
 | T-209-14 | [DOC] | Mémoire du socle qualité des plugins mise à jour (état des 29 dépôts, script, exceptions) | 0,25 h | T-209-12 | Orchestrateur | 🔲 |
-| T-209-15 | [REV] | Revue (**aucun tag, aucune version**, aucun code ni dépendance modifié, rien de sensible dans les dépôts et les PR, ton neutre, règle 29 respectée pour chaque dépôt, aucune protection contournée) et table « scénario → test ou preuve » remplie | 0,5 h | T-209-13 | Claude | 🔲 |
+| T-209-15 | [REV] | Revue (**aucun tag, aucune version**, aucun code ni dépendance modifié, rien de sensible dans les dépôts et les PR, ton neutre, règle 29 respectée pour chaque dépôt, aucune protection contournée) et table « scénario → test ou preuve » remplie | 0,5 h | T-209-13 | Claude | 👀 |
 
 **Total estimé : 16,5 h** (15 tâches, toutes pour Claude et l'orchestrateur). Heures de la tranche (b), si le sacrifice n°1 s'applique : T-209-04 (2 h) et environ 0,75 h de ses parts dans T-209-02 et les lots, soit environ 2,75 h.
 
@@ -66,8 +66,8 @@
 
 | Scénario | Tâche | Test ou preuve |
 |----------|-------|----------------|
-| Dépôt conforme (nominal) | T-209-02, T-209-12, T-209-13 | test du script sur un dépôt de fixture conforme : 9 contrôles passent (à nommer) ; `check` sur les branches par défaut distantes des 29 dépôts, rapport final |
-| Dépôt sans verrou (alternatif) | T-209-02, T-209-04, T-209-10 | test du script : `composer audit` après l'installation, revue du verrou « sans objet », CI non en échec (à nommer) ; CI de `sylius-erp-flatfile-plugin` et des 2 packs |
-| Mise à jour Dependabot d'une action (alternatif) | T-209-02, T-209-03 | test : une référence à 40 caractères suivie de l'étiquette en commentaire est acceptée (à nommer) ; première PR Dependabot fusionnée observée ou, à défaut, le test seul et la mention dans le rapport |
-| Avis de sécurité sur une dépendance (erreur) | T-209-02, T-209-04 | test du script : l'étape d'audit échoue en nommant le paquet et l'avis, sur une fixture dont l'audit est simulé (à nommer) ; aucune vraie dépendance vulnérable introduite |
-| Régression d'un workflow (erreur) | T-209-02, T-209-03 | tests : action en étiquette, checkout sans `persist-credentials: false`, `pull_request_target` : échec avec fichier et ligne (à nommer) ; zizmor en CI |
+| Dépôt conforme (nominal) | T-209-02, T-209-12, T-209-13 | `PluginSupplyChainTest::testAConformingRepositoryPassesTheNineControls` ; `check` sur les branches par défaut distantes des 29 dépôts, rapport final |
+| Dépôt sans verrou (alternatif) | T-209-02, T-209-04, T-209-10 | `testARepositoryWithoutLockAuditsAfterTheInstallAndSkipsTheLockReview`, `testARepositoryThatTracksItsLockMustAuditTheLock` ; CI de `sylius-erp-flatfile-plugin` et des 2 packs |
+| Mise à jour Dependabot d'une action (alternatif) | T-209-02, T-209-03 | `testAnActionPinnedByShaWithItsVersionInACommentIsAccepted` ; première PR Dependabot fusionnée observée ou, à défaut, le test seul et la mention dans le rapport |
+| Avis de sécurité sur une dépendance (erreur) | T-209-02, T-209-04 | `testANonBlockingAuditFails` (l'étape doit être bloquante ; Composer nomme lui-même le paquet et l'avis, non simulé) ; aucune vraie dépendance vulnérable introduite |
+| Régression d'un workflow (erreur) | T-209-02, T-209-03 | `testAnActionReferencedByATagFailsWithFileAndLine`, `testACheckoutWithoutPersistCredentialsFalseFailsWithFileAndLine`, `testAPullRequestTargetTriggerFailsWithFileAndLine` ; zizmor en CI |
