@@ -82,7 +82,7 @@ Relation `ManyToMany` entre `DigitalProductPassport` et `Product` (pièces compa
 |----------|-------------|
 | Description du plugin | « Base de données ouverte et versionnée pour le passeport numérique de produit » |
 | Portée | « Modèle de données préparatoire aligné sur le règlement ESPR (UE) 2024/1781 » |
-| Calendrier | « En préparation de l'obligation prévue pour certaines catégories de produits (calendrier indicatif de la Commission : batteries 2027, textiles 2027, etc.) » |
+| Calendrier | « En préparation de l'obligation prévue pour certaines catégories de produits (batteries : 18 février 2027, fixé par le règlement (UE) 2023/1542 ; autres catégories : calendrier indicatif de la Commission) » |
 | Données | « Champs de données anticipés sur la base du règlement (origine, recyclabilité, réparabilité, etc.), susceptibles d'évoluer selon les actes délégués à venir » |
 | Conformité | « **Aucune promesse de conformité réglementaire** tant que les actes délégués par catégorie de produits ne sont pas publiés » |
 
