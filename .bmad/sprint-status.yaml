@@ -594,6 +594,7 @@ backlog:
   - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: ready-for-dev}  # EPIC-18, Must ; sprint 35 ; décision de Thibaut du 2026-10-28 (US-222 fusionnée partielle)
+  - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, status: backlog}  # EPIC-10, Should ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28 (démo seule, issue GitHub hebdomadaire)
   - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-226, title: "Thème Industrie & Négoce : mode sombre optionnel en AAA", points: 3, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-227, title: "Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes", points: 5, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
