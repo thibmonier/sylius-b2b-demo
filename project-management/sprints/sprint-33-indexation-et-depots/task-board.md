@@ -54,8 +54,6 @@ _Aucune tâche._
 | ID | US | Type | Tâche | Estimation | Réalisé par | Attend |
 |----|-----|------|-------|------------|-------------|--------|
 | T-207-02 | US-207 | TEST | État de référence « avant » : tests existants de la table lancés dès 5 Go | 0,25 h | Claude | disque |
-| T-207-11 | US-207 | TEST | Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile`, JSON-LD validé localement | 0,75 h | Claude | disque |
-| T-207-12 | US-207 | DOC | Captures : constat que le rendu est inchangé ; `docs/captures-vitrine.md` si une page change | 0,25 h | Claude | disque |
 | T-207-13 | US-207 | OPS | Image reconstruite ; production le jour du déploiement (`robots.txt`, en-têtes, sitemap, runbook, validateur, pa11y, largeurs) | 0,75 h | Claude | déploiement, T-207-03 |
 | T-207-14 | US-207 | OPS | 📅 Thibaut déclare le sitemap dans Google Search Console | 0,25 h | Thibaut | déploiement |
 | T-TECH-33-03 | Transverse | OPS | 📅 Thibaut libère le disque (cible 10 Go libres), commandes en chemins absolus précédées d'un `du -sh` | 0,25 h | Thibaut | Thibaut |
@@ -82,6 +80,8 @@ _Aucune tâche._
 | T-207-08 | US-207 | BE | Données structurées JSON-LD : `WebSite`, `Person`, `SoftwareSourceCode` ; exclusions | 0,75 h | Claude |
 | T-207-09 | US-207 | TEST | Tests existants de la table adaptés (ligne de registre avant), fixture du routeur, `bin/verify-public-mode` | 0,5 h | Claude |
 | T-207-10 | US-207 | DOC | Documents (`ouverture-publique`, `durcissement-demo`, `seo-et-vitesse`, `dossier-de-go`), runbook, phrase de la page Architecture | 0,75 h | Claude |
+| T-207-11 | US-207 | TEST | Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile`, JSON-LD validé localement | 0,75 h | Claude | disque |
+| T-207-12 | US-207 | DOC | Captures : constat que le rendu est inchangé ; `docs/captures-vitrine.md` si une page change | 0,25 h | Claude | disque |
 
 ## Métriques
 
