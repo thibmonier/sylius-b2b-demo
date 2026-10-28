@@ -10,6 +10,7 @@
 @use 'account-plugins';
 @use 'insights';
 @use 'plugins';
+@use 'architecture';
 
 :root {
     --bs-primary: #{$b2b-navy};

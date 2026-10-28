@@ -2,6 +2,11 @@
 # (%plugins%, %sylius%, %symfony%, %php%, %tests%, %phpstan%, %date%), read from proof.json or the configuration.
 title: "Architecture of the demo"
 intro: "How this demo is built: the Sylius shop, the plugins installed as independent packages, the layer specific to the demo, the flows with the outside world, operations and quality checks. Every section links to the files of the public repository."
+eyebrow: "Architecture"
+title_start: "Architecture of the demo,"
+title_accent: "layer by layer."
+toc:
+    label: "On this page"
 figures:
     plugins: "Installed plugins"
     tests: "Test files"
@@ -10,7 +15,6 @@ figures:
     unavailable: "not available"
 overview:
     title: "Overview"
-    figure_title: "Overview diagram of the demo"
     figure_desc: "At the top, three entry points: the browser of the visitors, AI assistants connected through MCP and the procurement platforms of the buyers connected through PunchOut. In the middle, a single container: Caddy and FrankenPHP serve Sylius %sylius% on Symfony %symfony% and PHP %php%, with %plugins% plugins installed as Composer packages and the layer specific to the demo; supercronic runs the scheduled tasks there, and the same container delivers the webhooks and produces the invoices. At the bottom: the MySQL database, the media volume, and Railway, which builds and deploys the Docker image that the CI checks on every change."
     browser: "Browser"
     assistant: "AI assistant (MCP)"
@@ -20,8 +24,7 @@ overview:
     plugins: "%plugins% tmonier plugins"
     demo_layer: "Demo layer"
     scheduler: "supercronic (scheduled tasks)"
-    flows_line1: "Webhooks (outbox), MCP,"
-    flows_line2: "Factur-X invoices"
+    flows: "Webhooks (outbox), MCP, Factur-X invoices"
     database: "MySQL"
     media: "Media volume"
     delivery: "Railway (Docker image)"
@@ -102,6 +105,17 @@ security:
     abuse: "Sensitive forms are protected against abuse by rate limiting."
     headers: "The HTTP security headers are set by the server."
     dependencies: "The dependencies and the image are scanned on every change."
+tiles:
+    phpstan_label: "PHPStan level"
+    phpstan_note: "Static analysis that blocks the CI, with the code style (ECS) and Rector."
+    tests_note: "Unit, functional and end-to-end tests of the demo pages, run on every change."
+    ci_label: "Last CI run"
+    ci_note: "On the main branch."
+closing:
+    title: "A question about a plugin or about the demo?"
+    text: "The designer's profile presents their background and contact details."
+labels:
+    layers: "The four layers, from the core to the demo"
 links:
     dockerfile: "Dockerfile"
     caddyfile: "Caddyfile"
