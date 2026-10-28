@@ -27,9 +27,9 @@
 | Élément | Statut | Source |
 |---------|--------|--------|
 | **Règlement ESPR (UE) 2024/1781** | Publié au Journal officiel, **en vigueur** | [EUR-Lex](https://eur-lex.europa.eu/eli/reg/2024/1781/oj?locale=fr) |
-| **Registre DPP européen** | **Opérationnel** depuis le 20 juillet 2026 | [Commission européenne](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en) |
+| **Registre DPP européen** | **Opérationnel** depuis le 20 juillet 2026 | [Actualité Commission européenne](https://single-market-economy.ec.europa.eu/news/digital-product-passport-registry-now-live-2026-07-20_en) |
 | **Règlement batteries (UE) 2023/1542** | Publié, **en vigueur** | [EUR-Lex](https://eur-lex.europa.eu/eli/reg/2023/1542/oj/eng) |
-| **GS1 Digital Link 1.7.0** | **Ratifié** en août 2026 | [GS1 Standards](https://ref.gs1.org/standards/digital-link/uri-syntax/) |
+| **GS1 Digital Link 1.7.0** | **Ratified Aug 2026** (statut affiché sur la page de référence) | [GS1 URI Syntax](https://ref.gs1.org/standards/digital-link/uri-syntax/) |
 | **Obligation de principe** (art. 9) | Un produit ne peut être mis sur le marché que si un passeport est disponible, **conformément aux actes délégués** | Règlement (UE) 2024/1781, art. 9 |
 
 ### Ce qui est INDICATIF ou NON ENCORE PUBLIÉ
@@ -37,8 +37,8 @@
 | Élément | Statut | Source |
 |---------|--------|--------|
 | **Actes délégués par catégorie de produits** | **AUCUN acte délégué adopté à ce jour** — Calendrier indicatif : fer/acier Q4 2026, textiles Q4 2027, mobilier 2028, matelas 2029 | [Commission européenne](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en) |
-| **Date batteries (18 février 2027)** | Présentée comme date d'obligation, mais incluse dans le **calendrier indicatif** de la Commission | [Batteries DPP FAQ](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport/eu-digital-product-passport-faq-batteries_en) |
-| **Normes harmonisées CEN/CENELEC JTC 24** | 6 normes attendues en décision d'exécution (juillet 2026), 2 autres (novembre 2026) — **Non encore publiées au Journal officiel** | [Commission européenne](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en) |
+| **Date batteries (18 février 2027)** | Date fixée par le règlement (UE) 2023/1542, art. 77 (passeport électronique obligatoire pour batteries LMT, industrielles > 2 kWh, véhicules électriques) | [Règlement batteries](https://eur-lex.europa.eu/eli/reg/2023/1542/oj/eng) art. 77 |
+| **Normes harmonisées CEN/CENELEC JTC 24** | 6 normes attendues en décision d'exécution (juillet 2026), 2 autres (novembre 2026) — **Calendrier indicatif, statut de publication non vérifié** | [Commission européenne](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en) |
 | **Champs de données par catégorie** | Définis par les actes délégués — Pour les batteries, des **lignes directrices** existent (août 2026), mais les champs obligatoires au 18 février 2027 sont encore partiellement « en attente d'adoption de l'Omnibus » | [Guidance batteries](https://single-market-economy.ec.europa.eu/news/guidance-support-preparations-digital-batteries-passport-2026-08-21_en) |
 | **Période de transition** | « Au moins 18 mois » après l'adoption d'un acte délégué, sauf justification | Règlement (UE) 2024/1781, art. 4 |
 
@@ -77,24 +77,13 @@
 
 ## Recoupement avec Sylius Plus
 
-**Résultat de la recherche du 2026-10-28** : aucune fonctionnalité de passeport numérique de produit, de gestion de la durabilité ou de conformité ESPR trouvée dans la documentation publique de Sylius Plus.
-
-**Sources consultées** :
-- [Page principale Sylius Plus](https://sylius.com/plus/)
-- [Features Overview PDF](https://sylius.com/wp-content/uploads/2021/06/Sylius-Features-Overview.pdf) (juin 2021)
-- [Blog Sylius](https://sylius.com/blog/) (dernière mise à jour : février 2026, Module Subscriptions)
-
-**Fonctionnalités de conformité identifiées dans Sylius Plus** :
-- Module Contract Withdrawal (juin 2026) : droit de rétractation UE
-- Aucune mention de DPP, ESPR, écoconception, recyclabilité ou durabilité
-
-**Conclusion** : **Aucun recoupement identifié.** Le plugin peut être développé et promu publiquement conformément à la politique de communication du 2026-10-14 (pas de promotion si recoupement avec Sylius Plus).
+**Vérification de non-recoupement effectuée le 2026-10-28** (détail hors dépôt public). Aucun recoupement identifié.
 
 ---
 
 ## Identifiants GS1 Digital Link
 
-**Standard retenu** : GS1 Digital Link 1.7.0, ratifié en août 2026.
+**Standard retenu** : GS1 Digital Link 1.7.0 (statut "Ratified Aug 2026" affiché sur la page de référence GS1).
 
 **URI canonique** :
 - Format : `https://id.gs1.org/01/{GTIN-14}/...`
@@ -192,14 +181,12 @@
 ## Sources consultées
 
 - [Règlement (UE) 2024/1781 — ESPR](https://eur-lex.europa.eu/eli/reg/2024/1781/oj?locale=fr) (consulté le 2026-10-28)
+- [Règlement (UE) 2023/1542 — Batteries](https://eur-lex.europa.eu/eli/reg/2023/1542/oj/eng) (consulté le 2026-10-28)
 - [Commission européenne — Digital Product Passport](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en) (consulté le 2026-10-28)
+- [Commission européenne — DPP Registry now live (20 juillet 2026)](https://single-market-economy.ec.europa.eu/news/digital-product-passport-registry-now-live-2026-07-20_en) (consulté le 2026-10-28)
 - [Commission européenne — DPP Batteries](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport/batteries_en) (consulté le 2026-10-28)
 - [Commission européenne — Guidance batteries (août 2026)](https://single-market-economy.ec.europa.eu/news/guidance-support-preparations-digital-batteries-passport-2026-08-21_en) (consulté le 2026-10-28)
-- [Règlement (UE) 2023/1542 — Batteries](https://eur-lex.europa.eu/eli/reg/2023/1542/oj/eng) (consulté le 2026-10-28)
 - [GS1 Digital Link URI Syntax 1.7.0](https://ref.gs1.org/standards/digital-link/uri-syntax/) (consulté le 2026-10-28)
-- [GS1 Digital Link standard](https://www.gs1.org/standards/gs1-digital-link) (consulté le 2026-10-28)
-- [Sylius Plus](https://sylius.com/plus/) (consulté le 2026-10-28)
-- [Sylius Features Overview PDF](https://sylius.com/wp-content/uploads/2021/06/Sylius-Features-Overview.pdf) (consulté le 2026-10-28)
 
 ---
 

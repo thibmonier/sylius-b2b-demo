@@ -9,13 +9,13 @@ Le règlement (UE) 2024/1781 (ESPR — Ecodesign for Sustainable Products Regula
 
 **Ce qui est fixé** (consulté le 2026-10-28) :
 - Le règlement (UE) 2024/1781 est publié et en vigueur ([EUR-Lex](https://eur-lex.europa.eu/eli/reg/2024/1781/oj?locale=fr)).
-- Le registre DPP européen est opérationnel depuis le 20 juillet 2026 ([Commission](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en)).
+- Le registre DPP européen est opérationnel depuis le 20 juillet 2026 ([Actualité Commission](https://single-market-economy.ec.europa.eu/news/digital-product-passport-registry-now-live-2026-07-20_en)).
 - Le règlement batteries (UE) 2023/1542 est publié et en vigueur.
-- Le standard GS1 Digital Link 1.7.0 est ratifié (août 2026).
+- Le standard GS1 Digital Link 1.7.0 affiche le statut "Ratified Aug 2026" sur sa page de référence.
 
 **Ce qui n'est PAS encore fixé** :
 - **Aucun acte délégué par catégorie de produits n'est adopté à ce jour.** Ces actes précisent les données requises, les calendriers d'application et les modalités techniques pour chaque catégorie (batteries, textiles, fer/acier, etc.).
-- La date « 18 février 2027 » pour les batteries est présentée comme une obligation, mais elle figure dans le calendrier **indicatif** de la Commission. Les champs de données obligatoires au 18 février 2027 ne sont pas tous finalisés (certains « en attente d'adoption de l'Omnibus »).
+- La date « 18 février 2027 » pour les batteries est fixée par le règlement (UE) 2023/1542, art. 77 (passeport électronique obligatoire pour batteries LMT, industrielles > 2 kWh, véhicules électriques). Les champs de données obligatoires au 18 février 2027 ne sont pas tous finalisés (certains « en attente d'adoption de l'Omnibus »).
 - Les normes harmonisées CEN/CENELEC JTC 24 (6 attendues en juillet 2026, 2 autres en novembre 2026) ne sont **pas encore publiées au Journal officiel**.
 - Le calendrier par catégorie (fer/acier Q4 2026, textiles Q4 2027, mobilier 2028, etc.) est **indicatif** et « peut évoluer au fur et à mesure de l'avancement des travaux législatifs et techniques » (avertissement de la Commission).
 
@@ -23,9 +23,7 @@ Le règlement (UE) 2024/1781 (ESPR — Ecodesign for Sustainable Products Regula
 
 ## Recoupement avec Sylius Plus
 
-**Recherche du 2026-10-28** : aucune fonctionnalité de passeport numérique de produit, de gestion de la durabilité ou de conformité ESPR trouvée dans la documentation publique de Sylius Plus ([page principale](https://sylius.com/plus/), [Features Overview PDF](https://sylius.com/wp-content/uploads/2021/06/Sylius-Features-Overview.pdf), [blog](https://sylius.com/blog/)).
-
-**Conclusion** : **aucun recoupement identifié.** Le plugin peut être développé et promu conformément à la politique de communication du 2026-10-14 (pas de promotion si recoupement avec Sylius Plus).
+**Vérification de non-recoupement effectuée le 2026-10-28** (détail hors dépôt public). Aucun recoupement identifié.
 
 ## Modèle de données minimal (US-230)
 
@@ -110,7 +108,7 @@ Les termes suivants sont **bannis** dans tout texte public (README, démo, templ
 2. **Identifiants** : GTIN-14 et GS1 Digital Link 1.7.0, QR Code standard.
 3. **Page publique** : route `/dpp/{gtin}`, accessible sans authentification, avec mention de non-conformité.
 4. **Formulation prudente obligatoire** : aucune promesse de conformité, test automatisé de contenu (US-235).
-5. **Recoupement Sylius Plus** : aucun identifié, plugin développable et promu publiquement.
+5. **Recoupement Sylius Plus** : aucun identifié.
 6. **Publication** : plugin open source `tmonier/sylius-digital-product-passport-plugin`, dépôt durci comme US-209, README en français avec lien vers la démo et le profil de l'auteur.
 
 ## Stories découpées (MVP : sprint 36)
@@ -140,7 +138,7 @@ Les termes suivants sont **bannis** dans tout texte public (README, démo, templ
 - **Modèle ouvert et versionné** : extensibilité future garantie, évolution sans migration destructive.
 - **Aucune promesse de conformité** : transparence totale, pas de risque légal.
 - **Standard GS1 ratifié** : identifiants pérennes et universels.
-- **Aucun recoupement Sylius Plus** : développement et promotion autorisés.
+- **Aucun recoupement Sylius Plus** identifié.
 
 ### Négatives
 
@@ -151,13 +149,12 @@ Les termes suivants sont **bannis** dans tout texte public (README, démo, templ
 ## Sources
 
 - [Règlement (UE) 2024/1781 — ESPR](https://eur-lex.europa.eu/eli/reg/2024/1781/oj?locale=fr) (consulté le 2026-10-28)
+- [Règlement (UE) 2023/1542 — Batteries](https://eur-lex.europa.eu/eli/reg/2023/1542/oj/eng) (consulté le 2026-10-28)
 - [Commission européenne — Digital Product Passport](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport_en) (consulté le 2026-10-28)
+- [Commission européenne — DPP Registry now live (20 juillet 2026)](https://single-market-economy.ec.europa.eu/news/digital-product-passport-registry-now-live-2026-07-20_en) (consulté le 2026-10-28)
 - [Commission européenne — DPP Batteries](https://single-market-economy.ec.europa.eu/single-market/digital-product-passport/batteries_en) (consulté le 2026-10-28)
 - [Commission européenne — Guidance batteries (août 2026)](https://single-market-economy.ec.europa.eu/news/guidance-support-preparations-digital-batteries-passport-2026-08-21_en) (consulté le 2026-10-28)
-- [Règlement (UE) 2023/1542 — Batteries](https://eur-lex.europa.eu/eli/reg/2023/1542/oj/eng) (consulté le 2026-10-28)
 - [GS1 Digital Link URI Syntax 1.7.0](https://ref.gs1.org/standards/digital-link/uri-syntax/) (consulté le 2026-10-28)
-- [GS1 Digital Link standard](https://www.gs1.org/standards/gs1-digital-link) (consulté le 2026-10-28)
-- [Sylius Plus](https://sylius.com/plus/) (consulté le 2026-10-28)
 
 ---
 
