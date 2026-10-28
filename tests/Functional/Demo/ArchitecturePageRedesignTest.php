@@ -45,11 +45,11 @@ final class ArchitecturePageRedesignTest extends WebTestCase
         self::assertCount(\count(self::SECTIONS), $anchors);
         self::assertNotSame('', trim((string) $page->filter('nav[data-architecture-toc]')->attr('aria-label')));
         $targets = $anchors->each(static fn (Crawler $anchor): string => (string) $anchor->attr('href'));
-        $sections = $page->filter('section[data-architecture-section]')->each(static fn (Crawler $section): string => '#' . $section->attr('id'));
-        self::assertSame($sections, $targets, 'each anchor points to the section of the same rank');
-        foreach ($sections as $index => $target) {
-            $section = $page->filter('section' . $target . '[data-architecture-section="' . self::SECTIONS[$index] . '"]');
-            self::assertCount(1, $section, $target);
+        $titles = $page->filter('section[data-architecture-section] h2')->each(static fn (Crawler $title): string => '#' . $title->attr('id'));
+        self::assertSame($titles, $targets, 'each anchor points to the title of the section of the same rank: the browser focuses it (tabindex -1) and announces it');
+        foreach (self::SECTIONS as $index => $name) {
+            $section = $page->filter('section[data-architecture-section="' . $name . '"]');
+            self::assertCount(1, $section->filter($targets[$index]), $name);
             self::assertSame(trim($section->filter('h2')->text()), trim($anchors->eq($index)->text()), 'the anchor is labelled by the title of its section');
         }
     }
