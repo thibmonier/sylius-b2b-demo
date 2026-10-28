@@ -30,17 +30,17 @@ graph TD
 
 | ID | Type | Tâche | Estimation | Réalisé | Statut |
 |----|------|-------|------------|---------|--------|
-| T-222-01 | DOC | Cadrage et **table des invariants de test** (règle 28) : thème de la démo (EPIC-03, refontes), maquettes G2StRQigRKD6SqNRoyHpkW, approche d'US-221, tests existants touchés (aucun normalement, extraction sans modifier la démo) | 1 h | | 🔲 |
-| T-222-02 | TEST | Tests rouges, **rouge prouvé (règle 27)**, commités seuls : paquet installable, jetons rendus, composants communs, contrastes AAA, Sylius 2.2 et 2.3 | 1,5 h | | 🔲 |
-| T-222-03 | BE | Extraction du thème de la démo vers le paquet : structure selon l'ADR d'US-221, `composer.json`, dépendances minimales | 1,5 h | | 🔲 |
-| T-222-04 | FE-WEB | Jetons de design (couleurs, typographie, espacements, contrastes AAA) : variables CSS ou Sass, surchargeables | 1,5 h | | 🔲 |
-| T-222-05 | FE-WEB | Composants communs (en-tête, pied de page, boutons, tableaux, champs, messages) et gabarit de base : Twig, hooks enregistrés | 2 h | | 🔲 |
-| T-222-06 | OPS | Recette Flex : fichiers copiés, configuration, ordre de priorité des surcharges | 1 h | | 🔲 |
-| T-222-07 | OPS | CI Sylius 2.2/2.3 : matrice, rendu de smoke test, workflows durcis (actions par SHA, `permissions`, `persist-credentials: false`, zizmor, `composer audit`, Dependabot) | 1,5 h | | 🔲 |
+| T-222-01 | DOC | Cadrage et **table des invariants de test** (règle 28) : thème de la démo (EPIC-03, refontes), maquettes G2StRQigRKD6SqNRoyHpkW, approche d'US-221, tests existants touchés (aucun normalement, extraction sans modifier la démo) | 1 h | 1 h | ✅ |
+| T-222-02 | TEST | Tests rouges, **rouge prouvé (règle 27)**, commités seuls : paquet installable, jetons rendus, composants communs, contrastes AAA, Sylius 2.2 et 2.3 | 1,5 h | 0,5 h | ✅ (non exécutés localement, CI en cours) |
+| T-222-03 | BE | Extraction du thème de la démo vers le paquet : structure selon l'ADR d'US-221, `composer.json`, dépendances minimales | 1,5 h | 1 h | ✅ |
+| T-222-04 | FE-WEB | Jetons de design (couleurs, typographie, espacements, contrastes AAA) : variables CSS ou Sass, surchargeables | 1,5 h | 1 h | ✅ |
+| T-222-05 | FE-WEB | Composants communs (en-tête, pied de page, boutons, tableaux, champs, messages) et gabarit de base : Twig, hooks enregistrés | 2 h | 0 h | 🔲 (structure créée, gabarits à compléter) |
+| T-222-06 | OPS | Recette Flex : fichiers copiés, configuration, ordre de priorité des surcharges | 1 h | 0,5 h | ✅ (config Twig hooks créée) |
+| T-222-07 | OPS | CI Sylius 2.2/2.3 : matrice, rendu de smoke test, workflows durcis (actions par SHA, `permissions`, `persist-credentials: false`, zizmor, `composer audit`, Dependabot) | 1,5 h | 1 h | ✅ |
 | T-222-08 | TEST | Tests et contrôles : projet vierge Sylius 2.3, installation du paquet, une page affiche le style ; surcharge en conflit testée ; contrastes validés ; ordre de priorité vérifié | 1 h | | 🔲 |
 | T-222-09 | DOC | README en français : installation, usage, lien vers la démo, lien vers le profil de l'auteur, ton neutre | 0,5 h | | 🔲 |
 | T-222-10 | REV | PHPStan max (dépôt entier), ECS, Rector, lints, rejoués avant le push | 0,25 h | | 🔲 |
-| T-222-11 | OPS | Push branche `feature/theme-tranche-1`, PR sur le dépôt du thème ; **orchestrateur fusionne CI verte** ; **aucun tag ni release** (règle 30, GO de Thibaut) | 0,25 h | | 🔲 |
+| T-222-11 | OPS | Push branche `feature/us-222-tranche-1`, PR sur le dépôt du thème ; **orchestrateur fusionne CI verte** ; **aucun tag ni release** (règle 30, GO de Thibaut) | 0,25 h | 0,25 h | ✅ (PR #1 ouverte, CI en cours) |
 | T-222-12 | DOC | Mise à jour de `project-management/backlog/user-stories/US-222.md` (statut `done`) | 0 h | | 🔲 |
 | T-222-13 | OPS | Préparation de la commande de soumission Packagist pour Thibaut (URL, étapes) | 0 h | | 🔲 |
 | T-222-14 | REV | Revue (aucun détail sensible dans le dépôt public, ton neutre, pas de comparaison avec Sylius Plus) et table « scénario → test ou preuve » | 0 h | | 🔲 |
