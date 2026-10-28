@@ -1,7 +1,7 @@
 # ADR-0019 — Packaging d'un thème Sylius 2 : Twig hooks, assets et Flex
 
 - **Statut** : Proposé (2026-10-28)
-- **Contexte projet** : sylius-b2b-demo, sprint 34, spike US-221 (3 points, borné à 6 h). Ce spike définit la structure du paquet `thibmonier/sylius-industry-trade-theme` pour [EPIC-18](../../project-management/backlog/epics/EPIC-18.md).
+- **Contexte projet** : sylius-b2b-demo, sprint 34, spike US-221 (3 points, borné à 6 h). Ce spike définit la structure du paquet Composer `tmonier/sylius-industry-trade-theme` (dépôt GitHub `thibmonier/sylius-industry-trade-theme`) pour [EPIC-18](../../project-management/backlog/epics/EPIC-18.md).
 
 ## Contexte
 
@@ -55,11 +55,11 @@ Ce spike (6 h maximum) répond à :
 **Problème** : Les Twig hooks sont configurés dans l'application, pas dans le thème lui-même. Le ThemeBundle ne supporte pas nativement les hooks Twig dans la configuration du thème.
 
 **Solutions possibles** :
-1. **Recette Flex qui copie un fichier de configuration** dans `config/packages/thibmonier_sylius_industry_trade_theme.yaml`
+1. **Recette Flex qui copie un fichier de configuration** dans `config/packages/tmonier_sylius_industry_trade_theme.yaml`
 2. **Bundle Symfony dans le thème** avec un `DependencyInjection/Configuration.php` qui enregistre les hooks
 3. **Extension Twig** dans le thème qui injecte les hooks programmatiquement
 
-**Recommandation** : **Recette Flex avec fichier de configuration**. C'est la solution la plus simple et la plus transparente. Le fichier copié sera `config/packages/thibmonier_sylius_industry_trade_theme.yaml` et contiendra tous les hooks Twig du thème. L'intégrateur peut ensuite surcharger ce fichier dans son projet.
+**Recommandation** : **Recette Flex avec fichier de configuration**. C'est la solution la plus simple et la plus transparente. Le fichier copié sera `config/packages/tmonier_sylius_industry_trade_theme.yaml` et contiendra tous les hooks Twig du thème. L'intégrateur peut ensuite surcharger ce fichier dans son projet.
 
 **Surcharges de gabarits** : Les gabarits dans `templates/bundles/SyliusShopBundle/` surchargent automatiquement ceux du bundle. Ordre de priorité (du plus au moins prioritaire) :
 1. Application : `templates/bundles/SyliusShopBundle/`
@@ -90,8 +90,8 @@ La syntaxe `@!SyliusShop/template.html.twig` dans un gabarit de thème force l'u
 **Livraison des assets** :
 1. Assets sources dans `<theme>/assets/` (styles SCSS, scripts JS, Stimulus controllers)
 2. Build Webpack génère les assets compilés dans `<theme>/public/build/`
-3. Commande `php bin/console sylius:theme:assets:install` copie `<theme>/public/` vers `public/bundles/thibmoniersyliusindustrytradetheme/`
-4. Les gabarits référencent les assets via `asset('bundles/thibmoniersyliusindustrytradetheme/build/...')`
+3. Commande `php bin/console sylius:theme:assets:install` copie `<theme>/public/` vers `public/bundles/tmoniersyliusindustrytradetheme/`
+4. Les gabarits référencent les assets via `asset('bundles/tmoniersyliusindustrytradetheme/build/...')`
 
 **Stimulus controllers** :
 - Controllers dans `<theme>/assets/controllers/`
@@ -106,7 +106,7 @@ Une recette Flex (dépôt `symfony/recipes-contrib` ou `Sylius/SyliusRecipes`) a
 ```
 config/
   packages/
-    thibmonier_sylius_industry_trade_theme.yaml  # Configuration des Twig hooks
+    tmonier_sylius_industry_trade_theme.yaml  # Configuration des Twig hooks
 ```
 
 **Configuration automatique** (via `configurator`) :
@@ -131,8 +131,8 @@ config/
 ```
 
 **Ordre de priorité des surcharges** (après installation) :
-1. Application : `config/packages/thibmonier_sylius_industry_trade_theme.yaml` (copié par Flex, modifiable)
-2. Thème : `vendor/thibmonier/sylius-industry-trade-theme/templates/`
+1. Application : `config/packages/tmonier_sylius_industry_trade_theme.yaml` (copié par Flex, modifiable)
+2. Thème : `vendor/tmonier/sylius-industry-trade-theme/templates/`
 3. Bundle Sylius : `vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/`
 
 ### 5. Compatibilité Sylius 2.2 et 2.3
@@ -177,8 +177,11 @@ config/
 
 ### Structure du paquet recommandée
 
+**Nom Composer** : `tmonier/sylius-industry-trade-theme` (cohérent avec les plugins existants : `tmonier/sylius-b2b-mcp-plugin`, etc.)  
+**Dépôt GitHub** : `thibmonier/sylius-industry-trade-theme` (propriétaire GitHub)
+
 ```
-thibmonier/sylius-industry-trade-theme/
+tmonier/sylius-industry-trade-theme/
 ├── composer.json                    # Type: sylius-theme, extra.sylius-theme
 ├── README.md                        # En français, installation, lien démo, profil auteur
 ├── LICENSE                          # MIT
@@ -187,7 +190,7 @@ thibmonier/sylius-industry-trade-theme/
 │       └── ci.yaml                  # CI Sylius 2.2/2.3, PHPStan, ECS, Rector
 ├── config/
 │   └── packages/
-│       └── thibmonier_sylius_industry_trade_theme.yaml  # Twig hooks (copié par Flex)
+│       └── tmonier_sylius_industry_trade_theme.yaml  # Twig hooks (copié par Flex)
 ├── assets/                          # Assets sources (SCSS, JS, Stimulus)
 │   ├── styles/
 │   │   ├── _variables.scss          # Jetons de design (couleurs, typo, espacements)
@@ -221,9 +224,12 @@ thibmonier/sylius-industry-trade-theme/
 
 ### Nom Composer et métadonnées
 
+**Nom Composer** : `tmonier/sylius-industry-trade-theme` (cohérent avec les plugins existants : `tmonier/sylius-b2b-mcp-plugin`, etc.)  
+**Dépôt GitHub** : `thibmonier/sylius-industry-trade-theme` (propriétaire GitHub)
+
 ```json
 {
-    "name": "thibmonier/sylius-industry-trade-theme",
+    "name": "tmonier/sylius-industry-trade-theme",
     "type": "sylius-theme",
     "description": "Thème Industrie & Négoce pour Sylius — haute densité d'information, mode sombre AAA, saisie rapide",
     "keywords": ["sylius", "theme", "b2b", "industry", "trade"],
@@ -247,7 +253,7 @@ thibmonier/sylius-industry-trade-theme/
 **Dépôt** : `Sylius/SyliusRecipes` (contribution à soumettre après validation)
 
 **Fichiers copiés** :
-- `config/packages/thibmonier_sylius_industry_trade_theme.yaml` : Configuration des Twig hooks
+- `config/packages/tmonier_sylius_industry_trade_theme.yaml` : Configuration des Twig hooks
 
 **Post-install** : Instructions pour activer le thème, installer les assets et builder
 
@@ -255,7 +261,7 @@ thibmonier/sylius-industry-trade-theme/
 
 **US-228** (sprint 41, 5 points) : La démo passe de son thème intégré au paquet publié
 
-1. **Installation** : `composer require thibmonier/sylius-industry-trade-theme`
+1. **Installation** : `composer require tmonier/sylius-industry-trade-theme`
 2. **Recette Flex** : Copie automatique de la configuration des hooks
 3. **Activation** : Le ThemeContext de la démo active le thème (déjà en place)
 4. **Assets** :
