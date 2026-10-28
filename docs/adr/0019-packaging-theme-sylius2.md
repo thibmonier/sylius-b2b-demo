@@ -1,6 +1,6 @@
 # ADR-0019 — Packaging d'un thème Sylius 2 : Twig hooks, assets et Flex
 
-- **Statut** : Proposé (2026-10-28)
+- **Statut** : Accepté (2026-10-28, GO de Thibaut : approche, recette dans symfony/recipes-contrib, PHP ^8.3)
 - **Contexte projet** : sylius-b2b-demo, sprint 34, spike US-221 (3 points, borné à 6 h). Ce spike définit la structure du paquet Composer `tmonier/sylius-industry-trade-theme` (dépôt GitHub `thibmonier/sylius-industry-trade-theme`) pour [EPIC-18](../../project-management/backlog/epics/EPIC-18.md).
 
 ## Contexte
