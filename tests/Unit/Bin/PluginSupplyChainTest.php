@@ -312,7 +312,8 @@ final class PluginSupplyChainTest extends TestCase
 
     public function testApplyGivesTheAuditStepTheConditionOfTheInstallStep(): void
     {
-        $workflow = str_replace("                            name: Build Sylius Test Application\n", "                            name: Build Sylius Test Application\n                            if: steps.next.outputs.available == 'true'\n", $this->legacyWorkflow());
+        $workflow = str_replace("                name: Build Sylius Test Application\n", "                name: Build Sylius Test Application\n                if: steps.next.outputs.available == 'true'\n", $this->legacyWorkflow());
+        self::assertStringContainsString("if: steps.next.outputs.available == 'true'", $workflow);
         $repository = $this->legacyRepository('conditional', workflow: $workflow);
 
         $this->execute('apply', $repository, '--write');
