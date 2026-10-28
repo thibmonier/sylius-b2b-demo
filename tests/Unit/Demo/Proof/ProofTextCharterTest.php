@@ -31,7 +31,8 @@ final class ProofTextCharterTest extends TestCase
 
         self::assertSame([], $charter->ambiguities($text), $key);
         self::assertSame([], $charter->commercialWording($text), $key);
-        self::assertSame([], $charter->unsourcedFigures($text), $key);
+        // The only figure written in a text is the Sylius version the page is about (2.3): every count comes from the report.
+        self::assertSame([], $charter->unsourcedFigures($text, ['2', '3']), $key);
         foreach (self::COMPARISONS as $pattern) {
             self::assertSame(0, preg_match($pattern, $text), $key . ' compares or promises: ' . $text);
         }

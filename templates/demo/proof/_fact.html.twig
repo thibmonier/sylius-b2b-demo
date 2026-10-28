@@ -1,14 +1,22 @@
 {#
-    One fact of the technical proof (US-111): the figure as a link to its public source with the check date, or the plain
-    statement that it is not published, not measured or not available. Never an estimate.
-    Usage: {% include 'demo/proof/_fact.html.twig' with { fact: fact, text: 'text shown when verified' } only %}
+    One fact of the technical proof (US-111, US-205): the figure as a link to its public source, or the plain statement that
+    it is not published, not measured or not available. Never an estimate.
+    The date of the snapshot is shown once, at the top of the page: a fact carries its own date only when it differs from it
+    (a value kept after a failed refresh, for example).
+    Usage: {% include 'demo/proof/_fact.html.twig' with { fact: fact, text: 'text shown when verified', generated: report.generatedAt|slice(0, 10), mark: true } only %}
+    `mark` (optional): a tick before the text; decoration only, the text carries the meaning.
 #}
+{% set own_date = fact.checkedAt is not null ? fact.checkedAt|slice(0, 10) : null %}
 {% if fact.status == 'verified' %}
-    <a href="{{ fact.source }}" rel="noopener">{{ text }}</a>
-    <small class="d-block text-muted">{{ 'checked'|trans({}, 'proof') }} <time datetime="{{ fact.checkedAt|slice(0, 10) }}">{{ fact.checkedAt|slice(0, 10) }}</time>{% if fact.stale %} <span data-proof-stale>{{ 'stale'|trans({}, 'proof') }}</span>{% endif %}</small>
+    <a class="b2b-proof-value{{ mark|default(false) ? ' b2b-proof-value--ok' : '' }}" href="{{ fact.source }}" rel="noopener" target="_blank">{% if mark|default(false) %}<span aria-hidden="true">✓&nbsp;</span>{% endif %}<span data-proof-label>{{ text }}</span><span class="visually-hidden"> {{ 'source_new_tab'|trans({}, 'proof') }}</span></a>
 {% elseif fact.status == 'unpublished' %}
-    <span data-proof-state="unpublished">{{ 'status.unpublished'|trans({}, 'proof') }}</span>
-    <small class="d-block text-muted">{{ 'checked'|trans({}, 'proof') }} <time datetime="{{ fact.checkedAt|slice(0, 10) }}">{{ fact.checkedAt|slice(0, 10) }}</time></small>
+    <span class="b2b-proof-state" data-proof-state="unpublished">{{ 'status.unpublished'|trans({}, 'proof') }}</span>
 {% else %}
-    <span data-proof-state="{{ fact.status }}">{{ ('status.' ~ fact.status)|trans({}, 'proof') }}</span>
+    <span class="b2b-proof-state" data-proof-state="{{ fact.status }}">{{ ('status.' ~ fact.status)|trans({}, 'proof') }}</span>
+{% endif %}
+{% if fact.status in ['verified', 'unpublished'] and own_date is not null and own_date != generated %}
+    <span class="b2b-proof-date">{{ 'checked'|trans({}, 'proof') }} <time datetime="{{ own_date }}">{{ own_date }}</time></span>
+{% endif %}
+{% if fact.status == 'verified' and fact.stale %}
+    <span class="b2b-proof-date" data-proof-stale>{{ 'stale'|trans({}, 'proof') }}</span>
 {% endif %}

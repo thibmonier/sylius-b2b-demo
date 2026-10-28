@@ -1,103 +1,166 @@
+{#
+    US-111, US-205: the "Technical proof" page, in the editorial look of the B2B home (validated mock-up of 2026-10-28): introduction,
+    summary tiles counted from the report, how the demo is delivered, then every plugin (a table from 992 px, a card per plugin
+    below). No text of its own: everything comes from the `proof` domain. The page serves both channels: the classes of the B2B
+    stylesheet only style the B2B one; the table and the cards switch with Bootstrap utilities, so the markup stays readable on the other.
+#}
 {% extends '@SyliusShop/shared/layout/base.html.twig' %}
 
 {% block title %}{{ 'title'|trans({}, 'proof') }}{% endblock %}
 
 {% block content %}
-    <style>
-        [data-proof-table] time { white-space: nowrap; }
-        @media (max-width: 767.98px) {
-            [data-proof-table] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-            [data-proof-table] tr { display: block; margin-bottom: 1rem; padding: .5rem .75rem; border: 1px solid var(--bs-border-color, #dee2e6); border-radius: .375rem; }
-            [data-proof-table] th, [data-proof-table] td { display: block; padding: .25rem 0; border: 0; overflow-wrap: anywhere; }
-            [data-proof-table] td::before { content: attr(data-label); display: block; font-weight: 600; font-size: .875rem; }
-        }
-    </style>
-    <div class="container my-5" data-page="proof">
-        <h1>{{ 'title'|trans({}, 'proof') }}</h1>
-        <p class="lead">{{ 'intro'|trans({'%count%': plugins|length}, 'proof') }}</p>
-        <p data-proof-generated>
-            {% if report.generatedAt %}{{ 'generated'|trans({'%date%': report.generatedAt|slice(0, 10)}, 'proof') }} {% endif %}{{ 'generated_note'|trans({}, 'proof') }}
-        </p>
-
-        <section class="mt-5" data-proof-delivery aria-labelledby="proof-delivery-title">
-            <h2 class="h4 border-bottom pb-2 b2b-section-title" id="proof-delivery-title">{{ 'delivery.title'|trans({}, 'proof') }}</h2>
-            <p>{{ 'delivery.intro'|trans({}, 'proof') }}</p>
-            <ul class="list-unstyled d-grid gap-2">
-                {% for key in ['tests', 'phpstan', 'ecs', 'composer_audit', 'image_scan', 'sbom', 'ci'] %}
-                    {% set fact = report.deliveryFact(key) %}
-                    {% if key == 'tests' %}
-                        {% set text = 'tests_count'|trans({'%count%': fact.value}, 'proof') %}
-                    {% elseif key == 'phpstan' %}
-                        {% set text = 'delivery.phpstan_level'|trans({'%level%': fact.value}, 'proof') %}
-                    {% elseif key == 'ci' %}
-                        {% set text = ('ci.' ~ fact.value)|trans({}, 'proof') %}
+    {% set generated = report.generatedAt ? report.generatedAt|slice(0, 10) : null %}
+    {% set columns = summary.hasCoverage() ? ['plugin', 'version', 'sylius', 'ci', 'phpstan', 'tests', 'coverage'] : ['plugin', 'version', 'sylius', 'ci', 'phpstan', 'tests'] %}
+    {% set card_fields = summary.hasCoverage() ? ['version', 'ci', 'phpstan', 'tests', 'coverage', 'sylius'] : ['version', 'ci', 'phpstan', 'tests', 'sylius'] %}
+    <div data-page="proof">
+        <section class="b2b-home-section b2b-proof-intro" aria-labelledby="proof-title">
+            <div class="b2b-home-wrap">
+                <nav class="b2b-proof-crumb" aria-label="{{ 'breadcrumb.label'|trans({}, 'proof') }}">
+                    <a href="{{ path('sylius_shop_homepage') }}">{{ 'breadcrumb.home'|trans({}, 'proof') }}</a>
+                    <span aria-hidden="true">/</span>
+                    <span aria-current="page">{{ 'title'|trans({}, 'proof') }}</span>
+                </nav>
+                <p class="b2b-home-eyebrow">{{ 'title'|trans({}, 'proof') }}</p>
+                <h1 id="proof-title" class="b2b-home-h1">{{ 'hero.title_start'|trans({}, 'proof') }} <span class="b2b-home-h1__accent">{{ 'hero.title_accent'|trans({}, 'proof') }}</span></h1>
+                <p class="b2b-home-lead">{{ 'intro'|trans({'%count%': plugins|length}, 'proof') }}</p>
+                <p class="b2b-proof-generated" data-proof-generated>
+                    {% if generated %}
+                        <span class="b2b-proof-pill">{{ 'generated'|trans({}, 'proof') }} <time datetime="{{ generated }}">{{ generated }}</time></span>
+                        <span>{{ 'generated_note'|trans({}, 'proof') }}</span>
                     {% else %}
-                        {% set text = fact.value %}
+                        <span class="b2b-proof-pill">{{ 'generated_missing'|trans({}, 'proof') }}</span>
                     {% endif %}
-                    <li data-proof-delivery-item="{{ key }}">
-                        <strong>{{ ('delivery.item.' ~ key)|trans({}, 'proof') }}</strong> :
-                        {% include 'demo/proof/_fact.html.twig' with { fact: fact, text: text } only %}
-                    </li>
-                {% endfor %}
-            </ul>
+                </p>
+                <nav class="b2b-proof-chips" aria-label="{{ 'sections.label'|trans({}, 'proof') }}" data-proof-sections>
+                    <a class="b2b-proof-chip" href="#synthese">{{ 'summary.title'|trans({}, 'proof') }}</a>
+                    <a class="b2b-proof-chip" href="#livraison">{{ 'delivery.title'|trans({}, 'proof') }}</a>
+                    <a class="b2b-proof-chip" href="#plugins">{{ 'plugins.title'|trans({}, 'proof') }} <span class="b2b-proof-chip__count">· {{ plugins|length }}</span></a>
+                </nav>
+            </div>
         </section>
 
-        <section class="mt-5" aria-labelledby="proof-plugins-title">
-            <h2 class="h4 border-bottom pb-2 b2b-section-title" id="proof-plugins-title">{{ 'plugins.title'|trans({}, 'proof') }}</h2>
-            <p>{{ 'legend'|trans({}, 'proof') }}</p>
-            <table class="table align-top" data-proof-table role="table">
-                <caption class="visually-hidden">{{ 'plugins.caption'|trans({}, 'proof') }}</caption>
-                <thead role="rowgroup">
-                    <tr role="row">
-                        {% for column in ['plugin', 'version', 'sylius', 'ci', 'phpstan', 'tests', 'coverage'] %}
-                            <th scope="col" role="columnheader">{{ ('plugins.column.' ~ column)|trans({}, 'proof') }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody role="rowgroup">
-                    {% for plugin in plugins %}
-                        {% set slug = plugin.slug %}
-                        {% set version = report.fact(slug, 'version') %}
-                        {% set compat = report.fact(slug, 'sylius_23') %}
-                        {% set declared = report.fact(slug, 'sylius_declared') %}
-                        {% set tested = report.fact(slug, 'sylius_tested') %}
-                        {% set ci = report.fact(slug, 'ci') %}
-                        {% set phpstan = report.fact(slug, 'phpstan') %}
-                        {% set tests = report.fact(slug, 'tests') %}
-                        {% set coverage = report.fact(slug, 'coverage') %}
-                        <tr data-plugin="{{ slug }}" role="row">
-                            <th scope="row" role="rowheader" class="fw-bold"><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}#plugin-{{ slug }}">{{ plugin.name }}</a></th>
-                            <td data-proof-cell="version" data-label="{{ 'plugins.column.version'|trans({}, 'proof') }}" role="cell">
-                                {% include 'demo/proof/_fact.html.twig' with { fact: version, text: version.value } only %}
-                            </td>
-                            <td data-proof-cell="sylius" data-label="{{ 'plugins.column.sylius'|trans({}, 'proof') }}" role="cell">
-                                {% if compat.status == 'verified' %}
-                                    {% set answer = (compat.value ? 'answer.yes' : 'answer.no')|trans({}, 'proof') %}
-                                    {% set compat_text = declared.status == 'verified' ? 'sylius.compat_constraint'|trans({'%answer%': answer, '%constraint%': declared.value}, 'proof') : 'sylius.compat'|trans({'%answer%': answer}, 'proof') %}
-                                {% else %}
-                                    {% set compat_text = '' %}
-                                {% endif %}
-                                <div>{% include 'demo/proof/_fact.html.twig' with { fact: compat, text: compat_text } only %}</div>
-                                {% if tested.status == 'verified' or compat.status == 'verified' %}
-                                    <div class="mt-1">{% include 'demo/proof/_fact.html.twig' with { fact: tested, text: tested.status == 'verified' ? 'sylius.tested'|trans({'%versions%': tested.value}, 'proof') : '' } only %}</div>
-                                {% endif %}
-                            </td>
-                            <td data-proof-cell="ci" data-label="{{ 'plugins.column.ci'|trans({}, 'proof') }}" role="cell">
-                                {% include 'demo/proof/_fact.html.twig' with { fact: ci, text: ci.status == 'verified' ? ('ci.' ~ ci.value)|trans({}, 'proof') : '' } only %}
-                            </td>
-                            <td data-proof-cell="phpstan" data-label="{{ 'plugins.column.phpstan'|trans({}, 'proof') }}" role="cell">
-                                {% include 'demo/proof/_fact.html.twig' with { fact: phpstan, text: 'phpstan_level'|trans({'%level%': phpstan.value}, 'proof') } only %}
-                            </td>
-                            <td data-proof-cell="tests" data-label="{{ 'plugins.column.tests'|trans({}, 'proof') }}" role="cell">
-                                {% include 'demo/proof/_fact.html.twig' with { fact: tests, text: 'tests_count'|trans({'%count%': tests.value}, 'proof') } only %}
-                            </td>
-                            <td data-proof-cell="coverage" data-label="{{ 'plugins.column.coverage'|trans({}, 'proof') }}" role="cell">
-                                {% include 'demo/proof/_fact.html.twig' with { fact: coverage, text: coverage.value ~ ' %' } only %}
-                            </td>
-                        </tr>
+        <section id="synthese" class="b2b-home-section b2b-home-section--sand b2b-proof-section" aria-labelledby="proof-summary-title">
+            <div class="b2b-home-wrap">
+                <div class="b2b-proof-head">
+                    <h2 id="proof-summary-title" class="b2b-home-h2">{{ 'summary.title'|trans({}, 'proof') }}</h2>
+                    <p class="b2b-proof-head__aside">{{ 'summary.scope'|trans({'%count%': plugins|length}, 'proof') }}</p>
+                </div>
+                <ul class="b2b-proof-tiles" data-proof-summary>
+                    {% for tile, count in {versions: summary.versions, sylius: summary.sylius23, ci: summary.ciPassed, phpstan: summary.phpstanMax} %}
+                        <li class="b2b-proof-tile" data-proof-tile="{{ tile }}">
+                            <span class="b2b-home-serif b2b-proof-tile__value" data-proof-value>{{ count }}<small>/{{ summary.plugins }}</small></span>
+                            <span class="b2b-proof-tile__label">{{ ('summary.tile.' ~ tile ~ '.label')|trans({}, 'proof') }}</span>
+                            <span class="b2b-proof-tile__note" data-proof-note>{{ ('summary.tile.' ~ tile ~ '.note')|trans({}, 'proof') }}</span>
+                        </li>
                     {% endfor %}
-                </tbody>
-            </table>
+                    <li class="b2b-proof-tile" data-proof-tile="tests">
+                        <span class="b2b-home-serif b2b-proof-tile__value" data-proof-value>{{ summary.testFiles }}</span>
+                        <span class="b2b-proof-tile__label">{{ 'summary.tile.tests.label'|trans({}, 'proof') }}</span>
+                        <span class="b2b-proof-tile__note" data-proof-note>
+                            {{ 'summary.tile.tests.note'|trans({'%count%': summary.pluginsWithTestFiles}, 'proof') }}
+                            {% if summary.demoTestFiles is not null %}{{ 'summary.tile.tests.demo'|trans({'%count%': summary.demoTestFiles}, 'proof') }}{% endif %}
+                        </span>
+                    </li>
+                    <li class="b2b-proof-tile" data-proof-tile="coverage">
+                        {% if summary.hasCoverage() %}
+                            <span class="b2b-home-serif b2b-proof-tile__value" data-proof-value>{{ summary.coverage }}<small>/{{ summary.plugins }}</small></span>
+                        {% else %}
+                            <span class="b2b-home-serif b2b-proof-tile__value b2b-proof-tile__value--text" data-proof-value>{{ 'status.unmeasured_title'|trans({}, 'proof') }}</span>
+                        {% endif %}
+                        <span class="b2b-proof-tile__label">{{ 'summary.tile.coverage.label'|trans({}, 'proof') }}</span>
+                        <span class="b2b-proof-tile__note" data-proof-note>{{ (summary.hasCoverage() ? 'summary.tile.coverage.note' : 'summary.tile.coverage.note_none')|trans({}, 'proof') }}</span>
+                    </li>
+                </ul>
+                <p class="b2b-proof-legend">{{ 'summary.legend'|trans({}, 'proof') }}</p>
+            </div>
+        </section>
+
+        <section id="livraison" class="b2b-home-section b2b-proof-section" aria-labelledby="proof-delivery-title" data-proof-delivery>
+            <div class="b2b-home-wrap">
+                <div class="b2b-proof-head">
+                    <h2 id="proof-delivery-title" class="b2b-home-h2">{{ 'delivery.title'|trans({}, 'proof') }}</h2>
+                </div>
+                <div class="b2b-proof-delivery">
+                    <p class="b2b-proof-delivery__intro">{{ 'delivery.intro'|trans({}, 'proof') }}</p>
+                    <dl class="b2b-proof-list">
+                        {% for key in ['tests', 'phpstan', 'ecs', 'composer_audit', 'image_scan', 'sbom', 'ci'] %}
+                            {% set fact = report.deliveryFact(key) %}
+                            {% if key == 'tests' %}
+                                {% set text = 'tests_count'|trans({'%count%': fact.value}, 'proof') %}
+                            {% elseif key == 'phpstan' %}
+                                {% set text = 'delivery.phpstan_level'|trans({'%level%': fact.value}, 'proof') %}
+                            {% elseif key == 'ci' %}
+                                {% set text = fact.status == 'verified' ? ('ci.' ~ fact.value)|trans({}, 'proof') : '' %}
+                            {% else %}
+                                {% set text = fact.value %}
+                            {% endif %}
+                            <div class="b2b-proof-list__item" data-proof-delivery-item="{{ key }}">
+                                <dt>{{ ('delivery.item.' ~ key)|trans({}, 'proof') }}</dt>
+                                <dd>{% include 'demo/proof/_fact.html.twig' with { fact: fact, text: text, generated: generated, mark: key == 'ci' and fact.status == 'verified' and fact.value == 'success' } only %}</dd>
+                            </div>
+                        {% endfor %}
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <section id="plugins" class="b2b-home-section b2b-home-section--sand b2b-proof-section" aria-labelledby="proof-plugins-title">
+            <div class="b2b-home-wrap">
+                <div class="b2b-proof-head">
+                    <h2 id="proof-plugins-title" class="b2b-home-h2">{{ 'plugins.title'|trans({}, 'proof') }}</h2>
+                    <p class="b2b-proof-head__aside">{{ 'plugins.count'|trans({'%count%': plugins|length}, 'proof') }}</p>
+                </div>
+                <p class="b2b-proof-legend">{{ 'legend'|trans({}, 'proof') }}</p>
+
+                <div class="b2b-proof-tablewrap d-none d-lg-block" data-proof-table-wrap>
+                    <table class="b2b-proof-table" data-proof-table>
+                        <caption>{{ 'plugins.caption'|trans({}, 'proof') }}</caption>
+                        <thead>
+                            <tr>
+                                {% for column in columns %}
+                                    <th scope="col">{{ ('plugins.column.' ~ column)|trans({}, 'proof') }}{% if column == 'sylius' %} <span class="b2b-proof-table__hint">{{ 'plugins.column.sylius_hint'|trans({}, 'proof') }}</span>{% endif %}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for plugin in plugins %}
+                                <tr data-plugin="{{ plugin.slug }}">
+                                    <th scope="row"><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}#plugin-{{ plugin.slug }}">{{ plugin.name }}</a></th>
+                                    {% for column in columns|slice(1) %}
+                                        <td data-proof-cell="{{ column }}">{% include 'demo/proof/_plugin_field.html.twig' with { field: column, slug: plugin.slug, report: report, generated: generated } only %}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <ul class="b2b-proof-cards d-lg-none" data-proof-cards aria-label="{{ 'plugins.cards'|trans({}, 'proof') }}">
+                    {% for plugin in plugins %}
+                        <li class="b2b-proof-card" data-proof-card="{{ plugin.slug }}">
+                            <h3 class="b2b-home-serif b2b-proof-card__name"><a href="{{ path('app_demo_plugins', {_locale: app.request.locale}) }}#plugin-{{ plugin.slug }}">{{ plugin.name }}</a></h3>
+                            <dl class="b2b-proof-card__fields">
+                                {% for field in card_fields %}
+                                    <div class="b2b-proof-card__field{{ field == 'sylius' ? ' b2b-proof-card__field--wide' : '' }}">
+                                        <dt>{{ ('plugins.card.' ~ field)|trans({}, 'proof') }}</dt>
+                                        <dd data-proof-card-field="{{ field }}">{% include 'demo/proof/_plugin_field.html.twig' with { field: field, slug: plugin.slug, report: report, generated: generated } only %}</dd>
+                                    </div>
+                                {% endfor %}
+                            </dl>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+        <section class="b2b-home-night b2b-proof-closing" aria-labelledby="proof-closing-title">
+            <div class="b2b-home-wrap">
+                <div class="b2b-proof-closing__body">
+                    <h2 id="proof-closing-title" class="b2b-home-h2">{{ 'closing.title'|trans({}, 'proof') }}</h2>
+                    <p>{{ 'closing.text'|trans({}, 'proof') }}</p>
+                </div>
+                {% include 'shared/_contact_cta.html.twig' with { variant: 'dark', placement: 'proof-bottom' } only %}
+            </div>
         </section>
     </div>
 {% endblock %}

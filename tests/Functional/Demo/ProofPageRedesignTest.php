@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Tests\Support\DataSets;
 use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -44,7 +45,7 @@ final class ProofPageRedesignTest extends WebTestCase
         yield 'English' => ['en_US', 'Test files in the plugins', 'Not measured', 'not available'];
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testThePageUsesTheClassesOfTheHomeAndHasNoInlineStyle(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -57,7 +58,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertCount(0, $page->filter('[data-page="proof"] style'), 'the styles live in the partial _proof.scss');
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheSectionsAreReachableFromThreeAnchors(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -69,7 +70,7 @@ final class ProofPageRedesignTest extends WebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith3Arguments')]
     public function testSixTilesAreCountedFromTheReportWithoutAnyFigureWrittenByHand(string $locale, string $testsLabel, string $unmeasured): void
     {
         $page = $this->open($locale, $this->proof());
@@ -84,7 +85,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertStringContainsString($unmeasured, $page->filter('[data-proof-tile="coverage"] [data-proof-value]')->text());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith2Arguments')]
     public function testTheTestFilesTileSaysWhatItCountsAndGivesTheFilesOfTheDemoApart(string $locale, string $testsLabel): void
     {
         $tile = $this->open($locale, $this->proof())->filter('[data-proof-tile="tests"]');
@@ -104,7 +105,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertStringNotContainsString('démo elle-même', $note);
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheDateOfTheSnapshotIsShownOnceAndAValueKeepsItsDateOnlyWhenItDiffers(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -117,7 +118,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertSame(1, $page->filter('[data-proof-table] time')->count() + $page->filter('[data-proof-delivery] time')->count());
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheCoverageColumnIsHiddenWhileNoPluginHasAFigure(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -139,7 +140,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertSame('1/' . DemoCatalogs::pluginCount(), $this->compact($page->filter('[data-proof-tile="coverage"] [data-proof-value]')->text()));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testEveryPluginHasACardForPhonesWithTheSameSourcesAsTheTable(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -175,7 +176,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertCount(0, $missing->filter('a'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testEveryExternalLinkOpensANewTabAndSaysSo(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -190,7 +191,7 @@ final class ProofPageRedesignTest extends WebTestCase
         }
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testTheErpPluginStaysInTheTableAndTheCards(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -199,7 +200,7 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertCount(1, $page->filter('li[data-proof-card="sylius-erp-flatfile-plugin"]'));
     }
 
-    #[DataProvider('locales')]
+    #[DataProvider('localesWith1Argument')]
     public function testNoTextIsLeftUntranslatedAndTheToneStaysNeutral(string $locale): void
     {
         $page = $this->open($locale, $this->proof());
@@ -211,6 +212,24 @@ final class ProofPageRedesignTest extends WebTestCase
             self::assertStringNotContainsString('Synthèse', $text);
             self::assertStringNotContainsString('Relevé', $text);
         }
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith1Argument(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 1);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith2Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 2);
+    }
+
+    /** @return iterable<array-key, list<mixed>> */
+    public static function localesWith3Arguments(): iterable
+    {
+        return DataSets::firstArguments(self::locales(), 3);
     }
 
     /** @return string the text without spaces, so that "1 / 27" and "1/27" compare equal */

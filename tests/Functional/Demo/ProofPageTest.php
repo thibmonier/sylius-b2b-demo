@@ -80,7 +80,7 @@ final class ProofPageTest extends WebTestCase
         self::assertStringContainsString($unpublished, $row->filter('[data-proof-cell="version"]')->text());
         // US-205 (decision of 2026-10-28): the column is hidden while no plugin has a figure; the summary says "not measured".
         self::assertCount(0, $page->filter('[data-proof-cell="coverage"]'));
-        self::assertStringContainsString($unmeasured, $page->filter('[data-proof-tile="coverage"]')->text());
+        self::assertStringContainsString($unmeasured, mb_strtolower($page->filter('[data-proof-tile="coverage"]')->text()));
         self::assertDoesNotMatchRegularExpression('/\d\s*%/', $page->filter('[data-proof-table]')->text());
     }
 

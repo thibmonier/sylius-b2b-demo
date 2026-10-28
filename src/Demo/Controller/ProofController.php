@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Demo\Controller;
 
+use App\Demo\Plugin\DemoPlugin;
 use App\Demo\Plugin\DemoPluginCatalog;
 use App\Demo\Proof\ProofReader;
+use App\Demo\Proof\ProofSummary;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Twig\Environment;
@@ -26,9 +28,13 @@ final readonly class ProofController
     #[Route('/{_locale}/preuve', name: 'app_demo_proof', requirements: ['_locale' => '[a-z]{2}_[A-Z]{2}'], methods: ['GET'])]
     public function __invoke(): Response
     {
+        $plugins = $this->plugins->all();
+        $report = $this->reader->report();
+
         return new Response($this->twig->render('demo/proof.html.twig', [
-            'plugins' => $this->plugins->all(),
-            'report' => $this->reader->report(),
+            'plugins' => $plugins,
+            'report' => $report,
+            'summary' => ProofSummary::of($report, array_map(static fn (DemoPlugin $plugin): string => $plugin->slug, $plugins)),
         ]));
     }
 }

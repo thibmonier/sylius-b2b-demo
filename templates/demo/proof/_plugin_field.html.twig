@@ -1,0 +1,37 @@
+{#
+    US-205: one field of one plugin of the technical proof, shared by the table (desktop) and the cards (phone) so that
+    both show the same facts and the same sources.
+    Usage: {% include 'demo/proof/_plugin_field.html.twig' with { field: 'ci', slug: plugin.slug, report: report, generated: generated } only %}
+#}
+{% if field == 'version' %}
+    {% set version = report.fact(slug, 'version') %}
+    {% include 'demo/proof/_fact.html.twig' with { fact: version, text: version.value, generated: generated } only %}
+{% elseif field == 'sylius' %}
+    {% set compat = report.fact(slug, 'sylius_23') %}
+    {% set declared = report.fact(slug, 'sylius_declared') %}
+    {% set tested = report.fact(slug, 'sylius_tested') %}
+    {% if compat.status == 'verified' %}
+        {% set answer = (compat.value ? 'answer.yes' : 'answer.no')|trans({}, 'proof') %}
+        {% set compat_text = declared.status == 'verified' ? 'sylius.compat_constraint'|trans({'%answer%': answer, '%constraint%': declared.value}, 'proof') : 'sylius.compat'|trans({'%answer%': answer}, 'proof') %}
+    {% else %}
+        {% set compat_text = '' %}
+    {% endif %}
+    <div class="b2b-proof-sylius">
+        {% include 'demo/proof/_fact.html.twig' with { fact: compat, text: compat_text, generated: generated, mark: compat.status == 'verified' and compat.value is same as(true) } only %}
+        {% if tested.status == 'verified' or compat.status == 'verified' %}
+            {% include 'demo/proof/_fact.html.twig' with { fact: tested, text: tested.status == 'verified' ? 'sylius.tested'|trans({'%versions%': tested.value}, 'proof') : '', generated: generated } only %}
+        {% endif %}
+    </div>
+{% elseif field == 'ci' %}
+    {% set ci = report.fact(slug, 'ci') %}
+    {% include 'demo/proof/_fact.html.twig' with { fact: ci, text: ci.status == 'verified' ? ('ci.' ~ ci.value)|trans({}, 'proof') : '', generated: generated, mark: ci.status == 'verified' and ci.value == 'success' } only %}
+{% elseif field == 'phpstan' %}
+    {% set phpstan = report.fact(slug, 'phpstan') %}
+    {% include 'demo/proof/_fact.html.twig' with { fact: phpstan, text: phpstan.value, generated: generated } only %}
+{% elseif field == 'tests' %}
+    {% set tests = report.fact(slug, 'tests') %}
+    {% include 'demo/proof/_fact.html.twig' with { fact: tests, text: tests.value, generated: generated } only %}
+{% elseif field == 'coverage' %}
+    {% set coverage = report.fact(slug, 'coverage') %}
+    {% include 'demo/proof/_fact.html.twig' with { fact: coverage, text: coverage.value ~ ' %', generated: generated } only %}
+{% endif %}
