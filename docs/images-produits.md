@@ -120,6 +120,10 @@ Script du premier chargement (photos CC0 d'Openverse, une par famille), conserv�
 et doivent être relues avant d'être livrées. Il n'est jamais appelé par le reset, le build ni la CI. User-Agent identifiant, 4 s entre deux
 recherches, 1,2 s entre deux téléchargements, pas de parallélisme.
 
+Limites (US-062) : un téléchargement qui répond 429 est attendu (`Retry-After`, 60 s au plus) puis réessayé, deux fois au plus ; un corps de plus de 15 Mo
+(longueur déclarée, ou lu par morceaux quand il n'en déclare pas) et une image de plus de 40 millions de pixels sont refusés et affichés en fin de
+script (`Refused image: …`). Une entrée déjà présente au manifeste avec son fichier n'est jamais retéléchargée : image, statut et point focal restent.
+
 Ajouter une image à la main : déposer un WebP (800 px, <= 80 Ko, licence CC0, Pexels ou Unsplash vérifiée) dans `fixtures/images/` et ajouter
 une ligne au manifeste (sku, file, source, creator, title, origin_url, license = `cc0` ou `pexels`, license_url, fetched_at, scope, status = `validated` après relecture).
 `ImageBudgetTest` échoue si un fichier n'est pas au manifeste, si une licence n'est ni CC0 ni Pexels, si un SKU n'a pas d'image, si une image n'est pas relue ou si

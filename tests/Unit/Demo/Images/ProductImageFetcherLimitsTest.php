@@ -81,12 +81,12 @@ final class ProductImageFetcherLimitsTest extends TestCase
 
         self::assertSame(['P-1'], $report['missing']);
         self::assertLessThanOrEqual(3, \count($this->downloads), 'one try and two retries at most');
-        self::assertLessThanOrEqual(60.0, \max($this->pauses), 'never waits a whole day');
+        self::assertLessThanOrEqual(60.0, \max([0.0, ...$this->pauses]), 'never waits a whole day');
     }
 
     public function testADeclaredLengthOverTheLimitIsRefusedAndReported(): void
     {
-        $this->answers = [new MockResponse($this->png(), ['response_headers' => ['content-length: 20000']])];
+        $this->answers = [new MockResponse(\str_repeat('x', 20_000), ['response_headers' => ['content-length: 20000']])];
 
         $report = $this->fetcher(['category fallback' => []], maxBytes: 10_000)->fetch([$this->product('P-1')], $this->manifest());
 

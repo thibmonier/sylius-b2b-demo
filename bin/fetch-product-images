@@ -73,6 +73,9 @@ $fetcher = new ProductImageFetcher(
 $report = $fetcher->fetch($products, ImageManifest::load($imagesDir . '/manifest.csv'));
 
 \printf("own: %d, family (shared): %d, without image: %d\n", $report['own'], $report['family'], \count($report['missing']));
+foreach ($report['rejected'] as $refusal) {
+    \fwrite(\STDERR, "Refused image: $refusal\n");
+}
 if ($report['missing'] !== []) {
     \printf("No CC0 image for: %s\n", \implode(', ', $report['missing']));
 }

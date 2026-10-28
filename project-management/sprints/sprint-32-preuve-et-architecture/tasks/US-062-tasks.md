@@ -39,10 +39,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-062-01 | [DOC] | Cadrage : fetcher, manifeste et script relus ; chacun des quatre mineurs confirmé ou écarté contre le code ; fiche corrigée si besoin ; plan des tests | 0,25 h | - | Claude | 🔲 |
-| T-062-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : image conforme (enregistrée comme avant), manifeste modifié (image principale conservée), 429 (attente puis nouvel essai, bornés), image hors limites (pixels ou `Content-Length` excessif refusée et consignée), `chunked` sans longueur (taille lue plafonnée) | 0,5 h | T-062-01 | Claude | 🔲 |
-| T-062-03 | [BE] | Correctifs du fetcher : limite de pixels et contrôle du `Content-Length`, gestion du 429 avec attente bornée, image principale conservée si le manifeste change, lecture plafonnée du corps `chunked` ; comportement nominal inchangé | 0,75 h | T-062-02 | Claude | 🔲 |
-| T-062-04 | [TEST] | Suite ciblée par `bin/run-tests` (`tests/Unit/Demo/Images/`), PHPStan max sur tout le dépôt, ECS, Rector ; commande exacte et dernière ligne citées ; `bin/proof-rebase` si un fichier de tests est ajouté | 0,25 h | T-062-03 | Claude | 📅 disque |
+| T-062-01 | [DOC] | Cadrage : fetcher, manifeste et script relus ; chacun des quatre mineurs confirmé ou écarté contre le code ; fiche corrigée si besoin ; plan des tests | 0,25 h | - | Claude | ✅ |
+| T-062-02 | [TEST] | Tests rouges, commités seuls et cités dans la PR : image conforme (enregistrée comme avant), manifeste modifié (image principale conservée), 429 (attente puis nouvel essai, bornés), image hors limites (pixels ou `Content-Length` excessif refusée et consignée), `chunked` sans longueur (taille lue plafonnée) | 0,5 h | T-062-01 | Claude | ✅ |
+| T-062-03 | [BE] | Correctifs du fetcher : limite de pixels et contrôle du `Content-Length`, gestion du 429 avec attente bornée, image principale conservée si le manifeste change, lecture plafonnée du corps `chunked` ; comportement nominal inchangé | 0,75 h | T-062-02 | Claude | ✅ |
+| T-062-04 | [TEST] | Suite ciblée par `bin/run-tests` (`tests/Unit/Demo/Images/`), PHPStan max sur tout le dépôt, ECS, Rector ; commande exacte et dernière ligne citées ; `bin/proof-rebase` si un fichier de tests est ajouté | 0,25 h | T-062-03 | Claude | 🔄 reste : suite complète, bin/proof-rebase |
 | T-062-05 | [REV] | Revue (aucun appel réseau dans les tests, comportement nominal inchangé, documentation à jour) et table « scénario → test ou preuve » remplie | 0,25 h | T-062-04 | Claude | 📅 disque |
 
 **Total estimé : 2 h** (5 tâches, toutes pour Claude).
