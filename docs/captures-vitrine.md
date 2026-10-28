@@ -55,3 +55,7 @@ Page « Plugins » (US-204) : `plugins-fr.png`, `plugins-en.png` (haut de page, 
 ## Page « Architecture » (US-206, sprint 32)
 
 Page « Architecture » refondue dans la charte de l'accueil : `architecture-fr-1280.png`, `architecture-en-1280.png` (page entière, 1280 px) et `architecture-fr-320.png`, `architecture-en-320.png` (page entière, 320 px), dans `docs/images/`. Rendues par `bin/render-page` (canal B2B, feuille de styles reconstruite par `yarn build:prod`), sans barre de débogage ; contrôle à 320, 375 et 1280 px : aucun défilement horizontal, cibles d'au moins 44 px ; pa11y WCAG2AAA en français et en anglais : « No issues found! ».
+
+## Page « Preuve technique » (US-205, sprint 32)
+
+Page « Preuve technique » refondue dans la charte de l'accueil : `proof-fr-1280.png`, `proof-en-1280.png` (page entière, 1280 px, tableau des plugins) et `proof-fr-320.png`, `proof-en-320.png` (page entière, 320 px, une fiche par plugin), dans `docs/images/`. Rendues par `bin/render-page` (canal B2B, feuille de styles reconstruite par `yarn build:prod`) sur le rapport de preuve versionné ; contrôle à 320, 375 et 1280 px : aucun défilement horizontal, liens d'au moins 44 px ; pa11y WCAG2AAA en français et en anglais, à 1280 et 320 px : « No issues found! ». Sur le canal B2C (sans la feuille B2B), la page reste lisible, sans défilement horizontal : le tableau s'affiche dès 992 px, les fiches en dessous.
