@@ -58,13 +58,16 @@ final class ProofPageTest extends WebTestCase
         $row = $page->filter('tr[data-plugin="' . self::QUICK . '"]');
         self::assertSame(self::PACKAGIST, $row->filter('[data-proof-cell="version"] a')->attr('href'));
         self::assertStringContainsString('v1.2.0', $row->filter('[data-proof-cell="version"]')->text());
-        self::assertStringContainsString('2026-10-21', $row->filter('[data-proof-cell="version"] time')->attr('datetime') ?? '');
+        // US-205 (decision of 2026-10-28): a value has the date of the snapshot, so it carries no date of its own.
+        self::assertCount(0, $row->filter('[data-proof-cell="version"] time'));
+        self::assertSame('2026-10-21', $page->filter('[data-proof-generated] time')->attr('datetime'));
         self::assertStringContainsString('2.3', $row->filter('[data-proof-cell="sylius"]')->text());
         self::assertStringContainsString('2.2, 2.3', $row->filter('[data-proof-cell="sylius"]')->text());
         self::assertSame(self::RUN, $row->filter('[data-proof-cell="ci"] a')->attr('href'));
         self::assertStringContainsString('max', $row->filter('[data-proof-cell="phpstan"]')->text());
         self::assertStringContainsString('21', $row->filter('[data-proof-cell="tests"]')->text());
-        self::assertStringContainsString($unmeasured, $row->filter('[data-proof-cell="coverage"]')->text());
+        // US-205 (decision of 2026-10-28): no plugin has a coverage figure, so the column is not displayed.
+        self::assertCount(0, $page->filter('[data-proof-cell="coverage"]'));
         self::assertStringContainsString($deliveryTitle, $page->filter('[data-proof-delivery] h2')->text());
     }
 
@@ -75,11 +78,10 @@ final class ProofPageTest extends WebTestCase
 
         $row = $page->filter('tr[data-plugin="sylius-customer-asset-management-plugin"]');
         self::assertStringContainsString($unpublished, $row->filter('[data-proof-cell="version"]')->text());
-        self::assertCount(DemoCatalogs::pluginCount(), $page->filter('[data-proof-cell="coverage"]'));
-        foreach ($page->filter('[data-proof-cell="coverage"]')->each(static fn (Crawler $cell): string => $cell->text()) as $text) {
-            self::assertStringContainsString($unmeasured, $text);
-            self::assertDoesNotMatchRegularExpression('/\d\s*%/', $text);
-        }
+        // US-205 (decision of 2026-10-28): the column is hidden while no plugin has a figure; the summary says "not measured".
+        self::assertCount(0, $page->filter('[data-proof-cell="coverage"]'));
+        self::assertStringContainsString($unmeasured, mb_strtolower($page->filter('[data-proof-tile="coverage"]')->text()));
+        self::assertDoesNotMatchRegularExpression('/\d\s*%/', $page->filter('[data-proof-table]')->text());
     }
 
     #[DataProvider('localesWith4Arguments')]

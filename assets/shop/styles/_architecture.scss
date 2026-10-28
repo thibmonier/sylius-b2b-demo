@@ -1,0 +1,625 @@
+// US-206: the public "Architecture" page, in the editorial look of the B2B home (validated mock-up of 2026-10-28).
+// Tokens of variables.scss only. Numbers (sections, anchors, layers, steps) are drawn by CSS counters, never written in
+// the markup (the page holds no figure of its own). Layout: grids with minmax(0, 1fr), no fixed width: a 320 px phone
+// has no horizontal scroll, and the overview diagram stacks instead of scrolling.
+@use 'variables' as *;
+
+.b2b-architecture {
+    counter-reset: architecture-section;
+}
+
+// Introduction and table of contents.
+.b2b-architecture-intro {
+    padding-block: 2.5rem 1rem;
+
+    .b2b-home-lead {
+        margin-top: 1.25rem;
+    }
+}
+
+.b2b-architecture-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .625rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: architecture-toc;
+}
+
+.b2b-architecture-chip {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1rem;
+    border: 1px solid $b2b-muted;
+    border-radius: 999px;
+    background: $b2b-white;
+    color: $b2b-navy;
+    font-size: .9375rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &::before {
+        counter-increment: architecture-toc;
+        content: counter(architecture-toc);
+        color: $b2b-muted;
+    }
+
+    &:hover {
+        background: $b2b-sand;
+        color: $b2b-navy;
+    }
+}
+
+// Links to the repository: chips with a 44 px target.
+.b2b-architecture-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .625rem;
+    margin: 0;
+    padding: .25rem 0 0;
+    list-style: none;
+
+    a {
+        min-height: 2.75rem;
+        display: inline-flex;
+        align-items: center;
+        padding: .5rem 1rem;
+        border: 1px solid $b2b-muted;
+        border-radius: 999px;
+        background: $b2b-white;
+        color: $b2b-navy;
+        font-size: .9375rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+            background: $b2b-sand;
+            color: $b2b-navy;
+        }
+    }
+}
+
+.b2b-architecture-chip:focus-visible,
+.b2b-architecture-links a:focus-visible,
+.b2b-architecture-inline a:focus-visible {
+    outline: .1875rem solid $b2b-navy;
+    outline-offset: .125rem;
+}
+
+.b2b-architecture-inline {
+    margin: 0;
+    color: $b2b-muted;
+    font-size: 1rem;
+    line-height: 1.6;
+
+    a {
+        min-height: 2.75rem;
+        display: inline-flex;
+        align-items: center;
+        color: $b2b-accent;
+        font-weight: 600;
+    }
+}
+
+// One numbered section per topic.
+.b2b-architecture-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding-block: 1rem 4.5rem;
+}
+
+.b2b-architecture-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    &__head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .875rem;
+        padding-bottom: .75rem;
+        border-bottom: 1px solid $b2b-sand-line;
+
+        &::before {
+            counter-increment: architecture-section;
+            content: counter(architecture-section);
+            width: 2.75rem;
+            height: 2.75rem;
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: $b2b-navy;
+            color: $b2b-white;
+            font-family: var(--b2b-font-serif);
+            font-size: 1.25rem;
+        }
+
+        .b2b-home-h2 {
+            color: $b2b-navy;
+            font-size: 1.625rem;
+            scroll-margin-top: 1.5rem;
+
+            @media (min-width: 700px) {
+                font-size: 2rem;
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:focus-visible {
+                outline: .1875rem solid $b2b-navy;
+                outline-offset: .25rem;
+            }
+        }
+    }
+}
+
+// Tiles (key figures, quality) and cards (flows, operations).
+.b2b-architecture-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 700px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    &--three {
+        grid-template-columns: minmax(0, 1fr);
+
+        @media (min-width: 1000px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+}
+
+.b2b-architecture-tile {
+    display: flex;
+    flex-direction: column;
+    gap: .375rem;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: 1px solid $b2b-sand-line;
+    border-radius: 1rem;
+    background: $b2b-white;
+
+    @media (min-width: 700px) {
+        padding: 1.25rem 1.375rem;
+    }
+
+    &__value {
+        margin: 0;
+        color: $b2b-navy;
+        font-family: var(--b2b-font-serif);
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 1.05;
+        overflow-wrap: anywhere;
+
+        @media (min-width: 700px) {
+            font-size: 2.5rem;
+        }
+    }
+
+    &__label {
+        margin: 0;
+        color: $b2b-ink;
+        font-size: .9375rem;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    &__note {
+        margin: 0;
+        color: $b2b-muted;
+        font-size: .875rem;
+        line-height: 1.45;
+    }
+}
+
+.b2b-architecture-cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 700px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    &--three {
+        @media (min-width: 1100px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+}
+
+.b2b-architecture-card {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 1.125rem;
+    border: 1px solid $b2b-sand-line;
+    border-radius: 1rem;
+    background: $b2b-white;
+
+    @media (min-width: 700px) {
+        padding: 1.375rem;
+    }
+
+    h3 {
+        margin: 0;
+        color: $b2b-ink;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.3125rem;
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    p {
+        margin: .375rem 0 0;
+        color: $b2b-muted;
+        font-size: .9375rem;
+        line-height: 1.6;
+    }
+}
+
+// Layers: a staircase from the core to the theme, flat on a phone.
+.b2b-architecture-layers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: architecture-layer;
+}
+
+.b2b-architecture-layer {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: .25rem 1rem;
+    padding: 1rem;
+    border: 1px solid $b2b-sand-line;
+    border-radius: 1rem;
+    background: $b2b-white;
+
+    & + & {
+        margin-top: .75rem;
+    }
+
+    @media (min-width: 1000px) {
+        padding: 1.25rem 1.375rem;
+        margin-left: calc(var(--architecture-depth, 0) * 1.75rem);
+    }
+
+    &::before {
+        counter-increment: architecture-layer;
+        content: counter(architecture-layer);
+        width: 2.75rem;
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: $b2b-sand;
+        color: $b2b-navy;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.1875rem;
+        font-weight: 600;
+    }
+
+    h3 {
+        margin: 0;
+        color: $b2b-ink;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.3125rem;
+        font-weight: 600;
+    }
+
+    p {
+        grid-column: 2;
+        margin: .375rem 0 0;
+        color: $b2b-muted;
+        font-size: .9375rem;
+        line-height: 1.6;
+    }
+}
+
+// End-to-end example.
+.b2b-architecture-subtitle {
+    margin: .75rem 0 0;
+    color: $b2b-navy;
+    font-family: var(--b2b-font-serif);
+    font-size: 1.375rem;
+    font-weight: 600;
+}
+
+.b2b-architecture-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: architecture-step;
+}
+
+.b2b-architecture-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    padding-bottom: 1rem;
+    color: $b2b-ink;
+    font-size: 1rem;
+    line-height: 1.55;
+
+    &::before {
+        counter-increment: architecture-step;
+        content: counter(architecture-step);
+        width: 2.75rem;
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: $b2b-navy;
+        color: $b2b-white;
+        font-family: var(--b2b-font-serif);
+        font-size: 1.1875rem;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 2.75rem;
+        bottom: 0;
+        left: 1.34375rem;
+        width: .125rem;
+        background: $b2b-sand-line;
+    }
+
+    &:last-child::after {
+        display: none;
+    }
+
+    span {
+        padding-top: .5625rem;
+    }
+}
+
+// Principles (security) and quality points: a plain square marker, the text carries the meaning.
+.b2b-architecture-points {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 1000px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    li {
+        display: grid;
+        grid-template-columns: 1.75rem minmax(0, 1fr);
+        gap: .75rem;
+        padding: 1rem 1.125rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+        font-size: .9375rem;
+        line-height: 1.55;
+
+        &::before {
+            content: '';
+            width: .75rem;
+            height: .75rem;
+            margin-top: .375rem;
+            justify-self: center;
+            border-radius: .1875rem;
+            background: $b2b-navy;
+        }
+    }
+
+    &--single {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+// Overview diagram: HTML/CSS (replaces the SVG), stacked on a phone. Labels of 15 px (0.9375rem) at least.
+.b2b-architecture-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    margin: 0;
+}
+
+.b2b-architecture-diagram__frame {
+    display: flex;
+    flex-direction: column;
+    gap: .625rem;
+    padding: 1rem;
+    border: 1px solid $b2b-sand-line;
+    border-radius: 1rem;
+    background: $b2b-white;
+
+    @media (min-width: 700px) {
+        padding: 1.5rem;
+    }
+}
+
+.b2b-architecture-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 700px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }
+}
+
+.b2b-architecture-box {
+    min-height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: .625rem .875rem;
+    border: 2px solid $b2b-navy;
+    border-radius: .75rem;
+    background: $b2b-white;
+    color: $b2b-ink;
+    font-size: .9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+
+    &--inner {
+        border: 1px solid $b2b-border;
+        background: $b2b-paper;
+        font-weight: 500;
+    }
+}
+
+.b2b-architecture-arrows {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    color: $b2b-navy;
+    font-size: 1.625rem;
+    line-height: 1;
+    text-align: center;
+
+    @media (max-width: 699px) {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+
+        span + span {
+            display: none;
+        }
+    }
+}
+
+.b2b-architecture-container {
+    display: flex;
+    flex-direction: column;
+    gap: .875rem;
+    padding: 1rem;
+    border: .25rem solid $b2b-navy;
+    border-radius: 1rem;
+    background: $b2b-sand;
+
+    @media (min-width: 700px) {
+        padding: 1.125rem;
+    }
+
+    &__title {
+        margin: 0;
+        color: $b2b-navy;
+        font-size: 1rem;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    &__columns {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: .75rem;
+
+        @media (min-width: 700px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        flex: 1;
+    }
+
+    .b2b-architecture-box--wide {
+        flex: 2;
+    }
+}
+
+.b2b-architecture-caption {
+    margin: 0;
+    color: $b2b-muted;
+    font-size: .9375rem;
+    line-height: 1.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .b2b-architecture * {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// Closing band.
+.b2b-architecture-closing {
+    padding-block: 3rem;
+
+    .b2b-home-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+
+        @media (min-width: 992px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+
+    &__body {
+        max-width: 43.75rem;
+
+        p {
+            margin: .625rem 0 0;
+            font-size: 1.0625rem;
+            line-height: 1.6;
+        }
+    }
+
+    .b2b-home-h2 {
+        font-size: 1.75rem;
+
+        @media (min-width: 700px) {
+            font-size: 2rem;
+        }
+    }
+
+    [data-cta] {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .75rem;
+    }
+}

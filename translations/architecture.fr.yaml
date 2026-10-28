@@ -2,6 +2,11 @@
 # (%plugins%, %sylius%, %symfony%, %php%, %tests%, %phpstan%, %date%), read from proof.json or the configuration.
 title: "Architecture de la démo"
 intro: "Comment cette démo est construite : la boutique Sylius, les plugins installés comme des paquets indépendants, la couche propre à la démo, les flux avec l'extérieur, l'exploitation et les contrôles de qualité. Chaque rubrique renvoie aux fichiers du dépôt public."
+eyebrow: "Architecture"
+title_start: "Architecture de la démo,"
+title_accent: "couche par couche."
+toc:
+    label: "Sommaire de la page"
 figures:
     plugins: "Plugins installés"
     tests: "Fichiers de tests"
@@ -10,7 +15,6 @@ figures:
     unavailable: "non disponible"
 overview:
     title: "Vue d'ensemble"
-    figure_title: "Schéma d'ensemble de la démo"
     figure_desc: "En haut, trois points d'entrée : le navigateur des visiteurs, les assistants IA connectés par MCP et les plateformes d'achat des acheteurs connectées par PunchOut. Au centre, un seul conteneur : Caddy et FrankenPHP servent Sylius %sylius% sous Symfony %symfony% et PHP %php%, avec %plugins% plugins installés comme des paquets Composer et la couche propre à la démo ; supercronic y lance les tâches planifiées, et le même conteneur livre les webhooks et produit les factures. En bas : la base MySQL, le volume des médias, et Railway, qui construit et déploie l'image Docker que la CI vérifie à chaque changement."
     browser: "Navigateur"
     assistant: "Assistant IA (MCP)"
@@ -20,8 +24,7 @@ overview:
     plugins: "%plugins% plugins tmonier"
     demo_layer: "Couche de la démo"
     scheduler: "supercronic (tâches planifiées)"
-    flows_line1: "Webhooks (outbox), MCP,"
-    flows_line2: "factures Factur-X"
+    flows: "Webhooks (outbox), MCP, factures Factur-X"
     database: "MySQL"
     media: "Volume des médias"
     delivery: "Railway (image Docker)"
@@ -102,6 +105,17 @@ security:
     abuse: "Les formulaires sensibles sont protégés contre les abus par une limitation du débit."
     headers: "Les en-têtes de sécurité HTTP sont posés par le serveur."
     dependencies: "Les dépendances et l'image sont analysées à chaque changement."
+tiles:
+    phpstan_label: "Niveau PHPStan"
+    phpstan_note: "Analyse statique bloquante en CI, avec le style de code (ECS) et Rector."
+    tests_note: "Unitaires, fonctionnels et de bout en bout des pages de la démo, exécutés à chaque changement."
+    ci_label: "Dernière exécution de la CI"
+    ci_note: "Sur la branche principale."
+closing:
+    title: "Une question sur un plugin ou sur la démo ?"
+    text: "Le profil du concepteur présente son parcours et ses coordonnées."
+labels:
+    layers: "Les quatre couches, du cœur vers la démo"
 links:
     dockerfile: "Dockerfile"
     caddyfile: "Caddyfile"
