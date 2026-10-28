@@ -1,6 +1,6 @@
 # ADR-0018 — Copilote d'achat : format de rejeu et adaptateur LLM
 
-- **Statut** : Proposé (2026-10-28) : en attente de relecture par Thibaut
+- **Statut** : Accepté (2026-10-28, GO de Thibaut avec amendements, voir « Décision de Thibaut »)
 - **Contexte projet** : sylius-b2b-demo, sprint 34, spike US-210 (3 points, timebox 6 h)
 
 ## Contexte
@@ -137,7 +137,13 @@ Les détails de sécurité (liste exhaustive des outils interdits, garde-fous, s
 
 ## Décision
 
-En attente de relecture par Thibaut.
+**Décision de Thibaut (2026-10-28)** : approche acceptée, avec ces choix.
+
+- En mode rejoué, la démo propose des **scénarios en boutons** ; la saisie libre affiche un message qui explique le mode démo.
+- L'acheteur **confirme chaque action** de panier préparée par le copilote.
+- L'adaptateur réel d'US-216 passe par **Symfony AI** (couche multi-fournisseurs) plutôt que par des adaptateurs maison par fournisseur ; ce choix remplace les adaptateurs Anthropic et OpenAI décrits plus haut.
+
+Restent ouverts : le nombre de scénarios (planning d'US-212), le journal d'audit (réutilisation de l'audit b2b-mcp proposée) et la promotion du plugin.
 
 ---
 

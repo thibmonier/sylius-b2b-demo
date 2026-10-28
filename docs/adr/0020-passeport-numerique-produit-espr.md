@@ -1,6 +1,6 @@
 # ADR-0020 — Passeport numérique de produit (DPP) : modèle de données préparatoire et formulation prudente
 
-- **Statut** : Proposé (2026-10-28)
+- **Statut** : Accepté (2026-10-28, GO de Thibaut sur les propositions)
 - **Contexte projet** : sylius-b2b-demo, sprint 34, spike US-229 (3 points, borné à 6 h). Décision de Thibaut du 2026-10-28 : « DPP maintenant, ça donnera une base ». MVP planifié au sprint 36 : US-230, US-231, US-232, US-233 (14 points).
 
 ## Contexte
