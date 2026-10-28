@@ -32,7 +32,9 @@ final class ArchitecturePageRedesignTest extends WebTestCase
         self::assertCount(1, $page->filter('h1.b2b-home-h1'));
         self::assertCount(1, $page->filter('.b2b-home-eyebrow'));
         self::assertGreaterThan(0, $page->filter('.b2b-home-wrap')->count());
-        self::assertGreaterThanOrEqual(\count(self::SECTIONS), $page->filter('section.b2b-home-section')->count());
+        self::assertCount(1, $page->filter('section.b2b-home-section'), 'the introduction');
+        self::assertCount(1, $page->filter('section.b2b-home-night'), 'the closing band');
+        self::assertCount(\count(self::SECTIONS), $page->filter('section.b2b-architecture-section'));
         self::assertCount(1, $page->filter('p.b2b-home-lead'), 'the short introduction');
     }
 
