@@ -139,10 +139,7 @@ final class PluginSupplyChainTest extends TestCase
 
     public function testAMissingPolicyFails(): void
     {
-        $composer = $this->composer();
-        unset($composer['config']['policy']);
-
-        $process = $this->execute('check', $this->repository('policy', composer: $composer));
+        $process = $this->execute('check', $this->repository('policy', composer: $this->composer('policy')));
 
         self::assertSame(1, $process->getExitCode());
         self::assertMatchesRegularExpression('/^FAIL policy\b/m', $process->getOutput());
@@ -150,10 +147,7 @@ final class PluginSupplyChainTest extends TestCase
 
     public function testAMissingAllowPluginsListFails(): void
     {
-        $composer = $this->composer();
-        unset($composer['config']['allow-plugins']);
-
-        $process = $this->execute('check', $this->repository('allow-plugins', composer: $composer));
+        $process = $this->execute('check', $this->repository('allow-plugins', composer: $this->composer('allow-plugins')));
 
         self::assertSame(1, $process->getExitCode());
         self::assertMatchesRegularExpression('/^FAIL allow-plugins\b/m', $process->getOutput());
@@ -274,11 +268,11 @@ final class PluginSupplyChainTest extends TestCase
     public function testApplyOnlyTouchesGithubAndTheConfigSectionOfComposerJson(): void
     {
         $repository = $this->legacyRepository('scope');
-        $composerBefore = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: \JSON_THROW_ON_ERROR);
+        $composerBefore = $this->jsonFile($repository . '/composer.json');
 
         $this->execute('apply', $repository, '--write');
 
-        $composerAfter = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: \JSON_THROW_ON_ERROR);
+        $composerAfter = $this->jsonFile($repository . '/composer.json');
         unset($composerBefore['config'], $composerAfter['config']);
         self::assertSame($composerBefore, $composerAfter);
         $changed = trim((string) $this->git($repository, 'status', '--porcelain'));
@@ -289,15 +283,14 @@ final class PluginSupplyChainTest extends TestCase
 
     public function testApplyAddsAnExplicitAllowPluginsListToARepositoryWithoutConfig(): void
     {
-        $composer = $this->composer();
-        unset($composer['config']);
-        $repository = $this->legacyRepository('pack', composer: $composer);
+        $repository = $this->legacyRepository('pack', composer: $this->composer('config'));
 
         $this->execute('apply', $repository, '--write');
 
-        $after = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: \JSON_THROW_ON_ERROR);
-        self::assertSame([], $after['config']['allow-plugins']);
-        self::assertArrayHasKey('policy', $after['config']);
+        $config = $this->jsonFile($repository . '/composer.json')['config'];
+        self::assertIsArray($config);
+        self::assertSame([], $config['allow-plugins']);
+        self::assertArrayHasKey('policy', $config);
     }
 
     public function testApplyAddsTheGithubActionsEcosystemToAnExistingDependabotFile(): void
@@ -329,11 +322,16 @@ final class PluginSupplyChainTest extends TestCase
         $this->execute('apply', $repository, '--write');
 
         $workflow = Yaml::parse((string) file_get_contents($repository . '/.github/workflows/build.yaml'));
+        self::assertIsArray($workflow);
+        self::assertIsArray($workflow['jobs']);
+        self::assertIsArray($workflow['jobs']['resolve']);
         $steps = $workflow['jobs']['resolve']['steps'];
-        $names = array_map(static fn (array $step): string => $step['name'] ?? '', $steps);
+        self::assertIsArray($steps);
+        $names = array_map(static fn (mixed $step): string => \is_array($step) && \is_string($step['name'] ?? null) ? $step['name'] : '', $steps);
         $audit = array_search('Audit of the resolved PHP dependencies', $names, true);
         self::assertIsInt($audit);
         self::assertSame('Resolve the pack in a throwaway project', $names[$audit - 1]);
+        self::assertIsArray($steps[$audit]);
         self::assertSame('cd "$RUNNER_TEMP/project" && composer audit --locked --abandoned=report', $steps[$audit]['run']);
     }
 
@@ -419,18 +417,16 @@ final class PluginSupplyChainTest extends TestCase
     }
 
     /** @return array<string, mixed> */
-    private function composer(): array
+    private function composer(string ...$without): array
     {
-        return [
-            'name' => 'tmonier/sylius-fixture-plugin',
-            'type' => 'sylius-plugin',
-            'require' => ['php' => '^8.3'],
-            'config' => [
-                'sort-packages' => true,
-                'allow-plugins' => ['symfony/flex' => true, 'phpstan/extension-installer' => true],
-                'policy' => ['advisories' => ['block' => true, 'audit' => 'fail']],
-            ],
-        ];
+        $config = array_diff_key([
+            'sort-packages' => true,
+            'allow-plugins' => ['symfony/flex' => true, 'phpstan/extension-installer' => true],
+            'policy' => ['advisories' => ['block' => true, 'audit' => 'fail']],
+        ], array_flip($without));
+        $composer = ['name' => 'tmonier/sylius-fixture-plugin', 'type' => 'sylius-plugin', 'require' => ['php' => '^8.3']];
+
+        return \in_array('config', $without, true) ? $composer : $composer + ['config' => $config];
     }
 
     private function conformingWorkflow(): string
@@ -591,10 +587,16 @@ final class PluginSupplyChainTest extends TestCase
     /** @return array<string, mixed> */
     private function legacyComposer(): array
     {
-        $composer = $this->composer();
-        unset($composer['config']['policy']);
+        return $this->composer('policy');
+    }
 
-        return $composer;
+    /** @return array<string, mixed> */
+    private function jsonFile(string $path): array
+    {
+        $data = json_decode((string) file_get_contents($path), true, flags: \JSON_THROW_ON_ERROR);
+        self::assertIsArray($data);
+
+        return $data;
     }
 
     /** @param array<string, string> $files */
