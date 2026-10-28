@@ -54,8 +54,8 @@
 | T-206-08 | [DOC] | 📅 Textes FR et EN (domaine `architecture` : introduction, sommaire, légendes), charte `PublicTextCharter` ; aucun chiffre dans les traductions ; texte relu contre la maquette validée | 0,5 h | T-206-07 | Claude | ✅ |
 | T-206-09 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (`ArchitecturePageTest` **non modifié**, nouveaux tests), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 320 et 375 px ; commande exacte et dernière ligne citées | 0,75 h | T-206-07, T-206-08 | Claude | ✅ (mesures locales ; production au déploiement) |
 | T-206-10 | [DOC] | 📅 Captures `docs/images/architecture-*` par `bin/render-page` (FR et EN, bureau et 320 px), section de `docs/captures-vitrine.md` | 0,5 h | T-206-09 | Claude | ✅ |
-| T-206-11 | [TEST] | Image reconstruite et conteneur neuf (règle 16 : rien hors base) ; production **le jour du déploiement**, lecture seule : pa11y WCAG2AAA FR et EN, 320, 375 et 1280 px, tests de fumée de la page ; mesures consignées | 0,5 h | merge de la PR | Claude | 📅 déploiement |
-| T-206-12 | [REV] | Revue (ton neutre, parité FR et EN, contenu inchangé, **aucun détail de sécurité ajouté**, page toujours `noindex`) et table « scénario → test ou preuve » remplie | 0,25 h | T-206-11 | Claude | 📅 déploiement |
+| T-206-11 | [TEST] | Image reconstruite et conteneur neuf (règle 16 : rien hors base) ; production **le jour du déploiement**, lecture seule : pa11y WCAG2AAA FR et EN, 320, 375 et 1280 px, tests de fumée de la page ; mesures consignées | 0,5 h | merge de la PR | Claude | ✅ 2026-10-28 |
+| T-206-12 | [REV] | Revue (ton neutre, parité FR et EN, contenu inchangé, **aucun détail de sécurité ajouté**, page toujours `noindex`) et table « scénario → test ou preuve » remplie | 0,25 h | T-206-11 | Claude | ✅ 2026-10-28 |
 
 **Total estimé : 11 h** (12 tâches ; 10,5 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
 
