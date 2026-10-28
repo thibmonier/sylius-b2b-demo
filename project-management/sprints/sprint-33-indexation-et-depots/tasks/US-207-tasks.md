@@ -52,6 +52,39 @@ Aucune maquette ce sprint : la table croise la story avec les **tests existants 
 | `HardeningTest` (CSP, en-têtes de sécurité) et `PluginsPageRedesignTest`, `PluginsPageCompatibilityNoteTest`, `ProofPageRedesignTest`, `ArchitecturePageRedesignTest`, `HomeRedesignTest` | en-têtes de sécurité, structure des pages (cartes, sections, sélecteurs `data-*`) | un bloc `<script type="application/ld+json">` dans l'en-tête | **Inchangés** ; à relever au cadrage : aucun test ne compte les `<script>` ni ne les interdit | non |
 | `templates/demo/mail.html.twig`, `mails.html.twig`, `punchout_simulator/simulator.html.twig` (balise `noindex` propre à l'outil de démo) | outils de démo en `noindex` | rien : hors liste | **Inchangés** (invariant : les outils de démo restent exclus) | non |
 
+## Cadrage T-207-01 (2026-10-28, w207)
+
+**Constats sur le code (lecture seule, production par `curl -sI`).**
+
+- `NoIndexSubscriber` pose `noindex, nofollow` sur toute réponse principale du mode démo, sans regarder la route ; `RobotsController` répond `Disallow: /` dès que le mode démo est actif. Aucune distinction mode privé ou public : le mode privé est porté par la porte (`demo.basic_auth.enabled`), qui répond avant.
+- En production (accueil, Plugins, Architecture, Preuve, À propos, Intégrer, MCP, Surcharge, Packs, Compatibilité) : toutes répondent 200 à un visiteur sans compte, avec `noindex, nofollow` ; `/` répond 302 vers `/fr_FR/` ; `sitemap.xml` répond 404.
+- Canal : B2B par défaut, B2C seulement par le cookie `demo_channel` ; **mêmes URL** sur les deux canaux, donc pas de second hôte. Un robot sans cookie voit le canal B2B. Proposition : le cookie `demo_channel=B2C` force `noindex` (le canal Particuliers reste hors index, `docs/seo-et-vitesse.md` point (e)) ; sitemap et canonical sans changement.
+- Hôte canonique : `CanonicalUrl` lit `DEFAULT_URI` ; `sitemap.xml`, `hreflang` et Open Graph l'utilisent aussi (jamais l'hôte de la requête). Image de partage par défaut : `share-preview.png` via `app_seo_canonical(asset(...))`, donc sur l'hôte canonique : correct pour les pages vitrine.
+- Locales : `fr_FR` et `en_US` ; `x-default` = `fr_FR` (cible de `/`).
+- Source de l'exclusion des données structurées : le catalogue `config/demo/plugins.yaml` (déjà source unique) ; il porte `listed: false` pour le seul plugin d'échange par fichiers, mais aucun drapeau pour les plugins en recoupement (leur classement est dans `docs/vitrine-plugins.md`, non lisible par le code). Proposition : un drapeau neutre `structured_data: false` par plugin dans `plugins.yaml` (défaut vrai), posé sur les plugins en recoupement et sur l'échange par fichiers ; aucun nom de plugin écrit dans le code ni dans un test public (le test lit le catalogue). La liste des plugins concernés est relevée dans `docs/vitrine-plugins.md` (classes « concurrent » et « à confirmer ») et n'est écrite que dans `plugins.yaml`.
+- Titres : un `title` par page dans `translations/<page>.*.yaml` ; descriptions dans `translations/seo.*.yaml` (une clé par route, déjà présentes pour toutes les routes retenues). Aucun test ne fige un titre vitrine (seuls `<title>` de SVG sont testés).
+
+**Table « invariants de test » confirmée (règle 28).** Elle reprend la table préremplie, avec ces changements :
+
+| Test ou script | Constat du cadrage | Traitement confirmé | Ligne de registre demandée |
+|----------------|--------------------|---------------------|----------------------------|
+| `SeoMetadataTest::testNoIndexIsKeptOnEveryPage` | le fournisseur `pages` sert aussi les 4 autres tests de la classe (description, partage) : **ne pas le modifier** ; ajouter un second fournisseur pour la nouvelle assertion | méthode scindée : `noindex` gardé pour catégorie et login (nouveau fournisseur `privatePages`) ; pages listées reprises par le nouveau test de liste blanche | oui, avant |
+| `ArchitecturePageTest::testThePageStaysOutOfTheSearchEnginesAndHasItsOwnDescription` | mélange `noindex` et description | partie `noindex` retirée (reprise par le test de liste blanche), description gardée, méthode renommée | oui, avant |
+| `IntegratePageTest::testThePageStaysOutOfTheSearchEnginesAndHasItsOwnDescription` | idem | idem | oui, avant |
+| `PublicOpeningTest::testPublicModeAsksSearchEnginesToStayAway` | `Disallow: /` seul et accueil `noindex` | remplacé par un test de `robots.txt` (zones exclues, `Sitemap:`) et un test d'en-tête (page listée sans `noindex` si activé ; tout `noindex` si désactivé) | oui, avant |
+| `PublicOpeningTest::testRobotsTxtFollowsTheGateInPrivateMode` | sous-chaîne `Disallow: /` | inchangé ; le mode privé garde `Disallow: /` seul (test de non-régression ajouté : pas de ligne `Sitemap:` ni `Allow`) | non |
+| `tests/Fixtures/bin/demo-mode-router.php` + `bin/verify-public-mode` | `VerifyPublicModeTest::testThePublicModeIsAcceptedWhenEveryCheckPasses` exige zéro `KO` ; le contrôle 6 actuel (`Disallow: /` partout) échouerait contre le nouveau routeur | fixture et script adaptés ensemble ; **`VerifyPublicModeTest` lui-même inchangé** ; le script gagne une option (`--indexing`) pour le cas réglage actif, le défaut gardant le contrôle actuel (tout exclu) | oui, avant |
+| `RailwayPreservedVariablesTest::variablesSetByTheOwner` | liste des variables gardées par `preserve()` | ajout du nom du réglage d'activation (ajout d'une valeur, aucune assertion changée) | oui, avant |
+| `ReadmeChecker` (message « the site refuses robots ») | le message vise les **autres** sites qui répondent 403, 429 ou 999 à un robot, pas la démo | **inchangé**, sans objet | non |
+| `SeoMetadataTest::testTheCanonicalUrlKeepsThePage…`, `…TwoLanguagesDoNotShare…`, `…DescriptionIsWrittenInTheLanguage…` | restent vrais si les descriptions restent distinctes entre accueil, catégorie et Plugins | **inchangés** | non |
+| Les autres lignes de la table préremplie | confirmées telles quelles (`HardeningTest`, tests de refonte : aucun ne compte ni n'interdit les `<script>`) | inchangés | non |
+
+DoD de la table : 0 test existant modifié sans ligne de registre ; les adaptations ci-dessus sont les seules.
+
+**Liste blanche proposée** (routes nommées, `fr_FR` et `en_US`, lues par les trois consommateurs depuis un seul paramètre versionné) : `sylius_shop_homepage`, `app_demo_plugins`, `app_demo_architecture`, `app_demo_proof`, `app_demo_about`, `app_demo_integrate`, `app_demo_mcp_guide`, `app_demo_override_guide`. Hors liste, restent `noindex` : compatibilité et packs (proposés en option, voir message), parcours guidés (`/guides…`), mentions légales, crédits des images, plateforme fictive, échange par fichiers, comptes, panier, commande, catalogue, fiches, outils de démo, santé.
+
+**Réglage d'activation proposé** : variable d'environnement `DEMO_INDEXING` (`1` actif, absente ou `0` désactivée), paramètre `demo.indexing.enabled`, lu uniquement si le mode démo est actif **et** la porte privée fermée ; déclaré par `preserve()` dans `.railway/railway.ts`.
+
 ## Lieu de vérification
 
 **Local** (production simulée : `bin/verify-public-mode` sur le routeur de fixtures), **image reconstruite** et **production le jour du déploiement** : pages publiques, sans compte, lecture seule (`curl -sI`, `robots.txt`, `sitemap.xml`). Validation des données structurées : locale (JSON-LD contrôlé par test) puis par un validateur public sur l'URL de production, résultat noté au registre.
@@ -67,7 +100,7 @@ Aucune maquette ce sprint : la table croise la story avec les **tests existants 
 
 | ID | Type | Tâche | Estimation | Dépend de | Réalisé par | Statut |
 |----|------|-------|------------|-----------|-------------|--------|
-| T-207-01 | [DOC] | Cadrage : `NoIndexSubscriber`, `RobotsController`, `metatags.html.twig`, routes vitrine relues ; **table « invariants de test » confirmée** (règle 28) et confrontée au périmètre par l'orchestrateur ; routes de la liste blanche proposées (guides d'intégration tranchés) ; canal B2C et hôte canonique ; source de la liste des plugins en recoupement et de l'import ERP à exclure ; nom du réglage d'activation ; plan des tests | 0,75 h | - | Claude | 🔲 |
+| T-207-01 | [DOC] | Cadrage : `NoIndexSubscriber`, `RobotsController`, `metatags.html.twig`, routes vitrine relues ; **table « invariants de test » confirmée** (règle 28) et confrontée au périmètre par l'orchestrateur ; routes de la liste blanche proposées (guides d'intégration tranchés) ; canal B2C et hôte canonique ; source de la liste des plugins en recoupement et de l'import ERP à exclure ; nom du réglage d'activation ; plan des tests | 0,75 h | - | Claude | ✅ |
 | T-207-02 | [TEST] | État de référence « avant » : tests existants de la table lancés sur la branche (`SeoMetadataTest`, `PublicOpeningTest`, `IntegratePageTest`, `ArchitecturePageTest`, test de `bin/verify-public-mode`) dès 5 Go libres | 0,25 h | T-207-01 | Claude | 📅 disque |
 | T-207-03 | [OPS] | 📅 Thibaut confirme la **liste blanche** (pages et guides d'intégration retenus) et l'**activation** de l'indexation ; GO noté au registre **avant** d'activer le réglage en production | 0,25 h | T-207-01 | Thibaut | 📅 GO |
 | T-207-04 | [TEST] | Tests rouges, **rouge prouvé (règle 27)**, commités seuls et cités dans la PR : page listée sans `noindex` avec titre, description, canonical et `hreflang` FR/EN ; sitemap limité à la liste (alternatives de langue, `x-default`, hôte canonique) ; données structurées valides sans plugin en recoupement ni import ERP ; page privée en `noindex` et hors sitemap ; **route non listée en `noindex` et test qui échoue si elle apparaît au sitemap** ; ton neutre ; mode privé fermé ; réglage désactivé = tout en `noindex` ; fournisseurs de données relus avant le commit | 1,25 h | T-207-01 | Claude | 🔲 (rouge prouvé dès 5 Go) |

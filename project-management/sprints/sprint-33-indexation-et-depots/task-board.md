@@ -20,7 +20,6 @@ Règle : une tâche passe en ✅ dans le commit qui la livre. **Rouge prouvé (r
 | T-TECH-33-12 | Transverse | OPS | ECS, PHPStan max (dépôt entier) et Rector rejoués avant chaque push ; CI verte avant le merge … | 0,5 h | Orchestrateur |
 | T-TECH-33-14 | Transverse | TEST | **Capture à 1280 px relue avant la PR** : home connectée et page vitrine listée … | 0,5 h | Orchestrateur |
 | T-TECH-33-15 | Transverse | DOC | Revue et rétrospective du sprint 33, puis clôture | 0,75 h | Orchestrateur |
-| T-207-01 | US-207 | DOC | Cadrage : table « invariants de test » confirmée (règle 28), liste blanche proposée, canal B2C, hôte canonique, exclusions … | 0,75 h | Claude |
 | T-207-04 | US-207 | TEST | Tests rouges, **rouge prouvé (règle 27)**, commités seuls : page listée, sitemap, données structurées, pages privées, route non listée, ton neutre … | 1,25 h | Claude |
 | T-207-05 | US-207 | BE | Liste blanche unique, `NoIndexSubscriber` (refus par défaut), `RobotsController`, réglage d'activation (désactivé par défaut) | 1,25 h | Claude |
 | T-207-06 | US-207 | BE | `sitemap.xml` : liste blanche, `hreflang` FR/EN et `x-default`, hôte canonique, référencé par `robots.txt` | 1 h | Claude |
@@ -82,6 +81,7 @@ _Aucune tâche._
 |----|-----|------|-------|------------|-------------|
 | T-TECH-33-01 | Transverse | DOC | **Règle 27 « rouge prouvé »** de la consigne de worker (faite au planning) | 0,25 h | Orchestrateur |
 | T-TECH-33-02 | Transverse | DOC | **Règle 28 : table « invariants de test » au cadrage**, table d'US-207 préremplie (faite au planning) | 0,25 h | Orchestrateur |
+| T-207-01 | US-207 | DOC | Cadrage : table « invariants de test » confirmée (règle 28), liste blanche proposée, canal B2C, hôte canonique, exclusions … | 0,75 h | Claude |
 
 ## Métriques
 
