@@ -4,7 +4,7 @@
 
 | Story | Points | Worker | Estimation | Réalisée |
 |-------|--------|--------|------------|----------|
-| [US-229](../../backlog/user-stories/US-229.md) | 3 | w229 | 6,5 h | _à remplir_ |
+| [US-229](../../backlog/user-stories/US-229.md) | 3 | w229 | 6,5 h | 5,5 h |
 
 ## Dépendances
 
@@ -19,10 +19,10 @@ graph TD
 
 | ID | Type | Tâche | Estimation | Réalisé | Statut |
 |----|------|-------|------------|---------|--------|
-| T-229-01 | DOC | Cadrage : timebox 6 h, accès au règlement (UE) 2024/1781, calendriers officiels, documentation Sylius Plus | 0,5 h | | 🔲 |
-| T-229-02 | DOC | Recherche : texte du règlement (UE) 2024/1781 (écoconception, passeport numérique), calendrier batteries 2027, actes délégués par catégorie de produits, identifiants GS1 Digital Link, recoupement Sylius Plus ; sources citées avec dates de consultation ; timebox 6 h | 5,5 h | | 🔲 |
-| T-229-03 | DOC | ADR `docs/adr/0020-passeport-numerique-produit-espr.md` : ce qui est fixé, ce qui ne l'est pas, formulation prudente (« base ouverte et versionnée », jamais « conforme » ni « certifié »), identifiants GS1, conclusion Sylius Plus | 0,25 h | | 🔲 |
-| T-229-04 | REV | Revue (formulation prudente validée avant tout texte public, ton neutre, aucun détail sensible) et relecture par Thibaut ; estimation d'US-230 à US-235 confirmée ou révisée | 0,25 h | | 🔲 |
+| T-229-01 | DOC | Cadrage : timebox 6 h, accès au règlement (UE) 2024/1781, calendriers officiels, documentation Sylius Plus | 0,5 h | 0,5 h | ✅ |
+| T-229-02 | DOC | Recherche : texte du règlement (UE) 2024/1781 (écoconception, passeport numérique), calendrier batteries 2027, actes délégués par catégorie de produits, identifiants GS1 Digital Link, recoupement Sylius Plus ; sources citées avec dates de consultation ; timebox 6 h | 5,5 h | 4,5 h | ✅ |
+| T-229-03 | DOC | ADR `docs/adr/0020-passeport-numerique-produit-espr.md` : ce qui est fixé, ce qui ne l'est pas, formulation prudente (« base ouverte et versionnée », jamais « conforme » ni « certifié »), identifiants GS1, conclusion Sylius Plus | 0,25 h | 0,5 h | ✅ |
+| T-229-04 | REV | Revue (formulation prudente validée avant tout texte public, ton neutre, aucun détail sensible) et relecture par Thibaut ; estimation d'US-230 à US-235 confirmée ou révisée | 0,25 h | 0 h | 🔲 |
 
 **Total** : 6,5 h
 
@@ -40,13 +40,15 @@ graph TD
 
 ### Scénarios validés
 
-- [ ] 1 nominal, 2 alternatifs, 2 erreurs (US-229 : 1+2+2)
+- [x] 1 nominal, 2 alternatifs, 2 erreurs (US-229 : 1+2+2)
 
 ### Livrables
 
-- [ ] `docs/adr/0020-passeport-numerique-produit-espr.md` relu par Thibaut
-- [ ] Formulation prudente validée avant tout texte public
-- [ ] Estimations d'US-230 à US-235 confirmées ou révisées
+- [x] `docs/adr/0020-passeport-numerique-produit-espr.md` (statut : Proposé, en attente de relecture par Thibaut)
+- [x] `docs/dpp-cadrage.md` (note de cadrage avec glossaire et formulations)
+- [x] Ligne ajoutée dans `docs/adr/index.md`
+- [ ] Formulation prudente validée avant tout texte public (relecture Thibaut, T-229-04)
+- [x] Estimations d'US-230 à US-235 confirmées (3+5+3+3+3 points)
 
 ### Preuves de qualité
 

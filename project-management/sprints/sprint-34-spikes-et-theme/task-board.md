@@ -3,7 +3,7 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut, du disque ou d'un déploiement | ⚠️ Sacrifiable | 🟡 Faite avec écart | ⊘ Sans objet
 
-Total décomposé : **43 tâches, 33 h** (14 points). État au planning (2026-10-28) : **1 ✅, 33 🔲, 9 📅**. Les 📅 attendent le GO de l'ADR d'US-221 (T-221-03 avant US-222), le retour du disque au-dessus de 5 Go (tests, suite complète).
+Total décomposé : **43 tâches, 33 h** (14 points). État au 2026-10-28 : **6 ✅, 28 🔲, 9 📅**. Les 📅 attendent le GO de l'ADR d'US-221 (T-221-03 avant US-222), le retour du disque au-dessus de 5 Go (tests, suite complète).
 
 Règle : une tâche passe en ✅ dans le commit qui la livre. **Rouge prouvé (règle 27)** : une story de code n'est comptée « rouge prouvé » que si le commit de ses tests rouges cite l'échec observé de chaque test.
 
@@ -12,9 +12,6 @@ Règle : une tâche passe en ✅ dans le commit qui la livre. **Rouge prouvé (r
 | ID | US | Type | Tâche | Estimation | Réalisé par |
 |----|-----|------|-------|------------|-------------|
 | T-210-04 | US-210 | REV | Revue (aucun détail sensible, ton neutre), relecture Thibaut, estimations US-211 à US-216 confirmées | 0,25 h | Claude |
-| T-229-01 | US-229 | DOC | Cadrage : timebox 6 h, accès règlement (UE) 2024/1781, calendriers, Sylius Plus | 0,5 h | Claude |
-| T-229-02 | US-229 | DOC | Recherche règlement ESPR, calendrier batteries 2027, actes délégués, GS1, Sylius Plus ; timebox 6 h | 5,5 h | Claude |
-| T-229-03 | US-229 | DOC | ADR `docs/adr/0020-passeport-numerique-produit-espr.md`, formulation prudente | 0,25 h | Claude |
 | T-229-04 | US-229 | REV | Revue (formulation prudente validée, ton neutre), relecture Thibaut, estimations US-230 à US-235 confirmées | 0,25 h | Claude |
 | T-TECH-34-02 | Transverse | OPS | Workflows YAML validés par analyseur, vérification job exécuté, testé sur workflow invalide | 0,25 h | Orchestrateur |
 | T-TECH-34-04 | Transverse | OPS | Outils de rendu et de build (T-TECH-33-05, -06, -08 : rendu sans barre, script mesure, avertissement build périmé) | 0,25 h | Orchestrateur |
@@ -73,6 +70,9 @@ _Aucune tâche._
 | T-210-01 | US-210 | DOC | Cadrage : timebox 6 h, accès documentation b2b-mcp, Sylius Plus | 0,5 h | Claude |
 | T-210-02 | US-210 | DOC | Recherche format rejeu, adaptateur LLM, outils exposés, Sylius Plus ; timebox 6 h | 5,5 h | Claude |
 | T-210-03 | US-210 | DOC | ADR `docs/adr/0018-copilote-format-rejeu-adaptateur.md`, note privée hors dépôt | 0,25 h | Claude |
+| T-229-01 | US-229 | DOC | Cadrage : timebox 6 h, accès règlement (UE) 2024/1781, calendriers, Sylius Plus | 0,5 h | Claude |
+| T-229-02 | US-229 | DOC | Recherche règlement ESPR, calendrier batteries 2027, actes délégués, GS1, Sylius Plus ; timebox 6 h | 4,5 h | Claude |
+| T-229-03 | US-229 | DOC | ADR `docs/adr/0020-passeport-numerique-produit-espr.md`, formulation prudente, ligne `docs/adr/index.md` | 0,5 h | Claude |
 
 ## Métriques
 
