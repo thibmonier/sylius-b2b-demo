@@ -20,10 +20,10 @@ graph TD
 
 | ID | Type | Tâche | Estimation | Réalisé | Statut |
 |----|------|-------|------------|---------|--------|
-| T-221-01 | DOC | Cadrage : timebox 6 h, projet vierge Sylius 2.3, accès à la documentation Sylius 2, Flex, maquettes G2StRQigRKD6SqNRoyHpkW | 0,5 h | | 🔲 |
-| T-221-02 | OPS | Recherche : bundle de thème Sylius 2 vs paquet de gabarits, Twig hooks et surcharges, assets (Asset Mapper ou Encore, Stimulus), recette Flex, compatibilité Sylius 2.2/2.3, recoupement Sylius Plus ; timebox 6 h | 5,5 h | | 🔲 |
-| T-221-03 | DOC | ADR `docs/adr/0019-packaging-theme-sylius2.md` : approche retenue, prototype minimal (une page) installé dans un projet vierge, ordre de priorité des surcharges, conclusion Sylius Plus ; **GO de Thibaut avant US-222** | 0,25 h | | 📅 |
-| T-221-04 | REV | Revue (ton neutre, aucun détail sensible) et relecture par Thibaut ; estimation d'US-222 à US-228 confirmée ou révisée | 0,25 h | | 🔲 |
+| T-221-01 | DOC | Cadrage : timebox 6 h, projet vierge Sylius 2.3, accès à la documentation Sylius 2, Flex, maquettes G2StRQigRKD6SqNRoyHpkW | 0,5 h | 0,5 h | ✅ |
+| T-221-02 | OPS | Recherche : bundle de thème Sylius 2 vs paquet de gabarits, Twig hooks et surcharges, assets (Asset Mapper ou Encore, Stimulus), recette Flex, compatibilité Sylius 2.2/2.3, recoupement Sylius Plus ; timebox 6 h | 5,5 h | 4,5 h | ✅ |
+| T-221-03 | DOC | ADR `docs/adr/0019-packaging-theme-sylius2.md` : approche retenue, prototype minimal (une page) installé dans un projet vierge, ordre de priorité des surcharges, conclusion Sylius Plus ; **GO de Thibaut avant US-222** | 0,25 h | 1 h | ✅ |
+| T-221-04 | REV | Revue (ton neutre, aucun détail sensible) et relecture par Thibaut ; estimation d'US-222 à US-228 confirmée ou révisée | 0,25 h | | 📅 |
 
 **Total** : 6,5 h
 
