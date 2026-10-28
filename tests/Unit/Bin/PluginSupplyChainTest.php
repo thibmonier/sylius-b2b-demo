@@ -16,7 +16,9 @@ use Symfony\Component\Process\Process;
 final class PluginSupplyChainTest extends TestCase
 {
     private const string CHECKOUT = 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1';
+
     private const string BUILD = 'SyliusLabs/BuildTestAppAction@c3b108b5f3c299c55f429a8cf0ed88734d4f4979 # v4.3.1';
+
     private const string ZIZMOR = 'ghcr.io/zizmorcore/zizmor:1.31.1@sha256:42d409dbb851d4c5d35a058cf042b828bea1e3f2884378c526eb0974780e18d9';
 
     private string $root;
@@ -271,11 +273,11 @@ final class PluginSupplyChainTest extends TestCase
     public function testApplyOnlyTouchesGithubAndTheConfigSectionOfComposerJson(): void
     {
         $repository = $this->legacyRepository('scope');
-        $composerBefore = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: JSON_THROW_ON_ERROR);
+        $composerBefore = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: \JSON_THROW_ON_ERROR);
 
         $this->execute('apply', $repository, '--write');
 
-        $composerAfter = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: JSON_THROW_ON_ERROR);
+        $composerAfter = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: \JSON_THROW_ON_ERROR);
         unset($composerBefore['config'], $composerAfter['config']);
         self::assertSame($composerBefore, $composerAfter);
         $changed = trim((string) $this->git($repository, 'status', '--porcelain'));
@@ -292,7 +294,7 @@ final class PluginSupplyChainTest extends TestCase
 
         $this->execute('apply', $repository, '--write');
 
-        $after = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: JSON_THROW_ON_ERROR);
+        $after = json_decode((string) file_get_contents($repository . '/composer.json'), true, flags: \JSON_THROW_ON_ERROR);
         self::assertSame([], $after['config']['allow-plugins']);
         self::assertArrayHasKey('policy', $after['config']);
     }
@@ -306,6 +308,16 @@ final class PluginSupplyChainTest extends TestCase
         $dependabot = (string) file_get_contents($repository . '/.github/dependabot.yml');
         self::assertStringContainsString('package-ecosystem: composer', $dependabot);
         self::assertStringContainsString('package-ecosystem: github-actions', $dependabot);
+    }
+
+    public function testApplyGivesTheAuditStepTheConditionOfTheInstallStep(): void
+    {
+        $workflow = str_replace("                            name: Build Sylius Test Application\n", "                            name: Build Sylius Test Application\n                            if: steps.next.outputs.available == 'true'\n", $this->legacyWorkflow());
+        $repository = $this->legacyRepository('conditional', workflow: $workflow);
+
+        $this->execute('apply', $repository, '--write');
+
+        self::assertMatchesRegularExpression("/name: Audit of the PHP dependencies\\n\\s+if: steps\\.next\\.outputs\\.available == 'true'\\n\\s+run: composer audit/", (string) file_get_contents($repository . '/.github/workflows/build.yaml'));
     }
 
     public function testApplyWriteRefusesABranchBehindTheDefaultBranch(): void
@@ -350,7 +362,7 @@ final class PluginSupplyChainTest extends TestCase
     /** @return iterable<string, array{string}> */
     public static function listedRepositories(): iterable
     {
-        $process = new Process([PHP_BINARY, self::bin(), 'list']);
+        $process = new Process([\PHP_BINARY, self::bin(), 'list']);
         $process->mustRun();
         foreach (array_filter(explode("\n", $process->getOutput())) as $name) {
             yield $name => [$name];
@@ -359,7 +371,7 @@ final class PluginSupplyChainTest extends TestCase
 
     public function testTheListHasNoDuplicateAndStartsWithThePilot(): void
     {
-        $process = new Process([PHP_BINARY, self::bin(), 'list']);
+        $process = new Process([\PHP_BINARY, self::bin(), 'list']);
         $process->mustRun();
         $names = array_values(array_filter(explode("\n", $process->getOutput())));
 
@@ -374,7 +386,7 @@ final class PluginSupplyChainTest extends TestCase
 
     private function execute(string $mode, string $directory, string ...$options): Process
     {
-        $process = new Process([PHP_BINARY, self::bin(), $mode, $directory, '--allowed-root=' . $this->root, ...$options]);
+        $process = new Process([\PHP_BINARY, self::bin(), $mode, $directory, '--allowed-root=' . $this->root, ...$options]);
         $process->run();
 
         return $process;
@@ -498,7 +510,7 @@ final class PluginSupplyChainTest extends TestCase
     {
         $files = [
             '.github/workflows/build.yaml' => $workflow ?? $this->conformingWorkflow(),
-            'composer.json' => json_encode($composer ?? $this->composer(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
+            'composer.json' => json_encode($composer ?? $this->composer(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) . "\n",
         ];
         if (null !== $dependabot) {
             $files['.github/dependabot.yml'] = $dependabot;
@@ -515,7 +527,7 @@ final class PluginSupplyChainTest extends TestCase
     {
         return $this->createRepository($name, [
             '.github/workflows/build.yaml' => $workflow ?? $this->legacyWorkflow(),
-            'composer.json' => json_encode($composer ?? $this->legacyComposer(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
+            'composer.json' => json_encode($composer ?? $this->legacyComposer(), \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES) . "\n",
             '.github/dependabot.yml' => "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: daily\n",
         ], $hardeningBranch);
     }
