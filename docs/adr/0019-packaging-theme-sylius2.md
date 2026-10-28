@@ -145,9 +145,10 @@ config/
 
 **Recommandation** : Contrainte Composer `"sylius/theme-bundle": "^2.5"` pour supporter les deux versions.
 
+**PHP** :
+
 - Sylius 2.3 : PHP ^8.3 (`vendor/sylius/sylius/composer.json`, v2.3.2 ; Packagist, consulté le 2026-10-28)
 - Sylius 2.2 : PHP ^8.2 (Packagist, v2.2.x, consulté le 2026-10-28)
-- Sylius 2.2 : PHP ^8.3 ou ^8.4 (à vérifier)
 - Démo : PHP ^8.5 (composer.json)
 
 **Recommandation PHP** : `"php": "^8.3"`, le plancher commun que permet Sylius 2.3 ; question ouverte : descendre à ^8.2 pour Sylius 2.2, ou monter à ^8.4 pour réduire la matrice de CI.
