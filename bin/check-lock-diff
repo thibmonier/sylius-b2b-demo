@@ -1,0 +1,113 @@
+#!/usr/bin/env php
+<?php
+
+// Supply chain check (US-208): review of the diff of composer.lock against the lock of the base branch. No network.
+//   - a locked version whose reference changed (same version, other commit): a rewritten tag, refused;
+//   - a package of type composer-plugin that the base did not have: refused until it is reviewed;
+//   - an ordinary update (new version) or a development version moving to another commit: listed in the summary.
+//
+//   bin/check-lock-diff --base=origin/main [--summary=FILE] [LOCK]   # base lock read with `git show <ref>:composer.lock`
+//   bin/check-lock-diff --base-file=base.json [--summary=FILE] [LOCK]
+//
+// LOCK defaults to composer.lock of the project. Exit code 0 (accepted), 1 (refused, one "KO" line per package on
+// stderr), 2 (usage: unreadable lock or base).
+
+declare(strict_types=1);
+
+$root = dirname(__DIR__);
+$options = getopt('', ['base:', 'base-file:', 'summary:'], $next);
+$positional = array_slice($argv, $next);
+$headPath = $positional[0] ?? $root . '/composer.lock';
+
+/** @return array<string, array{version: string, references: list<string>, type: string}> */
+function packages(string $json, string $what): array
+{
+    try {
+        $lock = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+    } catch (JsonException) {
+        fwrite(STDERR, "Cannot read the lock of the $what: not JSON\n");
+        exit(2);
+    }
+    $found = [];
+    foreach ([...(array) ($lock['packages'] ?? []), ...(array) ($lock['packages-dev'] ?? [])] as $package) {
+        $references = array_values(array_unique(array_filter([
+            $package['source']['reference'] ?? null,
+            $package['dist']['reference'] ?? null,
+        ], 'is_string')));
+        $found[(string) $package['name']] = [
+            'version' => (string) ($package['version'] ?? ''),
+            'references' => $references,
+            'type' => (string) ($package['type'] ?? 'library'),
+        ];
+    }
+
+    return $found;
+}
+
+function isDevelopmentVersion(string $version): bool
+{
+    return 1 === preg_match('/(^dev-|-dev$)/', $version);
+}
+
+if (isset($options['base-file'])) {
+    $baseJson = is_string($options['base-file']) && is_readable($options['base-file']) ? file_get_contents($options['base-file']) : false;
+} elseif (isset($options['base']) && is_string($options['base'])) {
+    $command = sprintf('git -C %s show %s 2>/dev/null', escapeshellarg($root), escapeshellarg($options['base'] . ':composer.lock'));
+    $baseJson = shell_exec($command);
+} else {
+    fwrite(STDERR, "Usage: bin/check-lock-diff --base=<ref> | --base-file=<file> [--summary=<file>] [lock]\n");
+    exit(2);
+}
+$headJson = is_readable($headPath) ? file_get_contents($headPath) : false;
+if (!is_string($baseJson) || '' === $baseJson || !is_string($headJson)) {
+    fwrite(STDERR, "Cannot read the base lock or the lock to review\n");
+    exit(2);
+}
+
+$base = packages($baseJson, 'base');
+$head = packages($headJson, 'branch');
+$problems = [];
+$updates = [];
+
+foreach ($head as $name => $package) {
+    $before = $base[$name] ?? null;
+    if (null === $before) {
+        if ('composer-plugin' === $package['type']) {
+            $problems[] = "$name {$package['version']} is a new package of type composer-plugin: review it, then declare it in config.allow-plugins";
+        }
+        continue;
+    }
+    if ($before['version'] !== $package['version']) {
+        $updates[] = [$name, $before['version'], $package['version']];
+    } elseif ($before['references'] !== $package['references']) {
+        if (isDevelopmentVersion($package['version'])) {
+            $updates[] = [$name, $before['version'], $package['version'] . ' (new commit)'];
+        } else {
+            $problems[] = sprintf('%s %s keeps its version but its reference changed: %s -> %s (rewritten tag?)', $name, $package['version'], implode(',', $before['references']), implode(',', $package['references']));
+        }
+    }
+}
+
+$lines = ['### Review of composer.lock', ''];
+if ([] === $updates && [] === $problems) {
+    $lines[] = 'No package changed.';
+}
+if ([] !== $updates) {
+    $lines[] = '| Package | Before | After |';
+    $lines[] = '|---------|--------|-------|';
+    foreach ($updates as [$name, $from, $to]) {
+        $lines[] = "| $name | $from | $to |";
+    }
+}
+foreach ($problems as $problem) {
+    $lines[] = '- KO ' . $problem;
+}
+$report = implode("\n", $lines) . "\n";
+echo $report;
+if (isset($options['summary']) && is_string($options['summary'])) {
+    file_put_contents($options['summary'], $report, FILE_APPEND);
+}
+foreach ($problems as $problem) {
+    fwrite(STDERR, "KO $problem\n");
+}
+exit([] === $problems ? 0 : 1);

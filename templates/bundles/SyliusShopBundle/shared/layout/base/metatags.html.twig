@@ -1,5 +1,4 @@
-{# US-078: copy of the Sylius metatags with the one font the shop uses preloaded (the Latin subset, see assets/shop/styles/fonts.scss): the official file preloaded both full Inter files, 723 KB before the first paint on a phone. #}
+{# US-078: copy of the Sylius metatags with the Latin subset of Inter (see assets/shop/styles/fonts.scss) instead of both full files (723 KB before the first paint on a phone). T-TECH-31-11: the font is no longer preloaded, the preload took bandwidth from the stylesheets (LCP of the home); the fallback has Inter's metrics, so the swap moves nothing. #}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="preload" href="{{ asset('build/app/shop/fonts/InterVariable-latin.woff2', 'app.shop') }}" as="font" type="font/woff2" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">

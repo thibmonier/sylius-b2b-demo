@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95b87282f1f9325faf4f724ce941d4f9",
+    "content-hash": "fc41bdc129fac737d84c6b387b20b97d",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -10354,16 +10354,16 @@
         },
         {
             "name": "sylius/wishlist-plugin",
-            "version": "1.4.x-dev",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/WishlistPlugin.git",
-                "reference": "bff330cfefccd43a43e735b83e74518da4346c00"
+                "reference": "391a8bf2154a8017582a518ce120e494db73a047"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/WishlistPlugin/zipball/bff330cfefccd43a43e735b83e74518da4346c00",
-                "reference": "bff330cfefccd43a43e735b83e74518da4346c00",
+                "url": "https://api.github.com/repos/Sylius/WishlistPlugin/zipball/391a8bf2154a8017582a518ce120e494db73a047",
+                "reference": "391a8bf2154a8017582a518ce120e494db73a047",
                 "shasum": ""
             },
             "require": {
@@ -10405,7 +10405,6 @@
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.1"
             },
-            "default-branch": true,
             "type": "sylius-plugin",
             "extra": {
                 "public-dir": "vendor/sylius/test-application/public"
@@ -10423,7 +10422,7 @@
             "description": "Wishlist plugin for Sylius.",
             "support": {
                 "issues": "https://github.com/Sylius/WishlistPlugin/issues",
-                "source": "https://github.com/Sylius/WishlistPlugin/tree/1.4"
+                "source": "https://github.com/Sylius/WishlistPlugin/tree/v1.4.0"
             },
             "funding": [
                 {
@@ -10431,7 +10430,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-19T11:54:36+00:00"
+            "time": "2026-10-20T11:03:31+00:00"
         },
         {
             "name": "symfony/ai-bundle",
@@ -22252,9 +22251,7 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": {
-        "sylius/wishlist-plugin": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

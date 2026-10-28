@@ -1,0 +1,51 @@
+# US-204: texts of the public "Plugins" page (domain `plugins`), continuing the editorial home. The compatibility note
+# keeps its key (messages domain: app.plugins.sylius_version). Versions and figures come from the proof file, never from here.
+eyebrow: 'Plugins open source'
+title_start: 'Des plugins Sylius,'
+title_accent: 'montrés en situation.'
+lead: 'Les plugins open source présentés par cette démo, par thème. Chaque carte renvoie au dépôt GitHub et, quand le plugin est visible côté boutique, à la page de la démo.'
+families:
+    label: 'Familles de plugins'
+    purchasing: 'Achats B2B'
+    billing: 'Facturation et paiement'
+    catalog: 'Catalogue et prix'
+    integration: 'Intégrations'
+    compliance: 'Conformité'
+    admin: 'Administration'
+more:
+    label: 'Pour aller plus loin'
+    integrate:
+        title: "Guide d'intégration"
+        text: 'Prérequis, installation, architecture type, dépôts.'
+    proof:
+        title: 'Preuve technique'
+        text: 'Version, compatibilité Sylius et qualité de chaque plugin, avec leurs sources.'
+    compatibility:
+        title: 'Compatibilité'
+        text: 'Versions testées de chaque plugin et liens entre plugins.'
+    simulator:
+        title: 'Simulateur PunchOut'
+        text: "Essayer le simulateur d'outil d'achat PunchOut."
+badge:
+    label: 'État du plugin'
+    version: 'Version %version%'
+    ci:
+        success: 'CI réussie'
+        failure: 'CI en échec'
+        other: 'CI : %status%'
+    sylius: 'Compatible Sylius %version%'
+card:
+    details: 'Scénario et compte conseillé'
+    scenario: 'Scénario :'
+    account: 'Compte conseillé :'
+    github: 'Code sur GitHub'
+    packagist: 'Packagist'
+    see_in_demo: 'Voir dans la démo'
+    no_demo_page: "Visible dans l'administration ou au checkout"
+    mcp_guide: 'Guide de connexion de Claude'
+    status:
+        in_progress: 'En cours de publication'
+        upcoming: 'À venir'
+closing:
+    title: 'Une question sur un plugin ou sur la démo ?'
+    text: 'Le profil du concepteur présente son parcours et ses coordonnées.'

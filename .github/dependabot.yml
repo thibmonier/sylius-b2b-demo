@@ -6,6 +6,9 @@ updates:
       directory: /
       schedule:
           interval: weekly
+      # A release must be a week old before it is proposed (security updates ignore the cooldown).
+      cooldown:
+          default-days: 7
       open-pull-requests-limit: 5
       groups:
           composer-minor-and-patch:
@@ -15,6 +18,9 @@ updates:
       directory: /
       schedule:
           interval: weekly
+      # A release must be a week old before it is proposed (security updates ignore the cooldown).
+      cooldown:
+          default-days: 7
       open-pull-requests-limit: 5
       groups:
           npm-minor-and-patch:
@@ -24,6 +30,9 @@ updates:
       directory: /
       schedule:
           interval: weekly
+      # A release must be a week old before it is proposed (security updates ignore the cooldown).
+      cooldown:
+          default-days: 7
       groups:
           github-actions:
               patterns: ["*"]
@@ -32,6 +41,9 @@ updates:
       directory: /docker
       schedule:
           interval: weekly
+      # A release must be a week old before it is proposed (security updates ignore the cooldown).
+      cooldown:
+          default-days: 7
       ignore:
           # Node LTS lines only (even majors once they reach LTS): Node 26 is not LTS yet and its slim image has no yarn.
           - dependency-name: node
@@ -41,6 +53,9 @@ updates:
       directory: /
       schedule:
           interval: weekly
+      # A release must be a week old before it is proposed (security updates ignore the cooldown).
+      cooldown:
+          default-days: 7
       ignore:
           # MySQL 8.4 LTS (supported until 2032): 9.7 caps foreign key cascades at 30 tables per statement
           # (error 6575) and the Sylius fixture purge exceeds it, so the demo reset fails (PR #60).

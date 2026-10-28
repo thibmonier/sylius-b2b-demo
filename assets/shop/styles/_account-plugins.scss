@@ -1,0 +1,277 @@
+// US-203: the pages of the quote, trade-credit and MCP plugins in the frame of "My account" (US-199): same menu, same header, same tokens.
+// The page of the plugin keeps its Bootstrap markup and `data-test`; here it is only dressed in the tokens of the charter. Everything
+// is scoped to `.b2b-account-plugin` (the frame, B2B channel only) or `.b2b-consent` (the page of consent): the consumer channel keeps
+// the core markup. Tables scroll inside their own region, never the page (320 px); every button and link of a table is a 44 px target.
+@use 'variables' as *;
+
+.b2b-account-plugin {
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #{$b2b-ink};
+        --bs-table-border-color: #{$b2b-sand-line};
+        font-size: .9375rem;
+
+        thead tr {
+            background: $b2b-sand;
+        }
+
+        th {
+            font-size: .875rem;
+        }
+    }
+
+    .card {
+        border-color: $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+    }
+
+    .alert {
+        border-radius: .75rem;
+    }
+
+    h1:not(.b2b-account__title),
+    h2 {
+        font-family: var(--b2b-font-serif);
+        color: $b2b-ink;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding-inline: 1.125rem;
+        border-radius: .625rem;
+        font-weight: 600;
+    }
+
+    .btn:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+
+    // The official theme draws the outline danger button in a red that is 4.5:1 on white: the red of the charter is 8.2:1 (AAA).
+    .btn-outline-danger {
+        --bs-btn-color: #{$b2b-danger};
+        --bs-btn-border-color: #{$b2b-danger};
+        --bs-btn-hover-color: #{$b2b-white};
+        --bs-btn-hover-bg: #{$b2b-danger};
+        --bs-btn-hover-border-color: #{$b2b-danger};
+        --bs-btn-active-color: #{$b2b-white};
+        --bs-btn-active-bg: #{$b2b-danger};
+        --bs-btn-active-border-color: #{$b2b-danger};
+        --bs-btn-disabled-color: #{$b2b-danger};
+        --bs-btn-disabled-border-color: #{$b2b-danger};
+    }
+
+    // The help sentence under the title is the identity line of the home: muted, wrapping.
+    .b2b-account__identity {
+        display: block;
+    }
+}
+
+// The scrollable region of a table: focusable (keyboard), the page itself never scrolls sideways.
+.b2b-account-plugin__scroll {
+    overflow-x: auto;
+    max-width: 100%;
+
+    &:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+}
+
+// ---- Statement of trade credit (mock-up of the sprint 31): figures, ageing tiles, open items --------------------------------------
+.b2b-statement {
+    &__figures {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+        gap: .875rem;
+    }
+
+    &__figure,
+    &__tile {
+        display: flex;
+        flex-direction: column;
+        gap: .125rem;
+        min-width: 0;
+        padding: .75rem .875rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .75rem;
+        background: $b2b-white;
+        color: $b2b-ink;
+
+        span {
+            color: $b2b-muted;
+            font-size: .875rem;
+        }
+    }
+
+    &__figure {
+        padding: 1.125rem 1.25rem;
+        border-radius: .875rem;
+
+        strong {
+            font-family: var(--b2b-font-serif);
+            font-size: 1.75rem;
+            line-height: 1.15;
+            overflow-wrap: anywhere;
+        }
+
+        &--available strong {
+            color: $b2b-success;
+        }
+    }
+
+    &__panel {
+        display: flex;
+        flex-direction: column;
+        gap: .875rem;
+        min-width: 0;
+        padding: 1.5rem;
+        border: 1px solid $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+
+        h2 {
+            margin: 0;
+        }
+    }
+
+    &__ageing {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .75rem;
+
+        @media (min-width: 992px) {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+    }
+
+    &__tile {
+        strong {
+            font-size: 1.0625rem;
+            overflow-wrap: anywhere;
+        }
+
+        &--late strong {
+            color: $b2b-danger;
+        }
+
+        &--total {
+            background: $b2b-sand;
+            font-weight: 700;
+        }
+    }
+
+    &__table th a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+
+    // On a phone the table of open items becomes one card per item: nothing scrolls sideways.
+    &__table {
+        @media (max-width: 640px) {
+            thead {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+            }
+
+            &,
+            tbody,
+            tr,
+            th,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            tr {
+                padding: .75rem 0;
+                border-top: 1px solid $b2b-sand-line;
+            }
+
+            th,
+            td {
+                display: flex;
+                justify-content: space-between;
+                gap: .75rem;
+                padding: .25rem 0;
+                border: 0;
+                text-align: left;
+            }
+
+            td[data-label]::before {
+                content: attr(data-label);
+                color: $b2b-muted;
+                font-size: .875rem;
+            }
+        }
+    }
+}
+
+// ---- Page of consent of the MCP plugin: B2B frame only (header and charter of the shop), no menu of the account ------------------
+main:has(.b2b-consent) {
+    background: $b2b-paper;
+}
+
+.b2b-consent {
+    color: $b2b-ink;
+
+    .card {
+        border-color: $b2b-sand-line;
+        border-radius: .875rem;
+        background: $b2b-white;
+    }
+
+    h1 {
+        font-family: var(--b2b-font-serif);
+        font-size: 1.875rem;
+        line-height: 1.15;
+    }
+
+    h2 {
+        font-family: var(--b2b-font-serif);
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding-inline: 1.125rem;
+        border-radius: .625rem;
+        font-weight: 600;
+    }
+
+    .btn:focus-visible,
+    .form-check-input:focus-visible {
+        outline: 3px solid $b2b-navy;
+        outline-offset: 2px;
+    }
+
+    .form-check-input {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .alert {
+        border-radius: .75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .b2b-account-plugin,
+    .b2b-consent {
+        .btn {
+            transition: none;
+        }
+    }
+}

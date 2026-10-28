@@ -32,6 +32,8 @@ final class ThemeColorTokensTest extends TestCase
             ['muted', 'paper'], ['muted', 'sand'], ['sand-text', 'sand'], ['white', 'teal'], ['teal', 'paper'],
             ['gold', 'night'], ['gold', 'night-raised'], ['night', 'gold'], ['white', 'night'], ['white', 'night-raised'],
             ['night-text', 'night'], ['night-text', 'night-raised'],
+            // US-204: badges of the cards of the Plugins page (white cards).
+            ['teal', 'white'],
         ];
         foreach ($pairs as [$foreground, $background]) {
             yield $foreground . ' on ' . $background => [$foreground, $background];

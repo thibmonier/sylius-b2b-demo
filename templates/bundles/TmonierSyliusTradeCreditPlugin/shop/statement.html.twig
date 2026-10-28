@@ -1,0 +1,101 @@
+{#
+    US-203: override of the statement of the trade-credit plugin (tmonier/sylius-trade-credit-plugin), in the frame of "My account",
+    after the mock-up validated by Thibaut (decisions register of sprint 31): three figures, the ageing in tiles, the open items as a
+    table that becomes one card per item on a phone. Kept as is: the variables (`statement`) and every `data-test` of the plugin.
+#}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'tmonier_trade_credit.ui.trade_credit'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% embed 'shop/theme_b2b/account_plugins/frame.html.twig' with {
+        crumbs: [
+            { label: 'sylius.ui.home'|trans, path: path('sylius_shop_homepage') },
+            { label: 'sylius.ui.my_account'|trans, path: path('sylius_shop_account_dashboard') },
+            { label: 'tmonier_trade_credit.ui.trade_credit'|trans, active: true },
+        ],
+        title: 'tmonier_trade_credit.ui.trade_credit'|trans,
+        help: 'tmonier_trade_credit.ui.statement_help'|trans,
+    } %}
+        {% block body %}
+            {% if statement is null %}
+                <div class="alert alert-light" {{ sylius_test_html_attribute('tmonier-trade-credit-none') }}>{{ 'tmonier_trade_credit.ui.no_account_shop'|trans }}</div>
+            {% else %}
+                {% set account = statement.account %}
+                {% set currency = account.currencyCode ?? 'USD' %}
+                {% set position = statement.position %}
+                <div class="b2b-statement__figures" {{ sylius_test_html_attribute('tmonier-trade-credit-summary') }}>
+                    <div class="b2b-statement__figure"><span>{{ 'tmonier_trade_credit.ui.credit_limit'|trans }}</span><strong {{ sylius_test_html_attribute('tmonier-credit-limit') }}>{{ position.creditLimit|sylius_format_money(currency, app.request.locale) }}</strong></div>
+                    <div class="b2b-statement__figure"><span>{{ 'tmonier_trade_credit.ui.committed'|trans }}</span><strong {{ sylius_test_html_attribute('tmonier-committed') }}>{{ position.committedAmount|sylius_format_money(currency, app.request.locale) }}</strong></div>
+                    {% if position.external %}
+                        <div class="b2b-statement__figure"><span>{{ 'tmonier_trade_credit.ui.external_committed'|trans }}</span><strong {{ sylius_test_html_attribute('tmonier-external-committed') }}>{{ position.externalCommittedAmount|sylius_format_money(currency, app.request.locale) }}</strong></div>
+                    {% endif %}
+                    <div class="b2b-statement__figure b2b-statement__figure--available"><span>{{ 'tmonier_trade_credit.ui.available'|trans }}</span><strong {{ sylius_test_html_attribute('tmonier-available') }}>{{ max(0, position.availableAmount)|sylius_format_money(currency, app.request.locale) }}</strong></div>
+                </div>
+                {% if account.creditHold or not account.enabled %}
+                    <div class="alert alert-warning">{{ 'tmonier_trade_credit.ui.account_on_hold_shop'|trans }}</div>
+                {% endif %}
+                {% if statement.overdueAmount > 0 %}
+                    <div class="alert alert-danger" role="alert" {{ sylius_test_html_attribute('tmonier-overdue-alert') }}>{{ 'tmonier_trade_credit.ui.overdue_alert'|trans({'%amount%': statement.overdueAmount|sylius_format_money(currency, app.request.locale)}) }}</div>
+                {% endif %}
+                {% if statement.items is not empty %}
+                    <section class="b2b-statement__panel" aria-labelledby="b2b-statement-ageing">
+                        <h2 id="b2b-statement-ageing" class="h4">{{ 'tmonier_trade_credit.ui.ageing'|trans }}</h2>
+                        <div class="b2b-statement__ageing" {{ sylius_test_html_attribute('tmonier-ageing', currency) }}>
+                            {% for bucket, amount in statement.ageing.toArray() %}
+                                <div class="b2b-statement__tile{{ bucket != 'current' and amount > 0 ? ' b2b-statement__tile--late' }}">
+                                    <span>{{ ('tmonier_trade_credit.ageing.' ~ bucket)|trans }}</span>
+                                    <strong {{ sylius_test_html_attribute('tmonier-ageing-bucket', bucket) }}>{{ amount|sylius_format_money(currency, app.request.locale) }}</strong>
+                                </div>
+                            {% endfor %}
+                            <div class="b2b-statement__tile b2b-statement__tile--total"><span>{{ 'sylius.ui.total'|trans }}</span><strong>{{ statement.ageing.total|sylius_format_money(currency, app.request.locale) }}</strong></div>
+                        </div>
+                    </section>
+                {% endif %}
+                <section class="b2b-statement__panel" aria-labelledby="b2b-statement-open">
+                    <h2 id="b2b-statement-open" class="h4">{{ 'tmonier_trade_credit.ui.open_items'|trans }}</h2>
+                    {% if statement.items is empty %}
+                        <div class="alert alert-light">{{ 'tmonier_trade_credit.ui.no_open_items'|trans }}</div>
+                    {% else %}
+                        <div class="table-responsive b2b-account-plugin__scroll" tabindex="0" role="region" aria-label="{{ 'region.statement'|trans({}, 'account_plugins') }}">
+                            <table class="table align-middle b2b-statement__table" {{ sylius_test_html_attribute('tmonier-open-items') }}>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">{{ 'sylius.ui.order'|trans }}</th>
+                                        <th scope="col">{{ 'sylius.ui.date'|trans }}</th>
+                                        <th scope="col">{{ 'sylius.ui.amount'|trans }}</th>
+                                        <th scope="col">{{ 'tmonier_trade_credit.ui.due_date'|trans }}</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in statement.items %}
+                                        <tr {{ sylius_test_html_attribute('tmonier-open-item', item.orderNumber) }}>
+                                            <th scope="row" class="fw-semibold">
+                                                {% if item.placedByViewer %}
+                                                    <a href="{{ path('sylius_shop_account_order_show', {'number': item.orderNumber}) }}">#{{ item.orderNumber }}</a>
+                                                {% else %}
+                                                    #{{ item.orderNumber }}
+                                                    <div class="small text-body-secondary fw-normal">{{ 'tmonier_trade_credit.ui.placed_by'|trans({'%name%': item.buyerName}) }}</div>
+                                                {% endif %}
+                                            </th>
+                                            <td data-label="{{ 'sylius.ui.date'|trans }}">{{ item.orderDate|date('Y-m-d') }}</td>
+                                            <td data-label="{{ 'sylius.ui.amount'|trans }}">{{ item.amount|sylius_format_money(currency, app.request.locale) }}</td>
+                                            <td data-label="{{ 'tmonier_trade_credit.ui.due_date'|trans }}">
+                                                {{ item.dueDate|date('Y-m-d') }}
+                                                {% if item.overdue %}<span class="badge text-bg-danger ms-1">{{ 'tmonier_trade_credit.ui.overdue'|trans }}</span>{% endif %}
+                                            </td>
+                                            <td class="text-end">
+                                                {% if item.invoiceUrl %}<a class="btn btn-sm btn-outline-primary" href="{{ item.invoiceUrl }}">{{ 'tmonier_trade_credit.ui.invoice_pdf'|trans }}</a>{% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </section>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

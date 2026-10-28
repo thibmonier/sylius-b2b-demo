@@ -1,5 +1,5 @@
-{# US-186: the hero photo is the largest element of the first view: fetched as soon as the head is read (same srcset and sizes as the image). #}
+{# US-186: on a large screen the hero photo is the largest element of the first view: fetched as soon as the head is read (same srcset and sizes as the image). T-TECH-31-11: not on a phone, where it sits under the h1 (the LCP) and would take bandwidth from the stylesheets. #}
 {% set photo = demo_home_photo('hero') %}
 {% set base = 'build/app/shop/images/home/' %}
 {# href: the fallback of browsers without imagesrcset, and what an accessibility checker expects on a link (H59). #}
-<link rel="preload" as="image" href="{{ asset(base ~ photo.files[1].file|default(photo.files[0].file), 'app.shop') }}" type="image/webp" fetchpriority="high" imagesrcset="{% for file in photo.files %}{{ asset(base ~ file.file, 'app.shop') }} {{ file.width }}w{{ loop.last ? '' : ', ' }}{% endfor %}" imagesizes="(min-width: 1100px) 38rem, (min-width: 992px) 45vw, calc(100vw - 2.5rem)">
+<link rel="preload" as="image" media="(min-width: 992px)" href="{{ asset(base ~ photo.files[1].file|default(photo.files[0].file), 'app.shop') }}" type="image/webp" fetchpriority="high" imagesrcset="{% for file in photo.files %}{{ asset(base ~ file.file, 'app.shop') }} {{ file.width }}w{{ loop.last ? '' : ', ' }}{% endfor %}" imagesizes="(min-width: 1100px) 38rem, (min-width: 992px) 45vw, calc(100vw - 2.5rem)">

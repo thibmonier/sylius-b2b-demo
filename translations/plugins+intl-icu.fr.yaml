@@ -1,0 +1,2 @@
+# US-204: plural of the family counters (ICU, same domain `plugins`).
+family_count: '{count, plural, one {# plugin} other {# plugins}}'

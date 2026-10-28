@@ -1,0 +1,59 @@
+{#
+    US-203: override of the connections page of the plugin (tmonier/sylius-b2b-mcp-plugin), in the frame of "My account".
+    Kept as is: the variables (`connections`), the revocation form and its CSRF token, and every `data-test`.
+#}
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'tmonier_b2b_mcp.ui.ai_assistants'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    {% embed 'shop/theme_b2b/account_plugins/frame.html.twig' with {
+        crumbs: [
+            { label: 'sylius.ui.home'|trans, path: path('sylius_shop_homepage') },
+            { label: 'sylius.ui.my_account'|trans, path: path('sylius_shop_account_dashboard') },
+            { label: 'tmonier_b2b_mcp.ui.ai_assistants'|trans, active: true },
+        ],
+        title: 'tmonier_b2b_mcp.ui.ai_assistants'|trans,
+        help: 'tmonier_b2b_mcp.ui.ai_assistants_help'|trans,
+    } %}
+        {% block body %}
+            {% if connections is empty %}
+                <div class="alert alert-light" {{ sylius_test_html_attribute('tmonier-b2b-mcp-no-connection') }}>{{ 'tmonier_b2b_mcp.ui.no_connection'|trans }}</div>
+            {% else %}
+                <div class="table-responsive b2b-account-plugin__scroll" tabindex="0" role="region" aria-label="{{ 'region.connections'|trans({}, 'account_plugins') }}">
+                    <table class="table align-middle" {{ sylius_test_html_attribute('tmonier-b2b-mcp-connections') }}>
+                        <thead>
+                            <tr>
+                                <th>{{ 'tmonier_b2b_mcp.ui.assistant'|trans }}</th>
+                                <th>{{ 'tmonier_b2b_mcp.ui.permissions'|trans }}</th>
+                                <th>{{ 'tmonier_b2b_mcp.ui.connected_at'|trans }}</th>
+                                <th>{{ 'tmonier_b2b_mcp.ui.last_used_at'|trans }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for connection in connections %}
+                                <tr {{ sylius_test_html_attribute('tmonier-b2b-mcp-connection', connection.id) }}>
+                                    <td class="fw-semibold">{{ connection.client.name }}</td>
+                                    <td>
+                                        {% for scope in connection.scopes %}
+                                            <div class="small">{{ ('tmonier_b2b_mcp.scope.' ~ scope|replace({':': '_'}))|trans }}</div>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ connection.createdAt|date('Y-m-d H:i') }}</td>
+                                    <td>{{ connection.lastUsedAt ? connection.lastUsedAt|date('Y-m-d H:i') : '-' }}</td>
+                                    <td class="text-end">
+                                        <form method="post" action="{{ path('tmonier_b2b_mcp_shop_connection_revoke', {'id': connection.id}) }}">
+                                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('tmonier_b2b_mcp_revoke_' ~ connection.id) }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" {{ sylius_test_html_attribute('tmonier-b2b-mcp-revoke', connection.id) }}>{{ 'tmonier_b2b_mcp.ui.disconnect'|trans }}</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

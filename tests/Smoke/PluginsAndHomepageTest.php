@@ -42,8 +42,9 @@ final class PluginsAndHomepageTest extends WebTestCase
         $content = (string) $client->getResponse()->getContent();
         $catalog = self::catalog();
 
-        self::assertCount($catalog->count(), $client->getCrawler()->filter('[data-plugin]'));
-        foreach ($catalog->all() as $plugin) {
+        // US-204: the page lists the listed plugins only (the ERP plugin is not shown, decision of 2026-10-27).
+        self::assertCount($catalog->countListed(), $client->getCrawler()->filter('[data-plugin]'));
+        foreach ($catalog->listed() as $plugin) {
             self::assertStringContainsString('data-plugin="' . $plugin->slug . '"', $content);
             self::assertStringContainsString($plugin->githubUrl(), $content);
             self::assertStringContainsString($plugin->descriptionEn, html_entity_decode($content, \ENT_QUOTES));
@@ -59,10 +60,10 @@ final class PluginsAndHomepageTest extends WebTestCase
         self::assertCount(0, $client->getCrawler()->filter('[data-plugin-unpublished]'));
         self::assertCount(0, $client->getCrawler()->filter('[data-plugin-status="in_progress"]'));
         self::assertCount(0, $client->getCrawler()->filter('[data-plugin-status="upcoming"]'));
-        self::assertCount($catalog->count(), $client->getCrawler()->filter('[data-plugin-packagist]'));
+        self::assertCount($catalog->countListed(), $client->getCrawler()->filter('[data-plugin-packagist]'));
         // Each external link carries the icon of its service (GitHub, Packagist).
-        self::assertCount($catalog->count(), $client->getCrawler()->filter('[data-plugin] .card-footer a[href^="https://github.com/"] svg'));
-        self::assertCount($catalog->count(), $client->getCrawler()->filter('[data-plugin-packagist] svg'));
+        self::assertCount($catalog->countListed(), $client->getCrawler()->filter('[data-plugin] [data-plugin-links] a[href^="https://github.com/"] svg'));
+        self::assertCount($catalog->countListed(), $client->getCrawler()->filter('[data-plugin-packagist] svg'));
     }
 
     public function testEveryDemoRouteOfTheCatalogExists(): void

@@ -1,0 +1,41 @@
+{#
+    US-203: the frame of the pages of the quote, trade-credit and MCP plugins, used by the overrides of templates/bundles/.
+    B2B channel: the grouped menu of "My account" (US-199), the header of the charter and the content in `b2b-account-plugin`.
+    Consumer channel: the markup of the plugin pages as it was (the menu of the core). Variables: `crumbs` (breadcrumb items), `title`
+    and `help` (already translated by the caller, optional: a page without header shows its own). The content goes in the block `body`.
+#}
+{% from '@SyliusShop/shared/breadcrumbs.html.twig' import breadcrumbs %}
+{% set b2b = not is_granted('DEMO_CONSUMER_CHANNEL') %}
+<div class="container mb-auto">
+    <div class="row my-4">
+        <div class="col-12">{{ breadcrumbs(crumbs) }}</div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+            {% if b2b %}
+                {% include 'shop/theme_b2b/account/nav.html.twig' %}
+            {% else %}
+                <div class="mb-3">{{ knp_menu_render('sylius_shop.account', {'template': '@SyliusShop/account/menu/content.html.twig'}) }}</div>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-9">
+            {% include '@SyliusShop/shared/flashes.html.twig' %}
+            <div{% if b2b %} class="b2b-account b2b-account-plugin" {{ sylius_test_html_attribute('b2b-account-plugin-page') }}{% endif %}>
+                {% if title is defined %}
+                    {% if b2b %}
+                        <div class="b2b-account__head">
+                            <div class="b2b-account__who">
+                                <h1 class="b2b-account__title">{{ title }}</h1>
+                                {% if help is defined %}<p class="b2b-account__identity">{{ help }}</p>{% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="mb-4">
+                            <h1>{{ title }}</h1>
+                            {% if help is defined %}<div class="text-body-secondary">{{ help }}</div>{% endif %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>

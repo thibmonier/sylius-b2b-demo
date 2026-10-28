@@ -1,0 +1,78 @@
+{
+    "_readme": [
+        "fixture"
+    ],
+    "content-hash": "0",
+    "packages": [
+        {
+            "name": "acme/library",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://example.test/acme/library.git",
+                "reference": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://example.test/acme/library/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.zip",
+                "reference": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            "type": "library"
+        },
+        {
+            "name": "acme/stable",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://example.test/acme/stable.git",
+                "reference": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://example.test/acme/stable/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.zip",
+                "reference": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            "type": "library"
+        },
+        {
+            "name": "acme/branch",
+            "version": "1.4.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://example.test/acme/branch.git",
+                "reference": "dddddddddddddddddddddddddddddddddddddddd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://example.test/acme/branch/dddddddddddddddddddddddddddddddddddddddd.zip",
+                "reference": "dddddddddddddddddddddddddddddddddddddddd"
+            },
+            "type": "library"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "acme/dev-tool",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://example.test/acme/dev-tool.git",
+                "reference": "dddddddddddddddddddddddddddddddddddddddd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://example.test/acme/dev-tool/dddddddddddddddddddddddddddddddddddddddd.zip",
+                "reference": "dddddddddddddddddddddddddddddddddddddddd"
+            },
+            "type": "library"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.9.0"
+}

@@ -54,7 +54,7 @@ final class HomeRedesignTest extends WebTestCase
         $photo = $hero->filter('img[data-home-photo="hero"]');
         self::assertCount(1, $photo);
         self::assertNotSame('', trim((string) $photo->attr('alt')), 'the hero photo has a text alternative');
-        self::assertSame('high', $photo->attr('fetchpriority'));
+        self::assertNull($photo->attr('fetchpriority'), 'T-TECH-31-11: the priority comes from the preload of large screens');
         self::assertNull($photo->attr('loading'), 'the hero is never lazy-loaded');
         self::assertNotNull($photo->attr('srcset'));
         self::assertNotNull($photo->attr('sizes'));
