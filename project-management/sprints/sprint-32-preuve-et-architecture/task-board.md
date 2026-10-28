@@ -21,8 +21,8 @@ Règle (action 5 de la rétro du sprint 22) : une tâche passe en ✅ dans le co
 | T-062-01 | US-062 | DOC | Cadrage : fetcher, manifeste et script relus ; les quatre mineurs confirmés ou écartés contre le code … | 0,25 h | Claude |
 | T-062-02 | US-062 | TEST | Tests rouges, commités seuls : image conforme, manifeste modifié, 429, image hors limites, `chunked` … | 0,5 h | Claude |
 | T-062-03 | US-062 | BE | Correctifs du fetcher : pixels, `Content-Length`, 429, image principale conservée, corps `chunked` plafonné … | 0,75 h | Claude |
-| T-205-01 | US-205 | DOC | Cadrage : `proof.html.twig`, `_fact.html.twig`, `ProofController` ; invariants de `ProofPageTest` … | 0,5 h | Claude |
-| T-205-02 | US-205 | TEST | État de référence « avant » : `ProofPageTest` relu puis lancé dès 5 Go ; captures de production … | 0,25 h | Claude |
+| T-205-01 | US-205 | DOC | ✅ Cadrage : `proof.html.twig`, `_fact.html.twig`, `ProofController` ; invariants de `ProofPageTest` … | 0,5 h | Claude |
+| T-205-02 | US-205 | TEST | ✅ État de référence « avant » : `ProofPageTest` relu puis lancé dès 5 Go ; captures de production … | 0,25 h | Claude |
 | T-205-03 | US-205 | FE-WEB | Maquette Claude Design « Preuve technique » (bureau 1440 px et téléphone 390 px), vraies données … | 1,25 h | Orchestrateur |
 | T-206-01 | US-206 | DOC | Cadrage : `architecture.html.twig`, invariants d'`ArchitecturePageTest`, **canal B2C**, absence de bloc de code … | 0,75 h | Claude |
 | T-206-02 | US-206 | TEST | État de référence « avant » : `ArchitecturePageTest` relu puis lancé dès 5 Go ; captures de production … | 0,25 h | Claude |
@@ -45,10 +45,10 @@ _Aucune tâche._
 | ID | US | Type | Tâche | Estimation | Réalisé par | Attend |
 |----|-----|------|-------|------------|-------------|--------|
 | T-205-04 | US-205 | OPS | 📅 Thibaut valide la maquette « Preuve technique » : **aucun Twig avant son GO**, noté au registre | 0,5 h | Thibaut | maquette T-205-03 |
-| T-205-05 | US-205 | TEST | 📅 Tests rouges, commités seuls : chiffres lus dans le rapport, faits groupés, pastilles, « non disponible » … | 0,5 h | Claude | GO T-205-04 |
-| T-205-06 | US-205 | FE-WEB | 📅 Gabarit et styles (`_proof.scss`), chiffres clés, groupes, tableau en cartes à 320 px … | 1,75 h | Claude | GO T-205-04 |
-| T-205-07 | US-205 | DOC | 📅 Textes FR et EN (domaine `proof`), charte `PublicTextCharter` … | 0,25 h | Claude | GO T-205-04 |
-| T-205-08 | US-205 | TEST | 📅 Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile` … | 0,75 h | Claude | disque |
+| T-205-05 | US-205 | TEST | ✅ Tests rouges, commités seuls : chiffres lus dans le rapport, faits groupés, pastilles, « non disponible » … | 0,5 h | Claude | GO T-205-04 |
+| T-205-06 | US-205 | FE-WEB | ✅ Gabarit et styles (`_proof.scss`), chiffres clés, groupes, tableau en cartes à 320 px … | 1,75 h | Claude | GO T-205-04 |
+| T-205-07 | US-205 | DOC | ✅ Textes FR et EN (domaine `proof`), charte `PublicTextCharter` … | 0,25 h | Claude | GO T-205-04 |
+| T-205-08 | US-205 | TEST | 🔄 Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile` … | 0,75 h | Claude | disque |
 | T-205-09 | US-205 | DOC | 📅 Captures `docs/images/proof-*` par `bin/render-page`, section de `docs/captures-vitrine.md` | 0,5 h | Claude | disque |
 | T-205-10 | US-205 | TEST | Image reconstruite, conteneur neuf ; production le jour du déploiement, lecture seule … | 0,5 h | Claude | déploiement |
 | T-205-11 | US-205 | REV | Revue (ton neutre, parité FR et EN, contenu inchangé) et table « scénario → test ou preuve » | 0,25 h | Claude | déploiement |
