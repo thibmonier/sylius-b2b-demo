@@ -49,7 +49,7 @@ _Aucune tâche._
 | T-205-06 | US-205 | FE-WEB | ✅ Gabarit et styles (`_proof.scss`), chiffres clés, groupes, tableau en cartes à 320 px … | 1,75 h | Claude | GO T-205-04 |
 | T-205-07 | US-205 | DOC | ✅ Textes FR et EN (domaine `proof`), charte `PublicTextCharter` … | 0,25 h | Claude | GO T-205-04 |
 | T-205-08 | US-205 | TEST | 🔄 Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile` … | 0,75 h | Claude | disque |
-| T-205-09 | US-205 | DOC | 📅 Captures `docs/images/proof-*` par `bin/render-page`, section de `docs/captures-vitrine.md` | 0,5 h | Claude | disque |
+| T-205-09 | US-205 | DOC | ✅ Captures `docs/images/proof-*` par `bin/render-page`, section de `docs/captures-vitrine.md` | 0,5 h | Claude | disque |
 | T-205-10 | US-205 | TEST | Image reconstruite, conteneur neuf ; production le jour du déploiement, lecture seule … | 0,5 h | Claude | déploiement |
 | T-205-11 | US-205 | REV | Revue (ton neutre, parité FR et EN, contenu inchangé) et table « scénario → test ou preuve » | 0,25 h | Claude | déploiement |
 | T-206-04 | US-206 | OPS | 📅 Thibaut valide la maquette « Architecture » : **aucun Twig avant son GO**, noté au registre | 0,5 h | Thibaut | maquette T-206-03 |
