@@ -53,10 +53,10 @@ _Aucune tâche._
 | T-205-10 | US-205 | TEST | Image reconstruite, conteneur neuf ; production le jour du déploiement, lecture seule … | 0,5 h | Claude | déploiement |
 | T-205-11 | US-205 | REV | Revue (ton neutre, parité FR et EN, contenu inchangé) et table « scénario → test ou preuve » | 0,25 h | Claude | déploiement |
 | T-206-04 | US-206 | OPS | 📅 Thibaut valide la maquette « Architecture » : **aucun Twig avant son GO**, noté au registre | 0,5 h | Thibaut | maquette T-206-03 |
-| T-206-05 | US-206 | TEST | 📅 Tests rouges, commités seuls : sommaire d'ancres, un visuel par section, focus au clavier, chiffres du rapport … | 1 h | Claude | GO T-206-04 |
-| T-206-06 | US-206 | FE-WEB | 📅 Coquille, introduction, sommaire, « vue d'ensemble » (schéma réhabillé) et « couches » (`_architecture.scss`) | 2,25 h | Claude | GO T-206-04 |
-| T-206-07 | US-206 | FE-WEB | 📅 Sections « flux », « exploitation », « qualité » et « sécurité » (générale) | 1,75 h | Claude | GO T-206-04 |
-| T-206-08 | US-206 | DOC | 📅 Textes FR et EN (domaine `architecture`), charte `PublicTextCharter` … | 0,5 h | Claude | GO T-206-04 |
+| T-206-05 | US-206 | TEST | ✅ Tests rouges, commités seuls : sommaire d'ancres, un visuel par section, focus au clavier, chiffres du rapport … | 1 h | Claude | T-206-04 (GO) |
+| T-206-06 | US-206 | FE-WEB | ✅ Coquille, introduction, sommaire, « vue d'ensemble » (schéma réhabillé) et « couches » (`_architecture.scss`) | 2,25 h | Claude | T-206-04 (GO) |
+| T-206-07 | US-206 | FE-WEB | ✅ Sections « flux », « exploitation », « qualité » et « sécurité » (générale) | 1,75 h | Claude | T-206-04 (GO) |
+| T-206-08 | US-206 | DOC | ✅ Textes FR et EN (domaine `architecture`), charte `PublicTextCharter` … | 0,5 h | Claude | T-206-04 (GO) |
 | T-206-09 | US-206 | TEST | 📅 Suite ciblée, PHPStan, ECS, Rector, lints, pa11y local, `bin/measure-mobile` … | 0,75 h | Claude | disque |
 | T-206-10 | US-206 | DOC | 📅 Captures `docs/images/architecture-*` par `bin/render-page`, section de `docs/captures-vitrine.md` | 0,5 h | Claude | disque |
 | T-206-11 | US-206 | TEST | Image reconstruite, conteneur neuf ; production le jour du déploiement, lecture seule … | 0,5 h | Claude | déploiement |
