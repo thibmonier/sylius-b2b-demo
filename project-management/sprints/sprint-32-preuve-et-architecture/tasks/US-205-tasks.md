@@ -51,8 +51,8 @@
 | T-205-07 | [DOC] | 📅 Textes FR et EN (domaine `proof`), charte `PublicTextCharter` ; texte relu contre la maquette validée | 0,25 h | T-205-06 | Claude | ✅ |
 | T-205-08 | [TEST] | 📅 Suite ciblée par `bin/run-tests` (`ProofPageTest` **non modifié**, nouveaux tests), PHPStan max sur tout le dépôt, ECS, Rector, lint Twig et YAML, pa11y local FR et EN, `bin/measure-mobile` à 320 et 375 px ; commande exacte et dernière ligne citées | 0,75 h | T-205-06, T-205-07 | Claude | 🔄 fait : pa11y AAA FR/EN 1280 et 320, 320/375/1280 sans défilement ; reste : suite complète (orchestrateur) |
 | T-205-09 | [DOC] | 📅 Captures `docs/images/proof-*` par `bin/render-page` (FR et EN, bureau et 320 px), section de `docs/captures-vitrine.md` | 0,5 h | T-205-08 | Claude | ✅ |
-| T-205-10 | [TEST] | Image reconstruite et conteneur neuf (règle 16 : rien hors base) ; production **le jour du déploiement**, lecture seule : pa11y WCAG2AAA FR et EN, 320, 375 et 1280 px, tests de fumée de la page ; mesures consignées | 0,5 h | merge de la PR | Claude | 📅 déploiement |
-| T-205-11 | [REV] | Revue (ton neutre, parité FR et EN, contenu inchangé, aucune valeur estimée) et table « scénario → test ou preuve » remplie | 0,25 h | T-205-10 | Claude | 📅 déploiement |
+| T-205-10 | [TEST] | Image reconstruite et conteneur neuf (règle 16 : rien hors base) ; production **le jour du déploiement**, lecture seule : pa11y WCAG2AAA FR et EN, 320, 375 et 1280 px, tests de fumée de la page ; mesures consignées | 0,5 h | merge de la PR | Claude | ✅ 2026-10-28 |
+| T-205-11 | [REV] | Revue (ton neutre, parité FR et EN, contenu inchangé, aucune valeur estimée) et table « scénario → test ou preuve » remplie | 0,25 h | T-205-10 | Claude | ✅ 2026-10-28 |
 
 **Total estimé : 7 h** (11 tâches ; 6,5 h pour Claude et l'orchestrateur, 0,5 h de Thibaut).
 
