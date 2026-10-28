@@ -16,7 +16,7 @@ Rendre la démo crédible pour un décideur métier : prix B2B visibles, catalog
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
 | [US-061](../user-stories/US-061.md) | Crédits des images de démo | Should | 1 | 16 |
-| US-062 (fiche à créer au planning) | Mineurs du script d'images | Could | 1 | 22 |
+| [US-062](../user-stories/US-062.md) | Mineurs du script d'images | Could | 1 | 32 |
 | US-070 (fiche à créer au planning) | Plugin punchout : traduire le titre et le fil d'Ariane des acheteurs PunchOut | Should | 1 | 14 |
 | [US-086](../user-stories/US-086.md) | Exemple de commande rapide avec de vraies références | Must | 2 | 14 |
 | [US-087](../user-stories/US-087.md) | Signaux « prototype » : 23/24 plugins, clés brutes, libellés anglais | Must | 3 | 14 |
