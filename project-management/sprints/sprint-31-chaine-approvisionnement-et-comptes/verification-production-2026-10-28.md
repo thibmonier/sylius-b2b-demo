@@ -23,4 +23,4 @@ Après le déploiement de `main` (18c9038, PR #125), annoncé terminé par Thiba
 
 - **T-203-14 et T-204-10, partie connectée** (les quatre pages de compte et la page de consentement pour Claire, Paul et Isabelle sur une image reconstruite) : à faire en local quand le disque le permet (reconstruire l'image demande de la place). L'image de production a été construite et testée par la CI (« Docker image », « Quality and smoke tests », vertes sur la PR #125).
 - **Capture du panier** (définition de terminé de T-TECH-31-04) : `bin/render-page` refusé, disque à 4 Go et swap à 3,7 Go.
-- **T-208-11** : Thibaut ajoute « Workflow audit (zizmor) » aux contrôles requis de `main`.
+- ~~T-208-11~~ : fait par Thibaut le 2026-10-28 (registre).
