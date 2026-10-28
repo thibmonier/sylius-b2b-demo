@@ -49,3 +49,5 @@ Aucun manque de face (boutique ou admin) hors de ces cas : pas de capture de com
 ## Pages de compte des plugins (US-203, sprint 31)
 
 Devis (liste et détail), paiements à terme et assistants IA dans le cadre de « Mon compte » : `account-quotes-fr.png`, `account-quote-detail-fr.png`, `account-statement-fr.png`, `account-connections-fr.png` (1280 px) et leurs versions `-320-fr.png` (320 px), dans `docs/images/`. Rendu du noyau en ligne de commande (`bin/render-page`, `APP_ENV=test` avec `--login` : Claire pour les devis, Isabelle pour le relevé et les assistants IA), feuille de style compilée à part depuis `b2b.scss` (le `public/build` local était périmé). Aucune vignette de produit sur ces pages ; la page de consentement n'a pas de capture publiée.
+
+Page « Plugins » (US-204) : `plugins-fr.png`, `plugins-en.png` (haut de page, 1280 px), `plugins-cards-fr.png`, `plugins-cards-en.png` (première famille de cartes, 1280 px) et leurs versions `-320-` (320 px), dans `docs/images/`. Prises le 2026-10-28 sur la production, page publique sans session (Chromium sans interface), car le rendu local était refusé faute de disque.
