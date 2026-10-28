@@ -64,21 +64,7 @@ Le plugin `tmonier/sylius-b2b-mcp-plugin` (v1.1) expose via MCP :
 
 ### Recoupement Sylius Plus
 
-Documentation consultée : pages marketing Sylius Plus, B2B Suite add-on, Elesto B2B Accelerator.
-
-**Fonctionnalités B2B Suite identifiées** :
-- Gestion d'organisation (comptes partagés, multi-buyers)
-- Quick Shopping (saisie rapide SKU manuelle avec suggestions)
-- Listes de prix multiples par organisation
-- Gestion avancée des commandes (créer, personnaliser, répéter)
-- Import/export ERP/PIM
-- Elasticsearch, listes de souhaits multiples, RBAC
-
-**Conclusion** : **aucune mention** d'assistant d'achat IA, de copilote conversationnel ou de commande automatisée par LLM dans la documentation publique de Sylius Plus consultée. Le Quick Shopping est une saisie manuelle, pas un assistant.
-
-**Sources** :
-- [Sylius Plus B2B Suite](https://store.sylius.com/products/b2b-plugin-by-sylius)
-- [Elesto B2B Accelerator](https://sylius.com/?p=21240)
+La vérification du non-recoupement avec l'offre Sylius Plus a été effectuée par consultation de la documentation publique. Le détail de l'analyse est consigné dans la note privée de sécurité.
 
 ## Décision proposée
 
@@ -108,12 +94,12 @@ interface SalesCopilotAdapterInterface
 
 **Adaptateurs** :
 - `ReplayAdapter` : charge la cassette correspondante, retourne la réponse enregistrée ou un message de repli
-- `AnthropicAdapter` : appel réel à l'API Anthropic Claude (pour les intégrateurs, US-216 non planifiée)
+- `AnthropicAdapter` : appel réel à l'API Anthropic Claude (pour les intégrateurs, US-216 sprint 42)
 - `OpenAIAdapter` : appel réel à l'API OpenAI (optionnel, si demandé)
 
 **Normalisation** : extraction de l'intention structurée (action + paramètres) depuis le message utilisateur, indépendamment du provider.
 
-**Configuration** : variable d'environnement `SALES_COPILOT_ADAPTER` (`replay` par défaut, `anthropic` ou `openai` si clé d'API fournie).
+**Configuration** : un réglage choisit l'adaptateur (rejoué par défaut pour la démo, réel pour les intégrateurs).
 
 ### 3. Outils exposés au copilote
 
@@ -127,9 +113,7 @@ interface SalesCopilotAdapterInterface
 
 ### 4. Conclusion Sylius Plus
 
-**Aucun recoupement identifié** entre le copilote d'achat conversationnel et les fonctionnalités B2B Suite de Sylius Plus documentées publiquement.
-
-Le plugin `sylius-b2b-sales-copilot-plugin` reste **public** et peut être **promu** (communication par le profil LinkedIn de Thibaut), conformément à la politique du 2026-10-14.
+La vérification du non-recoupement avec l'offre Sylius Plus a été effectuée (détail dans la note privée).
 
 ## Note privée de sécurité
 
@@ -139,15 +123,17 @@ Les détails de sécurité (liste exhaustive des outils interdits, garde-fous, s
 
 ## Questions ouvertes
 
-1. **Nombre maximum de cassettes** : 50 scénarios enregistrés suffisent-ils pour la démo ?
-2. **Provider pour l'adaptateur réel** (US-216, non planifiée) : Anthropic Claude uniquement, ou aussi OpenAI ?
-3. **UI du widget** : confirmation utilisateur avant chaque action de panier, ou validation globale du panier préparé ?
-4. **Audit** : faut-il un journal séparé pour le copilote, ou l'audit b2b-mcp existant suffit-il ?
+1. **Choix de cassette en mode rejoué** : sans LLM pour normaliser une phrase libre en intention, comment la démo choisit-elle la cassette ? Scénarios proposés en boutons/suggestions ? Correspondance exacte de phrases enregistrées ? Autre mécanisme ?
+2. **Nombre maximum de cassettes** : 50 scénarios enregistrés suffisent-ils pour la démo ?
+3. **Provider pour l'adaptateur réel** (US-216, sprint 42) : Anthropic Claude uniquement, ou aussi OpenAI ?
+4. **UI du widget** : confirmation utilisateur avant chaque action de panier, ou validation globale du panier préparé ?
+5. **Audit** : faut-il un journal séparé pour le copilote, ou l'audit b2b-mcp existant suffit-il ?
+6. **Promotion du plugin** : Thibaut souhaite-t-il promouvoir le plugin sur son profil LinkedIn, ou rester discret ?
 
 ## Conséquences
 
-- **Positives** : démo sans coût d'API, architecture extensible (ajout d'un nouveau provider = un nouvel adaptateur), réutilisation de b2b-mcp (outils, OAuth, audit, rate limiting), aucun recoupement Sylius Plus.
-- **Négatives** : cassettes à maintenir manuellement, mode rejoué ne montre pas l'adaptabilité réelle d'un LLM, adaptateur réel reporté (US-216 non planifiée).
+- **Positives** : démo sans coût d'API, architecture extensible (ajout d'un nouveau provider = un nouvel adaptateur), réutilisation de b2b-mcp (outils, OAuth, audit, rate limiting), vérification du non-recoupement Sylius Plus effectuée.
+- **Négatives** : cassettes à maintenir manuellement, mode rejoué ne montre pas l'adaptabilité réelle d'un LLM, adaptateur réel planifié au sprint 42 (US-216), question ouverte sur le mécanisme de choix de cassette.
 
 ## Décision
 
@@ -163,5 +149,3 @@ En attente de relecture par Thibaut.
 - [LLM adapter pattern (Flavio Copes)](https://flaviocopes.com/llm-adapter-pattern/)
 - [llm-seam (PyPI)](https://pypi.org/project/llm-seam/)
 - [sylius-b2b-mcp-plugin README](https://github.com/thibmonier/sylius-b2b-mcp-plugin)
-- [Sylius Plus B2B Suite](https://store.sylius.com/products/b2b-plugin-by-sylius)
-- [Elesto B2B Accelerator](https://sylius.com/?p=21240)
