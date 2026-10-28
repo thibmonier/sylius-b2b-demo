@@ -615,3 +615,18 @@ backlog:
   - {id: US-136, title: "Connecteur ERP, tranche 1 : export des commandes et contrat d'événements", points: 5, status: removed}  # ABANDONNÉE le 2026-10-23 : valeur de preuve faible / sans demande, décision du 2026-10-23 ; fiche conservée avec status: removed
   - {id: US-137, title: "Connecteur ERP, tranche 2 : import des prix et du stock", points: 5, status: removed}  # ABANDONNÉE le 2026-10-23 : valeur de preuve faible / sans demande, décision du 2026-10-23 ; fiche conservée avec status: removed
   - {id: US-138, title: "Assortiments par société, tranche 1", points: 8, status: removed}  # ABANDONNÉE le 2026-10-23 : valeur de preuve faible / sans demande, décision du 2026-10-23 ; fiche conservée avec status: removed
+
+  sprint-34:
+    name: sprint-34-spikes-et-theme
+    status: backlog  # planning fait le 2026-10-28, démarrage en attente
+    sprint_id: "sprint-34"
+    start_date: "2026-10-28"
+    end_date: "2026-11-11"
+    capacity_points: 14  # écart d'un point sur la vélocité de 13 accepté ; 43 tâches, 33 h (32,5 h pour Claude, 0,5 h de Thibaut) pour 31,4 h de capacité, écart de −1,6 h
+    goal: "Cadrer trois capacités innovantes de la démo par leurs spikes et livrer la tranche 1 du thème Industrie & Négoce : format de rejeu du copilote sans appel LLM payant, formulation prudente du passeport produit, packaging d'un thème Sylius 2 installable par Composer, et paquet du thème avec ses jetons de design et ses composants communs"
+    stories:
+      - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: ready-for-dev}  # EPIC-16, Must ; timebox 6 h, ADR docs/adr/0018-*, note privée de sécurité hors dépôt
+      - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: ready-for-dev}  # EPIC-18, Must ; timebox 6 h, ADR docs/adr/0019-*, prototype minimal ; GO de Thibaut sur l'ADR avant US-222
+      - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: ready-for-dev}  # EPIC-19, Must ; timebox 6 h, ADR docs/adr/0020-*, formulation prudente validée
+      - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: backlog}  # EPIC-18, Must ; attend GO de l'ADR d'US-221 ; dépôt tmonier/sylius-industry-trade-theme créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release
+    notes: "Ordre de sacrifice (registre du 2026-10-28, auteur Thibaut) : US-222 d'abord, puis US-229 ; US-210 et US-221 protégées. Portes : GO de Thibaut sur l'ADR d'US-221 avant US-222 ; relecture au fil de l'eau des trois ADR de spikes. Disque à 4 Go libres, mémoire 1,7 Go, swap 4 Go : aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24). Actions de Thibaut : relire les ADR, donner le GO de l'ADR d'US-221, libérer le disque (cible 10 Go), soumettre le thème à Packagist. Actions de rétro S33 : règle 30 (T-TECH-34-01 faite au planning), workflows YAML validés (T-TECH-34-02), disque libéré et verrou tests (T-TECH-34-03), outils rendu et build (T-TECH-34-04), contrôles production US-207 (T-TECH-34-05). 10 jours ouvrés, planning le 2026-10-28, point d'étape après relecture des trois ADR, revue et rétro au plus tard le 2026-11-11."
