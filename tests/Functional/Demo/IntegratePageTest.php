@@ -89,13 +89,12 @@ final class IntegratePageTest extends WebTestCase
         self::assertCount(4, $page->filter('[data-integrate-question]'));
     }
 
-    public function testThePageStaysOutOfTheSearchEnginesAndHasItsOwnDescription(): void
+    public function testThePageHasItsOwnDescription(): void
     {
         self::ensureKernelShutdown();
         $client = self::createClient();
         $page = $client->request('GET', '/fr_FR/integrer');
 
-        self::assertSame('noindex, nofollow', $client->getResponse()->headers->get('X-Robots-Tag'));
         self::assertStringContainsString('intégr', mb_strtolower((string) $page->filter('meta[name="description"]')->attr('content')));
     }
 

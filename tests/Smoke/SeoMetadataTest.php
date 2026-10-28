@@ -15,7 +15,7 @@ use Twig\Environment;
 use Twig\Runtime\EscaperRuntime;
 
 /**
- * US-078: link previews and loading speed. The demo stays out of the search engines (noindex), but every page has a
+ * US-078: link previews and loading speed. The shop stays out of the search engines (noindex; the showcase pages are indexed by US-207), and every page has a
  * description in the visitor's language, share metadata, and images that reserve their space and load when needed.
  */
 final class SeoMetadataTest extends WebTestCase
@@ -81,8 +81,17 @@ final class SeoMetadataTest extends WebTestCase
         self::assertStringContainsString('Visserie', $crawler->filter('title')->text());
     }
 
-    #[DataProvider('pages')]
-    public function testNoIndexIsKeptOnEveryPage(string $locale, string $path): void
+    /** @return iterable<string, array{string, string}> US-207: the pages of the shop and the sign-in stay out of the index. */
+    public static function privatePages(): iterable
+    {
+        foreach (['fr_FR', 'en_US'] as $locale) {
+            yield $locale . ' category' => [$locale, '/' . $locale . '/taxons/visserie'];
+            yield $locale . ' login' => [$locale, '/' . $locale . '/login'];
+        }
+    }
+
+    #[DataProvider('privatePages')]
+    public function testNoIndexIsKeptOnThePagesOutsideTheShowcase(string $locale, string $path): void
     {
         $this->open($path);
 

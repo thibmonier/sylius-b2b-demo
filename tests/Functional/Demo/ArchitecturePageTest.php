@@ -179,13 +179,12 @@ final class ArchitecturePageTest extends WebTestCase
         }
     }
 
-    public function testThePageStaysOutOfTheSearchEnginesAndHasItsOwnDescription(): void
+    public function testThePageHasItsOwnDescription(): void
     {
         self::ensureKernelShutdown();
         $client = self::createClient();
         $page = $client->request('GET', '/fr_FR/architecture');
 
-        self::assertSame('noindex, nofollow', $client->getResponse()->headers->get('X-Robots-Tag'));
         self::assertStringContainsString('architecture', mb_strtolower((string) $page->filter('meta[name="description"]')->attr('content')));
     }
 
