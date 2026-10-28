@@ -1,0 +1,11 @@
+# Registre des décisions : Sprint 034
+
+> Action 3 de la rétrospective du sprint 28 : chaque décision ou GO est noté ici **avant** l'action, avec sa date et son **auteur** (Thibaut, orchestrateur ou worker). Une phrase « accepté par Thibaut » n'est écrite dans un document que si la décision figure dans ce registre avec Thibaut pour auteur. Règle 26 : toute PR hors sprint est notée ici avant son ouverture. Règle 30 (rétro du sprint 33) : la règle d'exécution d'un GO est transmise au worker concerné avant ou avec son inscription ici ; un GO donné à l'orchestrateur ne se délègue que par une phrase explicite.
+
+| Date | Décision ou GO | Auteur | Tâche |
+|------|----------------|--------|-------|
+| 2026-10-28 | Périmètre du sprint 34 (feuille de route innovation) : US-210 spike copilote (3 pts), US-221 spike packaging du thème (3 pts), US-229 spike passeport numérique produit (3 pts), US-222 thème Industrie & Négoce tranche 1 (5 pts), soit **14 points** (écart d'un point sur la vélocité de 13 accepté) ; plus les actions de rétro T-TECH-34-01 à 05 en tâches transverses | Thibaut | planning |
+| 2026-10-28 | Ordre de sacrifice : **US-222 d'abord, puis US-229** ; US-210 et US-221 protégées | Thibaut | planning |
+| 2026-10-28 | **GO nouveau dépôt du thème (US-222)** : création du dépôt public, durci comme US-209 (topics habituels), push du code par PR, **fusion si la CI est verte** ; **aucun tag ni release** ; Packagist soumis plus tard par Thibaut. Règle d'exécution : c'est **l'orchestrateur** qui crée le dépôt et fusionne ; le worker pousse sa branche et ouvre la PR, il ne crée aucun dépôt et ne fusionne pas | Thibaut | US-222 |
+| 2026-10-28 | Relecture des ADR **au fil de l'eau** : chaque ADR de spike (US-210, US-221, US-229) est présenté à Thibaut dès qu'il est prêt ; **US-222 ne démarre qu'après le GO de Thibaut sur l'ADR d'US-221** | Thibaut | planning |
+| 2026-10-28 | Disque à 4 Go libres, mémoire 1,7 Go, swap 4 Go au lancement : Thibaut prévenu ; aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24) | Orchestrateur | T-TECH-34 |
