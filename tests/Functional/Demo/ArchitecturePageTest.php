@@ -61,57 +61,48 @@ final class ArchitecturePageTest extends WebTestCase
         }
     }
 
+    /** US-206 (decision of 2026-10-28, mock-up v22): the overview diagram is HTML/CSS and replaces the SVG; the `data-architecture-overview` marker stays. */
     #[DataProvider('locales')]
     public function testTheDiagramHasATitleAndATextualEquivalentAndFollowsTheTheme(string $locale): void
     {
         $page = $this->page('/' . $locale . '/architecture');
 
-        $diagram = $page->filter('svg[data-architecture-overview][role="img"]');
+        $diagram = $page->filter('figure[data-architecture-overview]');
         self::assertCount(1, $diagram);
-        foreach (explode(' ', (string) $diagram->attr('aria-labelledby')) as $id) {
-            self::assertNotSame('', trim($page->filter('#' . $id)->text()), $id);
+        self::assertCount(0, $page->filter('svg[data-architecture-overview]'), 'the SVG is replaced');
+        foreach (['aria-labelledby', 'aria-describedby'] as $attribute) {
+            self::assertNotSame('', trim($page->filter('#' . $diagram->attr($attribute))->text()), $attribute);
         }
-        self::assertGreaterThan(120, mb_strlen($diagram->filter('desc')->text()), 'the description replaces the diagram for a screen reader');
-        $markup = $diagram->outerHtml();
-        self::assertStringContainsString('currentColor', $markup);
-        self::assertDoesNotMatchRegularExpression('/(fill|stroke)="#/', $markup, 'colours follow the light and dark themes');
-        self::assertStringContainsString('w-100', (string) $diagram->attr('class'), 'scales down to a 360 px screen');
+        self::assertGreaterThan(120, mb_strlen($page->filter('#' . $diagram->attr('aria-describedby'))->text()), 'the description gives the diagram to a screen reader');
+        self::assertDoesNotMatchRegularExpression('/#[0-9a-fA-F]{3,6}/', $diagram->outerHtml(), 'colours come from the stylesheet and follow the themes');
     }
 
-    /** US-179: the diagram sits in its own keyboard-reachable scroll region, named after the diagram. */
+    /** US-206: the diagram stacks on a phone, so it needs no scroll region any more; every block and link of the old diagram is still there. */
     #[DataProvider('locales')]
-    public function testTheDiagramScrollsInItsOwnFocusableRegionNamedAfterTheDiagram(string $locale): void
+    public function testTheDiagramStacksOnAPhoneAndKeepsEveryBlockOfTheOldDiagram(string $locale): void
     {
-        $region = $this->page('/' . $locale . '/architecture')->filter('[data-architecture-scroll]');
+        $page = $this->page('/' . $locale . '/architecture');
+        $diagram = $page->filter('figure[data-architecture-overview]');
 
-        self::assertCount(1, $region);
-        self::assertSame('0', $region->attr('tabindex'), 'reachable with the keyboard');
-        self::assertSame('region', $region->attr('role'));
-        self::assertStringContainsString('overflow-auto', (string) $region->attr('class'));
-        self::assertCount(1, $region->filter('svg[data-architecture-overview]'), 'the diagram is inside the region');
-        $title = $region->filter('#' . $region->attr('aria-labelledby'));
-        self::assertCount(1, $title, 'the region is named by the diagram title');
-        self::assertNotSame('', trim($title->text()));
+        self::assertCount(0, $page->filter('[data-architecture-scroll]'), 'no scroll region: nothing overflows');
+        self::assertStringNotContainsString('overflow-auto', $diagram->outerHtml());
+        self::assertCount(3, $diagram->filter('[data-architecture-entries] > li'), 'browser, assistant, procurement');
+        self::assertCount(5, $diagram->filter('[data-architecture-container] li'), 'Sylius, plugins, demo layer, scheduler, flows');
+        self::assertCount(3, $diagram->filter('[data-architecture-storage] > li'), 'database, media, delivery');
+        self::assertNotSame('', trim($diagram->filter('figcaption')->text()));
+        self::assertCount(3, $page->filter('section[data-architecture-section="overview"] [data-architecture-links] a'), 'Dockerfile, Caddyfile, decision');
     }
 
-    /** US-179: pixel measures belong to the production check; the test fixes the calculation behind them. */
+    /** US-206: label sizes are written in rem in the stylesheet (never in inline pixels), so the text scales and stays at least 11 CSS pixels. */
     #[DataProvider('locales')]
-    public function testTheDiagramLabelsAreAtLeastElevenCssPixelsOnAPhoneAndTheDesktopRenderingIsUnchanged(string $locale): void
+    public function testTheDiagramTextIsSizedInRemByTheStylesheet(string $locale): void
     {
-        $diagram = $this->page('/' . $locale . '/architecture')->filter('svg[data-architecture-overview]');
-        self::assertCount(1, $diagram);
-        $style = (string) $diagram->attr('style');
+        $diagram = $this->page('/' . $locale . '/architecture')->filter('figure[data-architecture-overview]');
 
-        self::assertSame(1, preg_match('/min-width:\s*([\d.]+)rem/', $style, $minimum), 'a minimum width keeps the diagram from shrinking on a phone');
-        self::assertSame(1, preg_match('/^0 0 (\d+) \d+$/', (string) $diagram->attr('viewBox'), $box));
-        self::assertSame(1, preg_match('/font-size="(\d+)"/', $diagram->outerHtml(), $font));
-        $rendered = (float) ($font[1] ?? 0) * ((float) ($minimum[1] ?? 0) * 16) / (float) ($box[1] ?? 1);
-        self::assertGreaterThanOrEqual(11.0, $rendered, 'label size in CSS pixels at the minimum width');
-
-        self::assertSame('0 0 640 440', $diagram->attr('viewBox'), 'desktop viewBox unchanged');
-        self::assertSame('14', $font[1] ?? null, 'desktop font unchanged');
-        self::assertStringContainsString('max-width: 44rem', $style, 'desktop width unchanged');
-        self::assertLessThanOrEqual(44.0, (float) ($minimum[1] ?? 0), 'the minimum never exceeds the desktop width');
+        self::assertSame(0, preg_match('/font-size\s*:/', $diagram->outerHtml()), 'no inline font size');
+        $styles = (string) file_get_contents(\dirname(__DIR__, 3) . '/assets/shop/styles/_architecture.scss');
+        self::assertSame(1, preg_match('/\.b2b-architecture-box\s*\{[^}]*font-size:\s*([\d.]+)rem/s', $styles, $size), 'the block label is sized in rem');
+        self::assertGreaterThanOrEqual(11.0 / 16, (float) ($size[1] ?? 0), 'at least 11 CSS pixels');
     }
 
     /** @return iterable<string, array{string, string, string}> */
