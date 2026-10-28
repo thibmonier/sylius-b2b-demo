@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * US-209: bin/plugin-supply-chain (check, apply, list) on repositories of fixtures created in a temporary directory.
@@ -321,6 +322,29 @@ final class PluginSupplyChainTest extends TestCase
         self::assertMatchesRegularExpression("/name: Audit of the PHP dependencies\\n\\s+if: steps\\.next\\.outputs\\.available == 'true'\\n\\s+run: composer audit/", (string) file_get_contents($repository . '/.github/workflows/build.yaml'));
     }
 
+    public function testApplyInsertsTheAuditStepOfAPackInsideTheStepsOfItsJob(): void
+    {
+        $repository = $this->legacyRepository('pack-workflow', workflow: $this->packWorkflow());
+
+        $this->execute('apply', $repository, '--write');
+
+        $workflow = Yaml::parse((string) file_get_contents($repository . '/.github/workflows/build.yaml'));
+        $steps = $workflow['jobs']['resolve']['steps'];
+        $names = array_column($steps, 'name');
+        $audit = array_search('Audit of the resolved PHP dependencies', $names, true);
+        self::assertSame(array_search('Resolve the pack in a throwaway project', $names, true) + 1, $audit);
+        self::assertSame('cd "$RUNNER_TEMP/project" && composer audit --locked --abandoned=report', $steps[$audit]['run']);
+    }
+
+    public function testApplyKeepsEveryWorkflowOfALegacyRepositoryValidYaml(): void
+    {
+        $repository = $this->legacyRepository('valid-yaml');
+
+        $this->execute('apply', $repository, '--write');
+
+        self::assertIsArray(Yaml::parse((string) file_get_contents($repository . '/.github/workflows/build.yaml')));
+    }
+
     public function testApplyWriteRefusesABranchBehindTheDefaultBranch(): void
     {
         $repository = $this->legacyRepository('stale');
@@ -456,6 +480,36 @@ final class PluginSupplyChainTest extends TestCase
                           run: docker run --rm -v "\$PWD:/work" -w /work "\$ZIZMOR_IMAGE" --offline .github
 
             YAML);
+    }
+
+    private function packWorkflow(): string
+    {
+        return <<<'YAML'
+            name: Build
+
+            on:
+                push:
+
+            permissions:
+                contents: read
+
+            jobs:
+                resolve:
+                    runs-on: ubuntu-latest
+                    name: "Resolution"
+                    steps:
+                        - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+                        - name: Resolve the pack in a throwaway project
+                          env:
+                              SYLIUS: "~2.3.0"
+                          run: |
+                              composer update --no-install
+
+                        - name: Check the locked plugins against the composition
+                          run: bin/check-composition
+
+            YAML;
     }
 
     private function legacyWorkflow(): string
