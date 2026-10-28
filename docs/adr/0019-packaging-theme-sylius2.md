@@ -145,12 +145,12 @@ config/
 
 **Recommandation** : Contrainte Composer `"sylius/theme-bundle": "^2.5"` pour supporter les deux versions.
 
-**PHP** :
-- Sylius 2.3 : PHP ^8.4 (vendor/sylius/sylius/composer.json)
+- Sylius 2.3 : PHP ^8.3 (`vendor/sylius/sylius/composer.json`, v2.3.2 ; Packagist, consulté le 2026-10-28)
+- Sylius 2.2 : PHP ^8.2 (Packagist, v2.2.x, consulté le 2026-10-28)
 - Sylius 2.2 : PHP ^8.3 ou ^8.4 (à vérifier)
 - Démo : PHP ^8.5 (composer.json)
 
-**Recommandation PHP** : `"php": "^8.4"` pour supporter Sylius 2.2 et 2.3 (^8.5 exclurait les projets encore en 8.4).
+**Recommandation PHP** : `"php": "^8.3"`, le plancher commun que permet Sylius 2.3 ; question ouverte : descendre à ^8.2 pour Sylius 2.2, ou monter à ^8.4 pour réduire la matrice de CI.
 
 **CI à créer** (US-222) :
 - Matrice : Sylius 2.2 et 2.3
@@ -235,7 +235,7 @@ tmonier/sylius-industry-trade-theme/
     "keywords": ["sylius", "theme", "b2b", "industry", "trade"],
     "license": "MIT",
     "require": {
-        "php": "^8.4",
+        "php": "^8.3",
         "sylius/theme-bundle": "^2.5",
         "sylius/sylius": "^2.3 || ^2.2"
     },
@@ -294,7 +294,7 @@ tmonier/sylius-industry-trade-theme/
 
 1. Thibaut valide-t-il cette approche (ThemeBundle + Webpack Encore + recette Flex) ?
 2. La recette Flex doit-elle être soumise à `Sylius/SyliusRecipes` ou rester dans un dépôt privé ?
-3. Le thème doit-il supporter PHP ^8.4 (Sylius 2.2/2.3) ou ^8.5 (démo seule) ?
+3. Plancher PHP du thème : ^8.3 (proposé, plancher de Sylius 2.3), ^8.2 (Sylius 2.2) ou ^8.4 (matrice de CI plus courte) ? La démo, elle, reste en ^8.5.
 4. Les Stimulus controllers du thème doivent-ils être préfixés (namespace) pour éviter les conflits ?
 5. US-228 (démo qui consomme le thème publié) : migration big bang ou progressive (feature flag) ?
 
