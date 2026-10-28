@@ -3,7 +3,7 @@
 ## Légende
 🔲 À faire | 🔄 En cours | 👀 En review | ✅ Terminé | 🚫 Bloqué | 📅 Dépend d'une action de Thibaut, du disque ou d'un déploiement | ⚠️ Sacrifiable | 🟡 Faite avec écart | ⊘ Sans objet
 
-Total décomposé : **43 tâches, 33 h** (14 points). État au planning (2026-10-28) : **1 ✅, 33 🔲, 9 📅**. Les 📅 attendent le GO de l'ADR d'US-221 (T-221-03 avant US-222), le retour du disque au-dessus de 5 Go (tests, suite complète) ou le déploiement de `main` (vérifications de production d'US-207).
+Total décomposé : **43 tâches, 33 h** (14 points). État au planning (2026-10-28) : **1 ✅, 33 🔲, 9 📅**. Les 📅 attendent le GO de l'ADR d'US-221 (T-221-03 avant US-222), le retour du disque au-dessus de 5 Go (tests, suite complète).
 
 Règle : une tâche passe en ✅ dans le commit qui la livre. **Rouge prouvé (règle 27)** : une story de code n'est comptée « rouge prouvé » que si le commit de ses tests rouges cite l'échec observé de chaque test.
 
@@ -61,7 +61,7 @@ _Aucune tâche._
 | T-222-10 | US-222 | REV | 📅 PHPStan max (dépôt entier), ECS, Rector, lints, rejoués avant push | 0,25 h | Claude | GO ADR US-221 |
 | T-222-11 | US-222 | OPS | 📅 Push branche `feature/theme-tranche-1`, PR ; orchestrateur fusionne CI verte ; **aucun tag ni release** | 0,25 h | Claude | GO ADR US-221 |
 | T-TECH-34-03 | Transverse | OPS | 📅 Thibaut libère disque (10 Go cibles), `bin/check-disk` annonce runs, `bin/run-tests` file d'attente (T-TECH-33-03, -04) | 0,25 h | Thibaut + Orchestrateur | Thibaut |
-| T-TECH-34-05 | Transverse | OPS | 📅 Contrôles production US-207 après déploiement et `DEMO_INDEXING=1` ; reliquats T-TECH-33-07, -09 si disque | 0 h | Claude + Thibaut | déploiement |
+| T-TECH-34-05 | Transverse | OPS | 📅 Contrôles production US-207 **faits le 2026-10-28 (PR #131)** ; reste : reliquats T-TECH-33-07, -09 si disque | 0 h | Claude + Thibaut | déploiement |
 | T-TECH-34-13 | Transverse | TEST | 📅 Suite complète locale avant push PR sprint, ou attente explicite dite dans PR (règle, T-TECH-33-13) | 0,25 h | Orchestrateur | disque (6 Go) |
 
 ## 🟡 Faites avec écart

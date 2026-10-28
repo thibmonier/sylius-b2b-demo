@@ -24,7 +24,7 @@ graph TD
     T222_11 --> ORCH[Orchestrateur fusionne]
 ```
 
-**Note** : L'orchestrateur crée le dépôt public `tmonier/sylius-industry-trade-theme` sur GO de Thibaut ; le worker pousse sa branche et ouvre la PR ; l'orchestrateur fusionne CI verte. Aucun tag ni release (règle 30).
+**Note** : L'orchestrateur crée le dépôt public `thibmonier/sylius-industry-trade-theme` sur GO de Thibaut ; le worker pousse sa branche et ouvre la PR ; l'orchestrateur fusionne CI verte. Aucun tag ni release (règle 30).
 
 ## Tâches
 
@@ -76,7 +76,7 @@ Remplie au cadrage (T-222-01), confirmée avant le premier commit de code.
 
 ### Livrables
 
-- [ ] Dépôt `tmonier/sylius-industry-trade-theme` créé et durci (workflows, Dependabot)
+- [ ] Dépôt `thibmonier/sylius-industry-trade-theme` créé et durci (workflows, Dependabot)
 - [ ] Paquet Composer avec jetons de design et composants communs
 - [ ] Recette Flex installable
 - [ ] CI Sylius 2.2/2.3 verte (rendu de smoke test)

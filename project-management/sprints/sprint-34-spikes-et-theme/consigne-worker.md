@@ -17,7 +17,7 @@
 | w229 | US-229 (spike DPP) | `w229` | aucune (spike sans code) | aucun |
 | w222 | US-222 (thème tranche 1) | `w222` | aucune (dépôt du thème séparé) | aucun |
 
-Dossier temporaire : `<scratchpad>/<worker>/`. Fichiers à ne pas toucher : ceux d'un autre worker ou de l'orchestrateur, selon la **matrice des fichiers communs** de [tasks/README.md](./tasks/README.md) (règle 21) ; `docs/adr/0018-*.md`, `docs/adr/0019-*.md`, `docs/adr/0020-*.md` : leurs workers respectifs ; **le dépôt du thème `tmonier/sylius-industry-trade-theme`** : US-222 seule ; `bin/render-page`, `bin/check-disk`, `bin/run-tests`, `bin/clean-test-caches`, `bin/measure-mobile`, `bin/proof-*`, `config/demo/proof.json`, `docs/tests-locaux.md` : orchestrateur ; `composer.json`, `composer.lock`, `.github/`, `docker/Dockerfile` **de la démo** : personne (aucun changement de dépendances ni de workflow de la démo ce sprint) ; `vendor/` de l'arbre partagé : orchestrateur seul.
+Dossier temporaire : `<scratchpad>/<worker>/`. Fichiers à ne pas toucher : ceux d'un autre worker ou de l'orchestrateur, selon la **matrice des fichiers communs** de [tasks/README.md](./tasks/README.md) (règle 21) ; `docs/adr/0018-*.md`, `docs/adr/0019-*.md`, `docs/adr/0020-*.md` : leurs workers respectifs ; **le dépôt du thème `thibmonier/sylius-industry-trade-theme`** : US-222 seule ; `bin/render-page`, `bin/check-disk`, `bin/run-tests`, `bin/clean-test-caches`, `bin/measure-mobile`, `bin/proof-*`, `config/demo/proof.json`, `docs/tests-locaux.md` : orchestrateur ; `composer.json`, `composer.lock`, `.github/`, `docker/Dockerfile` **de la démo** : personne (aucun changement de dépendances ni de workflow de la démo ce sprint) ; `vendor/` de l'arbre partagé : orchestrateur seul.
 
 ## Règles du sprint 34
 
