@@ -178,54 +178,107 @@ final class DemoOrderHistory
      */
     private static function predictiveRhythms(\DateTimeImmutable $now): array
     {
+        return \array_merge(
+            self::regularFixings($now),
+            self::regularSignage($now),
+            self::irregularStationery($now),
+        );
+    }
+
+    /**
+     * Fixings: every 14 days, small quantities, ~17 orders over ~8 months (skips August).
+     *
+     * @return list<DemoOrderSpec>
+     */
+    private static function regularFixings(\DateTimeImmutable $now): array
+    {
         $specs = [];
-        $poCounter = 1000; // High numbers to avoid conflicts with core orders
+        $daysAgo = 11; // Last order 11 days ago → alert in 3 days
+        $intervals = array_fill(0, 16, 14); // 16 intervals: 11 + 16*14 = 235 days
 
-        // Gloves: every 14 days over 12 months (26 orders), last order 11 days ago
-        // Array sized to stay within 365 days: 11 + 25*14 = 361 days
-        $gloveIntervals = array_fill(0, 25, 14);
-        $gloveDaysAgo = 11; // Last order 11 days ago → alert in 3 days (14 - 11 = 3)
-        foreach ($gloveIntervals as $interval) {
+        for ($i = 0; $i < \count($intervals); ++$i) {
+            $orderDate = $now->modify(sprintf('-%d days', $daysAgo));
+            if ((int) $orderDate->format('n') === 8) { // Skip August
+                $daysAgo += $intervals[$i];
+
+                continue;
+            }
+
             $specs[] = new DemoOrderSpec(
-                self::EMAILS['claire'],
-                $gloveDaysAgo,
-                ['EPI-GANT-001' => 20],
-                sprintf('ACME-PO-PRED-%03d', ++$poCounter),
+                self::EMAILS['paul'],
+                $daysAgo,
+                ['FIXA-001' => 5], // Small quantity, low-value product
+                sprintf('ACME-PO-H-R%03d', $i + 1),
                 OrderScenario::Shipped,
-                'ATELIER-01',
+                'MAINT-02',
             );
-            $gloveDaysAgo += $interval;
+            $daysAgo += $intervals[$i];
         }
 
-        // Vests: every 60 days over 12 months (6 orders), last order 58 days ago
-        // Array sized to stay within 365 days: 58 + 5*60 = 358 days
-        $vestIntervals = array_fill(0, 5, 60);
-        $vestDaysAgo = 58; // Last order 58 days ago → alert in 2 days (60 - 58 = 2)
-        foreach ($vestIntervals as $interval) {
+        return $specs;
+    }
+
+    /**
+     * Signage: every 60 days, 4 orders over ~8 months (skips August if hit).
+     *
+     * @return list<DemoOrderSpec>
+     */
+    private static function regularSignage(\DateTimeImmutable $now): array
+    {
+        $specs = [];
+        $daysAgo = 58; // Last order 58 days ago → alert in 2 days
+        $intervals = array_fill(0, 3, 60); // 3 intervals: 58 + 3*60 = 238 days
+
+        for ($i = 0; $i < \count($intervals); ++$i) {
+            $orderDate = $now->modify(sprintf('-%d days', $daysAgo));
+            if ((int) $orderDate->format('n') === 8) {
+                $daysAgo += $intervals[$i];
+
+                continue;
+            }
+
             $specs[] = new DemoOrderSpec(
-                self::EMAILS['claire'],
-                $vestDaysAgo,
-                ['EPI-VEST-001' => 10],
-                sprintf('ACME-PO-PRED-%03d', ++$poCounter),
+                self::EMAILS['paul'],
+                $daysAgo,
+                ['SIGN-001' => 3], // Small quantity
+                sprintf('ACME-PO-H-R%03d', 100 + $i + 1),
                 OrderScenario::Shipped,
-                'ATELIER-01',
+                'MAINT-02',
             );
-            $vestDaysAgo += $interval;
+            $daysAgo += $intervals[$i];
         }
 
-        // Hardware: irregular 15-25 days over first 12 orders to stay within 365 days
-        $hardwareIntervals = [18, 22, 15, 25, 19, 21, 17, 24, 16, 23, 20, 18];
-        $hardwareDaysAgo = 20; // Last order 20 days ago
-        foreach ($hardwareIntervals as $interval) {
+        return $specs;
+    }
+
+    /**
+     * Stationery: irregular 15-25 days, 8 orders over ~5 months (skips August).
+     *
+     * @return list<DemoOrderSpec>
+     */
+    private static function irregularStationery(\DateTimeImmutable $now): array
+    {
+        $specs = [];
+        $daysAgo = 20;
+        $intervals = [18, 22, 15, 25, 19, 21, 17];
+
+        for ($i = 0; $i < \count($intervals); ++$i) {
+            $orderDate = $now->modify(sprintf('-%d days', $daysAgo));
+            if ((int) $orderDate->format('n') === 8) {
+                $daysAgo += $intervals[$i];
+
+                continue;
+            }
+
             $specs[] = new DemoOrderSpec(
-                self::EMAILS['claire'],
-                $hardwareDaysAgo,
-                ['VISS-002' => 50],
-                sprintf('ACME-PO-PRED-%03d', ++$poCounter),
+                self::EMAILS['paul'],
+                $daysAgo,
+                ['PAPE-001' => 2], // Very small quantity
+                sprintf('ACME-PO-H-R%03d', 200 + $i + 1),
                 OrderScenario::Shipped,
-                'ATELIER-01',
+                'MAINT-02',
             );
-            $hardwareDaysAgo += $interval;
+            $daysAgo += $intervals[$i];
         }
 
         return $specs;

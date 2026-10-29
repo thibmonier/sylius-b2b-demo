@@ -23,14 +23,13 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
         $now = $this->demoResetDate();
         $companyId = $this->intValue('SELECT c.id FROM tmonier_company c WHERE c.name = ?', ['Acme Industries']);
 
-        // Count predictions with expected_reorder_date within 7 days from the reset date
+        // Count stored predictions with calculated median interval for this company
         $alertCount = $this->intValue(
             'SELECT COUNT(*)
-             FROM tmonier_predictive_reorder_prediction p
+             FROM tmonier_predictive_stored_prediction p
              WHERE p.company_id = ?
-               AND p.expected_reorder_date IS NOT NULL
-               AND p.expected_reorder_date BETWEEN ? AND ?',
-            [$companyId, $now->format('Y-m-d'), $now->modify('+7 days')->format('Y-m-d')],
+               AND p.median_interval_days IS NOT NULL',
+            [$companyId],
         );
 
         self::assertGreaterThanOrEqual(
@@ -54,7 +53,8 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
              FROM sylius_order o
              JOIN sylius_order_item oi ON oi.order_id = o.id
              JOIN sylius_product_variant pv ON pv.id = oi.variant_id
-             JOIN tmonier_company c ON c.id = o.company_id
+             JOIN tmonier_company_order co ON co.order_id = o.id
+             JOIN tmonier_company c ON c.id = co.company_id
              WHERE o.state IN (?, ?)
                AND o.checkout_completed_at IS NOT NULL
                AND c.name = ?
