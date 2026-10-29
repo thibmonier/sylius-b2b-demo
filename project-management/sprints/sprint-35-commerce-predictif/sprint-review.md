@@ -9,9 +9,9 @@
 | Sprint | 35, `sprint-35-commerce-predictif` |
 | Période | 2026-10-28 au 2026-10-29 (2 jours) |
 | Points engagés | **16** (US-217, US-218, US-219, US-238) |
-| Points en done | **8** (US-217, US-238 acceptées ; US-218 partielle, US-219 partielle) |
+| Points en done | **8** avant fusion de la PR #133, **13** après (US-217, US-238 acceptées ; US-218 done à la fusion de la PR #133, sa partie démo y étant ; US-219 partielle) |
 | PR de la démo | #133 (ouverte, CI verte 5 contrôles, run 40916621294) |
-| PR du plugin | #2 (US-217 fusionnée f67c310), #3 (US-218 fusionnée 0680477), #4 (README fusionnée c16c478) |
+| PR du plugin | #2 (US-217 fusionnée 02e5f3e), #3 (US-218 fusionnée 056dbd2), #4 (README fusionnée c16c478) |
 | PR du thème | #9 (US-238 fusionnée c019265), #10 (README fusionnée edc9945) |
 | Release | v0.1.0 du plugin prédictif (2026-10-29) |
 | Mode | Orchestrateur (Claude) et workers w217, w217b, w217c, w217d, w218, w218b, w219, w238, wdoc |
@@ -28,7 +28,7 @@
 |-------|--------|-------|-------------------|
 | US-217 Squelette plugin prédictif et intervalle médian | 5 (fiche et registre) | Plugin fusionné, README anglais et français, v0.1.0 publié sur Packagist. Calcul médiane des intervalles par SQL, service de domaine testé, recalcul planifié, CI verte 21/21 (Sylius 2.2/2.3 × PHP 8.2-8.5 × MySQL/MariaDB/PostgreSQL). | Dépôt `thibmonier/sylius-b2b-predictive-analytics-plugin`, PR #2 fusionnée (f67c310), PR #4 README fusionnée (c16c478), release v0.1.0, CI run 40795208794 |
 | US-238 Thème actif prouvé et composants restants | 3 (fiche et registre) | PR #9 fusionnée (c019265), test de rendu avec thème actif vert sur Sylius 2.2/2.3, composants boutons/tableaux/champs livrés, README anglais et français (PR #10). | Dépôt `thibmonier/sylius-industry-trade-theme`, PR #9 fusionnée, CI verte 11/11 (run 40769863114), rouge prouvé (run 40768704763) |
-| US-218 Alertes de réassort et panier pré-rempli | 5 (fiche et registre) | **Partielle, non comptée done.** Plugin fusionné (PR #3, 0680477), README mis à jour, bloc alertes, bouton panier, masquage. **Manque** : intégration démo dans PR #133 (CI verte mais non fusionnée). Suite implicite au merge de la PR #133. | Dépôt plugin, PR #3 fusionnée (CI verte 21/21, run 40866095432), PR #133 de la démo ouverte (CI verte run 40916621294) |
+| US-218 Alertes de réassort et panier pré-rempli | 5 (fiche et registre) | **Partielle, non comptée done.** Plugin fusionné (PR #3, 056dbd2), README mis à jour, bloc alertes, bouton panier, masquage. **Manque** : intégration démo dans PR #133 (CI verte mais non fusionnée). Suite implicite au merge de la PR #133. | Dépôt plugin, PR #3 fusionnée (CI verte 21/21, run 40866095432), PR #133 de la démo ouverte (CI verte run 40916621294) |
 | US-219 Fixtures de rythmes et intégration démo | 3 (fiche et registre) | **Partielle, non comptée done** (décision de Thibaut du 2026-10-29). Livré : plugin installé (v0.1.0), bloc dans « Mon compte », recalcul à la remise à zéro, fiche Plugins et Preuve. **Non livré** : garantie d'au moins 2 alertes à toute date (historique existant donne 0 à 6 alertes selon la date, invariants interdisent l'ajout de commandes). Suite : US-240 au sprint 36 (3 pts, conception de l'historique). | Commits e99efa2 (retrait fixtures), 5e387ef et 133ed13 (intégration bloc), PR #133 ouverte |
 
 Contrôles locaux : aucune suite complète locale (disque < 6 Go jusqu'au 2026-10-29), tests unitaires autorisés après libération partielle du disque. ECS, PHPStan max et Rector rejoués avant chaque push.
