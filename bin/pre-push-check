@@ -3,8 +3,8 @@
 # Install: ln -sf ../../bin/pre-push-check .git/hooks/pre-push   (bin/pre-push-check --install does it)
 # Git gives "<local ref> <local sha> <remote ref> <remote sha>" lines on stdin.
 set -eu
-cd "$(dirname "$0")/.."
-[ -d .git ] || cd "$(git rev-parse --show-toplevel)"
+# Run as a hook, $0 is .git/hooks/pre-push and Git starts it from the root of the work tree.
+cd "$(git rev-parse --show-toplevel 2>/dev/null || echo "$(dirname "$0")/..")"
 
 if [ "${1:-}" = "--install" ]; then
     ln -sf ../../bin/pre-push-check .git/hooks/pre-push
