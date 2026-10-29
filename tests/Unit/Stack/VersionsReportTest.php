@@ -20,7 +20,7 @@ final class VersionsReportTest extends TestCase
 
     public function testComposerPatchUpdateIsClassifiedCorrectly(): void
     {
-        $composerJson = (string) (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
         $report = new VersionsReport($source);
 
@@ -46,15 +46,28 @@ final class VersionsReportTest extends TestCase
 
         $output = $report->generate();
 
-        self::assertStringContainsString(
-            '- [ ] vendor/minor-update : 7.1.0 → 7.2.0',
-            $output,
-            'Minor update (7.1.0 → 7.2.0) must be classified under "Mises à jour mineures (minor)"',
-        );
+        $patchSection = $this->extractSection($output, 'Mises à jour correctives (patch)');
+        $minorSection = $this->extractSection($output, 'Mises à jour mineures (minor)');
+        $majorSection = $this->extractSection($output, 'Mises à jour majeures (major)');
+
+        $minorLine = '- [ ] vendor/minor-update : 7.1.0 → 7.2.0';
 
         self::assertStringContainsString(
-            '### Mises à jour mineures (minor)',
-            $output,
+            $minorLine,
+            $minorSection,
+            'Minor update must be in the minor section',
+        );
+
+        self::assertStringNotContainsString(
+            $minorLine,
+            $patchSection,
+            'Minor update must NOT be in the patch section',
+        );
+
+        self::assertStringNotContainsString(
+            $minorLine,
+            $majorSection,
+            'Minor update must NOT be in the major section',
         );
     }
 
@@ -66,10 +79,28 @@ final class VersionsReportTest extends TestCase
 
         $output = $report->generate();
 
+        $patchSection = $this->extractSection($output, 'Mises à jour correctives (patch)');
+        $minorSection = $this->extractSection($output, 'Mises à jour mineures (minor)');
+        $majorSection = $this->extractSection($output, 'Mises à jour majeures (major)');
+
+        $majorLine = '- [ ] vendor/major-update : 7.5.0 → 8.0.0';
+
         self::assertStringContainsString(
-            '- [ ] vendor/major-update : 7.5.0 → 8.0.0',
-            $output,
-            'Major update (7.5.0 → 8.0.0) must be classified under "Mises à jour majeures (major)"',
+            $majorLine,
+            $majorSection,
+            'Major update must be in the major section',
+        );
+
+        self::assertStringNotContainsString(
+            $majorLine,
+            $patchSection,
+            'Major update must NOT be in the patch section',
+        );
+
+        self::assertStringNotContainsString(
+            $majorLine,
+            $minorSection,
+            'Major update must NOT be in the minor section',
         );
 
         self::assertStringContainsString(
@@ -102,10 +133,29 @@ final class VersionsReportTest extends TestCase
 
         $output = $report->generate();
 
+        $npmSection = $this->extractSection($output, '📦 Dépendances npm');
+        $patchSection = $this->extractSection($npmSection, 'Mises à jour correctives (patch)');
+        $minorSection = $this->extractSection($npmSection, 'Mises à jour mineures (minor)');
+        $majorSection = $this->extractSection($npmSection, 'Mises à jour majeures (major)');
+
+        $patchLine = '- [ ] package-patch : 3.2.1 → 3.2.3';
+
         self::assertStringContainsString(
-            '- [ ] package-patch : 3.2.1 → 3.2.3',
-            $output,
-            'npm patch update (3.2.1 → 3.2.3) must be classified under patch',
+            $patchLine,
+            $patchSection,
+            'npm patch must be in patch section',
+        );
+
+        self::assertStringNotContainsString(
+            $patchLine,
+            $minorSection,
+            'npm patch must NOT be in minor section',
+        );
+
+        self::assertStringNotContainsString(
+            $patchLine,
+            $majorSection,
+            'npm patch must NOT be in major section',
         );
     }
 
@@ -117,10 +167,29 @@ final class VersionsReportTest extends TestCase
 
         $output = $report->generate();
 
+        $npmSection = $this->extractSection($output, '📦 Dépendances npm');
+        $patchSection = $this->extractSection($npmSection, 'Mises à jour correctives (patch)');
+        $minorSection = $this->extractSection($npmSection, 'Mises à jour mineures (minor)');
+        $majorSection = $this->extractSection($npmSection, 'Mises à jour majeures (major)');
+
+        $minorLine = '- [ ] package-minor : 4.1.0 → 4.2.0';
+
         self::assertStringContainsString(
-            '- [ ] package-minor : 4.1.0 → 4.2.0',
-            $output,
-            'npm minor update (4.1.0 → 4.2.0) must be classified under minor',
+            $minorLine,
+            $minorSection,
+            'npm minor must be in minor section',
+        );
+
+        self::assertStringNotContainsString(
+            $minorLine,
+            $patchSection,
+            'npm minor must NOT be in patch section',
+        );
+
+        self::assertStringNotContainsString(
+            $minorLine,
+            $majorSection,
+            'npm minor must NOT be in major section',
         );
     }
 
@@ -132,10 +201,29 @@ final class VersionsReportTest extends TestCase
 
         $output = $report->generate();
 
+        $npmSection = $this->extractSection($output, '📦 Dépendances npm');
+        $patchSection = $this->extractSection($npmSection, 'Mises à jour correctives (patch)');
+        $minorSection = $this->extractSection($npmSection, 'Mises à jour mineures (minor)');
+        $majorSection = $this->extractSection($npmSection, 'Mises à jour majeures (major)');
+
+        $majorLine = '- [ ] package-major : 5.0.0 → 6.0.0';
+
         self::assertStringContainsString(
-            '- [ ] package-major : 5.0.0 → 6.0.0',
-            $output,
-            'npm major update (5.0.0 → 6.0.0) must be classified under major',
+            $majorLine,
+            $majorSection,
+            'npm major must be in major section',
+        );
+
+        self::assertStringNotContainsString(
+            $majorLine,
+            $patchSection,
+            'npm major must NOT be in patch section',
+        );
+
+        self::assertStringNotContainsString(
+            $majorLine,
+            $minorSection,
+            'npm major must NOT be in minor section',
         );
     }
 
@@ -196,5 +284,35 @@ final class VersionsReportTest extends TestCase
             'Aucune PR Dependabot ouverte',
             $output,
         );
+    }
+
+    /**
+     * Extracts text between a section title and the next section.
+     *
+     * @param string $output Full report
+     * @param string $title  Section title (without ## or ###)
+     *
+     * @return string Section content
+     */
+    private function extractSection(string $output, string $title): string
+    {
+        // Find the section and capture its level (## or ###)
+        $findPattern = '/(##+) ' . preg_quote($title, '/') . '/';
+        if (!preg_match($findPattern, $output, $findMatches, \PREG_OFFSET_CAPTURE)) {
+            return '';
+        }
+
+        $level = \strlen($findMatches[1][0]);
+        $startPos = $findMatches[0][1] + \strlen($findMatches[0][0]);
+
+        // Extract until next heading of same or higher level (fewer #)
+        $endPattern = '/\n#{1,' . $level . '} /';
+        if (preg_match($endPattern, $output, $endMatches, \PREG_OFFSET_CAPTURE, $startPos)) {
+            $endPos = $endMatches[0][1];
+
+            return substr($output, $startPos, $endPos - $startPos);
+        }
+
+        return substr($output, $startPos);
     }
 }

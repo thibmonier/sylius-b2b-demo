@@ -45,19 +45,19 @@ final class DemoOrderHistory
         ['EPI-GANT-001' => 20, 'VISS-002' => 6],
         ['EPI-CASK-001' => 12, 'FIXA-001' => 20],
         ['OUTI-001' => 8, 'EMBA-001' => 6],
-        ['EPI-VEST-001' => 15, 'SIGN-001' => 8],
-        ['VISS-001' => 30, 'PAPE-001' => 4],
+        ['EPI-VEST-001' => 15, 'FIXA-001' => 8], // US-240: SIGN-001 replaced by FIXA-001
+        ['VISS-001' => 30, 'FIXA-001' => 4], // US-240: PAPE-001 replaced by FIXA-001
         ['EPI-GANT-001' => 16, 'EPI-CASK-001' => 6],
         ['EMBA-001' => 10, 'FIXA-001' => 25],
-        ['OUTI-001' => 6, 'VISS-002' => 20, 'SIGN-001' => 4],
+        ['OUTI-001' => 6, 'VISS-002' => 20, 'FIXA-001' => 4], // US-240: SIGN-001 replaced by FIXA-001
     ];
 
     private const LARGE_BASKETS = [
         ['EPI-CHAU-001' => 8, 'EPI-GANT-001' => 60, 'EPI-CASK-001' => 30],
         ['EPI-CHAU-001' => 12, 'EMBA-001' => 24],
         ['OUTI-001' => 20, 'VISS-001' => 100, 'FIXA-001' => 80],
-        ['EPI-CASK-001' => 50, 'EPI-VEST-001' => 40, 'SIGN-001' => 20],
-        ['EPI-GANT-001' => 120, 'VISS-002' => 60, 'PAPE-001' => 12],
+        ['EPI-CASK-001' => 50, 'EPI-VEST-001' => 40, 'FIXA-001' => 20], // US-240: SIGN-001 replaced by FIXA-001
+        ['EPI-GANT-001' => 120, 'VISS-002' => 60, 'FIXA-001' => 12], // US-240: PAPE-001 replaced by FIXA-001
         ['EMBA-001' => 30, 'OUTI-001' => 15, 'EPI-CHAU-001' => 6],
     ];
 
@@ -71,6 +71,7 @@ final class DemoOrderHistory
     public static function specs(\DateTimeImmutable $now): array
     {
         $specs = self::acme($now);
+
         foreach (self::OTHER_COMPANIES as $company) {
             foreach ($company['slots'] as $index => $slot) {
                 $specs[] = self::otherCompanyOrder($now, $company['email'], $company['prefix'], $index + 1, $slot);
@@ -106,7 +107,15 @@ final class DemoOrderHistory
         $basket = $limited
             ? self::SMALL_BASKETS[$sequence % \count(self::SMALL_BASKETS)]
             : self::scale(self::LARGE_BASKETS[$sequence % \count(self::LARGE_BASKETS)], self::SEASON_PERCENT[$month] ?? 100);
-        $daysAgo = self::daysAgo($now, $slot, 0 === $slot ? 1 : self::DAYS[$rank]);
+        $day = 0 === $slot ? 1 : self::DAYS[$rank];
+        $daysAgo = self::daysAgo($now, $slot, $day);
+
+        // US-240: Add PAPE-001 and SIGN-001 on day 4 (except current month slot 0)
+        // Both on day 4 ensures identical medians and alert windows → guaranteed 2 alerts
+        if ($slot > 0 && 4 === $day) {
+            $basket['PAPE-001'] = 1;
+            $basket['SIGN-001'] = 1;
+        }
 
         return new DemoOrderSpec(
             self::EMAILS[$buyer],
