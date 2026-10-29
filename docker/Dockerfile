@@ -18,8 +18,9 @@ WORKDIR /app
 RUN install-php-extensions intl gd zip exif pdo_mysql opcache apcu bcmath \
  && apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl fontconfig libjpeg62-turbo libxrender1 libxext6 xfonts-75dpi xfonts-base \
- # The pinned base image ships linux-libc-dev 6.1.187 (CVE-2026-98621, CRITICAL, fixed in 6.1.190): upgraded on its own.
- && apt-get install -y --no-install-recommends --only-upgrade linux-libc-dev \
+ # The pinned base image ships linux-libc-dev 6.1.187 (CVE-2026-98621, CRITICAL, fixed in 6.1.190) and libbrotli1 1.0.9-2+b6
+ # (CVE-2026-111497, CRITICAL, fixed in 1.0.9-2+deb12u1): upgraded on their own.
+ && apt-get install -y --no-install-recommends --only-upgrade linux-libc-dev libbrotli1 \
  && case "${TARGETARCH}" in \
       amd64) WKHTMLTOX_SHA256="${WKHTMLTOX_SHA256_AMD64}"; SUPERCRONIC_SHA256="${SUPERCRONIC_SHA256_AMD64}" ;; \
       arm64) WKHTMLTOX_SHA256="${WKHTMLTOX_SHA256_ARM64}"; SUPERCRONIC_SHA256="${SUPERCRONIC_SHA256_ARM64}" ;; \
