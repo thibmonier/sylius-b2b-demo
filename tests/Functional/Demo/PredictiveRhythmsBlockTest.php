@@ -55,14 +55,15 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
         self::assertGreaterThanOrEqual(0, $daysUntilNextOrder, 'The next order must be in the future or today.');
         self::assertLessThanOrEqual(7, $daysUntilNextOrder, 'The next order must be within the 7-day alert window.');
 
+        // REPLACE the prediction (the fixtures do not create predictions; only demo:reset does)
         $rowsAffected = $connection->executeStatement(
-            'UPDATE tmonier_predictive_stored_prediction
-             SET median_interval_days = ?, last_order_date = ?, reason = NULL
-             WHERE company_id = ? AND variant_id = ?',
-            [$medianIntervalDays, $lastOrderDate->format('Y-m-d H:i:s'), $companyId, $variantId],
+            'REPLACE INTO tmonier_predictive_stored_prediction
+             (company_id, variant_id, median_interval_days, last_order_date, order_count, reason, explanation, calculated_at)
+             VALUES (?, ?, ?, ?, ?, NULL, ?, NOW())',
+            [$companyId, $variantId, $medianIntervalDays, $lastOrderDate->format('Y-m-d H:i:s'), 1, 'Test data'],
         );
 
-        self::assertSame(1, $rowsAffected, 'The UPDATE must affect exactly 1 row (the prediction for Acme + EPI-GANT-001).');
+        self::assertGreaterThanOrEqual(1, $rowsAffected, 'The REPLACE must affect at least 1 row (the prediction for Acme + EPI-GANT-001).');
 
         // Act: login as Claire and load her account dashboard
         $this->login($client, self::CLAIRE);

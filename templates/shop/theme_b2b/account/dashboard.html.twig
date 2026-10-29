@@ -38,8 +38,8 @@
             </div>
         </section>
 
-        {# US-219: render plugin hooks for the account dashboard (predictive analytics, etc.) #}
-        {{ sylius_twig_hooks_render('sylius_shop.account.dashboard.index.content.main') }}
+        {# US-219: include the predictive analytics reorder alerts block (direct inclusion avoids recursion: the B2B dashboard template is itself an entry of sylius_shop.account.dashboard.index.content.main) #}
+        {% include '@TmonierSyliusPredictiveAnalyticsPlugin/shop/account/reorder_alerts.html.twig' %}
 
         <section class="b2b-account__section" aria-labelledby="b2b-account-quick-title" {{ sylius_test_html_attribute('b2b-account-quick') }}>
             <h2 class="visually-hidden" id="b2b-account-quick-title">{{ 'quick.title'|trans({}, 'account') }}</h2>
