@@ -45,12 +45,21 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
         self::assertIsInt($variantId, 'EPI-GANT-001 must exist in fixtures.');
 
         // Update the existing prediction: median 14 days, last order 12 days ago → next in 2 days (within 7-day window)
-        $lastOrderDate = (new \DateTimeImmutable())->modify('-12 days')->format('Y-m-d H:i:s');
+        $now = new \DateTimeImmutable();
+        $lastOrderDate = $now->modify('-12 days');
+        $medianIntervalDays = 14.0;
+        $nextOrderExpectedDate = $lastOrderDate->modify(sprintf('+%d days', (int) $medianIntervalDays));
+        $daysUntilNextOrder = (int) $now->diff($nextOrderExpectedDate)->format('%R%a');
+
+        // Verify the calculation puts the next order in the 7-day alert window (0 to 7 days from now)
+        self::assertGreaterThanOrEqual(0, $daysUntilNextOrder, 'The next order must be in the future or today.');
+        self::assertLessThanOrEqual(7, $daysUntilNextOrder, 'The next order must be within the 7-day alert window.');
+
         $connection->executeStatement(
             'UPDATE tmonier_predictive_stored_prediction
              SET median_interval_days = ?, last_order_date = ?
              WHERE company_id = ? AND variant_id = ?',
-            [14.0, $lastOrderDate, $companyId, $variantId],
+            [$medianIntervalDays, $lastOrderDate->format('Y-m-d H:i:s'), $companyId, $variantId],
         );
 
         // Act: login as Claire and load her account dashboard
