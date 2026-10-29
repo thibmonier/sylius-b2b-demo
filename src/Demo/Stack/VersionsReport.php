@@ -10,8 +10,13 @@ namespace App\Demo\Stack;
  * published versions and reports outdated dependencies, Docker images, and open
  * Dependabot PRs.
  */
-final class VersionsReport
+final readonly class VersionsReport
 {
+    public function __construct(
+        private OutdatedSource $source,
+    ) {
+    }
+
     public function generate(): string
     {
         $weekNumber = (new \DateTimeImmutable())->format('Y-W');
@@ -40,7 +45,7 @@ MARKDOWN;
 
     private function composerSection(): string
     {
-        $outdated = $this->getComposerOutdated();
+        $outdated = $this->source->getComposerOutdated();
 
         $patches = [];
         $minors = [];
@@ -74,7 +79,7 @@ MARKDOWN;
 
     private function npmSection(): string
     {
-        $outdated = $this->getNpmOutdated();
+        $outdated = $this->source->getNpmOutdated();
 
         $patches = [];
         $minors = [];
@@ -162,7 +167,7 @@ MARKDOWN;
 
     private function dependabotSection(): string
     {
-        $prs = $this->getDependabotPRs();
+        $prs = $this->source->getDependabotPRs();
 
         if ([] === $prs) {
             $prsText = "Aucune PR Dependabot ouverte\n";
@@ -182,7 +187,7 @@ MARKDOWN;
 
     private function majorUpgradeDraftsSection(): string
     {
-        $outdated = $this->getComposerOutdated();
+        $outdated = $this->source->getComposerOutdated();
         $drafts = [];
 
         foreach ($outdated as $package) {
@@ -208,7 +213,7 @@ MARKDOWN;
         $current = $package['version'];
         $target = $package['latest'];
 
-        $whyNot = $this->getComposerWhyNot($name, $target);
+        $whyNot = $this->source->getComposerWhyNot($name, $target);
 
         return <<<MARKDOWN
 ### Story : Montée {$name} v{$target}
@@ -236,56 +241,6 @@ Contrainte bloquante :
 - [ ] Aucune régression constatée
 - [ ] Documentation mise à jour si nécessaire
 MARKDOWN;
-    }
-
-    /** @return array<int, array{name: string, version: string, latest: string, latest-status: string}> */
-    private function getComposerOutdated(): array
-    {
-        $output = shell_exec('composer outdated --direct --format=json --no-ansi 2>/dev/null');
-
-        if (null === $output || false === $output || '' === $output) {
-            return [];
-        }
-
-        try {
-            $data = json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
-
-            if (!is_array($data) || !isset($data['installed']) || !is_array($data['installed'])) {
-                return [];
-            }
-
-            /** @var array<int, array{name: string, version: string, latest: string, latest-status: string}> $installed */
-            $installed = $data['installed'];
-
-            return $installed;
-        } catch (\JsonException) {
-            return [];
-        }
-    }
-
-    /** @return array<string, array{current: string, wanted: string, latest: string}> */
-    private function getNpmOutdated(): array
-    {
-        $output = shell_exec('npm outdated --json 2>/dev/null');
-
-        if (null === $output || false === $output || '' === $output) {
-            return [];
-        }
-
-        try {
-            $data = json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
-
-            if (!is_array($data)) {
-                return [];
-            }
-
-            /** @var array<string, array{current: string, wanted: string, latest: string}> $npmData */
-            $npmData = $data;
-
-            return $npmData;
-        } catch (\JsonException) {
-            return [];
-        }
     }
 
     /** @return array<int, array{name: string, current: string, latest: string, is_up_to_date: bool}> */
@@ -319,61 +274,5 @@ MARKDOWN;
                 'is_up_to_date' => true,
             ],
         ];
-    }
-
-    /** @return array<int, array{number: int, title: string}> */
-    private function getDependabotPRs(): array
-    {
-        $output = shell_exec('gh pr list --state open --json number,title,author 2>/dev/null');
-
-        if (null === $output || false === $output || '' === $output) {
-            return [];
-        }
-
-        try {
-            $prs = json_decode($output, true, 512, \JSON_THROW_ON_ERROR);
-
-            if (!is_array($prs)) {
-                return [];
-            }
-
-            $dependabotPRs = [];
-
-            foreach ($prs as $pr) {
-                if (!is_array($pr)) {
-                    continue;
-                }
-
-                if (!isset($pr['author']) || !is_array($pr['author']) || !isset($pr['author']['login'])) {
-                    continue;
-                }
-
-                if ('app/dependabot' === $pr['author']['login']) {
-                    if (!isset($pr['number'], $pr['title']) || !is_int($pr['number']) || !is_string($pr['title'])) {
-                        continue;
-                    }
-
-                    $dependabotPRs[] = [
-                        'number' => $pr['number'],
-                        'title' => $pr['title'],
-                    ];
-                }
-            }
-
-            return $dependabotPRs;
-        } catch (\JsonException) {
-            return [];
-        }
-    }
-
-    private function getComposerWhyNot(string $package, string $version): string
-    {
-        $output = shell_exec(sprintf('composer why-not %s %s 2>&1', escapeshellarg($package), escapeshellarg($version)));
-
-        if (null === $output || false === $output || '' === $output) {
-            return 'Impossible de déterminer la contrainte bloquante';
-        }
-
-        return $output;
     }
 }

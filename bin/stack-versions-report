@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Demo\Stack\ShellOutdatedSource;
 use App\Demo\Stack\VersionsReport;
 
-$projectRoot = dirname(__DIR__);
-$report = new VersionsReport($projectRoot);
+$source = new ShellOutdatedSource();
+$report = new VersionsReport($source);
 
 echo $report->generate();

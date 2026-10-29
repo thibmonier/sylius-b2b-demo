@@ -4,171 +4,197 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stack;
 
+use App\Demo\Stack\VersionsReport;
 use PHPUnit\Framework\TestCase;
 
 /**
- * US-239: weekly versions report generates a structured Markdown issue body.
- * The script compares installed versions (composer.lock, package.json) against
- * the latest published versions and reports outdated dependencies.
+ * US-239: unit tests for VersionsReport.
+ * Tests the behavior with fixture data (not the shell commands).
  */
 final class VersionsReportTest extends TestCase
 {
-    private const REQUIRED_SECTIONS = [
-        '## 📦 Dépendances Composer',
-        '## 📦 Dépendances npm',
-        '## 🐳 Images Docker',
-        '## 🔄 PR Dependabot ouvertes',
-    ];
-
-    public function testReportContainsAllRequiredSections(): void
+    private function fixturesDir(): string
     {
-        $report = $this->generateReport();
-
-        foreach (self::REQUIRED_SECTIONS as $section) {
-            self::assertStringContainsString(
-                $section,
-                $report,
-                sprintf('The report must contain the section "%s"', $section),
-            );
-        }
+        return \dirname(__DIR__, 2) . '/Fixtures/Stack';
     }
 
-    public function testReportStartsWithWeekNumber(): void
+    public function testComposerPatchUpdateIsClassifiedCorrectly(): void
     {
-        $report = $this->generateReport();
+        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
+        $report = new VersionsReport($source);
 
-        self::assertMatchesRegularExpression(
-            '/^# Veille des versions — semaine \d{4}-\d{2}/',
-            $report,
-            'The report must start with the title containing the week number (format YYYY-WW)',
-        );
-    }
-
-    public function testReportContainsGenerationDate(): void
-    {
-        $report = $this->generateReport();
+        $output = $report->generate();
 
         self::assertStringContainsString(
-            'Date de génération :',
-            $report,
-            'The report must contain the generation date',
+            '- [ ] vendor/patch-update : 7.1.0 → 7.1.3',
+            $output,
+            'Patch update (7.1.0 → 7.1.3) must be classified under "Mises à jour correctives (patch)"',
         );
-
-        self::assertMatchesRegularExpression(
-            '/Date de génération : \d{4}-\d{2}-\d{2}/',
-            $report,
-            'The generation date must be in ISO format (YYYY-MM-DD)',
-        );
-    }
-
-    public function testComposerSectionGroupsByUpdateType(): void
-    {
-        $report = $this->generateReport();
 
         self::assertStringContainsString(
             '### Mises à jour correctives (patch)',
-            $report,
-            'Composer section must have a subsection for patch updates',
+            $output,
+        );
+    }
+
+    public function testComposerMinorUpdateIsClassifiedCorrectly(): void
+    {
+        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
+        $report = new VersionsReport($source);
+
+        $output = $report->generate();
+
+        self::assertStringContainsString(
+            '- [ ] vendor/minor-update : 7.1.0 → 7.2.0',
+            $output,
+            'Minor update (7.1.0 → 7.2.0) must be classified under "Mises à jour mineures (minor)"',
         );
 
         self::assertStringContainsString(
             '### Mises à jour mineures (minor)',
-            $report,
-            'Composer section must have a subsection for minor updates',
-        );
-
-        self::assertStringContainsString(
-            '### Mises à jour majeures (major)',
-            $report,
-            'Composer section must have a subsection for major updates',
+            $output,
         );
     }
 
-    public function testNpmSectionGroupsByUpdateType(): void
+    public function testComposerMajorUpdateGeneratesStoryDraft(): void
     {
-        $report = $this->generateReport();
+        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
+        $report = new VersionsReport($source);
+
+        $output = $report->generate();
 
         self::assertStringContainsString(
-            '### Mises à jour correctives (patch)',
-            $report,
-            'npm section must have a subsection for patch updates',
+            '- [ ] vendor/major-update : 7.5.0 → 8.0.0',
+            $output,
+            'Major update (7.5.0 → 8.0.0) must be classified under "Mises à jour majeures (major)"',
         );
 
         self::assertStringContainsString(
-            '### Mises à jour mineures (minor)',
-            $report,
-            'npm section must have a subsection for minor updates',
+            '### Story : Montée vendor/major-update v8.0.0',
+            $output,
+            'Major update must generate a story draft',
         );
 
         self::assertStringContainsString(
-            '### Mises à jour majeures (major)',
-            $report,
-            'npm section must have a subsection for major updates',
+            'Version actuelle : 7.5.0',
+            $output,
+        );
+
+        self::assertStringContainsString(
+            'Version cible : 8.0.0',
+            $output,
+        );
+
+        self::assertStringContainsString(
+            'Contrainte bloquante',
+            $output,
         );
     }
 
-    public function testDockerSectionListsCurrentAndLatestVersions(): void
+    public function testNpmPatchUpdateIsClassifiedCorrectly(): void
     {
-        $report = $this->generateReport();
+        $npmJson = file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson('{"installed":[]}', $npmJson, '[]');
+        $report = new VersionsReport($source);
+
+        $output = $report->generate();
 
         self::assertStringContainsString(
-            '### Images à jour',
-            $report,
-            'Docker section must have a subsection for up-to-date images',
+            '- [ ] package-patch : 3.2.1 → 3.2.3',
+            $output,
+            'npm patch update (3.2.1 → 3.2.3) must be classified under patch',
         );
+    }
+
+    public function testNpmMinorUpdateIsClassifiedCorrectly(): void
+    {
+        $npmJson = file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson('{"installed":[]}', $npmJson, '[]');
+        $report = new VersionsReport($source);
+
+        $output = $report->generate();
 
         self::assertStringContainsString(
-            '### Images en retard',
-            $report,
-            'Docker section must have a subsection for outdated images',
+            '- [ ] package-minor : 4.1.0 → 4.2.0',
+            $output,
+            'npm minor update (4.1.0 → 4.2.0) must be classified under minor',
         );
+    }
+
+    public function testNpmMajorUpdateIsClassifiedCorrectly(): void
+    {
+        $npmJson = file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson('{"installed":[]}', $npmJson, '[]');
+        $report = new VersionsReport($source);
+
+        $output = $report->generate();
 
         self::assertStringContainsString(
-            '### Images volontairement ignorées',
-            $report,
-            'Docker section must have a subsection for intentionally ignored images',
+            '- [ ] package-major : 5.0.0 → 6.0.0',
+            $output,
+            'npm major update (5.0.0 → 6.0.0) must be classified under major',
         );
     }
 
     public function testDependabotPRsAreListed(): void
     {
-        $report = $this->generateReport();
+        $ghJson = file_get_contents($this->fixturesDir() . '/gh-pr-list-sample.json');
+        $source = FakeOutdatedSource::fromJson('{"installed":[]}', '{}', $ghJson);
+        $report = new VersionsReport($source);
 
-        // The section must exist even if there are no open PRs
+        $output = $report->generate();
+
         self::assertStringContainsString(
-            '## 🔄 PR Dependabot ouvertes',
-            $report,
-            'The report must contain the Dependabot PRs section',
+            '- #123 : chore(deps): Bump vendor/package from 1.0 to 1.1',
+            $output,
+            'Dependabot PR #123 must be listed',
+        );
+
+        self::assertStringNotContainsString(
+            '#124',
+            $output,
+            'PR #124 is not from Dependabot, it must not be listed',
         );
     }
 
-    public function testMajorUpgradeDraftsAreIncluded(): void
+    public function testUpToDatePackagesAreNotListed(): void
     {
-        $report = $this->generateReport();
+        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
+        $report = new VersionsReport($source);
 
-        // The section must exist (it may be empty if no major upgrades are blocked)
-        self::assertStringContainsString(
-            '## 📝 Brouillons de stories pour montées majeures',
-            $report,
-            'The report must contain the section for major upgrade story drafts',
+        $output = $report->generate();
+
+        self::assertStringNotContainsString(
+            'vendor/up-to-date',
+            $output,
+            'Up-to-date packages must not be listed in outdated sections',
         );
     }
 
-    private function generateReport(): string
+    public function testEmptyDataGeneratesValidReport(): void
     {
-        // The script does not exist yet: this will fail until T-239-03 is implemented
-        $scriptPath = \dirname(__DIR__, 3) . '/bin/stack-versions-report';
+        $source = new FakeOutdatedSource();
+        $report = new VersionsReport($source);
 
-        if (!file_exists($scriptPath) || !is_executable($scriptPath)) {
-            self::fail(sprintf('The script "%s" does not exist or is not executable', $scriptPath));
-        }
+        $output = $report->generate();
 
-        $output = shell_exec($scriptPath . ' 2>&1');
+        self::assertStringContainsString(
+            '# Veille des versions — semaine',
+            $output,
+        );
 
-        if (null === $output || false === $output || '' === $output) {
-            self::fail('The script did not produce any output');
-        }
+        self::assertStringContainsString(
+            'Aucune mise à jour corrective',
+            $output,
+        );
 
-        return $output;
+        self::assertStringContainsString(
+            'Aucune PR Dependabot ouverte',
+            $output,
+        );
     }
 }
