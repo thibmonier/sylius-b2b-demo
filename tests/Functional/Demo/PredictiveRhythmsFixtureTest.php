@@ -64,18 +64,50 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
             'The predicted SKUs must match exactly the SKUs historically ordered by Acme.',
         );
 
-        // 3. No predictions for other companies (Acme only in fixtures)
-        $otherCompanyPredictions = $this->intValue(
+        // 3. Acme has no prediction for a variant it never ordered
+        $acmePredictionsForNeverOrderedVariants = $this->intValue(
             'SELECT COUNT(*)
              FROM tmonier_predictive_stored_prediction p
-             WHERE p.company_id != ?',
-            [$companyId],
+             WHERE p.company_id = ?
+               AND p.variant_id NOT IN (
+                   SELECT DISTINCT oi.variant_id
+                   FROM sylius_order o
+                   JOIN sylius_order_item oi ON oi.order_id = o.id
+                   JOIN tmonier_company_order co ON co.order_id = o.id
+                   WHERE co.company_id = ?
+                     AND o.state IN (?, ?)
+                     AND o.checkout_completed_at IS NOT NULL
+               )',
+            [$companyId, $companyId, 'fulfilled', 'new'],
         );
 
         self::assertSame(
             0,
-            $otherCompanyPredictions,
-            'No predictions should exist for companies other than Acme after the demo reset.',
+            $acmePredictionsForNeverOrderedVariants,
+            'Acme must have no prediction for a variant it never ordered.',
+        );
+
+        // 4. Each company has predictions only for its own ordered variants
+        $companiesWithInvalidPredictions = $this->db()->fetchFirstColumn(
+            'SELECT DISTINCT c.name
+             FROM tmonier_company c
+             JOIN tmonier_predictive_stored_prediction p ON p.company_id = c.id
+             WHERE p.variant_id NOT IN (
+                 SELECT DISTINCT oi.variant_id
+                 FROM sylius_order o
+                 JOIN sylius_order_item oi ON oi.order_id = o.id
+                 JOIN tmonier_company_order co ON co.order_id = o.id
+                 WHERE co.company_id = c.id
+                   AND o.state IN (?, ?)
+                   AND o.checkout_completed_at IS NOT NULL
+             )',
+            ['fulfilled', 'new'],
+        );
+
+        self::assertSame(
+            [],
+            $companiesWithInvalidPredictions,
+            'Each company must have predictions only for variants it has ordered.',
         );
     }
 }

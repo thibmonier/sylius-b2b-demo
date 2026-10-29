@@ -30,7 +30,7 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
      */
     public function testReorderAlertsBlockAppearsWhenPredictionIsInWindow(): void
     {
-        // Arrange: insert a prediction for Claire (Acme) with next order in 2 days
+        // Arrange: update the existing prediction for Claire (Acme + EPI-GANT-001) to place it in the 7-day window
         $em = self::getContainer()->get(EntityManagerInterface::class);
         \assert($em instanceof EntityManagerInterface);
 
@@ -41,17 +41,20 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
         $variant = $em->getRepository(ProductVariantInterface::class)->findOneBy(['code' => 'EPI-GANT-001']);
         \assert($variant instanceof ProductVariantInterface);
 
-        // Create a prediction: median 14 days, last order 12 days ago → next in 2 days (within 7-day window)
-        $prediction = new StoredPrediction(
-            company: $company,
-            variant: $variant,
-            medianIntervalDays: 14.0,
-            lastOrderDate: (new \DateTimeImmutable())->modify('-12 days'),
-            orderCount: 5,
-            reason: 'reorder_soon',
-            explanation: 'Prochaine commande attendue dans 2 jours',
-        );
-        $em->persist($prediction);
+        // Find the existing prediction created by the demo reset recalculation
+        $prediction = $em->getRepository(StoredPrediction::class)->findOneBy([
+            'company' => $company,
+            'variant' => $variant,
+        ]);
+        \assert($prediction instanceof StoredPrediction);
+
+        // Update it: median 14 days, last order 12 days ago → next in 2 days (within 7-day window)
+        $reflection = new \ReflectionClass($prediction);
+        $medianProperty = $reflection->getProperty('medianIntervalDays');
+        $medianProperty->setValue($prediction, 14.0);
+        $lastOrderProperty = $reflection->getProperty('lastOrderDate');
+        $lastOrderProperty->setValue($prediction, (new \DateTimeImmutable())->modify('-12 days'));
+
         $em->flush();
 
         // Act: load Claire's account dashboard
