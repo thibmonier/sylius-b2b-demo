@@ -12,6 +12,8 @@ tmonier_audit_log:
     resource: "@TmonierSyliusAuditLogPlugin/config/routes.yaml"
 tmonier_b2b_mcp:
     resource: "@TmonierSyliusB2bMcpPlugin/config/routes.yaml"
+tmonier_predictive:
+    resource: "@TmonierSyliusPredictiveAnalyticsPlugin/config/routes.yaml"
 tmonier_bulk_actions:
     resource: "@TmonierSyliusBulkActionsPlugin/config/routes.yaml"
 tmonier_command_palette:

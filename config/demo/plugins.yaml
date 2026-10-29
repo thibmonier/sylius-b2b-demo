@@ -74,7 +74,7 @@ parameters:
           demo_route: sylius_shop_account_dashboard
           scenario:
               fr: "Ouvrez Mon compte : le bloc « À réassortir bientôt » affiche les références attendues dans les 7 jours avec leur explication (« vous en commandez tous les 28 jours »). Cliquez « Préparer le panier » pour ajouter la quantité habituelle au panier."
-              en: "Open My Account: the "To reorder soon" block shows references expected within 7 days with their explanation ("you order them every 28 days"). Click "Prepare cart" to add the usual quantity to the cart."
+              en: 'Open My Account: the "To reorder soon" block shows references expected within 7 days with their explanation ("you order them every 28 days"). Click "Prepare cart" to add the usual quantity to the cart.'
           advised_account: claire@acme.example
         - slug: sylius-bulk-actions-plugin
           name: 'Bulk Actions'
