@@ -28,7 +28,7 @@ final class VersionsReportTest extends TestCase
             self::assertStringContainsString(
                 $section,
                 $report,
-                sprintf('The report must contain the section "%s"', $section)
+                sprintf('The report must contain the section "%s"', $section),
             );
         }
     }
@@ -40,7 +40,7 @@ final class VersionsReportTest extends TestCase
         self::assertMatchesRegularExpression(
             '/^# Veille des versions — semaine \d{4}-\d{2}/',
             $report,
-            'The report must start with the title containing the week number (format YYYY-WW)'
+            'The report must start with the title containing the week number (format YYYY-WW)',
         );
     }
 
@@ -51,13 +51,13 @@ final class VersionsReportTest extends TestCase
         self::assertStringContainsString(
             'Date de génération :',
             $report,
-            'The report must contain the generation date'
+            'The report must contain the generation date',
         );
 
         self::assertMatchesRegularExpression(
             '/Date de génération : \d{4}-\d{2}-\d{2}/',
             $report,
-            'The generation date must be in ISO format (YYYY-MM-DD)'
+            'The generation date must be in ISO format (YYYY-MM-DD)',
         );
     }
 
@@ -68,19 +68,19 @@ final class VersionsReportTest extends TestCase
         self::assertStringContainsString(
             '### Mises à jour correctives (patch)',
             $report,
-            'Composer section must have a subsection for patch updates'
+            'Composer section must have a subsection for patch updates',
         );
 
         self::assertStringContainsString(
             '### Mises à jour mineures (minor)',
             $report,
-            'Composer section must have a subsection for minor updates'
+            'Composer section must have a subsection for minor updates',
         );
 
         self::assertStringContainsString(
             '### Mises à jour majeures (major)',
             $report,
-            'Composer section must have a subsection for major updates'
+            'Composer section must have a subsection for major updates',
         );
     }
 
@@ -91,19 +91,19 @@ final class VersionsReportTest extends TestCase
         self::assertStringContainsString(
             '### Mises à jour correctives (patch)',
             $report,
-            'npm section must have a subsection for patch updates'
+            'npm section must have a subsection for patch updates',
         );
 
         self::assertStringContainsString(
             '### Mises à jour mineures (minor)',
             $report,
-            'npm section must have a subsection for minor updates'
+            'npm section must have a subsection for minor updates',
         );
 
         self::assertStringContainsString(
             '### Mises à jour majeures (major)',
             $report,
-            'npm section must have a subsection for major updates'
+            'npm section must have a subsection for major updates',
         );
     }
 
@@ -114,19 +114,19 @@ final class VersionsReportTest extends TestCase
         self::assertStringContainsString(
             '### Images à jour',
             $report,
-            'Docker section must have a subsection for up-to-date images'
+            'Docker section must have a subsection for up-to-date images',
         );
 
         self::assertStringContainsString(
             '### Images en retard',
             $report,
-            'Docker section must have a subsection for outdated images'
+            'Docker section must have a subsection for outdated images',
         );
 
         self::assertStringContainsString(
             '### Images volontairement ignorées',
             $report,
-            'Docker section must have a subsection for intentionally ignored images'
+            'Docker section must have a subsection for intentionally ignored images',
         );
     }
 
@@ -138,7 +138,7 @@ final class VersionsReportTest extends TestCase
         self::assertStringContainsString(
             '## 🔄 PR Dependabot ouvertes',
             $report,
-            'The report must contain the Dependabot PRs section'
+            'The report must contain the Dependabot PRs section',
         );
     }
 
@@ -150,7 +150,7 @@ final class VersionsReportTest extends TestCase
         self::assertStringContainsString(
             '## 📝 Brouillons de stories pour montées majeures',
             $report,
-            'The report must contain the section for major upgrade story drafts'
+            'The report must contain the section for major upgrade story drafts',
         );
     }
 
@@ -165,7 +165,7 @@ final class VersionsReportTest extends TestCase
 
         $output = shell_exec($scriptPath . ' 2>&1');
 
-        if (null === $output) {
+        if (null === $output || false === $output || '' === $output) {
             self::fail('The script did not produce any output');
         }
 
