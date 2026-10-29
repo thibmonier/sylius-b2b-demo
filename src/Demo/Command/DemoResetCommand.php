@@ -193,6 +193,10 @@ final class DemoResetCommand extends Command
             }
 
             $this->connection->commit();
+
+            // Recalculate predictive analytics alerts based on the just-loaded fixture history (US-219).
+            // Without this, the demo reset at 3:00 AM would show zero alerts until the cron at 4:30 AM runs.
+            $this->runSubCommand('tmonier:predictive:recalculate', ['--no-interaction' => true], $io, $dryRun);
         } catch (Throwable $e) {
             if ($this->connection->isTransactionActive()) {
                 $this->connection->rollBack();
