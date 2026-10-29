@@ -55,12 +55,14 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
         self::assertGreaterThanOrEqual(0, $daysUntilNextOrder, 'The next order must be in the future or today.');
         self::assertLessThanOrEqual(7, $daysUntilNextOrder, 'The next order must be within the 7-day alert window.');
 
-        $connection->executeStatement(
+        $rowsAffected = $connection->executeStatement(
             'UPDATE tmonier_predictive_stored_prediction
-             SET median_interval_days = ?, last_order_date = ?
+             SET median_interval_days = ?, last_order_date = ?, reason = NULL
              WHERE company_id = ? AND variant_id = ?',
             [$medianIntervalDays, $lastOrderDate->format('Y-m-d H:i:s'), $companyId, $variantId],
         );
+
+        self::assertSame(1, $rowsAffected, 'The UPDATE must affect exactly 1 row (the prediction for Acme + EPI-GANT-001).');
 
         // Act: login as Claire and load her account dashboard
         $this->login($client, self::CLAIRE);

@@ -38,6 +38,9 @@
             </div>
         </section>
 
+        {# US-219: render plugin hooks for the account dashboard (predictive analytics, etc.) #}
+        {{ sylius_twig_hooks_render('sylius_shop.account.dashboard.index.content.main') }}
+
         <section class="b2b-account__section" aria-labelledby="b2b-account-quick-title" {{ sylius_test_html_attribute('b2b-account-quick') }}>
             <h2 class="visually-hidden" id="b2b-account-quick-title">{{ 'quick.title'|trans({}, 'account') }}</h2>
             <div class="b2b-account__quick">
