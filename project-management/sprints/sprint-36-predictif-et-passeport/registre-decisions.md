@@ -13,3 +13,4 @@
 | 2026-10-29 | US-232 et US-233 reportées au sprint 37 | Orchestrateur | planning |
 | 2026-10-29 | **GO tag v0.1.1 du plugin prédictif** (classes pures IntervalCalculator et AlertCalculator, PR #5 fusionnée en 7ba09bb) ; démo montée en ^0.1.1 par l'orchestrateur | Thibaut | US-240 |
 | 2026-10-29 | Commit 85ff026 (US-240) a embarqué par erreur les tests d'US-239 (`tests/Unit/Stack/VersionsReportTest.php`, assistant `extractSection`) : accepté en l'état, non poussé, la PR sera fusionnée en squash ; signalé par w239 | Orchestrateur | US-239, US-240 |
+| 2026-10-29 | **Bloc « À réassortir bientôt » corrigé au sprint 36** (US-240) : boutons au style du thème, nom de produit non doublé, médiane au format de la locale, sur la marge du sprint ; PR du plugin prédictif, fusion à CI verte par l'orchestrateur, tag v0.1.2 sur GO de Thibaut, puis captures | Thibaut | US-240 |
