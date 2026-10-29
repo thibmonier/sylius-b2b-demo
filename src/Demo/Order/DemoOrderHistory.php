@@ -71,6 +71,7 @@ final class DemoOrderHistory
     public static function specs(\DateTimeImmutable $now): array
     {
         $specs = self::acme($now);
+        $specs = [...$specs, ...self::predictiveRhythms($now)];
         foreach (self::OTHER_COMPANIES as $company) {
             foreach ($company['slots'] as $index => $slot) {
                 $specs[] = self::otherCompanyOrder($now, $company['email'], $company['prefix'], $index + 1, $slot);
@@ -163,5 +164,77 @@ final class DemoOrderHistory
         $day = self::firstOfMonth($now, $slot)->modify(sprintf('+%d days', $dayOfMonth - 1));
 
         return max(0, (int) $now->setTime(0, 0)->diff($day)->days);
+    }
+
+    /**
+     * US-219: predictive purchase rhythms for Claire (Acme) on specific products to guarantee reorder alerts
+     * just after the demo reset. Dates are relative to $now so alerts stay consistent after nightly reset.
+     *
+     * - Gloves (EPI-GANT-001): every ~14 days, last order 11 days ago → alert in 3 days
+     * - Vests (EPI-VEST-001): every ~60 days, last order 58 days ago → alert in 2 days
+     * - Hardware (VISS-002): irregular 15-25 days
+     *
+     * @return list<DemoOrderSpec>
+     */
+    private static function predictiveRhythms(\DateTimeImmutable $now): array
+    {
+        $specs = [];
+        $poCounter = 1000; // High numbers to avoid conflicts with core orders
+
+        // Gloves: every 14 days over 12 months (26 orders), last order 11 days ago
+        $gloveIntervals = array_fill(0, 25, 14); // 25 intervals of 14 days
+        $gloveDaysAgo = 11; // Last order 11 days ago → alert in 3 days (14 - 11 = 3)
+        foreach ($gloveIntervals as $interval) {
+            $specs[] = new DemoOrderSpec(
+                self::EMAILS['claire'],
+                $gloveDaysAgo,
+                ['EPI-GANT-001' => 20],
+                sprintf('ACME-PO-PRED-%03d', ++$poCounter),
+                OrderScenario::Shipped,
+                'ATELIER-01'
+            );
+            $gloveDaysAgo += $interval;
+            if ($gloveDaysAgo > 365) {
+                break; // Stay within 12 months
+            }
+        }
+
+        // Vests: every 60 days over 12 months (6 orders), last order 58 days ago
+        $vestIntervals = array_fill(0, 5, 60); // 5 intervals of 60 days
+        $vestDaysAgo = 58; // Last order 58 days ago → alert in 2 days (60 - 58 = 2)
+        foreach ($vestIntervals as $interval) {
+            $specs[] = new DemoOrderSpec(
+                self::EMAILS['claire'],
+                $vestDaysAgo,
+                ['EPI-VEST-001' => 10],
+                sprintf('ACME-PO-PRED-%03d', ++$poCounter),
+                OrderScenario::Shipped,
+                'ATELIER-01'
+            );
+            $vestDaysAgo += $interval;
+            if ($vestDaysAgo > 365) {
+                break;
+            }
+        }
+
+        // Hardware: irregular 15-25 days over 12 months (20 orders)
+        $hardwareIntervals = [18, 22, 15, 25, 19, 21, 17, 24, 16, 23, 20, 18, 22, 15, 25, 19, 21, 17, 24, 16];
+        $hardwareDaysAgo = 20; // Last order 20 days ago
+        foreach ($hardwareIntervals as $interval) {
+            $specs[] = new DemoOrderSpec(
+                self::EMAILS['claire'],
+                $hardwareDaysAgo,
+                ['VISS-002' => 50],
+                sprintf('ACME-PO-PRED-%03d', ++$poCounter),
+                OrderScenario::Shipped,
+                'ATELIER-01'
+            );
+            $hardwareDaysAgo += $interval;
+            if ($hardwareDaysAgo > 365) {
+                break;
+            }
+        }
+
+        return $specs;
     }
 }
