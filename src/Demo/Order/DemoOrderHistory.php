@@ -191,7 +191,7 @@ final class DemoOrderHistory
                 ['EPI-GANT-001' => 20],
                 sprintf('ACME-PO-PRED-%03d', ++$poCounter),
                 OrderScenario::Shipped,
-                'ATELIER-01'
+                'ATELIER-01',
             );
             $gloveDaysAgo += $interval;
             if ($gloveDaysAgo > 365) {
@@ -209,7 +209,7 @@ final class DemoOrderHistory
                 ['EPI-VEST-001' => 10],
                 sprintf('ACME-PO-PRED-%03d', ++$poCounter),
                 OrderScenario::Shipped,
-                'ATELIER-01'
+                'ATELIER-01',
             );
             $vestDaysAgo += $interval;
             if ($vestDaysAgo > 365) {
@@ -227,7 +227,7 @@ final class DemoOrderHistory
                 ['VISS-002' => 50],
                 sprintf('ACME-PO-PRED-%03d', ++$poCounter),
                 OrderScenario::Shipped,
-                'ATELIER-01'
+                'ATELIER-01',
             );
             $hardwareDaysAgo += $interval;
             if ($hardwareDaysAgo > 365) {

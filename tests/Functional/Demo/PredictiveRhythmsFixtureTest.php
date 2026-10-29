@@ -30,13 +30,13 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
              WHERE p.company_id = ?
                AND p.expected_reorder_date IS NOT NULL
                AND p.expected_reorder_date BETWEEN ? AND ?',
-            [$companyId, $now->format('Y-m-d'), $now->modify('+7 days')->format('Y-m-d')]
+            [$companyId, $now->format('Y-m-d'), $now->modify('+7 days')->format('Y-m-d')],
         );
 
         self::assertGreaterThanOrEqual(
             2,
             $alertCount,
-            'Claire (Acme) must have at least 2 reorder alerts visible just after the demo reset (within 7 days).'
+            'Claire (Acme) must have at least 2 reorder alerts visible just after the demo reset (within 7 days).',
         );
     }
 
@@ -59,7 +59,7 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
                AND o.checkout_completed_at IS NOT NULL
                AND c.name = ?
              ORDER BY c.id, pv.code, o.checkout_completed_at',
-            ['fulfilled', 'new', 'Acme Industries']
+            ['fulfilled', 'new', 'Acme Industries'],
         );
 
         $purchases = [];
@@ -82,7 +82,7 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
                         $key,
                         $interval,
                         $i,
-                        $i + 1
+                        $i + 1,
                     );
                 }
             }
@@ -91,7 +91,7 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
         self::assertSame(
             [],
             $absurdIntervals,
-            'All purchase rhythms must have realistic intervals (7-120 days). Absurd intervals found:'
+            'All purchase rhythms must have realistic intervals (7-120 days). Absurd intervals found:',
         );
     }
 }
