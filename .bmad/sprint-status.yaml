@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 35
+current_sprint: 36
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -576,6 +576,30 @@ sprints:
       - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: done}  # EPIC-18, Must ; suite d'US-222 fusionnée partielle au sprint 34
     notes: "Ordre de sacrifice (registre du 2026-10-28, auteur Thibaut) : US-219 d'abord, puis US-238 ; US-217 et US-218 protégées. Portes : GO tag v0.1.0 du plugin prédictif (T-219-03) demandé quand le plugin est fusionné ; Thibaut soumet à Packagist (T-219-04). Disque à 5,6 Go libres au lancement (registre du 2026-10-28) : aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24). Actions de Thibaut : libérer le disque (cible 10 Go, T-TECH-35-05) ; donner le GO du tag v0.1.0 (T-219-03) ; soumettre à Packagist (T-219-04). Actions de rétro S34 : règle 31 vérifier faits techniques avant présentation (T-TECH-35-01 faite au planning), règle 32 interdire de retirer un test (T-TECH-35-02 faite au planning), règle 33 nouveau paquet commence par test d'installation (T-TECH-35-03 faite au planning), validation YAML de sprint-status.yaml (T-TECH-35-04 faite au planning, bin/check-sprint-status testé vert et rouge), disque et reliquats (T-TECH-35-05). 10 jours ouvrés, planning le 2026-10-28, point d'étape après fusion du plugin prédictif (US-217, US-218), revue et rétro au plus tard le 2026-11-13."
 
+  sprint-36:
+    name: sprint-36-predictif-et-passeport
+    status: ready-for-dev  # planifié et décomposé le 2026-10-29 (périmètre décidé par Thibaut) ; branche feature/sprint-36-predictif-et-passeport ; 43 tâches, 33 h (32 h Claude, 1 h Thibaut), marge 5,4 h
+    sprint_id: "sprint-36"
+    start_date: "2026-10-29"
+    end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_hours: 37.4  # 14 × 2,1 h + 8 h transverses
+    capacity_points: 14  # écart d'un point sur la vélocité de 13 accepté ; vélocité de référence : S30 13, S31 13, S32 9, S33 13, S34 9, S35 13
+    charge_hours: 33  # 43 tâches décomposées le 2026-10-29 : 32 h Claude + 1 h Thibaut
+    margin_hours: 5.4  # 14,4 % de marge
+    goal: "Garantir une démo prédictive vivante à toute date (alertes garanties), lancer le passeport numérique produit avec sa page publique, et automatiser la veille hebdomadaire des versions du socle"
+    stories:
+      - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-17, Must ; suite d'US-219 partielle ; plugin prédictif v0.1.1 ; parallèle à US-239
+      - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, tasks: 13, hours: 11, status: ready-for-dev}  # EPIC-19, Must ; nouveau dépôt tmonier/sylius-digital-product-passport-plugin créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; après GO dépôt
+      - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-230
+      - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, tasks: 9, hours: 6.5, status: ready-for-dev}  # EPIC-10, Must ; issue GitHub hebdomadaire ; parallèle à US-240
+    sprint_tasks:
+      - {id: T-TECH-36-01, title: "Hook pre-push refusant le force-push + ECS/PHPStan", type: OPS, hours: 0.5, status: ready-for-dev}
+      - {id: T-TECH-36-02, title: "Script wait-for-ci", type: OPS, hours: 0.5, status: ready-for-dev}
+      - {id: T-TECH-36-03, title: "Consigne worker durcie", type: DOC, hours: 0.5, status: ready-for-dev}
+      - {id: T-TECH-36-04, title: "README bilingue + captures dans la DoD plugin", type: DOC, hours: 0.5, status: ready-for-dev}
+      - {id: T-TECH-36-05, title: "Script check-resources", type: OPS, hours: 0.5, status: ready-for-dev}
+    notes: "DÉCOMPOSÉ le 2026-10-29 : 43 tâches, 33 h (32 h Claude, 1 h Thibaut) pour 37,4 h de capacité, marge de 5,4 h (14,4 %). Actions de rétro S35 : T-TECH-36-01 à 05. Portes : GO du dépôt passeport et tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement. Branche proof/us-219-red supprimée. US-232 et US-233 reportées au sprint 37. Ordre d'exécution : transverses (parallèles), puis US-240 ∥ US-239, puis US-230 (après GO dépôt), puis US-231 (après US-230). 10 jours ouvrés, planning le 2026-10-29, revue et rétro au plus tard le 2026-11-13."
+
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
@@ -594,17 +618,17 @@ backlog:
   - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: done}  # EPIC-18, Must ; sprint 35 ; décision de Thibaut du 2026-10-28 (US-222 fusionnée partielle)
-  - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, status: backlog}  # EPIC-10, Should ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28 (démo seule, issue GitHub hebdomadaire)
-  - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, status: backlog}  # EPIC-17, Should ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-29 (US-219 livrée partielle)
+  - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, status: ready-for-dev}  # EPIC-10, Must ; sprint 36 ; décision de Thibaut du 2026-10-29 (démo seule, issue GitHub hebdomadaire)
+  - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, status: ready-for-dev}  # EPIC-17, Must ; sprint 36 ; décision de Thibaut du 2026-10-29 (US-219 livrée partielle)
   - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-226, title: "Thème Industrie & Négoce : mode sombre optionnel en AAA", points: 3, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-227, title: "Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes", points: 5, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: backlog}  # EPIC-18, Must ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: backlog}  # EPIC-19, Must ; sprint 36 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, status: ready-for-dev}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
+  - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: ready-for-dev}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
+  - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: backlog}  # EPIC-19, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-29
+  - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: backlog}  # EPIC-19, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-29
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: backlog}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: backlog}  # EPIC-19, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
