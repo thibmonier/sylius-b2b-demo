@@ -563,7 +563,7 @@ sprints:
 
   sprint-35:
     name: sprint-35-commerce-predictif
-    status: ready-for-dev  # planifié le 2026-10-28 (périmètre décidé par Thibaut) ; 46 tâches : 4 ✅ (T-TECH-35-01 à 04), 38 🔲, 4 📅 (GO tag v0.1.0, Thibaut soumet Packagist, disque) ; branche feature/sprint-35-commerce-predictif
+    status: done  # clos le 2026-10-29 (GO de Thibaut, PR #133) : 13 points sur 16, US-219 partielle (suite US-240) ; planifié le 2026-10-28 (périmètre décidé par Thibaut) ; 46 tâches : 4 ✅ (T-TECH-35-01 à 04), 38 🔲, 4 📅 (GO tag v0.1.0, Thibaut soumet Packagist, disque) ; branche feature/sprint-35-commerce-predictif
     sprint_id: "sprint-35"
     start_date: "2026-10-28"
     end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
@@ -571,7 +571,7 @@ sprints:
     goal: "Livrer le MVP du commerce prédictif avec des règles statistiques explicables : squelette du plugin avec intervalle médian de réassort, alertes dans « Mon compte » et panier pré-rempli, fixtures de démo crédibles, et compléter le thème Industrie & Négoce par son test de rendu et ses composants restants"
     stories:
       - {id: US-217, title: "Commerce prédictif : squelette du plugin et intervalle médian de réassort par référence", points: 5, status: done}  # EPIC-17, Must ; dépôt tmonier/sylius-b2b-predictive-analytics-plugin créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut
-      - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: review}  # EPIC-17, Must ; dépend d'US-217
+      - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: done}  # EPIC-17, Must ; dépend d'US-217
       - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: partial}  # EPIC-17, Must ; dépend d'US-217 et US-218 ; porte : GO tag v0.1.0 de Thibaut, Thibaut soumet à Packagist, démo installe ^0.1
       - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: done}  # EPIC-18, Must ; suite d'US-222 fusionnée partielle au sprint 34
     notes: "Ordre de sacrifice (registre du 2026-10-28, auteur Thibaut) : US-219 d'abord, puis US-238 ; US-217 et US-218 protégées. Portes : GO tag v0.1.0 du plugin prédictif (T-219-03) demandé quand le plugin est fusionné ; Thibaut soumet à Packagist (T-219-04). Disque à 5,6 Go libres au lancement (registre du 2026-10-28) : aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24). Actions de Thibaut : libérer le disque (cible 10 Go, T-TECH-35-05) ; donner le GO du tag v0.1.0 (T-219-03) ; soumettre à Packagist (T-219-04). Actions de rétro S34 : règle 31 vérifier faits techniques avant présentation (T-TECH-35-01 faite au planning), règle 32 interdire de retirer un test (T-TECH-35-02 faite au planning), règle 33 nouveau paquet commence par test d'installation (T-TECH-35-03 faite au planning), validation YAML de sprint-status.yaml (T-TECH-35-04 faite au planning, bin/check-sprint-status testé vert et rouge), disque et reliquats (T-TECH-35-05). 10 jours ouvrés, planning le 2026-10-28, point d'étape après fusion du plugin prédictif (US-217, US-218), revue et rétro au plus tard le 2026-11-13."
@@ -586,7 +586,7 @@ backlog:
   - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-216, title: "Copilote d'achat : adaptateur LLM réel pour les intégrateurs", points: 5, status: backlog}  # EPIC-16, Could ; planifiée au sprint 42 (décision de Thibaut du 2026-10-28)
   - {id: US-217, title: "Commerce prédictif : squelette du plugin et intervalle médian de réassort par référence", points: 5, status: done}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
-  - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: review}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
+  - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: done}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
   - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: partial}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
   - {id: US-220, title: "Commerce prédictif : score d'attrition explicable dans l'admin", points: 5, status: backlog}  # EPIC-17, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: done}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
