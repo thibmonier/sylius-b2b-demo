@@ -31,9 +31,21 @@ final readonly class FakeOutdatedSource implements OutdatedSource
         $npmData = json_decode($npmJson, true, 512, \JSON_THROW_ON_ERROR);
         $ghData = json_decode($ghJson, true, 512, \JSON_THROW_ON_ERROR);
 
+        if (!is_array($composerData) || !is_array($npmData) || !is_array($ghData)) {
+            throw new \InvalidArgumentException('Invalid JSON data');
+        }
+
         $dependabotPRs = [];
         foreach ($ghData as $pr) {
-            if (isset($pr['author']['login']) && 'app/dependabot' === $pr['author']['login']) {
+            if (!is_array($pr)) {
+                continue;
+            }
+
+            if (isset($pr['author']) && is_array($pr['author']) && isset($pr['author']['login']) && 'app/dependabot' === $pr['author']['login']) {
+                if (!isset($pr['number'], $pr['title']) || !is_int($pr['number']) || !is_string($pr['title'])) {
+                    continue;
+                }
+
                 $dependabotPRs[] = [
                     'number' => $pr['number'],
                     'title' => $pr['title'],
@@ -41,9 +53,15 @@ final readonly class FakeOutdatedSource implements OutdatedSource
             }
         }
 
+        /** @var array<int, array{name: string, version: string, latest: string, latest-status: string}> $installed */
+        $installed = $composerData['installed'] ?? [];
+
+        /** @var array<string, array{current: string, wanted: string, latest: string}> $npm */
+        $npm = $npmData;
+
         return new self(
-            composerOutdated: $composerData['installed'] ?? [],
-            npmOutdated: $npmData,
+            composerOutdated: $installed,
+            npmOutdated: $npm,
             dependabotPRs: $dependabotPRs,
         );
     }

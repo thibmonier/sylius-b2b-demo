@@ -20,7 +20,7 @@ final class VersionsReportTest extends TestCase
 
     public function testComposerPatchUpdateIsClassifiedCorrectly(): void
     {
-        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $composerJson = (string) (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
         $report = new VersionsReport($source);
 
@@ -40,7 +40,7 @@ final class VersionsReportTest extends TestCase
 
     public function testComposerMinorUpdateIsClassifiedCorrectly(): void
     {
-        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
         $report = new VersionsReport($source);
 
@@ -60,7 +60,7 @@ final class VersionsReportTest extends TestCase
 
     public function testComposerMajorUpdateGeneratesStoryDraft(): void
     {
-        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
         $report = new VersionsReport($source);
 
@@ -96,7 +96,7 @@ final class VersionsReportTest extends TestCase
 
     public function testNpmPatchUpdateIsClassifiedCorrectly(): void
     {
-        $npmJson = file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $npmJson = (string) file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson('{"installed":[]}', $npmJson, '[]');
         $report = new VersionsReport($source);
 
@@ -111,7 +111,7 @@ final class VersionsReportTest extends TestCase
 
     public function testNpmMinorUpdateIsClassifiedCorrectly(): void
     {
-        $npmJson = file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $npmJson = (string) file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson('{"installed":[]}', $npmJson, '[]');
         $report = new VersionsReport($source);
 
@@ -126,7 +126,7 @@ final class VersionsReportTest extends TestCase
 
     public function testNpmMajorUpdateIsClassifiedCorrectly(): void
     {
-        $npmJson = file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $npmJson = (string) file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson('{"installed":[]}', $npmJson, '[]');
         $report = new VersionsReport($source);
 
@@ -141,7 +141,7 @@ final class VersionsReportTest extends TestCase
 
     public function testDependabotPRsAreListed(): void
     {
-        $ghJson = file_get_contents($this->fixturesDir() . '/gh-pr-list-sample.json');
+        $ghJson = (string) file_get_contents($this->fixturesDir() . '/gh-pr-list-sample.json');
         $source = FakeOutdatedSource::fromJson('{"installed":[]}', '{}', $ghJson);
         $report = new VersionsReport($source);
 
@@ -162,7 +162,7 @@ final class VersionsReportTest extends TestCase
 
     public function testUpToDatePackagesAreNotListed(): void
     {
-        $composerJson = file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
         $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
         $report = new VersionsReport($source);
 

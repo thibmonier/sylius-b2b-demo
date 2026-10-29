@@ -6,10 +6,11 @@ on:
         - cron: "0 9 * * 1"
     workflow_dispatch: ~
 
-# US-239: minimal permissions (issues write only)
+# US-239: minimal permissions (issues write, pull-requests read for gh pr list)
 permissions:
     issues: write
     contents: read
+    pull-requests: read
 
 jobs:
     report:

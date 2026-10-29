@@ -52,6 +52,11 @@ MARKDOWN;
         $majors = [];
 
         foreach ($outdated as $package) {
+            // Skip packages that are already up to date
+            if ('up-to-date' === $package['latest-status'] || $package['version'] === $package['latest']) {
+                continue;
+            }
+
             $item = sprintf('- [ ] %s : %s → %s', $package['name'], $package['version'], $package['latest']);
 
             match ($package['latest-status']) {
@@ -191,7 +196,11 @@ MARKDOWN;
         $drafts = [];
 
         foreach ($outdated as $package) {
-            if ('semver-safe-update' !== $package['latest-status'] && 'update-possible' !== $package['latest-status']) {
+            // Only generate story drafts for actual major upgrades (not up-to-date packages)
+            if ('semver-safe-update' !== $package['latest-status'] &&
+                'update-possible' !== $package['latest-status'] &&
+                'up-to-date' !== $package['latest-status'] &&
+                $package['version'] !== $package['latest']) {
                 $draft = $this->generateStoryDraft($package);
                 $drafts[] = $draft;
             }
