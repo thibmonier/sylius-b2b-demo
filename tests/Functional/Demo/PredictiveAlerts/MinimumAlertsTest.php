@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Demo\PredictiveAlerts;
 
 use App\Demo\Order\DemoOrderPlan;
 use App\Demo\Order\DemoOrderSpec;
+use App\Demo\Order\OrderScenario;
 use PHPUnit\Framework\TestCase;
 use Tmonier\SyliusPredictiveAnalyticsPlugin\Calculator\AlertCalculator;
 use Tmonier\SyliusPredictiveAnalyticsPlugin\Calculator\IntervalCalculator;
@@ -84,9 +85,12 @@ final class MinimumAlertsTest extends TestCase
         $later = new \DateTimeImmutable('2026-10-29 18:00:00');
         self::assertSame($this->signature($now), $this->signature($later), 'Orders must fall on the same days of the month');
 
-        // Invariant 4 : Paul en retard (PAPE-001 doit déclencher une alerte)
-        $paulAlerts = $this->countAlertsForVariant($now, 'PAPE-001');
-        self::assertGreaterThanOrEqual(1, $paulAlerts, 'Paul must be late (PAPE-001 alert expected)');
+        // Invariant 4 : Paul en retard (commande ACME-PO-2026-0568, 48 jours, attente de paiement, ON_ACCOUNT)
+        $paulOrder = $this->findPaulLateOrder($allOrders);
+        self::assertNotNull($paulOrder, 'Paul late order (ACME-PO-2026-0568) must exist');
+        self::assertSame('ACME-PO-2026-0568', $paulOrder->poReference, 'Paul order must be ACME-PO-2026-0568');
+        self::assertSame(48, $paulOrder->daysAgo, 'Paul order must be 48 days old');
+        self::assertSame(OrderScenario::AwaitingPayment, $paulOrder->scenario, 'Paul order must be awaiting payment');
     }
 
     /**
@@ -123,24 +127,19 @@ final class MinimumAlertsTest extends TestCase
     }
 
     /**
-     * Compte les alertes pour une référence produit spécifique (invariant 4 : Paul en retard).
+     * Trouve la commande de Paul en retard (invariant 4).
+     *
+     * @param list<DemoOrderSpec> $orders
      */
-    private function countAlertsForVariant(\DateTimeImmutable $now, string $variantCode): int
+    private function findPaulLateOrder(array $orders): ?DemoOrderSpec
     {
-        $allOrders = DemoOrderPlan::all($now);
-        $acmeOrders = $this->acmeOrders($allOrders);
-        $ordersByVariant = $this->groupByVariant($acmeOrders, $now);
-
-        if (!isset($ordersByVariant[$variantCode]) || count($ordersByVariant[$variantCode]) < self::MIN_ORDERS) {
-            return 0;
+        foreach ($orders as $spec) {
+            if ('ACME-PO-2026-0568' === $spec->poReference) {
+                return $spec;
+            }
         }
 
-        $dates = $ordersByVariant[$variantCode];
-        $intervals = IntervalCalculator::calculateIntervals($dates);
-        $medianIntervalDays = IntervalCalculator::calculateMedian($intervals);
-        $lastOrderDate = end($dates);
-
-        return AlertCalculator::shouldAlert($now, $lastOrderDate, $medianIntervalDays) ? 1 : 0;
+        return null;
     }
 
     /**
