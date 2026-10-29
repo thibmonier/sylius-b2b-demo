@@ -6,16 +6,18 @@ on:
         - cron: "0 9 * * 1"
     workflow_dispatch: ~
 
-# US-239: minimal permissions (issues write, pull-requests read for gh pr list)
-permissions:
-    issues: write
-    contents: read
-    pull-requests: read
+# No default token permission: the job asks for what it needs (US-208).
+permissions: {}
 
 jobs:
     report:
         name: Generate stack versions report
         runs-on: ubuntu-latest
+        # US-239: minimal permissions (issues write, pull-requests read for gh pr list)
+        permissions:
+            contents: read
+            issues: write
+            pull-requests: read
         timeout-minutes: 10
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

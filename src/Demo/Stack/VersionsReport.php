@@ -66,20 +66,7 @@ MARKDOWN;
             };
         }
 
-        $patchesText = [] === $patches ? "Aucune mise à jour corrective\n" : implode("\n", $patches) . "\n";
-        $minorsText = [] === $minors ? "Aucune mise à jour mineure\n" : implode("\n", $minors) . "\n";
-        $majorsText = [] === $majors ? "Aucune mise à jour majeure\n" : implode("\n", $majors) . "\n";
-
-        return <<<MARKDOWN
-## 📦 Dépendances Composer
-
-### Mises à jour correctives (patch)
-{$patchesText}
-### Mises à jour mineures (minor)
-{$minorsText}
-### Mises à jour majeures (major)
-{$majorsText}
-MARKDOWN;
+        return $this->renderDependencySection('Dépendances Composer', $patches, $minors, $majors);
     }
 
     private function npmSection(): string
@@ -119,12 +106,22 @@ MARKDOWN;
             }
         }
 
+        return $this->renderDependencySection('Dépendances npm', $patches, $minors, $majors);
+    }
+
+    /**
+     * @param list<string> $patches
+     * @param list<string> $minors
+     * @param list<string> $majors
+     */
+    private function renderDependencySection(string $title, array $patches, array $minors, array $majors): string
+    {
         $patchesText = [] === $patches ? "Aucune mise à jour corrective\n" : implode("\n", $patches) . "\n";
         $minorsText = [] === $minors ? "Aucune mise à jour mineure\n" : implode("\n", $minors) . "\n";
         $majorsText = [] === $majors ? "Aucune mise à jour majeure\n" : implode("\n", $majors) . "\n";
 
         return <<<MARKDOWN
-## 📦 Dépendances npm
+## 📦 {$title}
 
 ### Mises à jour correctives (patch)
 {$patchesText}
