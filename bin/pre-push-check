@@ -1,0 +1,30 @@
+#!/bin/sh
+# Git pre-push hook of the demo (T-TECH-36-01): refuses any force-push, then runs ECS and PHPStan on the pushed tree.
+# Install: ln -sf ../../bin/pre-push-check .git/hooks/pre-push   (bin/pre-push-check --install does it)
+# Git gives "<local ref> <local sha> <remote ref> <remote sha>" lines on stdin.
+set -eu
+cd "$(dirname "$0")/.."
+[ -d .git ] || cd "$(git rev-parse --show-toplevel)"
+
+if [ "${1:-}" = "--install" ]; then
+    ln -sf ../../bin/pre-push-check .git/hooks/pre-push
+    echo "pre-push hook installed."
+    exit 0
+fi
+
+ZERO=0000000000000000000000000000000000000000
+while read -r LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA; do
+    [ -n "${LOCAL_REF:-}" ] || continue
+    [ "$LOCAL_SHA" != "$ZERO" ] || continue
+    [ "$REMOTE_SHA" != "$ZERO" ] || continue
+    if ! git merge-base --is-ancestor "$REMOTE_SHA" "$LOCAL_SHA" 2>/dev/null; then
+        echo "REFUSED: $REMOTE_REF would be rewritten (force-push). Fix with a new commit instead." >&2
+        exit 1
+    fi
+done
+
+if [ "${SKIP_PRE_PUSH_QUALITY:-0}" = 1 ]; then
+    exit 0
+fi
+vendor/bin/ecs check src tests || { echo "REFUSED: ECS fails, run vendor/bin/ecs check src tests --fix." >&2; exit 1; }
+php -d memory_limit=2G vendor/bin/phpstan analyse --no-progress || { echo "REFUSED: PHPStan fails." >&2; exit 1; }

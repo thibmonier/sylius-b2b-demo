@@ -64,6 +64,12 @@ if [ "$FULL" = 1 ] && [ "$FREE_KB" -lt $((FULL_MIN_GB * 1024 * 1024)) ]; then
     exit 1
 fi
 
+# Swap gate shared with the workers (T-TECH-36-05), after the disk thresholds above, which keep their own messages.
+if ! RESOURCES=$(sh bin/check-resources 2>&1); then
+    echo "$RESOURCES" >&2
+    exit 1
+fi
+
 DB_NAME="${TEST_DB_NAME:-sylius_b2b_demo_test}"
 case "$DB_NAME" in
     ''|*[!A-Za-z0-9_]*) echo "TEST_DB_NAME must only contain letters, digits and underscores." >&2; exit 1 ;;
