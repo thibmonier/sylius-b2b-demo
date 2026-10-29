@@ -182,7 +182,8 @@ final class DemoOrderHistory
         $poCounter = 1000; // High numbers to avoid conflicts with core orders
 
         // Gloves: every 14 days over 12 months (26 orders), last order 11 days ago
-        $gloveIntervals = array_fill(0, 25, 14); // 25 intervals of 14 days
+        // Array sized to stay within 365 days: 11 + 25*14 = 361 days
+        $gloveIntervals = array_fill(0, 25, 14);
         $gloveDaysAgo = 11; // Last order 11 days ago → alert in 3 days (14 - 11 = 3)
         foreach ($gloveIntervals as $interval) {
             $specs[] = new DemoOrderSpec(
@@ -194,13 +195,11 @@ final class DemoOrderHistory
                 'ATELIER-01',
             );
             $gloveDaysAgo += $interval;
-            if ($gloveDaysAgo > 365) {
-                break; // Stay within 12 months
-            }
         }
 
         // Vests: every 60 days over 12 months (6 orders), last order 58 days ago
-        $vestIntervals = array_fill(0, 5, 60); // 5 intervals of 60 days
+        // Array sized to stay within 365 days: 58 + 5*60 = 358 days
+        $vestIntervals = array_fill(0, 5, 60);
         $vestDaysAgo = 58; // Last order 58 days ago → alert in 2 days (60 - 58 = 2)
         foreach ($vestIntervals as $interval) {
             $specs[] = new DemoOrderSpec(
@@ -212,13 +211,10 @@ final class DemoOrderHistory
                 'ATELIER-01',
             );
             $vestDaysAgo += $interval;
-            if ($vestDaysAgo > 365) {
-                break;
-            }
         }
 
-        // Hardware: irregular 15-25 days over 12 months (20 orders)
-        $hardwareIntervals = [18, 22, 15, 25, 19, 21, 17, 24, 16, 23, 20, 18, 22, 15, 25, 19, 21, 17, 24, 16];
+        // Hardware: irregular 15-25 days over first 12 orders to stay within 365 days
+        $hardwareIntervals = [18, 22, 15, 25, 19, 21, 17, 24, 16, 23, 20, 18];
         $hardwareDaysAgo = 20; // Last order 20 days ago
         foreach ($hardwareIntervals as $interval) {
             $specs[] = new DemoOrderSpec(
@@ -230,9 +226,6 @@ final class DemoOrderHistory
                 'ATELIER-01',
             );
             $hardwareDaysAgo += $interval;
-            if ($hardwareDaysAgo > 365) {
-                break;
-            }
         }
 
         return $specs;

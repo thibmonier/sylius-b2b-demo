@@ -64,8 +64,16 @@ final class PredictiveRhythmsFixtureTest extends KernelTestCase
 
         $purchases = [];
         foreach ($rows as $row) {
-            $key = $row['company'] . '::' . $row['sku'];
-            $purchases[$key][] = new \DateTimeImmutable($row['checkout_completed_at']);
+            $company = $row['company'];
+            $sku = $row['sku'];
+            $checkoutDate = $row['checkout_completed_at'];
+
+            if (!\is_string($company) || !\is_string($sku) || !\is_string($checkoutDate)) {
+                throw new \RuntimeException('Unexpected data type from database query: company, sku and checkout_completed_at must be strings');
+            }
+
+            $key = $company . '::' . $sku;
+            $purchases[$key][] = new \DateTimeImmutable($checkoutDate);
         }
 
         $absurdIntervals = [];
