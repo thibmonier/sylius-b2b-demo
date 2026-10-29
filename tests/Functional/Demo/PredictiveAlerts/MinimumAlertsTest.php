@@ -7,12 +7,14 @@ namespace App\Tests\Functional\Demo\PredictiveAlerts;
 use App\Demo\Order\DemoOrderPlan;
 use App\Demo\Order\DemoOrderSpec;
 use PHPUnit\Framework\TestCase;
+use Tmonier\SyliusPredictiveAnalyticsPlugin\Calculator\AlertCalculator;
+use Tmonier\SyliusPredictiveAnalyticsPlugin\Calculator\IntervalCalculator;
 
 /**
  * US-240: the demo must show at least 2 reorder alerts on Claire's account whatever the day of the reset.
  *
- * This test sweeps 12 months (every 15 days) and verifies that the fixture history always produces
- * at least 2 alerts when the predictive analytics rules are applied.
+ * This test sweeps 365 days and verifies that the fixture history always produces
+ * at least 2 alerts when the predictive analytics rules (IntervalCalculator, AlertCalculator) are applied.
  *
  * It also verifies the tested invariants (≤ 55 Acme orders, August trough, same day of month, Paul overdue).
  */
@@ -21,19 +23,16 @@ final class MinimumAlertsTest extends TestCase
     /** Minimum de commandes pour calculer une prédiction (règle du plugin). */
     private const MIN_ORDERS = 3;
 
-    /** Fenêtre d'alerte : échéance dans les 7 jours (règle du ReorderAlertProvider). */
-    private const ALERT_WINDOW_DAYS = 7;
-
     /**
-     * US-240: au moins 2 alertes quelle que soit la date de remise à zéro (balayage sur 12 mois, tous les 15 jours).
+     * US-240: au moins 2 alertes quelle que soit la date de remise à zéro (balayage sur 365 jours, chaque jour).
      */
-    public function testTheDemoShowsAtLeastTwoAlertsOnAnyResetDayOverTwelveMonths(): void
+    public function testTheDemoShowsAtLeastTwoAlertsOnAnyResetDayOverFullYear(): void
     {
         $failures = [];
         $start = new \DateTimeImmutable('2026-01-01 10:00:00');
 
-        // Balayage de 12 mois, un pas tous les 15 jours (24 dates testées)
-        for ($offset = 0; $offset < 365; $offset += 15) {
+        // Balayage de 365 jours, chaque jour (365 dates testées)
+        for ($offset = 0; $offset < 365; ++$offset) {
             $now = $start->modify(sprintf('+%d days', $offset));
             $alertCount = $this->countAlertsForDate($now);
 
@@ -85,8 +84,9 @@ final class MinimumAlertsTest extends TestCase
         $later = new \DateTimeImmutable('2026-10-29 18:00:00');
         self::assertSame($this->signature($now), $this->signature($later), 'Orders must fall on the same days of the month');
 
-        // Invariant 4 : Paul en retard (commande de 48 jours en attente de paiement, dans les core orders)
-        // Vérifié par les tests existants de DemoOrderPlan::core() (non dupliqué ici)
+        // Invariant 4 : Paul en retard (PAPE-001 doit déclencher une alerte)
+        $paulAlerts = $this->countAlertsForVariant($now, 'PAPE-001');
+        self::assertGreaterThanOrEqual(1, $paulAlerts, 'Paul must be late (PAPE-001 alert expected)');
     }
 
     /**
@@ -108,21 +108,39 @@ final class MinimumAlertsTest extends TestCase
                 continue;
             }
 
-            // Calcul de l'intervalle médian (logique du plugin prédictif)
-            $intervals = $this->calculateIntervals($dates);
-            $medianIntervalDays = $this->calculateMedian($intervals);
+            // Utilisation des classes du plugin (vendor)
+            $intervals = IntervalCalculator::calculateIntervals($dates);
+            $medianIntervalDays = IntervalCalculator::calculateMedian($intervals);
             $lastOrderDate = end($dates);
 
-            // Date attendue : lastOrderDate + medianIntervalDays
-            $expectedDate = $this->calculateExpectedDate($lastOrderDate, $medianIntervalDays);
-
-            // Règle d'alerte : échéance ≤ now + 7 jours ET retard ≤ 1 intervalle médian
-            if ($this->isAlert($now, $expectedDate, $medianIntervalDays)) {
+            // Règle d'alerte du plugin
+            if (AlertCalculator::shouldAlert($now, $lastOrderDate, $medianIntervalDays)) {
                 $alerts[] = $variantCode;
             }
         }
 
         return count($alerts);
+    }
+
+    /**
+     * Compte les alertes pour une référence produit spécifique (invariant 4 : Paul en retard).
+     */
+    private function countAlertsForVariant(\DateTimeImmutable $now, string $variantCode): int
+    {
+        $allOrders = DemoOrderPlan::all($now);
+        $acmeOrders = $this->acmeOrders($allOrders);
+        $ordersByVariant = $this->groupByVariant($acmeOrders, $now);
+
+        if (!isset($ordersByVariant[$variantCode]) || count($ordersByVariant[$variantCode]) < self::MIN_ORDERS) {
+            return 0;
+        }
+
+        $dates = $ordersByVariant[$variantCode];
+        $intervals = IntervalCalculator::calculateIntervals($dates);
+        $medianIntervalDays = IntervalCalculator::calculateMedian($intervals);
+        $lastOrderDate = end($dates);
+
+        return AlertCalculator::shouldAlert($now, $lastOrderDate, $medianIntervalDays) ? 1 : 0;
     }
 
     /**
@@ -166,40 +184,6 @@ final class MinimumAlertsTest extends TestCase
     }
 
     /**
-     * Calcule la date attendue de réassort (règle du ReorderAlertProvider).
-     */
-    private function calculateExpectedDate(\DateTimeImmutable $lastOrderDate, float $medianIntervalDays): \DateTimeImmutable
-    {
-        $intervalDays = (int) $medianIntervalDays;
-        $intervalHours = (int) (($medianIntervalDays - $intervalDays) * 24);
-        $intervalSpec = sprintf('P%dDT%dH', $intervalDays, $intervalHours);
-
-        return $lastOrderDate->add(new \DateInterval($intervalSpec));
-    }
-
-    /**
-     * Vérifie si une prédiction déclenche une alerte (règle du ReorderAlertProvider).
-     *
-     * Critères :
-     * - Date attendue ≤ now + 7 jours (fenêtre d'alerte)
-     * - Date attendue ≥ now - medianIntervalDays (retard maximum toléré)
-     */
-    private function isAlert(\DateTimeImmutable $now, \DateTimeImmutable $expectedDate, float $medianIntervalDays): bool
-    {
-        $sevenDaysFromNow = $now->modify(sprintf('+%d days', self::ALERT_WINDOW_DAYS));
-
-        if ($expectedDate > $sevenDaysFromNow) {
-            return false; // Trop loin dans le futur
-        }
-
-        // Retard maximum accepté : un intervalle médian
-        $medianDays = (int) $medianIntervalDays;
-        $earliestDate = $now->modify(sprintf('-%d days', $medianDays));
-
-        return $expectedDate >= $earliestDate;
-    }
-
-    /**
      * Compte les commandes par mois calendaire.
      *
      * @param list<DemoOrderSpec> $acme
@@ -215,7 +199,8 @@ final class MinimumAlertsTest extends TestCase
 
         foreach ($acme as $spec) {
             // Ignore cancelled and pending approval orders (rule from DemoOrderHistoryTest)
-            if (in_array($spec->scenario->value, ['Cancelled', 'PendingApproval'], true)) {
+            $scenario = $spec->scenario;
+            if (null !== $scenario && in_array($scenario->value, ['Cancelled', 'PendingApproval'], true)) {
                 continue;
             }
 
@@ -243,57 +228,9 @@ final class MinimumAlertsTest extends TestCase
                 $spec->customerEmail,
                 json_encode($spec->items),
                 DemoOrderPlan::completedAt($now, $spec->daysAgo)->format('d'),
-                $spec->scenario->value,
+                $spec->scenario?->value ?? '',
             ]),
             $history,
         );
-    }
-
-    /**
-     * Calcule les intervalles en jours entre commandes successives (logique du plugin prédictif).
-     *
-     * @param list<\DateTimeImmutable> $dates Dates triées par ordre chronologique
-     *
-     * @return list<int> Intervalles en jours
-     */
-    private function calculateIntervals(array $dates): array
-    {
-        $intervals = [];
-
-        for ($i = 1, $count = count($dates); $i < $count; ++$i) {
-            $interval = $dates[$i]->diff($dates[$i - 1])->days;
-            $intervals[] = $interval;
-        }
-
-        return $intervals;
-    }
-
-    /**
-     * Calcule la médiane d'un tableau d'entiers (logique du plugin prédictif).
-     *
-     * @param list<int> $values
-     *
-     * @return float Médiane (peut être décimale : 21.5)
-     */
-    private function calculateMedian(array $values): float
-    {
-        if ([] === $values) {
-            throw new \InvalidArgumentException('Cannot calculate median of empty array');
-        }
-
-        $sorted = $values;
-        sort($sorted);
-        $count = count($sorted);
-
-        if (0 === $count % 2) {
-            // Nombre pair : moyenne des deux valeurs centrales (pas arrondie)
-            $mid1 = $sorted[$count / 2 - 1];
-            $mid2 = $sorted[$count / 2];
-
-            return ($mid1 + $mid2) / 2;
-        }
-
-        // Nombre impair : valeur centrale
-        return (float) $sorted[(int) floor($count / 2)];
     }
 }
