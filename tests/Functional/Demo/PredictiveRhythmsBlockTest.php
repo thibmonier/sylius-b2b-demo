@@ -7,11 +7,9 @@ namespace App\Tests\Functional\Demo;
 use App\Tests\Support\IsolatesSharedAccounts;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\ProductVariantInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
-use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface;
-use Tmonier\SyliusPredictiveAnalyticsPlugin\Entity\StoredPrediction;
 
 /**
  * US-219: the reorder alerts block appears on Claire's account dashboard when a prediction is in the 7-day window.
@@ -30,35 +28,35 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
      */
     public function testReorderAlertsBlockAppearsWhenPredictionIsInWindow(): void
     {
-        // Arrange: update the existing prediction for Claire (Acme + EPI-GANT-001) to place it in the 7-day window
-        $em = self::getContainer()->get(EntityManagerInterface::class);
+        // Arrange: create client first (before any kernel boot)
+        self::ensureKernelShutdown();
+        $client = self::createClient();
+        $this->isolateSharedAccounts($client);
+
+        // Get EntityManager via client container
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         \assert($em instanceof EntityManagerInterface);
+        $connection = $em->getConnection();
 
-        $company = $em->getRepository(CompanyInterface::class)->findOneBy(['name' => 'Acme Industries']);
-        \assert($company instanceof CompanyInterface);
+        // Get IDs for Acme and EPI-GANT-001
+        $companyId = $connection->fetchOne('SELECT id FROM tmonier_company WHERE name = ?', ['Acme Industries']);
+        self::assertIsInt($companyId, 'Acme Industries must exist in fixtures.');
+        $variantId = $connection->fetchOne('SELECT id FROM sylius_product_variant WHERE code = ?', ['EPI-GANT-001']);
+        self::assertIsInt($variantId, 'EPI-GANT-001 must exist in fixtures.');
 
-        // Take any variant ordered by Acme (EPI-GANT-001 is in the fixtures)
-        $variant = $em->getRepository(ProductVariantInterface::class)->findOneBy(['code' => 'EPI-GANT-001']);
-        \assert($variant instanceof ProductVariantInterface);
+        // Update the existing prediction: median 14 days, last order 12 days ago → next in 2 days (within 7-day window)
+        $lastOrderDate = (new \DateTimeImmutable())->modify('-12 days')->format('Y-m-d H:i:s');
+        $connection->executeStatement(
+            'UPDATE tmonier_predictive_stored_prediction
+             SET median_interval_days = ?, last_order_date = ?
+             WHERE company_id = ? AND variant_id = ?',
+            [14.0, $lastOrderDate, $companyId, $variantId],
+        );
 
-        // Find the existing prediction created by the demo reset recalculation
-        $prediction = $em->getRepository(StoredPrediction::class)->findOneBy([
-            'company' => $company,
-            'variant' => $variant,
-        ]);
-        \assert($prediction instanceof StoredPrediction);
-
-        // Update it: median 14 days, last order 12 days ago → next in 2 days (within 7-day window)
-        $reflection = new \ReflectionClass($prediction);
-        $medianProperty = $reflection->getProperty('medianIntervalDays');
-        $medianProperty->setValue($prediction, 14.0);
-        $lastOrderProperty = $reflection->getProperty('lastOrderDate');
-        $lastOrderProperty->setValue($prediction, (new \DateTimeImmutable())->modify('-12 days'));
-
-        $em->flush();
-
-        // Act: load Claire's account dashboard
-        $page = $this->page(self::CLAIRE);
+        // Act: login as Claire and load her account dashboard
+        $this->login($client, self::CLAIRE);
+        $page = $client->request('GET', self::DASHBOARD);
+        self::assertResponseIsSuccessful();
 
         // Assert: the reorder alerts block appears
         $block = $page->filter('[data-test="reorder-alerts"]');
@@ -73,18 +71,15 @@ final class PredictiveRhythmsBlockTest extends WebTestCase
         self::assertStringContainsString('Gants', $productName, 'The product name must appear in the alert (EPI-GANT-001).');
     }
 
-    private function page(string $email): Crawler
+    private function login(KernelBrowser $client, string $email): void
     {
-        $client = self::createClient();
-        $em = self::getContainer()->get(EntityManagerInterface::class);
+        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         self::assertInstanceOf(EntityManagerInterface::class, $em);
         $customer = $em->getRepository(CustomerInterface::class)->findOneBy(['emailCanonical' => $email]);
         self::assertInstanceOf(CustomerInterface::class, $customer, $email . ' must exist (demo fixtures).');
         $user = $customer->getUser();
         self::assertNotNull($user);
         $client->loginUser($user, 'shop');
-
-        return $client->request('GET', self::DASHBOARD);
     }
 
     private function text(Crawler $node): string
