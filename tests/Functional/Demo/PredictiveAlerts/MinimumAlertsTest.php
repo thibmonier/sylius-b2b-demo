@@ -199,8 +199,7 @@ final class MinimumAlertsTest extends TestCase
 
         foreach ($acme as $spec) {
             // Ignore cancelled and pending approval orders (rule from DemoOrderHistoryTest)
-            $scenario = $spec->scenario;
-            if (null !== $scenario && in_array($scenario->value, ['Cancelled', 'PendingApproval'], true)) {
+            if (in_array($spec->scenario->value, ['cancelled', 'pending_approval'], true)) {
                 continue;
             }
 
@@ -228,7 +227,7 @@ final class MinimumAlertsTest extends TestCase
                 $spec->customerEmail,
                 json_encode($spec->items),
                 DemoOrderPlan::completedAt($now, $spec->daysAgo)->format('d'),
-                $spec->scenario?->value ?? '',
+                $spec->scenario->value,
             ]),
             $history,
         );
