@@ -64,6 +64,18 @@ parameters:
               fr: "Connectez un assistant IA à votre compte acheteur, puis demandez-lui de lister vos commandes et de recommander l'une d'elles."
               en: "Connect an AI assistant to your buyer account, then ask it to list your orders and reorder one."
           advised_account: claire@acme.example
+        - slug: sylius-b2b-predictive-analytics-plugin
+          structured_data: false
+          name: 'Predictive Analytics'
+          category: purchasing
+          description:
+              fr: "Commerce prédictif B2B : analyse les rythmes d'achat par référence et par entreprise, calcul d'intervalle médian explicable, date attendue de réassort, alertes « À réassortir bientôt » dans Mon compte avec bouton de panier pré-rempli, masquage d'alertes et recalcul planifié. Règles explicables : « commandé 5 fois, tous les 28 jours en médiane »."
+              en: 'B2B predictive analytics: analyzes purchase rhythms per reference and per company, explainable median interval calculation, expected reorder date, "To reorder soon" alerts in My Account with pre-filled cart button, alert dismissal and scheduled recalculation. Explainable rules: "ordered 5 times, every 28 days on median".'
+          demo_route: sylius_shop_account_dashboard
+          scenario:
+              fr: "Ouvrez Mon compte : le bloc « À réassortir bientôt » affiche les références attendues dans les 7 jours avec leur explication (« vous en commandez tous les 28 jours »). Cliquez « Préparer le panier » pour ajouter la quantité habituelle au panier."
+              en: 'Open My Account: the "To reorder soon" block shows references expected within 7 days with their explanation ("you order them every 28 days"). Click "Prepare cart" to add the usual quantity to the cart.'
+          advised_account: claire@acme.example
         - slug: sylius-bulk-actions-plugin
           name: 'Bulk Actions'
           category: admin

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc41bdc129fac737d84c6b387b20b97d",
+    "content-hash": "30a8bf82a28fd147651870aadd422e00",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -16935,6 +16935,85 @@
                 "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/tree/v1.2.2"
             },
             "time": "2026-10-21T12:08:27+00:00"
+        },
+        {
+            "name": "tmonier/sylius-b2b-predictive-analytics-plugin",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin.git",
+                "reference": "c16c4783ad246a5d90007b76169667b03d728a1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-predictive-analytics-plugin/zipball/c16c4783ad246a5d90007b76169667b03d728a1e",
+                "reference": "c16c4783ad246a5d90007b76169667b03d728a1e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "sylius/sylius": "^2.2.9 || ^2.3",
+                "tmonier/sylius-company-accounts-plugin": "^1.1",
+                "tmonier/sylius-company-insights-plugin": "^0.2"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^7.4 || ^8.0",
+                "symfony/css-selector": "^7.4 || ^8.0",
+                "symfony/debug-bundle": "^7.4 || ^8.0",
+                "symfony/dom-crawler": "^7.4 || ^8.0",
+                "symfony/dotenv": "^7.4 || ^8.0",
+                "symfony/http-client": "^7.4 || ^8.0",
+                "symfony/intl": "^7.4 || ^8.0",
+                "symfony/runtime": "^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusPredictiveAnalyticsPlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Predictive reorder analytics for Sylius 2 B2B: median interval calculation between successive orders per company and product, scheduled recalculation, reorder alerts",
+            "keywords": [
+                "analytics",
+                "b2b",
+                "predictive-analytics",
+                "purchase-prediction",
+                "reorder",
+                "sylius",
+                "sylius-plugin"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/v0.1.0"
+            },
+            "time": "2026-10-29T12:29:04+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",

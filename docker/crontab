@@ -14,6 +14,7 @@ CRON_TZ=Europe/Paris
 15 4 * * * php /app/bin/console tmonier:approval:expire --no-interaction
 20 4 * * * php /app/bin/console tmonier:quote-request:expire --no-interaction
 25 4 * * * php /app/bin/console tmonier:trade-credit:send-reminders --no-interaction
+30 4 * * * php /app/bin/console tmonier:predictive:recalculate --no-interaction
 35 4 * * * php /app/bin/console tmonier:trade-credit:recalculate --apply --no-interaction
 
 # Purges

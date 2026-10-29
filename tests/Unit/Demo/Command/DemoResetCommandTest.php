@@ -19,12 +19,14 @@ use Psr\Log\NullLogger;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
+use Tmonier\SyliusPredictiveAnalyticsPlugin\Calculator\PredictiveReorderCalculatorInterface;
 
 /**
  * Unit tests for DemoResetCommand (US-012 / T-012-08, T-012-09).
@@ -54,6 +56,12 @@ final class DemoResetCommandTest extends TestCase
 
     private Connection&MockObject $connection;
 
+    /** @var PredictiveReorderCalculatorInterface&MockObject */
+    private PredictiveReorderCalculatorInterface $predictiveCalculator;
+
+    /** @var RepositoryInterface&MockObject */
+    private RepositoryInterface $companyRepository;
+
     private DemoResetCommand $command;
 
     private string $statusFile;
@@ -71,6 +79,8 @@ final class DemoResetCommandTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->connection = $this->createMock(Connection::class);
+        $this->predictiveCalculator = $this->createMock(PredictiveReorderCalculatorInterface::class);
+        $this->companyRepository = $this->createMock(RepositoryInterface::class);
 
         $this->command = $this->command(true);
     }
@@ -82,7 +92,7 @@ final class DemoResetCommandTest extends TestCase
             {
                 return [];
             }
-        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))), new ConsoleSubprocess($this->projectDir, 'test'), new ResetLock($this->statusFile . '.lock'));
+        }, new Filesystem(), new NullLogger(), sys_get_temp_dir() . '/absent-images-' . bin2hex(random_bytes(4))), new ConsoleSubprocess($this->projectDir, 'test'), new ResetLock($this->statusFile . '.lock'), $this->predictiveCalculator, $this->companyRepository);
     }
 
     protected function tearDown(): void
@@ -279,6 +289,44 @@ final class DemoResetCommandTest extends TestCase
     private function loadFixtures(): void
     {
         $this->suiteRegistry->method('getSuite')->willReturn($this->createMock(SuiteInterface::class));
+    }
+
+    // -------------------------------------------------------------------------
+    // US-219 — predictive analytics recalculation after fixture load
+    // -------------------------------------------------------------------------
+
+    public function testFixtureLoadTriggersRecalculationForEachCompany(): void
+    {
+        // Arrange: build fake application with cache commands
+        $app = $this->buildFakeApplication();
+        $this->loadFixtures();
+
+        // Create mock companies
+        $company1 = $this->createMock(\Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface::class);
+        $company2 = $this->createMock(\Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface::class);
+
+        // Expect repository to return 2 companies
+        $this->companyRepository->expects(self::once())
+            ->method('findAll')
+            ->willReturn([$company1, $company2]);
+
+        // Expect calculator to be called once for each company
+        $this->predictiveCalculator->expects(self::exactly(2))
+            ->method('recalculateForCompany')
+            ->willReturnCallback(static function ($company) use ($company1, $company2): int {
+                self::assertContains($company, [$company1, $company2], 'recalculateForCompany must be called with each company from the repository.');
+
+                return 5; // Return a prediction count
+            });
+
+        $tester = new CommandTester($this->command);
+
+        // Act: execute without dry-run to trigger fixture load + recalculation
+        $exitCode = $tester->execute(['--no-media' => true]);
+
+        // Assert
+        self::assertSame(Command::SUCCESS, $exitCode);
+        self::assertStringContainsString('Predictive analytics:', $tester->getDisplay(), 'The recalculation message must appear in the output.');
     }
 
     // -------------------------------------------------------------------------

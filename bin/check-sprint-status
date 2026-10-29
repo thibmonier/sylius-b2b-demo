@@ -1,0 +1,84 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// T-TECH-35-04 (rétro du sprint 34) : valide .bmad/sprint-status.yaml après chaque écriture de planning ou de statuts.
+// Usage : bin/check-sprint-status [chemin]   (code 0 si valide, 1 sinon, avec la liste des écarts)
+
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$path = $argv[1] ?? dirname(__DIR__) . '/.bmad/sprint-status.yaml';
+
+try {
+    $data = Yaml::parseFile($path);
+} catch (ParseException $exception) {
+    fwrite(STDERR, sprintf("YAML illisible : %s\n", $exception->getMessage()));
+    exit(1);
+}
+
+$errors = [];
+
+if (!is_array($data)) {
+    $errors[] = 'la racine doit être une table';
+    $data = [];
+}
+
+foreach (['current_sprint', 'sprints', 'backlog'] as $key) {
+    if (!array_key_exists($key, $data)) {
+        $errors[] = sprintf('clé racine « %s » absente', $key);
+    }
+}
+
+$sprints = $data['sprints'] ?? [];
+if (!is_array($sprints) || array_is_list($sprints)) {
+    $errors[] = '« sprints » doit être une table indexée par sprint-N';
+    $sprints = [];
+}
+
+foreach ($sprints as $sprintKey => $sprint) {
+    if (!is_array($sprint)) {
+        $errors[] = sprintf('%s : entrée invalide', $sprintKey);
+
+        continue;
+    }
+
+    foreach (['name', 'status', 'stories'] as $field) {
+        if (!array_key_exists($field, $sprint)) {
+            $errors[] = sprintf('%s : champ « %s » absent', $sprintKey, $field);
+        }
+    }
+
+    foreach (is_array($sprint['stories'] ?? null) ? $sprint['stories'] : [] as $index => $story) {
+        if (!is_array($story) || !isset($story['id'], $story['status'])) {
+            $errors[] = sprintf('%s : story n° %d sans id ni statut', $sprintKey, $index + 1);
+        }
+    }
+}
+
+$current = $data['current_sprint'] ?? null;
+if (null !== $current && [] !== $sprints && !array_key_exists('sprint-' . $current, $sprints)) {
+    $errors[] = sprintf('current_sprint %s sans entrée sprint-%s dans « sprints »', $current, $current);
+}
+
+$backlog = $data['backlog'] ?? [];
+if (!is_array($backlog) || ([] !== $backlog && !array_is_list($backlog))) {
+    $errors[] = '« backlog » doit être une liste de stories (un bloc de sprint y est-il tombé ?)';
+    $backlog = [];
+}
+
+foreach ($backlog as $index => $story) {
+    if (!is_array($story) || !isset($story['id'], $story['status'])) {
+        $errors[] = sprintf('backlog : élément n° %d sans id ni statut (un bloc de sprint y est-il tombé ?)', $index + 1);
+    }
+}
+
+if ([] !== $errors) {
+    fwrite(STDERR, sprintf("%s invalide :\n- %s\n", $path, implode("\n- ", $errors)));
+    exit(1);
+}
+
+printf("%s valide : %d sprints, %d stories au backlog.\n", $path, count($sprints), count($backlog));

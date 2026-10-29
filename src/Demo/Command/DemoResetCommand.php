@@ -9,6 +9,7 @@ use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -19,6 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Throwable;
+use Tmonier\SyliusCompanyAccountsPlugin\Entity\CompanyInterface;
+use Tmonier\SyliusPredictiveAnalyticsPlugin\Calculator\PredictiveReorderCalculatorInterface;
 
 /**
  * Resets the demo environment to its initial state (US-012, US-033).
@@ -62,6 +65,8 @@ final class DemoResetCommand extends Command
         private readonly OrphanImagePurger $imagePurger,
         private readonly ConsoleSubprocess $subprocess,
         private readonly ResetLock $lock,
+        private readonly PredictiveReorderCalculatorInterface $predictiveCalculator,
+        private readonly RepositoryInterface $companyRepository,
     ) {
         parent::__construct();
     }
@@ -193,6 +198,10 @@ final class DemoResetCommand extends Command
             }
 
             $this->connection->commit();
+
+            // Recalculate predictive analytics alerts based on the just-loaded fixture history (US-219).
+            // Without this, the demo reset at 3:00 AM would show zero alerts until the cron at 4:30 AM runs.
+            $this->recalculatePredictions($io);
         } catch (Throwable $e) {
             if ($this->connection->isTransactionActive()) {
                 $this->connection->rollBack();
@@ -269,6 +278,23 @@ final class DemoResetCommand extends Command
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+
+    /**
+     * Recalculates predictive analytics for all companies (US-219).
+     */
+    private function recalculatePredictions(SymfonyStyle $io): void
+    {
+        $companies = $this->companyRepository->findAll();
+        $totalPredictions = 0;
+
+        foreach ($companies as $company) {
+            \assert($company instanceof CompanyInterface);
+            $count = $this->predictiveCalculator->recalculateForCompany($company);
+            $totalPredictions += $count;
+        }
+
+        $io->text(\sprintf('Predictive analytics: %d prediction%s recalculated.', $totalPredictions, $totalPredictions > 1 ? 's' : ''));
+    }
 
     private function runInSubprocess(string $name, OutputInterface $output, bool $dryRun): void
     {
