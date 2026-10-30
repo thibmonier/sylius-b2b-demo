@@ -88,12 +88,13 @@ final class RenderPageTest extends TestCase
         // by checking that a non-existent database name causes a connection error.
         // The MySQL port of the running test database is passed on (3306 in CI, 3340 locally),
         // otherwise the connection is refused before the database name is checked.
-        $databasePort = parse_url((string) ($_SERVER['DATABASE_URL'] ?? ''), \PHP_URL_PORT);
+        $databaseUrl = $_SERVER['DATABASE_URL'] ?? '';
+        $databasePort = \is_string($databaseUrl) ? parse_url($databaseUrl, \PHP_URL_PORT) : null;
         $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], [
             'APP_ENV' => 'test',
             'WORKER_ID' => 'test',
             'TEST_DB_NAME' => 'nonexistent_db_xyz',
-            'MYSQL_PORT' => (string) ($databasePort ?? 3340),
+            'MYSQL_PORT' => (string) (\is_int($databasePort) ? $databasePort : 3340),
             'APP_CACHE_DIR' => false,
         ]);
 
