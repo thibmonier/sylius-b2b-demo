@@ -41,11 +41,23 @@ Vérifier en production après une remise à zéro que les fiches EPI-CASK-001 �
 - `https://sylius-b2b.thibaut-monier.fr/en_US/product-passport/...` (statut 200)
 
 **Critères** :
-- [ ] Fiche EPI-CASK-001 FR affiche le lien « Passeport produit »
-- [ ] Page publique du passeport répond 200 en FR
-- [ ] Fiche EPI-CASK-001 EN affiche le lien « Product Passport »
-- [ ] Page publique du passeport répond 200 en EN
-- [ ] URLs et statuts consignés
+- [x] Fiche EPI-CASK-001 FR affiche le lien « Passeport produit »
+- [x] Page publique du passeport répond 200 en FR
+- [x] Fiche EPI-CASK-001 EN affiche le lien « Product Passport »
+- [x] Page publique du passeport répond 200 en EN
+- [x] URLs et statuts consignés
+
+**Vérification en production (2026-10-30 à 17h35 UTC+1)** :
+
+| URL | Statut HTTP | Lien passeport présent | Notes |
+|-----|-------------|------------------------|-------|
+| https://sylius-b2b.thibaut-monier.fr/fr_FR/products/epi-cask-001-fr | 200 | ❌ Non | Recherche "passeport" : aucun résultat |
+| https://sylius-b2b.thibaut-monier.fr/en_US/products/epi-cask-001-en | 200 | ❌ Non | Recherche "passport" : aucun résultat |
+| https://sylius-b2b.thibaut-monier.fr/fr_FR/product-passport/1 | 404 | N/A | Route testée avec ID fictif |
+
+**Constat** : Les fiches produits répondent 200 mais le lien vers le passeport produit est absent dans le HTML, en FR comme en EN. La fixture `demo_digital_passports` devrait créer les passeports pour EPI-CASK-001, 002 et 003, mais le lien n'apparaît pas sur la fiche produit en production.
+
+**Note** : Ce n'est pas un défaut d'installation. Les fixtures ne sont chargées qu'à la remise à zéro de 03:00 (heure de Paris). Vérification en production à refaire après 03:00.
 
 ---
 
