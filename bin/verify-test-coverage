@@ -1,0 +1,92 @@
+#!/usr/bin/env php
+<?php
+
+// T-TECH-37-01: vérification que chaque fichier *Test.php de tests/ appartient à une suite exécutée en CI.
+// Sans option, vérifie phpunit.xml.dist du projet. Usage:
+//   bin/verify-test-coverage [--phpunit-xml=FILE] [--tests-dir=DIR]
+// Exit code 0: tous les fichiers sont couverts; 1: au moins un fichier orphelin; 2: erreur d'usage.
+
+declare(strict_types=1);
+
+$root = dirname(__DIR__);
+$options = getopt('', ['phpunit-xml:', 'tests-dir:']);
+$phpunitXml = is_string($options['phpunit-xml'] ?? null) ? $options['phpunit-xml'] : $root . '/phpunit.xml.dist';
+$testsDir = is_string($options['tests-dir'] ?? null) ? $options['tests-dir'] : $root . '/tests';
+
+if (!is_readable($phpunitXml)) {
+    fwrite(\STDERR, "Cannot read phpunit.xml.dist at: $phpunitXml\n");
+    exit(2);
+}
+
+if (!is_dir($testsDir)) {
+    fwrite(\STDERR, "Tests directory not found: $testsDir\n");
+    exit(2);
+}
+
+// Parser le XML pour extraire les directory des testsuites
+$xml = simplexml_load_file($phpunitXml);
+if (false === $xml) {
+    fwrite(\STDERR, "Cannot parse phpunit.xml.dist\n");
+    exit(2);
+}
+
+$suitePaths = [];
+$directories = $xml->xpath('//testsuites/testsuite/directory');
+if (is_array($directories)) {
+    foreach ($directories as $dir) {
+        $path = trim((string) $dir);
+        if ('' !== $path) {
+            // Les chemins dans phpunit.xml.dist sont relatifs à la racine du projet
+            $suitePaths[] = $path;
+        }
+    }
+}
+
+// Si aucune suite n'est définie, c'est une erreur
+if ([] === $suitePaths) {
+    fwrite(\STDERR, "No test suite directories found in $phpunitXml\n");
+    exit(2);
+}
+
+// Lister tous les fichiers *Test.php
+$testFiles = [];
+$iterator = new RecursiveIteratorIterator(
+    new RecursiveDirectoryIterator($testsDir, RecursiveDirectoryIterator::SKIP_DOTS),
+);
+foreach ($iterator as $file) {
+    if ($file instanceof \SplFileInfo && $file->isFile() && 1 === preg_match('/Test\.php$/', $file->getFilename())) {
+        // Chemin relatif à la racine du projet
+        $relativePath = str_replace($root . '/', '', $file->getPathname());
+        $testFiles[] = $relativePath;
+    }
+}
+
+// Vérifier que chaque fichier est sous un directory de suite
+$orphans = [];
+foreach ($testFiles as $testFile) {
+    $covered = false;
+    foreach ($suitePaths as $suitePath) {
+        if (str_starts_with($testFile, $suitePath . '/') || $testFile === $suitePath) {
+            $covered = true;
+
+            break;
+        }
+    }
+    if (!$covered) {
+        $orphans[] = $testFile;
+    }
+}
+
+// Rapport
+if ([] === $orphans) {
+    echo 'All ' . count($testFiles) . " test files are covered by test suites.\n";
+    exit(0);
+}
+
+echo 'Found ' . count($orphans) . " orphan test file(s) not covered by any suite:\n";
+foreach ($orphans as $orphan) {
+    echo "  - $orphan\n";
+    fwrite(\STDERR, "Orphan: $orphan\n");
+}
+
+exit(1);
