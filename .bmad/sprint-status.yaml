@@ -469,7 +469,7 @@ sprints:
     sprint_id: "sprint-28"
     start_date: "2026-10-25"
     end_date: "2026-11-21"  # au plus tard ; clôture dès que le périmètre est vérifié
-    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 48 tâches, 34,2 h dont 0,95 h de Thibaut (33,25 h pour Claude) ; vélocité de référence : S24 19, S25 17, S26 29, S27 13
+    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 43 tâches, 34,2 h dont 0,95 h de Thibaut (33,25 h pour Claude) ; vélocité de référence : S24 19, S25 17, S26 29, S27 13
     goal: "Présenter un catalogue crédible, avec des noms de produits sans marque réelle et une photo cohérente par famille, et fermer la boucle de l'échange avec l'ERP fictif : un fichier de prix et de stock est importé par le plugin, avec rapport de rejet et journal des lots, sans aucun système réel"
     stories:
       - {id: US-195, title: "Noms de produits sans marque réelle", points: 2, status: done}  # LIVRÉE le 2026-10-25 (#104, 816bb6b) : 86 noms réécrits, mpn DEMO-<SKU>, liste noire config/demo/forbidden-brands.txt et garde ; contrôle de production T-195-06 après la remise à zéro du 2026-10-26 ; EPIC-12, Should, protégée ; 77 produits sur 210 ; SKU et slugs inchangés ; test de garde (liste noire)
@@ -507,11 +507,11 @@ sprints:
 
   sprint-31:
     name: sprint-31-chaine-approvisionnement-et-comptes  # chaîne d'approvisionnement PHP de la démo, pages de compte des plugins alignées sur « Mon compte », refonte de la page « Plugins », actions de la rétro du sprint 30
-    status: review  # planifié le 2026-10-27 ; code livré sur feature/sprint-31-dev (PR #125, brouillon, CI verte) ; revue et rétrospective faites le 2026-10-27 ; 48 tâches : 33 ✅, 7 🟡, 8 📅 (contrôles après fusion) ; fusion sur GO de Thibaut
+    status: review  # planifié le 2026-10-27 ; code livré sur feature/sprint-31-dev (PR #125, brouillon, CI verte) ; revue et rétrospective faites le 2026-10-27 ; 43 tâches : 33 ✅, 7 🟡, 8 📅 (contrôles après fusion) ; fusion sur GO de Thibaut
     sprint_id: "sprint-31"
     start_date: "2026-10-27"
     end_date: "2026-11-09"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
-    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 48 tâches, 36,25 h dont 1,25 h de Thibaut (35 h pour Claude), marge de 0,3 h ; vélocité de référence : S26 29, S27 13, S28 13, S29 13, S30 13
+    capacity_points: 13  # 35,3 h de capacité (13 × 2,1 h + 8 h transverses) ; charge décomposée : 43 tâches, 36,25 h dont 1,25 h de Thibaut (35 h pour Claude), marge de 0,3 h ; vélocité de référence : S26 29, S27 13, S28 13, S29 13, S30 13
     goal: "Fermer les portes d'entrée de la chaîne d'approvisionnement PHP de la démo (verrou, plugins Composer, workflows), et donner aux pages de compte des plugins et à la page « Plugins » la charte de « Mon compte » et de la home, avec des maquettes validées avant le code"
     stories:
       - {id: US-208, title: "Chaîne d'approvisionnement PHP : politique Composer, revue du verrou et durcissement des workflows", points: 5, status: done}  # DONE le 2026-10-28 : contrôles de production du 2026-10-28 (PR #126), T-208-11 fait par Thibaut ; Sprint 31, protégée ; EPIC-10, Should ; demande de Thibaut du 2026-10-27 (article supply chain PHP / Packagist 2026) ; suite d'US-081 ; plugins hors périmètre (story de suivi possible) ; REVIEW le 2026-10-27 : code livré sur feature/sprint-31-dev, contrôles post-fusion (image reconstruite, production) restants
@@ -602,24 +602,27 @@ sprints:
 
   sprint-37:
     name: sprint-37-copilote-et-passeport
-    status: planning  # planifié le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-37-copilote-et-passeport (déjà créée) ; à décomposer au planning
+    status: planning  # planifié et décomposé le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-37-copilote-et-passeport (déjà créée) ; 43 tâches, 32 h (31 h Claude, 1 h Thibaut), marge 4,3 h
     sprint_id: "sprint-37"
     start_date: "2026-10-30"
     end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_hours: 35.3  # 13 × 2,1 h + 8 h transverses
     capacity_points: 13  # vélocité de référence : S31 13, S32 9, S33 13, S34 9, S35 8, S36 11
+    charge_hours: 32  # 43 tâches décomposées le 2026-10-30 : 31 h Claude + 1 h Thibaut
+    margin_hours: 4.3  # 12,2 % de marge
     goal: "Lancer le copilote d'achat B2B avec son widget du compte et son adaptateur rejoué, compléter le passeport numérique produit avec QR, lien GS1 Digital Link et pièces compatibles, et installer le plugin passeport dans la démo"
     stories:
-      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: ready-for-dev}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut
-      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin
-      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié
-      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: backlog}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231
+      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, tasks: 15, hours: 11, status: ready-for-dev}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut
+      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin
+      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié
+      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, tasks: 7, hours: 4, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231
     sprint_tasks:
-      - {id: T-TECH-37-01, title: "Vérification automatique que chaque fichier de tests/ appartient à une suite exécutée en CI", type: OPS, status: backlog}  # action 1 de la rétro du sprint 36
-      - {id: T-TECH-37-02, title: "Squelette de plugin avec e2e_js: yes et suite all par défaut", type: OPS, status: backlog}  # action 2 de la rétro du sprint 36
-      - {id: T-TECH-37-03, title: "Contrôle de conformité des rapports de workers", type: OPS, status: backlog}  # action 3 de la rétro du sprint 36
-      - {id: T-TECH-37-04, title: "bin/render-page respecte TEST_DB_NAME", type: OPS, status: backlog}  # action 4 de la rétro du sprint 36
-      - {id: T-TECH-37-05, title: "Règle 42 : vérifier .gitignore au premier commit d'un nouveau dépôt", type: DOC, status: backlog}  # action 5 de la rétro du sprint 36
-    notes: "PLANIFIÉ le 2026-10-30 : périmètre 13 points décidé par Thibaut (US-211, US-232, US-233, US-241). À décomposer au planning. Actions de rétro S36 : T-TECH-37-01 à 05. Portes : GO du dépôt copilote demandé avant sa création ; tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement ; au plus deux workers lancent des tests en même temps. US-212 reportée au sprint 38. Ordre d'exécution recommandé : transverses (parallèles), puis US-211 (après GO dépôt), puis US-232 ∥ US-233 (après US-231 fusionnée au sprint 36), puis US-241 (après US-232 et US-233). 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13."
+      - {id: T-TECH-37-01, title: "Vérification automatique que chaque fichier de tests/ appartient à une suite exécutée en CI", type: TEST, hours: 1, status: ready-for-dev}  # action 1 de la rétro du sprint 36
+      - {id: T-TECH-37-02, title: "Squelette de plugin avec e2e_js: yes et suite all par défaut", type: DOC, hours: 0.5, status: ready-for-dev}  # action 2 de la rétro du sprint 36
+      - {id: T-TECH-37-03, title: "Contrôle de conformité des rapports de workers", type: TEST, hours: 0.75, status: ready-for-dev}  # action 3 de la rétro du sprint 36
+      - {id: T-TECH-37-04, title: "bin/render-page respecte TEST_DB_NAME", type: BE, hours: 0.75, status: ready-for-dev}  # action 4 de la rétro du sprint 36
+      - {id: T-TECH-37-05, title: "Règle 42 : vérifier .gitignore au premier commit d'un nouveau dépôt", type: DOC, hours: 0.5, status: ready-for-dev}  # action 5 de la rétro du sprint 36
+    notes: "DÉCOMPOSÉ le 2026-10-30 : 43 tâches, 32 h (31 h Claude, 1 h Thibaut) pour 35,3 h de capacité, marge de 4,3 h (12,2 %). Actions de rétro S36 : T-TECH-37-01 à 05. Portes : GO du dépôt copilote demandé avant sa création ; tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement ; au plus deux workers lancent des tests en même temps. US-212 reportée au sprint 38. Ordre d'exécution recommandé : transverses (parallèles), puis US-241 (pas de dépendance avec US-232/233), puis US-211 (après GO dépôt), puis US-232 ∥ US-233 (même dépôt, séquentielles). 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
