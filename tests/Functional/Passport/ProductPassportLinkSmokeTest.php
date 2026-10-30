@@ -22,7 +22,9 @@ final class ProductPassportLinkSmokeTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         // Step 2: Find and click the passport link
-        $link = $crawler->selectLink('Passeport Produit')->link();
+        $links = $crawler->selectLink('Passeport Produit');
+        self::assertGreaterThan(0, $links->count(), 'The product page should show a "Passeport Produit" link');
+        $link = $links->link();
         $client->click($link);
 
         // Step 3: Verify the passport page responds 200
@@ -47,7 +49,9 @@ final class ProductPassportLinkSmokeTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         // Step 2: Find and click the passport link
-        $link = $crawler->selectLink('Product Passport')->link();
+        $links = $crawler->selectLink('Product Passport');
+        self::assertGreaterThan(0, $links->count(), 'The product page should show a "Product Passport" link');
+        $link = $links->link();
         $client->click($link);
 
         // Step 3: Verify the passport page responds 200
