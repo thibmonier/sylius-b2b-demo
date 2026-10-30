@@ -1,0 +1,2 @@
+tmonier_digital_product_passport:
+    resource: '@TmonierSyliusDigitalProductPassportPlugin/config/routes.yaml'
