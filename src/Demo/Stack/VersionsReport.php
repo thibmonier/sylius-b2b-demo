@@ -14,13 +14,15 @@ final readonly class VersionsReport
 {
     public function __construct(
         private OutdatedSource $source,
+        private \DateTimeImmutable $now = new \DateTimeImmutable(),
     ) {
     }
 
     public function generate(): string
     {
-        $weekNumber = (new \DateTimeImmutable())->format('Y-W');
-        $date = (new \DateTimeImmutable())->format('Y-m-d');
+        // ISO year and week ("o-W"): the calendar year ("Y") is wrong around January 1st.
+        $weekNumber = $this->now->format('o-W');
+        $date = $this->now->format('Y-m-d');
 
         $sections = [
             $this->header($weekNumber, $date),
@@ -59,10 +61,11 @@ MARKDOWN;
 
             $item = sprintf('- [ ] %s : %s → %s', $package['name'], $package['version'], $package['latest']);
 
-            match ($package['latest-status']) {
-                'update-possible' => $patches[] = $item,
-                'semver-safe-update' => $minors[] = $item,
-                default => $majors[] = $item,
+            // latest-status tells whether the update fits the constraint, not its type: compare the versions.
+            match (self::updateType($package['version'], $package['latest'])) {
+                'patch' => $patches[] = $item,
+                'minor' => $minors[] = $item,
+                'major' => $majors[] = $item,
             };
         }
 
@@ -88,22 +91,11 @@ MARKDOWN;
 
             $item = sprintf('- [ ] %s : %s → %s', $name, $current, $latest);
 
-            // Determine update type by semver
-            $currentParts = explode('.', ltrim($current, 'v'));
-            $latestParts = explode('.', ltrim($latest, 'v'));
-
-            $currentMajor = $currentParts[0];
-            $latestMajor = $latestParts[0];
-            $currentMinor = $currentParts[1] ?? '0';
-            $latestMinor = $latestParts[1] ?? '0';
-
-            if ($currentMajor !== $latestMajor) {
-                $majors[] = $item;
-            } elseif ($currentMinor !== $latestMinor) {
-                $minors[] = $item;
-            } else {
-                $patches[] = $item;
-            }
+            match (self::updateType($current, $latest)) {
+                'patch' => $patches[] = $item,
+                'minor' => $minors[] = $item,
+                'major' => $majors[] = $item,
+            };
         }
 
         return $this->renderDependencySection('Dépendances npm', $patches, $minors, $majors);
@@ -187,17 +179,30 @@ MARKDOWN;
 MARKDOWN;
     }
 
+    /**
+     * Semver type of an update. Before 1.0, a minor bump may break the API, so it counts as major.
+     *
+     * @return 'patch'|'minor'|'major'
+     */
+    private static function updateType(string $current, string $latest): string
+    {
+        [$currentMajor, $currentMinor] = explode('.', ltrim($current, 'v') . '.0');
+        [$latestMajor, $latestMinor] = explode('.', ltrim($latest, 'v') . '.0');
+
+        if ($currentMajor !== $latestMajor || ('0' === $currentMajor && $currentMinor !== $latestMinor)) {
+            return 'major';
+        }
+
+        return $currentMinor === $latestMinor ? 'patch' : 'minor';
+    }
+
     private function majorUpgradeDraftsSection(): string
     {
         $outdated = $this->source->getComposerOutdated();
         $drafts = [];
 
         foreach ($outdated as $package) {
-            // Only generate story drafts for actual major upgrades (not up-to-date packages)
-            if ('semver-safe-update' !== $package['latest-status'] &&
-                'update-possible' !== $package['latest-status'] &&
-                'up-to-date' !== $package['latest-status'] &&
-                $package['version'] !== $package['latest']) {
+            if ($package['version'] !== $package['latest'] && 'major' === self::updateType($package['version'], $package['latest'])) {
                 $draft = $this->generateStoryDraft($package);
                 $drafts[] = $draft;
             }
@@ -217,7 +222,7 @@ MARKDOWN;
     {
         $name = $package['name'];
         $current = $package['version'];
-        $target = $package['latest'];
+        $target = ltrim($package['latest'], 'v');
 
         $whyNot = $this->source->getComposerWhyNot($name, $target);
 
