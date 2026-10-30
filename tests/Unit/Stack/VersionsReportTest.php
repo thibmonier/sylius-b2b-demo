@@ -125,6 +125,43 @@ final class VersionsReportTest extends TestCase
         );
     }
 
+    /**
+     * `composer outdated` reports whether an update fits the version constraint, not its semver type:
+     * a patch inside the constraint is "semver-safe-update", like a minor one (issue #136).
+     */
+    public function testComposerUpdatesAreClassifiedByVersionNotByLatestStatus(): void
+    {
+        $output = $this->composerReport();
+
+        self::assertStringContainsString('- [ ] vendor/patch-update : 7.1.0 → 7.1.3', $this->extractSection($output, 'Mises à jour correctives (patch)'));
+        self::assertStringContainsString('- [ ] vendor/prefixed-patch-update : v8.1.9 → v8.1.10', $this->extractSection($output, 'Mises à jour correctives (patch)'));
+        self::assertStringNotContainsString('vendor/patch-update', $this->extractSection($output, 'Mises à jour mineures (minor)'));
+    }
+
+    /** Before 1.0, a minor bump may break the API: semver treats it as a major one. */
+    public function testComposerMinorBumpBeforeOneIsMajor(): void
+    {
+        $output = $this->composerReport();
+
+        self::assertStringContainsString('- [ ] vendor/zero-minor-update : v0.2.0 → v0.3.0', $this->extractSection($output, 'Mises à jour majeures (major)'));
+        self::assertStringContainsString('### Story : Montée vendor/zero-minor-update v0.3.0', $output);
+    }
+
+    /** 2027-01-01 belongs to ISO week 53 of 2026: the calendar year would give a week that does not exist. */
+    public function testWeekIsTheIsoWeek(): void
+    {
+        $report = new VersionsReport(new FakeOutdatedSource(), new \DateTimeImmutable('2027-01-01'));
+
+        self::assertStringContainsString('# Veille des versions — semaine 2026-53', $report->generate());
+    }
+
+    private function composerReport(): string
+    {
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+
+        return (new VersionsReport(FakeOutdatedSource::fromJson($composerJson, '{}', '[]')))->generate();
+    }
+
     public function testNpmPatchUpdateIsClassifiedCorrectly(): void
     {
         $npmJson = (string) file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
