@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 36
+current_sprint: 37
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -600,10 +600,31 @@ sprints:
       - {id: T-TECH-36-05, title: "Script check-resources", type: OPS, hours: 0.5, status: done}
     notes: "DÉCOMPOSÉ le 2026-10-29 : 43 tâches, 33 h (32 h Claude, 1 h Thibaut) pour 37,4 h de capacité, marge de 5,4 h (14,4 %). Actions de rétro S35 : T-TECH-36-01 à 05. Portes : GO du dépôt passeport et tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement. Branche proof/us-219-red supprimée. US-232 et US-233 reportées au sprint 37. Ordre d'exécution : transverses (parallèles), puis US-240 ∥ US-239, puis US-230 (après GO dépôt), puis US-231 (après US-230). 10 jours ouvrés, planning le 2026-10-29, revue et rétro au plus tard le 2026-11-13."
 
+  sprint-37:
+    name: sprint-37-copilote-et-passeport
+    status: planning  # planifié le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-37-copilote-et-passeport (déjà créée) ; à décomposer au planning
+    sprint_id: "sprint-37"
+    start_date: "2026-10-30"
+    end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_points: 13  # vélocité de référence : S31 13, S32 9, S33 13, S34 9, S35 8, S36 11
+    goal: "Lancer le copilote d'achat B2B avec son widget du compte et son adaptateur rejoué, compléter le passeport numérique produit avec QR, lien GS1 Digital Link et pièces compatibles, et installer le plugin passeport dans la démo"
+    stories:
+      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: ready-for-dev}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut
+      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin
+      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié
+      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: backlog}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231
+    sprint_tasks:
+      - {id: T-TECH-37-01, title: "Vérification automatique que chaque fichier de tests/ appartient à une suite exécutée en CI", type: OPS, status: backlog}  # action 1 de la rétro du sprint 36
+      - {id: T-TECH-37-02, title: "Squelette de plugin avec e2e_js: yes et suite all par défaut", type: OPS, status: backlog}  # action 2 de la rétro du sprint 36
+      - {id: T-TECH-37-03, title: "Contrôle de conformité des rapports de workers", type: OPS, status: backlog}  # action 3 de la rétro du sprint 36
+      - {id: T-TECH-37-04, title: "bin/render-page respecte TEST_DB_NAME", type: OPS, status: backlog}  # action 4 de la rétro du sprint 36
+      - {id: T-TECH-37-05, title: "Règle 42 : vérifier .gitignore au premier commit d'un nouveau dépôt", type: DOC, status: backlog}  # action 5 de la rétro du sprint 36
+    notes: "PLANIFIÉ le 2026-10-30 : périmètre 13 points décidé par Thibaut (US-211, US-232, US-233, US-241). À décomposer au planning. Actions de rétro S36 : T-TECH-37-01 à 05. Portes : GO du dépôt copilote demandé avant sa création ; tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement ; au plus deux workers lancent des tests en même temps. US-212 reportée au sprint 38. Ordre d'exécution recommandé : transverses (parallèles), puis US-211 (après GO dépôt), puis US-232 ∥ US-233 (après US-231 fusionnée au sprint 36), puis US-241 (après US-232 et US-233). 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13."
+
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: backlog}  # EPIC-16, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: ready-for-dev}  # EPIC-16, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-212, title: "Copilote d'achat : réassort « comme le mois dernier » avec substitution de référence", points: 8, status: backlog}  # EPIC-16, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-214, title: "Copilote d'achat : garde-fous et journal d'audit", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
@@ -627,8 +648,9 @@ backlog:
   - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, status: done}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
   - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: review}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
-  - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: backlog}  # EPIC-19, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-29
-  - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: backlog}  # EPIC-19, Must ; sprint 37 (proposé) ; décision de Thibaut du 2026-10-29
+  - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: ready-for-dev}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
+  - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: ready-for-dev}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
+  - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: backlog}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: backlog}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: backlog}  # EPIC-19, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
