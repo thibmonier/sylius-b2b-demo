@@ -63,6 +63,20 @@ $root = \dirname(__DIR__);
 require $root . '/vendor/autoload.php';
 (new Dotenv())->bootEnv($root . '/.env');
 
+// T-TECH-37-04: respect TEST_DB_NAME like bin/run-tests does, refuse sylius_b2b_demo (development database)
+$dbName = (string) ($_SERVER['TEST_DB_NAME'] ?? 'sylius_b2b_demo_test');
+if ('sylius_b2b_demo' === $dbName) {
+    fwrite(\STDERR, "Refusing to use the development database \"sylius_b2b_demo\". Set TEST_DB_NAME to a test database name.\n");
+    exit(1);
+}
+if (1 !== preg_match('/^[A-Za-z0-9_]+$/', $dbName)) {
+    fwrite(\STDERR, "TEST_DB_NAME must only contain letters, digits and underscores.\n");
+    exit(1);
+}
+// Build DATABASE_URL with TEST_DB_NAME
+$mysqlPort = (string) ($_SERVER['MYSQL_PORT'] ?? '3340');
+$_SERVER['DATABASE_URL'] = $_ENV['DATABASE_URL'] = 'mysql://root@127.0.0.1:' . $mysqlPort . '/' . $dbName . '?serverVersion=8.4&charset=utf8mb4';
+
 if (null !== $login && 'test' !== ($_SERVER['APP_ENV'] ?? '')) {
     fwrite(\STDERR, "--login signs the account in with the test client, which exists in APP_ENV=test only (the pages then carry the data-test attributes of the test environment)\n");
 

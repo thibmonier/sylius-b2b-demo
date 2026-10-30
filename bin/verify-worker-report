@@ -1,0 +1,65 @@
+#!/usr/bin/env php
+<?php
+
+// T-TECH-37-03: vérification qu'un SHA et/ou un run ID existent avant d'accepter un rapport de worker.
+// Usage: bin/verify-worker-report <sha> [run-id] [--repo=owner/name]
+// Exit code 0: le SHA existe (et le run si fourni); 1: inexistant; 2: erreur d'usage.
+
+declare(strict_types=1);
+
+$root = dirname(__DIR__);
+$options = getopt('', ['repo:']);
+/** @var list<string> $argv */
+$argv = $_SERVER['argv'] ?? [];
+$positional = array_slice($argv, (array_search('--', $argv, true) ?: count($argv)));
+if ([] === $positional) {
+    $positional = array_values(array_filter($argv, static fn (string $arg): bool => !str_starts_with($arg, '--')));
+    array_shift($positional); // Retirer le nom du script
+}
+
+if ([] === $positional) {
+    fwrite(\STDERR, "Usage: bin/verify-worker-report <sha> [run-id] [--repo=owner/name]\n");
+    exit(2);
+}
+
+$sha = array_shift($positional);
+$runId = array_shift($positional) ?? '';
+$repo = is_string($options['repo'] ?? null) ? $options['repo'] : null;
+
+// Vérifier le SHA avec git cat-file
+$command = sprintf('git -C %s cat-file -e %s 2>/dev/null', escapeshellarg($root), escapeshellarg($sha . '^{commit}'));
+exec($command, $output, $exitCode);
+
+if (0 !== $exitCode) {
+    fwrite(\STDERR, "KO: commit $sha does not exist\n");
+    exit(1);
+}
+
+echo "OK: commit $sha exists\n";
+
+// Si un run ID est fourni, le vérifier avec gh
+if ('' !== $runId) {
+    $repoArg = null !== $repo ? '--repo=' . escapeshellarg($repo) : '';
+    $command = sprintf('gh run view %s %s --json conclusion,headBranch 2>&1', escapeshellarg($runId), $repoArg);
+    exec($command, $output, $exitCode);
+
+    if (0 !== $exitCode) {
+        fwrite(\STDERR, "KO: run $runId does not exist or is not accessible\n");
+        exit(1);
+    }
+
+    $json = implode("\n", $output);
+    $data = json_decode($json, true);
+
+    if (!is_array($data)) {
+        fwrite(\STDERR, "KO: cannot parse run data for $runId\n");
+        exit(1);
+    }
+
+    $conclusion = is_string($data['conclusion'] ?? null) ? $data['conclusion'] : 'unknown';
+    $branch = is_string($data['headBranch'] ?? null) ? $data['headBranch'] : 'unknown';
+
+    echo "OK: run $runId exists (conclusion: $conclusion, branch: $branch)\n";
+}
+
+exit(0);

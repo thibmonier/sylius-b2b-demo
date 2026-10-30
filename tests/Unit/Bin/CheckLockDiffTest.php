@@ -81,6 +81,37 @@ final class CheckLockDiffTest extends TestCase
         self::assertSame(2, $process->getExitCode());
     }
 
+    // T-TECH-37-06: bin/check-lock-diff lists package additions and removals
+    public function testListsAddedPackages(): void
+    {
+        $baseLock = $this->createLock(['vendor/package-a' => '1.0.0']);
+        $headLock = $this->createLock([
+            'vendor/package-a' => '1.0.0',
+            'vendor/package-b' => '2.0.0',
+        ]);
+
+        $output = $this->runCheckLockDiff($baseLock, $headLock);
+
+        self::assertStringContainsString('vendor/package-b', $output);
+        self::assertStringContainsString('2.0.0', $output);
+        self::assertStringContainsString('—', $output, 'Should show "—" for missing "Before" column');
+    }
+
+    public function testListsRemovedPackages(): void
+    {
+        $baseLock = $this->createLock([
+            'vendor/package-a' => '1.0.0',
+            'vendor/package-b' => '2.0.0',
+        ]);
+        $headLock = $this->createLock(['vendor/package-a' => '1.0.0']);
+
+        $output = $this->runCheckLockDiff($baseLock, $headLock);
+
+        self::assertStringContainsString('vendor/package-b', $output);
+        self::assertStringContainsString('2.0.0', $output);
+        self::assertStringContainsString('—', $output, 'Should show "—" for missing "After" column');
+    }
+
     private function compare(string $head): Process
     {
         $process = new Process([
@@ -97,5 +128,47 @@ final class CheckLockDiffTest extends TestCase
     private function fixture(string $name): string
     {
         return \dirname(__DIR__, 2) . '/Fixtures/composer-lock/' . $name . '.json';
+    }
+
+    /**
+     * @param array<string, string> $packages Map of package name to version
+     */
+    private function createLock(array $packages): string
+    {
+        $lockData = ['packages' => [], 'packages-dev' => []];
+
+        foreach ($packages as $name => $version) {
+            $lockData['packages'][] = [
+                'name' => $name,
+                'version' => $version,
+                'type' => 'library',
+            ];
+        }
+
+        return json_encode($lockData, \JSON_THROW_ON_ERROR);
+    }
+
+    private function runCheckLockDiff(string $baseLockJson, string $headLockJson): string
+    {
+        $baseLockFile = tempnam(sys_get_temp_dir(), 'base-lock-') . '.json';
+        $headLockFile = tempnam(sys_get_temp_dir(), 'head-lock-') . '.json';
+
+        file_put_contents($baseLockFile, $baseLockJson);
+        file_put_contents($headLockFile, $headLockJson);
+
+        try {
+            $process = new Process([
+                'php',
+                \dirname(__DIR__, 3) . '/bin/check-lock-diff',
+                '--base-file=' . $baseLockFile,
+                $headLockFile,
+            ]);
+            $process->run();
+
+            return $process->getOutput();
+        } finally {
+            @unlink($baseLockFile);
+            @unlink($headLockFile);
+        }
     }
 }

@@ -99,4 +99,6 @@ return [
     Tmonier\SyliusEinvoiceTransmissionPlugin\TmonierSyliusEinvoiceTransmissionPlugin::class => ['all' => true],
     // erp-flatfile (US-190): flat-file export of the placed orders, after the webhook outbox whose events it reads
     Tmonier\SyliusErpFlatfilePlugin\TmonierSyliusErpFlatfilePlugin::class => ['all' => true],
+    // digital-product-passport (US-241): versioned sustainability data model (origin, recyclability, repairability) with public passport page
+    Tmonier\SyliusDigitalProductPassportPlugin\TmonierSyliusDigitalProductPassportPlugin::class => ['all' => true],
 ];

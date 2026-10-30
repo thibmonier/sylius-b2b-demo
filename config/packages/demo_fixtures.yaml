@@ -220,6 +220,11 @@ sylius_fixtures:
                 demo_punchout:
                     priority: -50
 
+                # Sprint 37 — US-241: Digital product passports for 3 representative EPI products (helmets).
+                # Depends on products (-30) → priority -50.
+                demo_digital_passports:
+                    priority: -50
+
                 # Agentic feeds: creates feed configurations per channel.
                 # Uses built-in plugin fixture; no extra options needed.
                 tmonier_agentic_feeds:

@@ -68,12 +68,16 @@ $base = packages($baseJson, 'base');
 $head = packages($headJson, 'branch');
 $problems = [];
 $updates = [];
+$additions = [];
+$removals = [];
 
 foreach ($head as $name => $package) {
     $before = $base[$name] ?? null;
     if (null === $before) {
         if ('composer-plugin' === $package['type']) {
             $problems[] = "$name {$package['version']} is a new package of type composer-plugin: review it, then declare it in config.allow-plugins";
+        } else {
+            $additions[] = [$name, $package['version']];
         }
         continue;
     }
@@ -88,16 +92,45 @@ foreach ($head as $name => $package) {
     }
 }
 
+foreach ($base as $name => $package) {
+    if (!isset($head[$name])) {
+        $removals[] = [$name, $package['version']];
+    }
+}
+
 $lines = ['### Review of composer.lock', ''];
-if ([] === $updates && [] === $problems) {
+if ([] === $updates && [] === $additions && [] === $removals && [] === $problems) {
     $lines[] = 'No package changed.';
 }
+if ([] !== $additions) {
+    $lines[] = '#### Added packages';
+    $lines[] = '';
+    $lines[] = '| Package | Before | After |';
+    $lines[] = '|---------|--------|-------|';
+    foreach ($additions as [$name, $version]) {
+        $lines[] = "| $name | — | $version |";
+    }
+    $lines[] = '';
+}
 if ([] !== $updates) {
+    $lines[] = '#### Updated packages';
+    $lines[] = '';
     $lines[] = '| Package | Before | After |';
     $lines[] = '|---------|--------|-------|';
     foreach ($updates as [$name, $from, $to]) {
         $lines[] = "| $name | $from | $to |";
     }
+    $lines[] = '';
+}
+if ([] !== $removals) {
+    $lines[] = '#### Removed packages';
+    $lines[] = '';
+    $lines[] = '| Package | Before | After |';
+    $lines[] = '|---------|--------|-------|';
+    foreach ($removals as [$name, $version]) {
+        $lines[] = "| $name | $version | — |";
+    }
+    $lines[] = '';
 }
 foreach ($problems as $problem) {
     $lines[] = '- KO ' . $problem;

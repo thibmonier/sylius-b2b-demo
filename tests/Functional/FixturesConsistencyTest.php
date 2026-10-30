@@ -25,7 +25,7 @@ final class FixturesConsistencyTest extends WebTestCase
         -5 => ['demo_po_reference_channel', 'tmonier_container_fill_container_types'],
         -15 => ['demo_companies', 'demo_customers'],
         -40 => ['demo_trade_credit', 'demo_tier_pricing', 'demo_purchase_approval', 'demo_company_wishlists', 'demo_company_addresses'],
-        -50 => ['demo_quotes', 'demo_gpsr', 'demo_punchout', 'tmonier_agentic_feeds'],
+        -50 => ['demo_quotes', 'demo_gpsr', 'demo_punchout', 'tmonier_agentic_feeds', 'demo_digital_passports'],
         -60 => ['demo_orders', 'demo_hidden_prices_feeds'],
     ];
 

@@ -73,6 +73,35 @@ final class RenderPageTest extends TestCase
         self::assertDirectoryDoesNotExist(\dirname(__DIR__, 3) . '/var/cache-wz-render', 'the kernel is not booted, no cache is created');
     }
 
+    // T-TECH-37-04: bin/render-page respects TEST_DB_NAME and refuses sylius_b2b_demo
+    public function testRejectsDevelopmentDatabase(): void
+    {
+        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], ['WORKER_ID' => 'test', 'TEST_DB_NAME' => 'sylius_b2b_demo']);
+
+        self::assertSame(1, $process->getExitCode(), 'bin/render-page should refuse TEST_DB_NAME=sylius_b2b_demo');
+        self::assertStringContainsString('sylius_b2b_demo', $process->getErrorOutput(), 'Error message should mention the refused database name');
+    }
+
+    public function testUsesTestDbNameInDatabaseUrl(): void
+    {
+        // This test verifies that TEST_DB_NAME is used to construct DATABASE_URL
+        // by checking that a non-existent database name causes a connection error.
+        // The MySQL port of the running test database is passed on (3306 in CI, 3340 locally),
+        // otherwise the connection is refused before the database name is checked.
+        $databaseUrl = $_SERVER['DATABASE_URL'] ?? '';
+        $databasePort = \is_string($databaseUrl) ? parse_url($databaseUrl, \PHP_URL_PORT) : null;
+        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], [
+            'APP_ENV' => 'test',
+            'WORKER_ID' => 'test',
+            'TEST_DB_NAME' => 'nonexistent_db_xyz',
+            'MYSQL_PORT' => (string) (\is_int($databasePort) ? $databasePort : 3340),
+            'APP_CACHE_DIR' => false,
+        ]);
+
+        // Should fail trying to connect to nonexistent_db_xyz
+        self::assertStringContainsString('nonexistent_db_xyz', $process->getErrorOutput(), 'Should attempt to use TEST_DB_NAME in DATABASE_URL');
+    }
+
     /**
      * @param list<string>                $arguments
      * @param array<string, string|false> $environment

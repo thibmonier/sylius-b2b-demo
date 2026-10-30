@@ -1,0 +1,151 @@
+#!/usr/bin/env php
+<?php
+
+// T-TECH-37-01: vérification que chaque fichier *Test.php de tests/ appartient à une suite exécutée en CI.
+// Usage:
+//   bin/verify-test-coverage [--phpunit-xml=FILE] [--tests-dir=DIR] [--workflow=FILE]
+// Exit code 0: tous les fichiers sont couverts; 1: au moins un fichier orphelin; 2: erreur d'usage.
+
+declare(strict_types=1);
+
+$root = dirname(__DIR__);
+$options = getopt('', ['phpunit-xml:', 'tests-dir:', 'workflow:']);
+/** @var list<string> $argv */
+$argv = $_SERVER['argv'] ?? [];
+$positional = array_values(array_filter($argv, static fn (string $arg): bool => !str_starts_with($arg, '--') && !str_starts_with($arg, '-')));
+array_shift($positional); // Retirer le nom du script
+
+// Refuser tout argument positionnel
+if ([] !== $positional) {
+    fwrite(\STDERR, "Usage: bin/verify-test-coverage [--phpunit-xml=FILE] [--tests-dir=DIR] [--workflow=FILE]\n");
+    fwrite(\STDERR, 'Unexpected positional argument(s): ' . implode(', ', $positional) . "\n");
+    exit(2);
+}
+
+$phpunitXml = is_string($options['phpunit-xml'] ?? null) ? $options['phpunit-xml'] : $root . '/phpunit.xml.dist';
+$testsDir = is_string($options['tests-dir'] ?? null) ? $options['tests-dir'] : $root . '/tests';
+$workflowFile = is_string($options['workflow'] ?? null) ? $options['workflow'] : null;
+
+if (!is_readable($phpunitXml)) {
+    fwrite(\STDERR, "Cannot read phpunit.xml.dist at: $phpunitXml\n");
+    exit(2);
+}
+
+if (!is_dir($testsDir)) {
+    fwrite(\STDERR, "Tests directory not found: $testsDir\n");
+    exit(2);
+}
+
+// Parser le XML pour extraire les directory des testsuites
+$xml = simplexml_load_file($phpunitXml);
+if (false === $xml) {
+    fwrite(\STDERR, "Cannot parse phpunit.xml.dist\n");
+    exit(2);
+}
+
+$phpunitDir = dirname((string) realpath($phpunitXml));
+$suitePaths = [];
+$suiteNames = [];
+$directories = $xml->xpath('//testsuites/testsuite');
+if (is_array($directories)) {
+    foreach ($directories as $suite) {
+        $name = (string) ($suite['name'] ?? '');
+        if ('' === $name) {
+            continue;
+        }
+        if (!isset($suitePaths[$name])) {
+            $suitePaths[$name] = [];
+            $suiteNames[] = $name;
+        }
+        foreach ($suite->directory as $dir) {
+            $path = trim((string) $dir);
+            if ('' !== $path) {
+                // Résoudre le chemin relatif par rapport au phpunit.xml.dist
+                $absolutePath = $phpunitDir . '/' . $path;
+                $realPath = realpath($absolutePath);
+                if (false !== $realPath) {
+                    $suitePaths[$name][] = $realPath;
+                }
+            }
+        }
+    }
+}
+
+if ([] === $suitePaths) {
+    fwrite(\STDERR, "No test suite directories found in $phpunitXml\n");
+    exit(2);
+}
+
+// Si un workflow est fourni, lire les suites exécutées
+$executedSuites = [];
+if (null !== $workflowFile && is_readable($workflowFile)) {
+    $workflowContent = (string) file_get_contents($workflowFile);
+    if (1 === preg_match_all('/--testsuite=([a-zA-Z0-9_-]+)/', $workflowContent, $matches)) {
+        $executedSuites = $matches[1];
+    }
+}
+
+// Déterminer quels chemins de suite sont effectivement couverts
+$coveredPaths = [];
+if ([] !== $executedSuites) {
+    foreach ($executedSuites as $suiteName) {
+        if (isset($suitePaths[$suiteName])) {
+            foreach ($suitePaths[$suiteName] as $path) {
+                $coveredPaths[] = $path;
+            }
+        }
+    }
+} else {
+    // Pas de workflow : tous les suites sont considérées comme exécutées
+    foreach ($suitePaths as $paths) {
+        foreach ($paths as $path) {
+            $coveredPaths[] = $path;
+        }
+    }
+}
+
+// Lister tous les fichiers *Test.php
+$testFiles = [];
+$iterator = new RecursiveIteratorIterator(
+    new RecursiveDirectoryIterator($testsDir, RecursiveDirectoryIterator::SKIP_DOTS),
+);
+foreach ($iterator as $file) {
+    if ($file instanceof \SplFileInfo && $file->isFile() && 1 === preg_match('/Test\.php$/', $file->getFilename())) {
+        $realTestPath = realpath($file->getPathname());
+        if (false !== $realTestPath) {
+            $testFiles[] = $realTestPath;
+        }
+    }
+}
+
+// Vérifier que chaque fichier est sous un directory de suite couvert
+$orphans = [];
+foreach ($testFiles as $testFile) {
+    $covered = false;
+    foreach ($coveredPaths as $suitePath) {
+        if (str_starts_with($testFile, $suitePath . '/') || $testFile === $suitePath) {
+            $covered = true;
+
+            break;
+        }
+    }
+    if (!$covered) {
+        // Chemin relatif pour l'affichage
+        $relativePath = str_replace($phpunitDir . '/', '', $testFile);
+        $orphans[] = $relativePath;
+    }
+}
+
+// Rapport
+if ([] === $orphans) {
+    echo 'All ' . count($testFiles) . " test files are covered by test suites.\n";
+    exit(0);
+}
+
+echo 'Found ' . count($orphans) . " orphan test file(s) not covered by any suite:\n";
+foreach ($orphans as $orphan) {
+    echo "  - $orphan\n";
+    fwrite(\STDERR, "Orphan: $orphan\n");
+}
+
+exit(1);
