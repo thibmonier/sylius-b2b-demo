@@ -22,7 +22,7 @@ final class ProductWithoutPassportTest extends WebTestCase
         self::assertNotFalse($content);
 
         // The "Product Passport" link should be present
-        self::assertStringContainsString('Passeport produit', $content);
+        self::assertStringContainsString('Passeport Produit', $content);
     }
 
     public function testProductWithoutPassportDoesNotShowPassportLink(): void
@@ -38,7 +38,7 @@ final class ProductWithoutPassportTest extends WebTestCase
         self::assertNotFalse($content);
 
         // The "Product Passport" link should NOT be present
-        self::assertStringNotContainsString('Passeport produit', $content);
+        self::assertStringNotContainsString('Passeport Produit', $content);
         self::assertStringNotContainsString('product-passport', $content);
     }
 
