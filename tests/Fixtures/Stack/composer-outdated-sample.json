@@ -4,7 +4,7 @@
             "name": "vendor/patch-update",
             "version": "7.1.0",
             "latest": "7.1.3",
-            "latest-status": "update-possible"
+            "latest-status": "semver-safe-update"
         },
         {
             "name": "vendor/minor-update",
@@ -16,7 +16,19 @@
             "name": "vendor/major-update",
             "version": "7.5.0",
             "latest": "8.0.0",
-            "latest-status": "major-update"
+            "latest-status": "update-possible"
+        },
+        {
+            "name": "vendor/zero-minor-update",
+            "version": "v0.2.0",
+            "latest": "v0.3.0",
+            "latest-status": "update-possible"
+        },
+        {
+            "name": "vendor/prefixed-patch-update",
+            "version": "v8.1.9",
+            "latest": "v8.1.10",
+            "latest-status": "semver-safe-update"
         },
         {
             "name": "vendor/up-to-date",

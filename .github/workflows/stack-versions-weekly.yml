@@ -47,11 +47,10 @@ jobs:
             - name: Generate versions report
               id: report
               run: |
-                  WEEK_NUMBER=$(date +"%Y-%W")
-                  ISSUE_TITLE="Veille des versions — semaine ${WEEK_NUMBER}"
-                  echo "week_number=${WEEK_NUMBER}" >> "$GITHUB_OUTPUT"
-                  echo "issue_title=${ISSUE_TITLE}" >> "$GITHUB_OUTPUT"
                   bin/stack-versions-report > /tmp/report.md
+                  # The title is the report's first heading: one source for the ISO week (issue #136).
+                  ISSUE_TITLE=$(head -n 1 /tmp/report.md | sed 's/^# //')
+                  echo "issue_title=${ISSUE_TITLE}" >> "$GITHUB_OUTPUT"
 
             - name: Find existing issue
               id: find
