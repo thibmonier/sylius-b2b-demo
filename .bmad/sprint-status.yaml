@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 37
+current_sprint: 38
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -625,6 +625,27 @@ sprints:
       - {id: T-TECH-37-06, title: "bin/check-lock-diff signale les paquets ajoutés et retirés", type: BE, hours: 0.75, status: done}  # bug constaté pendant US-241, correctif TDD
     notes: "DÉCOMPOSÉ le 2026-10-30 : 43 tâches, 32 h (31 h Claude, 1 h Thibaut) pour 35,3 h de capacité, marge de 4,3 h (12,2 %). Actions de rétro S36 : T-TECH-37-01 à 05. Portes : GO du dépôt copilote demandé avant sa création ; tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement ; au plus deux workers lancent des tests en même temps. US-212 reportée au sprint 38. Ordre d'exécution recommandé : transverses (parallèles), puis US-241 (pas de dépendance avec US-232/233), puis US-211 (après GO dépôt), puis US-232 ∥ US-233 (même dépôt, séquentielles). 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13."
 
+  sprint-38:
+    name: sprint-38-consolidation-vitrine
+    status: planning  # planifié le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-38-consolidation-vitrine (déjà créée)
+    sprint_id: "sprint-38"
+    start_date: "2026-10-30"
+    end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_points: 10  # vélocité de référence : S32 9, S33 13, S34 9, S35 8, S36 11, S37 13
+    goal: "Installer le copilote d'achat dans la démo avec ses captures, vérifier le passeport produit en production, rendre la démo Registration Approval utilisable en mode public et créer la fiche équipement avec lien vers le passeport et les pièces compatibles"
+    stories:
+      - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: ready-for-dev}  # EPIC-16, Should ; dépend d'US-211 (v0.1.0) ; captures pour README
+      - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: ready-for-dev}  # EPIC-12, Should ; origine : audit fonctionnel 2026-10-30
+      - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: ready-for-dev}  # EPIC-19, Should ; dépend d'US-233 ; plugin customer-asset-management
+      - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: ready-for-dev}  # EPIC-19, Should ; dépend d'US-241 ; vérification post-déploiement
+    sprint_tasks:
+      - {id: T-TECH-38-01, title: "Gabarit de test fonctionnel partagé", type: DOC, status: ready-for-dev}  # action 1 de la rétro du sprint 37
+      - {id: T-TECH-38-02, title: "Tests en local obligatoires avant tout push (règle 46)", type: DOC, status: ready-for-dev}  # action 2 de la rétro du sprint 37
+      - {id: T-TECH-38-03, title: "TaskStop automatique après passation", type: DOC, status: ready-for-dev}  # action 3 de la rétro du sprint 37
+      - {id: T-TECH-38-04, title: "Suite complète ou pré-contrôle avant PR de fin de sprint", type: DOC, status: ready-for-dev}  # action 4 de la rétro du sprint 37
+      - {id: T-TECH-38-05, title: "Test d'installation vérifiant kernel.bundles", type: DOC, status: ready-for-dev}  # action 5 de la rétro du sprint 37
+    notes: "PLANIFIÉ le 2026-10-30 : périmètre décidé par Thibaut (10 points). Actions de rétro S37 : T-TECH-38-01 à 05. Contraintes machine : 8 Go RAM, disque 7,1 Go libres le 2026-10-30 (alerte sous 15 Go) ; tests ciblés seulement ; suite complète de la démo par la CI. US-212 reportée. 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13."
+
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
@@ -655,10 +676,10 @@ backlog:
   - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
-  - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: backlog}  # EPIC-19, Should ; scénario « Depuis le parc » d'US-233 reporté par décision de Thibaut du 2026-10-30
-  - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: backlog}  # EPIC-12, Should ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
-  - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: backlog}  # EPIC-16, Should ; suite d'US-211 ; audits du 2026-10-30, création décidée par Thibaut
-  - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: backlog}  # EPIC-19, Should ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
+  - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: ready-for-dev}  # EPIC-19, Should ; sprint 38 ; scénario « Depuis le parc » d'US-233 reporté par décision de Thibaut du 2026-10-30
+  - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: ready-for-dev}  # EPIC-12, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
+  - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: ready-for-dev}  # EPIC-16, Should ; sprint 38 ; suite d'US-211 ; audits du 2026-10-30, création décidée par Thibaut
+  - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: ready-for-dev}  # EPIC-19, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: backlog}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: backlog}  # EPIC-19, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
