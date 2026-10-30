@@ -13,17 +13,17 @@ final class LocalizationTest extends WebTestCase
     public function testPassportPageDisplaysInFrench(): void
     {
         $client = static::createClient();
-        
+
         $passport = $client->getContainer()->get('doctrine')->getRepository(DigitalProductPassport::class)->findOneBy([]);
         self::assertNotNull($passport);
-        
+
         $client->request('GET', '/fr_FR/product-passport/' . $passport->getId());
-        
+
         self::assertResponseIsSuccessful();
-        
+
         $content = $client->getResponse()->getContent();
         self::assertNotFalse($content);
-        
+
         // French labels
         self::assertStringContainsString('Origine', $content);
         self::assertStringContainsString('Recyclabilité', $content);
@@ -33,17 +33,17 @@ final class LocalizationTest extends WebTestCase
     public function testPassportPageDisplaysInEnglish(): void
     {
         $client = static::createClient();
-        
+
         $passport = $client->getContainer()->get('doctrine')->getRepository(DigitalProductPassport::class)->findOneBy([]);
         self::assertNotNull($passport);
-        
+
         $client->request('GET', '/en_US/product-passport/' . $passport->getId());
-        
+
         self::assertResponseIsSuccessful();
-        
+
         $content = $client->getResponse()->getContent();
         self::assertNotFalse($content);
-        
+
         // English labels
         self::assertStringContainsString('Origin', $content);
         self::assertStringContainsString('Recyclability', $content);

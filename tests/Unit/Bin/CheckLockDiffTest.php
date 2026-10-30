@@ -145,7 +145,7 @@ final class CheckLockDiffTest extends TestCase
             ];
         }
 
-        return json_encode($lockData, JSON_THROW_ON_ERROR);
+        return json_encode($lockData, \JSON_THROW_ON_ERROR);
     }
 
     private function runCheckLockDiff(string $baseLockJson, string $headLockJson): string
