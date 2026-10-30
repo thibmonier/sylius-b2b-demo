@@ -47,11 +47,8 @@ Script `bin/verify-test-coverage` qui vérifie que chaque fichier de `tests/` ap
 **Description** :
 Squelette de plugin (copié de `sylius-company-insights-plugin`) avec `e2e_js: "yes"` dans `BuildTestAppAction` et suite `all` dans `phpunit.xml.dist` incluant `tests/Integration` et `tests/Functional`. Aucun `entrypoints.json` en dur (toujours construit par Webpack). `.gitignore` incluant `vendor/` vérifié au premier commit (règle 33 renforcée : test d'installation en premier, puis `.gitignore` validé avant tout `composer install`). Ce squelette devient le gabarit pour tous les nouveaux plugins.
 
-**Fichiers** :
-- `docs/plugin-skeleton/` (dossier de squelette)
-- `docs/plugin-skeleton/.gitignore` (incluant `vendor/`)
-- `docs/plugin-skeleton/phpunit.xml.dist` (suite `all`)
-- `docs/plugin-skeleton/tests/Application/src/Kernel.php` (BuildTestAppAction avec `e2e_js: "yes"`)
+**Fichiers** (révisé par l'orchestrateur le 2026-10-30 : pas de copie de squelette dans `docs/`, qui ferait doublon ; `BuildTestAppAction` se règle dans le workflow, pas dans un Kernel) :
+- `project-management/templates/checklist-integration.md` : point « Nouveau dépôt de plugin », avec le plugin passeport comme référence
 
 **Critères** :
 - [ ] Squelette mis à jour dans `docs/plugin-skeleton/`
