@@ -1,0 +1,58 @@
+===== Accueil /fr_FR/ =====
+
+Welcome to Pa11y
+
+ > Running Pa11y on URL https://sylius-b2b.thibaut-monier.fr/fr_FR/
+
+No issues found!
+
+
+
+===== Plugins /fr_FR/plugins =====
+
+Welcome to Pa11y
+
+ > Running Pa11y on URL https://sylius-b2b.thibaut-monier.fr/fr_FR/plugins
+
+No issues found!
+
+
+
+===== Catalogue /fr_FR/taxons/outillage =====
+
+Welcome to Pa11y
+
+ > Running Pa11y on URL https://sylius-b2b.thibaut-monier.fr/fr_FR/taxons/outillage
+
+No issues found!
+
+
+
+===== Fiche produit /fr_FR/products/outi-001-fr =====
+
+Welcome to Pa11y
+
+ > Running Pa11y on URL https://sylius-b2b.thibaut-monier.fr/fr_FR/products/outi-001-fr
+
+No issues found!
+
+
+
+===== À propos /fr_FR/a-propos =====
+
+Welcome to Pa11y
+
+ > Running Pa11y on URL https://sylius-b2b.thibaut-monier.fr/fr_FR/a-propos
+
+No issues found!
+
+
+
+===== Preuve /fr_FR/preuve =====
+
+Welcome to Pa11y
+
+ > Running Pa11y on URL https://sylius-b2b.thibaut-monier.fr/fr_FR/preuve
+
+No issues found!
+
