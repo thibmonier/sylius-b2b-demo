@@ -578,7 +578,7 @@ sprints:
 
   sprint-36:
     name: sprint-36-predictif-et-passeport
-    status: ready-for-dev  # planifié et décomposé le 2026-10-29 (périmètre décidé par Thibaut) ; branche feature/sprint-36-predictif-et-passeport ; 43 tâches, 33 h (32 h Claude, 1 h Thibaut), marge 5,4 h
+    status: in-progress  # planifié et décomposé le 2026-10-29 (périmètre décidé par Thibaut) ; branche feature/sprint-36-predictif-et-passeport ; 43 tâches, 33 h (32 h Claude, 1 h Thibaut), marge 5,4 h
     sprint_id: "sprint-36"
     start_date: "2026-10-29"
     end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
@@ -588,16 +588,16 @@ sprints:
     margin_hours: 5.4  # 14,4 % de marge
     goal: "Garantir une démo prédictive vivante à toute date (alertes garanties), lancer le passeport numérique produit avec sa page publique, et automatiser la veille hebdomadaire des versions du socle"
     stories:
-      - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-17, Must ; suite d'US-219 partielle ; plugin prédictif v0.1.1 ; parallèle à US-239
-      - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, tasks: 13, hours: 11, status: ready-for-dev}  # EPIC-19, Must ; nouveau dépôt tmonier/sylius-digital-product-passport-plugin créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; après GO dépôt
-      - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-230
-      - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, tasks: 9, hours: 6.5, status: ready-for-dev}  # EPIC-10, Must ; issue GitHub hebdomadaire ; parallèle à US-240
+      - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, tasks: 8, hours: 6.5, status: review}  # plugin prédictif v0.1.1 puis v0.1.2 ; captures README en attente ; EPIC-17, Must ; suite d'US-219 partielle ; plugin prédictif v0.1.1 ; parallèle à US-239
+      - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, tasks: 13, hours: 11, status: done}  # plugin passeport : PR #1 et #2 fusionnées, historique réécrit sans vendor/ ; EPIC-19, Must ; nouveau dépôt tmonier/sylius-digital-product-passport-plugin créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; après GO dépôt
+      - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, tasks: 8, hours: 6.5, status: review}  # PR #3 fusionnée (2d3f825d), rouge prouvé ; capture et audit pa11y AAA reportés à l'installation dans la démo (sprint 37) ; EPIC-19, Must ; dépend d'US-230
+      - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, tasks: 9, hours: 6.5, status: review}  # workflow_dispatch à lancer après fusion de la démo ; EPIC-10, Must ; issue GitHub hebdomadaire ; parallèle à US-240
     sprint_tasks:
-      - {id: T-TECH-36-01, title: "Hook pre-push refusant le force-push + ECS/PHPStan", type: OPS, hours: 0.5, status: ready-for-dev}
-      - {id: T-TECH-36-02, title: "Script wait-for-ci", type: OPS, hours: 0.5, status: ready-for-dev}
-      - {id: T-TECH-36-03, title: "Consigne worker durcie", type: DOC, hours: 0.5, status: ready-for-dev}
-      - {id: T-TECH-36-04, title: "README bilingue + captures dans la DoD plugin", type: DOC, hours: 0.5, status: ready-for-dev}
-      - {id: T-TECH-36-05, title: "Script check-resources", type: OPS, hours: 0.5, status: ready-for-dev}
+      - {id: T-TECH-36-01, title: "Hook pre-push refusant le force-push + ECS/PHPStan", type: OPS, hours: 0.5, status: done}
+      - {id: T-TECH-36-02, title: "Script wait-for-ci", type: OPS, hours: 0.5, status: done}
+      - {id: T-TECH-36-03, title: "Consigne worker durcie", type: DOC, hours: 0.5, status: done}
+      - {id: T-TECH-36-04, title: "README bilingue + captures dans la DoD plugin", type: DOC, hours: 0.5, status: done}
+      - {id: T-TECH-36-05, title: "Script check-resources", type: OPS, hours: 0.5, status: done}
     notes: "DÉCOMPOSÉ le 2026-10-29 : 43 tâches, 33 h (32 h Claude, 1 h Thibaut) pour 37,4 h de capacité, marge de 5,4 h (14,4 %). Actions de rétro S35 : T-TECH-36-01 à 05. Portes : GO du dépôt passeport et tags demandés quand les plugins sont fusionnés. Contraintes machine : 8 Go RAM, OrbStack 2 Go ; docker compose up -d mysql mailpit seulement. Branche proof/us-219-red supprimée. US-232 et US-233 reportées au sprint 37. Ordre d'exécution : transverses (parallèles), puis US-240 ∥ US-239, puis US-230 (après GO dépôt), puis US-231 (après US-230). 10 jours ouvrés, planning le 2026-10-29, revue et rétro au plus tard le 2026-11-13."
 
 backlog:
