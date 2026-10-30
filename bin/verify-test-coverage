@@ -50,6 +50,13 @@ $directories = $xml->xpath('//testsuites/testsuite');
 if (is_array($directories)) {
     foreach ($directories as $suite) {
         $name = (string) ($suite['name'] ?? '');
+        if ('' === $name) {
+            continue;
+        }
+        if (!isset($suitePaths[$name])) {
+            $suitePaths[$name] = [];
+            $suiteNames[] = $name;
+        }
         foreach ($suite->directory as $dir) {
             $path = trim((string) $dir);
             if ('' !== $path) {
@@ -57,8 +64,7 @@ if (is_array($directories)) {
                 $absolutePath = $phpunitDir . '/' . $path;
                 $realPath = realpath($absolutePath);
                 if (false !== $realPath) {
-                    $suitePaths[$name] = $realPath;
-                    $suiteNames[] = $name;
+                    $suitePaths[$name][] = $realPath;
                 }
             }
         }
@@ -84,12 +90,18 @@ $coveredPaths = [];
 if ([] !== $executedSuites) {
     foreach ($executedSuites as $suiteName) {
         if (isset($suitePaths[$suiteName])) {
-            $coveredPaths[] = $suitePaths[$suiteName];
+            foreach ($suitePaths[$suiteName] as $path) {
+                $coveredPaths[] = $path;
+            }
         }
     }
 } else {
     // Pas de workflow : tous les suites sont considérées comme exécutées
-    $coveredPaths = array_values($suitePaths);
+    foreach ($suitePaths as $paths) {
+        foreach ($paths as $path) {
+            $coveredPaths[] = $path;
+        }
+    }
 }
 
 // Lister tous les fichiers *Test.php
