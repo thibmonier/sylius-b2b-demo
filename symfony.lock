@@ -741,6 +741,9 @@
     "tmonier/sylius-customer-asset-management-plugin": {
         "version": "v0.1.0"
     },
+    "tmonier/sylius-digital-product-passport-plugin": {
+        "version": "v0.1.0"
+    },
     "tmonier/sylius-einvoice-transmission-plugin": {
         "version": "v0.1.0"
     },
