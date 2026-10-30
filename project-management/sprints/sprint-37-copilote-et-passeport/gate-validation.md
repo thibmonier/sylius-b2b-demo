@@ -38,8 +38,8 @@ Résultats de validation :
    Utilisation : 100 %
    Marge : 4,3 h (12,2 %, calculée sur les 31 h de Claude comme au sprint 36)
 
-⚠️ Dépendances résolues (10%)
-   1 dépendance en attente de fusion
+✅ Dépendances résolues (10%)
+   Toutes les dépendances sont satisfaites
    - US-211 : dépôt copilote créé le 2026-10-30 ✓
    - US-232 : dépend d'US-231 : satisfaite (code fusionné par la PR #3 du plugin passeport, 2d3f825d ; v0.1.0 publiée sur Packagist ; le reste d'US-231 est US-241 elle-même)
    - US-233 : dépend d'US-230 (done) et plugin customer-asset-management publié ✓
