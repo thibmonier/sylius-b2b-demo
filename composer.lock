@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30a8bf82a28fd147651870aadd422e00",
+    "content-hash": "a49b3eb3e4583a26fe1a13053d50fcde",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -16938,23 +16938,24 @@
         },
         {
             "name": "tmonier/sylius-b2b-predictive-analytics-plugin",
-            "version": "v0.1.0",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin.git",
-                "reference": "c16c4783ad246a5d90007b76169667b03d728a1e"
+                "reference": "8980c94b5ab698780c96d0afcb2db453d55ca2c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-predictive-analytics-plugin/zipball/c16c4783ad246a5d90007b76169667b03d728a1e",
-                "reference": "c16c4783ad246a5d90007b76169667b03d728a1e",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-predictive-analytics-plugin/zipball/8980c94b5ab698780c96d0afcb2db453d55ca2c1",
+                "reference": "8980c94b5ab698780c96d0afcb2db453d55ca2c1",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
                 "sylius/sylius": "^2.2.9 || ^2.3",
                 "tmonier/sylius-company-accounts-plugin": "^1.1",
-                "tmonier/sylius-company-insights-plugin": "^0.2"
+                "tmonier/sylius-company-insights-plugin": "^0.2",
+                "twig/intl-extra": "^3.21"
             },
             "require-dev": {
                 "phpstan/phpstan": "^2.1",
@@ -17011,9 +17012,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/v0.1.2"
             },
-            "time": "2026-10-29T12:29:04+00:00"
+            "time": "2026-10-29T21:14:43+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",

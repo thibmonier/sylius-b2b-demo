@@ -1,0 +1,34 @@
+#!/bin/sh
+# Resource gate before a batch of tests or renders (T-TECH-36-05): disk through bin/check-disk, then the swap of the
+# machine. On a machine with 8 GB of RAM a run that starts while the swap is high is slow and makes the disk grow.
+#
+#   bin/check-resources            # 0 go, 1 refused (disk below MIN_FREE_GB, or swap above MAX_SWAP_MB)
+#   bin/check-resources --full     # same, with the full-suite disk threshold of bin/check-disk
+#   MAX_SWAP_MB=5000 bin/check-resources
+#
+# bin/run-tests calls it before anything else. Refused: write the code without running anything, say it in the report.
+set -eu
+cd "$(dirname "$0")/.."
+
+MAX_SWAP_MB="${MAX_SWAP_MB:-4500}"
+
+set +e
+sh bin/check-disk "$@"
+DISK=$?
+set -e
+if [ "$DISK" = 1 ]; then
+    echo "REFUSED: not enough disk (see above)." >&2
+    exit 1
+fi
+
+SWAP_MB=""
+if command -v sysctl >/dev/null 2>&1 && sysctl -n vm.swapusage >/dev/null 2>&1; then
+    SWAP_MB=$(sysctl -n vm.swapusage | awk '{gsub(/M/, "", $6); printf "%d", $6}')
+elif [ -r /proc/meminfo ]; then
+    SWAP_MB=$(awk '/^SwapTotal:/ {t = $2} /^SwapFree:/ {f = $2} END {printf "%d", (t - f) / 1024}' /proc/meminfo)
+fi
+if [ -n "$SWAP_MB" ] && [ "$SWAP_MB" -gt "$MAX_SWAP_MB" ]; then
+    echo "REFUSED: ${SWAP_MB} MB of swap used, above ${MAX_SWAP_MB} MB: wait for the other runs to end, or close applications." >&2
+    exit 1
+fi
+echo "Resources OK."

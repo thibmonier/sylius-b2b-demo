@@ -203,3 +203,9 @@ Quand l'image de la démo ne peut pas être construite en local (moins de 10 Go 
 
 - **pa11y** : installé dans un dossier jetable sans son Chromium (`PUPPETEER_SKIP_DOWNLOAD=1 npm install pa11y@9`), lancé avec `--config` pointant `chromeLaunchConfig.executablePath` vers un Chromium local et `"standard": "WCAG2AAA"`. Attendu : « No issues found! » en FR et en EN.
 - **360 px** : script `puppeteer-core` (viewport 360, `isMobile`), qui compare `document.documentElement.scrollWidth` à la largeur visible et liste les éléments qui dépassent. Équivalent de `bin/measure-mobile`, qui vise la démo locale.
+
+## Ressources, attente de la CI et hook pre-push (sprint 36)
+
+- `bin/check-resources` : contrôle du disque (par `bin/check-disk`) et du swap (refus au-delà de `MAX_SWAP_MB`, 4 500 Mo par défaut). `bin/run-tests` l'appelle après ses propres seuils disque. En cas de refus, écrire le code sans rien lancer et le dire dans le rapport.
+- `bin/wait-for-ci <run-id> [dépôt]` ou `bin/wait-for-ci --pr <numéro> [dépôt]` : attend la fin d'un run en interrogeant `gh run view` toutes les 3 minutes (`WAIT_FOR_CI_INTERVAL`), jamais `gh run watch` ; sort 0 au vert, 1 au rouge (étapes en échec affichées), 5 après `WAIT_FOR_CI_TIMEOUT` (1 h).
+- `bin/pre-push-check --install` : installe le hook `pre-push` de la démo, qui refuse tout force-push puis lance ECS (`src tests`) et PHPStan avant chaque push.

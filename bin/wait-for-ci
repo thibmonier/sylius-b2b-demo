@@ -1,0 +1,50 @@
+#!/bin/sh
+# Waits for the end of a GitHub Actions run and exits with its result (T-TECH-36-02). Polls with `gh run view`,
+# never `gh run watch`: several parallel watches hit the secondary rate limit of GitHub (sprint 35).
+#
+#   bin/wait-for-ci <run-id> [repo]           # repo defaults to the current one
+#   bin/wait-for-ci --pr <number> [repo]      # latest run of the head commit of the PR
+#   WAIT_FOR_CI_INTERVAL=180 WAIT_FOR_CI_TIMEOUT=3600 bin/wait-for-ci 123
+#
+# Exit codes: 0 success, 1 failure or cancelled (the failed steps are printed), 2 usage, 5 timeout.
+set -eu
+
+INTERVAL="${WAIT_FOR_CI_INTERVAL:-180}"
+TIMEOUT="${WAIT_FOR_CI_TIMEOUT:-3600}"
+
+if [ "${1:-}" = "--pr" ]; then
+    [ -n "${2:-}" ] || { echo "Usage: bin/wait-for-ci --pr <number> [repo]" >&2; exit 2; }
+    REPO_ARG=""
+    [ -z "${3:-}" ] || REPO_ARG="--repo $3"
+    # shellcheck disable=SC2086
+    SHA=$(gh pr view "$2" $REPO_ARG --json headRefOid -q .headRefOid)
+    # shellcheck disable=SC2086
+    RUN_ID=$(gh run list $REPO_ARG --commit "$SHA" --limit 1 --json databaseId -q '.[0].databaseId')
+    [ -n "$RUN_ID" ] || { echo "No run yet for $SHA: retry in a few minutes." >&2; exit 2; }
+    REPO="${3:-}"
+else
+    [ -n "${1:-}" ] || { echo "Usage: bin/wait-for-ci <run-id> [repo] | --pr <number> [repo]" >&2; exit 2; }
+    RUN_ID="$1"
+    REPO="${2:-}"
+fi
+
+REPO_ARG=""
+[ -z "$REPO" ] || REPO_ARG="--repo $REPO"
+START=$(date +%s)
+while :; do
+    # shellcheck disable=SC2086
+    STATE=$(gh run view "$RUN_ID" $REPO_ARG --json status,conclusion -q '.status + " " + .conclusion')
+    case "$STATE" in
+        "completed success") echo "Run $RUN_ID: success"; exit 0 ;;
+        completed*)
+            echo "Run $RUN_ID: ${STATE#completed }" >&2
+            # shellcheck disable=SC2086
+            gh run view "$RUN_ID" $REPO_ARG --json jobs -q '.jobs[] | select(.conclusion != "success" and .conclusion != "skipped") | .name + ": " + ([.steps[] | select(.conclusion == "failure") | .name] | join(", "))' >&2
+            exit 1 ;;
+    esac
+    if [ $(($(date +%s) - START)) -ge "$TIMEOUT" ]; then
+        echo "Run $RUN_ID still ${STATE} after ${TIMEOUT}s." >&2
+        exit 5
+    fi
+    sleep "$INTERVAL"
+done

@@ -1,0 +1,77 @@
+name: Weekly stack versions report
+
+on:
+    schedule:
+        # Every Monday at 09:00 UTC
+        - cron: "0 9 * * 1"
+    workflow_dispatch: ~
+
+# No default token permission: the job asks for what it needs (US-208).
+permissions: {}
+
+jobs:
+    report:
+        name: Generate stack versions report
+        runs-on: ubuntu-latest
+        # US-239: minimal permissions (issues write, pull-requests read for gh pr list)
+        permissions:
+            contents: read
+            issues: write
+            pull-requests: read
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+              with:
+                  php-version: "8.5"
+                  tools: composer:2.10.3
+
+            - name: Composer cache
+              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+              with:
+                  path: ~/.composer/cache
+                  key: composer-${{ hashFiles('composer.lock') }}
+
+            - run: composer install --no-interaction --no-progress --no-scripts
+
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version: "24"
+                  cache: yarn
+
+            - run: yarn install --frozen-lockfile
+
+            - name: Generate versions report
+              id: report
+              run: |
+                  WEEK_NUMBER=$(date +"%Y-%W")
+                  ISSUE_TITLE="Veille des versions — semaine ${WEEK_NUMBER}"
+                  echo "week_number=${WEEK_NUMBER}" >> "$GITHUB_OUTPUT"
+                  echo "issue_title=${ISSUE_TITLE}" >> "$GITHUB_OUTPUT"
+                  bin/stack-versions-report > /tmp/report.md
+
+            - name: Find existing issue
+              id: find
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  ISSUE_TITLE: ${{ steps.report.outputs.issue_title }}
+              run: |
+                  ISSUE_NUMBER=$(gh issue list --state open --search "in:title \"${ISSUE_TITLE}\"" --json number --jq '.[0].number // ""')
+                  echo "issue_number=${ISSUE_NUMBER}" >> "$GITHUB_OUTPUT"
+
+            - name: Create or update issue
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  ISSUE_TITLE: ${{ steps.report.outputs.issue_title }}
+                  ISSUE_NUMBER: ${{ steps.find.outputs.issue_number }}
+              run: |
+                  if [ -z "${ISSUE_NUMBER}" ]; then
+                      gh issue create --title "${ISSUE_TITLE}" --body-file /tmp/report.md --label "dependencies"
+                      echo "Issue created"
+                  else
+                      gh issue edit "${ISSUE_NUMBER}" --body-file /tmp/report.md
+                      echo "Issue #${ISSUE_NUMBER} updated"
+                  fi

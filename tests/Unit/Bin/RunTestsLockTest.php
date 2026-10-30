@@ -20,6 +20,7 @@ final class RunTestsLockTest extends TestCase
         $fs->mkdir([$this->root . '/bin', $this->root . '/stub', $this->root . '/var']);
         $fs->copy(\dirname(__DIR__, 3) . '/bin/run-tests', $this->root . '/bin/run-tests');
         $fs->copy(\dirname(__DIR__, 3) . '/bin/check-disk', $this->root . '/bin/check-disk');
+        $fs->copy(\dirname(__DIR__, 3) . '/bin/check-resources', $this->root . '/bin/check-resources');
         file_put_contents($this->root . '/bin/prepare-test-db', "#!/bin/sh\nexit 0\n");
         // The free space is a stub (50 GB unless a test says otherwise): a run must not depend on the disk of the machine.
         file_put_contents($this->root . '/stub/df', <<<'SH'
@@ -240,6 +241,14 @@ final class RunTestsLockTest extends TestCase
         self::assertStringContainsString('at least 5 GB required', $result->getErrorOutput());
     }
 
+    public function testARunIsRefusedWhenTheSwapIsAboveTheThreshold(): void
+    {
+        $result = $this->runToEnd(['MAX_SWAP_MB' => '-1'], ['--filter', 'X']);
+
+        self::assertSame(1, $result->getExitCode());
+        self::assertStringContainsString('of swap used, above -1 MB', $result->getErrorOutput());
+    }
+
     private function staleLock(): void
     {
         $dead = new Process(['true']);
@@ -306,6 +315,7 @@ final class RunTestsLockTest extends TestCase
         return new Process(['sh', $this->root . '/bin/run-tests', ...$args], $this->root, $env + [
             'PATH' => $this->root . '/stub:' . getenv('PATH'),
             'MIN_FREE_GB' => '0',
+            'MAX_SWAP_MB' => '1000000',
             'TEST_CACHE_DIR' => $this->root . '/var/cache-lock-test',
         ], null, 30);
     }

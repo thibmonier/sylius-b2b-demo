@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// US-239: weekly versions report for the demo stack. Compares installed versions
+// (composer.lock, package.json, Docker images) against the latest published versions
+// and generates a structured Markdown issue body.
+//
+// Usage:
+//   bin/stack-versions-report
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+use App\Demo\Stack\ShellOutdatedSource;
+use App\Demo\Stack\VersionsReport;
+
+$source = new ShellOutdatedSource();
+$report = new VersionsReport($source);
+
+echo $report->generate();

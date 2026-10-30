@@ -717,6 +717,9 @@
     "tmonier/sylius-b2b-mcp-plugin": {
         "version": "v1.1.0"
     },
+    "tmonier/sylius-b2b-predictive-analytics-plugin": {
+        "version": "v0.1.1"
+    },
     "tmonier/sylius-bulk-actions-plugin": {
         "version": "v1.0.0"
     },
@@ -740,6 +743,9 @@
     },
     "tmonier/sylius-einvoice-transmission-plugin": {
         "version": "v0.1.0"
+    },
+    "tmonier/sylius-erp-flatfile-plugin": {
+        "version": "v0.2.0"
     },
     "tmonier/sylius-facturx-plugin": {
         "version": "v1.1.0"
