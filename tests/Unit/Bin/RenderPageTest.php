@@ -85,8 +85,17 @@ final class RenderPageTest extends TestCase
     public function testUsesTestDbNameInDatabaseUrl(): void
     {
         // This test verifies that TEST_DB_NAME is used to construct DATABASE_URL
-        // by checking that a non-existent database name causes a connection error
-        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], ['APP_ENV' => 'test', 'WORKER_ID' => 'test', 'TEST_DB_NAME' => 'nonexistent_db_xyz', 'APP_CACHE_DIR' => false]);
+        // by checking that a non-existent database name causes a connection error.
+        // The MySQL port of the running test database is passed on (3306 in CI, 3340 locally),
+        // otherwise the connection is refused before the database name is checked.
+        $databasePort = parse_url((string) ($_SERVER['DATABASE_URL'] ?? ''), \PHP_URL_PORT);
+        $process = $this->render(['--out=/tmp/render-page-test', '/fr_FR/'], [
+            'APP_ENV' => 'test',
+            'WORKER_ID' => 'test',
+            'TEST_DB_NAME' => 'nonexistent_db_xyz',
+            'MYSQL_PORT' => (string) ($databasePort ?? 3340),
+            'APP_CACHE_DIR' => false,
+        ]);
 
         // Should fail trying to connect to nonexistent_db_xyz
         self::assertStringContainsString('nonexistent_db_xyz', $process->getErrorOutput(), 'Should attempt to use TEST_DB_NAME in DATABASE_URL');

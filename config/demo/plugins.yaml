@@ -154,6 +154,17 @@ parameters:
               fr: "Connectez-vous en Claire (acheteuse d'Acme) et ouvrez « Mon matériel » dans votre compte : trois machines fictives sont déclarées (chariot, transpalette, perceuse à colonne), partagées avec les membres de la société. Ouvrez ensuite la catégorie Outillage : le contrôle « Compatible avec mon matériel » limite la liste aux pièces compatibles, pour tout le parc ou pour une machine. Dans une catégorie sans pièce compatible, la page le dit et propose de retirer le filtre."
               en: "Sign in as Claire (Acme buyer) and open \"My equipment\" in your account: three fictional machines are declared (forklift, pallet truck, drill press), shared with the members of the company. Then open the Tools category: the \"Compatible with my equipment\" control narrows the list to the compatible parts, for the whole fleet or for one machine. In a category with no compatible part, the page says so and offers to remove the filter."
           advised_account: claire@acme.example
+        - slug: sylius-digital-product-passport-plugin
+          name: 'Digital Product Passport'
+          category: compliance
+          description:
+              fr: "Passeport numérique produit préparatoire : origine des matériaux, recyclabilité et réparabilité par variante, version et date de révision, page publique bilingue liée depuis la fiche produit. Données structurées pour préparer le passeport, sans promesse de conformité réglementaire."
+              en: 'Preparatory digital product passport: material origin, recyclability and repairability per variant, version and revision date, bilingual public page linked from the product page. Structured data to prepare the passport, with no promise of regulatory compliance.'
+          demo_route: null
+          scenario:
+              fr: "Ouvrez la fiche d'un casque de chantier de la catégorie EPI (références EPI-CASK-001 à 003) : le lien « Passeport produit » ouvre la page publique, avec l'origine des matériaux, la recyclabilité, la réparabilité, la version du schéma et la date de mise à jour. Passez la boutique en anglais : les intitulés suivent."
+              en: 'Open the product page of a hard hat in the PPE category (references EPI-CASK-001 to 003): the "Product passport" link opens the public page, with material origin, recyclability, repairability, schema version and last update. Switch the shop to English: the labels follow.'
+          advised_account: claire@acme.example
         - slug: sylius-einvoice-transmission-plugin
           name: 'E-invoice Transmission'
           category: billing
