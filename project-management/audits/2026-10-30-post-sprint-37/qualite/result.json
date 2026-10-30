@@ -1,0 +1,295 @@
+{
+  "tech": "symfony",
+  "score": 84,
+  "score_sur_75": 63,
+  "base": "main @ b1ad1c6 (Sylius 2.3, Symfony 8.1, PHP 8.5)",
+  "evolution_depuis_2026_10_22": "+17 points (67/100 → 84/100)",
+  "architecture": {
+    "score": 17,
+    "evolution": "+2",
+    "findings": [
+      {
+        "severity": "info",
+        "file": "src/Controller/CompanyWishlistController.php",
+        "message": "Dette du 2026-10-22 CORRIGÉE : flush() dans le contrôleur a été éliminé (fichier refactorisé ou supprimé).",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "info",
+        "file": "src/Demo/Vitrine/StandardBlock.php",
+        "message": "Dette du 2026-10-22 CORRIGÉE : isInDemo() et ses branches associées ont été supprimés.",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "high",
+        "file": "src/Demo/PunchOutSimulator/OciBuyerProvider.php:7,37 ; BuyerCredentialsProvider.php:7,43",
+        "message": "Dette NON CORRIGÉE : le simulateur (runtime) importe PunchoutDemoFixture::DEMO_SECRET (dépendance inversée : runtime → fixtures).",
+        "recommendation": "Extraire ces constantes dans config/demo/accounts.yaml ou DemoBuyerCodes."
+      },
+      {
+        "severity": "medium",
+        "file": "src/Demo/Controller/PunchOutSimulatorController.php:247 (306 lignes de classe)",
+        "message": "Dette NON CORRIGÉE : cartFromState() toujours méthode privée du contrôleur.",
+        "recommendation": "Créer ReceivedCart::fromState() ou service SignedCartState."
+      },
+      {
+        "severity": "medium",
+        "file": "src/ (14 classes > 200 lignes)",
+        "message": "Régression légère : 11 → 14 classes. Nouvelles : VersionsReport 289, ProductImageFetcher 247, AuditLogDemoFixture 213. Autres : ProductCsvFixture 385, DemoResetCommand 364, ProofCollector 306, PunchOutSimulatorController 306, MarkdownDocument 281, OrderHistoryDemoFixture 271, ReadmeChecker 252, VariantLogisticsSeeder 249, BulkOrderWriter 237, HomeSelectionProvider 236, CsvProductReader 217, JourneyController 211.",
+        "recommendation": "Découper VersionsReport, ProductImageFetcher et AuditLogDemoFixture en priorité (sprint 38)."
+      },
+      {
+        "severity": "medium",
+        "file": "src/Demo/Controller/WebhookReceiverController.php (101 lignes)",
+        "message": "Dette NON CORRIGÉE : logique de réception toujours dans le contrôleur.",
+        "recommendation": "Extraire WebhookReceiver renvoyant un résultat typé."
+      },
+      {
+        "severity": "low",
+        "file": "config/services.yaml:50-53",
+        "message": "Dette NON CORRIGÉE : src/Demo/Vitrine et src/Demo/Images/Fetch restent dans src/ et sont exclus du conteneur.",
+        "recommendation": "Les sortir vers tools/ avec leur autoload."
+      },
+      {
+        "severity": "info",
+        "file": "src/Demo/Order, src/Demo/Proof, src/Demo/Stack",
+        "message": "Points positifs : séparation Proof/Refresh avec interfaces (GitHubApi, PackagistApi) et doubles de test ; DemoOrderPlan/DemoOrderSpec/BulkOrderWriter bien découpés ; lint:container, lint:twig (187 fichiers), lint:yaml (107 fichiers) OK ; VersionsReport bien testé.",
+        "recommendation": "Maintenir."
+      }
+    ]
+  },
+  "code_quality": {
+    "score": 21,
+    "evolution": "+6",
+    "findings": [
+      {
+        "severity": "info",
+        "file": "phpstan.dist.neon ; ecs.php",
+        "message": "PHPStan niveau 9 : 0 erreur, sans baseline ni @phpstan-ignore. ECS : 0 erreur. Rien n'a régressé malgré +~200 fichiers depuis le 2026-10-22.",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "info",
+        "file": "rector.php ; .github/workflows/ci.yaml:69",
+        "message": "Amélioration MAJEURE : Rector 78 → 0 fichiers modifiables (100% résolu), maintenant exécuté en CI.",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "info",
+        "file": "src/Demo/Vitrine/StandardBlock.php",
+        "message": "Code mort SUPPRIMÉ : isInDemo() et ses branches associées (ReadmeApplier, ReadmeChecker, render($inDemo)).",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "medium",
+        "file": "src/Demo/Stack/VersionsReport.php (289 lignes) ; src/Demo/Images/Fetch/ProductImageFetcher.php (247 lignes) ; src/Demo/DataFixtures/AuditLogDemoFixture.php (213 lignes)",
+        "message": "Nouvelles classes volumineuses depuis sprints 35-37.",
+        "recommendation": "Découper en classes cohésives (SRP), sprint 38."
+      },
+      {
+        "severity": "low",
+        "file": "bin/audit-js-dependencies, check-pinned-refs, proof-refresh, vitrine-readme, fetch-product-images",
+        "message": "Scripts bin/ : scripts shell ont set -eu, scripts PHP et Node sans garde équivalente (declare(strict_types=1) à vérifier).",
+        "recommendation": "Vérifier strict_types et gestion d'erreur."
+      },
+      {
+        "severity": "low",
+        "file": "src/Demo/DataFixtures (24 fixtures)",
+        "message": "Duplication modérée : lookups findOneBy/getRepository répétés dans 20 fixtures.",
+        "recommendation": "Introduire DemoReferenceResolver (règle des 3 atteinte)."
+      }
+    ]
+  },
+  "testing": {
+    "score": 25,
+    "evolution": "+5",
+    "findings": [
+      {
+        "severity": "info",
+        "file": "tests/",
+        "message": "Amélioration MAJEURE : 330 fichiers de test (188 le 2026-10-22, +142 fichiers, +75%). CI de main verte.",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "info",
+        "file": ".github/workflows/ci.yaml:26,98-113",
+        "message": "Amélioration MAJEURE : seuil de couverture 90% défini et BLOQUANT en CI (absent le 2026-10-22).",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "info",
+        "file": "tests/",
+        "message": "Amélioration : usleep 7 → 4 occurrences (-43%).",
+        "recommendation": "Continuer à éliminer les 4 restantes."
+      },
+      {
+        "severity": "info",
+        "file": "tests/Unit/Demo/Stack, tests/Unit/Demo/Passport, tests/Unit/Demo/Copilot, tests/Unit/Demo/Analytics",
+        "message": "Code des sprints 35-37 bien testé : VersionsReport, PassportCollector, CopilotRecommender, PredictiveAnalytics.",
+        "recommendation": "Maintenir."
+      },
+      {
+        "severity": "medium",
+        "file": "src/Controller/CompanyWishlistController.php ; src/Wishlist/Menu/CompanyWishlistMenuListener.php",
+        "message": "Dette NON CORRIGÉE : aucun test dédié ne nomme ces classes (seul CompanyWishlistSmokeTest les traverse).",
+        "recommendation": "Ajouter test fonctionnel de suppression d'article de wishlist."
+      },
+      {
+        "severity": "low",
+        "file": "tests/Unit/Bin/RunTestsLockTest.php:155 ; tests/Functional/Demo/HardeningTest.php:636 ; WebhookDeliveryTest.php:218 ; McpOutboundGuardTest.php:65",
+        "message": "4 usleep restants dans les tests (attentes temporelles).",
+        "recommendation": "Injecter horloge ou attendre condition."
+      },
+      {
+        "severity": "low",
+        "file": "tests/Smoke/LegalPagesTest.php:68",
+        "message": "Dette NON CORRIGÉE : test sauté sans DEMO_LEGAL_REQUIRED=1 en CI.",
+        "recommendation": "Définir DEMO_LEGAL_REQUIRED=1 en CI."
+      }
+    ]
+  },
+  "plugins_audites": [
+    {
+      "nom": "sylius-digital-product-passport-plugin",
+      "phpstan": "0 erreur",
+      "ecs": "OK",
+      "constat": "Qualité maintenue"
+    },
+    {
+      "nom": "sylius-b2b-sales-copilot-plugin",
+      "phpstan": "0 erreur",
+      "ecs": "OK",
+      "constat": "Qualité maintenue"
+    },
+    {
+      "nom": "sylius-b2b-predictive-analytics-plugin",
+      "phpstan": "0 erreur",
+      "ecs": "OK",
+      "constat": "Qualité maintenue"
+    }
+  ],
+  "axes_amelioration": [
+    {
+      "titre": "Découper les nouvelles classes volumineuses",
+      "description": "3 nouvelles classes > 200 lignes (VersionsReport 289, ProductImageFetcher 247, AuditLogDemoFixture 213)",
+      "priorite": "haute",
+      "estimation_points": 3,
+      "cible": "US du backlog de la démo (sprint 38)"
+    },
+    {
+      "titre": "Extraire les codes acheteurs du simulateur",
+      "description": "OciBuyerProvider et BuyerCredentialsProvider importent PunchoutDemoFixture::DEMO_SECRET (dépendance inversée)",
+      "priorite": "haute",
+      "estimation_points": 1,
+      "cible": "US du backlog de la démo (sprint 38)"
+    },
+    {
+      "titre": "Ajouter test fonctionnel de la wishlist",
+      "description": "CompanyWishlistController et CompanyWishlistMenuListener sans test dédié",
+      "priorite": "moyenne",
+      "estimation_points": 2,
+      "cible": "US du backlog de la démo (sprint 38)"
+    },
+    {
+      "titre": "Définir DEMO_LEGAL_REQUIRED en CI",
+      "description": "Variable absente de la CI, test légal sauté systématiquement",
+      "priorite": "basse",
+      "estimation_points": 1,
+      "cible": "Issue GitHub du dépôt sylius-b2b-demo"
+    },
+    {
+      "titre": "Relancer bin/proof-refresh",
+      "description": "Compteur de tests de proof.json (161) en retard sur la réalité (330 fichiers)",
+      "priorite": "basse",
+      "estimation_points": 0.5,
+      "cible": "Issue GitHub du dépôt sylius-b2b-demo"
+    },
+    {
+      "titre": "Éliminer les 4 usleep restants",
+      "description": "4 occurrences dans les tests (attentes temporelles non déterministes)",
+      "priorite": "basse",
+      "estimation_points": 2,
+      "cible": "US du backlog de la démo (sprint 39)"
+    },
+    {
+      "titre": "Découper cartFromState du simulateur",
+      "description": "cartFromState() toujours méthode privée du contrôleur (classe de 306 lignes)",
+      "priorite": "moyenne",
+      "estimation_points": 2,
+      "cible": "US du backlog de la démo (sprint 38)"
+    },
+    {
+      "titre": "Déplacer Vitrine et Images/Fetch hors de src/",
+      "description": "Outils manuels toujours dans src/, exclus de config/services.yaml",
+      "priorite": "basse",
+      "estimation_points": 1,
+      "cible": "Issue GitHub du dépôt sylius-b2b-demo"
+    },
+    {
+      "titre": "Introduire DemoReferenceResolver",
+      "description": "Lookups findOneBy/getRepository répétés dans 20 fixtures (règle des 3 atteinte)",
+      "priorite": "basse",
+      "estimation_points": 3,
+      "cible": "US du backlog de la démo (sprint 39)"
+    },
+    {
+      "titre": "Extraire WebhookReceiver du contrôleur",
+      "description": "Logique de réception toujours dans WebhookReceiverController::__invoke() (101 lignes)",
+      "priorite": "moyenne",
+      "estimation_points": 2,
+      "cible": "US du backlog de la démo (sprint 38)"
+    }
+  ],
+  "metriques_comparaison": {
+    "phpstan": {
+      "2026-10-22": "0 erreur",
+      "2026-10-30": "0 erreur",
+      "evolution": "Stable ✅"
+    },
+    "ecs": {
+      "2026-10-22": "0 erreur",
+      "2026-10-30": "0 erreur",
+      "evolution": "Stable ✅"
+    },
+    "rector_dry_run": {
+      "2026-10-22": "78 fichiers",
+      "2026-10-30": "0 fichier",
+      "evolution": "-100% ✅"
+    },
+    "rector_ci": {
+      "2026-10-22": "❌",
+      "2026-10-30": "✅",
+      "evolution": "Ajouté ✅"
+    },
+    "lint_twig": {
+      "2026-10-22": "98 fichiers OK",
+      "2026-10-30": "187 fichiers OK",
+      "evolution": "+91% ✅"
+    },
+    "lint_yaml": {
+      "2026-10-22": "94 fichiers OK",
+      "2026-10-30": "107 fichiers OK",
+      "evolution": "+14% ✅"
+    },
+    "fichiers_test": {
+      "2026-10-22": 188,
+      "2026-10-30": 330,
+      "evolution": "+75% ✅"
+    },
+    "couverture_seuil_ci": {
+      "2026-10-22": "❌",
+      "2026-10-30": "90% bloquant ✅",
+      "evolution": "Ajouté ✅"
+    },
+    "usleep_tests": {
+      "2026-10-22": 7,
+      "2026-10-30": 4,
+      "evolution": "-43% ✅"
+    },
+    "classes_200_lignes": {
+      "2026-10-22": 11,
+      "2026-10-30": 14,
+      "evolution": "+27% ⚠️"
+    }
+  }
+}
