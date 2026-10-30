@@ -602,7 +602,7 @@ sprints:
 
   sprint-37:
     name: sprint-37-copilote-et-passeport
-    status: planning  # planifié et décomposé le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-37-copilote-et-passeport (déjà créée) ; 43 tâches, 32 h (31 h Claude, 1 h Thibaut), marge 4,3 h
+    status: in-progress  # planifié et décomposé le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-37-copilote-et-passeport (déjà créée) ; 43 tâches, 32 h (31 h Claude, 1 h Thibaut), marge 4,3 h
     sprint_id: "sprint-37"
     start_date: "2026-10-30"
     end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
@@ -612,10 +612,10 @@ sprints:
     margin_hours: 4.3  # 12,2 % de marge
     goal: "Lancer le copilote d'achat B2B avec son widget du compte et son adaptateur rejoué, compléter le passeport numérique produit avec QR, lien GS1 Digital Link et pièces compatibles, et installer le plugin passeport dans la démo"
     stories:
-      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, tasks: 15, hours: 11, status: ready-for-dev}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut
-      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin
-      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, tasks: 8, hours: 6.5, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié
-      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, tasks: 7, hours: 4, status: ready-for-dev}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231
+      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, tasks: 15, hours: 11, status: in-progress}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut
+      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, tasks: 8, hours: 6.5, status: in-progress}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin
+      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, tasks: 8, hours: 6.5, status: in-progress}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié
+      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, tasks: 7, hours: 4, status: in-progress}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231
     sprint_tasks:
       - {id: T-TECH-37-01, title: "Vérification automatique que chaque fichier de tests/ appartient à une suite exécutée en CI", type: TEST, hours: 1, status: ready-for-dev}  # action 1 de la rétro du sprint 36
       - {id: T-TECH-37-02, title: "Squelette de plugin avec e2e_js: yes et suite all par défaut", type: DOC, hours: 0.5, status: ready-for-dev}  # action 2 de la rétro du sprint 36
