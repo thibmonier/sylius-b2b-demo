@@ -15,12 +15,12 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-247-01 | [BE] | Calculer le panier réel de Claire après remise à zéro (nombre d'articles, total) | 0,5 h | - | 🔲 |
-| T-247-02 | [BE] | Cassette de démo : réponse FR « 47 articles, 1 017,35 € » (ou panier réel) | 0,5 h | T-247-01 | 🔲 |
-| T-247-03 | [BE] | Cassette de démo : réponse EN « 47 items, €1,017.35 » (format anglais) | 0,25 h | T-247-02 | 🔲 |
-| T-247-04 | [TEST] | Test comparant la réponse enregistrée au panier de Claire (rouge puis vert) | 1 h | T-247-03 | 🔲 |
-| T-247-05 | [DOC] | Capture du README du copilote refaite si la réponse y figure | 0,25 h | T-247-04 | 🔲 |
-| T-247-06 | [REV] | Revue : réponse alignée FR/EN, test rouge puis vert, CI verte | 0,25 h | T-247-05 | 🔲 |
+| T-247-01 | [BE] | Calculer le panier réel de Claire après remise à zéro (nombre d'articles, total) | 0,5 h | - | ✅ |
+| T-247-02 | [BE] | Cassette de démo : réponse FR « 47 articles, 1 017,35 € » (ou panier réel) | 0,5 h | T-247-01 | ✅ |
+| T-247-03 | [BE] | Cassette de démo : réponse EN « 47 items, €1,017.35 » (format anglais) | 0,25 h | T-247-02 | ✅ |
+| T-247-04 | [TEST] | Test comparant la réponse enregistrée au panier de Claire (rouge puis vert) | 1 h | T-247-03 | ✅ |
+| T-247-05 | [DOC] | Capture du README du copilote refaite si la réponse y figure | 0,25 h | T-247-04 | ✅ |
+| T-247-06 | [REV] | Revue : réponse alignée FR/EN, test rouge puis vert, CI verte | 0,25 h | T-247-05 | ✅ |
 
 **Total estimé** : 2,75 h
 
