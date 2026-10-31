@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Demo;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -19,9 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class PluginCssSelectorGuardTest extends WebTestCase
 {
-    /**
-     * @dataProvider provideScssAndPage
-     */
+    #[DataProvider('provideScssAndPage')]
     public function testEveryBemSelectorInDemoScssMatchesRenderedHtml(
         string $scssFile,
         string $uri,
