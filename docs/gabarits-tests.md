@@ -162,3 +162,73 @@ $this->client->request('GET', '/en_US/account/dashboard', server: ['HTTP_HOST' =
 - Dans un template de hook Twig, les données passent par `hookable_metadata.context.*` (par exemple `hookable_metadata.context.resource` dans les sections de l'édition produit) ; vérifier le nom dans `vendor/sylius/sylius/src/Sylius/Bundle/*/templates`.
 - Un contrôleur déclaré en service doit être public ou porter le tag `controller.service_arguments`, sinon 500 « controller is not callable ».
 - Contrôleurs Stimulus d'un plugin : les enregistrer dans `assets/shop/entrypoint.js` (`application.register('tmonier-xxx', XxxController)`), comme company-insights.
+
+## 4. Test en application hôte : page shop du plugin (T-TECH-39-01)
+
+Chaque plugin qui rend une page shop doit avoir un test fonctionnel qui vérifie les pages dans chaque locale, avec des assertions sur les textes visibles et l'absence de clés de traduction brutes. Ce gabarit évite les défauts du sprint 38 : hook préfixé, fil d'Ariane « Edit the machine », clé brute `sylius.ui.back_to_list`, adresse API sans préfixe de langue.
+
+```php
+final class ShopPageTest extends WebTestCase
+{
+    private KernelBrowser $client;
+
+    protected function setUp(): void
+    {
+        $this->client = static::createClient();
+
+        // Connecter un utilisateur shop (voir gabarit §2).
+    }
+
+    /**
+     * @dataProvider localeAndExpectedTextsProvider
+     *
+     * @param list<string> $expectedTexts
+     */
+    public function testPageRendersWithLocalizedTexts(
+        string $locale,
+        string $path,
+        array $expectedTexts,
+    ): void {
+        $this->client->request('GET', '/' . $locale . $path);
+
+        self::assertResponseIsSuccessful();
+
+        $content = (string) $this->client->getResponse()->getContent();
+
+        foreach ($expectedTexts as $text) {
+            self::assertStringContainsString($text, $content);
+        }
+
+        // Aucune clé de traduction brute (mots séparés par des points).
+        self::assertDoesNotMatchRegularExpression(
+            '/\b[a-z_]{2,}\.[a-z_.]{2,}\b/',
+            strip_tags($content),
+            'Raw translation key found in rendered text.',
+        );
+    }
+
+    /** @return iterable<string, array{string, string, list<string>}> */
+    public static function localeAndExpectedTextsProvider(): iterable
+    {
+        yield 'FR — page machine' => [
+            'fr_FR',
+            '/account/equipment/xxx',
+            ['Mes machines', 'Retour'],
+        ];
+
+        yield 'EN — machine page' => [
+            'en_US',
+            '/account/equipment/xxx',
+            ['My machines', 'Back'],
+        ];
+    }
+}
+```
+
+### Points de vérification
+
+- **Route préfixée** : toujours `/{_locale}/...`, sinon la page est un 404 ou les traductions ne se chargent pas.
+- **Fil d'Ariane** : vérifier le texte dans chaque locale (pas la clé admin anglaise).
+- **Pas de clé brute** : la regex `/\b[a-z_]{2,}\.[a-z_.]{2,}\b/` sur `strip_tags()` détecte les clés oubliées comme `sylius.ui.back_to_list`.
+- **Adresse API** : si le plugin expose un endpoint, vérifier que l'attribut `data-*-url` ou l'URL dans le HTML contient le préfixe de langue.
+- **Rouge prouvé** : réintroduire un des défauts du sprint 38 (par ex. retirer une traduction), vérifier que le test échoue sur l'assertion, puis restaurer.

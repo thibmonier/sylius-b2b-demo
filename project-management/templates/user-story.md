@@ -42,6 +42,7 @@ En tant que <persona>, je veux <capacité>, afin de <bénéfice>.
 ## Definition of Done
 
 - [ ] <critères mesurables>
+- [ ] Maquette Claude Design validée par Thibaut avant le premier gabarit Twig, consignée au registre (stories d'écran uniquement — voir `docs/conception-graphique.md`)
 ```
 
 ## Contrôle au planning
