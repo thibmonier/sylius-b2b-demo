@@ -15,13 +15,13 @@
 | Heures estimées | 23,75 h (toutes pour Claude) |
 | Capacité | 27 h (10 × 2,1 + 6 h transverses) |
 | Marge | 3,25 h (12 %) |
-| Stories livrées | 0 / 4 |
-| Transverses terminées | 0 / 5 |
+| Stories livrées | 4 / 4 (en review) |
+| Transverses terminées | 5 / 5 |
 | Tâches bloquées | 0 |
 
 ## 🔲 À faire
 
-Toutes les tâches sont prêtes (33 tâches).
+Aucune tâche à faire.
 
 Voir détails dans [tasks/README.md](./tasks/README.md).
 
@@ -31,11 +31,11 @@ Aucune tâche en cours.
 
 ## 👀 En revue
 
-Aucune tâche en revue.
+US-242, US-243, US-244, US-245 : livrées le 2026-10-31, validation de Thibaut attendue (PR #144 de la démo).
 
 ## ✅ Terminé
 
-Aucune tâche terminée.
+T-TECH-38-01 à 05, et toutes les tâches des quatre stories (détail dans `tasks/`).
 
 ## 🚫 Bloqué
 
@@ -58,8 +58,8 @@ Contrainte : au plus 3 workers lancent des tests en même temps (8 Go RAM). Chev
 
 | US | Statut | Tâches | Heures |
 |----|--------|--------|--------|
-| [US-244](./tasks/US-244-tasks.md) | 🔲 prête | 0 / 8 | 5,75 h |
-| [US-243](./tasks/US-243-tasks.md) | 🔲 prête | 0 / 7 | 5,25 h |
-| [US-242](./tasks/US-242-tasks.md) | 🔲 prête | 0 / 9 | 6,5 h |
-| [US-245](./tasks/US-245-tasks.md) | 🔲 prête | 0 / 4 | 2 h |
-| [Transverse](./tasks/technical-tasks.md) | 🔲 | 0 / 5 | 4,25 h |
+| [US-244](./tasks/US-244-tasks.md) | 👀 review | 8 / 8 | 5,75 h |
+| [US-243](./tasks/US-243-tasks.md) | 👀 review | 7 / 7 | 5,25 h |
+| [US-242](./tasks/US-242-tasks.md) | 👀 review | 9 / 9 | 6,5 h |
+| [US-245](./tasks/US-245-tasks.md) | 👀 review | 4 / 4 | 2 h |
+| [Transverse](./tasks/technical-tasks.md) | ✅ | 5 / 5 | 4,25 h |

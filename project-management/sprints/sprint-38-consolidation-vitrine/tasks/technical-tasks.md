@@ -8,7 +8,7 @@
 |----|------|-------|------------|-----------|--------|
 | T-TECH-38-01 | [DOC] | Gabarit de test fonctionnel partagé (locale, firewall, canal) | 1 h | - | ✅ |
 | T-TECH-38-02 | [DOC] | Règle 46 : tests en local obligatoires avant tout push, cités dans le rapport | 0,5 h | - | ✅ |
-| T-TECH-38-03 | [OPS] | TaskStop automatique de chaque worker dès sa passation confirmée | 1 h | - | 🔲 |
+| T-TECH-38-03 | [OPS] | TaskStop automatique de chaque worker dès sa passation confirmée | 1 h | - | ✅ |
 | T-TECH-38-04 | [TEST] | Suite complète ou pré-contrôle avant PR de fin de sprint (règle) | 0,75 h | - | ✅ |
 | T-TECH-38-05 | [DOC] | Gabarit de test d'installation vérifiant kernel.bundles | 1 h | - | ✅ |
 
