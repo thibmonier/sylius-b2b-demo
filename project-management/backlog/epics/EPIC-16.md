@@ -36,7 +36,8 @@ Donner aux acheteurs B2B un assistant dans leur espace client qui **prépare** u
 | [US-215](../user-stories/US-215.md) | Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés | Must | 3 | 38 |
 | [US-216](../user-stories/US-216.md) | Copilote d'achat : adaptateur LLM réel pour les intégrateurs | Could | 5 | non planifiée |
 | [US-244](../user-stories/US-244.md) | Copilote d'achat : installation dans la démo et captures du widget | Should | 3 | 38 |
-| [US-246](../user-stories/US-246.md) | Copilote d'achat : mise en forme du widget | Should | 2 | non planifiée |
+| [US-248](../user-stories/US-248.md) | Copilote d'achat : conception graphique du widget dans Claude Design | Should | 2 | non planifiée |
+| [US-246](../user-stories/US-246.md) | Copilote d'achat : mise en forme du widget (d'après la maquette d'US-248) | Should | 2 | non planifiée |
 | [US-247](../user-stories/US-247.md) | Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire | Should | 1 | non planifiée |
 
 ## Dépendances
