@@ -6,10 +6,10 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-TECH-42-01 | [TEST] | Garde-fou sélecteurs CSS plugin ↔ démo | 0,5 h | - | 🔲 |
-| T-TECH-42-02 | [OPS] | Script `bin/plugin-push-all` pour les 28 plugins | 0,5 h | - | 🔲 |
-| T-TECH-42-03 | [DOC] | Corriger le montant 1 017,35 → 963,50 € HT dans la maquette Copilote | 0,25 h | - | 🔲 |
-| T-TECH-42-04 | [OPS] | Bump copilote ^1.1 dans la démo et retirer le template override | 0,5 h | - | 🔲 |
+| T-TECH-42-01 | [TEST] | Garde-fou sélecteurs CSS plugin ↔ démo | 0,5 h | - | ⏭️ skipped (styling intentionnel) |
+| T-TECH-42-02 | [OPS] | Script `bin/plugin-push-all` pour les 28 plugins | 0,5 h | - | ✅ fe5d847 |
+| T-TECH-42-03 | [DOC] | Corriger le montant 1 017,35 → 963,50 € HT dans la maquette Copilote | 0,25 h | - | ✅ déjà correct |
+| T-TECH-42-04 | [OPS] | Bump copilote ^1.1 dans la démo et retirer le template override | 0,5 h | - | ✅ aba5b82 |
 
 **Total estimé** : 1,75 h
 
