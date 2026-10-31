@@ -17,7 +17,7 @@ use Tmonier\SyliusRegistrationApprovalPlugin\Entity\Customer\ApprovalAwareInterf
  * so the demo of the Registration Approval plugin starts from these. Fictitious people and companies; nobody signs in
  * with these accounts (random password). The nightly reset puts them back in the pending state.
  *
- * Depends on: nothing but the schema. Priority: -20 (declared in config/packages/demo_fixtures.yaml)
+ * Depends on: nothing but the schema. Priority: -21 (declared in config/packages/demo_fixtures.yaml)
  */
 final class PendingRegistrationDemoFixture extends AbstractFixture
 {
