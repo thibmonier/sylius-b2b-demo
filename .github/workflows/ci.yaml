@@ -125,6 +125,10 @@ jobs:
             - name: Publish coverage check run
               if: steps.coverage.outputs.rate != ''
               uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+              env:
+                  COV_RATE: ${{ steps.coverage.outputs.rate }}
+                  COV_COVERED: ${{ steps.coverage.outputs.covered }}
+                  COV_TOTAL: ${{ steps.coverage.outputs.total }}
               with:
                   script: |
                       await github.rest.checks.create({
@@ -135,8 +139,8 @@ jobs:
                         status: 'completed',
                         conclusion: 'success',
                         output: {
-                          title: 'Line coverage: ${{ steps.coverage.outputs.rate }}%',
-                          summary: 'COVERAGE_LINES: ${{ steps.coverage.outputs.rate }}\n${{ steps.coverage.outputs.covered }}/${{ steps.coverage.outputs.total }} statements covered'
+                          title: `Line coverage: ${process.env.COV_RATE}%`,
+                          summary: `COVERAGE_LINES: ${process.env.COV_RATE}\n${process.env.COV_COVERED}/${process.env.COV_TOTAL} statements covered`
                         }
                       });
 
