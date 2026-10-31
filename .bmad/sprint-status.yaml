@@ -661,16 +661,16 @@ sprints:
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 8 points, périmètre issu des retours de la revue du sprint 38. US-246 et US-251 (mise en forme) VOLONTAIREMENT EXCLUES : leur DoD exige une maquette validée par Thibaut puis une release sur son GO, deux portes humaines hors de portée d'un run autonome ; elles passent au sprint 40 dès les maquettes validées. Réserve non engagée : US-252 (couverture de code, 5 points). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW (ne pas créer de nouveau projet). Contraintes machine : 8 Go RAM, 18 Go de disque libres le 2026-10-31 ; tests ciblés seulement, suite complète par la CI."
   sprint-40:
     name: sprint-40-mise-en-forme-et-couverture
-    status: in-progress  # planifié le 2026-10-31
+    status: review  # planifié le 2026-10-31 ; 10/10 points livrés, en attente de PR et merge
     sprint_id: "sprint-40"
     start_date: "2026-10-31"
     end_date: "2026-11-14"
     capacity_points: 10
     goal: "Appliquer les maquettes Claude Design au widget copilote et au bloc de réassort, et mettre en place la couverture de code pilote sur 3 plugins et la démo"
     stories:
-      - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: ready-for-dev}  # EPIC-16, Should ; dépend d'US-248 (done S39)
-      - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort", points: 3, status: ready-for-dev}  # EPIC-17, Should ; dépend d'US-250 (done S39)
-      - {id: US-252, title: "Couverture de code pilote (3 plugins + démo)", points: 5, status: ready-for-dev}  # EPIC-20, Should ; indépendante
+      - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: review}  # EPIC-16, Should ; dépend d'US-248 (done S39)
+      - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort", points: 3, status: review}  # EPIC-17, Should ; dépend d'US-250 (done S39)
+      - {id: US-252, title: "Couverture de code pilote (3 plugins + démo)", points: 5, status: review}  # EPIC-20, Should ; indépendante
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 10 points. Actions de rétro T-TECH-40-01 à 04 incluses (0 points). Correction maquette copilote 1017,35 → 963,50 € (T-TECH-40-03). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
 
 backlog:
