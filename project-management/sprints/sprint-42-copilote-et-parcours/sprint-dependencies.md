@@ -62,8 +62,8 @@ graph TD
 | Story | Dépend de | Type | Notes |
 |-------|-----------|------|-------|
 | US-213 | T-TECH-42-04 | Souhaitable | Bump copilote ^1.1 avant d'ajouter les nouvelles cassettes |
-| US-215 | T-TECH-42-04 | Souhaitable | Idem |
-| US-237 | US-212 (S41) | Externe (done) | Parcours guidé nécessite le copilote fonctionnel |
+| US-215 | US-212 (S41), US-213, T-TECH-42-04 | Externe (done) + Souhaitable | Replay enrichi repose sur les scénarios US-212 ; bump ^1.1 souhaitable |
+| US-237 | US-212 (S41), US-215 | Externe (done) + Intra-sprint | Parcours guidé nécessite le copilote fonctionnel (US-212) et le mode rejoué (US-215) |
 
 ## Dépendances intra-story
 

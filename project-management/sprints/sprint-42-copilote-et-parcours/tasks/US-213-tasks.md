@@ -22,14 +22,15 @@
 | T-213-05 | [BE] | GREEN : cassette « état de mon panier » enrichie (lignes détaillées) | 1 h | T-213-04 | 🔲 |
 | T-213-06 | [TEST] | RED : test unitaire — ajout de plusieurs références | 0,5 h | T-213-05 | 🔲 |
 | T-213-07 | [BE] | GREEN : cassette « ajoute 3 références » (lot) | 0,5 h | T-213-06 | 🔲 |
-| T-213-08 | [BE] | Cassettes d'erreur : référence inconnue, hors catalogue, quantité invalide | 0,5 h | T-213-07 | 🔲 |
+| T-213-07b | [TEST] | RED : tests unitaires — référence inconnue, hors catalogue, quantité invalide | 0,5 h | T-213-07 | 🔲 |
+| T-213-08 | [BE] | GREEN : cassettes d'erreur (référence inconnue, hors catalogue, quantité invalide) | 0,5 h | T-213-07b | 🔲 |
 | T-213-09 | [TEST] | Test fonctionnel plugin — scénarios ajout/état/erreurs | 1 h | T-213-08 | 🔲 |
 | T-213-10 | [OPS] | Intégration démo : cassettes dans la démo, fixtures si nécessaire | 0,5 h | T-213-09 | 🔲 |
 | T-213-11 | [TEST] | Test fonctionnel démo : scénario ajout par référence | 0,5 h | T-213-10 | 🔲 |
 | T-213-12 | [DOC] | Bouton suggestion « Ajoute [ref] au panier » dans le widget (translation) | 0,25 h | T-213-11 | 🔲 |
 | T-213-13 | [REV] | CI verte plugin + démo, captures README | 0,5 h | T-213-12 | 🔲 |
 
-**Total estimé** : 7,5 h
+**Total estimé** : 8 h
 
 ---
 
@@ -84,10 +85,17 @@ Test : envoyer l'intent « ajoute 10 de EPI-GANT-09, 5 de SEC-CASQ-01 et 2 de NE
 
 Ajouter les cassettes FR/EN pour l'action `quick_order_add_batch`. La réponse récapitule les 3 lignes ajoutées.
 
-### T-213-08 : Cassettes d'erreur
-- **Type** : [BE]
+### T-213-07b : RED — tests unitaires erreurs
+- **Type** : [TEST]
 - **Estimation** : 0,5 h
 - **Dépend de** : T-213-07
+
+Tests dans le plugin : envoyer les 3 intents d'erreur (référence inconnue « ajoute 5 de XXXXXX », produit hors catalogue fermé, quantité invalide « ajoute -3 de EPI-GANT-09 ») → chaque test doit échouer (rouge prouvé) car les cassettes n'existent pas encore.
+
+### T-213-08 : GREEN — cassettes d'erreur
+- **Type** : [BE]
+- **Estimation** : 0,5 h
+- **Dépend de** : T-213-07b
 
 Ajouter les cassettes FR/EN pour les cas d'erreur :
 - Référence inconnue → message clair, suggestions de références proches
