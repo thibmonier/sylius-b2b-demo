@@ -22,9 +22,9 @@ final readonly class ProofCollector
 {
     private const PACKAGIST_KEYS = ['version', 'sylius_declared', 'sylius_23'];
 
-    private const PLUGIN_REPOSITORY_KEYS = ['ci', 'sylius_tested', 'phpstan', 'tests'];
+    private const PLUGIN_REPOSITORY_KEYS = ['ci', 'sylius_tested', 'phpstan', 'tests', 'coverage'];
 
-    private const DELIVERY_REPOSITORY_KEYS = ['ci', 'tests', 'phpstan', 'ecs', 'composer_audit', 'image_scan', 'sbom'];
+    private const DELIVERY_REPOSITORY_KEYS = ['ci', 'tests', 'phpstan', 'ecs', 'composer_audit', 'image_scan', 'sbom', 'coverage'];
 
     public function __construct(
         private PackagistApi $packagist,
@@ -154,6 +154,7 @@ final readonly class ProofCollector
             $facts += $this->workflowFacts($repository, $branch, $workflow, $delivery);
         }
         $facts += $this->testsFact($repository, $branch);
+        $facts += $this->coverageFact($repository, $branch);
 
         return $facts;
     }
@@ -278,6 +279,28 @@ final readonly class ProofCollector
         return ['tests' => $this->fact($count, 'https://github.com/' . $repository . '/tree/' . $branch . '/tests')];
     }
 
+    /** @return array<string, array<string, mixed>> */
+    private function coverageFact(string $repository, string $branch): array
+    {
+        try {
+            $checkRuns = $this->json('repos/' . $repository . '/commits/' . $branch . '/check-runs?check_name=coverage&per_page=1');
+        } catch (SourceUnavailable) {
+            return [];
+        }
+        $runs = \is_array($checkRuns['check_runs'] ?? null) ? $checkRuns['check_runs'] : [];
+        $run = \is_array($runs[0] ?? null) ? $runs[0] : null;
+        if (null === $run) {
+            return [];
+        }
+        $summary = \is_array($run['output'] ?? null) && \is_string($run['output']['summary'] ?? null) ? $run['output']['summary'] : '';
+        if (1 !== preg_match('/COVERAGE_LINES:\s*([\d.]+)/', $summary, $matches)) {
+            return [];
+        }
+        $url = \is_string($run['html_url'] ?? null) ? $run['html_url'] : 'https://github.com/' . $repository;
+
+        return ['coverage' => $this->fact((float) $matches[1], $url)];
+    }
+
     /** @return array<array-key, mixed> */
     private function json(string $path): array
     {
@@ -290,7 +313,7 @@ final readonly class ProofCollector
     }
 
     /** @return array<string, mixed> */
-    private function fact(string|int|bool $value, string $source): array
+    private function fact(string|int|float|bool $value, string $source): array
     {
         if (!ProofReader::isPublicSource($source)) {
             throw new SourceUnavailable('Refusing a source that is not public: ' . $source);

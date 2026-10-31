@@ -54,9 +54,37 @@ final class ProofCollectorTest extends TestCase
         }
     }
 
-    public function testACoverageIsNeverWritten(): void
+    public function testNoCoverageWhenNoCheckRunExists(): void
     {
         $facts = $this->collector($this->healthy())->plugin(self::SLUG)->facts;
+
+        self::assertArrayNotHasKey('coverage', $facts);
+    }
+
+    public function testCoverageIsReadFromCheckRun(): void
+    {
+        $sources = $this->healthy(checkRuns: ['check_runs' => [[
+            'name' => 'coverage',
+            'output' => ['summary' => 'COVERAGE_LINES: 87.20\n350/401 statements covered'],
+            'html_url' => 'https://github.com/' . self::REPO . '/runs/123',
+        ]]]);
+
+        $facts = $this->collector($sources)->plugin(self::SLUG)->facts;
+
+        self::assertArrayHasKey('coverage', $facts);
+        self::assertSame(87.20, $facts['coverage']['value']);
+        self::assertSame('https://github.com/' . self::REPO . '/runs/123', $facts['coverage']['source']);
+    }
+
+    public function testCoverageIsNotWrittenWhenCheckRunHasNoMarker(): void
+    {
+        $sources = $this->healthy(checkRuns: ['check_runs' => [[
+            'name' => 'coverage',
+            'output' => ['summary' => 'Some unrelated text'],
+            'html_url' => 'https://github.com/' . self::REPO . '/runs/123',
+        ]]]);
+
+        $facts = $this->collector($sources)->plugin(self::SLUG)->facts;
 
         self::assertArrayNotHasKey('coverage', $facts);
     }
@@ -196,25 +224,30 @@ final class ProofCollectorTest extends TestCase
     /**
      * @param array<string, mixed>|\Throwable|null $package
      * @param array<string, mixed>|null            $tree
+     * @param array<string, mixed>|null            $checkRuns
      */
-    private function healthy(array|\Throwable|null $package = [], ?array $tree = null): FakeSources
+    private function healthy(array|\Throwable|null $package = [], ?array $tree = null, ?array $checkRuns = null): FakeSources
     {
         $branch = 'main';
+        $json = [
+            'repos/' . self::REPO => ['default_branch' => $branch],
+            'repos/' . self::REPO . '/contents/.github/workflows?ref=main' => [['name' => 'build.yaml', 'type' => 'file']],
+            'repos/' . self::REPO . '/actions/workflows/build.yaml/runs?branch=main&status=completed&per_page=1&exclude_pull_requests=true' => ['workflow_runs' => [['conclusion' => 'success', 'html_url' => 'https://github.com/' . self::REPO . '/actions/runs/39117178731']]],
+            'repos/' . self::REPO . '/git/trees/main?recursive=1' => $tree ?? ['truncated' => false, 'tree' => [
+                ['path' => 'tests/Unit/MoneyTest.php', 'type' => 'blob'],
+                ['path' => 'tests/Functional/CartTest.php', 'type' => 'blob'],
+                ['path' => 'tests/Behat/quick_order.feature', 'type' => 'blob'],
+                ['path' => 'tests/TestApplication/Kernel.php', 'type' => 'blob'],
+                ['path' => 'src/FooTest.php', 'type' => 'blob'],
+            ]],
+        ];
+        if (null !== $checkRuns) {
+            $json['repos/' . self::REPO . '/commits/main/check-runs?check_name=coverage&per_page=1'] = $checkRuns;
+        }
 
         return new FakeSources(
             ['tmonier/sylius-quick-order-plugin' => [] === $package ? $this->package() : $package],
-            [
-                'repos/' . self::REPO => ['default_branch' => $branch],
-                'repos/' . self::REPO . '/contents/.github/workflows?ref=main' => [['name' => 'build.yaml', 'type' => 'file']],
-                'repos/' . self::REPO . '/actions/workflows/build.yaml/runs?branch=main&status=completed&per_page=1&exclude_pull_requests=true' => ['workflow_runs' => [['conclusion' => 'success', 'html_url' => 'https://github.com/' . self::REPO . '/actions/runs/39117178731']]],
-                'repos/' . self::REPO . '/git/trees/main?recursive=1' => $tree ?? ['truncated' => false, 'tree' => [
-                    ['path' => 'tests/Unit/MoneyTest.php', 'type' => 'blob'],
-                    ['path' => 'tests/Functional/CartTest.php', 'type' => 'blob'],
-                    ['path' => 'tests/Behat/quick_order.feature', 'type' => 'blob'],
-                    ['path' => 'tests/TestApplication/Kernel.php', 'type' => 'blob'],
-                    ['path' => 'src/FooTest.php', 'type' => 'blob'],
-                ]],
-            ],
+            $json,
             [
                 self::REPO . ':.github/workflows/build.yaml' => self::WORKFLOW,
                 self::REPO . ':phpstan.neon' => "parameters:\n    level: max\n",

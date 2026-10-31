@@ -1,0 +1,34 @@
+@use 'variables' as *;
+
+.copilot-widget {
+    --copilot-bg: #{$b2b-white};
+    --copilot-border: #{$b2b-sand-line};
+    --copilot-text: #{$b2b-ink};
+    --copilot-muted: #{$b2b-muted};
+    --copilot-accent: #{$b2b-teal};
+    --copilot-accent-text: #{$b2b-white};
+    --copilot-user-bg: #{$b2b-surface};
+    --copilot-bot-bg: #{$b2b-white};
+
+    max-width: 640px;
+    font-family: var(--b2b-font-sans);
+
+    h3 {
+        font-family: var(--b2b-font-serif);
+        background: $b2b-surface;
+    }
+
+    .copilot-conversation {
+        border: 1px solid var(--copilot-border);
+        background: var(--copilot-bg);
+    }
+
+    .copilot-cart-button a {
+        background: $b2b-teal;
+        color: $b2b-white;
+
+        &:hover {
+            color: $b2b-white;
+        }
+    }
+}
