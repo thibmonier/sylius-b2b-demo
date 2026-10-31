@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49c1a032b09c7c606260977ba4458978",
+    "content-hash": "a1f9ef8ba77a6540330944af36cb0d04",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17195,16 +17195,16 @@
         },
         {
             "name": "tmonier/sylius-b2b-sales-copilot-plugin",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin.git",
-                "reference": "64048052f4cdbecdf3b1407377879c4dac7a2e30"
+                "reference": "57e47500aaa5bd32ce9796c79fe0cdfbc6e73862"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/64048052f4cdbecdf3b1407377879c4dac7a2e30",
-                "reference": "64048052f4cdbecdf3b1407377879c4dac7a2e30",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/57e47500aaa5bd32ce9796c79fe0cdfbc6e73862",
+                "reference": "57e47500aaa5bd32ce9796c79fe0cdfbc6e73862",
                 "shasum": ""
             },
             "require": {
@@ -17268,9 +17268,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v0.1.1"
             },
-            "time": "2026-10-30T16:36:04+00:00"
+            "time": "2026-10-31T06:09:12+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",
@@ -17763,16 +17763,16 @@
         },
         {
             "name": "tmonier/sylius-customer-asset-management-plugin",
-            "version": "v0.2.1",
+            "version": "v0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-customer-asset-management-plugin.git",
-                "reference": "aed98437baca63697d3fe627db62ec9f47ccbcb9"
+                "reference": "6581c2ae166f93fe5ae023ed3950bd4c4c4db8c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-customer-asset-management-plugin/zipball/aed98437baca63697d3fe627db62ec9f47ccbcb9",
-                "reference": "aed98437baca63697d3fe627db62ec9f47ccbcb9",
+                "url": "https://api.github.com/repos/thibmonier/sylius-customer-asset-management-plugin/zipball/6581c2ae166f93fe5ae023ed3950bd4c4c4db8c6",
+                "reference": "6581c2ae166f93fe5ae023ed3950bd4c4c4db8c6",
                 "shasum": ""
             },
             "require": {
@@ -17837,9 +17837,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/v0.2.1"
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/v0.2.2"
             },
-            "time": "2026-10-30T20:54:50+00:00"
+            "time": "2026-10-31T06:09:08+00:00"
         },
         {
             "name": "tmonier/sylius-digital-product-passport-plugin",
