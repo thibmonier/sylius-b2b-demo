@@ -13,6 +13,7 @@
 @use 'proof';
 @use 'architecture';
 @use 'copilot';
+@use 'reorder';
 
 :root {
     --bs-primary: #{$b2b-navy};

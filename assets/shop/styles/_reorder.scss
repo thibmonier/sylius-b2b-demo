@@ -1,0 +1,27 @@
+@use 'variables' as *;
+
+.reorder-alerts {
+    --reorder-bg: #{$b2b-white};
+    --reorder-border: #{$b2b-sand-line};
+    --reorder-text: #{$b2b-ink};
+    --reorder-muted: #{$b2b-muted};
+    --reorder-accent: #{$b2b-teal};
+    --reorder-accent-text: #{$b2b-white};
+    --reorder-warning: #{$b2b-warning};
+    --reorder-warning-bg: color-mix(in srgb, #{$b2b-warning} 8%, #{$b2b-white});
+
+    font-family: var(--b2b-font-sans);
+
+    .reorder-alerts__title {
+        font-family: var(--b2b-font-serif);
+        background: $b2b-surface;
+    }
+
+    .reorder-alert__overdue {
+        color: $b2b-warning;
+    }
+
+    .reorder-alert--overdue {
+        border-left-color: $b2b-warning;
+    }
+}
