@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Push all plugin repositories under the parent directory.
+# Usage:  bin/plugin-push-all [--dry-run]
+# The script never commits — it only pushes the current branch of each repo.
+
+PARENT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+DRY_RUN=false
+
+if [[ "${1:-}" == "--dry-run" ]]; then
+    DRY_RUN=true
+    echo "=== DRY RUN (no push) ==="
+fi
+
+ok=0
+fail=0
+skipped=0
+
+for dir in "$PARENT_DIR"/sylius-*-plugin "$PARENT_DIR"/sylius-pack-*; do
+    [ -d "$dir/.git" ] || continue
+    name="$(basename "$dir")"
+    branch="$(git -C "$dir" branch --show-current 2>/dev/null || echo "")"
+
+    if [ -z "$branch" ]; then
+        echo "SKIP  $name (detached HEAD)"
+        skipped=$((skipped + 1))
+        continue
+    fi
+
+    if $DRY_RUN; then
+        echo "  OK  $name ($branch) — would push"
+        ok=$((ok + 1))
+    else
+        if git -C "$dir" push origin "$branch" 2>&1; then
+            echo "  OK  $name ($branch)"
+            ok=$((ok + 1))
+        else
+            echo "FAIL  $name ($branch)"
+            fail=$((fail + 1))
+        fi
+    fi
+done
+
+echo ""
+echo "=== Summary: $ok pushed, $fail failed, $skipped skipped ==="
+[ "$fail" -eq 0 ]

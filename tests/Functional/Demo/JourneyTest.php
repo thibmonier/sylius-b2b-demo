@@ -49,17 +49,17 @@ final class JourneyTest extends WebTestCase
     }
 
     #[DataProvider('localesWith1Argument')]
-    public function testTheListShowsTheFiveJourneysWithTheirDuration(string $locale): void
+    public function testTheListShowsTheSixJourneysWithTheirDuration(string $locale): void
     {
         $client = self::createClient();
 
         $page = $client->request('GET', '/' . $locale . '/guides');
 
         self::assertResponseIsSuccessful();
-        self::assertCount(5, $page->filter('[data-journey-list] > li'));
-        self::assertCount(5, $page->filter('[data-journey-duration]'));
+        self::assertCount(6, $page->filter('[data-journey-list] > li'));
+        self::assertCount(6, $page->filter('[data-journey-duration]'));
         self::assertMatchesRegularExpression('/\d+ min/', $page->filter('[data-journey-duration]')->first()->text());
-        self::assertCount(5, $page->filter('a[data-journey-start]'));
+        self::assertCount(6, $page->filter('a[data-journey-start]'));
         self::assertStringNotContainsString('journey.', $page->filter('main, body')->first()->text(), 'No raw translation key.');
     }
 
@@ -350,7 +350,7 @@ final class JourneyTest extends WebTestCase
     /** @return iterable<string, array{string, int, string}> */
     public static function everyStep(): iterable
     {
-        foreach (['buyer' => 4, 'approver' => 4, 'finance' => 4, 'ecommerce' => 4, 'it' => 4] as $journey => $count) {
+        foreach (['buyer' => 4, 'approver' => 4, 'finance' => 4, 'ecommerce' => 4, 'copilot' => 4, 'it' => 4] as $journey => $count) {
             for ($step = 1; $step <= $count; ++$step) {
                 yield $journey . ' ' . $step => [$journey, $step, 'fr_FR'];
             }
