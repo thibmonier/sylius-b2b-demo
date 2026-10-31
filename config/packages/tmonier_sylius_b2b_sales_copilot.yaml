@@ -1,0 +1,3 @@
+# Purchasing copilot (US-244): only on the B2B channel; the demo answers from the recorded requests of the plugin.
+tmonier_sylius_b2b_sales_copilot:
+    enabled_channels: ['B2B']

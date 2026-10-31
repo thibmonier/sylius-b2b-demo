@@ -720,6 +720,9 @@
     "tmonier/sylius-b2b-predictive-analytics-plugin": {
         "version": "v0.1.1"
     },
+    "tmonier/sylius-b2b-sales-copilot-plugin": {
+        "version": "v0.1.0"
+    },
     "tmonier/sylius-bulk-actions-plugin": {
         "version": "v1.0.0"
     },

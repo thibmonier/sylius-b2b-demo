@@ -41,6 +41,9 @@
         {# US-219: include the predictive analytics reorder alerts block (direct inclusion avoids recursion: the B2B dashboard template is itself an entry of sylius_shop.account.dashboard.index.content.main) #}
         {% include '@TmonierSyliusPredictiveAnalyticsPlugin/shop/account/reorder_alerts.html.twig' %}
 
+        {# US-244: the purchasing copilot widget, included for the same reason (the plugin hooks it into the core section, hidden on B2B) #}
+        {% include '@TmonierSyliusB2bSalesCopilotPlugin/account/copilot_widget.html.twig' %}
+
         <section class="b2b-account__section" aria-labelledby="b2b-account-quick-title" {{ sylius_test_html_attribute('b2b-account-quick') }}>
             <h2 class="visually-hidden" id="b2b-account-quick-title">{{ 'quick.title'|trans({}, 'account') }}</h2>
             <div class="b2b-account__quick">
