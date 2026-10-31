@@ -16,7 +16,7 @@
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
 | T-237-01 | [DOC] | Analyser le système de parcours existant (journeys.yaml, translations) | 0,25 h | US-213, US-215 | 🔲 |
-| T-237-02 | [BE] | Ajouter le parcours `copilot` dans config/demo/journeys.yaml | 0,5 h | T-237-01 | 🔲 |
+| T-237-02 | [BE] | Ajouter le parcours `copilot` dans config/demo/journeys.yaml | 0,5 h | T-237-01b | 🔲 |
 | T-237-03 | [FE-WEB] | Traductions FR/EN du parcours (journeys.fr.yaml, journeys.en.yaml) | 0,5 h | T-237-02 | 🔲 |
 | T-237-04 | [BE] | Préparateur de scénario `copilot` (optionnel : pré-remplir le widget) | 0,5 h | T-237-03 | 🔲 |
 | T-237-01b | [TEST] | RED : test fonctionnel — parcours copilote complet (doit échouer) | 0,25 h | T-237-01 | 🔲 |
