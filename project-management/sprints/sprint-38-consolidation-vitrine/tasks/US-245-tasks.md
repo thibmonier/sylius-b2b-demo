@@ -15,7 +15,7 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-245-01 | [TEST] | Vérification en production : fiches EPI-CASK-001 à 003, lien passeport, page publique répond 200 | 0,5 h | - | 🔲 |
+| T-245-01 | [TEST] | Vérification en production : fiches EPI-CASK-001 à 003, lien passeport, page publique répond 200 | 0,5 h | - | ✅ |
 | T-245-02 | [TEST] | Test de fumée : lien passeport sur EPI-CASK-001, rouge prouvé si lien absent | 1 h | T-245-01 | 🔲 |
 | T-245-03 | [DOC] | Documentation : consigner les URL de vérification et le résultat | 0,25 h | T-245-02 | 🔲 |
 | T-245-04 | [REV] | Revue : conformité DoD (vérification production, test fumée, rouge prouvé), CI verte | 0,25 h | T-245-03 | 🔲 |
@@ -58,6 +58,19 @@ Vérifier en production après une remise à zéro que les fiches EPI-CASK-001 �
 **Constat** : Les fiches produits répondent 200 mais le lien vers le passeport produit est absent dans le HTML, en FR comme en EN. La fixture `demo_digital_passports` devrait créer les passeports pour EPI-CASK-001, 002 et 003, mais le lien n'apparaît pas sur la fiche produit en production.
 
 **Note** : Ce n'est pas un défaut d'installation. Les fixtures ne sont chargées qu'à la remise à zéro de 03:00 (heure de Paris). Vérification en production à refaire après 03:00.
+
+**Vérification en production après la remise à zéro (2026-10-31 vers 06h55, heure de Paris)** :
+
+| Fiche produit | Statut | Lien passeport | Page du passeport |
+|---------------|--------|----------------|-------------------|
+| /fr_FR/products/epi-cask-001-fr | 200 | /fr_FR/product-passport/1 | 200, origine « Rhône-Alpes » |
+| /en_US/products/epi-cask-001-en | 200 | /en_US/product-passport/1 | 200, origine « Rhône-Alpes » |
+| /fr_FR/products/epi-cask-002-fr | 200 | /fr_FR/product-passport/2 | 200 |
+| /en_US/products/epi-cask-002-en | 200 | /en_US/product-passport/2 | 200 |
+| /fr_FR/products/epi-cask-003-fr | 200 | /fr_FR/product-passport/3 | 200 |
+| /en_US/products/epi-cask-003-en | 200 | /en_US/product-passport/3 | 200 |
+
+**Constat** : le lien est présent sur les trois fiches, en FR et en EN, et chaque page de passeport répond 200. T-245-01 terminée.
 
 ---
 
