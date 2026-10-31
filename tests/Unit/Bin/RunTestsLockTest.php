@@ -11,6 +11,8 @@ use Symfony\Component\Process\Process;
 
 final class RunTestsLockTest extends TestCase
 {
+    private const DEAD_PID = '4194304';
+
     private string $root;
 
     protected function setUp(): void
@@ -34,21 +36,35 @@ final class RunTestsLockTest extends TestCase
             while [ -n "${STUB_PHP_WAIT:-}" ] && [ ! -e "$STUB_PHP_WAIT" ]; do sleep 0.05; done
             exit "${STUB_PHP_EXIT:-0}"
             SH);
-        // Widens the race window of the stale-lock takeover: every read of a lock PID is delayed by STUB_CAT_DELAY,
-        // and logged (one line per read) in STUB_CAT_LOG when set, so a test can wait for a read instead of sleeping.
+        // Stale-lock stubs use file-based synchronisation instead of fixed delays:
+        // STUB_CAT_SYNC_DIR  → reads the file eagerly, signals cat-reached.$$, waits for cat-go, then prints the cached content
+        // STUB_CAT_LOG       → appends "read" per lock-PID read (used by the waiter test)
         file_put_contents($this->root . '/stub/cat', <<<'SH'
             #!/bin/sh
             case "$*" in *run-tests.lock/pid*)
                 [ -z "${STUB_CAT_LOG:-}" ] || echo read >> "$STUB_CAT_LOG"
-                sleep "${STUB_CAT_DELAY:-0}" ;;
+                if [ -n "${STUB_CAT_SYNC_DIR:-}" ]; then
+                    _C=$(/bin/cat "$@" 2>/dev/null)
+                    touch "$STUB_CAT_SYNC_DIR/cat-reached.$$"
+                    while [ ! -e "$STUB_CAT_SYNC_DIR/cat-go" ]; do sleep 0.01; done
+                    printf '%s' "$_C"
+                    exit 0
+                fi
+                ;;
             esac
             exec /bin/cat "$@"
             SH);
-        // Same for the removal and the rename of a lock: a slow run acts on the lock after the other one has taken it over.
+        // STUB_LOCK_SYNC_DIR → rm/mv signals lock-reached.$$ then waits for lock-go
         foreach (['rm', 'mv'] as $tool) {
             file_put_contents($this->root . '/stub/' . $tool, <<<SH
                 #!/bin/sh
-                case "\$*" in *run-tests.lock*) sleep "\${STUB_LOCK_OP_DELAY:-0}" ;; esac
+                case "\$*" in *run-tests.lock*)
+                    if [ -n "\${STUB_LOCK_SYNC_DIR:-}" ]; then
+                        touch "\$STUB_LOCK_SYNC_DIR/lock-reached.\$\$"
+                        while [ ! -e "\$STUB_LOCK_SYNC_DIR/lock-go" ]; do sleep 0.01; done
+                    fi
+                    ;;
+                esac
                 exec /bin/{$tool} "\$@"
                 SH);
             $fs->chmod($this->root . '/stub/' . $tool, 0o755);
@@ -125,11 +141,42 @@ final class RunTestsLockTest extends TestCase
 
     public function testTwoRunsTakingOverTheSameStaleLockLeaveTheLockToExactlyOne(): void
     {
+        $lockPid = $this->root . '/var/run-tests.lock/pid';
+
         for ($i = 0; $i < 20; ++$i) {
             $this->staleLock();
             $release = $this->root . '/release-' . $i;
-            $env = ['STUB_PHP_WAIT' => $release, 'STUB_CAT_DELAY' => '0.2'];
-            $runs = [$this->start($env), $this->start($env + ['STUB_LOCK_OP_DELAY' => '0.6'])];
+            $syncDir = $this->root . '/sync-' . $i;
+            mkdir($syncDir);
+
+            // Both runs sync at cat (PID read). Run B also syncs at lock operations (mv/rm).
+            $envA = ['STUB_PHP_WAIT' => $release, 'STUB_CAT_SYNC_DIR' => $syncDir];
+            $envB = $envA + ['STUB_LOCK_SYNC_DIR' => $syncDir];
+            $runs = [$this->start($envA), $this->start($envB)];
+
+            // Both runs must read the stale PID before either acts.
+            Await::until(
+                static fn (): bool => \count(glob($syncDir . '/cat-reached.*')) >= 2,
+                10,
+                'iteration ' . $i . ': both runs must read the stale PID',
+            );
+            touch($syncDir . '/cat-go');
+
+            // Run A (no lock sync) completes the takeover: the lock PID changes from DEAD_PID.
+            Await::until(
+                static fn (): bool => is_file($lockPid)
+                    && self::DEAD_PID !== trim((string) file_get_contents($lockPid)),
+                10,
+                'iteration ' . $i . ': the fast run must complete the takeover',
+            );
+
+            // Run B reaches its lock operation; A already holds the lock.
+            Await::until(
+                static fn (): bool => !empty(glob($syncDir . '/lock-reached.*')),
+                10,
+                'iteration ' . $i . ': the slow run must reach the lock operation',
+            );
+            touch($syncDir . '/lock-go');
 
             $holders = $this->waitForOneToStop($runs);
             touch($release);
@@ -251,13 +298,9 @@ final class RunTestsLockTest extends TestCase
 
     private function staleLock(): void
     {
-        $dead = new Process(['true']);
-        $dead->start();
-        $pid = $dead->getPid();
-        $dead->wait();
         $this->removeStaleLeftovers();
         mkdir($this->root . '/var/run-tests.lock');
-        file_put_contents($this->root . '/var/run-tests.lock/pid', (string) $pid);
+        file_put_contents($this->root . '/var/run-tests.lock/pid', self::DEAD_PID);
     }
 
     private function removeStaleLeftovers(): void
