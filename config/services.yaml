@@ -101,6 +101,11 @@ services:
             $orderRepository: '@sylius.repository.order'
             $logger: '@logger'
 
+    # US-247: demo cassette aligned with Claire's fixture cart (47 items, 963.50 € HT).
+    Tmonier\SyliusB2bSalesCopilotPlugin\Infrastructure\Replay\ReplayCopilotAdapter:
+        arguments:
+            $cassettePath: '%kernel.project_dir%/config/demo/cassettes.jsonl'
+
     # US-172: the examples of the override guide (declared in config/packages/demo_override_guide.yaml).
     App\Demo\OverrideGuide\OverrideGuideExamples:
         arguments:
