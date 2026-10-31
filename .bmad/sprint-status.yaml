@@ -703,9 +703,9 @@ sprints:
     margin_hours: 7.35  # 30 % de marge
     goal: "Permettre au copilote d'ajouter un produit au panier par sa référence et d'afficher l'état du panier, enrichir les scénarios enregistrés pour la démo publique, et ajouter un parcours guidé copilote dans la démo"
     stories:
-      - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, tasks: 14, hours: 8, status: ready-for-dev}  # EPIC-16, Must ; +T-213-07b RED erreurs (gate remediation)
-      - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, tasks: 10, hours: 4, status: ready-for-dev}  # EPIC-16, Must
-      - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, tasks: 11, hours: 3.75, status: ready-for-dev}  # EPIC-12, Should ; dépend d'US-212 (done S41), US-215 ; +T-237-01b RED, T-237-09 reprise, T-237-10 saisie libre (gate remediation)
+      - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, tasks: 14, hours: 8, status: review}  # EPIC-16, Must ; plugin: 24 tests GREEN, cassettes US-213 (add ref, batch, enriched cart, erreurs)
+      - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, tasks: 10, hours: 4, status: review}  # EPIC-16, Must ; plugin: alias+keyword matching, fallback with suggestions, demo_notice in widget
+      - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, tasks: 11, hours: 3.75, status: review}  # EPIC-12, Should ; journeys.yaml copilot, translations FR/EN, JourneyTest 5→6
     sprint_tasks:
       - {id: T-TECH-42-01, title: "Garde-fou sélecteurs CSS plugin ↔ démo", type: TEST, hours: 0.5, status: done}  # action de rétro S41 ; PluginCssSelectorGuardTest.php
       - {id: T-TECH-42-02, title: "Script bin/plugin-push-all pour les 28 plugins", type: OPS, hours: 0.5, status: done}  # action de rétro S41 ; bin/plugin-push-all (fe5d847)
