@@ -13,25 +13,17 @@
     max-width: 640px;
     font-family: var(--b2b-font-sans);
 
-    .copilot-widget__title {
+    h3 {
         font-family: var(--b2b-font-serif);
-    }
-
-    .copilot-widget__header {
         background: $b2b-surface;
     }
 
-    .copilot-widget__message--error {
-        background: color-mix(in srgb, #{$b2b-danger} 10%, #{$b2b-white});
-        border-left-color: $b2b-danger;
+    .copilot-conversation {
+        border: 1px solid var(--copilot-border);
+        background: var(--copilot-bg);
     }
 
-    .copilot-widget__message--fallback {
-        background: color-mix(in srgb, #{$b2b-warning} 10%, #{$b2b-white});
-        border-left-color: $b2b-warning;
-    }
-
-    .copilot-widget__cart-link {
+    .copilot-cart-button a {
         background: $b2b-teal;
         color: $b2b-white;
 

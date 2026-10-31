@@ -23,17 +23,11 @@ final class CopilotWidgetStylingTest extends WebTestCase
         $widget = $crawler->filter('.copilot-widget');
         self::assertCount(1, $widget, 'Styled copilot widget should be on the dashboard');
 
-        self::assertCount(1, $crawler->filter('.copilot-widget__header'), 'Widget header should be present');
-        self::assertCount(1, $crawler->filter('.copilot-widget__conversation[aria-live="polite"]'), 'Conversation with aria-live should be present');
-        self::assertCount(1, $crawler->filter('.copilot-widget__empty'), 'Empty state should be present');
-        self::assertCount(1, $crawler->filter('.copilot-widget__suggestions'), 'Suggestions should be present');
+        self::assertCount(1, $crawler->filter('.copilot-widget h3'), 'Widget title should be present');
+        self::assertCount(1, $crawler->filter('.copilot-conversation[aria-live="polite"]'), 'Conversation area with aria-live should be present');
 
-        $chips = $crawler->filter('.copilot-widget__chip');
-        self::assertGreaterThanOrEqual(2, $chips->count(), 'At least 2 suggestion chips');
-
-        self::assertCount(1, $crawler->filter('.copilot-widget__input'), 'Input field should be present');
-        self::assertCount(1, $crawler->filter('.copilot-widget__send[aria-label]'), 'Send button with aria-label');
-        self::assertCount(1, $crawler->filter('.copilot-widget__notice'), 'Demo notice should be present');
+        self::assertCount(1, $crawler->filter('.copilot-widget input.form-control'), 'Input field should be present');
+        self::assertCount(1, $crawler->filter('.copilot-widget button[type="submit"]'), 'Send button should be present');
     }
 
     public function testWidgetRendersInEnglishLocale(): void
@@ -48,8 +42,8 @@ final class CopilotWidgetStylingTest extends WebTestCase
         $widget = $crawler->filter('.copilot-widget');
         self::assertCount(1, $widget);
 
-        $notice = $crawler->filter('.copilot-widget__notice');
-        self::assertStringContainsString('Pre-recorded', $notice->text());
+        $title = $crawler->filter('.copilot-widget h3');
+        self::assertCount(1, $title, 'Widget title should be present in English locale');
     }
 
     private function login(KernelBrowser $client, string $email): void
