@@ -156,7 +156,7 @@ final class RunTestsLockTest extends TestCase
 
             // Both runs must read the stale PID before either acts.
             Await::until(
-                static fn (): bool => \count(glob($syncDir . '/cat-reached.*')) >= 2,
+                static fn (): bool => \count(glob($syncDir . '/cat-reached.*') ?: []) >= 2,
                 10,
                 'iteration ' . $i . ': both runs must read the stale PID',
             );
