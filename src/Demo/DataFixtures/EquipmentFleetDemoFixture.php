@@ -43,6 +43,11 @@ final class EquipmentFleetDemoFixture extends AbstractFixture
             'names' => ['fr_FR' => 'Perceuse à colonne DP40', 'en_US' => 'DP40 drill press'],
             'variants' => ['FIXA-001', 'FIXA-002', 'FIXA-003', 'FIXA-004', 'FIXA-005', 'FIXA-006', 'FIXA-007', 'FIXA-008'],
         ],
+        // Sold in the catalogue (OUTI-028), so it has a product passport: demo_digital_passports links it by this code.
+        'torque-wrench-tw200' => [
+            'names' => ['fr_FR' => 'Clé dynamométrique 40-200 Nm', 'en_US' => '40-200 Nm torque wrench'],
+            'variants' => ['OUTI-026'],
+        ],
     ];
 
     /** Machines of Claire: model code, label, serial number (fictional). */
@@ -50,6 +55,7 @@ final class EquipmentFleetDemoFixture extends AbstractFixture
         ['forklift-c20', 'Chariot atelier A', 'DEMO-0001'],
         ['pallet-truck-t2', 'Transpalette quai de chargement', 'DEMO-0002'],
         ['drill-press-dp40', 'Perceuse maintenance', 'DEMO-0003'],
+        ['torque-wrench-tw200', 'Clé dynamométrique contrôle qualité', 'DEMO-0004'],
     ];
 
     public function __construct(private readonly EntityManagerInterface $entityManager)
