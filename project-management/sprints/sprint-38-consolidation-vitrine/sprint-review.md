@@ -83,8 +83,8 @@
 |---------|--------|
 | US-242, US-243, US-244, US-245 | Review (done après validation de Thibaut) |
 | Issue #14 du plugin parc | Ouverte (repository à étiqueter comme service Doctrine) |
-| Copilote : mise en forme du widget | À créer au backlog (question et réponse non distinguées visuellement) |
-| Copilote : réponse enregistrée | À créer au backlog (« 3 articles, 150 € » alors que le vrai panier de Claire compte 47 articles pour 1 017,35 €) |
+| US-246 Copilote : mise en forme du widget | Backlog (ajoutée le 2026-10-31) |
+| US-247 Copilote : réponse enregistrée cohérente avec le panier | Backlog (ajoutée le 2026-10-31) |
 | US-212 | Backlog (reportée) |
 
 ## Prochaines étapes
