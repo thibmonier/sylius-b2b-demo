@@ -11,3 +11,4 @@
 | 2026-10-31 | US-248 et US-250 **par le même worker**, dans l'ordre US-248 puis US-250, pour partager les jetons de design (critère d'acceptation explicite d'US-250 : cohérence des jetons, espacements et en-têtes de bloc) | Thibaut | planning |
 | 2026-10-31 | Toutes les maquettes dans le canevas Claude Design unique `G2StRQigRKD6SqNRoyHpkW` (pas de nouveau projet) | Thibaut | planning |
 | 2026-10-31 | GO de fusion de la PR #144 du sprint 38 (clôture documentaire, inscrit au registre du sprint 39 car la session précédente s'est terminée avant) | Thibaut | sprint 38 |
+| 2026-10-31 | Le canevas Claude Design est privé (`read: owner`) et ne peut pas être partagé via un lien public ; les maquettes sont exportées en images versionnées dans `docs/mockups/` et affichées sur la page Architecture | Orchestrateur | T-249-05 |

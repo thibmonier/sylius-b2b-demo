@@ -15,15 +15,15 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-249-01 | [DOC] | Écrire `docs/conception-graphique.md` : principe, canevas unique, validation avant Twig, export images | 1 h | - | 🔲 |
-| T-249-02 | [DOC] | Ajouter la ligne à la Definition of Done des stories d'écran | 0,25 h | T-249-01 | 🔲 |
-| T-249-03 | [DOC] | Exporter les images des maquettes existantes depuis le canevas `G2StRQigRKD6SqNRoyHpkW` | 1 h | T-249-02 | 🔲 |
-| T-249-04 | [FE-WEB] | Section « De la maquette à l'écran » sur la page Architecture (FR et EN) | 1,5 h | T-249-03 | 🔲 |
-| T-249-05 | [TEST] | Vérifier le partage public du canevas (lecture seule sans compte), consigner au registre | 0,5 h | T-249-04 | 🔲 |
-| T-249-06 | [TEST] | Test fonctionnel : images présentes, textes alternatifs, poids < 300 Ko (rouge puis vert) | 1 h | T-249-05 | 🔲 |
-| T-249-07 | [TEST] | Audit pa11y AAA de la section : aucune erreur détectée | 0,5 h | T-249-06 | 🔲 |
-| T-249-08 | [DOC] | Page « Preuve technique » à jour (`bin/proof-refresh`), CI verte | 0,25 h | T-249-07 | 🔲 |
-| T-249-09 | [REV] | Revue : principe écrit, DoD mise à jour, section Architecture, test rouge puis vert, pa11y AAA, CI verte | 0,25 h | T-249-08 | 🔲 |
+| T-249-01 | [DOC] | Écrire `docs/conception-graphique.md` : principe, canevas unique, validation avant Twig, export images | 1 h | - | ✅ |
+| T-249-02 | [DOC] | Ajouter la ligne à la Definition of Done des stories d'écran | 0,25 h | T-249-01 | ✅ |
+| T-249-03 | [DOC] | Exporter les images des maquettes existantes depuis le canevas `G2StRQigRKD6SqNRoyHpkW` | 1 h | T-249-02 | ✅ |
+| T-249-04 | [FE-WEB] | Section « De la maquette à l'écran » sur la page Architecture (FR et EN) | 1,5 h | T-249-03 | ✅ |
+| T-249-05 | [TEST] | Vérifier le partage public du canevas (lecture seule sans compte), consigner au registre | 0,5 h | T-249-04 | ✅ |
+| T-249-06 | [TEST] | Test fonctionnel : images présentes, textes alternatifs, poids < 300 Ko (rouge puis vert) | 1 h | T-249-05 | ✅ |
+| T-249-07 | [TEST] | Audit pa11y AAA de la section : aucune erreur détectée | 0,5 h | T-249-06 | ✅ |
+| T-249-08 | [DOC] | Page « Preuve technique » à jour (`bin/proof-refresh`), CI verte | 0,25 h | T-249-07 | ✅ |
+| T-249-09 | [REV] | Revue : principe écrit, DoD mise à jour, section Architecture, test rouge puis vert, pa11y AAA, CI verte | 0,25 h | T-249-08 | ✅ |
 
 **Total estimé** : 6,25 h
 

@@ -15,7 +15,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 final class ArchitecturePageRedesignTest extends WebTestCase
 {
-    private const SECTIONS = ['overview', 'layers', 'flows', 'operations', 'quality', 'security'];
+    private const SECTIONS = ['overview', 'layers', 'flows', 'operations', 'quality', 'security', 'mockups'];
 
     /** @return iterable<string, array{string}> */
     public static function locales(): iterable
@@ -87,6 +87,28 @@ final class ArchitecturePageRedesignTest extends WebTestCase
         self::assertCount(4, $page->filter('[data-architecture-operation]'), 'image, deployment, reset, public');
         self::assertCount(2 + $page->filter('[data-architecture-quality-tile][data-architecture-ci]')->count(), $page->filter('[data-architecture-quality-tile]'), 'PHPStan level, test files, and the CI tile only with a verified run of the repository');
         self::assertCount(6, $page->filter('[data-architecture-principle]'), 'the six general security principles');
+        self::assertCount(2, $page->filter('[data-architecture-mockup]'), 'copilote and reassort mockups');
+    }
+
+    #[DataProvider('locales')]
+    public function testTheMockupSectionShowsImagesWithAltText(string $locale): void
+    {
+        $page = $this->page($locale);
+        $mockups = $page->filter('section[data-architecture-section="mockups"]');
+
+        self::assertCount(1, $mockups);
+        $images = $mockups->filter('img');
+        self::assertCount(2, $images);
+
+        foreach ($images as $img) {
+            $img = new Crawler($img);
+            self::assertNotEmpty($img->attr('alt'), 'every mockup image has alt text');
+            self::assertStringContainsString('mockups/', (string) $img->attr('src'));
+            self::assertSame('lazy', $img->attr('loading'));
+        }
+
+        self::assertCount(1, $mockups->filter('[data-test="mockup-copilote"]'));
+        self::assertCount(1, $mockups->filter('[data-test="mockup-reassort"]'));
     }
 
     /** The numbers of the sections, of the anchors and of the steps are drawn by the stylesheet: no digit reaches the text. */

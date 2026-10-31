@@ -105,6 +105,18 @@ security:
     abuse: "Sensitive forms are protected against abuse by rate limiting."
     headers: "The HTTP security headers are set by the server."
     dependencies: "The dependencies and the image are scanned on every change."
+mockups:
+    title: "From mockup to screen"
+    intro: "Every screen is first mocked up in Claude Design, then approved, before being implemented in Twig. Here are two recent examples."
+    copilote:
+        name: "Sales copilot"
+        alt: "Mockup of the sales copilot widget: a chat embedded in My account, with suggested questions about the cart, orders and products in stock."
+        text: "The sales assistant widget is embedded in My account, under AI assistants. The buyer can ask questions about their cart, orders or the catalogue."
+    reassort:
+        name: "Replenishment alerts"
+        alt: "Mockup of the replenishment alert block: three product cards to reorder, with an overdue or upcoming status and a prepare-cart button."
+        text: "The replenishment block, in My account under My equipment, alerts the buyer when it is time to reorder their usual consumables and equipment."
+    process: "A single Claude Design canvas holds all mockups since sprint 29. The 'Industrie et Négoce' theme defines the design tokens (colours, typefaces, spacing) reused in every screen. Mockups comply with WCAG 2.2 level AAA."
 tiles:
     phpstan_label: "PHPStan level"
     phpstan_note: "Static analysis that blocks the CI, with the code style (ECS) and Rector."
@@ -135,3 +147,4 @@ links:
     phpstan: "PHPStan configuration"
     tests: "Running the tests"
     adr_security: "Decision: security of the public demo"
+    design_doc: "Design principle"

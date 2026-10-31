@@ -105,6 +105,18 @@ security:
     abuse: "Les formulaires sensibles sont protégés contre les abus par une limitation du débit."
     headers: "Les en-têtes de sécurité HTTP sont posés par le serveur."
     dependencies: "Les dépendances et l'image sont analysées à chaque changement."
+mockups:
+    title: "De la maquette à l'écran"
+    intro: "Chaque écran est d'abord maquetté dans Claude Design, puis validé, avant d'être intégré en Twig. Voici deux exemples récents."
+    copilote:
+        name: "Copilote d'achat"
+        alt: "Maquette du widget copilote d'achat : un chat intégré dans Mon compte, avec des suggestions de questions sur le panier, les commandes et les produits en stock."
+        text: "Le widget d'assistant commercial est intégré dans Mon compte, rubrique Assistants IA. L'acheteur peut poser des questions sur son panier, ses commandes ou le catalogue."
+    reassort:
+        name: "Alertes de réapprovisionnement"
+        alt: "Maquette du bloc d'alertes de réapprovisionnement : trois fiches de produits à recommander, avec le statut en retard ou à prévoir et un bouton de préparation du panier."
+        text: "Le bloc de réapprovisionnement, dans Mon compte, rubrique Mon matériel, prévient l'acheteur quand il est temps de renouveler ses consommables et équipements habituels."
+    process: "Le canevas unique Claude Design rassemble toutes les maquettes depuis le sprint 29. Le thème « Industrie et Négoce » définit les jetons de design (couleurs, typographies, espacements) réutilisés dans chaque écran. Les maquettes respectent le niveau AAA de WCAG 2.2."
 tiles:
     phpstan_label: "Niveau PHPStan"
     phpstan_note: "Analyse statique bloquante en CI, avec le style de code (ECS) et Rector."
@@ -135,3 +147,4 @@ links:
     phpstan: "Configuration PHPStan"
     tests: "Lancer les tests"
     adr_security: "Décision : sécurité de la démo publique"
+    design_doc: "Principe de conception graphique"
