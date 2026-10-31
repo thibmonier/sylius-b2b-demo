@@ -59,15 +59,12 @@ return [
     Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
     Sylius\RefundPlugin\SyliusRefundPlugin::class => ['all' => true],
     Knp\Bundle\GaufretteBundle\KnpGaufretteBundle::class => ['all' => true],
-    // Third-party bundles required by the tmonier plugins (before them)
     Sylius\InvoicingPlugin\SyliusInvoicingPlugin::class => ['all' => true],
     Symfony\AI\McpBundle\McpBundle::class => ['all' => true],
     Sylius\McpServerPlugin\SyliusMcpServerPlugin::class => ['all' => true],
     Symfony\AI\AiBundle\AiBundle::class => ['all' => true],
-    // tmonier plugins: order-hold and company-accounts first (purchase-approval, trade-credit, punchout rely on them)
     Tmonier\SyliusOrderHoldPlugin\TmonierSyliusOrderHoldPlugin::class => ['all' => true],
     Tmonier\SyliusCompanyAccountsPlugin\TmonierSyliusCompanyAccountsPlugin::class => ['all' => true],
-    // channel-access: access mode per channel (US-019); registration-approval (US-020) comes after it
     Tmonier\SyliusChannelAccessPlugin\TmonierSyliusChannelAccessPlugin::class => ['all' => true],
     Tmonier\SyliusRegistrationApprovalPlugin\TmonierSyliusRegistrationApprovalPlugin::class => ['all' => true],
     Tmonier\SyliusAdminOrderCreationPlugin\TmonierSyliusAdminOrderCreationPlugin::class => ['all' => true],
@@ -91,14 +88,10 @@ return [
     Tmonier\SyliusWebhookOutboxPlugin\TmonierSyliusWebhookOutboxPlugin::class => ['all' => true],
     Tmonier\SyliusWithdrawalPlugin\TmonierSyliusWithdrawalPlugin::class => ['all' => true],
     Sylius\WishlistPlugin\SyliusWishlistPlugin::class => ['all' => true],
-    // company-insights (US-155): purchasing dashboard built on company-accounts, after it
     Tmonier\SyliusCompanyInsightsPlugin\TmonierSyliusCompanyInsightsPlugin::class => ['all' => true],
-    // customer-asset-management (US-056..058): equipment fleet and compatible-parts filter
     Tmonier\SyliusCustomerAssetManagementPlugin\TmonierSyliusCustomerAssetManagementPlugin::class => ['all' => true],
-    // einvoice-transmission (US-183): journal of the sends of the Factur-X invoices, after facturx whose event it listens to
     Tmonier\SyliusEinvoiceTransmissionPlugin\TmonierSyliusEinvoiceTransmissionPlugin::class => ['all' => true],
-    // erp-flatfile (US-190): flat-file export of the placed orders, after the webhook outbox whose events it reads
     Tmonier\SyliusErpFlatfilePlugin\TmonierSyliusErpFlatfilePlugin::class => ['all' => true],
-    // digital-product-passport (US-241): versioned sustainability data model (origin, recyclability, repairability) with public passport page
     Tmonier\SyliusDigitalProductPassportPlugin\TmonierSyliusDigitalProductPassportPlugin::class => ['all' => true],
+    Tmonier\SyliusB2bSalesCopilotPlugin\TmonierSyliusB2bSalesCopilotPlugin::class => ['all' => true],
 ];

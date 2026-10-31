@@ -30,6 +30,8 @@ Chaque résultat affiche sa raison en clair ; aucune donnée personnelle supplé
 | [US-218](../user-stories/US-218.md) | Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli | Must | 5 | 35 |
 | [US-219](../user-stories/US-219.md) | Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo | Must | 3 | 35 |
 | [US-220](../user-stories/US-220.md) | Commerce prédictif : score d'attrition explicable dans l'admin | Should | 5 | 39 |
+| [US-250](../user-stories/US-250.md) | Commerce prédictif : conception graphique du bloc de réassort dans Claude Design | Should | 2 | non planifiée |
+| [US-251](../user-stories/US-251.md) | Commerce prédictif : mise en forme du bloc de réassort d'après la maquette | Should | 3 | non planifiée |
 
 ## Dépendances
 

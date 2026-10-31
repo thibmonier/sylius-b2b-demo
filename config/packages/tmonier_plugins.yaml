@@ -9,6 +9,7 @@ imports:
     - { resource: "@TmonierSyliusAgenticFeedsPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusAiCatalogCopilotPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusAuditLogPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusB2bSalesCopilotPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusB2bMcpPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusBulkActionsPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusCommandPalettePlugin/config/config.yaml" }

@@ -76,6 +76,18 @@ parameters:
               fr: "Ouvrez Mon compte : le bloc « À réassortir bientôt » affiche les références attendues dans les 7 jours avec leur explication (« vous en commandez tous les 28 jours »). Cliquez « Préparer le panier » pour ajouter la quantité habituelle au panier."
               en: 'Open My Account: the "To reorder soon" block shows references expected within 7 days with their explanation ("you order them every 28 days"). Click "Prepare cart" to add the usual quantity to the cart.'
           advised_account: claire@acme.example
+        - slug: sylius-b2b-sales-copilot-plugin
+          structured_data: false
+          name: 'B2B Sales Copilot'
+          category: purchasing
+          description:
+              fr: "Copilote d'achat dans le compte client B2B : un widget du tableau de bord reçoit une demande en langage courant et répond. En démo, les réponses sont rejouées depuis des demandes enregistrées : aucun modèle n'est appelé. Réservé aux canaux listés dans `enabled_channels`, refusé aux visiteurs non connectés."
+              en: 'Purchasing copilot in the B2B customer account: a dashboard widget takes a request in plain words and answers it. In the demo, the answers are replayed from recorded requests: no model is called. Limited to the channels listed in `enabled_channels`, refused to signed-out visitors.'
+          demo_route: sylius_shop_account_dashboard
+          scenario:
+              fr: "Ouvrez Mon compte : le widget « Assistant commercial » est en bas du tableau de bord. Envoyez « état de mon panier » pour obtenir la réponse enregistrée ; une autre demande affiche « Scénario non enregistré en démo ». Sur le canal particulier, le widget n'apparaît pas."
+              en: 'Open My Account: the "Sales Assistant" widget is at the bottom of the dashboard. Send « état de mon panier » to get the recorded answer; any other request shows that the scenario is not recorded in the demo. On the consumer channel, the widget does not appear.'
+          advised_account: claire@acme.example
         - slug: sylius-bulk-actions-plugin
           name: 'Bulk Actions'
           category: admin
@@ -228,7 +240,7 @@ parameters:
           description:
               fr: "Connecteur PunchOut cXML/OCI B2B : votre boutique devient fournisseur PunchOut pour les systèmes d'achat (Ariba, SAP, Coupa…)."
               en: 'B2B PunchOut cXML/OCI connector: lets your shop act as a PunchOut supplier for procurement systems (Ariba, SAP, Coupa…).'
-          demo_route: tmonier_punchout_inspect
+          demo_route: app_demo_punchout_simulator
           scenario:
               fr: "Inspectez une session PunchOut simulée d'un système d'achat (Ariba, SAP, Coupa), puis transférez le panier vers votre ERP."
               en: "Inspect a simulated PunchOut session from a procurement system (Ariba, SAP, Coupa), then transfer the cart back to your ERP."
@@ -275,10 +287,10 @@ parameters:
           description:
               fr: "Inscription validée par l'administrateur : un compte créé sur un canal B2B reste en attente, sans accès au catalogue fermé ni aux prix, jusqu'à son approbation ou son refus depuis l'admin, avec e-mails et sans énumération de comptes."
               en: 'Registration approval: an account registered on a B2B channel stays pending, without access to the closed catalogue or the prices, until an administrator approves or rejects it from the admin panel, with e-mails and no account enumeration.'
-          demo_route: sylius_shop_register
+          demo_route: app_demo_registration_approval
           scenario:
-              fr: "Inscrivez-vous sur le canal B2B : votre compte reste en attente (page d'attente, prix masqués). Connectez-vous ensuite en tant que Sophie, approuvez-le dans Clients > Inscriptions, puis retrouvez l'e-mail dans la boîte de démo."
-              en: "Register on the B2B channel: your account stays pending (waiting page, prices hidden). Then sign in as Sophie, approve it in Customers > Registrations, and find the e-mail in the demo mailbox."
+              fr: "Connectez-vous à l'administration en tant que Sophie et ouvrez Clients > Inscriptions : deux inscriptions fictives attendent une décision. Approuvez-en une, puis retrouvez l'e-mail envoyé au client dans la boîte de démo. Dans la démo publique, l'inscription est fermée ; quand elle est ouverte, un compte créé sur le canal B2B reste en attente (page d'attente, prix masqués)."
+              en: "Sign in to the admin panel as Sophie and open Customers > Registrations: two fictitious registrations are waiting for a decision. Approve one, then find the e-mail sent to the customer in the demo mailbox. In the public demo, registration is closed; when it is open, an account created on the B2B channel stays pending (waiting page, prices hidden)."
           advised_account: sophie@fournitures-pro.example
         - slug: sylius-tier-pricing-plugin
           structured_data: false

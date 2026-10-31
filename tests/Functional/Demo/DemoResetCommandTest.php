@@ -19,10 +19,10 @@ final class DemoResetCommandTest extends KernelTestCase
 
     private const MARKER = 'MARKER (before reset)';
 
-    /** Products of fixtures/csv and customers of config/demo/accounts.yaml (11 B2B members + Léa). */
+    /** Products of fixtures/csv; customers of config/demo/accounts.yaml (11 B2B members + Léa) and the 2 registrations of demo_pending_registrations. */
     private const INITIAL_PRODUCTS = 210;
 
-    private const INITIAL_CUSTOMERS = 13;
+    private const INITIAL_CUSTOMERS = 15;
 
     /** Carts that are not history orders (US-096 / US-097): the cart of Claire and the two drafts of the back office. */
     private const LIVE_CARTS = 3;
