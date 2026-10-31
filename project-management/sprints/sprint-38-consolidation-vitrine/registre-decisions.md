@@ -24,3 +24,4 @@
 | 2026-10-31 | Ajout au backlog des deux points du copilote relevés à la revue : US-246 (mise en forme du widget, 2 pts) et US-247 (réponse enregistrée cohérente avec le panier de Claire, 1 pt, correctif d'ici US-213) | Thibaut | revue |
 | 2026-10-31 | Ajout au backlog d'US-248 : conception graphique du widget du copilote dans le canevas Claude Design des maquettes de la démo, avant sa mise en forme (US-246 en dépend) | Thibaut | revue |
 | 2026-10-31 | Ajout au backlog d'US-249 : principe écrit de conception graphique dans Claude Design (canevas unique, validation avant Twig) et section « De la maquette à l'écran » sur la page Architecture, lien public vers le canevas seulement si le partage en lecture seule existe | Thibaut | revue |
+| 2026-10-31 | Ajout au backlog d'US-250 (maquette Claude Design du bloc de réassort, intégration jugée trop brute) et d'US-251 (mise en forme du bloc d'après la maquette, qui en dépend) | Thibaut | revue |
