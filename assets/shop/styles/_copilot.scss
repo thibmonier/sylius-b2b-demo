@@ -18,17 +18,42 @@
         background: $b2b-surface;
     }
 
-    .copilot-conversation {
+    .copilot-widget__conversation {
         border: 1px solid var(--copilot-border);
         background: var(--copilot-bg);
     }
 
-    .copilot-cart-button a {
+    .copilot-widget__cart-action a {
         background: $b2b-teal;
         color: $b2b-white;
 
         &:hover {
             color: $b2b-white;
+        }
+    }
+
+    .copilot-widget__suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        padding: .75rem 0;
+    }
+
+    .copilot-widget__chip {
+        display: inline-flex;
+        align-items: center;
+        padding: .375rem .875rem;
+        border: 1px solid var(--copilot-border);
+        border-radius: 999px;
+        background: var(--copilot-bg);
+        color: var(--copilot-text);
+        font-size: .875rem;
+        cursor: pointer;
+        transition: background .15s, border-color .15s;
+
+        &:hover {
+            background: $b2b-surface;
+            border-color: var(--copilot-accent);
         }
     }
 }
