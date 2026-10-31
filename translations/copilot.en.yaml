@@ -1,0 +1,12 @@
+tmonier_sylius_b2b_sales_copilot:
+    ui:
+        suggestion_cart: what's in my cart
+        suggestion_orders: my recent orders
+        suggestion_stock: which products are in stock?
+        suggestion_reorder: reorder like last month
+        suggestion_reorder_sub: reorder with substitution
+        empty_state: Pick a suggestion or type your question.
+        fallback_title: Scenario not recorded
+        fallback_message: Available responses cover cart status, recent orders and catalogue products. Try a suggestion below.
+        error_title: Error
+        error_message: An error occurred while processing your request. Please try again or pick another question.
