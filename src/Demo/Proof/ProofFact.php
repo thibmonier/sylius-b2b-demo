@@ -17,14 +17,14 @@ final readonly class ProofFact
 
     private function __construct(
         public string $status,
-        public string|int|bool|null $value = null,
+        public string|int|float|bool|null $value = null,
         public ?string $source = null,
         public ?string $checkedAt = null,
         public bool $stale = false,
     ) {
     }
 
-    public static function verified(string|int|bool $value, string $source, string $checkedAt, bool $stale = false): self
+    public static function verified(string|int|float|bool $value, string $source, string $checkedAt, bool $stale = false): self
     {
         return new self(self::VERIFIED, $value, $source, $checkedAt, $stale);
     }

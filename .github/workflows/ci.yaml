@@ -19,6 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
             contents: read
+            checks: write
         # A hung test fails the job instead of holding the runner for hours (a deferred trap did it on 2026-10-21).
         timeout-minutes: 30
         env:
@@ -100,6 +101,7 @@ jobs:
             # bash -eo pipefail: without it, `phpunit | tee` exits with tee's status and hides failures
             # --colors=never: PHPUnit 13 colours the coverage text, and the summary below greps its rows
             - name: PHPUnit with coverage
+              id: coverage
               shell: bash
               run: |
                   mkdir -p build
@@ -111,6 +113,32 @@ jobs:
                     echo '```'
                   } >> "$GITHUB_STEP_SUMMARY"
                   php bin/check-coverage build/coverage.xml "${COVERAGE_MIN_LINES}" | tee -a "$GITHUB_STEP_SUMMARY"
+                  COVERED=$(php -r '$x=simplexml_load_file("build/coverage.xml");echo (int)$x->project->metrics["coveredstatements"];')
+                  TOTAL=$(php -r '$x=simplexml_load_file("build/coverage.xml");echo (int)$x->project->metrics["statements"];')
+                  if [ "$TOTAL" -gt 0 ]; then
+                    RATE=$(php -r "printf('%.2f', 100*$COVERED/$TOTAL);")
+                    echo "rate=${RATE}" >> "$GITHUB_OUTPUT"
+                    echo "covered=${COVERED}" >> "$GITHUB_OUTPUT"
+                    echo "total=${TOTAL}" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Publish coverage check run
+              if: steps.coverage.outputs.rate != ''
+              uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+              with:
+                  script: |
+                      await github.rest.checks.create({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        name: 'coverage',
+                        head_sha: context.sha,
+                        status: 'completed',
+                        conclusion: 'success',
+                        output: {
+                          title: 'Line coverage: ${{ steps.coverage.outputs.rate }}%',
+                          summary: 'COVERAGE_LINES: ${{ steps.coverage.outputs.rate }}\n${{ steps.coverage.outputs.covered }}/${{ steps.coverage.outputs.total }} statements covered'
+                        }
+                      });
 
     image:
         name: Docker image

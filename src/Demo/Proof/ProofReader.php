@@ -112,7 +112,7 @@ final class ProofReader
             return ProofFact::unpublished($source, $checkedAt);
         }
         $value = $raw['value'] ?? null;
-        if (!\is_string($value) && !\is_int($value) && !\is_bool($value)) {
+        if (!\is_string($value) && !\is_int($value) && !\is_float($value) && !\is_bool($value)) {
             return null;
         }
 
