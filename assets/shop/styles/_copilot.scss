@@ -1,0 +1,42 @@
+@use 'variables' as *;
+
+.copilot-widget {
+    --copilot-bg: #{$b2b-white};
+    --copilot-border: #{$b2b-sand-line};
+    --copilot-text: #{$b2b-ink};
+    --copilot-muted: #{$b2b-muted};
+    --copilot-accent: #{$b2b-teal};
+    --copilot-accent-text: #{$b2b-white};
+    --copilot-user-bg: #{$b2b-surface};
+    --copilot-bot-bg: #{$b2b-white};
+
+    max-width: 640px;
+    font-family: var(--b2b-font-sans);
+
+    .copilot-widget__title {
+        font-family: var(--b2b-font-serif);
+    }
+
+    .copilot-widget__header {
+        background: $b2b-surface;
+    }
+
+    .copilot-widget__message--error {
+        background: color-mix(in srgb, #{$b2b-danger} 10%, #{$b2b-white});
+        border-left-color: $b2b-danger;
+    }
+
+    .copilot-widget__message--fallback {
+        background: color-mix(in srgb, #{$b2b-warning} 10%, #{$b2b-white});
+        border-left-color: $b2b-warning;
+    }
+
+    .copilot-widget__cart-link {
+        background: $b2b-teal;
+        color: $b2b-white;
+
+        &:hover {
+            color: $b2b-white;
+        }
+    }
+}

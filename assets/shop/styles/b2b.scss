@@ -12,6 +12,7 @@
 @use 'plugins';
 @use 'proof';
 @use 'architecture';
+@use 'copilot';
 
 :root {
     --bs-primary: #{$b2b-navy};
