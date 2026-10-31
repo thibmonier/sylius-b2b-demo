@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 final class CartStateResponseTest extends WebTestCase
 {
     private const EXPECTED_ITEM_COUNT = 47;
+
     private const EXPECTED_TOTAL_HT_CENTS = 96350;
 
     private KernelBrowser $client;

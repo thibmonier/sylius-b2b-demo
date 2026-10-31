@@ -164,8 +164,8 @@ final class RunTestsLockTest extends TestCase
 
             // Run A (no lock sync) completes the takeover: the lock PID changes from DEAD_PID.
             Await::until(
-                static fn (): bool => is_file($lockPid)
-                    && self::DEAD_PID !== trim((string) file_get_contents($lockPid)),
+                static fn (): bool => is_file($lockPid) &&
+                    self::DEAD_PID !== trim((string) file_get_contents($lockPid)),
                 10,
                 'iteration ' . $i . ': the fast run must complete the takeover',
             );
