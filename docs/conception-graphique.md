@@ -47,6 +47,10 @@ Le thème « Industrie & Négoce » définit les jetons réutilisés dans chaque
 | Espacement de bloc | 1.5 rem |
 | Rayon de carte | 0.5 rem |
 
+## Cohérence maquette / fixtures
+
+Avant de rédiger des chiffres dans une maquette (prix, quantités, totaux), le fork wdesign doit lire les fixtures du dépôt concerné pour vérifier la cohérence. Les montants affichés dans la maquette doivent correspondre aux données réelles des fixtures (DataFixtures, CSV d'import, fichiers YAML). En cas de doute, recalculer le total à partir des lignes de détail.
+
 ## Accessibilité
 
 Chaque texte doit atteindre le niveau AAA (WCAG 2.2) :
