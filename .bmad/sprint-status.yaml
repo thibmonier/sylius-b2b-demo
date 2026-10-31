@@ -647,17 +647,17 @@ sprints:
     notes: "PLANIFIÉ le 2026-10-30 : périmètre décidé par Thibaut (10 points). Actions de rétro S37 : T-TECH-38-01 à 05. Contraintes machine : 8 Go RAM, disque 7,1 Go libres le 2026-10-30 (alerte sous 15 Go) ; tests ciblés seulement ; suite complète de la démo par la CI. US-212 reportée. 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13. CLÔTURÉ le 2026-10-31 : 10/10 points livrés, PR mergée (squash) commit 85d5bd3."
   sprint-39:
     name: sprint-39-conception-graphique
-    status: planning  # planifié le 2026-10-31 par l'orchestrateur (/workflow:auto-sprint 39) ; branche feature/sprint-39-conception-graphique
+    status: review  # planifié le 2026-10-31 ; 8/8 points livrés, en attente de PR et merge
     sprint_id: "sprint-39"
     start_date: "2026-10-31"
     end_date: "2026-11-14"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
     capacity_points: 8  # vélocité de référence : S33 13, S34 9, S35 8, S36 11, S37 13, S38 10
     goal: "Répondre aux retours de la revue du sprint 38 sur la conception graphique : maquetter dans Claude Design le widget du copilote et le bloc de réassort, écrire le principe de conception et le montrer dans la démo, et aligner la réponse enregistrée du copilote sur le panier de Claire"
     stories:
-      - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: ready-for-dev}  # EPIC-16, Should ; bloque US-246 ; se termine sur une validation de Thibaut
-      - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: ready-for-dev}  # EPIC-17, Should ; bloque US-251 ; maquette cohérente avec US-248 (mêmes jetons)
-      - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: ready-for-dev}  # EPIC-12, Should ; docs/conception-graphique.md + section « De la maquette à l'écran » sur la page Architecture
-      - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: ready-for-dev}  # EPIC-16, Should ; correctif d'ici US-213 ; test rouge prouvé
+      - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: done}  # EPIC-16, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW
+      - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: done}  # EPIC-17, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW, cohérente avec US-248
+      - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: done}  # EPIC-12, Should ; docs/conception-graphique.md + section Architecture (commit d794b9c) ; pa11y AAA 0 erreur
+      - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: done}  # EPIC-16, Should ; test RED fb3186d + GREEN 0bc7913 ; 47 articles, 963,50 € HT
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 8 points, périmètre issu des retours de la revue du sprint 38. US-246 et US-251 (mise en forme) VOLONTAIREMENT EXCLUES : leur DoD exige une maquette validée par Thibaut puis une release sur son GO, deux portes humaines hors de portée d'un run autonome ; elles passent au sprint 40 dès les maquettes validées. Réserve non engagée : US-252 (couverture de code, 5 points). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW (ne pas créer de nouveau projet). Contraintes machine : 8 Go RAM, 18 Go de disque libres le 2026-10-31 ; tests ciblés seulement, suite complète par la CI."
 
 backlog:
@@ -694,11 +694,11 @@ backlog:
   - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: done}  # EPIC-12, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
   - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: done}  # EPIC-16, Should ; sprint 38 ; suite d'US-211 ; audits du 2026-10-30, création décidée par Thibaut
   - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: done}  # EPIC-19, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
-  - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: ready-for-dev}  # sprint 39 ; EPIC-16, Should ; demande de Thibaut du 2026-10-31 ; canevas Claude Design G2StRQigRKD6SqNRoyHpkW ; bloque US-246
+  - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: done}  # sprint 39 ; EPIC-16, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-246
   - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-16, Should ; non planifiée ; dépend d'US-248 (maquette) ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31
-  - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: ready-for-dev}  # sprint 39 ; EPIC-16, Should ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31 ; correctif d'ici US-213
-  - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: ready-for-dev}  # sprint 39 ; EPIC-12, Should ; demande de Thibaut du 2026-10-31 ; canevas G2StRQigRKD6SqNRoyHpkW, lien public seulement si partage en lecture seule possible
-  - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: ready-for-dev}  # sprint 39 ; EPIC-17, Should ; demande de Thibaut du 2026-10-31 (intégration trop brute) ; canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
+  - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: done}  # sprint 39 ; EPIC-16, Should ; test RED fb3186d + GREEN 0bc7913 ; 47 articles, 963,50 € HT
+  - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: done}  # sprint 39 ; EPIC-12, Should ; docs/conception-graphique.md + section Architecture (commit d794b9c) ; canevas privé
+  - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: done}  # sprint 39 ; EPIC-17, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
   - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-17, Should ; non planifiée ; dépend d'US-250
   - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: backlog}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
   - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: backlog}  # EPIC-12, Should ; non planifiée ; dépend d'US-252 ; 27 plugins restants, lots de 5
