@@ -45,6 +45,15 @@ parameters:
                 - { route: sylius_shop_cart_summary, scenario: cart, scenario_options: { list: Atelier } }
                 - { route: app_demo_plugins }
                 - { route: tmonier_company_accounts_shop_company_addresses }
+        copilot:
+            persona: buyer
+            account: claire@acme.example
+            minutes: 4
+            steps:
+                - { route: sylius_shop_account_dashboard }
+                - { route: tmonier_quick_order_shop_index }
+                - { route: sylius_shop_cart_summary, scenario: cart, scenario_options: { list: Atelier } }
+                - { route: sylius_shop_account_dashboard }
         it:
             persona: it
             account: isabelle@acme.example

@@ -1,6 +1,6 @@
 list:
     title: "Guided journeys"
-    intro: "Five journeys of a few minutes, one per role. Each one takes you from screen to screen with the right demo account, and can prepare the scenario for you."
+    intro: "Six journeys of a few minutes, one per role. Each one takes you from screen to screen with the right demo account, and can prepare the scenario for you."
     duration: "%minutes% min · %steps% steps"
     start: "Start the journey"
     resume: "Resume at step %step%"
@@ -105,6 +105,22 @@ journey:
             4:
                 title: "The company addresses"
                 text: "The shared address book saves re-typing delivery addresses on every order."
+    copilot:
+        title: "Ask the purchasing copilot"
+        goal: "Add items by reference, check the cart and test the replay mode — AI prepares, the buyer validates."
+        step:
+            1:
+                title: "The copilot on the dashboard"
+                text: "The copilot widget appears on the buyer's dashboard. It offers clickable suggestions: cart status, restocking, add by reference. Responses are pre-recorded in demo mode."
+            2:
+                title: "Add by reference via quick order"
+                text: "Quick order takes references and quantities. The copilot can do the same: \"add PB-GANT-NITR-09 to cart\" gives the same result without leaving the conversation."
+            3:
+                title: "Check the cart"
+                text: "The scenario fills the cart with the \"Atelier\" list. Ask the copilot \"what's in my cart\" to see the line-by-line detail, right in the conversation."
+            4:
+                title: "Try a free-form question"
+                text: "Back to the dashboard. Try any phrasing: the copilot finds the closest scenario and, if it can't, suggests the available options."
     it:
         title: "Connect the shop to the company's tools"
         goal: "See how a procurement system or an AI assistant connects to the shop."

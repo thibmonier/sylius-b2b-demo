@@ -1,6 +1,6 @@
 list:
     title: "Parcours guidés"
-    intro: "Cinq parcours de quelques minutes, un par rôle. Chacun vous emmène d'écran en écran avec le compte de démo qui convient, et peut préparer le scénario à votre place."
+    intro: "Six parcours de quelques minutes, un par rôle. Chacun vous emmène d'écran en écran avec le compte de démo qui convient, et peut préparer le scénario à votre place."
     duration: "%minutes% min · %steps% étapes"
     start: "Commencer le parcours"
     resume: "Reprendre à l'étape %step%"
@@ -105,6 +105,22 @@ journey:
             4:
                 title: "Les adresses de l'entreprise"
                 text: "Le carnet d'adresses partagé évite de ressaisir les adresses de livraison à chaque commande."
+    copilot:
+        title: "Demander au copilote d'achat"
+        goal: "Ajouter des articles par référence, consulter le panier et tester le mode rejoué — l'IA prépare, l'acheteuse valide."
+        step:
+            1:
+                title: "Le copilote sur le tableau de bord"
+                text: "Le widget du copilote apparaît sur le tableau de bord de l'acheteuse. Il propose des suggestions cliquables : état du panier, réassort, ajout par référence. Les réponses sont enregistrées en démo."
+            2:
+                title: "Ajouter par référence via la commande rapide"
+                text: "La commande rapide accepte des références et des quantités. Le copilote peut aussi le faire : « ajoute PB-GANT-NITR-09 au panier » donne le même résultat sans quitter la conversation."
+            3:
+                title: "Vérifier le panier"
+                text: "Le scénario remplit le panier avec la liste « Atelier ». Demandez au copilote « état de mon panier » pour voir le détail ligne par ligne, directement dans la conversation."
+            4:
+                title: "Essayer une formulation libre"
+                text: "Retour au tableau de bord. Essayez une formulation de votre choix : le copilote cherche le scénario le plus proche et, s'il ne le trouve pas, propose les suggestions disponibles."
     it:
         title: "Brancher la boutique aux outils de l'entreprise"
         goal: "Voir comment un système d'achat ou un assistant IA se connecte à la boutique."

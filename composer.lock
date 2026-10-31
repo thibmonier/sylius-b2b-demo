@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1f9ef8ba77a6540330944af36cb0d04",
+    "content-hash": "27bd4ffff5e7f26b8297a6a90abaf549",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17195,16 +17195,16 @@
         },
         {
             "name": "tmonier/sylius-b2b-sales-copilot-plugin",
-            "version": "v0.1.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin.git",
-                "reference": "57e47500aaa5bd32ce9796c79fe0cdfbc6e73862"
+                "reference": "876d5099503a0e783722a0d83304fce37d1ee6a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/57e47500aaa5bd32ce9796c79fe0cdfbc6e73862",
-                "reference": "57e47500aaa5bd32ce9796c79fe0cdfbc6e73862",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/876d5099503a0e783722a0d83304fce37d1ee6a6",
+                "reference": "876d5099503a0e783722a0d83304fce37d1ee6a6",
                 "shasum": ""
             },
             "require": {
@@ -17268,9 +17268,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v0.1.1"
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v1.1.0"
             },
-            "time": "2026-10-31T06:09:12+00:00"
+            "time": "2026-10-31T16:59:07+00:00",
+            "published-time": "2026-10-31T16:59:23+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",
@@ -22677,5 +22678,5 @@
     "platform-overrides": {
         "php": "8.5.12"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
