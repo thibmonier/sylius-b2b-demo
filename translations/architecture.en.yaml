@@ -116,7 +116,7 @@ mockups:
         name: "Replenishment alerts"
         alt: "Mockup of the replenishment alert block: three product cards to reorder, with an overdue or upcoming status and a prepare-cart button."
         text: "The replenishment block, in My account under My equipment, alerts the buyer when it is time to reorder their usual consumables and equipment."
-    process: "A single Claude Design canvas holds all mockups since sprint 29. The 'Industrie et Négoce' theme defines the design tokens (colours, typefaces, spacing) reused in every screen. Mockups comply with WCAG 2.2 level AAA."
+    process: "A single Claude Design canvas holds all mockups since the early iterations. The 'Industrie et Négoce' theme defines the design tokens (colours, typefaces, spacing) reused in every screen. Mockups comply with WCAG level AAA."
 tiles:
     phpstan_label: "PHPStan level"
     phpstan_note: "Static analysis that blocks the CI, with the code style (ECS) and Rector."
