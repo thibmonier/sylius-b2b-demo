@@ -34,6 +34,8 @@ Faire de la démo une **preuve vérifiable** de ce qu'affirme le profil de Thiba
 | [US-204](../user-stories/US-204.md) | Refonte de la page « Plugins » dans la continuité de la home | Should | 3 | sprint 31 (done) |
 | [US-205](../user-stories/US-205.md) | Refonte de la page « Preuve technique » dans la continuité de la home | Should | 3 | sprint 32 |
 | [US-206](../user-stories/US-206.md) | Refonte de la page « Architecture » dans la continuité de la home | Should | 5 | sprint 32 |
+| [US-243](../user-stories/US-243.md) | Démo Registration Approval en mode public et contrôle des boutons « Voir la démo » | Should | 3 | sprint 38 (review) |
+| [US-249](../user-stories/US-249.md) | Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo | Should | 3 | non planifiée |
 | ~~US-069~~ | La page Plugins renvoie vers le site | retirée (absorbée par US-158) | 2 | - |
 | ~~US-109~~ | Cas d'usage sectoriels avec appel à l'action | retirée | 5 | - |
 | ~~US-110~~ | Mini-diagnostic en six questions | retirée | 5 | - |
