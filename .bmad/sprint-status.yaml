@@ -693,16 +693,19 @@ sprints:
     notes: "PLANIFIÉ le 2026-10-31 : 13 points. Actions de rétro S40 : T-TECH-41-01 à 03. T-TECH-41-03 bloquante pour US-212 (montant maquette). US-253 et US-212 parallèles (fichiers disjoints). Contraintes machine : 8 Go RAM, disque ~17 Go libres ; au plus 2 workers lancent des tests en même temps. Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
   sprint-42:
     name: sprint-42-copilote-et-parcours
-    status: planned
+    status: in-progress
     sprint_id: "sprint-42"
     start_date: "2026-10-31"
     end_date: "2026-11-14"
+    capacity_hours: 24.85  # 11 × 2,1 h + 1,75 h transverses
     capacity_points: 11
-    goal: "Enrichir le copilote d'achat (ajout par référence, mode rejoué en démo publique) et ajouter un parcours guidé copilote dans la démo"
+    charge_hours: 16.25  # 35 tâches décomposées le 2026-10-31 : 16,25 h Claude
+    margin_hours: 8.6  # 35 % de marge
+    goal: "Permettre au copilote d'ajouter un produit au panier par sa référence et d'afficher l'état du panier, enrichir les scénarios enregistrés pour la démo publique, et ajouter un parcours guidé copilote dans la démo"
     stories:
-      - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: ready-for-dev}  # EPIC-16, Must
-      - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, status: ready-for-dev}  # EPIC-16, Must
-      - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, status: ready-for-dev}  # EPIC-12, Should ; dépend d'US-212 (done S41)
+      - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, tasks: 13, hours: 7.5, status: ready-for-dev}  # EPIC-16, Must
+      - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, tasks: 10, hours: 4, status: ready-for-dev}  # EPIC-16, Must
+      - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, tasks: 8, hours: 3, status: ready-for-dev}  # EPIC-12, Should ; dépend d'US-212 (done S41)
     sprint_tasks:
       - {id: T-TECH-42-01, title: "Garde-fou sélecteurs CSS plugin ↔ démo", type: TEST, hours: 0.5, status: ready-for-dev}  # action de rétro S41
       - {id: T-TECH-42-02, title: "Script bin/plugin-push-all pour les 28 plugins", type: OPS, hours: 0.5, status: ready-for-dev}  # action de rétro S41
