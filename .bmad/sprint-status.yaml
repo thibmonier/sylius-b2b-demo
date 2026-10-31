@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 38
+current_sprint: 39
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -627,24 +627,38 @@ sprints:
 
   sprint-38:
     name: sprint-38-consolidation-vitrine
-    status: planning  # planifié le 2026-10-30 (périmètre décidé par Thibaut) ; branche feature/sprint-38-consolidation-vitrine (déjà créée)
+    status: done  # PR mergée (squash) le 2026-10-31, commit 85d5bd3 ; revue et rétro produites ; 10/10 points livrés
     sprint_id: "sprint-38"
     start_date: "2026-10-30"
     end_date: "2026-11-13"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
     capacity_points: 10  # vélocité de référence : S32 9, S33 13, S34 9, S35 8, S36 11, S37 13
     goal: "Installer le copilote d'achat dans la démo avec ses captures, vérifier le passeport produit en production, rendre la démo Registration Approval utilisable en mode public et créer la fiche équipement avec lien vers le passeport et les pièces compatibles"
     stories:
-      - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: review}  # EPIC-16, Should ; LIVRÉE 2026-10-31 : copilote v0.1.1 installé (canal B2B), widget inclus dans le tableau de bord B2B de la démo, 4 tests ; défaut v0.1.0 corrigé (adresse sans langue, PR n° 2, rouge 41174631885) ; captures FR/EN (PR n° 4 du copilote)
-      - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: review}  # EPIC-12, Should ; LIVRÉE 2026-10-31 : page de démo app_demo_registration_approval et 2 inscriptions fictives en attente ; bouton PunchOut vers le simulateur ; test de tous les boutons « Voir la démo », rouge local sur Registration Approval (403) puis PunchOut
-      - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: review}  # EPIC-19, Should ; LIVRÉE 2026-10-31 : parc v0.2.2 (fiche, hook, libellés) et passeport v0.3.0 (bloc) ; 4e machine de Claire (clé dynamométrique OUTI-028) avec passeport ; captures FR/EN (PR n° 13 du parc)
-      - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: review}  # EPIC-19, Should ; LIVRÉE 2026-10-31 : production vérifiée après la remise à zéro (EPI-CASK-001 à 003, FR/EN, lien et page 200) ; test de fumée a5d344b et 742517f
+      - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: done}  # EPIC-16, Should ; LIVRÉE 2026-10-31 : copilote v0.1.1 installé (canal B2B), widget inclus dans le tableau de bord B2B de la démo, 4 tests ; défaut v0.1.0 corrigé (adresse sans langue, PR n° 2, rouge 41174631885) ; captures FR/EN (PR n° 4 du copilote)
+      - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: done}  # EPIC-12, Should ; LIVRÉE 2026-10-31 : page de démo app_demo_registration_approval et 2 inscriptions fictives en attente ; bouton PunchOut vers le simulateur ; test de tous les boutons « Voir la démo », rouge local sur Registration Approval (403) puis PunchOut
+      - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: done}  # EPIC-19, Should ; LIVRÉE 2026-10-31 : parc v0.2.2 (fiche, hook, libellés) et passeport v0.3.0 (bloc) ; 4e machine de Claire (clé dynamométrique OUTI-028) avec passeport ; captures FR/EN (PR n° 13 du parc)
+      - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: done}  # EPIC-19, Should ; LIVRÉE 2026-10-31 : production vérifiée après la remise à zéro (EPI-CASK-001 à 003, FR/EN, lien et page 200) ; test de fumée a5d344b et 742517f
     sprint_tasks:
       - {id: T-TECH-38-01, title: "Gabarit de test fonctionnel partagé", type: DOC, status: done}  # action 1 de la rétro du sprint 37
       - {id: T-TECH-38-02, title: "Tests en local obligatoires avant tout push (règle 46)", type: DOC, status: done}  # action 2 de la rétro du sprint 37
       - {id: T-TECH-38-03, title: "TaskStop automatique après passation", type: DOC, status: done}  # action 3 de la rétro du sprint 37
       - {id: T-TECH-38-04, title: "Suite complète ou pré-contrôle avant PR de fin de sprint", type: DOC, status: done}  # action 4 de la rétro du sprint 37
       - {id: T-TECH-38-05, title: "Test d'installation vérifiant kernel.bundles", type: DOC, status: done}  # action 5 de la rétro du sprint 37
-    notes: "PLANIFIÉ le 2026-10-30 : périmètre décidé par Thibaut (10 points). Actions de rétro S37 : T-TECH-38-01 à 05. Contraintes machine : 8 Go RAM, disque 7,1 Go libres le 2026-10-30 (alerte sous 15 Go) ; tests ciblés seulement ; suite complète de la démo par la CI. US-212 reportée. 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13."
+    notes: "PLANIFIÉ le 2026-10-30 : périmètre décidé par Thibaut (10 points). Actions de rétro S37 : T-TECH-38-01 à 05. Contraintes machine : 8 Go RAM, disque 7,1 Go libres le 2026-10-30 (alerte sous 15 Go) ; tests ciblés seulement ; suite complète de la démo par la CI. US-212 reportée. 10 jours ouvrés, planning le 2026-10-30, revue et rétro au plus tard le 2026-11-13. CLÔTURÉ le 2026-10-31 : 10/10 points livrés, PR mergée (squash) commit 85d5bd3."
+  sprint-39:
+    name: sprint-39-conception-graphique
+    status: planning  # planifié le 2026-10-31 par l'orchestrateur (/workflow:auto-sprint 39) ; branche feature/sprint-39-conception-graphique
+    sprint_id: "sprint-39"
+    start_date: "2026-10-31"
+    end_date: "2026-11-14"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
+    capacity_points: 8  # vélocité de référence : S33 13, S34 9, S35 8, S36 11, S37 13, S38 10
+    goal: "Répondre aux retours de la revue du sprint 38 sur la conception graphique : maquetter dans Claude Design le widget du copilote et le bloc de réassort, écrire le principe de conception et le montrer dans la démo, et aligner la réponse enregistrée du copilote sur le panier de Claire"
+    stories:
+      - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: ready-for-dev}  # EPIC-16, Should ; bloque US-246 ; se termine sur une validation de Thibaut
+      - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: ready-for-dev}  # EPIC-17, Should ; bloque US-251 ; maquette cohérente avec US-248 (mêmes jetons)
+      - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: ready-for-dev}  # EPIC-12, Should ; docs/conception-graphique.md + section « De la maquette à l'écran » sur la page Architecture
+      - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: ready-for-dev}  # EPIC-16, Should ; correctif d'ici US-213 ; test rouge prouvé
+    notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 8 points, périmètre issu des retours de la revue du sprint 38. US-246 et US-251 (mise en forme) VOLONTAIREMENT EXCLUES : leur DoD exige une maquette validée par Thibaut puis une release sur son GO, deux portes humaines hors de portée d'un run autonome ; elles passent au sprint 40 dès les maquettes validées. Réserve non engagée : US-252 (couverture de code, 5 points). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW (ne pas créer de nouveau projet). Contraintes machine : 8 Go RAM, 18 Go de disque libres le 2026-10-31 ; tests ciblés seulement, suite complète par la CI."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
@@ -676,16 +690,16 @@ backlog:
   - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
-  - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: review}  # EPIC-19, Should ; sprint 38 ; scénario « Depuis le parc » d'US-233 reporté par décision de Thibaut du 2026-10-30
-  - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: review}  # EPIC-12, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
-  - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: review}  # EPIC-16, Should ; sprint 38 ; suite d'US-211 ; audits du 2026-10-30, création décidée par Thibaut
-  - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: review}  # EPIC-19, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
-  - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: backlog}  # EPIC-16, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; canevas Claude Design G2StRQigRKD6SqNRoyHpkW ; bloque US-246
-  - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: backlog}  # EPIC-16, Should ; non planifiée ; dépend d'US-248 (maquette) ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31
-  - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: backlog}  # EPIC-16, Should ; non planifiée ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31 ; correctif d'ici US-213
-  - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: backlog}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; canevas G2StRQigRKD6SqNRoyHpkW, lien public seulement si partage en lecture seule possible
-  - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: backlog}  # EPIC-17, Should ; non planifiée ; demande de Thibaut du 2026-10-31 (intégration trop brute) ; canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
-  - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: backlog}  # EPIC-17, Should ; non planifiée ; dépend d'US-250
+  - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: done}  # EPIC-19, Should ; sprint 38 ; scénario « Depuis le parc » d'US-233 reporté par décision de Thibaut du 2026-10-30
+  - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: done}  # EPIC-12, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
+  - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: done}  # EPIC-16, Should ; sprint 38 ; suite d'US-211 ; audits du 2026-10-30, création décidée par Thibaut
+  - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: done}  # EPIC-19, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
+  - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: ready-for-dev}  # sprint 39 ; EPIC-16, Should ; demande de Thibaut du 2026-10-31 ; canevas Claude Design G2StRQigRKD6SqNRoyHpkW ; bloque US-246
+  - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-16, Should ; non planifiée ; dépend d'US-248 (maquette) ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31
+  - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: ready-for-dev}  # sprint 39 ; EPIC-16, Should ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31 ; correctif d'ici US-213
+  - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: ready-for-dev}  # sprint 39 ; EPIC-12, Should ; demande de Thibaut du 2026-10-31 ; canevas G2StRQigRKD6SqNRoyHpkW, lien public seulement si partage en lecture seule possible
+  - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: ready-for-dev}  # sprint 39 ; EPIC-17, Should ; demande de Thibaut du 2026-10-31 (intégration trop brute) ; canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
+  - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-17, Should ; non planifiée ; dépend d'US-250
   - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: backlog}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
   - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: backlog}  # EPIC-12, Should ; non planifiée ; dépend d'US-252 ; 27 plugins restants, lots de 5
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: backlog}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
