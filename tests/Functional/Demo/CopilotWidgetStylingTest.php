@@ -24,9 +24,9 @@ final class CopilotWidgetStylingTest extends WebTestCase
         self::assertCount(1, $widget, 'Styled copilot widget should be on the dashboard');
 
         self::assertCount(1, $crawler->filter('.copilot-widget h3'), 'Widget title should be present');
-        self::assertCount(1, $crawler->filter('.copilot-conversation[aria-live="polite"]'), 'Conversation area with aria-live should be present');
+        self::assertCount(1, $crawler->filter('.copilot-widget__conversation[aria-live="polite"]'), 'Conversation area with aria-live should be present');
 
-        self::assertCount(1, $crawler->filter('.copilot-widget input.form-control'), 'Input field should be present');
+        self::assertCount(1, $crawler->filter('.copilot-widget input.copilot-widget__input'), 'Input field should be present');
         self::assertCount(1, $crawler->filter('.copilot-widget button[type="submit"]'), 'Send button should be present');
     }
 

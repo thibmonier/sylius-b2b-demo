@@ -674,7 +674,7 @@ sprints:
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 10 points. Actions de rétro T-TECH-40-01 à 04 incluses (0 points). Correction maquette copilote 1017,35 → 963,50 € (T-TECH-40-03). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
   sprint-41:
     name: sprint-41-couverture-et-copilote
-    status: ready-for-dev  # planifié le 2026-10-31 ; branche feature/sprint-41-couverture-et-copilote créée
+    status: in-progress  # planifié le 2026-10-31 ; branche feature/sprint-41-couverture-et-copilote créée
     sprint_id: "sprint-41"
     start_date: "2026-10-31"
     end_date: "2026-11-14"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
@@ -684,12 +684,12 @@ sprints:
     margin_hours: 7.3  # 26 % de marge
     goal: "Mesurer et publier la couverture de code de tous les plugins sur la page Preuve technique, et implémenter le scénario de réassort automatique \"comme le mois dernier\" dans le copilote d'achat"
     stories:
-      - {id: US-253, title: "Preuve technique : couverture de code tous plugins", points: 5, tasks: 14, hours: 8, status: ready-for-dev}  # EPIC-17, Should ; dépend d'US-252 (S40)
-      - {id: US-212, title: "Copilote : réassort \"comme le mois dernier\"", points: 8, tasks: 16, hours: 12, status: ready-for-dev}  # EPIC-16, Should ; ADR 0018 décision S39
+      - {id: US-253, title: "Preuve technique : couverture de code tous plugins", points: 5, tasks: 14, hours: 8, status: review}  # EPIC-17, Should ; dépend d'US-252 (S40) ; 28 plugins CI coverage commitée localement
+      - {id: US-212, title: "Copilote : réassort \"comme le mois dernier\"", points: 8, tasks: 16, hours: 12, status: review}  # EPIC-16, Should ; ADR 0018 décision S39 ; cassettes + boutons + tests
     sprint_tasks:
-      - {id: T-TECH-41-01, title: "Consigne stricte pour le fork de décomposition", type: DOC, hours: 0.25, status: ready-for-dev}  # action de rétro S40
-      - {id: T-TECH-41-02, title: "Job coverage dans la CI des plugins pilotes", type: OPS, hours: 0.5, status: ready-for-dev}  # action de rétro S40, intégré dans US-253
-      - {id: T-TECH-41-03, title: "Corriger le montant 1017,35 € → 963,50 € HT dans la maquette Copilote", type: DOC, hours: 0.25, status: ready-for-dev}  # action de rétro S40, bloquant pour US-212
+      - {id: T-TECH-41-01, title: "Consigne stricte pour le fork de décomposition", type: DOC, hours: 0.25, status: done}  # action de rétro S40 ; appliqué en Phase 2
+      - {id: T-TECH-41-02, title: "Job coverage dans la CI des plugins pilotes", type: OPS, hours: 0.5, status: done}  # action de rétro S40, intégré dans US-253 ; 28 plugins traités
+      - {id: T-TECH-41-03, title: "Corriger le montant 1017,35 € → 963,50 € HT dans la maquette Copilote", type: DOC, hours: 0.25, status: ready-for-dev}  # action de rétro S40 ; reste le canevas Claude Design (hors code)
     notes: "PLANIFIÉ le 2026-10-31 : 13 points. Actions de rétro S40 : T-TECH-41-01 à 03. T-TECH-41-03 bloquante pour US-212 (montant maquette). US-253 et US-212 parallèles (fichiers disjoints). Contraintes machine : 8 Go RAM, disque ~17 Go libres ; au plus 2 workers lancent des tests en même temps. Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
 
 backlog:
