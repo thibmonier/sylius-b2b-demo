@@ -15,14 +15,14 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-244-01 | [BE] | Installation du plugin copilote ^0.1 dans la démo (composer, bundles, routes, assets) | 1 h | - | 🔲 |
-| T-244-02 | [BE] | Configuration enabled_channels B2B et cassettes de démonstration | 0,5 h | T-244-01 | 🔲 |
-| T-244-03 | [DOC] | Entrée du catalogue vitrine (config/demo/plugins.yaml), bin/compat-refresh, bin/proof-refresh | 0,5 h | T-244-02 | 🔲 |
-| T-244-04 | [TEST] | Tests fonctionnels : widget B2B, demande enregistrée, canal particulier sans widget, demande non enregistrée | 1,5 h | T-244-03 | 🔲 |
-| T-244-05 | [DOC] | Captures FR et EN du widget pour les README du plugin (Chromium headless) | 1 h | T-244-04 | 🔲 |
-| T-244-06 | [TEST] | Audit pa11y AAA du tableau de bord avec le widget : aucune erreur détectée | 0,5 h | T-244-05 | 🔲 |
-| T-244-07 | [DOC] | PR du plugin avec captures et section Screenshots README EN/FR, fusion à CI verte | 0,5 h | T-244-06 | 🔲 |
-| T-244-08 | [REV] | Revue : conformité DoD (plugin installé, canal B2B, catalogue, tests, captures, audit pa11y), CI verte | 0,25 h | T-244-07 | 🔲 |
+| T-244-01 | [BE] | Installation du plugin copilote ^0.1 dans la démo (composer, bundles, routes, assets) | 1 h | - | ✅ |
+| T-244-02 | [BE] | Configuration enabled_channels B2B et cassettes de démonstration | 0,5 h | T-244-01 | ✅ |
+| T-244-03 | [DOC] | Entrée du catalogue vitrine (config/demo/plugins.yaml), bin/compat-refresh, bin/proof-refresh | 0,5 h | T-244-02 | ✅ |
+| T-244-04 | [TEST] | Tests fonctionnels : widget B2B, demande enregistrée, canal particulier sans widget, demande non enregistrée | 1,5 h | T-244-03 | ✅ |
+| T-244-05 | [DOC] | Captures FR et EN du widget pour les README du plugin (Chromium headless) | 1 h | T-244-04 | ✅ |
+| T-244-06 | [TEST] | Audit pa11y AAA du tableau de bord avec le widget : aucune erreur détectée | 0,5 h | T-244-05 | ✅ |
+| T-244-07 | [DOC] | PR du plugin avec captures et section Screenshots README EN/FR, fusion à CI verte | 0,5 h | T-244-06 | ✅ |
+| T-244-08 | [REV] | Revue : conformité DoD (plugin installé, canal B2B, catalogue, tests, captures, audit pa11y), CI verte | 0,25 h | T-244-07 | 👀 |
 
 **Total estimé** : 5,75 h
 

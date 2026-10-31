@@ -15,15 +15,15 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-242-01 | [BE] | Plugin customer-asset-management : route et contrôleur de la fiche équipement | 1 h | - | 🔲 |
-| T-242-02 | [FE-WEB] | Plugin customer-asset-management : template de la fiche avec hook Twig | 0,5 h | T-242-01 | 🔲 |
-| T-242-03 | [TEST] | Plugin customer-asset-management : tests fonctionnels (fiche, hook, autre entreprise, non connecté) | 1 h | T-242-02 | 🔲 |
-| T-242-04 | [BE] | Plugin passeport : bloc passeport et pièces compatibles accroché au hook de la fiche | 0,75 h | T-242-03 | 🔲 |
-| T-242-05 | [TEST] | Plugin passeport : tests fonctionnels (bloc affiché, plugin absent, modèle sans passeport) | 0,75 h | T-242-04 | 🔲 |
-| T-242-06 | [DOC] | Captures FR et EN de la fiche équipement pour les README des deux plugins | 1 h | T-242-05 | 🔲 |
-| T-242-07 | [DOC] | Mise à jour README EN et FR des deux plugins avec la fiche et le bloc passeport | 0,5 h | T-242-06 | 🔲 |
-| T-242-08 | [BE] | Démo : installation de customer-asset-management v0.2.0 et fixtures d'équipements | 0,75 h | T-242-07 | 🔲 |
-| T-242-09 | [REV] | Revue : conformité DoD (fiche, bloc, tests, captures, README), CI verte | 0,25 h | T-242-08 | 🔲 |
+| T-242-01 | [BE] | Plugin customer-asset-management : route et contrôleur de la fiche équipement | 1 h | - | ✅ |
+| T-242-02 | [FE-WEB] | Plugin customer-asset-management : template de la fiche avec hook Twig | 0,5 h | T-242-01 | ✅ |
+| T-242-03 | [TEST] | Plugin customer-asset-management : tests fonctionnels (fiche, hook, autre entreprise, non connecté) | 1 h | T-242-02 | ✅ |
+| T-242-04 | [BE] | Plugin passeport : bloc passeport et pièces compatibles accroché au hook de la fiche | 0,75 h | T-242-03 | ✅ |
+| T-242-05 | [TEST] | Plugin passeport : tests fonctionnels (bloc affiché, plugin absent, modèle sans passeport) | 0,75 h | T-242-04 | ✅ |
+| T-242-06 | [DOC] | Captures FR et EN de la fiche équipement pour les README des deux plugins | 1 h | T-242-05 | ✅ |
+| T-242-07 | [DOC] | Mise à jour README EN et FR des deux plugins avec la fiche et le bloc passeport | 0,5 h | T-242-06 | ✅ |
+| T-242-08 | [BE] | Démo : installation de customer-asset-management v0.2.0 et fixtures d'équipements | 0,75 h | T-242-07 | ✅ |
+| T-242-09 | [REV] | Revue : conformité DoD (fiche, bloc, tests, captures, README), CI verte | 0,25 h | T-242-08 | 👀 |
 
 **Total estimé** : 6,5 h
 

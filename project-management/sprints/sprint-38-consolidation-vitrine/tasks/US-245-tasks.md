@@ -16,9 +16,9 @@
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
 | T-245-01 | [TEST] | Vérification en production : fiches EPI-CASK-001 à 003, lien passeport, page publique répond 200 | 0,5 h | - | ✅ |
-| T-245-02 | [TEST] | Test de fumée : lien passeport sur EPI-CASK-001, rouge prouvé si lien absent | 1 h | T-245-01 | 🔲 |
-| T-245-03 | [DOC] | Documentation : consigner les URL de vérification et le résultat | 0,25 h | T-245-02 | 🔲 |
-| T-245-04 | [REV] | Revue : conformité DoD (vérification production, test fumée, rouge prouvé), CI verte | 0,25 h | T-245-03 | 🔲 |
+| T-245-02 | [TEST] | Test de fumée : lien passeport sur EPI-CASK-001, rouge prouvé si lien absent | 1 h | T-245-01 | ✅ |
+| T-245-03 | [DOC] | Documentation : consigner les URL de vérification et le résultat | 0,25 h | T-245-02 | ✅ |
+| T-245-04 | [REV] | Revue : conformité DoD (vérification production, test fumée, rouge prouvé), CI verte | 0,25 h | T-245-03 | 👀 |
 
 **Total estimé** : 2 h
 

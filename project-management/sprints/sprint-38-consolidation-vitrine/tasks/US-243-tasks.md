@@ -15,13 +15,13 @@
 
 | ID | Type | Tâche | Estimation | Dépend de | Statut |
 |----|------|-------|------------|-----------|--------|
-| T-243-01 | [FE-WEB] | Page dédiée /demo/registration-approval FR et EN (explique la validation par Sophie) | 1,5 h | - | 🔲 |
-| T-243-02 | [BE] | Route accessible en mode public (vérifier RegistrationGateListener, pas de 403) | 0,5 h | T-243-01 | 🔲 |
-| T-243-03 | [DOC] | Mise à jour de config/demo/plugins.yaml : demo_route vers la nouvelle page | 0,5 h | T-243-02 | 🔲 |
-| T-243-04 | [TEST] | Test qui parcourt toutes les demo_route du catalogue en mode public (DEMO_REGISTRATION_OPEN=0) | 1,5 h | T-243-03 | 🔲 |
-| T-243-05 | [TEST] | Test rouge prouvé : une demo_route actuelle répond 403 en mode public avant la correction | 0,5 h | T-243-04 | 🔲 |
-| T-243-06 | [DOC] | Documentation : docs/durcissement-demo.md, section démo Registration Approval en mode public | 0,5 h | T-243-05 | 🔲 |
-| T-243-07 | [REV] | Revue : conformité DoD (page dédiée, test demo_route, rouge prouvé), CI verte | 0,25 h | T-243-06 | 🔲 |
+| T-243-01 | [FE-WEB] | Page dédiée /demo/registration-approval FR et EN (explique la validation par Sophie) | 1,5 h | - | ✅ |
+| T-243-02 | [BE] | Route accessible en mode public (vérifier RegistrationGateListener, pas de 403) | 0,5 h | T-243-01 | ✅ |
+| T-243-03 | [DOC] | Mise à jour de config/demo/plugins.yaml : demo_route vers la nouvelle page | 0,5 h | T-243-02 | ✅ |
+| T-243-04 | [TEST] | Test qui parcourt toutes les demo_route du catalogue en mode public (DEMO_REGISTRATION_OPEN=0) | 1,5 h | T-243-03 | ✅ |
+| T-243-05 | [TEST] | Test rouge prouvé : une demo_route actuelle répond 403 en mode public avant la correction | 0,5 h | T-243-04 | ✅ |
+| T-243-06 | [DOC] | Documentation : docs/durcissement-demo.md, section démo Registration Approval en mode public | 0,5 h | T-243-05 | ✅ |
+| T-243-07 | [REV] | Revue : conformité DoD (page dédiée, test demo_route, rouge prouvé), CI verte | 0,25 h | T-243-06 | 👀 |
 
 **Total estimé** : 5,25 h
 
