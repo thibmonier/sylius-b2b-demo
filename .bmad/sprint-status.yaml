@@ -674,7 +674,7 @@ sprints:
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 10 points. Actions de rétro T-TECH-40-01 à 04 incluses (0 points). Correction maquette copilote 1017,35 → 963,50 € (T-TECH-40-03). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
   sprint-41:
     name: sprint-41-couverture-et-copilote
-    status: in-progress  # planifié le 2026-10-31 ; branche feature/sprint-41-couverture-et-copilote créée
+    status: done  # PR #148 mergée (squash) le 2026-10-31, commit e1ff59f
     sprint_id: "sprint-41"
     start_date: "2026-10-31"
     end_date: "2026-11-14"  # 10 jours ouvrés, au plus tard ; clôture dès que le périmètre est vérifié
@@ -684,8 +684,8 @@ sprints:
     margin_hours: 7.3  # 26 % de marge
     goal: "Mesurer et publier la couverture de code de tous les plugins sur la page Preuve technique, et implémenter le scénario de réassort automatique \"comme le mois dernier\" dans le copilote d'achat"
     stories:
-      - {id: US-253, title: "Preuve technique : couverture de code tous plugins", points: 5, tasks: 14, hours: 8, status: review}  # EPIC-17, Should ; dépend d'US-252 (S40) ; 28 plugins CI coverage commitée localement
-      - {id: US-212, title: "Copilote : réassort \"comme le mois dernier\"", points: 8, tasks: 16, hours: 12, status: review}  # EPIC-16, Should ; ADR 0018 décision S39 ; cassettes + boutons + tests
+      - {id: US-253, title: "Preuve technique : couverture de code tous plugins", points: 5, tasks: 14, hours: 8, status: done}  # EPIC-17, Should ; dépend d'US-252 (S40) ; 28 plugins CI coverage commitée localement, push en attente de GO
+      - {id: US-212, title: "Copilote : réassort \"comme le mois dernier\"", points: 8, tasks: 16, hours: 12, status: done}  # EPIC-16, Should ; ADR 0018 décision S39 ; cassettes + boutons + tests ; push plugin en attente de GO
     sprint_tasks:
       - {id: T-TECH-41-01, title: "Consigne stricte pour le fork de décomposition", type: DOC, hours: 0.25, status: done}  # action de rétro S40 ; appliqué en Phase 2
       - {id: T-TECH-41-02, title: "Job coverage dans la CI des plugins pilotes", type: OPS, hours: 0.5, status: done}  # action de rétro S40, intégré dans US-253 ; 28 plugins traités
@@ -696,7 +696,7 @@ backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: review}  # EPIC-16, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
-  - {id: US-212, title: "Copilote d'achat : réassort « comme le mois dernier » avec substitution de référence", points: 8, status: ready-for-dev}  # EPIC-16, Must ; sprint 41 ; décision de Thibaut du 2026-10-28
+  - {id: US-212, title: "Copilote d'achat : réassort « comme le mois dernier » avec substitution de référence", points: 8, status: done}  # EPIC-16, Must ; sprint 41 ; PR #148 mergée le 2026-10-31
   - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-214, title: "Copilote d'achat : garde-fous et journal d'audit", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
@@ -733,7 +733,7 @@ backlog:
   - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: done}  # sprint 39 ; EPIC-17, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
   - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-17, Should ; non planifiée ; dépend d'US-250
   - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: backlog}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
-  - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: ready-for-dev}  # EPIC-12, Should ; sprint 41 ; dépend d'US-252 ; 27 plugins restants, lots de 5
+  - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: done}  # EPIC-12, Should ; sprint 41 ; dépend d'US-252 ; 28 plugins CI coverage, push en attente de GO
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: backlog}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: backlog}  # EPIC-19, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
