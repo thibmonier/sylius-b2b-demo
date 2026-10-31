@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 39
+current_sprint: 40
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -659,6 +659,19 @@ sprints:
       - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: done}  # EPIC-12, Should ; docs/conception-graphique.md + section Architecture (commit d794b9c) ; pa11y AAA 0 erreur
       - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: done}  # EPIC-16, Should ; test RED fb3186d + GREEN 0bc7913 ; 47 articles, 963,50 € HT
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 8 points, périmètre issu des retours de la revue du sprint 38. US-246 et US-251 (mise en forme) VOLONTAIREMENT EXCLUES : leur DoD exige une maquette validée par Thibaut puis une release sur son GO, deux portes humaines hors de portée d'un run autonome ; elles passent au sprint 40 dès les maquettes validées. Réserve non engagée : US-252 (couverture de code, 5 points). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW (ne pas créer de nouveau projet). Contraintes machine : 8 Go RAM, 18 Go de disque libres le 2026-10-31 ; tests ciblés seulement, suite complète par la CI."
+  sprint-40:
+    name: sprint-40-mise-en-forme-et-couverture
+    status: in-progress  # planifié le 2026-10-31
+    sprint_id: "sprint-40"
+    start_date: "2026-10-31"
+    end_date: "2026-11-14"
+    capacity_points: 10
+    goal: "Appliquer les maquettes Claude Design au widget copilote et au bloc de réassort, et mettre en place la couverture de code pilote sur 3 plugins et la démo"
+    stories:
+      - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: ready-for-dev}  # EPIC-16, Should ; dépend d'US-248 (done S39)
+      - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort", points: 3, status: ready-for-dev}  # EPIC-17, Should ; dépend d'US-250 (done S39)
+      - {id: US-252, title: "Couverture de code pilote (3 plugins + démo)", points: 5, status: ready-for-dev}  # EPIC-20, Should ; indépendante
+    notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 10 points. Actions de rétro T-TECH-40-01 à 04 incluses (0 points). Correction maquette copilote 1017,35 → 963,50 € (T-TECH-40-03). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
