@@ -1,0 +1,17 @@
+title: "Registration approval"
+intro: "The Registration Approval plugin puts an account created on a B2B channel on hold: until an administrator approves it, the customer sees neither the closed catalogue nor the prices."
+closed: "In the public demo, registration is closed so that no visitor leaves personal data. Two fictitious registrations are therefore waiting for the decision of Sophie, the administrator of the shop."
+flow:
+    title: "The flow"
+    register: "A customer registers on the B2B channel: the account is created, but on hold."
+    pending: "Once signed in, the customer sees a waiting page: closed catalogue and hidden prices, without revealing whether an address is already registered."
+    decision: "The administrator approves or rejects the account in Customers > Registrations."
+    mail: "The customer gets an e-mail that announces the decision."
+try:
+    title: "Try it"
+    login: "Sign in to the admin panel as Sophie, in one click from the login page:"
+    login_link: "admin login"
+    review: "Open Customers > Registrations: Nadia Roux and Paul Leroy are waiting for a decision. Approve or reject one of them."
+    mail: "Find the e-mail sent to the customer in the demo mailbox:"
+    mail_link: "demo e-mails"
+    reset: "Both registrations are put back on hold by the nightly reset of the demo, at 3 a.m. (Paris time)."

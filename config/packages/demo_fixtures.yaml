@@ -190,6 +190,11 @@ sylius_fixtures:
                 demo_company_wishlists:
                     priority: -40
 
+                # Sprint 38 — US-243: two registrations waiting for Sophie (Registration Approval demo, registrations closed
+                # in public mode). Needs only the schema.
+                demo_pending_registrations:
+                    priority: -20
+
                 # Sprint 21 — US-060: equipment models (compatible variants) and the fleet of Claire. Needs the products
                 # (-30) and the customers (-15); its own priority.
                 demo_equipment_fleet:

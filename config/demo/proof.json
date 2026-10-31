@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-10-31T06:03:52Z",
+    "generated_at": "2026-10-31T06:25:43Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -241,7 +241,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/actions/runs/41091379239",
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/actions/runs/41175340237",
                 "checked_at": "2026-10-31"
             },
             "phpstan": {
@@ -500,7 +500,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/41126950983",
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/41175334422",
                 "checked_at": "2026-10-31"
             },
             "phpstan": {
@@ -1144,7 +1144,7 @@
             "checked_at": "2026-10-31"
         },
         "tests": {
-            "value": 332,
+            "value": 334,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-10-31"
         }

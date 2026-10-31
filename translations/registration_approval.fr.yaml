@@ -1,0 +1,17 @@
+title: "Validation des inscriptions"
+intro: "Le plugin Registration Approval met en attente un compte créé sur un canal B2B : tant qu'un administrateur ne l'a pas approuvé, le client ne voit ni le catalogue fermé ni les prix."
+closed: "Dans la démo publique, l'inscription est fermée pour qu'aucun visiteur n'y laisse de données personnelles. Deux inscriptions fictives attendent donc la décision de Sophie, l'administratrice de la boutique."
+flow:
+    title: "Le parcours"
+    register: "Un client s'inscrit sur le canal B2B : son compte est créé, mais en attente."
+    pending: "Connecté, il voit une page d'attente : catalogue fermé et prix masqués, sans révéler si une adresse est déjà inscrite."
+    decision: "L'administrateur approuve ou refuse le compte dans Clients > Inscriptions."
+    mail: "Le client reçoit un e-mail qui lui annonce la décision."
+try:
+    title: "À essayer"
+    login: "Connectez-vous à l'administration en tant que Sophie, en un clic depuis la page de connexion :"
+    login_link: "connexion à l'administration"
+    review: "Ouvrez Clients > Inscriptions : Nadia Roux et Paul Leroy attendent une décision. Approuvez ou refusez l'une des deux."
+    mail: "Retrouvez l'e-mail envoyé au client dans la boîte de la démo :"
+    mail_link: "e-mails de la démo"
+    reset: "Les deux inscriptions repassent en attente à la remise à zéro de la démo, chaque nuit à 3 h (heure de Paris)."

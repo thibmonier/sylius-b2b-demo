@@ -1,0 +1,31 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'title'|trans({}, 'registration_approval') }}{% endblock %}
+
+{% block content %}
+    <div class="container my-5" data-page="registration-approval">
+        <h1>{{ 'title'|trans({}, 'registration_approval') }}</h1>
+        <p class="lead">{{ 'intro'|trans({}, 'registration_approval') }}</p>
+
+        <div class="alert alert-info" role="note" data-registration-closed>{{ 'closed'|trans({}, 'registration_approval') }}</div>
+
+        <section class="mt-4" aria-labelledby="registration-approval-flow">
+            <h2 class="h4 border-bottom pb-2" id="registration-approval-flow">{{ 'flow.title'|trans({}, 'registration_approval') }}</h2>
+            <ol>
+                {% for step in ['register', 'pending', 'decision', 'mail'] %}
+                    <li>{{ ('flow.' ~ step)|trans({}, 'registration_approval') }}</li>
+                {% endfor %}
+            </ol>
+        </section>
+
+        <section class="mt-4" aria-labelledby="registration-approval-try">
+            <h2 class="h4 border-bottom pb-2" id="registration-approval-try">{{ 'try.title'|trans({}, 'registration_approval') }}</h2>
+            <ol>
+                <li>{{ 'try.login'|trans({}, 'registration_approval') }} <a href="{{ path('sylius_admin_login') }}">{{ 'try.login_link'|trans({}, 'registration_approval') }}</a></li>
+                <li>{{ 'try.review'|trans({}, 'registration_approval') }}</li>
+                <li>{{ 'try.mail'|trans({}, 'registration_approval') }} <a href="{{ path('app_demo_mails') }}">{{ 'try.mail_link'|trans({}, 'registration_approval') }}</a></li>
+            </ol>
+            <p class="mb-0">{{ 'try.reset'|trans({}, 'registration_approval') }}</p>
+        </section>
+    </div>
+{% endblock %}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Demo\DataFixtures\PendingRegistrationDemoFixture;
 use Doctrine\DBAL\Connection as Dbal;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
@@ -34,11 +35,13 @@ final class RegistrationApprovalDemoTest extends DemoAdminWebTestCase
         parent::tearDown();
     }
 
-    public function testTheExistingDemoAccountsAreApproved(): void
+    public function testTheExistingDemoAccountsAreApprovedAndOnlyTheFictitiousRegistrationsWait(): void
     {
         self::createClient();
 
-        self::assertSame(0, $this->intValue("SELECT COUNT(*) FROM sylius_customer WHERE approval_status <> 'approved'"));
+        // demo_pending_registrations (US-243): the two registrations Sophie decides on in the public demo.
+        $waiting = $this->db()->fetchFirstColumn("SELECT email_canonical FROM sylius_customer WHERE approval_status <> 'approved' ORDER BY email_canonical");
+        self::assertSame(array_column(PendingRegistrationDemoFixture::REGISTRATIONS, 0), $waiting);
     }
 
     public function testARegistrationWaitsThenSophieApprovesItAndTheCustomerSeesThePrices(): void

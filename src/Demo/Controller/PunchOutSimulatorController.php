@@ -264,7 +264,8 @@ final readonly class PunchOutSimulatorController
 
     private function locale(Request $request): string
     {
-        $lang = $request->query->get('lang');
+        // `lang` from the simulator's own links, `_locale` from the "See it in the demo" button of the plugins page (US-243).
+        $lang = $request->query->get('lang') ?? substr((string) $request->query->get('_locale'), 0, 2);
 
         return 'en' === $lang ? 'en' : 'fr';
     }
