@@ -189,10 +189,10 @@ Reliquats hérités (T-TECH-34-02, -04, -06 et T-TECH-33-XX) : **toujours report
 | DoD | Test passé 20 fois de suite en CI, sous la couverture ; rouge prouvé en retirant l'opération atomique du verrou ; 0 échec de ce test au sprint 39. |
 | Priorité | Basse |
 
-## Éléments pour le backlog (à décider par Thibaut)
+## Éléments pour le backlog (ajoutés le 2026-10-31 sur décision de Thibaut)
 
-- Copilote : mise en forme du widget (question et réponse distinguées, état de chargement).
-- Copilote : réponses enregistrées cohérentes avec les données de la démo (le panier réel de Claire compte 47 articles pour 1 017,35 €, la réponse annonce « 3 articles, 150 € »).
+- US-246 : mise en forme du widget du copilote (question et réponse distinguées, état de chargement).
+- US-247 : réponses enregistrées du copilote cohérentes avec les données de la démo (le panier réel de Claire compte 47 articles pour 1 017,35 €, la réponse annonce « 3 articles, 150 € »).
 
 ## Intégration au sprint 39
 
