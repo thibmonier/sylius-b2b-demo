@@ -23,7 +23,7 @@ final class ArchitecturePageTest extends WebTestCase
 
     private const REPOSITORY = 'https://github.com/thibmonier/sylius-b2b-demo/';
 
-    private const SECTIONS = ['overview', 'layers', 'flows', 'operations', 'quality', 'security'];
+    private const SECTIONS = ['overview', 'layers', 'flows', 'operations', 'quality', 'security', 'mockups'];
 
     /** @var list<string> */
     private array $files = [];

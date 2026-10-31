@@ -26,7 +26,7 @@
 
 {% block content %}
     {% import _self as page %}
-    {% set sections = ['overview', 'layers', 'flows', 'operations', 'quality', 'security'] %}
+    {% set sections = ['overview', 'layers', 'flows', 'operations', 'quality', 'security', 'mockups'] %}
     <div class="b2b-architecture" data-page="architecture">
         <section class="b2b-home-section b2b-architecture-intro" aria-labelledby="architecture-title">
             <div class="b2b-home-wrap">
@@ -177,6 +177,25 @@
                     {% endfor %}
                 </ul>
                 {{ page.links({'blob/main/docs/adr/0008-securite-de-la-demo-publique.md': 'links.adr_security'}, repository) }}
+            </section>
+
+            <section class="b2b-architecture-section" data-architecture-section="mockups" aria-labelledby="architecture-mockups">
+                <div class="b2b-architecture-section__head"><h2 class="b2b-home-h2" id="architecture-mockups" tabindex="-1">{{ 'mockups.title'|trans({}, 'architecture') }}</h2></div>
+                <p class="b2b-architecture-inline">{{ 'mockups.intro'|trans({}, 'architecture') }}</p>
+                <ol class="b2b-architecture-cards b2b-architecture-cards--two" data-architecture-visual>
+                    <li class="b2b-architecture-card b2b-architecture-card--mockup" data-architecture-mockup data-test="mockup-copilote">
+                        <h3>{{ 'mockups.copilote.name'|trans({}, 'architecture') }}</h3>
+                        <img src="{{ asset('images/mockups/copilote-desktop.jpg') }}" width="1280" height="698" alt="{{ 'mockups.copilote.alt'|trans({}, 'architecture') }}" loading="lazy" decoding="async">
+                        <p>{{ 'mockups.copilote.text'|trans({}, 'architecture') }}</p>
+                    </li>
+                    <li class="b2b-architecture-card b2b-architecture-card--mockup" data-architecture-mockup data-test="mockup-reassort">
+                        <h3>{{ 'mockups.reassort.name'|trans({}, 'architecture') }}</h3>
+                        <img src="{{ asset('images/mockups/reassort-desktop.jpg') }}" width="1280" height="698" alt="{{ 'mockups.reassort.alt'|trans({}, 'architecture') }}" loading="lazy" decoding="async">
+                        <p>{{ 'mockups.reassort.text'|trans({}, 'architecture') }}</p>
+                    </li>
+                </ol>
+                <p class="b2b-architecture-inline">{{ 'mockups.process'|trans({}, 'architecture') }}</p>
+                {{ page.links({'blob/main/docs/conception-graphique.md': 'links.design_doc'}, repository) }}
             </section>
         </div>
 
