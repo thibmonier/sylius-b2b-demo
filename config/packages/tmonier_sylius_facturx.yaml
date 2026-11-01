@@ -1,0 +1,3 @@
+# US-234: include the digital product passport URL in Factur-X invoice lines (BT-128).
+tmonier_sylius_facturx:
+    dpp_link_in_invoice: true
