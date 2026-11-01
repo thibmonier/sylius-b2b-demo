@@ -20,7 +20,7 @@ declare(strict_types=1);
  * --file         another output file (default config/demo/proof.json)
  *
  * A source that fails keeps the last verified value, marked stale, with its old date. Exit code 1 when a source failed
- * (the file is written anyway), 2 on a usage error. A coverage figure is never written: the CI does not publish one.
+ * (the file is written anyway), 2 on a usage error.
  * See docs/theme-b2b.md ("Bloc de preuve technique").
  */
 
