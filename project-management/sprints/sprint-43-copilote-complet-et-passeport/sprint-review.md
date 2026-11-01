@@ -35,7 +35,7 @@
 
 | Plugin | Version | Notes |
 |--------|---------|-------|
-| `sylius-b2b-sales-copilot-plugin` | v1.3.0 → v1.3.1 | v1.3.0 : garde-fous + adaptateur LLM ; v1.3.1 : correctif config.yaml (référence paramètre non résolu) |
+| `sylius-b2b-sales-copilot-plugin` | v1.3.0 → v1.3.2 | v1.3.0 : garde-fous + adaptateur LLM ; v1.3.1 : correctif config.yaml ; v1.3.2 : cast member_id (strict-types) |
 | `sylius-facturx-plugin` | v1.2.0 | Port passeport, document de référence BT-128 |
 
 ## PR démo
