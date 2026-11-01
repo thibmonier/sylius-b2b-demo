@@ -773,12 +773,12 @@ sprints:
     goal: "Corriger les constats majeurs de l'audit sprint 44, lot 2 : refactoring des fichiers > 300 lignes dans trade-credit, quote-request et facturx"
     stories:
       - {id: US-259, title: "Refactoring TradeCreditReserver (507L → 3 services)", points: 5, status: done}  # PR #7 trade-credit mergée, 507L → 178L + 4 services, CI 21/21 verte
-      - {id: US-260, title: "Refactoring contrôleurs quote-request (Shop 514L + Admin 370L)", points: 5, status: review}  # PR #8 quote-request, Shop 514L → 4 contrôleurs + 1 trait, Admin 370L → 2 contrôleurs + 1 trait, CI re-run après fix PHPStan
+      - {id: US-260, title: "Refactoring contrôleurs quote-request (Shop 514L + Admin 370L)", points: 5, status: done}  # PR #8 quote-request mergée, Shop 514L → 4 contrôleurs + 1 trait, Admin 370L → 2 contrôleurs + 1 trait, CI 19/19 verte
       - {id: US-261, title: "Refactoring FacturXInvoiceMapper (348L → sous-mappers)", points: 3, status: done}  # PR #9 facturx mergée, 348L → 5 fichiers (max 137L), CI 21/21 verte
     sprint_tasks:
       - {id: T-TECH-46-01, title: "Marquer sprint 45 comme done dans sprint-status.yaml", type: OPS, hours: 0.25, status: done}
       - {id: T-TECH-46-02, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}
-    notes: "EN COURS le 2026-11-01 : 13 points. US-259 et US-261 livrées (CI verte). US-260 en review (fix PHPStan poussé, CI en re-run)."
+    notes: "LIVRÉ le 2026-11-01 : 13/13 points. US-259 : 507L → 178L + 4 services (PR #7). US-260 : Shop 514L → 4 contrôleurs, Admin 370L → 2 contrôleurs (PR #8, fix PHPStan + ECS). US-261 : 348L → 5 fichiers max 137L (PR #9)."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
@@ -834,7 +834,7 @@ backlog:
   - {id: US-257, title: "Augmenter couverture tests b2b-mcp (28,2 % → ≥ 70 %, focus OAuth et outils)", points: 5, status: done}  # EPIC-12, haute ; audit sprint 44 ; sprint 45 ; PR #13 mergée
   - {id: US-258, title: "Refactoring QuickOrderController (415L → actions invocables)", points: 3, status: done}  # EPIC-12, haute ; audit sprint 44 ; sprint 45 ; PR #8 mergée
   - {id: US-259, title: "Refactoring TradeCreditReserver (507L → 3 services)", points: 5, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 46 ; PR #7 trade-credit mergée
-  - {id: US-260, title: "Refactoring contrôleurs quote-request (Shop 514L + Admin 370L)", points: 5, status: review}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 46 ; PR #8 quote-request en review
+  - {id: US-260, title: "Refactoring contrôleurs quote-request (Shop 514L + Admin 370L)", points: 5, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 46 ; PR #8 quote-request mergée
   - {id: US-261, title: "Refactoring FacturXInvoiceMapper (348L → sous-mappers)", points: 3, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 46 ; PR #9 facturx mergée
   - {id: US-262, title: "Augmenter couverture tests gpsr (30,5 % → ≥ 70 %)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
   - {id: US-263, title: "Augmenter couverture tests agentic-feeds (36,2 % → ≥ 70 %)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
