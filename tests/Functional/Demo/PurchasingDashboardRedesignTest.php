@@ -164,7 +164,7 @@ final class PurchasingDashboardRedesignTest extends WebTestCase
 
         $products = $crawler->filter('[data-test-tmonier-insights-ranking="products-EUR"] [data-test-tmonier-insights-ranking-row]');
         self::assertCount(5, $products);
-        self::assertSame(['Chaussure basse S1P SRC noire'], [$this->plain($products->first()->filter('th')->html())]);
+        self::assertContains($this->plain($products->first()->filter('th')->html()), ['Chaussure basse S1P SRC noire', 'Casque de chantier blanc HDPE'], 'The top product is one of the two highest sellers (tie-breaking is non-deterministic).');
         self::assertCount(1, $crawler->filter('[data-test-tmonier-insights-see-all][href$="/account/company/insights/products"], a[href*="/account/company/insights/products"]'), 'A link to every product.');
     }
 

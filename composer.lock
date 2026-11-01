@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ae0a39b0e68e3e99c8eac92953a93ac",
+    "content-hash": "aca2373232ffe97272091e2b3febea36",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17195,16 +17195,16 @@
         },
         {
             "name": "tmonier/sylius-b2b-sales-copilot-plugin",
-            "version": "v1.3.1",
+            "version": "v1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin.git",
-                "reference": "6835026bb498256bdd2f422616c80362b26a8df9"
+                "reference": "1ff833ea693fac1ec909d75b503b160ac418e094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/6835026bb498256bdd2f422616c80362b26a8df9",
-                "reference": "6835026bb498256bdd2f422616c80362b26a8df9",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/1ff833ea693fac1ec909d75b503b160ac418e094",
+                "reference": "1ff833ea693fac1ec909d75b503b160ac418e094",
                 "shasum": ""
             },
             "require": {
@@ -17273,10 +17273,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v1.3.1"
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v1.3.2"
             },
-            "time": "2026-11-01T11:16:38+00:00",
-            "published-time": "2026-11-01T11:16:52+00:00"
+            "time": "2026-11-01T11:52:21+00:00",
+            "published-time": "2026-11-01T11:52:35+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",
