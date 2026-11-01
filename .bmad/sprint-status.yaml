@@ -782,7 +782,7 @@ sprints:
 
   sprint-47:
     name: sprint-47-audit-finalisation
-    status: in-progress
+    status: done  # PR #154 mergée (admin squash) le 2026-11-01, commit d8928b9
     sprint_id: "sprint-47"
     start_date: "2026-11-01"
     end_date: "2026-11-15"
