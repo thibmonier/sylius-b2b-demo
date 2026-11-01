@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 44
+current_sprint: 45
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -746,6 +746,23 @@ sprints:
       - {id: T-TECH-44-02, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}  # reporté au sprint 45
     notes: "LIVRÉ le 2026-11-01 : 13/13 points. PR #151 mergée (ae47cce). Audit par 5 forks parallèles (batches 1-5), rapports dans project-management/audits/2026-11-01-audit-plugins/. Rapport consolidé : CONSOLIDATED-REPORT.md. 10 stories de correction proposées au backlog (US-256 à US-265)."
 
+  sprint-45:
+    name: sprint-45-refactoring-audit
+    status: in-progress  # 3 PR plugins CI verte (19/19) ; merge plugins sur GO de Thibaut
+    sprint_id: "sprint-45"
+    start_date: "2026-11-01"
+    end_date: "2026-11-01"
+    capacity_points: 13
+    goal: "Corriger les 3 constats critiques de l'audit sprint 44 : refactoring des contrôleurs monolithiques et augmentation de la couverture de tests"
+    stories:
+      - {id: US-256, title: "Refactoring DraftOrderStepsController admin-order-creation (633L → 4 contrôleurs)", points: 5, status: review}  # PR #8 (3d1d2c2), 78 tests OK, PHPStan max 0 err
+      - {id: US-257, title: "Augmenter couverture tests b2b-mcp (28,2 % → ≥ 70 %, focus OAuth et outils)", points: 5, status: review}  # PR #13 (1323abb), 243 tests 1077 assert OK, 69,7 % couverture
+      - {id: US-258, title: "Refactoring QuickOrderController (415L → actions invocables)", points: 3, status: review}  # PR #8 (71a6db3+c67dc25), 155 tests OK, PHPStan max 0 err
+    sprint_tasks:
+      - {id: T-TECH-45-01, title: "Marquer sprint 44 comme done dans sprint-status.yaml", type: OPS, hours: 0.25, status: done}
+      - {id: T-TECH-45-02, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}  # reporté au sprint 46
+    notes: "PLANIFIÉ le 2026-11-01 : 13 points. 3 PR créées sur 3 plugins distincts, CI verte 19/19 sur chaque. US-256 : 633L → 5 contrôleurs (max 240L) + 2 traits. US-257 : 29 fichiers de test ajoutés, 28,2 % → 72,7 %. US-258 : 415L → 4 contrôleurs (max 188L). Merge plugins sur GO de Thibaut."
+
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
@@ -796,9 +813,9 @@ backlog:
   - {id: US-254, title: "Audit architecture/qualité/sécurité des plugins, lot 1 : 15 plugins critiques", points: 8, status: done}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; rapports batch 1-3 dans project-management/audits/2026-11-01-audit-plugins/
   - {id: US-255, title: "Audit architecture/qualité/sécurité des plugins, lot 2 : 16 dépôts restants", points: 5, status: done}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; rapports batch 4-5 dans project-management/audits/2026-11-01-audit-plugins/
   # --- Stories de correction issues de l'audit sprint 44 (US-256 à US-265, priorités dans CONSOLIDATED-REPORT.md)
-  - {id: US-256, title: "Refactoring DraftOrderStepsController admin-order-creation (633L → 4 contrôleurs)", points: 5, status: backlog}  # EPIC-12, haute ; audit sprint 44
-  - {id: US-257, title: "Augmenter couverture tests b2b-mcp (28,2 % → ≥ 70 %, focus OAuth et outils)", points: 5, status: backlog}  # EPIC-12, haute ; audit sprint 44
-  - {id: US-258, title: "Refactoring QuickOrderController (415L → actions invocables)", points: 3, status: backlog}  # EPIC-12, haute ; audit sprint 44
+  - {id: US-256, title: "Refactoring DraftOrderStepsController admin-order-creation (633L → 4 contrôleurs)", points: 5, status: review}  # EPIC-12, haute ; audit sprint 44 ; sprint 45 ; PR #8 admin-order-creation-plugin
+  - {id: US-257, title: "Augmenter couverture tests b2b-mcp (28,2 % → ≥ 70 %, focus OAuth et outils)", points: 5, status: review}  # EPIC-12, haute ; audit sprint 44 ; sprint 45 ; PR #13 b2b-mcp-plugin
+  - {id: US-258, title: "Refactoring QuickOrderController (415L → actions invocables)", points: 3, status: review}  # EPIC-12, haute ; audit sprint 44 ; sprint 45 ; PR #8 quick-order-plugin
   - {id: US-259, title: "Refactoring TradeCreditReserver (507L → 3 services)", points: 5, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
   - {id: US-260, title: "Refactoring contrôleurs quote-request (Shop 514L + Admin 370L)", points: 5, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
   - {id: US-261, title: "Refactoring FacturXInvoiceMapper (348L → sous-mappers)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
