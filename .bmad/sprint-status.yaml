@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 42
+current_sprint: 43
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -693,7 +693,7 @@ sprints:
     notes: "PLANIFIÉ le 2026-10-31 : 13 points. Actions de rétro S40 : T-TECH-41-01 à 03. T-TECH-41-03 bloquante pour US-212 (montant maquette). US-253 et US-212 parallèles (fichiers disjoints). Contraintes machine : 8 Go RAM, disque ~17 Go libres ; au plus 2 workers lancent des tests en même temps. Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
   sprint-42:
     name: sprint-42-copilote-et-parcours
-    status: in-progress
+    status: done  # PR #149 mergée (squash) le 2026-10-31, commit 25c670a
     sprint_id: "sprint-42"
     start_date: "2026-10-31"
     end_date: "2026-11-14"
@@ -712,6 +712,24 @@ sprints:
       - {id: T-TECH-42-03, title: "Corriger le montant 1017,35 → 963,50 € HT dans la maquette Copilote", type: DOC, hours: 0.25, status: skipped}  # action de rétro S40/S41 ; canevas G2StRQigRKD6SqNRoyHpkW, hors code
       - {id: T-TECH-42-04, title: "Bump copilote ^1.1 dans la démo et retirer le template override", type: OPS, hours: 0.5, status: done}  # copilote v1.1.0 publié ; composer.json ^1.1 + template override supprimé (aba5b82)
     notes: "PLANIFIÉ le 2026-10-31 : 11 points. Actions de rétro S41 : T-TECH-42-01 à 03. T-TECH-42-04 bump copilote ^1.1 + retrait du template override BEM (sprint 41). US-213 et US-215 parallèles (fichiers disjoints : plugin vs démo). US-237 dépend d'US-212 (done). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
+  sprint-43:
+    name: sprint-43-copilote-complet-et-passeport
+    status: in-progress
+    sprint_id: "sprint-43"
+    start_date: "2026-11-01"
+    end_date: "2026-11-15"
+    capacity_points: 13
+    goal: "Compléter le copilote d'achat avec les garde-fous de sécurité et l'adaptateur LLM réel, et ajouter le lien passeport numérique dans les factures Factur-X"
+    stories:
+      - {id: US-214, title: "Copilote d'achat : garde-fous et journal d'audit", points: 5, status: done}  # EPIC-16, Must ; copilot v1.3.0
+      - {id: US-216, title: "Copilote d'achat : adaptateur LLM réel pour les intégrateurs", points: 5, status: done}  # EPIC-16, Could ; copilot v1.3.0
+      - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: done}  # EPIC-19, Could ; facturx v1.2.0 + bridge
+    sprint_tasks:
+      - {id: T-TECH-43-01, title: "Marquer sprint 42 comme done dans sprint-status.yaml", type: OPS, hours: 0.25, status: done}
+      - {id: T-TECH-43-02, title: "Tests fonctionnels plugin avant PR démo (action rétro S42)", type: OPS, hours: 0.25, status: done}  # copilot 116 tests OK, facturx 116 tests OK
+      - {id: T-TECH-43-03, title: "Pousser plugin + tag avant PR démo (action rétro S42)", type: OPS, hours: 0.25, status: done}  # copilot v1.3.1, facturx v1.2.0
+      - {id: T-TECH-43-04, title: "Corriger le montant maquette Copilote (report T-TECH-42-03)", type: DOC, hours: 0.25, status: ready-for-dev}
+    notes: "PLANIFIÉ le 2026-11-01 : 13 points. US-214 doit être terminée avant US-216 (garde-fous avant adaptateur LLM réel). US-234 indépendante (plugin factur-x). Actions rétro S42 : T-TECH-43-02 à 04."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée

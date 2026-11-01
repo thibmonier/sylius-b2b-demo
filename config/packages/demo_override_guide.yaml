@@ -21,7 +21,7 @@ parameters:
           command: 'bin/console debug:container --parameter=sylius.model.order.class'
         - case: service
           path: config/services.yaml
-          lines: [93, 100]
+          lines: [99, 106]
           contains: "decorates: 'tmonier_facturx.xml.writer'"
           command: 'bin/console debug:container tmonier_facturx.xml.writer'
     # Copying a whole template: shown last, with the command that lists what drifted from the vendor version.

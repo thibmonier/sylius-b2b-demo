@@ -92,6 +92,10 @@ services:
             - setVariantRepository: ['@sylius.repository.product_variant']
             - setHistoryWithoutTax: ['@App\Demo\Order\HistoryWithoutTax']
 
+    # US-234: bridge DPP → Factur-X (resolves the passport page URL for each invoice line).
+    Tmonier\SyliusFacturXPlugin\Mapper\PassportUrlResolverInterface:
+        alias: App\Invoice\PassportUrlResolver
+
     # US-022: Factur-X BT-10 BuyerReference from the order PO reference (decorates the plugin XML writer).
     App\Invoice\PoReferenceCiiXmlWriter:
         decorates: 'tmonier_facturx.xml.writer'
