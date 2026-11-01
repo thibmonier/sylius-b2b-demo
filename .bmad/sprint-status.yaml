@@ -765,7 +765,7 @@ sprints:
 
   sprint-46:
     name: sprint-46-refactoring-audit-2
-    status: in-progress
+    status: done  # PR #153 démo mergée (0bb6350) + 3 PR plugins mergées le 2026-11-01
     sprint_id: "sprint-46"
     start_date: "2026-11-01"
     end_date: "2026-11-15"
