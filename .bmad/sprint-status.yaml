@@ -732,19 +732,19 @@ sprints:
     notes: "PLANIFIÉ le 2026-11-01 : 13 points. US-214 doit être terminée avant US-216 (garde-fous avant adaptateur LLM réel). US-234 indépendante (plugin factur-x). Actions rétro S42 : T-TECH-43-02 à 04."
   sprint-44:
     name: sprint-44-audit-plugins
-    status: in-progress
+    status: done  # PR #151 mergée (squash) le 2026-11-01, commit e0c3297 ; 33 dépôts audités, 3 critiques / 20 majeurs / ~25 mineurs, 0 vulnérabilité directe, 10 stories de correction proposées (US-256 à US-265)
     sprint_id: "sprint-44"
     start_date: "2026-11-01"
-    end_date: "2026-11-15"
+    end_date: "2026-11-01"
     capacity_points: 13
     goal: "Auditer l'architecture, la qualité et la sécurité de l'ensemble des 33 dépôts de plugins, thème et packs, pour garantir un niveau homogène avant toute nouvelle fonctionnalité"
     stories:
-      - {id: US-254, title: "Audit architecture/qualité/sécurité des plugins, lot 1 : 15 plugins critiques", points: 8, status: ready-for-dev}
-      - {id: US-255, title: "Audit architecture/qualité/sécurité des plugins, lot 2 : 16 dépôts restants", points: 5, status: ready-for-dev}
+      - {id: US-254, title: "Audit architecture/qualité/sécurité des plugins, lot 1 : 15 plugins critiques", points: 8, status: done}
+      - {id: US-255, title: "Audit architecture/qualité/sécurité des plugins, lot 2 : 16 dépôts restants", points: 5, status: done}
     sprint_tasks:
       - {id: T-TECH-44-01, title: "Marquer sprint 43 comme done dans sprint-status.yaml", type: OPS, hours: 0.25, status: done}
-      - {id: T-TECH-44-02, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}
-    notes: "PLANIFIÉ le 2026-11-01 : 13 points. US-254 et US-255 indépendantes (lots disjoints de dépôts). /team:audit séquentiel sur chaque dépôt ; rapport consolidé dans project-management/audits/. Actions rétro S43 : A-S43-01 (checklist pré-tag), A-S43-02 (config vs prepend), A-S43-03 = T-TECH-44-02."
+      - {id: T-TECH-44-02, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}  # reporté au sprint 45
+    notes: "LIVRÉ le 2026-11-01 : 13/13 points. Audit par 5 forks parallèles (batches 1-5), rapports dans project-management/audits/2026-11-01-audit-plugins/. Rapport consolidé : CONSOLIDATED-REPORT.md. 10 stories de correction proposées au backlog (US-256 à US-265)."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
@@ -793,8 +793,19 @@ backlog:
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, status: backlog}  # EPIC-12, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   # --- Audit complet des plugins (demande de Thibaut du 2026-11-01) : /team:audit séquentiel sur chaque dépôt plugin, thème et pack
-  - {id: US-254, title: "Audit architecture/qualité/sécurité des plugins, lot 1 : 15 plugins critiques", points: 8, status: ready-for-dev}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; /team:audit sur punchout-cxml, company-accounts, copilot, facturx, quick-order, quote-request, purchase-approval, company-insights, customer-asset-management, digital-product-passport, einvoice-transmission, erp-flatfile, predictive-analytics, container-fill, channel-access ; rapport dans project-management/audits/
-  - {id: US-255, title: "Audit architecture/qualité/sécurité des plugins, lot 2 : 16 dépôts restants", points: 5, status: ready-for-dev}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; /team:audit sur admin-order-creation, agentic-feeds, ai-catalog-copilot, audit-log, b2b-mcp, bulk-actions, command-palette, gpsr, order-hold, registration-approval, tier-pricing, timeline, trade-credit, webhook-outbox, withdrawal, industry-trade-theme + 2 packs ; rapport dans project-management/audits/
+  - {id: US-254, title: "Audit architecture/qualité/sécurité des plugins, lot 1 : 15 plugins critiques", points: 8, status: done}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; rapports batch 1-3 dans project-management/audits/2026-11-01-audit-plugins/
+  - {id: US-255, title: "Audit architecture/qualité/sécurité des plugins, lot 2 : 16 dépôts restants", points: 5, status: done}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; rapports batch 4-5 dans project-management/audits/2026-11-01-audit-plugins/
+  # --- Stories de correction issues de l'audit sprint 44 (US-256 à US-265, priorités dans CONSOLIDATED-REPORT.md)
+  - {id: US-256, title: "Refactoring DraftOrderStepsController admin-order-creation (633L → 4 contrôleurs)", points: 5, status: backlog}  # EPIC-12, haute ; audit sprint 44
+  - {id: US-257, title: "Augmenter couverture tests b2b-mcp (28,2 % → ≥ 70 %, focus OAuth et outils)", points: 5, status: backlog}  # EPIC-12, haute ; audit sprint 44
+  - {id: US-258, title: "Refactoring QuickOrderController (415L → actions invocables)", points: 3, status: backlog}  # EPIC-12, haute ; audit sprint 44
+  - {id: US-259, title: "Refactoring TradeCreditReserver (507L → 3 services)", points: 5, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
+  - {id: US-260, title: "Refactoring contrôleurs quote-request (Shop 514L + Admin 370L)", points: 5, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
+  - {id: US-261, title: "Refactoring FacturXInvoiceMapper (348L → sous-mappers)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
+  - {id: US-262, title: "Augmenter couverture tests gpsr (30,5 % → ≥ 70 %)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
+  - {id: US-263, title: "Augmenter couverture tests agentic-feeds (36,2 % → ≥ 70 %)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
+  - {id: US-264, title: "Refactoring DeliveryClaimer webhook-outbox (310L → 2 services)", points: 3, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
+  - {id: US-265, title: "Mettre à jour contraintes dépendances thème (CVE symfony/mime)", points: 2, status: backlog}  # EPIC-12, moyenne ; audit sprint 44
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
   # --- Sprint 33 (planifié le 2026-10-28) : US-207 et US-209 sont dans la section sprint-33
   # --- Sprint 32 (planifié le 2026-10-28) : US-205, US-206 et US-062 sont dans la section sprint-32
