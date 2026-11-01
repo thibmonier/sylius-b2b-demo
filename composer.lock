@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27bd4ffff5e7f26b8297a6a90abaf549",
+    "content-hash": "3ae0a39b0e68e3e99c8eac92953a93ac",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17195,16 +17195,16 @@
         },
         {
             "name": "tmonier/sylius-b2b-sales-copilot-plugin",
-            "version": "v1.1.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin.git",
-                "reference": "876d5099503a0e783722a0d83304fce37d1ee6a6"
+                "reference": "6835026bb498256bdd2f422616c80362b26a8df9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/876d5099503a0e783722a0d83304fce37d1ee6a6",
-                "reference": "876d5099503a0e783722a0d83304fce37d1ee6a6",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-sales-copilot-plugin/zipball/6835026bb498256bdd2f422616c80362b26a8df9",
+                "reference": "6835026bb498256bdd2f422616c80362b26a8df9",
                 "shasum": ""
             },
             "require": {
@@ -17220,6 +17220,7 @@
                 "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
+                "symfony/ai-platform": "^0.14",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
                 "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
                 "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
@@ -17227,9 +17228,13 @@
                 "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
                 "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
                 "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/rate-limiter": "^7.4",
                 "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "suggest": {
+                "symfony/ai-platform": "Required for real LLM calls (ai.enabled: true)"
             },
             "type": "sylius-plugin",
             "extra": {
@@ -17268,10 +17273,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v1.1.0"
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/v1.3.1"
             },
-            "time": "2026-10-31T16:59:07+00:00",
-            "published-time": "2026-10-31T16:59:23+00:00"
+            "time": "2026-11-01T11:16:38+00:00",
+            "published-time": "2026-11-01T11:16:52+00:00"
         },
         {
             "name": "tmonier/sylius-bulk-actions-plugin",
@@ -18085,16 +18090,16 @@
         },
         {
             "name": "tmonier/sylius-facturx-plugin",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-facturx-plugin.git",
-                "reference": "f62b913797b7e626732d78b505759dee031695fd"
+                "reference": "48dcb8461ea2ba2efcfc75886855c9f6b0bae1bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-facturx-plugin/zipball/f62b913797b7e626732d78b505759dee031695fd",
-                "reference": "f62b913797b7e626732d78b505759dee031695fd",
+                "url": "https://api.github.com/repos/thibmonier/sylius-facturx-plugin/zipball/48dcb8461ea2ba2efcfc75886855c9f6b0bae1bc",
+                "reference": "48dcb8461ea2ba2efcfc75886855c9f6b0bae1bc",
                 "shasum": ""
             },
             "require": {
@@ -18109,6 +18114,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
@@ -18161,9 +18167,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-facturx-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/tree/v1.1.0"
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/tree/v1.2.0"
             },
-            "time": "2026-10-12T06:26:40+00:00"
+            "time": "2026-11-01T11:10:24+00:00",
+            "published-time": "2026-11-01T11:10:40+00:00"
         },
         {
             "name": "tmonier/sylius-gpsr-plugin",

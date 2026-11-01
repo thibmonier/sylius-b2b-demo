@@ -42,7 +42,7 @@
         "tmonier/sylius-audit-log-plugin": "^1.0",
         "tmonier/sylius-b2b-mcp-plugin": "^1.2.2",
         "tmonier/sylius-b2b-predictive-analytics-plugin": "^0.1.3",
-        "tmonier/sylius-b2b-sales-copilot-plugin": "^1.1",
+        "tmonier/sylius-b2b-sales-copilot-plugin": "^1.3.1",
         "tmonier/sylius-bulk-actions-plugin": "^1.0",
         "tmonier/sylius-channel-access-plugin": "^0.2",
         "tmonier/sylius-command-palette-plugin": "^1.1.0",
