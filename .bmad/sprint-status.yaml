@@ -732,7 +732,7 @@ sprints:
     notes: "PLANIFIÉ le 2026-11-01 : 13 points. US-214 doit être terminée avant US-216 (garde-fous avant adaptateur LLM réel). US-234 indépendante (plugin factur-x). Actions rétro S42 : T-TECH-43-02 à 04."
   sprint-44:
     name: sprint-44-audit-plugins
-    status: done  # PR #151 mergée (squash) le 2026-11-01, commit e0c3297 ; 33 dépôts audités, 3 critiques / 20 majeurs / ~25 mineurs, 0 vulnérabilité directe, 10 stories de correction proposées (US-256 à US-265)
+    status: in-progress
     sprint_id: "sprint-44"
     start_date: "2026-11-01"
     end_date: "2026-11-01"
@@ -744,7 +744,7 @@ sprints:
     sprint_tasks:
       - {id: T-TECH-44-01, title: "Marquer sprint 43 comme done dans sprint-status.yaml", type: OPS, hours: 0.25, status: done}
       - {id: T-TECH-44-02, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}  # reporté au sprint 45
-    notes: "LIVRÉ le 2026-11-01 : 13/13 points. Audit par 5 forks parallèles (batches 1-5), rapports dans project-management/audits/2026-11-01-audit-plugins/. Rapport consolidé : CONSOLIDATED-REPORT.md. 10 stories de correction proposées au backlog (US-256 à US-265)."
+    notes: "PLANIFIÉ le 2026-11-01 : 13 points. Audit par 5 forks parallèles (batches 1-5), rapports dans project-management/audits/2026-11-01-audit-plugins/. Rapport consolidé : CONSOLIDATED-REPORT.md. 10 stories de correction proposées au backlog (US-256 à US-265)."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
