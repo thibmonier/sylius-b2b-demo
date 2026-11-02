@@ -44,7 +44,7 @@ summary:
             demo: "The demo itself has %count%."
         coverage:
             label: "Code coverage"
-            note: "Plugins for which a public source gives the figure."
+            note: "Average over %count% measured plugin.|Average over %count% measured plugins."
             note_none: "No public source gives the figure: it is never estimated."
 delivery:
     title: "How this demo is delivered"

@@ -46,17 +46,22 @@ final class ProofSummaryTest extends TestCase
     {
         $summary = ProofSummary::of($this->report(), ['alpha', 'beta']);
 
-        self::assertSame(0, $summary->coverage);
+        self::assertSame(0, $summary->coverageCount);
+        self::assertNull($summary->averageCoverage);
         self::assertFalse($summary->hasCoverage());
     }
 
-    public function testAVerifiedCoverageFigureIsCountedAndShowsTheColumn(): void
+    public function testAVerifiedCoverageFigureShowsAverageAndCount(): void
     {
-        $report = new ProofReport('2026-10-27T10:00:00Z', ['alpha' => ['coverage' => $this->fact(87)]]);
+        $report = new ProofReport('2026-10-27T10:00:00Z', [
+            'alpha' => ['coverage' => $this->fact(87.5)],
+            'beta' => ['coverage' => $this->fact(92.3)],
+        ]);
 
-        $summary = ProofSummary::of($report, ['alpha', 'beta']);
+        $summary = ProofSummary::of($report, ['alpha', 'beta', 'gamma']);
 
-        self::assertSame(1, $summary->coverage);
+        self::assertSame(2, $summary->coverageCount);
+        self::assertSame(89.9, $summary->averageCoverage);
         self::assertTrue($summary->hasCoverage());
     }
 
@@ -65,7 +70,7 @@ final class ProofSummaryTest extends TestCase
         $summary = ProofSummary::of(new ProofReport(null), ['alpha']);
 
         self::assertSame(1, $summary->plugins);
-        self::assertSame(0, $summary->versions + $summary->sylius23 + $summary->ciPassed + $summary->phpstanMax + $summary->testFiles + $summary->coverage);
+        self::assertSame(0, $summary->versions + $summary->sylius23 + $summary->ciPassed + $summary->phpstanMax + $summary->testFiles + $summary->coverageCount);
     }
 
     private function report(): ProofReport
@@ -78,7 +83,7 @@ final class ProofSummaryTest extends TestCase
         ], ['tests' => $this->fact(311)]);
     }
 
-    private function fact(string|int|bool $value): ProofFact
+    private function fact(string|int|float|bool $value): ProofFact
     {
         return ProofFact::verified($value, self::SOURCE, '2026-10-27');
     }

@@ -63,12 +63,12 @@
                     </li>
                     <li class="b2b-proof-tile" data-proof-tile="coverage">
                         {% if summary.hasCoverage() %}
-                            <span class="b2b-home-serif b2b-proof-tile__value" data-proof-value>{{ summary.coverage }}<small>/{{ summary.plugins }}</small></span>
+                            <span class="b2b-home-serif b2b-proof-tile__value" data-proof-value>{{ summary.averageCoverage|number_format(1) }}<small>&thinsp;%</small></span>
                         {% else %}
                             <span class="b2b-home-serif b2b-proof-tile__value b2b-proof-tile__value--text" data-proof-value>{{ 'status.unmeasured_title'|trans({}, 'proof') }}</span>
                         {% endif %}
                         <span class="b2b-proof-tile__label">{{ 'summary.tile.coverage.label'|trans({}, 'proof') }}</span>
-                        <span class="b2b-proof-tile__note" data-proof-note>{{ (summary.hasCoverage() ? 'summary.tile.coverage.note' : 'summary.tile.coverage.note_none')|trans({}, 'proof') }}</span>
+                        <span class="b2b-proof-tile__note" data-proof-note>{{ (summary.hasCoverage() ? 'summary.tile.coverage.note' : 'summary.tile.coverage.note_none')|trans({'%count%': summary.coverageCount}, 'proof') }}</span>
                     </li>
                 </ul>
                 <p class="b2b-proof-legend">{{ 'summary.legend'|trans({}, 'proof') }}</p>
