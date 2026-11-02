@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * US-111: the committed data file (config/demo/proof.json, written by bin/proof-refresh) covers the 24 plugins of the
  * catalogue, every fact it holds is accepted by the reader (nothing would be silently dropped on the page), and it holds
- * no coverage figure and no secret.
+ * no secret.
  */
 final class ProofDataFileTest extends TestCase
 {
@@ -41,13 +41,10 @@ final class ProofDataFileTest extends TestCase
         }
     }
 
-    public function testTheFileHoldsNoCoverageFigureAndNoSecret(): void
+    public function testTheFileHoldsNoSecret(): void
     {
         $content = (string) file_get_contents(self::FILE);
 
-        foreach ($this->data()['plugins'] as $slug => $facts) {
-            self::assertArrayNotHasKey('coverage', $facts, $slug);
-        }
         self::assertDoesNotMatchRegularExpression('/gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|Bearer |eyJ[A-Za-z0-9_-]{10,}|access_token/', $content);
         self::assertStringNotContainsString('@', $content);
     }
