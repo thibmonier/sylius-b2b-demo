@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Yaml;
  * GitHub REST API of a public repository (workflow file, latest completed run of the CI workflow, configuration, file tree).
  *
  * Rules: a fact is written only with a public source and the check date; a source that fails leaves the last verified
- * value in place, marked stale; nothing is estimated (no coverage is ever written: the CI does not publish the figure).
+ * value in place, marked stale; nothing is estimated.
  */
 final readonly class ProofCollector
 {
