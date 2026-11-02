@@ -44,7 +44,7 @@ summary:
             demo: "La démo elle-même en compte %count%."
         coverage:
             label: "Couverture de code"
-            note: "Plugins dont une source publique donne le chiffre."
+            note: "Moyenne sur %count% plugin mesuré.|Moyenne sur %count% plugins mesurés."
             note_none: "Aucune source publique n'en donne le chiffre : elle n'est jamais estimée."
 delivery:
     title: "Comment cette démo est livrée"

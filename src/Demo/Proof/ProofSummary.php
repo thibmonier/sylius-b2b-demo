@@ -23,7 +23,8 @@ final readonly class ProofSummary
         public int $phpstanMax,
         public int $testFiles,
         public int $pluginsWithTestFiles,
-        public int $coverage,
+        public int $coverageCount,
+        public ?float $averageCoverage,
         public ?int $demoTestFiles,
     ) {
     }
@@ -36,6 +37,12 @@ final readonly class ProofSummary
         $testFiles = array_map(static fn (string $slug): int => \is_int($value = $verified($slug, 'tests')?->value) ? $value : 0, $slugs);
         $demoTests = $report->deliveryFact('tests');
 
+        $coverageValues = array_filter(array_map(
+            static fn (string $slug): ?float => ($fact = $verified($slug, 'coverage')) !== null && \is_numeric($fact->value) ? (float) $fact->value : null,
+            $slugs,
+        ), static fn (?float $v): bool => null !== $v);
+        $coverageCount = \count($coverageValues);
+
         return new self(
             \count($slugs),
             $count(static fn (string $slug): bool => null !== $verified($slug, 'version')),
@@ -44,13 +51,14 @@ final readonly class ProofSummary
             $count(static fn (string $slug): bool => self::PHPSTAN_STRICTEST === $verified($slug, 'phpstan')?->value),
             array_sum($testFiles),
             \count(array_filter($testFiles)),
-            $count(static fn (string $slug): bool => null !== $verified($slug, 'coverage')),
+            $coverageCount,
+            $coverageCount > 0 ? round(array_sum($coverageValues) / $coverageCount, 1) : null,
             $demoTests->isVerified() && \is_int($demoTests->value) ? $demoTests->value : null,
         );
     }
 
     public function hasCoverage(): bool
     {
-        return $this->coverage > 0;
+        return $this->coverageCount > 0;
     }
 }
