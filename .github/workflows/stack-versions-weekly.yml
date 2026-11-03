@@ -46,6 +46,9 @@ jobs:
 
             - name: Generate versions report
               id: report
+              # gh reads the demo's pull requests and, for the plugins section, the public plugin repositories.
+              env:
+                  GH_TOKEN: ${{ github.token }}
               run: |
                   bin/stack-versions-report > /tmp/report.md
                   # The title is the report's first heading: one source for the ISO week (issue #136).

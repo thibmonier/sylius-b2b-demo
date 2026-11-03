@@ -1,5 +1,5 @@
 {
-    "_comment": "US-209: public names only. First entry is the pilot, then 4 lots of 7 in order. The wishlist fork is excluded.",
+    "_comment": "US-209: public names only. First entry is the pilot, then 4 lots of 7 in order; lot 5 = the repositories created after US-209 (2026-11-03). The wishlist fork is excluded.",
     "owner": "thibmonier",
     "repositories": [
         "sylius-quick-order-plugin",
@@ -30,7 +30,11 @@
         "sylius-webhook-outbox-plugin",
         "sylius-withdrawal-plugin",
         "sylius-pack-ai-headless",
-        "sylius-pack-compliance-tooling"
+        "sylius-pack-compliance-tooling",
+        "sylius-b2b-predictive-analytics-plugin",
+        "sylius-b2b-sales-copilot-plugin",
+        "sylius-digital-product-passport-plugin",
+        "sylius-industry-trade-theme"
     ],
     "pinnedActions": {
         "actions/checkout@v4": {

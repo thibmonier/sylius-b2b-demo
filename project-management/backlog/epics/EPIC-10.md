@@ -37,5 +37,7 @@ Lever les bloquants avant l'ouverture publique de la démo : accessibilité mobi
 | [US-145](../user-stories/US-145.md) | Images produit persistantes sur Railway | Must | 3 | 16 |
 | [US-207](../user-stories/US-207.md) | Indexer les pages vitrine : sitemap, hreflang, métadonnées et données structurées | Should | 5 | à planifier |
 | [US-208](../user-stories/US-208.md) | Chaîne d'approvisionnement PHP : politique Composer, revue du verrou et durcissement des workflows | Should | 5 | sprint 31 (done) |
+| [US-266](../user-stories/US-266.md) | PHPUnit 13 sur les plugins sans abandonner PHP 8.2 et 8.3 | Should | 5 | à planifier |
+| [US-267](../user-stories/US-267.md) | Chaîne de build du thème industrie : Webpack Encore 7 et Babel 8 | Should | 3 | à planifier |
 
 **Notes** : Les stories de sécurité ne contiennent aucun détail exploitable (le dépôt est public) ; les actions de plateforme sont faites par Thibaut. La bascule publique reste US-052.

@@ -49,10 +49,22 @@ Liste des PR Dependabot en attente de fusion. Les PR mineures et correctives ver
 
 Pour chaque montée majeure bloquée par une contrainte (Sylius, PHPUnit, MySQL), un brouillon de story prêt à coller au backlog.
 
+### 🧩 Plugins
+
+Depuis le 2026-11-03, la veille couvre aussi **tous les dépôts de plugins et de packs** listés dans `config/demo/plugin-repositories.json`. Pour chacun, la section indique :
+- les dépôts dont `main` est **rouge** (un check run en échec sur le dernier commit) : à réparer en premier, sinon aucune PR ne passe ;
+- les PR Dependabot **prêtes à merger** : mineure ou corrective, CI vert ;
+- les PR **majeures ou groupées** : décision ou story (une majeure reste majeure même verte) ;
+- les PR mineures ou correctives **rouges ou en cours** : relancer une fois (tests instables connus), puis diagnostiquer.
+
+Le type se lit dans le titre de la PR (« from X to Y ») ; avant 1.0, une montée mineure compte comme majeure.
+
+Tous les plugins suivent la même configuration Dependabot que la démo : écosystèmes en `weekly`, mineures et correctives groupées, cooldown de 7 jours. Le contrôle `dependabot` de `bin/plugin-supply-chain` l'impose, et `bin/plugin-supply-chain apply DIR --write` réécrit un fichier non conforme.
+
 ## Règle de traitement hebdomadaire
 
 1. **Chaque lundi**, l'issue de la semaine est créée ou mise à jour automatiquement
-2. **PR Dependabot mineures et correctives vertes** : fusion directe (GO permanent sur la démo)
+2. **PR Dependabot mineures et correctives vertes** : fusion directe (GO permanent sur la démo **et les plugins**)
 3. **Cases cochées dans l'issue** : Thibaut les convertit en stories au backlog
 4. **Montées majeures** : analyse de la contrainte bloquante, décision au cas par cas
 

@@ -13,7 +13,7 @@ interface OutdatedSource
     /** @return array<int, array{name: string, version: string, latest: string, latest-status: string}> */
     public function getComposerOutdated(): array;
 
-    /** @return array<string, array{current: string, wanted: string, latest: string}> */
+    /** @return array<string, array{current?: string, wanted?: string, latest: string}> */
     public function getNpmOutdated(): array;
 
     /** @return array<int, array{number: int, title: string}> */

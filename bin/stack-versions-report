@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Demo\Stack\GhPluginRepositoriesSource;
 use App\Demo\Stack\ShellOutdatedSource;
 use App\Demo\Stack\VersionsReport;
 
-$source = new ShellOutdatedSource();
-$report = new VersionsReport($source);
+// The plugins follow the same weekly watch as the demo (2026-11-03): config/demo/plugin-repositories.json lists them.
+$repositories = json_decode((string) file_get_contents(dirname(__DIR__) . '/config/demo/plugin-repositories.json'), true, flags: \JSON_THROW_ON_ERROR);
+$plugins = new GhPluginRepositoriesSource($repositories['owner'], $repositories['repositories']);
+$report = new VersionsReport(new ShellOutdatedSource(), plugins: $plugins, owner: $repositories['owner']);
 
 echo $report->generate();
