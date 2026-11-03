@@ -137,7 +137,8 @@ final class ProofPageRedesignTest extends WebTestCase
         self::assertCount(DemoCatalogs::pluginCount(), $page->filter('tr[data-plugin] [data-proof-cell="coverage"]'));
         self::assertCount(7, $page->filter('table[data-proof-table] thead th'));
         self::assertStringContainsString('87', $page->filter('tr[data-plugin="' . self::QUICK . '"] [data-proof-cell="coverage"]')->text());
-        self::assertSame('1/' . DemoCatalogs::pluginCount(), $this->compact($page->filter('[data-proof-tile="coverage"] [data-proof-value]')->text()));
+        self::assertSame('87.0%', $this->compact($page->filter('[data-proof-tile="coverage"] [data-proof-value]')->text()), 'the tile shows the average coverage (#158)');
+        self::assertSame('Moyenne sur 1 plugin mesuré.', trim($page->filter('[data-proof-tile="coverage"] [data-proof-note]')->text()));
     }
 
     #[DataProvider('localesWith1Argument')]
