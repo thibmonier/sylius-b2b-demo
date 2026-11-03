@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stack;
 
+use App\Demo\Stack\PluginRepositoriesSource;
+use App\Demo\Stack\PluginRepositoryStatus;
 use App\Demo\Stack\VersionsReport;
 use PHPUnit\Framework\TestCase;
 
@@ -321,6 +323,27 @@ final class VersionsReportTest extends TestCase
             'Aucune PR Dependabot ouverte',
             $output,
         );
+    }
+
+    public function testThePluginsSectionClosesTheReport(): void
+    {
+        $plugins = new class() implements PluginRepositoriesSource {
+            public function statuses(): array
+            {
+                return [new PluginRepositoryStatus('sylius-gpsr-plugin', false, [])];
+            }
+        };
+
+        $output = (new VersionsReport(new FakeOutdatedSource(), plugins: $plugins))->generate();
+
+        self::assertStringContainsString('## 🧩 Plugins', $output);
+        self::assertStringContainsString('- [ ] sylius-gpsr-plugin : https://github.com/thibmonier/sylius-gpsr-plugin/actions?query=branch%3Amain', $output);
+        self::assertGreaterThan(strpos($output, '## 📝 Brouillons'), strpos($output, '## 🧩 Plugins'));
+    }
+
+    public function testWithoutPluginsSourceTheReportHasNoPluginsSection(): void
+    {
+        self::assertStringNotContainsString('## 🧩 Plugins', (new VersionsReport(new FakeOutdatedSource()))->generate());
     }
 
     /**

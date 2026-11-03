@@ -271,14 +271,7 @@ function check(string $directory, bool $tracksLock, string $base, array $config)
     $verdict('allow-plugins', is_array($allow) && [] === array_filter($allow, static fn ($value): bool => !is_bool($value)) ? [] : ['config.allow-plugins is not an explicit list of booleans'], 'config.allow-plugins is an explicit list');
 
     $dependabot = is_file($directory . '/.github/dependabot.yml') ? (string) file_get_contents($directory . '/.github/dependabot.yml') : '';
-    $missing = array_filter(['composer', 'github-actions'], static fn (string $ecosystem): bool => 1 !== preg_match('/package-ecosystem:\s*["\']?' . $ecosystem . '\b/', $dependabot));
-    $problems = '' === $dependabot ? ['no .github/dependabot.yml'] : array_map(static fn (string $e): string => "dependabot has no $e ecosystem", array_values($missing));
-    foreach (dependabotEntries(explode("\n", $dependabot)) as $ecosystem => $entry) {
-        if (1 !== preg_match('/^\s*cooldown:/m', implode("\n", $entry['lines']))) {
-            $problems[] = "dependabot $ecosystem without cooldown";
-        }
-    }
-    $verdict('dependabot', $problems, 'Dependabot covers composer and github-actions, each with a cooldown');
+    $verdict('dependabot', dependabotProblems($dependabot), 'Dependabot covers composer and github-actions, each weekly, grouped and with a cooldown');
 
     if (!$tracksLock) {
         $results[] = ['lock-review', 'N/A', 'no composer.lock is versioned: nothing to review'];
@@ -499,42 +492,70 @@ function zizmorJob(array $lines, array $config): array
     return $lines;
 }
 
-function dependabot(string $current): string
+/**
+ * The weekly version watch (2026-11-03): every ecosystem is checked weekly, minor and patch updates come grouped
+ * in one pull request, majors one by one, and a release waits a week (cooldown).
+ *
+ * @return list<string>
+ */
+function dependabotProblems(string $content): array
 {
-    $entries = [
-        'composer' => ['composer-minor-and-patch', '[minor, patch]'],
-        'github-actions' => ['github-actions', null],
-    ];
-    if ('' === $current) {
-        $current = "# Dependency updates (US-209): Composer and GitHub Actions, weekly.\nversion: 2\nupdates:\n";
-        $dash = '    - ';
-        $key = '      ';
-    } else {
-        $current = rtrim($current) . "\n";
-        $indented = 1 === preg_match('/^(\s+)- package-ecosystem:/m', $current, $match);
-        $dash = $indented ? $match[1] . '- ' : '- ';
-        $key = $indented ? $match[1] . '  ' : '  ';
+    if ('' === $content) {
+        return ['no .github/dependabot.yml'];
     }
-    $lines = explode("\n", rtrim($current, "\n"));
-    foreach (array_reverse(dependabotEntries($lines)) as $entry) {
-        if (1 === preg_match('/^\s*cooldown:/m', implode("\n", $entry['lines']))) {
-            continue;
+    $missing = array_filter(['composer', 'github-actions'], static fn (string $ecosystem): bool => 1 !== preg_match('/package-ecosystem:\s*["\']?' . $ecosystem . '\b/', $content));
+    $problems = array_map(static fn (string $e): string => "dependabot has no $e ecosystem", array_values($missing));
+    foreach (dependabotEntries(explode("\n", $content)) as $ecosystem => $entry) {
+        $text = implode("\n", $entry['lines']);
+        if (1 !== preg_match('/^\s*cooldown:/m', $text)) {
+            $problems[] = "dependabot $ecosystem without cooldown";
         }
-        $first = $lines[$entry['start']];
-        $key = str_repeat(' ', indentOf($first) + 2);
-        array_splice($lines, $entry['start'] + 1, 0, ["{$key}# A release must be a week old before it is proposed (security updates ignore the cooldown).", "{$key}cooldown:", "{$key}    default-days: 7"]);
-    }
-    $current = implode("\n", $lines) . "\n";
-    foreach ($entries as $ecosystem => [$group, $types]) {
-        if (1 === preg_match('/package-ecosystem:\s*["\']?' . $ecosystem . '\b/', $current)) {
-            continue;
+        if (1 !== preg_match('/^\s*interval:\s*["\']?weekly\b/m', $text)) {
+            $problems[] = "dependabot $ecosystem is not weekly";
         }
-        $block = ["{$dash}package-ecosystem: $ecosystem", "{$key}directory: /", "{$key}schedule:", "{$key}    interval: weekly", "{$key}# A release must be a week old before it is proposed (security updates ignore the cooldown).", "{$key}cooldown:", "{$key}    default-days: 7", "{$key}groups:", "{$key}    $group:"];
-        $block[] = null === $types ? "{$key}        patterns: [\"*\"]" : "{$key}        update-types: $types";
-        $current .= implode("\n", $block) . "\n";
+        if (1 !== preg_match('/^\s*groups:/m', $text)) {
+            $problems[] = "dependabot $ecosystem without groups";
+        }
     }
 
-    return $current;
+    return $problems;
+}
+
+/** A conforming file is kept; any other is rewritten in the canonical form, keeping its ecosystems and directories. */
+function dependabot(string $current): string
+{
+    if ([] === dependabotProblems($current)) {
+        return $current;
+    }
+    $directories = ['composer' => '/', 'github-actions' => '/'];
+    foreach (dependabotEntries(explode("\n", $current)) as $ecosystem => $entry) {
+        $directories[$ecosystem] = 1 === preg_match('/^\s*directory:\s*["\']?([^"\'\s]+)/m', implode("\n", $entry['lines']), $match) ? $match[1] : '/';
+    }
+    $lines = [
+        '# Dependency updates (weekly version watch, 2026-11-03): every ecosystem weekly, minor and patch grouped',
+        "# in one pull request, majors one by one. The demo's weekly issue lists the open pull requests of every plugin.",
+        'version: 2',
+        'updates:',
+    ];
+    foreach ($directories as $ecosystem => $directory) {
+        array_push(
+            $lines,
+            "    - package-ecosystem: $ecosystem",
+            "      directory: $directory",
+            '      schedule:',
+            '          interval: weekly',
+            '      # A release must be a week old before it is proposed (security updates ignore the cooldown).',
+            '      cooldown:',
+            '          default-days: 7',
+            '      open-pull-requests-limit: 5',
+            '      groups:',
+            ...('github-actions' === $ecosystem
+                ? ['          github-actions:', '              patterns: ["*"]']
+                : ["          $ecosystem-minor-and-patch:", '              update-types: [minor, patch]']),
+        );
+    }
+
+    return implode("\n", $lines) . "\n";
 }
 
 function composerConfig(string $json, array $config): string

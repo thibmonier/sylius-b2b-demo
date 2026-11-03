@@ -49,7 +49,7 @@ final readonly class ShellOutdatedSource implements OutdatedSource
                 return [];
             }
 
-            /** @var array<string, array{current: string, wanted: string, latest: string}> $npmData */
+            /** @var array<string, array{current?: string, wanted?: string, latest: string}> $npmData */
             $npmData = $data;
 
             return $npmData;

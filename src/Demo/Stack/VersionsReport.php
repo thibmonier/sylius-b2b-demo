@@ -15,6 +15,8 @@ final readonly class VersionsReport
     public function __construct(
         private OutdatedSource $source,
         private \DateTimeImmutable $now = new \DateTimeImmutable(),
+        private ?PluginRepositoriesSource $plugins = null,
+        private string $owner = 'thibmonier',
     ) {
     }
 
@@ -32,6 +34,9 @@ final readonly class VersionsReport
             $this->dependabotSection(),
             $this->majorUpgradeDraftsSection(),
         ];
+        if (null !== $this->plugins) {
+            $sections[] = (new PluginsWatchSection($this->owner))->render($this->plugins->statuses());
+        }
 
         return implode("\n\n", $sections);
     }
@@ -62,7 +67,7 @@ MARKDOWN;
             $item = sprintf('- [ ] %s : %s → %s', $package['name'], $package['version'], $package['latest']);
 
             // latest-status tells whether the update fits the constraint, not its type: compare the versions.
-            match (self::updateType($package['version'], $package['latest'])) {
+            match (SemverUpdate::type($package['version'], $package['latest'])) {
                 'patch' => $patches[] = $item,
                 'minor' => $minors[] = $item,
                 'major' => $majors[] = $item,
@@ -81,6 +86,10 @@ MARKDOWN;
         $majors = [];
 
         foreach ($outdated as $name => $info) {
+            // npm reports no "current" for a package that is not installed (no node_modules): nothing to compare.
+            if (!isset($info['current'])) {
+                continue;
+            }
             $current = $info['current'];
             $latest = $info['latest'];
 
@@ -91,7 +100,7 @@ MARKDOWN;
 
             $item = sprintf('- [ ] %s : %s → %s', $name, $current, $latest);
 
-            match (self::updateType($current, $latest)) {
+            match (SemverUpdate::type($current, $latest)) {
                 'patch' => $patches[] = $item,
                 'minor' => $minors[] = $item,
                 'major' => $majors[] = $item,
@@ -179,30 +188,13 @@ MARKDOWN;
 MARKDOWN;
     }
 
-    /**
-     * Semver type of an update. Before 1.0, a minor bump may break the API, so it counts as major.
-     *
-     * @return 'patch'|'minor'|'major'
-     */
-    private static function updateType(string $current, string $latest): string
-    {
-        [$currentMajor, $currentMinor] = explode('.', ltrim($current, 'v') . '.0');
-        [$latestMajor, $latestMinor] = explode('.', ltrim($latest, 'v') . '.0');
-
-        if ($currentMajor !== $latestMajor || ('0' === $currentMajor && $currentMinor !== $latestMinor)) {
-            return 'major';
-        }
-
-        return $currentMinor === $latestMinor ? 'patch' : 'minor';
-    }
-
     private function majorUpgradeDraftsSection(): string
     {
         $outdated = $this->source->getComposerOutdated();
         $drafts = [];
 
         foreach ($outdated as $package) {
-            if ($package['version'] !== $package['latest'] && 'major' === self::updateType($package['version'], $package['latest'])) {
+            if ($package['version'] !== $package['latest'] && 'major' === SemverUpdate::type($package['version'], $package['latest'])) {
                 $draft = $this->generateStoryDraft($package);
                 $drafts[] = $draft;
             }

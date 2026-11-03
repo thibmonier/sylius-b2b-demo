@@ -16,6 +16,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class PluginSupplyChainTest extends TestCase
 {
+    private const string CONFORMING_DEPENDABOT = "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n  groups:\n    composer-minor-and-patch:\n      update-types: [minor, patch]\n- package-ecosystem: github-actions\n  directory: \"/\"\n  schedule:\n    interval: \"weekly\"\n  cooldown:\n    default-days: 7\n  groups:\n    github-actions:\n      patterns: [\"*\"]\n";
+
     private const string CHECKOUT = 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1';
 
     private const string BUILD = 'SyliusLabs/BuildTestAppAction@c3b108b5f3c299c55f429a8cf0ed88734d4f4979 # v4.3.1';
@@ -181,6 +183,53 @@ final class PluginSupplyChainTest extends TestCase
 
         self::assertSame(1, $process->getExitCode());
         self::assertMatchesRegularExpression('/^FAIL dependabot\b.*github-actions.*cooldown/m', $process->getOutput());
+    }
+
+    public function testADailyDependabotEcosystemFails(): void
+    {
+        $repository = $this->repository('dependabot-daily', dependabot: str_replace("interval: weekly\n  cooldown:\n    default-days: 7\n  groups:\n    composer", "interval: daily\n  cooldown:\n    default-days: 7\n  groups:\n    composer", self::CONFORMING_DEPENDABOT));
+
+        $process = $this->execute('check', $repository);
+
+        self::assertSame(1, $process->getExitCode());
+        self::assertMatchesRegularExpression('/^FAIL dependabot\b.*composer is not weekly/m', $process->getOutput());
+    }
+
+    public function testADependabotEcosystemWithoutGroupsFails(): void
+    {
+        $repository = $this->repository('dependabot-groups', dependabot: "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n- package-ecosystem: github-actions\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n");
+
+        $process = $this->execute('check', $repository);
+
+        self::assertSame(1, $process->getExitCode());
+        self::assertMatchesRegularExpression('/^FAIL dependabot\b.*composer without groups/m', $process->getOutput());
+    }
+
+    public function testApplyRewritesALegacyDependabotFileWeeklyAndGroupedKeepingItsEcosystems(): void
+    {
+        $repository = $this->repository('dependabot-rewrite', dependabot: "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: daily\n    time: \"10:00\"\n  open-pull-requests-limit: 10\n  ignore:\n  - dependency-name: vimeo/psalm\n    versions:\n    - 4.5.0\n- package-ecosystem: npm\n  directory: \"/assets\"\n  schedule:\n    interval: weekly\n  reviewers:\n    - \"thibmonier\"\n");
+
+        $this->execute('apply', $repository, '--write');
+
+        $dependabot = (string) file_get_contents($repository . '/.github/dependabot.yml');
+        self::assertSame(3, substr_count($dependabot, 'interval: weekly'));
+        self::assertSame(3, substr_count($dependabot, 'default-days: 7'));
+        self::assertStringContainsString("package-ecosystem: npm\n      directory: /assets\n", $dependabot);
+        self::assertStringContainsString("npm-minor-and-patch:\n              update-types: [minor, patch]", $dependabot);
+        self::assertStringContainsString("github-actions:\n              patterns: [\"*\"]", $dependabot);
+        self::assertStringNotContainsString('daily', $dependabot);
+        self::assertStringNotContainsString('vimeo/psalm', $dependabot, 'the skeleton ignores are dropped');
+        self::assertStringNotContainsString('reviewers', $dependabot);
+        self::assertSame(0, $this->execute('check', $repository)->getExitCode(), $this->execute('check', $repository)->getOutput());
+    }
+
+    public function testApplyKeepsAConformingDependabotFileAsItIs(): void
+    {
+        $repository = $this->repository('dependabot-keep');
+
+        $this->execute('apply', $repository, '--write');
+
+        self::assertSame(self::CONFORMING_DEPENDABOT, file_get_contents($repository . '/.github/dependabot.yml'));
     }
 
     public function testApplyAddsACooldownToTheExistingDependabotEcosystems(): void
@@ -558,7 +607,7 @@ final class PluginSupplyChainTest extends TestCase
     }
 
     /** @param array<string, mixed>|null $composer */
-    private function repository(string $name, ?string $workflow = null, ?array $composer = null, ?string $dependabot = "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n- package-ecosystem: github-actions\n  directory: \"/\"\n  schedule:\n    interval: weekly\n  cooldown:\n    default-days: 7\n", bool $trackLock = false): string
+    private function repository(string $name, ?string $workflow = null, ?array $composer = null, ?string $dependabot = self::CONFORMING_DEPENDABOT, bool $trackLock = false): string
     {
         $files = [
             '.github/workflows/build.yaml' => $workflow ?? $this->conformingWorkflow(),
