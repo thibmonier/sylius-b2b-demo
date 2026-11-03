@@ -49,7 +49,8 @@ function guard(string $directory, string $allowedRoot): string
     if (!str_starts_with($real . '/', $root . '/')) {
         refuse("$real is outside the allowed directory $root");
     }
-    if (!is_dir($real . '/.git')) {
+    // .git is a directory in a clone and a file in a linked worktree.
+    if (!file_exists($real . '/.git')) {
         refuse("$real is not a Git repository");
     }
 

@@ -268,6 +268,18 @@ final class PluginSupplyChainTest extends TestCase
         self::assertStringContainsString('not a Git repository', $process->getErrorOutput());
     }
 
+    public function testApplyWriteAcceptsALinkedWorktree(): void
+    {
+        $repository = $this->repository('worktree-source', dependabot: "version: 2\nupdates:\n- package-ecosystem: composer\n  directory: \"/\"\n  schedule:\n    interval: daily\n");
+        $worktree = $this->root . '/worktree-linked';
+        $this->git($repository, 'worktree', 'add', '-b', 'chore/dependabot-weekly', $worktree, 'origin/main');
+
+        $process = $this->execute('apply', $worktree, '--write');
+
+        self::assertSame(0, $process->getExitCode(), $process->getErrorOutput());
+        self::assertStringContainsString('interval: weekly', (string) file_get_contents($worktree . '/.github/dependabot.yml'));
+    }
+
     public function testApplyIsADryRunByDefault(): void
     {
         $repository = $this->legacyRepository('dry-run');
