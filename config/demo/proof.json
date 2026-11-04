@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-04T20:44:41Z",
+    "generated_at": "2026-11-04T21:25:04Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -607,7 +607,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/actions/runs/41906090661",
+                "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/actions/runs/41911676784",
                 "checked_at": "2026-11-04"
             },
             "phpstan": {
@@ -627,7 +627,7 @@
             },
             "coverage": {
                 "value": 63.72,
-                "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/runs/126842024797",
+                "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/runs/126861706861",
                 "checked_at": "2026-11-04"
             }
         },
