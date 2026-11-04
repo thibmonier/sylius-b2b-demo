@@ -65,6 +65,7 @@ final class DemoResetCommandTest extends KernelTestCase
         // The initial demo data, whatever other tests added before (smoke tests leave carts and PunchOut orders).
         self::assertSame(['products' => self::INITIAL_PRODUCTS, 'customers' => self::INITIAL_CUSTOMERS, 'orders' => \count(DemoOrderPlan::all($this->demoResetDate())) + self::LIVE_CARTS], $this->counts());
         self::assertNotSame(self::MARKER, $this->channelName(), 'The reload must replace the previous data.');
+        self::assertSame(5, $this->intValue('SELECT COUNT(*) FROM tmonier_digital_product_passport'), 'US-235: the reset recreates the 5 digital product passports.');
     }
 
     public function testAFailureInTheMiddleKeepsThePreviousStateAndIsReportedOnStderr(): void
