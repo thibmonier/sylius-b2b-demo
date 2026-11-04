@@ -40,5 +40,6 @@ Lever les bloquants avant l'ouverture publique de la démo : accessibilité mobi
 | [US-266](../user-stories/US-266.md) | PHPUnit 13 sur les plugins sans abandonner PHP 8.2 et 8.3 | Should | 5 | à planifier |
 | [US-267](../user-stories/US-267.md) | Chaîne de build du thème industrie : Webpack Encore 7 et Babel 8 | Should | 3 | à planifier |
 | [US-268](../user-stories/US-268.md) | Passeport produit : QR codes avec endroid/qr-code 6 | Should | 2 | à planifier |
+| [US-269](../user-stories/US-269.md) | Copilote commercial : Symfony AI 0.15, en préparant la 1.0 | Should | 3 | à planifier |
 
 **Notes** : Les stories de sécurité ne contiennent aucun détail exploitable (le dépôt est public) ; les actions de plateforme sont faites par Thibaut. La bascule publique reste US-052.
