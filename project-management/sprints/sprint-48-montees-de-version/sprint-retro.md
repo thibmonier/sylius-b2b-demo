@@ -22,4 +22,4 @@
 | A-48-1 | Avant de lancer des workers, vérifier l'espace libre (≥ 10 Go) et supprimer les `vendor/` des dépôts hors sprint | Claude | début du sprint 49 |
 | A-48-2 | Après le rapport d'un worker, comparer le SHA local et celui de la PR (`gh pr view --json headRefOid`) avant de surveiller la CI | Claude | chaque sprint |
 | A-48-3 | Lire l'état du `main` de la démo au lancement de chaque sprint et le réparer en premier s'il est rouge | Claude | début du sprint 49 |
-| A-48-4 | Proposer une story « GTIN fictifs valides dans les fixtures du passeport » pour que le QR soit visible dans la démo | Claude | revue du sprint 48 |
+| A-48-4 | Story « GTIN fictifs valides dans les fixtures du passeport » pour que le QR soit visible dans la démo : **US-272**, validée par Thibaut | Claude | fait le 2026-11-04 |
