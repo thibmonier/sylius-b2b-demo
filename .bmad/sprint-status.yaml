@@ -684,7 +684,7 @@ sprints:
     margin_hours: 7.3  # 26 % de marge
     goal: "Mesurer et publier la couverture de code de tous les plugins sur la page Preuve technique, et implémenter le scénario de réassort automatique \"comme le mois dernier\" dans le copilote d'achat"
     stories:
-      - {id: US-253, title: "Preuve technique : couverture de code tous plugins", points: 5, tasks: 14, hours: 8, status: in-progress}  # EPIC-17, Should ; dépend d'US-252 (S40) ; 28 plugins CI coverage commitée localement, push en attente de GO
+      - {id: US-253, title: "Preuve technique : couverture de code tous plugins", points: 5, tasks: 14, hours: 8, status: done}  # EPIC-17, Should ; dépend d'US-252 (S40) ; 28 plugins CI coverage commitée localement, push en attente de GO
       - {id: US-212, title: "Copilote : réassort \"comme le mois dernier\"", points: 8, tasks: 16, hours: 12, status: done}  # EPIC-16, Should ; ADR 0018 décision S39 ; cassettes + boutons + tests ; push plugin en attente de GO
     sprint_tasks:
       - {id: T-TECH-41-01, title: "Consigne stricte pour le fork de décomposition", type: DOC, hours: 0.25, status: done}  # action de rétro S40 ; appliqué en Phase 2
@@ -809,12 +809,12 @@ sprints:
     goal: "Lancer les montées de version en attente (endroid/qr-code 6, Symfony AI 0.15), finir la couverture publiée des 30 plugins et redonner au backlog des statuts fiables"
     stories:
       - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: ready-for-dev}
-      - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: ready-for-dev}
+      - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}
       - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: ready-for-dev}  # reste après US-241 : 5e passeport, test « conforme/certifié », champ manquant nommé, remise à zéro
     sprint_tasks:
       - {id: T-TECH-48-01, title: "Marquer le sprint 47 terminé, current_sprint 48", type: OPS, hours: 0.25, status: done}
-      - {id: T-TECH-48-02, title: "Fin d'US-253 : couverture CI predictive-analytics et sales-copilot, proof-refresh 30/30", type: OPS, hours: 1.5, status: ready-for-dev}  # reprend T-TECH-47-02
-      - {id: T-TECH-48-03, title: "Remettre à jour les statuts périmés des fiches de stories livrées", type: DOC, hours: 1, status: ready-for-dev}
+      - {id: T-TECH-48-02, title: "Fin d'US-253 : couverture CI predictive-analytics et sales-copilot, proof-refresh 30/30", type: OPS, hours: 1.5, status: done}  # reprend T-TECH-47-02
+      - {id: T-TECH-48-03, title: "Remettre à jour les statuts périmés des fiches de stories livrées", type: DOC, hours: 1, status: done}
     notes: "PLANIFIÉ le 2026-11-04 par /workflow:auto-sprint 48 : 8 points engagés sur 13. US-268 ∥ US-269 (dépôts distincts), US-235 après l'un des deux ; au plus 2 workers lancent des tests en même temps. Tags plugins sur GO de Thibaut."
 
 backlog:
@@ -858,7 +858,7 @@ backlog:
   - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: done}  # sprint 39 ; EPIC-17, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
   - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: done}  # sprint 40 (après validation des maquettes) ; EPIC-17, Should ; non planifiée ; dépend d'US-250
   - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: done}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
-  - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: in-progress}  # EPIC-12, Should ; sprint 41 ; dépend d'US-252 ; 28 plugins CI coverage, push en attente de GO
+  - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: done}  # EPIC-12, Should ; sprint 41 ; dépend d'US-252 ; 28 plugins CI coverage, push en attente de GO
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: done}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: ready-for-dev}  # EPIC-19, Should ; sprint 48 (reporté du sprint 41) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
@@ -880,7 +880,9 @@ backlog:
   - {id: US-266, title: "PHPUnit 13 sur la démo et les plugins", points: 5, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius (@dependabot ignore this dependency)
   - {id: US-267, title: "Chaîne de build du thème : Encore, webpack-cli, sass-loader, Babel", points: 3, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius
   - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: ready-for-dev}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
-  - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: ready-for-dev}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
+  - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
+  - {id: US-270, title: "Couverture de tests du plugin sales-copilot (58,90 % → ≥ 80 %)", points: 3, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
+  - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
   # --- Sprint 33 (planifié le 2026-10-28) : US-207 et US-209 sont dans la section sprint-33
   # --- Sprint 32 (planifié le 2026-10-28) : US-205, US-206 et US-062 sont dans la section sprint-32

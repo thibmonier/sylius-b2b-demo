@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-01T18:50:18Z",
+    "generated_at": "2026-11-04T20:15:55Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -215,74 +215,84 @@
             "version": {
                 "value": "v0.1.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-predictive-analytics-plugin",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-predictive-analytics-plugin",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-predictive-analytics-plugin",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/actions/runs/41176625046",
-                "checked_at": "2026-11-01"
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/actions/runs/41895593656",
+                "checked_at": "2026-11-04"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "tests": {
                 "value": 10,
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/main/tests",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
+            },
+            "coverage": {
+                "value": 78.36,
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/runs/126805587231",
+                "checked_at": "2026-11-04"
             }
         },
         "sylius-b2b-sales-copilot-plugin": {
             "version": {
-                "value": "v1.3.0",
+                "value": "v1.3.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-sales-copilot-plugin",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-sales-copilot-plugin",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-sales-copilot-plugin",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "ci": {
-                "value": "failure",
-                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/actions/runs/41303818287",
-                "checked_at": "2026-11-01"
+                "value": "success",
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/actions/runs/41895608179",
+                "checked_at": "2026-11-04"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
             },
             "tests": {
-                "value": 17,
+                "value": 19,
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/main/tests",
-                "checked_at": "2026-11-01"
+                "checked_at": "2026-11-04"
+            },
+            "coverage": {
+                "value": 58.9,
+                "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/runs/126806203772",
+                "checked_at": "2026-11-04"
             }
         },
         "sylius-bulk-actions-plugin": {
