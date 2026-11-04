@@ -801,16 +801,16 @@ sprints:
 
   sprint-48:
     name: sprint-48-montees-de-version
-    status: in-progress
+    status: review  # PR du sprint ouverte le 2026-11-04
     sprint_id: "sprint-48"
     start_date: "2026-11-04"
     end_date: "2026-11-18"
     capacity_points: 13
     goal: "Lancer les montées de version en attente (endroid/qr-code 6, Symfony AI 0.15), finir la couverture publiée des 30 plugins et redonner au backlog des statuts fiables"
     stories:
-      - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: ready-for-dev}
+      - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: done}
       - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}
-      - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: ready-for-dev}  # reste après US-241 : 5e passeport, test « conforme/certifié », champ manquant nommé, remise à zéro
+      - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: done}  # reste après US-241 : 5e passeport, test « conforme/certifié », champ manquant nommé, remise à zéro
     sprint_tasks:
       - {id: T-TECH-48-01, title: "Marquer le sprint 47 terminé, current_sprint 48", type: OPS, hours: 0.25, status: done}
       - {id: T-TECH-48-02, title: "Fin d'US-253 : couverture CI predictive-analytics et sales-copilot, proof-refresh 30/30", type: OPS, hours: 1.5, status: done}  # reprend T-TECH-47-02
@@ -860,7 +860,7 @@ backlog:
   - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: done}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
   - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: done}  # EPIC-12, Should ; sprint 41 ; dépend d'US-252 ; 28 plugins CI coverage, push en attente de GO
   - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: done}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: ready-for-dev}  # EPIC-19, Should ; sprint 48 (reporté du sprint 41) ; décision de Thibaut du 2026-10-28
+  - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: done}  # EPIC-19, Should ; sprint 48 (reporté du sprint 41) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, status: done}  # EPIC-12, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   # --- Audit complet des plugins (demande de Thibaut du 2026-11-01) : /team:audit séquentiel sur chaque dépôt plugin, thème et pack
@@ -879,7 +879,7 @@ backlog:
   - {id: US-265, title: "Mettre à jour contraintes dépendances thème (CVE symfony/mime)", points: 2, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 47 ; PR #11 thème mergée
   - {id: US-266, title: "PHPUnit 13 sur la démo et les plugins", points: 5, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius (@dependabot ignore this dependency)
   - {id: US-267, title: "Chaîne de build du thème : Encore, webpack-cli, sass-loader, Babel", points: 3, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius
-  - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: ready-for-dev}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
+  - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
   - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
   - {id: US-270, title: "Couverture de tests du plugin sales-copilot (58,90 % → ≥ 80 %)", points: 3, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
   - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
