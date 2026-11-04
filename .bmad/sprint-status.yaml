@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 47
+current_sprint: 48
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -515,7 +515,7 @@ sprints:
     goal: "Fermer les portes d'entrée de la chaîne d'approvisionnement PHP de la démo (verrou, plugins Composer, workflows), et donner aux pages de compte des plugins et à la page « Plugins » la charte de « Mon compte » et de la home, avec des maquettes validées avant le code"
     stories:
       - {id: US-208, title: "Chaîne d'approvisionnement PHP : politique Composer, revue du verrou et durcissement des workflows", points: 5, status: done}  # DONE le 2026-10-28 : contrôles de production du 2026-10-28 (PR #126), T-208-11 fait par Thibaut ; Sprint 31, protégée ; EPIC-10, Should ; demande de Thibaut du 2026-10-27 (article supply chain PHP / Packagist 2026) ; suite d'US-081 ; plugins hors périmètre (story de suivi possible) ; REVIEW le 2026-10-27 : code livré sur feature/sprint-31-dev, contrôles post-fusion (image reconstruite, production) restants
-      - {id: US-203, title: "Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur la refonte « Mon compte »", points: 5, status: review}  # Sprint 31, sacrifice n°2 ; EPIC-12, Should ; surcharge dans la démo décidée par Thibaut le 2026-10-27 (plugins intacts) ; page de consentement OAuth : cadre B2B seulement (décision de Thibaut du 2026-10-27) ; planche de maquette du relevé à valider avant le Twig ; REVIEW le 2026-10-27 : code livré sur feature/sprint-31-dev, contrôles post-fusion (image reconstruite, production) restants ; reste en review le 2026-10-28 : contrôle connecté sur image reconstruite bloqué par le disque, repris par T-TECH-32-07 (sprint 32)
+      - {id: US-203, title: "Pages de compte des plugins (devis, paiements à terme, assistants IA) alignées sur la refonte « Mon compte »", points: 5, status: done}  # Sprint 31, sacrifice n°2 ; EPIC-12, Should ; surcharge dans la démo décidée par Thibaut le 2026-10-27 (plugins intacts) ; page de consentement OAuth : cadre B2B seulement (décision de Thibaut du 2026-10-27) ; planche de maquette du relevé à valider avant le Twig ; REVIEW le 2026-10-27 : code livré sur feature/sprint-31-dev, contrôles post-fusion (image reconstruite, production) restants ; reste en review le 2026-10-28 : contrôle connecté sur image reconstruite bloqué par le disque, repris par T-TECH-32-07 (sprint 32)
       - {id: US-204, title: "Refonte de la page « Plugins » dans la continuité de la home", points: 3, status: done}  # DONE le 2026-10-28 : contrôles de production du 2026-10-28 (PR #126), pa11y WCAG2AAA FR et EN sans problème, 26 cartes en 6 familles ; Sprint 31, sacrifice n°1 ; EPIC-12, Should ; maquette Claude Design validée par Thibaut avant tout Twig ; REVIEW le 2026-10-27 : code livré sur feature/sprint-31-dev, contrôles post-fusion (image reconstruite, production) restants
     notes: "REVUE ET RÉTRO le 2026-10-27 (sprint-review.md, sprint-retro.md) : 13 points livrés plus T-TECH-31-11, aucun sacrifice ; reste après fusion : T-208-10 et T-208-11 (zizmor aux contrôles requis, Thibaut), T-203-14 et 15, T-204-08 à 11, remesure du LCP de la home, de la fiche et de la liste en production ; actions de rétro 1 à 5 à reprendre au planning du sprint 32. Planifié le 2026-10-27. Périmètre et ordre de sacrifice décidés par Thibaut (registre des décisions) : US-204 d'abord, puis T-TECH-31-11 (LCP de la home, 2 h, ajoutée le 2026-10-27), puis US-203 (T-203-08, page de consentement, négociable en premier) ; US-208 protégée. Maquettes : planche du relevé de paiements à terme (US-203) et page « Plugins » (US-204), canevas unique G2StRQigRKD6SqNRoyHpkW, Twig 📅 jusqu'au GO de Thibaut. Tâches transverses T-TECH-31-01 à 05 : actions 1 à 5 de la rétro du sprint 30 (T-TECH-31-05 faite au planning : règles 24 et 25 de consigne-worker.md). Workers : w208, w203, w204 ; au plus 2 workers qui lancent des tests au-delà de 2 Go de swap ou sous 7 Go de disque. Branche partagée feature/sprint-31-dev. US-207 après US-204 à US-206 et US-209 après US-208 : hors sprint. Vérifications de production des sprints 28 à 30 en parallèle, PR séparée, hors budget."
 
@@ -558,7 +558,7 @@ sprints:
       - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; timebox 6 h, ADR docs/adr/0018-*, note privée de sécurité hors dépôt
       - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: done}  # EPIC-18, Must ; timebox 6 h, ADR docs/adr/0019-*, prototype minimal ; GO de Thibaut sur l'ADR avant US-222
       - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; timebox 6 h, ADR docs/adr/0020-*, formulation prudente validée
-      - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: partial}  # EPIC-18, Must ; attend GO de l'ADR d'US-221 ; dépôt tmonier/sylius-industry-trade-theme créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release
+      - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: done}  # EPIC-18, Must ; attend GO de l'ADR d'US-221 ; dépôt tmonier/sylius-industry-trade-theme créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release
     notes: "Ordre de sacrifice (registre du 2026-10-28, auteur Thibaut) : US-222 d'abord, puis US-229 ; US-210 et US-221 protégées. Portes : GO de Thibaut sur l'ADR d'US-221 avant US-222 ; relecture au fil de l'eau des trois ADR de spikes. Disque à 4 Go libres, mémoire 1,7 Go, swap 4 Go : aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24). Actions de Thibaut : relire les ADR, donner le GO de l'ADR d'US-221, libérer le disque (cible 10 Go), soumettre le thème à Packagist. Actions de rétro S33 : règle 30 (T-TECH-34-01 faite au planning), workflows YAML validés (T-TECH-34-02), disque libéré et verrou tests (T-TECH-34-03), outils rendu et build (T-TECH-34-04), contrôles production US-207 (T-TECH-34-05). 10 jours ouvrés, planning le 2026-10-28, point d'étape après relecture des trois ADR, revue et rétro au plus tard le 2026-11-11."
 
   sprint-35:
@@ -572,7 +572,7 @@ sprints:
     stories:
       - {id: US-217, title: "Commerce prédictif : squelette du plugin et intervalle médian de réassort par référence", points: 5, status: done}  # EPIC-17, Must ; dépôt tmonier/sylius-b2b-predictive-analytics-plugin créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut
       - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: done}  # EPIC-17, Must ; dépend d'US-217
-      - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: partial}  # EPIC-17, Must ; dépend d'US-217 et US-218 ; porte : GO tag v0.1.0 de Thibaut, Thibaut soumet à Packagist, démo installe ^0.1
+      - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: done}  # EPIC-17, Must ; dépend d'US-217 et US-218 ; porte : GO tag v0.1.0 de Thibaut, Thibaut soumet à Packagist, démo installe ^0.1
       - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: done}  # EPIC-18, Must ; suite d'US-222 fusionnée partielle au sprint 34
     notes: "Ordre de sacrifice (registre du 2026-10-28, auteur Thibaut) : US-219 d'abord, puis US-238 ; US-217 et US-218 protégées. Portes : GO tag v0.1.0 du plugin prédictif (T-219-03) demandé quand le plugin est fusionné ; Thibaut soumet à Packagist (T-219-04). Disque à 5,6 Go libres au lancement (registre du 2026-10-28) : aucun test ni rendu sous 5 Go, suite complète laissée à la CI sous 6 Go, au plus deux workers qui testent en même temps (règle 24). Actions de Thibaut : libérer le disque (cible 10 Go, T-TECH-35-05) ; donner le GO du tag v0.1.0 (T-219-03) ; soumettre à Packagist (T-219-04). Actions de rétro S34 : règle 31 vérifier faits techniques avant présentation (T-TECH-35-01 faite au planning), règle 32 interdire de retirer un test (T-TECH-35-02 faite au planning), règle 33 nouveau paquet commence par test d'installation (T-TECH-35-03 faite au planning), validation YAML de sprint-status.yaml (T-TECH-35-04 faite au planning, bin/check-sprint-status testé vert et rouge), disque et reliquats (T-TECH-35-05). 10 jours ouvrés, planning le 2026-10-28, point d'étape après fusion du plugin prédictif (US-217, US-218), revue et rétro au plus tard le 2026-11-13."
 
@@ -590,7 +590,7 @@ sprints:
     stories:
       - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, tasks: 8, hours: 6.5, status: done}  # plugin prédictif v0.1.1, v0.1.2 puis v0.1.3 (mise en page) ; captures README EN/FR (PR #8 du plugin) ; EPIC-17, Must ; suite d'US-219 partielle ; plugin prédictif v0.1.1 ; parallèle à US-239
       - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, tasks: 13, hours: 11, status: done}  # plugin passeport : PR #1 et #2 fusionnées, historique réécrit sans vendor/ ; EPIC-19, Must ; nouveau dépôt tmonier/sylius-digital-product-passport-plugin créé par orchestrateur, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; après GO dépôt
-      - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, tasks: 8, hours: 6.5, status: review}  # PR #3 fusionnée (2d3f825d), rouge prouvé ; capture et audit pa11y AAA reportés à l'installation dans la démo (sprint 37) ; EPIC-19, Must ; dépend d'US-230
+      - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, tasks: 8, hours: 6.5, status: done}  # PR #3 fusionnée (2d3f825d), rouge prouvé ; capture et audit pa11y AAA reportés à l'installation dans la démo (sprint 37) ; EPIC-19, Must ; dépend d'US-230
       - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, tasks: 9, hours: 6.5, status: done}  # issue hebdomadaire #138 vérifiée après correctif #137 (classement par version, semaine ISO) ; EPIC-10, Must ; issue GitHub hebdomadaire ; parallèle à US-240
     sprint_tasks:
       - {id: T-TECH-36-01, title: "Hook pre-push refusant le force-push + ECS/PHPStan", type: OPS, hours: 0.5, status: done}
@@ -612,10 +612,10 @@ sprints:
     margin_hours: 4.3  # 12,2 % de marge
     goal: "Lancer le copilote d'achat B2B avec son widget du compte et son adaptateur rejoué, compléter le passeport numérique produit avec QR, lien GS1 Digital Link et pièces compatibles, et installer le plugin passeport dans la démo"
     stories:
-      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, tasks: 15, hours: 11, status: review}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut ; LIVRÉE 2026-10-30 : PR n° 1 du dépôt copilote fusionnée (6404805), vert 41088861396 (17 tests), rouges prouvés 41087211134 (garde et canaux) et 41090021545 (mutation de l’adaptateur) ; captures du widget non livrées (plugin pas encore installé dans la démo) ; dépendance MCP retirée (YAGNI)
-      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, tasks: 8, hours: 6.5, status: review}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin ; LIVRÉE 2026-10-30 : PR n° 6 du plugin passeport fusionnée (b1a826f4), vert 41080030016 (25 tests), rouges 41071593311 et 41080823959 ; téléchargements SVG/PNG non livrés
-      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, tasks: 8, hours: 6.5, status: review}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié ; LIVRÉE 2026-10-30 : PR n° 7 du plugin passeport fusionnée (6c2ebd40), vert 41088991937 (29 tests), rouge 41087539762 ; champ equipmentModelCode (décision de Thibaut) ; scénario « Depuis le parc » reporté en US-242
-      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, tasks: 7, hours: 4, status: review}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231 ; LIVRÉE 2026-10-30 : plugin passeport installé dans la démo, 8 tests ; captures FR/EN et pa11y AAA sans erreur, PR n° 5 du plugin passeport fusionnée (57ab2af9)
+      - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, tasks: 15, hours: 11, status: done}  # EPIC-16, Must ; nouveau dépôt tmonier/sylius-b2b-sales-copilot-plugin créé par orchestrateur sur GO de Thibaut, worker pousse branche et PR, orchestrateur fusionne CI verte, aucun tag ni release sans GO de Thibaut ; Packagist par Thibaut ; LIVRÉE 2026-10-30 : PR n° 1 du dépôt copilote fusionnée (6404805), vert 41088861396 (17 tests), rouges prouvés 41087211134 (garde et canaux) et 41090021545 (mutation de l’adaptateur) ; captures du widget non livrées (plugin pas encore installé dans la démo) ; dépendance MCP retirée (YAGNI)
+      - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, tasks: 8, hours: 6.5, status: done}  # EPIC-19, Must ; dépend d'US-231 ; dépôt sylius-digital-product-passport-plugin ; LIVRÉE 2026-10-30 : PR n° 6 du plugin passeport fusionnée (b1a826f4), vert 41080030016 (25 tests), rouges 41071593311 et 41080823959 ; téléchargements SVG/PNG non livrés
+      - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, tasks: 8, hours: 6.5, status: done}  # EPIC-19, Must ; dépend d'US-230 ; plugin customer-asset-management publié ; LIVRÉE 2026-10-30 : PR n° 7 du plugin passeport fusionnée (6c2ebd40), vert 41088991937 (29 tests), rouge 41087539762 ; champ equipmentModelCode (décision de Thibaut) ; scénario « Depuis le parc » reporté en US-242
+      - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, tasks: 7, hours: 4, status: done}  # EPIC-19, Must ; dépend d'US-231 ; captures reportées d'US-231 ; LIVRÉE 2026-10-30 : plugin passeport installé dans la démo, 8 tests ; captures FR/EN et pa11y AAA sans erreur, PR n° 5 du plugin passeport fusionnée (57ab2af9)
     sprint_tasks:
       - {id: T-TECH-37-01, title: "Vérification automatique que chaque fichier de tests/ appartient à une suite exécutée en CI", type: TEST, hours: 1, status: done}  # action 1 de la rétro du sprint 36
       - {id: T-TECH-37-02, title: "Squelette de plugin avec e2e_js: yes et suite all par défaut", type: DOC, hours: 0.5, status: done}  # action 2 de la rétro du sprint 36
@@ -668,9 +668,9 @@ sprints:
     capacity_points: 10
     goal: "Appliquer les maquettes Claude Design au widget copilote et au bloc de réassort, et mettre en place la couverture de code pilote sur 3 plugins et la démo"
     stories:
-      - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: review}  # EPIC-16, Should ; dépend d'US-248 (done S39)
-      - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort", points: 3, status: review}  # EPIC-17, Should ; dépend d'US-250 (done S39)
-      - {id: US-252, title: "Couverture de code pilote (3 plugins + démo)", points: 5, status: review}  # EPIC-20, Should ; indépendante
+      - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: done}  # EPIC-16, Should ; dépend d'US-248 (done S39)
+      - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort", points: 3, status: done}  # EPIC-17, Should ; dépend d'US-250 (done S39)
+      - {id: US-252, title: "Couverture de code pilote (3 plugins + démo)", points: 5, status: done}  # EPIC-20, Should ; indépendante
     notes: "PLANIFIÉ le 2026-10-31 par l'orchestrateur : 10 points. Actions de rétro T-TECH-40-01 à 04 incluses (0 points). Correction maquette copilote 1017,35 → 963,50 € (T-TECH-40-03). Canevas Claude Design unique : G2StRQigRKD6SqNRoyHpkW."
   sprint-41:
     name: sprint-41-couverture-et-copilote
@@ -703,9 +703,9 @@ sprints:
     margin_hours: 7.35  # 30 % de marge
     goal: "Permettre au copilote d'ajouter un produit au panier par sa référence et d'afficher l'état du panier, enrichir les scénarios enregistrés pour la démo publique, et ajouter un parcours guidé copilote dans la démo"
     stories:
-      - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, tasks: 14, hours: 8, status: review}  # EPIC-16, Must ; plugin: 24 tests GREEN, cassettes US-213 (add ref, batch, enriched cart, erreurs)
-      - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, tasks: 10, hours: 4, status: review}  # EPIC-16, Must ; plugin: alias+keyword matching, fallback with suggestions, demo_notice in widget
-      - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, tasks: 11, hours: 3.75, status: review}  # EPIC-12, Should ; journeys.yaml copilot, translations FR/EN, JourneyTest 5→6
+      - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, tasks: 14, hours: 8, status: done}  # EPIC-16, Must ; plugin: 24 tests GREEN, cassettes US-213 (add ref, batch, enriched cart, erreurs)
+      - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, tasks: 10, hours: 4, status: done}  # EPIC-16, Must ; plugin: alias+keyword matching, fallback with suggestions, demo_notice in widget
+      - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, tasks: 11, hours: 3.75, status: done}  # EPIC-12, Should ; journeys.yaml copilot, translations FR/EN, JourneyTest 5→6
     sprint_tasks:
       - {id: T-TECH-42-01, title: "Garde-fou sélecteurs CSS plugin ↔ démo", type: TEST, hours: 0.5, status: done}  # action de rétro S41 ; PluginCssSelectorGuardTest.php
       - {id: T-TECH-42-02, title: "Script bin/plugin-push-all pour les 28 plugins", type: OPS, hours: 0.5, status: done}  # action de rétro S41 ; bin/plugin-push-all (fe5d847)
@@ -795,25 +795,43 @@ sprints:
       - {id: US-265, title: "Mettre à jour contraintes dépendances thème (CVE symfony/mime)", points: 2, status: done}
     sprint_tasks:
       - {id: T-TECH-47-01, title: "Marquer sprint 46 comme done dans sprint-status.yaml", type: OPS, hours: 0.25, status: done}
-      - {id: T-TECH-47-02, title: "Pousser les 28 plugins coverage CI (US-253, GO en attente)", type: OPS, hours: 1, status: ready-for-dev}
+      - {id: T-TECH-47-02, title: "Pousser les 28 plugins coverage CI (US-253, GO en attente)", type: OPS, hours: 1, status: done}  # 28/30 publiés au 2026-11-04 ; reste reporté en T-TECH-48-02
       - {id: T-TECH-47-03, title: "Report T-TECH-43-04 (montant maquette Copilote)", type: DOC, hours: 0.25, status: ready-for-dev}
     notes: "LIVRÉ le 2026-11-01 : 11/11 points. US-262 : 8 fichiers de tests, 98 tests/695 assertions (PR #5 gpsr). US-263 : 12 fichiers de tests, 83 tests (PR #9 agentic-feeds). US-264 : DeliveryClaimer 310L→231L + EndpointStateReconciler 126L (PR #5 webhook-outbox). US-265 : conflict CVE-2026-45070 symfony/mime (PR #11 thème)."
+
+  sprint-48:
+    name: sprint-48-montees-de-version
+    status: review  # PR du sprint ouverte le 2026-11-04
+    sprint_id: "sprint-48"
+    start_date: "2026-11-04"
+    end_date: "2026-11-18"
+    capacity_points: 13
+    goal: "Lancer les montées de version en attente (endroid/qr-code 6, Symfony AI 0.15), finir la couverture publiée des 30 plugins et redonner au backlog des statuts fiables"
+    stories:
+      - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: done}
+      - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}
+      - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: done}  # reste après US-241 : 5e passeport, test « conforme/certifié », champ manquant nommé, remise à zéro
+    sprint_tasks:
+      - {id: T-TECH-48-01, title: "Marquer le sprint 47 terminé, current_sprint 48", type: OPS, hours: 0.25, status: done}
+      - {id: T-TECH-48-02, title: "Fin d'US-253 : couverture CI predictive-analytics et sales-copilot, proof-refresh 30/30", type: OPS, hours: 1.5, status: done}  # reprend T-TECH-47-02
+      - {id: T-TECH-48-03, title: "Remettre à jour les statuts périmés des fiches de stories livrées", type: DOC, hours: 1, status: done}
+    notes: "PLANIFIÉ le 2026-11-04 par /workflow:auto-sprint 48 : 8 points engagés sur 13. US-268 ∥ US-269 (dépôts distincts), US-235 après l'un des deux ; au plus 2 workers lancent des tests en même temps. Tags plugins sur GO de Thibaut."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: review}  # EPIC-16, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
+  - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: done}  # EPIC-16, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-212, title: "Copilote d'achat : réassort « comme le mois dernier » avec substitution de référence", points: 8, status: done}  # EPIC-16, Must ; sprint 41 ; PR #148 mergée le 2026-10-31
-  - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-214, title: "Copilote d'achat : garde-fous et journal d'audit", points: 5, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, status: backlog}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-216, title: "Copilote d'achat : adaptateur LLM réel pour les intégrateurs", points: 5, status: backlog}  # EPIC-16, Could ; planifiée au sprint 42 (décision de Thibaut du 2026-10-28)
+  - {id: US-213, title: "Copilote d'achat : ajout par référence et état du panier", points: 5, status: done}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-214, title: "Copilote d'achat : garde-fous et journal d'audit", points: 5, status: done}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-215, title: "Copilote d'achat : mode rejoué de la démo publique et scénarios enregistrés", points: 3, status: done}  # EPIC-16, Must ; sprint 38 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-216, title: "Copilote d'achat : adaptateur LLM réel pour les intégrateurs", points: 5, status: done}  # EPIC-16, Could ; planifiée au sprint 42 (décision de Thibaut du 2026-10-28)
   - {id: US-217, title: "Commerce prédictif : squelette du plugin et intervalle médian de réassort par référence", points: 5, status: done}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
   - {id: US-218, title: "Commerce prédictif : alerte de réassort dans « Mon compte » et panier pré-rempli", points: 5, status: done}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
-  - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: partial}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
+  - {id: US-219, title: "Commerce prédictif : fixtures de rythmes d'achat réalistes et intégration à la démo", points: 3, status: done}  # EPIC-17, Must ; sprint 35 ; décision de Thibaut du 2026-10-28
   - {id: US-220, title: "Commerce prédictif : score d'attrition explicable dans l'admin", points: 5, status: backlog}  # EPIC-17, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: done}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: partial}  # EPIC-18, Must ; sprint 34 ; décision de Thibaut du 2026-10-28
+  - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: done}  # EPIC-18, Must ; sprint 34 ; décision de Thibaut du 2026-10-28
   - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: done}  # EPIC-18, Must ; sprint 35 ; décision de Thibaut du 2026-10-28 (US-222 fusionnée partielle)
@@ -825,26 +843,26 @@ backlog:
   - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: backlog}  # EPIC-18, Must ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, status: done}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
-  - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: review}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
-  - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
-  - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
-  - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: review}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
+  - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: done}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
+  - {id: US-232, title: "Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage", points: 3, status: done}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
+  - {id: US-233, title: "Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management", points: 3, status: done}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
+  - {id: US-241, title: "Passeport numérique produit : installation dans la démo, captures et audit pa11y AAA", points: 2, status: done}  # EPIC-19, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
   - {id: US-242, title: "Parc d'équipements : fiche équipement avec lien vers le passeport et les pièces compatibles", points: 3, status: done}  # EPIC-19, Should ; sprint 38 ; scénario « Depuis le parc » d'US-233 reporté par décision de Thibaut du 2026-10-30
   - {id: US-243, title: "Vitrine : démo Registration Approval en mode public et contrôle des boutons « Voir la démo »", points: 3, status: done}  # EPIC-12, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
   - {id: US-244, title: "Copilote d'achat : installation dans la démo et captures du widget", points: 3, status: done}  # EPIC-16, Should ; sprint 38 ; suite d'US-211 ; audits du 2026-10-30, création décidée par Thibaut
   - {id: US-245, title: "Passeport produit : vérification en production et test de fumée du lien passeport", points: 1, status: done}  # EPIC-19, Should ; sprint 38 ; audit fonctionnel du 2026-10-30, création décidée par Thibaut
   - {id: US-248, title: "Copilote d'achat : conception graphique du widget dans Claude Design", points: 2, status: done}  # sprint 39 ; EPIC-16, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-246
-  - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-16, Should ; non planifiée ; dépend d'US-248 (maquette) ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31
+  - {id: US-246, title: "Copilote d'achat : mise en forme du widget", points: 2, status: done}  # sprint 40 (après validation des maquettes) ; EPIC-16, Should ; non planifiée ; dépend d'US-248 (maquette) ; revue du sprint 38, ajout décidé par Thibaut le 2026-10-31
   - {id: US-247, title: "Copilote d'achat : réponse enregistrée cohérente avec le panier de Claire", points: 1, status: done}  # sprint 39 ; EPIC-16, Should ; test RED fb3186d + GREEN 0bc7913 ; 47 articles, 963,50 € HT
   - {id: US-249, title: "Conception graphique dans Claude Design : principe écrit et maquettes montrées dans la démo", points: 3, status: done}  # sprint 39 ; EPIC-12, Should ; docs/conception-graphique.md + section Architecture (commit d794b9c) ; canevas privé
   - {id: US-250, title: "Commerce prédictif : conception graphique du bloc de réassort dans Claude Design", points: 2, status: done}  # sprint 39 ; EPIC-17, Should ; maquette dans le canevas G2StRQigRKD6SqNRoyHpkW ; bloque US-251
-  - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: backlog}  # sprint 40 (après validation des maquettes) ; EPIC-17, Should ; non planifiée ; dépend d'US-250
-  - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: backlog}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
+  - {id: US-251, title: "Commerce prédictif : mise en forme du bloc de réassort d'après la maquette", points: 3, status: done}  # sprint 40 (après validation des maquettes) ; EPIC-17, Should ; non planifiée ; dépend d'US-250
+  - {id: US-252, title: "Preuve technique : couverture de code mesurée, publiée et affichée (pilote sur 3 plugins et la démo)", points: 5, status: done}  # EPIC-12, Should ; non planifiée ; demande de Thibaut du 2026-10-31 ; démo à 93,31 % des lignes (run 41182351481), plugins non mesurés (php_coverage: none) ; bloque US-253
   - {id: US-253, title: "Preuve technique : couverture de code publiée pour tous les plugins", points: 5, status: done}  # EPIC-12, Should ; sprint 41 ; dépend d'US-252 ; 28 plugins CI coverage, push en attente de GO
-  - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: backlog}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: backlog}  # EPIC-19, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-234, title: "Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X", points: 3, status: done}  # EPIC-19, Could ; non planifiée (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-235, title: "Passeport numérique produit : fixtures, intégration à la démo et formulation prudente", points: 3, status: done}  # EPIC-19, Should ; sprint 48 (reporté du sprint 41) ; décision de Thibaut du 2026-10-28
   - {id: US-236, title: "Contenu LinkedIn et GIF pour chaque plugin livré de la feuille de route innovation", points: 5, status: backlog}  # EPIC-13, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, status: backlog}  # EPIC-12, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-237, title: "Parcours guidé « copilote d'achat » dans les parcours de la démo", points: 3, status: done}  # EPIC-12, Should ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   # --- Audit complet des plugins (demande de Thibaut du 2026-11-01) : /team:audit séquentiel sur chaque dépôt plugin, thème et pack
   - {id: US-254, title: "Audit architecture/qualité/sécurité des plugins, lot 1 : 15 plugins critiques", points: 8, status: done}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; rapports batch 1-3 dans project-management/audits/2026-11-01-audit-plugins/
   - {id: US-255, title: "Audit architecture/qualité/sécurité des plugins, lot 2 : 16 dépôts restants", points: 5, status: done}  # EPIC-12, Must ; sprint 44 ; demande de Thibaut du 2026-11-01 ; rapports batch 4-5 dans project-management/audits/2026-11-01-audit-plugins/
@@ -859,6 +877,13 @@ backlog:
   - {id: US-263, title: "Augmenter couverture tests agentic-feeds (36,2 % → ≥ 70 %)", points: 3, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 47 ; PR #9 agentic-feeds mergée
   - {id: US-264, title: "Refactoring DeliveryClaimer webhook-outbox (310L → 2 services)", points: 3, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 47 ; PR #5 webhook-outbox mergée
   - {id: US-265, title: "Mettre à jour contraintes dépendances thème (CVE symfony/mime)", points: 2, status: done}  # EPIC-12, moyenne ; audit sprint 44 ; sprint 47 ; PR #11 thème mergée
+  - {id: US-266, title: "PHPUnit 13 sur la démo et les plugins", points: 5, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius (@dependabot ignore this dependency)
+  - {id: US-267, title: "Chaîne de build du thème : Encore, webpack-cli, sass-loader, Babel", points: 3, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius
+  - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
+  - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
+  - {id: US-270, title: "Couverture de tests du plugin sales-copilot (58,90 % → ≥ 80 %)", points: 3, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
+  - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
+  - {id: US-272, title: "Passeport : GTIN fictifs valides dans les fixtures, QR visible dans la démo", points: 2, status: backlog}  # EPIC-19, Should ; revue du sprint 48 (A-48-4) ; validée par Thibaut le 2026-11-04
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
   # --- Sprint 33 (planifié le 2026-10-28) : US-207 et US-209 sont dans la section sprint-33
   # --- Sprint 32 (planifié le 2026-10-28) : US-205, US-206 et US-062 sont dans la section sprint-32

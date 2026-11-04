@@ -35,7 +35,8 @@
 | [US-232](../user-stories/US-232.md) | Passeport numérique produit : QR et lien GS1 Digital Link sur le produit et l'emballage | Must | 3 | 36 |
 | [US-233](../user-stories/US-233.md) | Passeport numérique produit : pièces détachées compatibles liées à customer-asset-management | Must | 3 | 36 |
 | [US-234](../user-stories/US-234.md) | Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X | Could | 3 | non planifiée |
-| [US-235](../user-stories/US-235.md) | Passeport numérique produit : fixtures, intégration à la démo et formulation prudente | Should | 3 | 41 |
+| [US-235](../user-stories/US-235.md) | Passeport numérique produit : fixtures, intégration à la démo et formulation prudente | Should | 3 | 48 (faite) |
+| [US-272](../user-stories/US-272.md) | GTIN fictifs valides dans les fixtures, QR visible dans la démo | Should | 2 | non planifiée |
 
 ## Dépendances
 
