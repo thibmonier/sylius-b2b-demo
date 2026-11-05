@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * US-049: the body ceiling of the public webhook receiver is in docker/Caddyfile. No Caddy binary runs here: this keeps
  * the file aligned with the controller; `frankenphp validate` and bin/check-caddy-body-limit (CI job "Docker image")
- * prove that the file is valid and that the ceiling cuts the body, chunked included.
+ * prove that the file is valid and that a body over the ceiling is refused, chunked included.
  */
 final class CaddyfileTest extends TestCase
 {
@@ -37,7 +37,7 @@ final class CaddyfileTest extends TestCase
         self::assertIsInt($controllerLimit);
 
         preg_match('#request_body @\w+ \{\s*max_size (\d+)\s*\}#', $this->caddyfile, $match);
-        self::assertSame($controllerLimit + 1, (int) ($match[1] ?? 0), 'Caddy cuts the stream: one byte over the limit of the controller makes its own 413 test fire.');
+        self::assertSame($controllerLimit + 1, (int) ($match[1] ?? 0), 'One byte over the limit of the controller still reaches it, so that its own 413 test fires; Caddy refuses anything bigger.');
     }
 
     public function testTheCrossOriginHeadersAreSetOnEveryResponse(): void
