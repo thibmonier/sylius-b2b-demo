@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-05T10:02:05Z",
+    "generated_at": "2026-11-05T18:23:21Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -229,7 +229,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/actions/runs/41984623450",
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/actions/runs/42075380883",
                 "checked_at": "2026-11-05"
             },
             "phpstan": {
@@ -243,13 +243,13 @@
                 "checked_at": "2026-11-05"
             },
             "tests": {
-                "value": 16,
+                "value": 20,
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/main/tests",
                 "checked_at": "2026-11-05"
             },
             "coverage": {
-                "value": 92.61,
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/runs/127103229816",
+                "value": 93.44,
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/runs/127415647576",
                 "checked_at": "2026-11-05"
             }
         },
