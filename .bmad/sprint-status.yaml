@@ -848,7 +848,7 @@ sprints:
       - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: done}  # PR #13 ; 92,61 % sur main
     sprint_tasks:
       - {id: T-TECH-50-01, title: "Marquer le sprint 49 terminé, current_sprint 50", type: OPS, hours: 0.25, status: done}
-      - {id: T-TECH-50-02, title: "Reprise de T-TECH-49-02 : version du passeport dans proof.json, branche proof/us-268-qr-capture", type: OPS, hours: 0.5, status: blocked}  # API packages/<nom>.json de Packagist toujours en v0.3.0 le 2026-11-05 ; worktree demo-capture268 toujours présent
+      - {id: T-TECH-50-02, title: "Reprise de T-TECH-49-02 : version du passeport dans proof.json, branche proof/us-268-qr-capture", type: OPS, hours: 0.5, status: done}  # proof.json : passeport v0.3.1 (l'API Packagist l'a servie le 2026-11-05) ; worktree demo-capture268 et branche locale supprimés par Thibaut
     notes: "PLANIFIÉ le 2026-11-05 par /workflow:auto-sprint 50 : 10 points, périmètre choisi par Thibaut. Vague 1 : US-228 démo ∥ US-271 ; vague 2 : US-228 thème ∥ US-270. Au plus 2 workers (VM Docker 2 Go). Disque 14 Go libres. Aucun tag sans GO de Thibaut."
 
 backlog:
