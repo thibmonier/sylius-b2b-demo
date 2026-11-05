@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 49
+current_sprint: 50
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -819,7 +819,7 @@ sprints:
 
   sprint-49:
     name: sprint-49-theme-tranche-2
-    status: review  # PR du sprint ouverte le 2026-11-05 ; PR du thème #17, #18, #19 fusionnées
+    status: done  # PR démo #166 fusionnée le 2026-11-05 (b7af1fb) ; PR du thème #17, #18, #19 fusionnées ; thème v0.1.0 publié
     sprint_id: "sprint-49"
     start_date: "2026-11-05"
     end_date: "2026-11-19"
@@ -831,8 +831,25 @@ sprints:
       - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: done}  # mécanisme en parallèle, empreintes complétées après US-223 et US-224
     sprint_tasks:
       - {id: T-TECH-49-01, title: "Marquer le sprint 48 terminé, current_sprint 49", type: OPS, hours: 0.25, status: done}
-      - {id: T-TECH-49-02, title: "Nettoyer les restes du sprint 48 (branche proof/us-268-qr-capture, version du passeport dans proof.json)", type: OPS, hours: 0.5, status: blocked}  # l'API packages/<nom>.json de Packagist sert encore v0.3.0 (p2 donne v0.3.1) ; branche liée au worktree demo-capture268, suppression par Thibaut
+      - {id: T-TECH-49-02, title: "Nettoyer les restes du sprint 48 (branche proof/us-268-qr-capture, version du passeport dans proof.json)", type: OPS, hours: 0.5, status: carried-over}  # reprise en T-TECH-50-02 ; l'API packages/<nom>.json de Packagist sert encore v0.3.0 (p2 donne v0.3.1) ; branche liée au worktree demo-capture268, suppression par Thibaut
     notes: "PLANIFIÉ le 2026-11-05 : 13 points sur 13, tous dans le dépôt tmonier/sylius-industry-trade-theme (EPIC-18). US-223 ∥ US-224 ∥ US-225 (fichiers de hooks et partiels SCSS séparés par page pour éviter les conflits) ; US-225 enregistre les empreintes des surcharges après la fusion des deux autres. La démo ne consomme pas encore le thème (US-228). Disque 18 Go libres au départ (A-48-1). Aucun tag du thème sans GO de Thibaut."
+
+  sprint-50:
+    name: sprint-50-demo-sur-le-theme
+    status: in-progress
+    sprint_id: "sprint-50"
+    start_date: "2026-11-05"
+    end_date: "2026-11-19"
+    capacity_points: 10
+    goal: "La boutique B2B de la démo tourne sur le thème Industrie & Négoce installé depuis Packagist, et les deux derniers plugins sous 80 % de couverture passent le seuil"
+    stories:
+      - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: ready-for-dev}  # démo (T-228-01..07, 10) puis thème (T-228-08, 09)
+      - {id: US-270, title: "Couverture de tests du plugin sales-copilot (58,90 % → ≥ 80 %)", points: 3, status: ready-for-dev}
+      - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: ready-for-dev}
+    sprint_tasks:
+      - {id: T-TECH-50-01, title: "Marquer le sprint 49 terminé, current_sprint 50", type: OPS, hours: 0.25, status: done}
+      - {id: T-TECH-50-02, title: "Reprise de T-TECH-49-02 : version du passeport dans proof.json, branche proof/us-268-qr-capture", type: OPS, hours: 0.5, status: ready-for-dev}
+    notes: "PLANIFIÉ le 2026-11-05 par /workflow:auto-sprint 50 : 10 points, périmètre choisi par Thibaut. Vague 1 : US-228 démo ∥ US-271 ; vague 2 : US-228 thème ∥ US-270. Au plus 2 workers (VM Docker 2 Go). Disque 14 Go libres. Aucun tag sans GO de Thibaut."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
@@ -857,7 +874,7 @@ backlog:
   - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: done}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-226, title: "Thème Industrie & Négoce : mode sombre optionnel en AAA", points: 3, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-227, title: "Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes", points: 5, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: backlog}  # EPIC-18, Must ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: ready-for-dev}  # EPIC-18, Must ; sprint 50 (planifié le 2026-11-05) ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-229, title: "Spike passeport numérique produit : texte du règlement ESPR et formulation prudente", points: 3, status: done}  # EPIC-19, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-230, title: "Passeport numérique produit : squelette du plugin et modèle de données ouvert et versionné", points: 5, status: done}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
   - {id: US-231, title: "Passeport numérique produit : page publique du passeport", points: 3, status: done}  # EPIC-19, Must ; sprint 36 ; décision de Thibaut du 2026-10-29
@@ -898,8 +915,8 @@ backlog:
   - {id: US-267, title: "Chaîne de build du thème : Encore, webpack-cli, sass-loader, Babel", points: 3, status: blocked}  # EPIC-10 ; veille du 2026-11-04 ; attend la migration de Sylius
   - {id: US-268, title: "Passeport produit : QR codes avec endroid/qr-code 6", points: 2, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
   - {id: US-269, title: "Copilote commercial : Symfony AI 0.15, en préparant la 1.0", points: 3, status: done}  # EPIC-10, Should ; veille du 2026-11-04 ; sprint 48
-  - {id: US-270, title: "Couverture de tests du plugin sales-copilot (58,90 % → ≥ 80 %)", points: 3, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
-  - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: backlog}  # EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
+  - {id: US-270, title: "Couverture de tests du plugin sales-copilot (58,90 % → ≥ 80 %)", points: 3, status: ready-for-dev}  # sprint 50 ; EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
+  - {id: US-271, title: "Couverture de tests du plugin predictive-analytics (78,36 % → ≥ 80 %)", points: 2, status: ready-for-dev}  # sprint 50 ; EPIC-12, Should ; fin d'US-253 le 2026-11-04 ; validée par Thibaut
   - {id: US-272, title: "Passeport : GTIN fictifs valides dans les fixtures, QR visible dans la démo", points: 2, status: backlog}  # EPIC-19, Should ; revue du sprint 48 (A-48-4) ; validée par Thibaut le 2026-11-04
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
   # --- Sprint 33 (planifié le 2026-10-28) : US-207 et US-209 sont dans la section sprint-33
