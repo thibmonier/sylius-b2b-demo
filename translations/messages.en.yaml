@@ -19,7 +19,6 @@ app:
         integrate_link: 'Plugin integration guide: prerequisites, installation, typical architecture, repositories'
         no_demo_page: 'Visible in the admin panel or at checkout'
         sylius_version: 'These plugins install on Sylius 2.3.'
-        theme_note: 'The B2B shop of this demo uses the Industry & Trade theme (tmonier/sylius-industry-trade-theme), published on Packagist and activated by the channel.'
         category:
             purchasing: 'B2B purchasing'
             billing: 'Billing and payment'
