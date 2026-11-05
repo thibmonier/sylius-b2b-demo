@@ -20,9 +20,23 @@ abstract class DemoAdminWebTestCase extends WebTestCase
 
     protected const SOPHIE = 'sophie@fournitures-pro.example';
 
+    /** Locale of Sophie before the first sophieClient() of the test: the database outlives the test, so it is put back. */
+    private ?string $sophieLocale = null;
+
+    protected function tearDown(): void
+    {
+        if (null !== $this->sophieLocale) {
+            $this->db()->executeStatement('UPDATE sylius_admin_user SET locale_code = ? WHERE email_canonical = ?', [$this->sophieLocale, self::SOPHIE]);
+            $this->sophieLocale = null;
+        }
+
+        parent::tearDown();
+    }
+
     protected function sophieClient(string $locale = 'fr_FR'): KernelBrowser
     {
         $client = self::createClient();
+        $this->sophieLocale ??= $this->nullableStringValue('SELECT locale_code FROM sylius_admin_user WHERE email_canonical = ?', [self::SOPHIE]) ?? 'fr_FR';
         $this->db()->executeStatement('UPDATE sylius_admin_user SET locale_code = ? WHERE email_canonical = ?', [$locale, self::SOPHIE]);
         $client->loginUser($this->sophie(), 'admin');
 
