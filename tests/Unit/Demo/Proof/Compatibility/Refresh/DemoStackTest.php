@@ -29,6 +29,20 @@ final class DemoStackTest extends TestCase
         self::assertSame(['sylius-quick-order-plugin' => 'v1.3.0'], $stack['plugins']);
     }
 
+    public function testAThemeOfTheVendorIsNotInThePluginMatrix(): void
+    {
+        $stack = DemoStack::fromLock((string) json_encode([
+            'packages' => [
+                ['name' => 'sylius/sylius', 'version' => 'v2.3.2'],
+                ['name' => 'symfony/framework-bundle', 'version' => 'v8.1.9'],
+                ['name' => 'tmonier/sylius-quick-order-plugin', 'version' => 'v1.3.0'],
+                ['name' => 'tmonier/sylius-industry-trade-theme', 'version' => 'v0.1.0'],
+            ],
+        ]));
+
+        self::assertSame(['sylius-quick-order-plugin' => 'v1.3.0'], $stack['plugins']);
+    }
+
     public function testALockWithoutSyliusOrUnreadableIsASourceFailure(): void
     {
         foreach ([(string) json_encode(['packages' => []]), '{ not json'] as $lock) {

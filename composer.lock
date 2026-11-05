@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0874619f46f935506da138e72eb36251",
+    "content-hash": "547d2b3bab7d9cd6383913bc1736e837",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18447,6 +18447,88 @@
                 "source": "https://github.com/thibmonier/sylius-gpsr-plugin/tree/v1.0.0"
             },
             "time": "2026-10-10T17:57:50+00:00"
+        },
+        {
+            "name": "tmonier/sylius-industry-trade-theme",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-industry-trade-theme.git",
+                "reference": "b0d794bae2f1b7cab20c3c2b70eb6fcaabf7dbc0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-industry-trade-theme/zipball/b0d794bae2f1b7cab20c3c2b70eb6fcaabf7dbc0",
+                "reference": "b0d794bae2f1b7cab20c3c2b70eb6fcaabf7dbc0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "sylius/sylius": "^2.2.9 || ^2.3",
+                "sylius/theme-bundle": "^2.4"
+            },
+            "conflict": {
+                "symfony/mime": "<6.4.49 || >=7.0,<7.4.22 || >=8.0,<8.1.10"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^7.4 || ^8.0",
+                "symfony/css-selector": "^7.4 || ^8.0",
+                "symfony/debug-bundle": "^7.4 || ^8.0",
+                "symfony/dom-crawler": "^7.4 || ^8.0",
+                "symfony/dotenv": "^7.4 || ^8.0",
+                "symfony/http-client": "^7.4 || ^8.0",
+                "symfony/intl": "^7.4 || ^8.0",
+                "symfony/runtime": "^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "type": "sylius-theme",
+            "extra": {
+                "sylius-theme": {
+                    "title": "Industrie & Négoce",
+                    "description": "Thème B2B optimisé pour l'industrie et le négoce — haute densité d'information, contrastes AAA, saisie rapide"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusIndustryTradeTheme\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier",
+                    "email": "thibaut.monier@gmail.com",
+                    "homepage": "https://www.linkedin.com/in/thibautmonier/"
+                }
+            ],
+            "description": "Thème Industrie & Négoce pour Sylius — haute densité d'information, mode sombre AAA, saisie rapide",
+            "homepage": "https://github.com/thibmonier/sylius-industry-trade-theme",
+            "keywords": [
+                "b2b",
+                "ecommerce",
+                "industry",
+                "sylius",
+                "sylius-theme",
+                "theme",
+                "trade"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-industry-trade-theme/issues",
+                "source": "https://github.com/thibmonier/sylius-industry-trade-theme/tree/v0.1.0"
+            },
+            "time": "2026-11-05T01:36:15+00:00",
+            "published-time": "2026-11-05T06:15:30+00:00"
         },
         {
             "name": "tmonier/sylius-order-hold-plugin",
