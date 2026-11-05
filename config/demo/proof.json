@@ -1294,7 +1294,7 @@
             "checked_at": "2026-11-05"
         },
         "tests": {
-            "value": 349,
+            "value": 351,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-11-05"
         },
