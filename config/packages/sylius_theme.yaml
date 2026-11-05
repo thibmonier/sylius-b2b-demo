@@ -4,6 +4,8 @@ sylius_theme:
             scan_depth: 1
             directories:
                 - "%kernel.project_dir%/themes"
+                # US-228: the published theme, installed by Composer (its composer.json carries extra.sylius-theme).
+                - "%kernel.project_dir%/vendor/tmonier/sylius-industry-trade-theme"
 
 when@test: &sylius_theme_test
     sylius_theme:

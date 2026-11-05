@@ -39,6 +39,8 @@ sylius_fixtures:
                                 name: 'Fournitures Pro — B2B'
                                 code: 'B2B'
                                 hostname: ~
+                                # US-228: the published theme (tmonier/sylius-industry-trade-theme) is active on the B2B channel only.
+                                theme_name: 'tmonier/sylius-industry-trade-theme'
                                 color: '#1f3a5f'
                                 enabled: true
                                 locales: ['fr_FR', 'en_US']
