@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-04T21:25:04Z",
+    "generated_at": "2026-11-05T00:49:27Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -593,42 +593,42 @@
             "version": {
                 "value": "v0.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "ci": {
                 "value": "success",
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/actions/runs/41911676784",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "tests": {
                 "value": 14,
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/tree/main/tests",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             },
             "coverage": {
                 "value": 63.72,
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/runs/126861706861",
-                "checked_at": "2026-11-04"
+                "checked_at": "2026-11-05"
             }
         },
         "sylius-einvoice-transmission-plugin": {
@@ -1264,39 +1264,44 @@
     },
     "delivery": {
         "ci": {
-            "value": "failure",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/41891889786",
-            "checked_at": "2026-11-04"
+            "value": "success",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/41920491288",
+            "checked_at": "2026-11-05"
         },
         "phpstan": {
             "value": "9",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/phpstan.dist.neon",
-            "checked_at": "2026-11-04"
+            "checked_at": "2026-11-05"
         },
         "ecs": {
             "value": "ECS",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-04"
+            "checked_at": "2026-11-05"
         },
         "composer_audit": {
             "value": "composer audit",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-04"
+            "checked_at": "2026-11-05"
         },
         "image_scan": {
             "value": "Trivy",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-04"
+            "checked_at": "2026-11-05"
         },
         "sbom": {
             "value": "CycloneDX",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-04"
+            "checked_at": "2026-11-05"
         },
         "tests": {
             "value": 346,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
-            "checked_at": "2026-11-04"
+            "checked_at": "2026-11-05"
+        },
+        "coverage": {
+            "value": 93.29,
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/126901006728",
+            "checked_at": "2026-11-05"
         }
     }
 }

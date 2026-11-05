@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 48
+current_sprint: 49
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -801,7 +801,7 @@ sprints:
 
   sprint-48:
     name: sprint-48-montees-de-version
-    status: review  # PR du sprint ouverte le 2026-11-04
+    status: done  # PR #165 fusionnée (squash cba3ada) le 2026-11-04 sur GO de Thibaut
     sprint_id: "sprint-48"
     start_date: "2026-11-04"
     end_date: "2026-11-18"
@@ -816,6 +816,23 @@ sprints:
       - {id: T-TECH-48-02, title: "Fin d'US-253 : couverture CI predictive-analytics et sales-copilot, proof-refresh 30/30", type: OPS, hours: 1.5, status: done}  # reprend T-TECH-47-02
       - {id: T-TECH-48-03, title: "Remettre à jour les statuts périmés des fiches de stories livrées", type: DOC, hours: 1, status: done}
     notes: "PLANIFIÉ le 2026-11-04 par /workflow:auto-sprint 48 : 8 points engagés sur 13. US-268 ∥ US-269 (dépôts distincts), US-235 après l'un des deux ; au plus 2 workers lancent des tests en même temps. Tags plugins sur GO de Thibaut."
+
+  sprint-49:
+    name: sprint-49-theme-tranche-2
+    status: review  # PR du sprint ouverte le 2026-11-05 ; PR du thème #17, #18, #19 fusionnées
+    sprint_id: "sprint-49"
+    start_date: "2026-11-05"
+    end_date: "2026-11-19"
+    capacity_points: 13
+    goal: "Le thème Industrie & Négoce couvre le parcours d'achat principal (accueil, catalogue, fiche, panier, compte, pages vitrine) et prévient quand Sylius change un gabarit qu'il surcharge"
+    stories:
+      - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: done}
+      - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: done}
+      - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: done}  # mécanisme en parallèle, empreintes complétées après US-223 et US-224
+    sprint_tasks:
+      - {id: T-TECH-49-01, title: "Marquer le sprint 48 terminé, current_sprint 49", type: OPS, hours: 0.25, status: done}
+      - {id: T-TECH-49-02, title: "Nettoyer les restes du sprint 48 (branche proof/us-268-qr-capture, version du passeport dans proof.json)", type: OPS, hours: 0.5, status: blocked}  # l'API packages/<nom>.json de Packagist sert encore v0.3.0 (p2 donne v0.3.1) ; branche liée au worktree demo-capture268, suppression par Thibaut
+    notes: "PLANIFIÉ le 2026-11-05 : 13 points sur 13, tous dans le dépôt tmonier/sylius-industry-trade-theme (EPIC-18). US-223 ∥ US-224 ∥ US-225 (fichiers de hooks et partiels SCSS séparés par page pour éviter les conflits) ; US-225 enregistre les empreintes des surcharges après la fusion des deux autres. La démo ne consomme pas encore le thème (US-228). Disque 18 Go libres au départ (A-48-1). Aucun tag du thème sans GO de Thibaut."
 
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
@@ -832,12 +849,12 @@ backlog:
   - {id: US-220, title: "Commerce prédictif : score d'attrition explicable dans l'admin", points: 5, status: backlog}  # EPIC-17, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-221, title: "Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex", points: 3, status: done}  # EPIC-18, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-222, title: "Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1)", points: 5, status: done}  # EPIC-18, Must ; sprint 34 ; décision de Thibaut du 2026-10-28
-  - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
-  - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-223, title: "Thème Industrie & Négoce : home, liste et fiche produit (tranche 2)", points: 5, status: done}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-224, title: "Thème Industrie & Négoce : panier, compte et pages vitrine", points: 5, status: done}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-238, title: "Thème Industrie & Négoce : thème actif prouvé par un rendu et composants restants (suite d'US-222)", points: 3, status: done}  # EPIC-18, Must ; sprint 35 ; décision de Thibaut du 2026-10-28 (US-222 fusionnée partielle)
   - {id: US-239, title: "Veille hebdomadaire des versions du socle et récapitulatif des montées majeures", points: 3, status: done}  # EPIC-10, Must ; sprint 36 ; décision de Thibaut du 2026-10-29 (démo seule, issue GitHub hebdomadaire)
   - {id: US-240, title: "Commerce prédictif : alertes garanties à toute date dans la démo et captures (suite d'US-219)", points: 3, status: done}  # EPIC-17, Must ; sprint 36 ; décision de Thibaut du 2026-10-29 (US-219 livrée partielle)
-  - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: backlog}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
+  - {id: US-225, title: "Thème Industrie & Négoce : test de dérive des surcharges de gabarits", points: 3, status: done}  # EPIC-18, Must ; sprint 40 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-226, title: "Thème Industrie & Négoce : mode sombre optionnel en AAA", points: 3, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-227, title: "Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes", points: 5, status: backlog}  # EPIC-18, Should ; sprint 39 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-228, title: "Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié", points: 5, status: backlog}  # EPIC-18, Must ; sprint 41 (proposé) ; décision de Thibaut du 2026-10-28

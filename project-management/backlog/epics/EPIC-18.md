@@ -31,9 +31,9 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 |---|---|---|---|---|
 | [US-221](../user-stories/US-221.md) | Spike packaging d'un thème Sylius 2 : Twig hooks, assets et Flex | Must | 3 | 34 |
 | [US-222](../user-stories/US-222.md) | Thème Industrie & Négoce : paquet installable, jetons de design et composants communs (tranche 1) | Must | 5 | 34 |
-| [US-223](../user-stories/US-223.md) | Thème Industrie & Négoce : home, liste et fiche produit (tranche 2) | Must | 5 | 40 |
-| [US-224](../user-stories/US-224.md) | Thème Industrie & Négoce : panier, compte et pages vitrine | Must | 5 | 40 |
-| [US-225](../user-stories/US-225.md) | Thème Industrie & Négoce : test de dérive des surcharges de gabarits | Must | 3 | 40 |
+| [US-223](../user-stories/US-223.md) | Thème Industrie & Négoce : home, liste et fiche produit (tranche 2) | Must | 5 | 49 (done) |
+| [US-224](../user-stories/US-224.md) | Thème Industrie & Négoce : panier, compte et pages vitrine | Must | 5 | 49 (done) |
+| [US-225](../user-stories/US-225.md) | Thème Industrie & Négoce : test de dérive des surcharges de gabarits | Must | 3 | 49 (done) |
 | [US-226](../user-stories/US-226.md) | Thème Industrie & Négoce : mode sombre optionnel en AAA | Should | 3 | 39 |
 | [US-227](../user-stories/US-227.md) | Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes | Should | 5 | 39 |
 | [US-228](../user-stories/US-228.md) | Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié | Must | 5 | 41 |
