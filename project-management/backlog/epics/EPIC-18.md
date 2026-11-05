@@ -17,7 +17,7 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 
 ## MMF (Minimum Marketable Feature)
 
-**Plus petite version livrable** : US-221, US-222, US-223, US-224, US-225 et US-228 (Must). Un intégrateur installe le thème par Composer dans un projet vierge et obtient les pages principales à l'identique de la démo, protégées contre la dérive de Sylius.
+**Plus petite version livrable** : US-221, US-222, US-223, US-224, US-225 et US-228 (Must). Un intégrateur installe le thème par Composer dans un projet vierge et obtient les pages principales, protégées contre la dérive de Sylius. La démo garde son propre habillage (décision de Thibaut du 2026-11-05) : l'installation est prouvée par la CI du thème (US-273).
 **Valeur** : Un site B2B industriel présentable en quelques heures, vérifié par la démo.
 **US incluses** : US-221, US-222, US-223, US-224, US-225, US-226, US-227, US-228 (Must : 26 points, Should : 8 points).
 
@@ -36,7 +36,8 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 | [US-225](../user-stories/US-225.md) | Thème Industrie & Négoce : test de dérive des surcharges de gabarits | Must | 3 | 49 (done) |
 | [US-226](../user-stories/US-226.md) | Thème Industrie & Négoce : mode sombre optionnel en AAA | Should | 3 | 39 |
 | [US-227](../user-stories/US-227.md) | Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes | Should | 5 | 39 |
-| [US-228](../user-stories/US-228.md) | Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié | Must | 5 | 41 |
+| [US-228](../user-stories/US-228.md) | Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié | Must | 5 | 50 (done, périmètre réduit) |
+| [US-273](../user-stories/US-273.md) | Installation vérifiée dans un projet vierge par la CI | Should | 2 | non planifiée |
 
 ## Dépendances
 
