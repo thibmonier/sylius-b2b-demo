@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Demo\Plugin;
 
 use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Plugin\DemoPluginCatalog;
+use App\Demo\Plugin\TmonierPackages;
 use App\Tests\Support\DemoCatalogs;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -20,8 +21,8 @@ final class DemoPluginCatalogTest extends TestCase
         self::assertIsArray($composer['require']);
         $expected = [];
         foreach (array_keys($composer['require']) as $package) {
-            if (str_starts_with((string) $package, 'tmonier/')) {
-                $expected[] = substr((string) $package, 8);
+            if (TmonierPackages::isPlugin((string) $package)) {
+                $expected[] = TmonierPackages::slug((string) $package);
             }
         }
         sort($expected);

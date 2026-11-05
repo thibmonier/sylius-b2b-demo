@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Smoke;
 
+use App\Demo\Plugin\TmonierPackages;
 use App\Tests\Support\DemoCatalogs;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -42,11 +43,11 @@ final class LegalPagesTest extends WebTestCase
 
         /** @var array{require: array<string, string>} $composer */
         $composer = json_decode((string) file_get_contents(__DIR__ . '/../../composer.json'), true, 512, \JSON_THROW_ON_ERROR);
-        $plugins = array_filter(array_keys($composer['require']), static fn (string $p): bool => str_starts_with($p, 'tmonier/'));
+        $plugins = array_filter(array_keys($composer['require']), static fn (string $p): bool => TmonierPackages::isPlugin($p));
 
         self::assertCount(DemoCatalogs::pluginCount(), $plugins);
         foreach ($plugins as $package) {
-            self::assertStringContainsString('https://github.com/thibmonier/' . substr($package, 8), $content);
+            self::assertStringContainsString('https://github.com/thibmonier/' . TmonierPackages::slug($package), $content);
         }
     }
 
