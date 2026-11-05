@@ -35,6 +35,13 @@ La démo a son propre habillage B2B : 75 gabarits sous `templates/shop/theme_b2b
 | T-228-09 | thème | Job de CI « projet vierge » : installation par la procédure du README, page d'accueil en 200 avec le thème (scénario « projet vierge ») | 1,5 h |
 | T-228-10 | démo | Après la version corrective du thème (tag par Thibaut) : montée de version dans la démo | 0,25 h |
 
+### Garde-fou visuel (ajouté par Thibaut le 2026-11-05)
+
+- Captures avant (démo publique actuelle) et après (branche d'US-228) des mêmes pages : accueil, liste, fiche, panier, à 1440 px et 375 px.
+- Images produits visibles partout après la bascule ; visuel de substitution correct pour un produit sans image.
+- La PR démo d'US-228 n'est fusionnée qu'après validation visuelle des captures « après » par Thibaut.
+- Si le thème rend moins bien que l'habillage actuel : correction dans le thème d'abord (nouvelle version), puis bascule de la démo. Pas de surcharge de contournement dans la démo.
+
 Le scénario « mise à jour de version » est couvert par Dependabot (déjà configuré sur Composer) et la CI de la démo.
 
 Il n'existe pas de recette Flex pour le thème : la procédure du README (copie de deux éléments de configuration) en tient lieu. Publier une recette dans `symfony/recipes-contrib` est une publication externe : proposée à Thibaut, hors sprint.
@@ -75,6 +82,7 @@ graph LR
 
 ## Definition of Done (sprint)
 
+- Captures avant/après validées par Thibaut.
 - Démo sur le paquet publié, CI verte (« Quality and smoke tests », « Docker image »).
 - pa11y WCAG2AAA sans erreur sur les pages du parcours de la boutique B2B.
 - Captures du README du thème prises sur la démo.
