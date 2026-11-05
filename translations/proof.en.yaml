@@ -83,6 +83,7 @@ legend: "A value is followed by its own date only when it was not verified at th
 closing:
     title: "A question about a plugin or about the demo?"
     text: "The project is built by Thibaut Monier. The profile presents the background and the contact details."
+    theme: "The B2B shop runs on the Industry & Trade theme published on Packagist (version pinned in composer.lock), installed by Composer like any dependency."
 sylius:
     compat: "%answer%"
     compat_constraint: "%answer% · %constraint%"

@@ -83,6 +83,7 @@ legend: "Une valeur est suivie de sa propre date seulement lorsqu'elle n'a pas �
 closing:
     title: "Une question sur un plugin ou sur la démo ?"
     text: "Le projet est réalisé par Thibaut Monier. Le profil présente son parcours et ses coordonnées."
+    theme: "La boutique B2B s'exécute sur le thème Industrie & Négoce publié sur Packagist (version figée dans composer.lock), installé par Composer comme n'importe quelle dépendance."
 sylius:
     compat: "%answer%"
     compat_constraint: "%answer% · %constraint%"
