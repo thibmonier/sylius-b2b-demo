@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Proof\Compatibility\Refresh;
 
+use App\Demo\Plugin\TmonierPackages;
 use App\Demo\Proof\Refresh\SourceUnavailable;
 
 /** The combination the demo really runs (US-171), read from its composer.lock: nothing is declared by hand. */
@@ -28,8 +29,8 @@ final class DemoStack
         }
         $plugins = [];
         foreach ($versions as $name => $version) {
-            if (str_starts_with($name, 'tmonier/')) {
-                $plugins[substr($name, 8)] = $version;
+            if (TmonierPackages::isPlugin($name)) {
+                $plugins[TmonierPackages::slug($name)] = $version;
             }
         }
         $platform = \is_array($data) && \is_array($data['platform'] ?? null) ? $data['platform'] : [];

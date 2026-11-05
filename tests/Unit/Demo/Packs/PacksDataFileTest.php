@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Demo\Packs;
 use App\Demo\Charter\PublicTextCharter;
 use App\Demo\Packs\PackRepositories;
 use App\Demo\Packs\PacksReader;
+use App\Demo\Plugin\TmonierPackages;
 use App\Demo\Proof\Refresh\PluginCatalogFile;
 use PHPUnit\Framework\TestCase;
 
@@ -78,8 +79,8 @@ final class PacksDataFileTest extends TestCase
             $required = \is_array($decoded) && \is_array($decoded['require'] ?? null) ? $decoded['require'] : [];
             $expected = [];
             foreach ($required as $name => $bound) {
-                if (str_starts_with((string) $name, 'tmonier/')) {
-                    $expected[substr((string) $name, 8)] = $bound;
+                if (TmonierPackages::isPlugin((string) $name)) {
+                    $expected[TmonierPackages::slug((string) $name)] = $bound;
                 }
             }
             $published = [];
