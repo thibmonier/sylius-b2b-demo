@@ -15,7 +15,7 @@ use Tmonier\SyliusDigitalProductPassportPlugin\Entity\DigitalProductPassport;
 
 /**
  * Adds digital product passports for 3 representative EPI products (helmets) and 2 tools (socket set, torque wrench).
- * All sustainability data is fictional for demo purposes.
+ * All sustainability data is fictional for demo purposes; the GTIN carry the GS1 example prefix (never a real product).
  *
  * Depends on: demo_products_csv (-30)
  * Priority: -50
@@ -32,32 +32,37 @@ final class DigitalPassportDemoFixture extends AbstractFixture
     ];
 
     /**
-     * Product code => sustainability data (fictional). A missing field fails the load, see PassportSheet.
+     * Product code => GTIN and sustainability data (fictional). A missing field fails the load, see PassportSheet.
      *
      * @var array<string, array<string, string>>
      */
     private const SHEETS = [
         'EPI-CASK-001' => [
+            'gtin' => '09506000000015',
             'originMaterials' => 'Polyéthylène haute densité (HDPE) : France (Rhône-Alpes). Suspension textile : Portugal.',
             'recyclability' => 'Coque HDPE recyclable (code 2). Suspension textile : filière textile spécialisée recommandée. Taux de recyclabilité estimé : 85%.',
             'repairability' => 'Suspension remplaçable (réf. SUS-CASK-001). Vis standard. Indice de réparabilité : 7/10. Manuel de réparation disponible sur demande.',
         ],
         'EPI-CASK-002' => [
+            'gtin' => '09506000000022',
             'originMaterials' => 'Polyéthylène haute densité (HDPE) : France (Rhône-Alpes). Suspension textile : Espagne. Bandes réfléchissantes : Belgique.',
             'recyclability' => 'Coque HDPE recyclable (code 2). Bandes réfléchissantes : retrait conseillé avant recyclage. Taux de recyclabilité estimé : 80%.',
             'repairability' => 'Suspension et bandes réfléchissantes remplaçables. Indice de réparabilité : 8/10. Pièces détachées disponibles 10 ans.',
         ],
         'EPI-CASK-003' => [
+            'gtin' => '09506000000039',
             'originMaterials' => 'Polyéthylène (PE) : France (Rhône-Alpes). Système de ventilation : Allemagne. Frein de nuque : Italie.',
             'recyclability' => 'Coque PE recyclable (code 2). Système de ventilation : pièces détachables pour tri. Taux de recyclabilité estimé : 90%.',
             'repairability' => 'Tous composants remplaçables individuellement. Indice de réparabilité : 9/10. Kit de réparation disponible (réf. REP-CASK-003).',
         ],
         'OUTI-026' => [
+            'gtin' => '09506000000046',
             'originMaterials' => 'Acier chrome-vanadium (douilles et cliquet) : Allemagne. Coffret en polypropylène : France (Normandie). Rallonge et cardan : Slovénie.',
             'recyclability' => 'Douilles et cliquet en acier recyclables en filière métaux. Coffret polypropylène (code 5) : à trier séparément. Taux de recyclabilité estimé : 88%.',
             'repairability' => 'Cliquet réparable avec kit de joints et d’encliquetage. Douilles remplaçables à l’unité. Indice de réparabilité : 9/10.',
         ],
         'OUTI-028' => [
+            'gtin' => '09506000000053',
             'originMaterials' => 'Acier chrome-vanadium : Allemagne. Mécanisme de déclenchement : France (Auvergne). Poignée bi-matière : Italie.',
             'recyclability' => 'Corps acier recyclable en filière métaux. Poignée bi-matière : à séparer avant recyclage. Taux de recyclabilité estimé : 92%.',
             'repairability' => 'Mécanisme de déclenchement et cliquet remplaçables. Étalonnage recommandé tous les 12 mois ou 5 000 cycles. Indice de réparabilité : 8/10.',
@@ -99,7 +104,7 @@ final class DigitalPassportDemoFixture extends AbstractFixture
             $sheet = PassportSheet::fromArray($productCode, self::SHEETS[$productCode]);
             $passport = new DigitalProductPassport();
             $passport->setProductVariant($variant);
-            $passport->setProductIdentifier($variant->getCode() ?? $productCode);
+            $passport->setProductIdentifier($sheet->gtin);
             $passport->setOriginMaterials($sheet->originMaterials);
             $passport->setRecyclability($sheet->recyclability);
             $passport->setRepairability($sheet->repairability);
