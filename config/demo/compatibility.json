@@ -1,11 +1,11 @@
 {
-    "generated_at": "2026-10-31T06:02:22Z",
+    "generated_at": "2026-11-05T18:23:23Z",
     "demo": {
         "sylius": "2.3.2",
-        "symfony": "8.1.9",
+        "symfony": "8.1.11",
         "php": "^8.5",
         "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-        "checked_at": "2026-10-31"
+        "checked_at": "2026-11-05"
     },
     "plugins": {
         "sylius-admin-order-creation-plugin": {
@@ -210,7 +210,7 @@
                 ],
                 "suggests": [],
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/blob/main/composer.json",
-                "checked_at": "2026-10-31"
+                "checked_at": "2026-11-05"
             },
             "ci": {
                 "php": [
@@ -233,13 +233,13 @@
                     "postgres:17"
                 ],
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-10-31"
+                "checked_at": "2026-11-05"
             },
-            "fingerprint": "154c60f1d9622eae5e8565cdbc3bf56f8dfba93250cb910d6e871e5ff79861b7",
+            "fingerprint": "53003a3df35e59916c6ee6471d052023d8552ae887a299a4b9bfc3878ce377f9",
             "demo": {
-                "version": "v0.1.3",
+                "version": "v0.2.0",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-                "checked_at": "2026-10-31"
+                "checked_at": "2026-11-05"
             }
         },
         "sylius-b2b-sales-copilot-plugin": {

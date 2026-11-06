@@ -167,7 +167,8 @@ final class DemoOrderHistoryTest extends TestCase
                 DemoOrderPlan::completedAt($now, $spec->daysAgo)->format('d'),
                 $spec->scenario->value,
             ]),
-            DemoOrderPlan::history($now),
+            // IndusPro (US-220) is dated relative to the reset day on purpose: its delay since the last order is the point.
+            array_values(array_filter(DemoOrderPlan::history($now), static fn (DemoOrderSpec $spec): bool => !str_starts_with($spec->poReference, 'IP-H-'))),
         );
     }
 

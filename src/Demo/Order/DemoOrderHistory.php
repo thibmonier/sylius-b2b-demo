@@ -68,14 +68,40 @@ final class DemoOrderHistory
     ];
 
     /** @return list<DemoOrderSpec> */
+    /**
+     * IndusPro orders every 30 days, seven times, and stopped 70 days ago: more than 2 times its rhythm (at risk), less
+     * than 3 times (not critical). Days are relative to the reset day, so the company is at risk whatever the day (US-220).
+     */
+    private const INDUSPRO_DAYS_AGO = [250, 220, 190, 160, 130, 100, 70];
+
+    /** @return list<DemoOrderSpec> */
     public static function specs(\DateTimeImmutable $now): array
     {
-        $specs = self::acme($now);
+        $specs = [...self::acme($now), ...self::induspro()];
 
         foreach (self::OTHER_COMPANIES as $company) {
             foreach ($company['slots'] as $index => $slot) {
                 $specs[] = self::otherCompanyOrder($now, $company['email'], $company['prefix'], $index + 1, $slot);
             }
+        }
+
+        return $specs;
+    }
+
+    /** @return list<DemoOrderSpec> */
+    /** @return list<DemoOrderSpec> */
+    private static function induspro(): array
+    {
+        $specs = [];
+        foreach (self::INDUSPRO_DAYS_AGO as $index => $daysAgo) {
+            $number = $index + 1;
+            $specs[] = new DemoOrderSpec(
+                'yves@induspro.example',
+                $daysAgo,
+                self::SMALL_BASKETS[$index % \count(self::SMALL_BASKETS)],
+                sprintf('IP-H-%03d', $number),
+                OrderScenario::Shipped,
+            );
         }
 
         return $specs;

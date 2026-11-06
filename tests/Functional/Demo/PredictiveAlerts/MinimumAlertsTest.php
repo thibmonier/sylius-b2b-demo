@@ -218,7 +218,8 @@ final class MinimumAlertsTest extends TestCase
      */
     private function signature(\DateTimeImmutable $now): array
     {
-        $history = DemoOrderPlan::history($now);
+        // IndusPro (US-220) is dated relative to the reset day on purpose: its delay since the last order is the point.
+        $history = array_values(array_filter(DemoOrderPlan::history($now), static fn (DemoOrderSpec $spec): bool => !str_starts_with($spec->poReference, 'IP-H-')));
 
         return array_map(
             static fn (DemoOrderSpec $spec): string => implode('|', [

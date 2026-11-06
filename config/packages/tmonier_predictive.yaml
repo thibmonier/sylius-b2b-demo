@@ -1,0 +1,7 @@
+# Attrition score of the company page and "ordering rhythm" filter of the company list (US-220).
+# Not the whole config.yaml of the plugin (README step 4): it also registers the reorder-alerts hook of the account
+# dashboard, which the demo already includes by hand in its B2B dashboard template (US-219), and would show the block twice.
+# The services are loaded by the bundle extension.
+imports:
+    - { resource: '@TmonierSyliusPredictiveAnalyticsPlugin/config/grids/*.yaml' }
+    - { resource: '@TmonierSyliusPredictiveAnalyticsPlugin/config/twig_hooks/admin.yaml' }
