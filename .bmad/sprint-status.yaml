@@ -862,7 +862,7 @@ sprints:
     stories:
       - {id: US-220, title: "Commerce prédictif : score d'attrition explicable dans l'admin", points: 5, status: done}  # plugin predictive (T-220-01..03), puis démo après tag (T-220-04)
       - {id: US-272, title: "Passeport : GTIN fictifs valides dans les fixtures, QR visible dans la démo", points: 2, status: done}
-      - {id: US-273, title: "Thème Industrie & Négoce : installation vérifiée dans un projet vierge par la CI", points: 2, status: in-progress}
+      - {id: US-273, title: "Thème Industrie & Négoce : installation vérifiée dans un projet vierge par la CI", points: 2, status: review}
     sprint_tasks:
       - {id: T-TECH-51-01, title: "Marquer le sprint 50 terminé, current_sprint 51", type: OPS, hours: 0.25, status: done}
     notes: "PLANIFIÉ le 2026-11-05 par /workflow:auto-sprint 51 : 9 points, périmètre choisi par Thibaut. Un worker par dépôt (predictive, démo, thème) ; VM Docker 4 Go ; disque 14 Go. Aucun tag sans GO de Thibaut."
