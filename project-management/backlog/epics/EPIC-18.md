@@ -37,7 +37,7 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 | [US-226](../user-stories/US-226.md) | Thème Industrie & Négoce : mode sombre optionnel en AAA | Should | 3 | 39 |
 | [US-227](../user-stories/US-227.md) | Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes | Should | 5 | 39 |
 | [US-228](../user-stories/US-228.md) | Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié | Must | 5 | 50 (done, périmètre réduit) |
-| [US-273](../user-stories/US-273.md) | Installation vérifiée dans un projet vierge par la CI | Should | 2 | non planifiée |
+| [US-273](../user-stories/US-273.md) | Installation vérifiée dans un projet vierge par la CI | Should | 2 | 51 |
 
 ## Dépendances
 
