@@ -876,7 +876,7 @@ sprints:
     capacity_points: 11
     goal: "La démo et ses plugins IA et MCP tournent sur les dernières versions de Symfony AI, du serveur MCP de Sylius et d'apexcharts, sans régression visible ; le thème Industrie & Négoce propose un mode sombre AAA"
     stories:
-      - {id: US-274, title: "Symfony AI 0.15 : plugin ai-catalog-copilot puis démo", points: 3, status: ready-for-dev}  # plugin (T-274-01), tag par Thibaut, puis démo (T-274-02)
+      - {id: US-274, title: "Symfony AI 0.15 : plugin ai-catalog-copilot puis démo", points: 3, status: review}  # plugin (T-274-01), tag par Thibaut, puis démo (T-274-02) ; plugin v1.1.0 publié le 2026-11-10 (PR #10, aa95a16), démo en symfony/ai-bundle ^0.15 sur la PR du sprint
       - {id: US-275, title: "Serveur MCP de Sylius 0.3 : plugin b2b-mcp puis démo", points: 3, status: blocked}  # mesure d'abord (T-275-01), redécoupage si > 3 points ; 2026-11-10 : bloquée par l'amont (la 0.3 impose symfony/mcp-bundle ^0.13, dont une dépendance transitive est refusée par l'audit Composer) ; décision de Thibaut : attendre une version compatible mcp-bundle >= 0.15
       - {id: US-276, title: "apexcharts 8 pour le graphique des statistiques de l'admin", points: 2, status: cancelled}  # 2026-11-10 : apexcharts 5+ n'est plus sous licence MIT (double licence) ; décision de Thibaut : rester en 3.x comme le cœur de Sylius
       - {id: US-226, title: "Thème Industrie & Négoce : mode sombre optionnel en AAA", points: 3, status: ready-for-dev}
