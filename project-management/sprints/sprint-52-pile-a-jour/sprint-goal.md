@@ -6,7 +6,9 @@
 
 ## Sprint Goal
 
-La démo et ses plugins IA et MCP tournent sur les dernières versions de Symfony AI, du serveur MCP de Sylius et d'apexcharts, sans régression visible ; le thème Industrie & Négoce propose un mode sombre AAA.
+La démo et son plugin IA tournent sur Symfony AI 0.15 sans régression visible ; le thème Industrie & Négoce propose un mode sombre AAA.
+
+Objectif réécrit le 2026-11-11. Objectif initial : « La démo et ses plugins IA et MCP tournent sur les dernières versions de Symfony AI, du serveur MCP de Sylius et d'apexcharts, sans régression visible ; le thème Industrie & Négoce propose un mode sombre AAA. » US-276 et US-275 ont été retirées du sprint le 2026-11-10.
 
 ## Stories
 
