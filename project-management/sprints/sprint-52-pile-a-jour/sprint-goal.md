@@ -2,7 +2,7 @@
 
 **Durée** : 2026-11-10 → 2026-11-24
 **Capacité** : 11 points
-**Engagement** : 11 points (4 stories) + 3 tâches techniques ; ramené à 9 points le 2026-11-10 (US-276 abandonnée)
+**Engagement** : 11 points (4 stories) + 3 tâches techniques ; ramené à 6 points actifs le 2026-11-10 (US-276 abandonnée, US-275 bloquée par l'amont)
 
 ## Sprint Goal
 
@@ -13,7 +13,7 @@ La démo et ses plugins IA et MCP tournent sur les dernières versions de Symfon
 | ID | Titre | Dépôt | Points | MoSCoW |
 |----|-------|-------|--------|--------|
 | US-274 | Symfony AI 0.15 : plugin ai-catalog-copilot puis démo | ai-catalog-copilot, puis démo | 3 | Should |
-| US-275 | Serveur MCP de Sylius 0.3 : plugin b2b-mcp puis démo | b2b-mcp, puis démo | 3 | Should |
+| US-275 | Serveur MCP de Sylius 0.3 : plugin b2b-mcp puis démo : **bloquée** par l'amont (attend une version compatible `symfony/mcp-bundle >= 0.15`) | b2b-mcp, puis démo | 3 | Should |
 | ~~US-276~~ | apexcharts 8 pour le graphique des statistiques de l'admin : **abandonnée** (licence non MIT depuis apexcharts 5, la démo reste en 3.x comme Sylius) | démo | 2 | Should |
 | US-226 | Thème Industrie & Négoce : mode sombre optionnel en AAA | thème | 3 | Should |
 
