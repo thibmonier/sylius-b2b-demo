@@ -2,7 +2,7 @@
 
 **Durée** : 2026-11-10 → 2026-11-24
 **Capacité** : 11 points
-**Engagement** : 11 points (4 stories) + 3 tâches techniques
+**Engagement** : 11 points (4 stories) + 3 tâches techniques ; ramené à 9 points le 2026-11-10 (US-276 abandonnée)
 
 ## Sprint Goal
 
@@ -14,7 +14,7 @@ La démo et ses plugins IA et MCP tournent sur les dernières versions de Symfon
 |----|-------|-------|--------|--------|
 | US-274 | Symfony AI 0.15 : plugin ai-catalog-copilot puis démo | ai-catalog-copilot, puis démo | 3 | Should |
 | US-275 | Serveur MCP de Sylius 0.3 : plugin b2b-mcp puis démo | b2b-mcp, puis démo | 3 | Should |
-| US-276 | apexcharts 8 pour le graphique des statistiques de l'admin | démo | 2 | Should |
+| ~~US-276~~ | apexcharts 8 pour le graphique des statistiques de l'admin : **abandonnée** (licence non MIT depuis apexcharts 5, la démo reste en 3.x comme Sylius) | démo | 2 | Should |
 | US-226 | Thème Industrie & Négoce : mode sombre optionnel en AAA | thème | 3 | Should |
 
 Périmètre choisi par Thibaut le 2026-11-10. US-266 (PHPUnit 13) et US-267 (chaîne de build du thème) restent bloquées : décision du 2026-11-04, en attente de la migration de Sylius.
