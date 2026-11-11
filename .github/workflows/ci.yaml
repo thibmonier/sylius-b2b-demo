@@ -84,9 +84,10 @@ jobs:
                   curl -fsSL -o /tmp/wkhtmltox.deb "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOX_VERSION}/wkhtmltox_${WKHTMLTOX_VERSION}.jammy_amd64.deb"
                   echo "${WKHTMLTOX_SHA256}  /tmp/wkhtmltox.deb" | sha256sum -c -
                   # Ubuntu mirrors can be unreachable from the runners for hours (2026-11-11), each apt
-                  # call then takes ~10 min to fail: one bounded attempt, then install without the X
-                  # font packages, which the PDFs do not need.
-                  if ! sudo timeout 240 sh -c 'apt-get update -qq && apt-get install -y -qq /tmp/wkhtmltox.deb'; then
+                  # call then takes ~10 min to fail: bounded attempt (timeout on apt-get itself, so the
+                  # dpkg lock is released), then install without the X font packages, which the PDFs do
+                  # not need.
+                  if ! { sudo timeout -k 5 150 apt-get update -qq && sudo timeout -k 5 90 apt-get install -y -qq /tmp/wkhtmltox.deb; }; then
                       echo "::warning::Ubuntu mirrors unreachable, wkhtmltox installed without its X font packages"
                       sudo dpkg --force-depends -i /tmp/wkhtmltox.deb
                   fi
