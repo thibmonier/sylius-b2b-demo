@@ -19,7 +19,7 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 
 **Plus petite version livrable** : US-221, US-222, US-223, US-224, US-225 et US-228 (Must). Un intégrateur installe le thème par Composer dans un projet vierge et obtient les pages principales, protégées contre la dérive de Sylius. La démo garde son propre habillage (décision de Thibaut du 2026-11-05) : l'installation est prouvée par la CI du thème (US-273).
 **Valeur** : Un site B2B industriel présentable en quelques heures, vérifié par la démo.
-**US incluses** : US-221, US-222, US-223, US-224, US-225, US-226, US-227, US-228 (Must : 26 points, Should : 8 points).
+**US incluses** : US-221, US-222, US-223, US-224, US-225, US-226, US-227, US-228, US-273, US-277, US-278, US-279 (Must : 26 points, Should : 17 points).
 
 ## Règles transverses du plugin
 
@@ -34,10 +34,13 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 | [US-223](../user-stories/US-223.md) | Thème Industrie & Négoce : home, liste et fiche produit (tranche 2) | Must | 5 | 49 (done) |
 | [US-224](../user-stories/US-224.md) | Thème Industrie & Négoce : panier, compte et pages vitrine | Must | 5 | 49 (done) |
 | [US-225](../user-stories/US-225.md) | Thème Industrie & Négoce : test de dérive des surcharges de gabarits | Must | 3 | 49 (done) |
-| [US-226](../user-stories/US-226.md) | Thème Industrie & Négoce : mode sombre optionnel en AAA | Should | 3 | 39 |
-| [US-227](../user-stories/US-227.md) | Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes | Should | 5 | 39 |
+| [US-226](../user-stories/US-226.md) | Thème Industrie & Négoce : mode sombre optionnel en AAA | Should | 3 | 52 (done) |
+| [US-227](../user-stories/US-227.md) | Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes | Should | 5 | 53 |
 | [US-228](../user-stories/US-228.md) | Thème Industrie & Négoce : installation par Composer/Flex et démo qui consomme le thème publié | Must | 5 | 50 (done, périmètre réduit) |
 | [US-273](../user-stories/US-273.md) | Installation vérifiée dans un projet vierge par la CI | Should | 2 | 51 |
+| [US-277](../user-stories/US-277.md) | Lien de la barre supérieure lisible en AAA | Should | 2 | 53 |
+| [US-278](../user-stories/US-278.md) | Revenir au mode automatique après un choix | Should | 3 | 53 |
+| [US-279](../user-stories/US-279.md) | Script du mode sombre compatible avec une CSP stricte | Should | 2 | 53 |
 
 ## Dépendances
 
@@ -47,6 +50,9 @@ graph LR
     US222 --> US223[US-223 home, liste, fiche]
     US222 --> US224[US-224 panier, compte, vitrine]
     US222 --> US226[US-226 mode sombre AAA]
+    US226 --> US277[US-277 barre supérieure AAA]
+    US226 --> US278[US-278 retour au mode auto]
+    US278 --> US279[US-279 CSP stricte]
     US223 --> US225[US-225 test de dérive]
     US224 --> US225
     US223 --> US227[US-227 saisie rapide]
