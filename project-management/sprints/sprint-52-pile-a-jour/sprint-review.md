@@ -1,7 +1,7 @@
 # Revue du sprint 52 — Pile à jour et mode sombre du thème
 
 **Date** : 2026-11-11
-**Engagement** : 11 points, ramené à 6 points actifs le 2026-11-10 · **Livré** : 6 points (2/4 stories, en attente de fusion) · **Tâches techniques** : 2/3 faites, 1 en attente de fusion
+**Engagement** : 11 points, ramené à 6 points actifs le 2026-11-10 · **Livré** : 6 points (2/4 stories, en attente de fusion) · **Tâches techniques** : 3/3
 
 ## Sprint Goal
 
@@ -43,7 +43,7 @@ Objectif réécrit le 2026-11-11 : l'objectif initial citait aussi le serveur MC
 |-------|------|
 | T-TECH-52-01 sprint 51 clos, `current_sprint: 52` | Fait |
 | T-TECH-52-02 PR Dependabot en attente de Sylius | Fait : 16 PR fermées avec `@dependabot ignore this dependency` |
-| T-TECH-52-03 PR `actions/github-script` 9.0.0 | 5 PR vertes (einvoice-transmission #4, erp-flatfile #6, punchout-cxml #8, timeline #11, b2b-sales-copilot #16), fusion par Thibaut |
+| T-TECH-52-03 PR `actions/github-script` 9.0.0 | Fait le 2026-11-11 : 5 PR fusionnées par Thibaut (einvoice-transmission #4, erp-flatfile #6, punchout-cxml #8, timeline #11, b2b-sales-copilot #16) |
 
 ## Hors sprint, livré pendant le sprint
 
@@ -51,6 +51,6 @@ Objectif réécrit le 2026-11-11 : l'objectif initial citait aussi le serveur MC
 
 ## Ce qui n'est pas fait
 
-- Fusion de #181 (démo), #22 (thème) et des 5 PR `github-script` : GO de Thibaut.
+- Fusion de #181 (démo) : GO de Thibaut. Le thème #22 est fusionné (`8fc9298`).
 - Tag v0.2.0 du thème après la fusion de #22 : GO de Thibaut.
 - Trois défauts du thème antérieurs à #22, à transformer en stories : lien de la lettre d'information bleu sur noir en mode clair (contraste AAA à vérifier), pas de retour au mode « automatique » après usage du commutateur, script en ligne du commutateur sans nonce ni empreinte pour une CSP stricte.
