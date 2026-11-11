@@ -2,7 +2,7 @@
 
 **Durée** : 2026-11-12 → 2026-11-26
 **Capacité** : 12 points
-**Engagement** : 12 points (4 stories) + 2 tâches techniques
+**Engagement** : 14 points (5 stories, US-280 ajoutée le 2026-11-11) + 2 tâches techniques
 
 ## Sprint Goal
 
@@ -15,7 +15,8 @@ Le thème Industrie & Négoce tient l'AAA sur toute la page, laisse le visiteur 
 | [US-277](../../backlog/user-stories/US-277.md) | Lien de la barre supérieure lisible en AAA | thème | 2 | Should |
 | [US-278](../../backlog/user-stories/US-278.md) | Revenir au mode automatique après un choix | thème | 3 | Should |
 | [US-279](../../backlog/user-stories/US-279.md) | Script du mode sombre compatible avec une CSP stricte | thème | 2 | Should |
-| [US-227](../../backlog/user-stories/US-227.md) | Saisie rapide au clavier, autocomplétion de référence et lien palette de commandes | thème | 5 | Should |
+| [US-227](../../backlog/user-stories/US-227.md) | Saisie rapide au clavier et autocomplétion de référence | thème | 5 | Should |
+| [US-280](../../backlog/user-stories/US-280.md) | Mode sombre lisible sur toute la page | thème | 2 | Must |
 
 Périmètre choisi par Thibaut le 2026-11-11 (12 points avec US-227). US-277 à US-279 viennent de la revue du sprint 52. La démo ne change pas : elle garde son propre habillage (décision du 2026-11-05) ; la PR démo du sprint ne porte que la documentation.
 
@@ -33,6 +34,8 @@ Périmètre choisi par Thibaut le 2026-11-11 (12 points avec US-227). US-277 à 
 | T-227-01 | US-227 | [REV] | Cadrage : page cible (liste dense du thème, page quick-order si installée), source de l'autocomplétion dans Sylius 2, lien vers la palette de commandes ; redécoupage avec Thibaut si plus de 5 points | 1 h |
 | T-227-02 | US-227 | [FE-WEB] | Champ de référence avec autocomplétion accessible (combobox ARIA, région live, « Aucune référence trouvée ») | 3 h |
 | T-227-03 | US-227 | [FE-WEB] | Navigation au clavier dans la grille (flèches, Entrée, Échap), focus visible ; lien vers la palette quand elle est installée | 2 h |
+| T-280-01 | US-280 | [TEST] | Audit axe en mode sombre (accueil, liste) dans le job « projet vierge » ; rouge prouvé | 1,5 h |
+| T-280-02 | US-280 | [FE-WEB] | Couleurs sombres du menu, du pied de page, du total du panier ; traduction `skip_link` ; captures refaites | 1,5 h |
 | T-227-04 | US-227 | [TEST] | Tests fonctionnels clavier, audit AAA, capture ou GIF dans les README FR/EN, CHANGELOG | 2 h |
 
 ## Tâches techniques

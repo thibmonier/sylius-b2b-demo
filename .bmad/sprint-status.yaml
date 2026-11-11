@@ -892,13 +892,14 @@ sprints:
     sprint_id: "sprint-53"
     start_date: "2026-11-12"
     end_date: "2026-11-26"
-    capacity_points: 12
+    capacity_points: 14
     goal: "Le thème Industrie & Négoce tient l'AAA sur toute la page, laisse le visiteur revenir au mode automatique, fonctionne sous une CSP stricte et permet de saisir ses références au clavier"
     stories:
       - {id: US-277, title: "Thème Industrie & Négoce : lien de la barre supérieure lisible en AAA", points: 2, status: in-progress}  # T-277-01..02
       - {id: US-278, title: "Thème Industrie & Négoce : revenir au mode automatique après un choix", points: 3, status: in-progress}  # T-278-01..03 ; même worker que US-279 (même script)
       - {id: US-279, title: "Thème Industrie & Négoce : script du mode sombre compatible avec une CSP stricte", points: 2, status: in-progress}  # T-279-01..02 ; après US-278
       - {id: US-227, title: "Thème Industrie & Négoce : saisie rapide au clavier, autocomplétion de référence et lien palette de commandes", points: 5, status: in-progress}  # T-227-01 (cadrage, redécoupage si > 5 points) puis T-227-02..04
+      - {id: US-280, title: "Thème Industrie & Négoce : mode sombre lisible sur toute la page", points: 2, status: in-progress}  # ajoutée le 2026-11-11 (audit axe sur projet vierge, défaut v0.2.0) ; T-280-01..02
     sprint_tasks:
       - {id: T-TECH-53-01, title: "Marquer le sprint 52 terminé, current_sprint 53, US-274 done dans la liste du backlog", type: OPS, hours: 0.25, status: done}
       - {id: T-TECH-53-02, title: "Tag v0.3.0 du thème et release après fusion et GO de Thibaut", type: OPS, hours: 0.25, status: ready-for-dev}
@@ -978,6 +979,7 @@ backlog:
   - {id: US-277, title: "Thème Industrie & Négoce : lien de la barre supérieure lisible en AAA", points: 2, status: in-progress}  # sprint 53 ; EPIC-18, Should ; revue du sprint 52
   - {id: US-278, title: "Thème Industrie & Négoce : revenir au mode automatique après un choix", points: 3, status: in-progress}  # sprint 53 ; EPIC-18, Should ; revue du sprint 52
   - {id: US-279, title: "Thème Industrie & Négoce : script du mode sombre compatible avec une CSP stricte", points: 2, status: in-progress}  # sprint 53 ; EPIC-18, Should ; revue du sprint 52
+  - {id: US-280, title: "Thème Industrie & Négoce : mode sombre lisible sur toute la page", points: 2, status: in-progress}  # sprint 53 ; EPIC-18, Must ; audit axe du 2026-11-11
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
   # --- Sprint 33 (planifié le 2026-10-28) : US-207 et US-209 sont dans la section sprint-33
   # --- Sprint 32 (planifié le 2026-10-28) : US-205, US-206 et US-062 sont dans la section sprint-32
