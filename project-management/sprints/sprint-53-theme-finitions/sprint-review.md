@@ -38,4 +38,6 @@ Les rouges cités ont tous été vus en CI sur une assertion du comportement (co
 ## Reste à faire
 
 - ~~Fusion de #24, #25, #26, #27~~ : fusionnées le 2026-11-12 (07c5021, 23a1faa, 0e2c43a, b327e7c), chacune rebasée sur la précédente (conflits du `CHANGELOG.md` seulement) avec CI verte avant fusion.
-- Avant le tag v0.3.0 : captures `docs/color-mode-light.png`, `docs/color-mode-dark.png` et capture de la saisie rapide refaites sur l'état fusionné (projet vierge avec médias) ; empreinte du script de saisie rapide ; notes de version signalant la clé de traduction `toggle` remplacée (`group`, `auto`, `light`, `dark`) et la variable `industry_trade_script_nonce`.
+- ~~Avant le tag v0.3.0~~ : PR #28 fusionnée (7cd4c56) avec captures sur projet vierge (clair, sombre, saisie rapide), empreinte du script de saisie rapide (`QuickFindScriptCspTest`, rouge 1e00659 puis vert), CHANGELOG `[0.3.0]`. L'audit axe d'avant tag (A-53-2) a trouvé un `<footer>` imbriqué depuis v0.1.0 : test rouge en CI (2a0b29b), correctif a615ea3.
+- **v0.3.0 taguée et publiée le 2026-11-12** sur GO de Thibaut : release GitHub et Packagist.
+- Restent hors périmètre (cœur de Sylius) : `aria-required-parent` sur le bouton d'inscription, pagination désactivée à 2,07:1 en clair.
