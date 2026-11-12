@@ -31,5 +31,5 @@ Rouge vu en CI sur l'assertion (l'audit), réparti entre les trois règles atten
 
 ## Reste à faire
 
-- Fusion de #29 (thème) et #184 (démo) par Thibaut.
-- Tag v0.3.1 et release sur GO de Thibaut.
+- ~~Fusions~~ : thème #29 (91cff20) et #30 (19800a7, CHANGELOG), démo #184, le 2026-11-12.
+- **v0.3.1 taguée et publiée le 2026-11-12** sur GO de Thibaut.
