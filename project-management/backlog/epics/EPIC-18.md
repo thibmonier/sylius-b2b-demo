@@ -19,7 +19,7 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 
 **Plus petite version livrable** : US-221, US-222, US-223, US-224, US-225 et US-228 (Must). Un intégrateur installe le thème par Composer dans un projet vierge et obtient les pages principales, protégées contre la dérive de Sylius. La démo garde son propre habillage (décision de Thibaut du 2026-11-05) : l'installation est prouvée par la CI du thème (US-273).
 **Valeur** : Un site B2B industriel présentable en quelques heures, vérifié par la démo.
-**US incluses** : US-221, US-222, US-223, US-224, US-225, US-226, US-227, US-228, US-273, US-277, US-278, US-279, US-280 (Must : 28 points, Should : 17 points).
+**US incluses** : US-221, US-222, US-223, US-224, US-225, US-226, US-227, US-228, US-273, US-277, US-278, US-279, US-280, US-281 (Must : 28 points, Should : 20 points).
 
 ## Règles transverses du plugin
 
@@ -42,6 +42,7 @@ Spike d'entrée US-221 : packaging d'un thème Sylius 2 (Twig hooks, assets, Fle
 | [US-278](../user-stories/US-278.md) | Revenir au mode automatique après un choix | Should | 3 | 53 |
 | [US-279](../user-stories/US-279.md) | Script du mode sombre compatible avec une CSP stricte | Should | 2 | 53 |
 | [US-280](../user-stories/US-280.md) | Mode sombre lisible sur toute la page | Must | 2 | 53 |
+| [US-281](../user-stories/US-281.md) | Défauts AAA du cœur corrigés et audit axe complet en CI | Should | 3 | 54 |
 
 ## Dépendances
 
@@ -55,6 +56,7 @@ graph LR
     US226 --> US278[US-278 retour au mode auto]
     US278 --> US279[US-279 CSP stricte]
     US226 --> US280[US-280 sombre sur toute la page]
+    US280 --> US281[US-281 zéro violation axe]
     US223 --> US225[US-225 test de dérive]
     US224 --> US225
     US223 --> US227[US-227 saisie rapide]
