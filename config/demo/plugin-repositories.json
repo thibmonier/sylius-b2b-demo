@@ -34,7 +34,9 @@
         "sylius-b2b-predictive-analytics-plugin",
         "sylius-b2b-sales-copilot-plugin",
         "sylius-digital-product-passport-plugin",
-        "sylius-industry-trade-theme"
+        "sylius-industry-trade-theme",
+        "sylius-company-verification-plugin",
+        "sylius-einvoice-pennylane-plugin"
     ],
     "pinnedActions": {
         "actions/checkout@v4": {

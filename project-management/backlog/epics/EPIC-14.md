@@ -1,6 +1,6 @@
 # EPIC-14 — Feuille de route plugins B2B (preuve d'expertise)
 
-> Exigences : Audit fonctionnel §4.2 et §5 · 17 stories · 73 points (dont 5 reprises de stories existantes)
+> Exigences : Audit fonctionnel §4.2 et §5 · 18 stories · 74 points (dont 5 reprises de stories existantes)
 
 ## Description
 
@@ -30,7 +30,8 @@
 | [US-137](../user-stories/US-137.md) | Connecteur ERP, tranche 2 : import des prix et du stock | Could | 5 | non planifié (arbitrage de Thibaut) |
 | [US-138](../user-stories/US-138.md) | Assortiments par société, tranche 1 | Could | 8 | non planifié (arbitrage de Thibaut) |
 | [US-209](../user-stories/US-209.md) | Chaîne d'approvisionnement des dépôts de plugins : workflows durcis, audit Composer et politique explicite | Should | 8 | à planifier (après US-208) |
-| [US-282](../user-stories/US-282.md) | Plugin company-verification : SIREN/SIRET et TVA vérifiés à l'inscription B2B (P11) | Should | 5 | proposé sprint 55 |
-| [US-283](../user-stories/US-283.md) | Plugin einvoice-pennylane : premier adaptateur réel de transmission (PA Pennylane) | Should | 5 | proposé sprint 55 |
+| [US-282](../user-stories/US-282.md) | Plugin company-verification : SIREN/SIRET et TVA vérifiés à l'inscription B2B (P11) | Should | 5 | 55 |
+| [US-283](../user-stories/US-283.md) | Plugin einvoice-pennylane : premier adaptateur réel de transmission (PA Pennylane) | Should | 5 | 55 |
+| [US-285](../user-stories/US-285.md) | Factur-X : le SIRET du siège de La Poste est accepté | Should | 1 | à planifier |
 
 **Notes** : P1 reprend US-056 à US-060 (sans duplication). P11 est repris par US-282 (analyse de l'écosystème du 2026-11-12). Les plugins P6, P9, P10, P12, P13 sont consignés dans la feuille de route, non planifiés.
