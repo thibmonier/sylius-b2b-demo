@@ -66,5 +66,6 @@ phases:
     status: in_progress
     sprint_1: {status: in_progress, branch: feature/sprint-1-walking-skeleton, runner: /workflow:auto-sprint 001}
 
-next_action: "Validation de la conception par l'utilisateur, puis sprint 1 (walking skeleton)"
-next_command: "/workflow:implement"
+next_action: "Sprint 53 terminé (thème v0.3.0 publié) ; fusionner la démo #183, puis planifier le sprint 54"
+updated_at: 2026-11-12T00:00:00+01:00
+next_command: "/workflow:start 54"
