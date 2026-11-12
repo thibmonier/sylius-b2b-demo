@@ -1,6 +1,6 @@
 # EPIC-19 — Passeport numérique produit (DPP)
 
-> Exigences : décision de Thibaut du 2026-10-28 ([roadmap-innovation](../roadmap-innovation.md)) · 7 stories · 23 points · plugin `tmonier/sylius-digital-product-passport-plugin`
+> Exigences : décision de Thibaut du 2026-10-28 ([roadmap-innovation](../roadmap-innovation.md)) · 9 stories · 30 points · plugin `tmonier/sylius-digital-product-passport-plugin`
 
 ## Description
 
@@ -37,6 +37,7 @@
 | [US-234](../user-stories/US-234.md) | Passeport numérique produit : lien optionnel du passeport dans la facture Factur-X | Could | 3 | non planifiée |
 | [US-235](../user-stories/US-235.md) | Passeport numérique produit : fixtures, intégration à la démo et formulation prudente | Should | 3 | 48 (faite) |
 | [US-272](../user-stories/US-272.md) | GTIN fictifs valides dans les fixtures, QR visible dans la démo | Should | 2 | 51 |
+| [US-284](../user-stories/US-284.md) | Passeport produit : profil « batterie » (règlement (UE) 2023/1542, art. 77), niveau public | Should | 5 | proposé sprint 55 |
 
 ## Dépendances
 
