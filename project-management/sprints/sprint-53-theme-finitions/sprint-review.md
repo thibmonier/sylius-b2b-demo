@@ -37,5 +37,5 @@ Les rouges cités ont tous été vus en CI sur une assertion du comportement (co
 
 ## Reste à faire
 
-- Fusion de #24, #25, #26, #27 par Thibaut (conflits attendus dans `CHANGELOG.md` et les README, à régler au rebase).
+- ~~Fusion de #24, #25, #26, #27~~ : fusionnées le 2026-11-12 (07c5021, 23a1faa, 0e2c43a, b327e7c), chacune rebasée sur la précédente (conflits du `CHANGELOG.md` seulement) avec CI verte avant fusion.
 - Avant le tag v0.3.0 : captures `docs/color-mode-light.png`, `docs/color-mode-dark.png` et capture de la saisie rapide refaites sur l'état fusionné (projet vierge avec médias) ; empreinte du script de saisie rapide ; notes de version signalant la clé de traduction `toggle` remplacée (`group`, `auto`, `light`, `dark`) et la variable `industry_trade_script_nonce`.
