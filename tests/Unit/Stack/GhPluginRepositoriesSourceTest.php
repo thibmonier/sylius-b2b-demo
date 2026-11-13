@@ -17,6 +17,25 @@ final class GhPluginRepositoriesSourceTest extends TestCase
         self::assertFalse($status->mainGreen);
     }
 
+    public function testAFailedRunOfDependabotItselfKeepsTheDefaultBranchGreen(): void
+    {
+        // Dependabot reports its own update jobs as a "Dependabot" check run on the head of main: a failure of that job
+        // (on 2026-11-07, a missing updater image on GitHub's side) says nothing about the CI of the repository.
+        $status = $this->source(checkRuns: ['check_runs' => [
+            ['name' => 'Build', 'conclusion' => 'success'],
+            ['name' => 'Dependabot', 'app' => ['slug' => 'dependabot'], 'conclusion' => 'failure'],
+        ]])->statuses()[0];
+
+        self::assertTrue($status->mainGreen);
+    }
+
+    public function testOnlyDependabotRunsLeaveTheDefaultBranchUnknown(): void
+    {
+        $status = $this->source(checkRuns: ['check_runs' => [['name' => 'Dependabot', 'app' => ['slug' => 'dependabot'], 'conclusion' => 'success']]])->statuses()[0];
+
+        self::assertNull($status->mainGreen);
+    }
+
     public function testSkippedAndCancelledRunsKeepTheDefaultBranchGreen(): void
     {
         $status = $this->source(checkRuns: ['check_runs' => [['conclusion' => 'success'], ['conclusion' => 'skipped'], ['conclusion' => 'cancelled']]])->statuses()[0];
