@@ -41,10 +41,16 @@ final readonly class GhPluginRepositoriesSource implements PluginRepositoriesSou
         $runs = $this->json(['gh', 'api', "repos/{$this->owner}/$repository/commits/main/check-runs?per_page=100"]);
         $conclusions = array_map(
             static fn (mixed $run): string => strtoupper(\is_array($run) && \is_string($run['conclusion'] ?? null) ? $run['conclusion'] : ''),
-            \is_array($runs['check_runs'] ?? null) ? $runs['check_runs'] : [],
+            array_filter(\is_array($runs['check_runs'] ?? null) ? $runs['check_runs'] : [], self::isCi(...)),
         );
 
         return [] === $conclusions ? null : [] === array_intersect($conclusions, self::RED);
+    }
+
+    /** Dependabot reports its own update jobs as check runs on the head of main: they say nothing about the CI. */
+    private static function isCi(mixed $run): bool
+    {
+        return !\is_array($run) || 'dependabot' !== (\is_array($run['app'] ?? null) ? ($run['app']['slug'] ?? null) : null);
     }
 
     /** @return list<DependabotPullRequest> */
