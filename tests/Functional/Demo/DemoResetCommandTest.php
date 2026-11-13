@@ -19,8 +19,8 @@ final class DemoResetCommandTest extends KernelTestCase
 
     private const MARKER = 'MARKER (before reset)';
 
-    /** Products of fixtures/csv; customers of config/demo/accounts.yaml (11 B2B members + Léa) and the 2 registrations of demo_pending_registrations. */
-    private const INITIAL_PRODUCTS = 210;
+    /** Products of fixtures/csv (210) and the battery of demo_battery_passport (sprint 55); customers of config/demo/accounts.yaml (11 B2B members + Léa) and the 2 registrations of demo_pending_registrations. */
+    private const INITIAL_PRODUCTS = 211;
 
     private const INITIAL_CUSTOMERS = 15;
 
@@ -65,7 +65,8 @@ final class DemoResetCommandTest extends KernelTestCase
         // The initial demo data, whatever other tests added before (smoke tests leave carts and PunchOut orders).
         self::assertSame(['products' => self::INITIAL_PRODUCTS, 'customers' => self::INITIAL_CUSTOMERS, 'orders' => \count(DemoOrderPlan::all($this->demoResetDate())) + self::LIVE_CARTS], $this->counts());
         self::assertNotSame(self::MARKER, $this->channelName(), 'The reload must replace the previous data.');
-        self::assertSame(5, $this->intValue('SELECT COUNT(*) FROM tmonier_digital_product_passport'), 'US-235: the reset recreates the 5 digital product passports.');
+        self::assertSame(6, $this->intValue('SELECT COUNT(*) FROM tmonier_digital_product_passport'), 'US-235, US-284: the reset recreates the 5 digital product passports and the battery passport.');
+        self::assertSame(1, $this->intValue('SELECT COUNT(*) FROM tmonier_company_verification'), 'Sprint 55: the reset records the verification of Acme Industries.');
     }
 
     public function testAFailureInTheMiddleKeepsThePreviousStateAndIsReportedOnStderr(): void

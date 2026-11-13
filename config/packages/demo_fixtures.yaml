@@ -230,6 +230,11 @@ sylius_fixtures:
                 demo_digital_passports:
                     priority: -50
 
+                # Sprint 55 — US-284: the passport of an industrial battery (LFP traction battery of a forklift truck, battery profile
+                # art. 77) on a product created by the fixture itself. Needs the channels and tax categories (0); its own priority.
+                demo_battery_passport:
+                    priority: -51
+
                 # Agentic feeds: creates feed configurations per channel.
                 # Uses built-in plugin fixture; no extra options needed.
                 tmonier_agentic_feeds:
@@ -298,3 +303,8 @@ sylius_fixtures:
                 # file. After the webhook endpoint (-80): the fixtures queue no delivery.
                 demo_erp_export:
                     priority: -90
+
+                # Sprint 55 — T-TECH-55-03: the recorded verification result of Acme Industries (company-verification), and the drop of
+                # the VerifyCompany messages that the companies fixture queued. Last of the suite (after the ERP export, -90).
+                demo_company_verification:
+                    priority: -95

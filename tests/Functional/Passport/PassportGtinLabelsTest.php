@@ -19,12 +19,12 @@ final class PassportGtinLabelsTest extends DemoAdminWebTestCase
 {
     private const PRODUCTS_WITH_PASSPORT = ['EPI-CASK-001', 'EPI-CASK-002', 'EPI-CASK-003', 'OUTI-026', 'OUTI-028'];
 
-    public function testTheFivePassportsHaveDistinctValidGtinWithTheGs1ExamplePrefix(): void
+    public function testThePassportsHaveDistinctValidGtinWithTheGs1ExamplePrefix(): void
     {
         $identifiers = $this->passportIdentifiers();
 
-        self::assertCount(5, $identifiers);
-        self::assertCount(5, array_unique($identifiers), 'The five GTIN are all different.');
+        self::assertCount(6, $identifiers);
+        self::assertCount(6, array_unique($identifiers), 'The six GTIN are all different.');
         foreach ($identifiers as $gtin) {
             self::assertTrue(Gtin::isValid($gtin), \sprintf('"%s" has a wrong length or check digit.', $gtin));
             self::assertStringStartsWith(PassportSheet::GTIN_PREFIX, $gtin);

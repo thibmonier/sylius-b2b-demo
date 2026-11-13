@@ -9,12 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Tmonier\SyliusDigitalProductPassportPlugin\Entity\DigitalProductPassport;
 
 /**
- * US-235: the demo suite creates the 5 passports. The nightly reset (`app:demo:reset`, crontab `0 3 * * *`) reloads
+ * US-235: the demo suite creates the 5 passports, plus the battery passport (US-284). The nightly reset (`app:demo:reset`, crontab `0 3 * * *`) reloads
  * this same suite with `sylius:fixtures:load demo`; DemoResetCommandTest checks the count after a real reset.
  */
 final class DemoPassportsLoadedTest extends KernelTestCase
 {
-    public function testTheFivePassportsExistOnTheirProducts(): void
+    public function testThePassportsExistOnTheirProducts(): void
     {
         self::bootKernel();
         $entityManager = self::getContainer()->get('doctrine.orm.entity_manager');
@@ -26,6 +26,6 @@ final class DemoPassportsLoadedTest extends KernelTestCase
         }
         sort($codes);
 
-        self::assertSame(['EPI-CASK-001', 'EPI-CASK-002', 'EPI-CASK-003', 'OUTI-026', 'OUTI-028'], $codes);
+        self::assertSame(['BATT-001', 'EPI-CASK-001', 'EPI-CASK-002', 'EPI-CASK-003', 'OUTI-026', 'OUTI-028'], $codes);
     }
 }
