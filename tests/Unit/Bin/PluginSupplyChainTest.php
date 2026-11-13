@@ -37,6 +37,28 @@ final class PluginSupplyChainTest extends TestCase
         new Filesystem()->remove($this->root);
     }
 
+    public function testTheReportReadsTheCiOfTheDefaultBranchAndSkipsTheRunsOfDependabot(): void
+    {
+        // Dependabot's own update jobs are runs of event "dynamic" on the default branch: the latest one failed on
+        // 2026-11-07 (sylius-gpsr-plugin) while the CI was green.
+        $result = $this->report([
+            ['event' => 'dynamic', 'conclusion' => 'failure'],
+            ['event' => 'dynamic', 'conclusion' => 'success'],
+            ['event' => 'schedule', 'conclusion' => 'success'],
+            ['event' => 'push', 'conclusion' => 'failure'],
+        ]);
+
+        self::assertStringContainsString('sylius-x-plugin: ', $result->getOutput());
+        self::assertStringContainsString('ci=INFO(success)', $result->getOutput());
+    }
+
+    public function testTheReportSaysWhenTheDefaultBranchHasNoCiRun(): void
+    {
+        $result = $this->report([['event' => 'dynamic', 'conclusion' => 'failure']]);
+
+        self::assertStringContainsString('ci=INFO(no run)', $result->getOutput());
+    }
+
     public function testAConformingRepositoryPassesTheNineControls(): void
     {
         $repository = $this->repository('conforming');
@@ -710,5 +732,24 @@ final class PluginSupplyChainTest extends TestCase
         }
 
         return $snapshot;
+    }
+
+    /**
+     * Runs `report` against a fake `gh` first on the PATH: it answers the repository and its runs, nothing else.
+     *
+     * @param list<array{event: string, conclusion: string}> $runs
+     */
+    private function report(array $runs): Process
+    {
+        $bin = $this->root . '/fake-bin';
+        new Filesystem()->mkdir($bin);
+        file_put_contents($this->root . '/runs.json', json_encode(['workflow_runs' => $runs], \JSON_THROW_ON_ERROR));
+        file_put_contents($bin . '/gh', "#!/bin/sh\ncase \"\$*\" in\n  'api repos/thibmonier/sylius-x-plugin') echo '{\"default_branch\":\"main\"}' ;;\n  'api repos/thibmonier/sylius-x-plugin/actions/runs'*) cat " . escapeshellarg($this->root . '/runs.json') . " ;;\nesac\n");
+        chmod($bin . '/gh', 0o755);
+
+        $process = new Process(['php', \dirname(__DIR__, 3) . '/bin/plugin-supply-chain', 'report', 'sylius-x-plugin'], null, ['PATH' => $bin . ':' . getenv('PATH')]);
+        $process->run();
+
+        return $process;
     }
 }

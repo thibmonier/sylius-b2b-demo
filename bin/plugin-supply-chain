@@ -659,8 +659,10 @@ function remoteResults(string $name, array $config, string $base): array
     foreach (["$directory/.github/workflows", "$directory/.github", $directory] as $folder) {
         rmdir($folder);
     }
-    $runs = json_decode((string) $api("repos/$owner/$name/actions/runs?branch=$branch&per_page=1"), true);
-    $results[] = ['ci', 'INFO', (string) ($runs['workflow_runs'][0]['conclusion'] ?? 'no run')];
+    // Dependabot's own update jobs are runs of event "dynamic" on the default branch: they are not its CI.
+    $runs = json_decode((string) $api("repos/$owner/$name/actions/runs?branch=$branch&per_page=20"), true);
+    $ci = array_values(array_filter(is_array($runs['workflow_runs'] ?? null) ? $runs['workflow_runs'] : [], static fn (mixed $run): bool => is_array($run) && 'dynamic' !== ($run['event'] ?? null)));
+    $results[] = ['ci', 'INFO', (string) ($ci[0]['conclusion'] ?? 'no run')];
 
     return $results;
 }
