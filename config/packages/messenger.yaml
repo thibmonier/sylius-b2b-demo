@@ -1,22 +1,22 @@
 framework:
     messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        # failure_transport: failed
-
         transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
+            # Sprint 55 (T-TECH-55-03): the first asynchronous transport of the demo. The company verification calls two public
+            # services (API Recherche d'entreprises, VIES; 7 to 8 seconds for VIES): never inside a web request or a fixture load.
+            # The table is created by a migration (auto_setup=0: the web user never creates tables); it is consumed by the
+            # crontab (docker/crontab), see ADR-0002.
+            async: 'doctrine://default?auto_setup=0'
             sync: 'sync://'
 
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            # Only this message is asynchronous: every other message of the demo stays synchronous.
+            'Tmonier\SyliusCompanyVerificationPlugin\Message\VerifyCompany': async
 
-# when@test:
-#    framework:
-#        messenger:
-#            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'
+# Tests stay deterministic: the message is kept in memory, never handled, no network.
+when@test: &messenger_test
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://'
+
+when@test_cached: *messenger_test
