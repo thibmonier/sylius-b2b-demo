@@ -94,4 +94,5 @@ return [
     Tmonier\SyliusErpFlatfilePlugin\TmonierSyliusErpFlatfilePlugin::class => ['all' => true],
     Tmonier\SyliusDigitalProductPassportPlugin\TmonierSyliusDigitalProductPassportPlugin::class => ['all' => true],
     Tmonier\SyliusB2bSalesCopilotPlugin\TmonierSyliusB2bSalesCopilotPlugin::class => ['all' => true],
+    Tmonier\SyliusCompanyVerificationPlugin\TmonierSyliusCompanyVerificationPlugin::class => ['all' => true],
 ];

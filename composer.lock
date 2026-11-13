@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "089a977f2d6f79a9a9048c0e5f2a63c5",
+    "content-hash": "095dbf042e8db62ac224be902332126c",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17887,6 +17887,91 @@
             "time": "2026-10-22T10:00:04+00:00"
         },
         {
+            "name": "tmonier/sylius-company-verification-plugin",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thibmonier/sylius-company-verification-plugin.git",
+                "reference": "be45df1f35f910e7acd0a2ea0f3c16729fc3626a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thibmonier/sylius-company-verification-plugin/zipball/be45df1f35f910e7acd0a2ea0f3c16729fc3626a",
+                "reference": "be45df1f35f910e7acd0a2ea0f3c16729fc3626a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2",
+                "sylius/sylius": "^2.2.9 || ^2.3",
+                "symfony/http-client": "^6.4 || ^7.4 || ^8.0",
+                "symfony/messenger": "^6.4 || ^7.4 || ^8.0",
+                "tmonier/sylius-company-accounts-plugin": "^1.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-webmozart-assert": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
+                "sylius-labs/coding-standard": "^4.4",
+                "sylius/test-application": "^2.0.0@alpha",
+                "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
+                "symfony/css-selector": "^6.4 || ^7.4 || ^8.0",
+                "symfony/debug-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dom-crawler": "^6.4 || ^7.4 || ^8.0",
+                "symfony/dotenv": "^6.4 || ^7.4 || ^8.0",
+                "symfony/intl": "^6.4 || ^7.4 || ^8.0",
+                "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
+                "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
+                "symfony/webpack-encore-bundle": "^2.2"
+            },
+            "suggest": {
+                "tmonier/sylius-registration-approval-plugin": "The verification badge is also shown in Customers > Registrations (requires Sylius 2.3)"
+            },
+            "type": "sylius-plugin",
+            "extra": {
+                "symfony": {
+                    "require": "^7.4"
+                },
+                "public-dir": "vendor/sylius/test-application/public",
+                "branch-alias": {
+                    "dev-main": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tmonier\\SyliusCompanyVerificationPlugin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thibaut Monier"
+                }
+            ],
+            "description": "Company identity check for Sylius 2 B2B accounts: SIREN/SIRET looked up in the French business register and EU VAT number checked in VIES, shown as an accessible badge in the administration before a registration is approved",
+            "keywords": [
+                "Siren",
+                "Siret",
+                "b2b",
+                "company-accounts",
+                "kyb",
+                "sylius",
+                "sylius-plugin",
+                "vat",
+                "vies"
+            ],
+            "support": {
+                "issues": "https://github.com/thibmonier/sylius-company-verification-plugin/issues",
+                "source": "https://github.com/thibmonier/sylius-company-verification-plugin/tree/v0.1.0"
+            },
+            "time": "2026-11-13T06:20:43+00:00",
+            "published-time": "2026-11-13T06:29:50+00:00"
+        },
+        {
             "name": "tmonier/sylius-container-fill-plugin",
             "version": "v1.1.1",
             "source": {
@@ -18052,16 +18137,16 @@
         },
         {
             "name": "tmonier/sylius-digital-product-passport-plugin",
-            "version": "v0.3.1",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-digital-product-passport-plugin.git",
-                "reference": "b381cde67ee1a7e04a4e6bda69b061e30d096d5e"
+                "reference": "4958a6a52da200f0b644496801d4243aaec88266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-digital-product-passport-plugin/zipball/b381cde67ee1a7e04a4e6bda69b061e30d096d5e",
-                "reference": "b381cde67ee1a7e04a4e6bda69b061e30d096d5e",
+                "url": "https://api.github.com/repos/thibmonier/sylius-digital-product-passport-plugin/zipball/4958a6a52da200f0b644496801d4243aaec88266",
+                "reference": "4958a6a52da200f0b644496801d4243aaec88266",
                 "shasum": ""
             },
             "require": {
@@ -18126,10 +18211,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/tree/v0.3.1"
+                "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/tree/v0.4.0"
             },
-            "time": "2026-11-04T20:58:38+00:00",
-            "published-time": "2026-11-04T21:16:30+00:00"
+            "time": "2026-11-13T06:22:03+00:00",
+            "published-time": "2026-11-13T06:25:48+00:00"
         },
         {
             "name": "tmonier/sylius-einvoice-transmission-plugin",
