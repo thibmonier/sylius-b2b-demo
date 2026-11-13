@@ -38,6 +38,14 @@ final class DemoCatalogs
         return \is_array($entries) ? \count($entries) : 0;
     }
 
+    /** Entries of the catalogue installed by Composer (an entry may only be presented, `installed: false`). */
+    public static function installedPluginCount(): int
+    {
+        $entries = Typed::at(Yaml::parseFile(self::root() . '/config/demo/plugins.yaml'), 'parameters', 'demo.plugin_catalog');
+
+        return \is_array($entries) ? \count(array_filter($entries, static fn (mixed $entry): bool => !\is_array($entry) || false !== ($entry['installed'] ?? true))) : 0;
+    }
+
     private static function root(): string
     {
         return \dirname(__DIR__, 2);
