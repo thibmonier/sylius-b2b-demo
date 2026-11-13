@@ -31,12 +31,17 @@
 ## Tâches techniques
 
 - T-TECH-55-01 : fait.
-- T-TECH-55-02 : tags v0.1.0 (company-verification, einvoice-pennylane) et v0.4.0 (passeport) sur GO de Thibaut, puis soumission Packagist des deux nouveaux par Thibaut.
-- T-TECH-55-03 : à faire après Packagist.
-- T-TECH-55-04 : deux dépôts ajoutés à `config/demo/plugin-repositories.json`. `bin/plugin-supply-chain apply` appliqué (Dependabot) ; le rapport lit `main`, qui n'a encore que le commit initial : à relancer après les fusions.
+- T-TECH-55-02 (2026-11-13) : PR fusionnées par Thibaut (`be45df1`, `62a430b`, `4958a6a`), CI de `main` verte sur chaque commit de fusion, puis releases [company-verification v0.1.0](https://github.com/thibmonier/sylius-company-verification-plugin/releases/tag/v0.1.0), [einvoice-pennylane v0.1.0](https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/releases/tag/v0.1.0) et [passeport v0.4.0](https://github.com/thibmonier/sylius-digital-product-passport-plugin/releases/tag/v0.4.0). Packagist soumis par Thibaut.
+- T-TECH-55-03 (2026-11-13), décisions de Thibaut :
+  - company-verification `^0.1` installé ; `VerifyCompany` routé vers un transport Messenger `doctrine://` (table `messenger_messages`, migration réversible), consommé chaque minute par supercronic (`messenger:consume async --time-limit=55`), sans nouveau processus permanent ; addendum à l'ADR-0002 et page d'architecture mise à jour ;
+  - einvoice-pennylane présenté sur la page Plugins sans être installé (pas de compte Pennylane pour la démo) ; les compteurs « plugins installés » ne le comptent pas ;
+  - passeport `^0.4` ; fixtures : une entreprise vérifiée (Acme Industries, sans appel réseau) et la batterie de traction LFP d'un chariot élévateur (`BATT-001`, 51,2 V, 560 Ah, 330 kg).
+  - CI de la PR #187 : deux rouges réels corrigés (variante sans ligne logistique, compteur de plugins), puis un test instable du verrou de `bin/run-tests` (PID lu après la fin du processus) corrigé ; vert sur `d2c193e` (run 43391850537).
+- T-TECH-55-04 (2026-11-13) : `bin/plugin-supply-chain report` tout PASS sur les trois dépôts. Dependabot traité : github-script 9 fusionné sur les deux nouveaux dépôts ; PHPUnit 13 fermé avec `ignore this dependency` (US-266).
 
 ## Reste à faire
 
-1. Thibaut : relire et fusionner les trois PR, puis GO des tags.
-2. Thibaut : soumettre les deux nouveaux paquets à Packagist ; jeton du bac à sable Pennylane pour le test manuel.
-3. Démo : T-TECH-55-03 et `bin/plugin-supply-chain report`.
+1. Thibaut : fusionner la PR #187 de la démo.
+2. Après le déploiement sur Railway : migration `messenger_messages` appliquée, consumer visible chaque minute dans les logs sans erreur, état « vérifié » d'Acme Industries après `app:demo:reset`.
+3. Jeton du bac à sable Pennylane pour le test manuel (non bloquant).
+4. Hors sprint : la CI de `main` de `sylius-gpsr-plugin` est rouge (relevé par le rapport du 2026-11-13).
