@@ -37,6 +37,19 @@ final class ContainerFillDemoFixture extends AbstractFixture
     /** Families whose pallets are planned by layers. */
     private const LAYER_FAMILIES = ['emballage'];
 
+    /**
+     * The forklift battery is created by its own fixture, outside the catalogue CSV (US-284): its logistics row is
+     * written here so that every variant keeps one. Weight of its passport, size of a 48 V traction battery tray.
+     */
+    private const BATTERY_ROW = [
+        'sku' => BatteryPassportDemoFixture::PRODUCT_CODE,
+        'taxon' => '',
+        'weight_kg' => '330',
+        'width_cm' => '83',
+        'height_cm' => '78',
+        'depth_cm' => '52',
+    ];
+
     private const CHANNEL_CODE = 'B2B';
 
     private const MIN_FILL_PERCENT = 20;
@@ -126,6 +139,8 @@ final class ContainerFillDemoFixture extends AbstractFixture
                 yield ContainerFillRow::fromCsv($row);
             }
         }
+
+        yield ContainerFillRow::fromCsv(self::BATTERY_ROW);
     }
 
     private function seedRules(): void

@@ -73,7 +73,7 @@ sylius-b2b-demo/
   2. si la base est vide, `app:demo:reset` (premier démarrage) ;
   3. lancement de supercronic en arrière-plan, puis de FrankenPHP au premier plan.
 - **Crontab** (`TZ=Europe/Paris`) :
-  - chaque minute : `tmonier:webhook:dispatch` (borné dans le temps) ;
+  - chaque minute : `tmonier:webhook:dispatch` (borné dans le temps) et `messenger:consume async` (borné, sprint 55) ;
   - toutes les 15 minutes : `tmonier:feeds:generate --stale` ;
   - chaque nuit : expirations (approbations, devis), relances et recalcul trade-credit, purges (punchout, webhook, audit-log, b2b-mcp, brouillons admin), `sylius:remove-expired-carts` ;
   - **03:00** : `app:demo:reset`.

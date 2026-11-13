@@ -3,6 +3,7 @@
 # One import per plugin; demo options live in config/packages/tmonier/*.yaml.
 imports:
     - { resource: "@TmonierSyliusCompanyAccountsPlugin/config/config.yaml" }
+    - { resource: "@TmonierSyliusCompanyVerificationPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusChannelAccessPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusRegistrationApprovalPlugin/config/config.yaml" }
     - { resource: "@TmonierSyliusAdminOrderCreationPlugin/config/config.yaml" }

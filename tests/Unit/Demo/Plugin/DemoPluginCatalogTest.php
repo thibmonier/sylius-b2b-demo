@@ -34,7 +34,9 @@ final class DemoPluginCatalogTest extends TestCase
         self::assertSame($expected, $slugs);
         self::assertCount(DemoCatalogs::pluginCount(), self::catalog()->all());
         self::assertSame(DemoCatalogs::pluginCount(), self::catalog()->count());
-        self::assertSame([], array_values(array_filter(self::catalog()->all(), static fn ($plugin): bool => !$plugin->installed)));
+        // Sprint 55: the Pennylane adapter has a presentation card only (no Pennylane account for the demo); every other plugin is installed.
+        $notInstalled = array_map(static fn ($plugin): string => $plugin->slug, array_values(array_filter(self::catalog()->all(), static fn ($plugin): bool => !$plugin->installed)));
+        self::assertSame(['sylius-einvoice-pennylane-plugin'], $notInstalled);
     }
 
     public function testEveryPluginHasBothDescriptionsAndAKnownCategory(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Demo;
 
+use App\Demo\Plugin\DemoPlugin;
 use App\Demo\Plugin\DemoPluginCatalog;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
@@ -136,7 +137,7 @@ final class ArchitecturePageTest extends WebTestCase
         $page = $client->request('GET', '/' . $locale . '/architecture');
         $catalog = self::getContainer()->get(DemoPluginCatalog::class);
         self::assertInstanceOf(DemoPluginCatalog::class, $catalog);
-        $plugins = (string) \count($catalog->all());
+        $plugins = (string) \count(array_filter($catalog->all(), static fn (DemoPlugin $plugin): bool => $plugin->installed));
 
         $text = self::withoutTradeTerms($page->filter('main')->text());
         self::assertStringContainsString('4242', $text);

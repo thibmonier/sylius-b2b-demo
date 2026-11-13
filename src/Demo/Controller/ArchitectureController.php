@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Demo\Controller;
 
+use App\Demo\Plugin\DemoPlugin;
 use App\Demo\Plugin\DemoPluginCatalog;
 use App\Demo\Proof\ProofReader;
 use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
@@ -14,7 +15,7 @@ use Twig\Environment;
 
 /**
  * "Architecture of the demo" (US-170): how the demo itself is built, layer by layer. Every figure comes from proof.json
- * (tests, PHPStan, CI) or from the running configuration (plugins of the catalogue, Sylius, Symfony and PHP versions).
+ * (tests, PHPStan, CI) or from the running configuration (plugins of the catalogue installed here, Sylius, Symfony and PHP versions).
  */
 final readonly class ArchitectureController
 {
@@ -31,7 +32,7 @@ final readonly class ArchitectureController
         return new Response($this->twig->render('demo/architecture.html.twig', [
             'report' => $this->reader->report(),
             'versions' => [
-                '%plugins%' => \count($this->plugins->all()),
+                '%plugins%' => \count(array_filter($this->plugins->all(), static fn (DemoPlugin $plugin): bool => $plugin->installed)),
                 '%sylius%' => SyliusCoreBundle::MAJOR_VERSION . '.' . SyliusCoreBundle::MINOR_VERSION,
                 '%symfony%' => Kernel::MAJOR_VERSION . '.' . Kernel::MINOR_VERSION,
                 '%php%' => \PHP_MAJOR_VERSION . '.' . \PHP_MINOR_VERSION,

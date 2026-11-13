@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 54
+current_sprint: 55
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -921,6 +921,25 @@ sprints:
       - {id: T-TECH-54-03, title: "Tag v0.3.1 du thème et release après fusion et GO de Thibaut", type: OPS, hours: 0.25, status: done}  # v0.3.1 = 19800a7, release le 2026-11-12
     notes: "PLANIFIÉ et LANCÉ le 2026-11-12 par /workflow:auto-sprint 54 ; périmètre choisi par Thibaut. US-275, US-266, US-267 vérifiées le 2026-11-12 : toujours bloquées par l'amont. Thème seul ; démo inchangée."
 
+  sprint-55:
+    name: sprint-55-plugins-ecosysteme
+    status: in-progress
+    sprint_id: "sprint-55"
+    start_date: "2026-11-12"
+    end_date: "2026-11-26"
+    capacity_points: 15
+    goal: "Un marchand B2B peut vérifier l'identité d'une entreprise à l'inscription, transmettre ses factures Factur-X à Pennylane et publier le passeport public d'une batterie : trois manques de l'écosystème Sylius 2 comblés, sans recoupement avec Sylius Plus"
+    stories:
+      - {id: US-282, title: "Plugin company-verification : SIREN/SIRET et TVA vérifiés à l'inscription B2B", points: 5, status: done}  # T-282-01..05 ; nouveau dépôt
+      - {id: US-283, title: "Plugin einvoice-pennylane : premier adaptateur réel de transmission (PA Pennylane)", points: 5, status: done}  # T-283-00..04 ; nouveau dépôt
+      - {id: US-284, title: "Passeport produit : profil batterie (règlement (UE) 2023/1542, art. 77), niveau public", points: 5, status: done}  # T-284-01..04 ; dépôt DPP, v0.4.0
+    sprint_tasks:
+      - {id: T-TECH-55-01, title: "current_sprint 55, sprint 55 planifié", type: OPS, hours: 0.25, status: done}
+      - {id: T-TECH-55-02, title: "Tags v0.1.0 (company-verification, einvoice-pennylane) et v0.4.0 (passeport) sur GO de Thibaut ; Packagist des nouveaux par Thibaut", type: OPS, hours: 0.5, status: done}  # tags et releases le 2026-11-13 ; Packagist par Thibaut le 2026-11-13
+      - {id: T-TECH-55-03, title: "Démo : installation des versions publiées, plugins.yaml, compat-refresh, proof-refresh, fixtures", type: OPS, hours: 3, status: done}  # 2026-11-13 : company-verification ^0.1 + transport Messenger Doctrine consommé par supercronic, passeport ^0.4 + batterie BATT-001, fiche Pennylane (non installé, décision de Thibaut)
+      - {id: T-TECH-55-04, title: "plugin-repositories.json : deux nouveaux dépôts, plugin-supply-chain report", type: OPS, hours: 0.5, status: done}  # report 2026-11-13 : tout PASS sur les trois dépôts
+    notes: "PLANIFIÉ et LANCÉ le 2026-11-12 par /workflow:auto-sprint 55 ; périmètre de l'analyse de l'écosystème (PR #186). Décisions de cadrage dans sprint-goal.md. Un worker par dépôt. Aucun tag ni fusion sans GO de Thibaut. 2026-11-12 : trois PR vertes (company-verification #1 495ec0d, einvoice-pennylane #1 15e2ff9, DPP #20 1d69eb0), stories en review ; revue et rétro écrites ; US-285 ajoutée au backlog. 2026-11-13 : PR fusionnées par Thibaut (be45df1, 62a430b, 4958a6a), CI de main verte, releases company-verification v0.1.0, einvoice-pennylane v0.1.0, passeport v0.4.0."
+
 backlog:
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
@@ -997,9 +1016,10 @@ backlog:
   - {id: US-279, title: "Thème Industrie & Négoce : script du mode sombre compatible avec une CSP stricte", points: 2, status: done}  # sprint 53 ; EPIC-18, Should ; revue du sprint 52
   - {id: US-280, title: "Thème Industrie & Négoce : mode sombre lisible sur toute la page", points: 2, status: done}  # sprint 53 ; EPIC-18, Must ; audit axe du 2026-11-11
   - {id: US-281, title: "Thème Industrie & Négoce : défauts AAA du cœur corrigés et audit axe complet en CI", points: 3, status: done}  # EPIC-18, Should ; sprint 54 (choisi par Thibaut le 2026-11-12) ; audit axe d'avant tag v0.3.0
-  - {id: US-282, title: "Plugin company-verification : SIREN/SIRET et TVA vérifiés à l'inscription B2B", points: 5, status: backlog}  # EPIC-14, Should ; analyse de l'écosystème du 2026-11-12 (P11) ; proposée pour le sprint 55
-  - {id: US-283, title: "Plugin einvoice-pennylane : premier adaptateur réel de transmission (PA Pennylane)", points: 5, status: backlog}  # EPIC-14, Should ; analyse de l'écosystème du 2026-11-12 ; proposée pour le sprint 55
-  - {id: US-284, title: "Passeport produit : profil batterie (règlement (UE) 2023/1542, art. 77), niveau public", points: 5, status: backlog}  # EPIC-19, Should ; analyse de l'écosystème du 2026-11-12 ; proposée pour le sprint 55
+  - {id: US-282, title: "Plugin company-verification : SIREN/SIRET et TVA vérifiés à l'inscription B2B", points: 5, status: done}  # EPIC-14, Should ; analyse de l'écosystème du 2026-11-12 (P11) ; sprint 55
+  - {id: US-283, title: "Plugin einvoice-pennylane : premier adaptateur réel de transmission (PA Pennylane)", points: 5, status: done}  # EPIC-14, Should ; analyse de l'écosystème du 2026-11-12 ; sprint 55
+  - {id: US-284, title: "Passeport produit : profil batterie (règlement (UE) 2023/1542, art. 77), niveau public", points: 5, status: done}  # EPIC-19, Should ; analyse de l'écosystème du 2026-11-12 ; sprint 55
+  - {id: US-285, title: "Factur-X : le SIRET du siège de La Poste est accepté", points: 1, status: backlog}  # EPIC-14, Should ; trouvé au sprint 55 (US-282)
   # --- Retours de Thibaut du 2026-10-27 : pages de compte des plugins, refontes des pages vitrine, indexation des pages vitrine (non planifiées)
   # --- Sprint 33 (planifié le 2026-10-28) : US-207 et US-209 sont dans la section sprint-33
   # --- Sprint 32 (planifié le 2026-10-28) : US-205, US-206 et US-062 sont dans la section sprint-32

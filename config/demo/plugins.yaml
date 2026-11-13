@@ -133,6 +133,17 @@ parameters:
               fr: "Ouvrez l'espace société de votre compte : consultez les membres de la société, leurs rôles (admin, acheteur, approbateur) et les commandes de la société."
               en: "Open your account's company area: see the company members, their roles (admin, buyer, approver) and the company's orders."
           advised_account: isabelle@acme.example
+        - slug: sylius-company-verification-plugin
+          name: 'Company Verification'
+          category: admin
+          description:
+              fr: "Vérification d'entreprise avant l'approbation d'un compte B2B : le SIREN/SIRET est cherché dans l'API Recherche d'entreprises et le numéro de TVA intracommunautaire dans VIES, de façon asynchrone. L'administrateur voit un badge, le nom et l'adresse renvoyés, les sources et la date, avec un bouton « Vérifier à nouveau ». Le plugin informe seulement : aucune décision n'est prise automatiquement."
+              en: 'Company verification before a B2B account is approved: the SIREN/SIRET is looked up in the French business register API and the EU VAT number in VIES, asynchronously. The administrator sees a badge, the name and address returned, the sources and the date, with a "Verify again" button. The plugin only informs: no decision is taken automatically.'
+          demo_route: null
+          scenario:
+              fr: "Connectez-vous à l'administration en tant que Sophie, ouvrez Clients > Entreprises et modifiez Acme Industries : le panneau de vérification indique le registre actif et la TVA valide, avec le nom, l'adresse, les sources et la date. Ce résultat est enregistré par les données de la démo, sans appel réseau ; les identifiants des autres entreprises sont fictifs. Le bouton « Vérifier à nouveau » interroge les vrais services ; pour un identifiant fictif, le résultat n'est pas celui enregistré."
+              en: 'Sign in to the admin panel as Sophie, open Customers > Companies and edit Acme Industries: the verification panel shows the register as active and the VAT number as valid, with the name, the address, the sources and the date. This result is recorded by the demo data, with no network call; the identifiers of the other companies are fictitious. The "Verify again" button queries the real services; for a fictitious identifier, the result is not the recorded one.'
+          advised_account: sophie@fournitures-pro.example
         - slug: sylius-company-insights-plugin
           name: 'Company Insights'
           category: purchasing
@@ -174,9 +185,21 @@ parameters:
               en: 'Preparatory digital product passport: material origin, recyclability and repairability per variant, version and revision date, bilingual public page linked from the product page. Structured data to prepare the passport, with no promise of regulatory compliance.'
           demo_route: null
           scenario:
-              fr: "Ouvrez la fiche d'un casque de chantier de la catégorie EPI (références EPI-CASK-001 à 003) : le lien « Passeport produit » ouvre la page publique, avec l'origine des matériaux, la recyclabilité, la réparabilité, la version du schéma et la date de mise à jour. Passez la boutique en anglais : les intitulés suivent."
-              en: 'Open the product page of a hard hat in the PPE category (references EPI-CASK-001 to 003): the "Product passport" link opens the public page, with material origin, recyclability, repairability, schema version and last update. Switch the shop to English: the labels follow.'
+              fr: "Ouvrez la fiche d'un casque de chantier de la catégorie EPI (références EPI-CASK-001 à 003) : le lien « Passeport produit » ouvre la page publique, avec l'origine des matériaux, la recyclabilité, la réparabilité, la version du schéma et la date de mise à jour. Passez la boutique en anglais : les intitulés suivent. Ouvrez ensuite la fiche de la batterie de traction lithium-fer-phosphate d'un chariot élévateur (référence BATT-001, sans catégorie : adresse /fr_FR/products/batt-001-fr) : son passeport ajoute une section « Batterie » (catégorie industrielle, 51,2 V, 560 Ah, soit 28,7 kWh, au-dessus du seuil de 2 kWh, chimie, poids, date de fabrication, contenu recyclé, durée de vie en cycles), selon le règlement (UE) 2023/1542, art. 77. Données fictives, sans promesse de conformité."
+              en: 'Open the product page of a hard hat in the PPE category (references EPI-CASK-001 to 003): the "Product passport" link opens the public page, with material origin, recyclability, repairability, schema version and last update. Switch the shop to English: the labels follow. Then open the product page of the lithium iron phosphate traction battery of a forklift truck (reference BATT-001, in no category: address /en_US/products/batt-001-en): its passport adds a "Battery" section (industrial category, 51.2 V, 560 Ah, i.e. 28.7 kWh, above the 2 kWh threshold, chemistry, weight, manufacturing date, recycled content, cycle life), following Regulation (EU) 2023/1542, art. 77. Fictional data, with no promise of compliance.'
           advised_account: claire@acme.example
+        - slug: sylius-einvoice-pennylane-plugin
+          name: 'E-invoice Pennylane'
+          category: billing
+          installed: false
+          description:
+              fr: "Adaptateur Pennylane pour E-invoice Transmission : dépose la facture Factur-X dans Pennylane par son API v2 (import de facture client), après avoir retrouvé ou créé le client. Non installé dans cette démo faute de compte Pennylane : fiche de présentation seule."
+              en: 'Pennylane adapter for E-invoice Transmission: deposits the Factur-X invoice in Pennylane through its v2 API (customer invoice import), after finding or creating the customer. Not installed in this demo for lack of a Pennylane account: presentation card only.'
+          demo_route: null
+          scenario:
+              fr: "Rien à essayer dans la démo : le plugin n'y est pas installé. La transmission de démonstration passe par la plateforme fictive de E-invoice Transmission, sans aucune plateforme réelle. Le code, le README et la configuration sont sur le dépôt du plugin."
+              en: "Nothing to try in the demo: the plugin is not installed here. The demonstration transmission goes through the fictitious platform of E-invoice Transmission, with no real platform. The code, the README and the configuration are in the plugin repository."
+          advised_account: sophie@fournitures-pro.example
         - slug: sylius-einvoice-transmission-plugin
           name: 'E-invoice Transmission'
           category: billing

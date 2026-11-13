@@ -45,7 +45,7 @@ final class LegalPagesTest extends WebTestCase
         $composer = json_decode((string) file_get_contents(__DIR__ . '/../../composer.json'), true, 512, \JSON_THROW_ON_ERROR);
         $plugins = array_filter(array_keys($composer['require']), static fn (string $p): bool => TmonierPackages::isPlugin($p));
 
-        self::assertCount(DemoCatalogs::pluginCount(), $plugins);
+        self::assertCount(DemoCatalogs::installedPluginCount(), $plugins);
         foreach ($plugins as $package) {
             self::assertStringContainsString('https://github.com/thibmonier/' . TmonierPackages::slug($package), $content);
         }
