@@ -114,10 +114,13 @@ final class RunTestsLockTest extends TestCase
 
     public function testALockLeftByADeadProcessIsTakenOver(): void
     {
-        $dead = new Process(['true']);
+        // The PID is read while the process lives: getPid() returns null once it has ended, and a process as short as
+        // `true` could end first, leaving an empty PID that the script rightly reads as a live run.
+        $dead = new Process(['sleep', '30']);
         $dead->start();
         $pid = $dead->getPid();
-        $dead->wait();
+        self::assertNotNull($pid);
+        $dead->stop(0);
         mkdir($this->root . '/var/run-tests.lock');
         file_put_contents($this->root . '/var/run-tests.lock/pid', (string) $pid);
 
