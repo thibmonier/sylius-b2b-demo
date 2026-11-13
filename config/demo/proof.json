@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-13T07:05:56Z",
+    "generated_at": "2026-11-13T21:10:06Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -633,7 +633,7 @@
         },
         "sylius-digital-product-passport-plugin": {
             "version": {
-                "value": "v0.3.1",
+                "value": "v0.4.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
                 "checked_at": "2026-11-13"
             },
@@ -817,7 +817,7 @@
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/actions/runs/42348709915",
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/actions/runs/43507314129",
                 "checked_at": "2026-11-13"
             },
             "phpstan": {
@@ -837,7 +837,7 @@
             },
             "coverage": {
                 "value": 82.66,
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/runs/128332446457",
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/runs/132169221475",
                 "checked_at": "2026-11-13"
             }
         },
@@ -1349,7 +1349,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/43285096962",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/43412252712",
             "checked_at": "2026-11-13"
         },
         "phpstan": {
@@ -1383,8 +1383,8 @@
             "checked_at": "2026-11-13"
         },
         "coverage": {
-            "value": 93.32,
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/131427608881",
+            "value": 93.37,
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/131849823633",
             "checked_at": "2026-11-13"
         }
     }
