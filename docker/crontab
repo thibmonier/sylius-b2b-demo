@@ -6,6 +6,11 @@ CRON_TZ=Europe/Paris
 # Outgoing webhooks (webhook-outbox): every minute, bounded
 * * * * * php /app/bin/console tmonier:webhook:dispatch --time-limit=55 --quiet
 
+# Asynchronous messages (company-verification: the SIREN/SIRET and VAT checks call two public services, up to 15 s each):
+# every minute, bounded (a run stops after 55 s or 10 messages, never overlaps the next one), consumed by the cron
+# like the webhooks, with no permanent process in the container. Only VerifyCompany is routed to "async" (config/packages/messenger.yaml).
+* * * * * php /app/bin/console messenger:consume async --time-limit=55 --limit=10 --quiet
+
 # Product feeds for AI assistants (agentic-feeds)
 */15 * * * * php /app/bin/console tmonier:feeds:generate --stale --quiet
 30 4 * * * php /app/bin/console tmonier:feeds:generate --quiet
