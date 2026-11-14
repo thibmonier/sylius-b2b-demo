@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "095dbf042e8db62ac224be902332126c",
+    "content-hash": "6527fea0216e30d84ac0e4ede3145e32",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18379,16 +18379,16 @@
         },
         {
             "name": "tmonier/sylius-facturx-plugin",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-facturx-plugin.git",
-                "reference": "48dcb8461ea2ba2efcfc75886855c9f6b0bae1bc"
+                "reference": "c9af4a6b826ed0bfed3beed95d7b68b36b872497"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-facturx-plugin/zipball/48dcb8461ea2ba2efcfc75886855c9f6b0bae1bc",
-                "reference": "48dcb8461ea2ba2efcfc75886855c9f6b0bae1bc",
+                "url": "https://api.github.com/repos/thibmonier/sylius-facturx-plugin/zipball/c9af4a6b826ed0bfed3beed95d7b68b36b872497",
+                "reference": "c9af4a6b826ed0bfed3beed95d7b68b36b872497",
                 "shasum": ""
             },
             "require": {
@@ -18456,10 +18456,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-facturx-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/tree/v1.2.0"
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/tree/v1.2.1"
             },
-            "time": "2026-11-01T11:10:24+00:00",
-            "published-time": "2026-11-01T11:10:40+00:00"
+            "time": "2026-11-13T21:04:07+00:00",
+            "published-time": "2026-11-13T21:07:28+00:00"
         },
         {
             "name": "tmonier/sylius-gpsr-plugin",

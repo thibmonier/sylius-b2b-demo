@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-13T07:03:54Z",
+    "generated_at": "2026-11-13T21:11:06Z",
     "demo": {
         "sylius": "2.3.2",
         "symfony": "8.1.11",
@@ -774,7 +774,7 @@
             },
             "fingerprint": "f9f855ead133f0250269f6a2bed9d6ce327f9fa328c48b6d8b445059fe6e2ff4",
             "demo": {
-                "version": "v1.2.0",
+                "version": "v1.2.1",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
                 "checked_at": "2026-11-13"
             }
