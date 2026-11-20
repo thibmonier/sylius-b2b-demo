@@ -29,7 +29,7 @@
         "sylius/invoicing-plugin": "^2.3",
         "sylius/mcp-server-plugin": "^0.2",
         "sylius/refund-plugin": "^2.2.1",
-        "sylius/sylius": "^2.3.2",
+        "sylius/sylius": "^2.3.3",
         "sylius/wishlist-plugin": "^1.4",
         "symfony/ai-bundle": "^0.15",
         "symfony/dotenv": "^8.1.6",
@@ -102,7 +102,7 @@
         },
         "bump-after-update": true,
         "platform": {
-            "php": "8.5.12"
+            "php": "8.5.13"
         },
         "policy": {
             "advisories": {

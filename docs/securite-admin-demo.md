@@ -45,3 +45,27 @@ Les champs modifiables (nom, descriptions, taxons, attributs) sont rendus par Tw
 - **Verrouillage temporaire** : une action `PATCH` sur une ressource autorisée (ex. désactivation d'un produit) peut vider une page du catalogue jusqu'au reset.
 - **Composants live** (`sylius_admin_live_component`) : autorisés car ils ne font que re-rendre des formulaires ; une future action live qui écrirait serait à reclasser.
 - **Limite de taille** des champs riches : celle des colonnes et des contraintes Sylius, pas de limite applicative supplémentaire.
+
+## Avis de sécurité du 18-19 novembre 2026
+
+Sylius a publié trois avis le 18 novembre, le bundle de thèmes un quatrième. `composer audit` les signalait tous, et `policy.advisories.audit: fail` les rend bloquants en CI. Corrigés par `sylius/sylius` 2.3.2 → 2.3.3 et `sylius/theme-bundle` 2.5.0 → 2.5.1.
+
+| Avis | Atteignable ici ? | Pourquoi |
+|---|---|---|
+| [GHSA-vhpc-rcxq-vfgr](https://github.com/Sylius/Sylius/security/advisories/GHSA-vhpc-rcxq-vfgr) — la configuration des passerelles de paiement est résolue comme paramètre de conteneur, service ou appelable (lecture d'`APP_SECRET`, de la phrase secrète JWT, de `DATABASE_URL`) | **Non** | Demande un administrateur capable d'éditer un moyen de paiement. `DemoAdminWriteGuard` refuse `sylius_admin_payment_method_*` en écriture comme en suppression (tableau ci-dessus) |
+| [GHSA-qf53-r587-295p](https://github.com/Sylius/Sylius/security/advisories/GHSA-qf53-r587-295p) — téléversement non validé sur les points d'entrée image de taxon et avatar de l'API admin | **Non** | L'avis vise l'API admin : Sophie n'a pas `ROLE_API_ACCESS` et le garde refuse `/api/v2/admin/*` ; les routes d'avatar (`sylius_admin_admin_user_*`) sont refusées elles aussi |
+| [GHSA-fpgw-g9hj-m43q](https://github.com/Sylius/Sylius/security/advisories/GHSA-fpgw-g9hj-m43q) — le changement d'e-mail par l'API boutique saute la revérification du compte | **Non** | Les comptes boutique partagés ne peuvent changer ni leur e-mail ni leur mot de passe |
+| [GHSA-4vqw-mj73-2359](https://github.com/Sylius/SyliusThemeBundle/security/advisories/GHSA-4vqw-mj73-2359) — traversée de chemin dans les localisateurs de gabarits de thème, atteignable par un visiteur anonyme | **Non** | Demande que le nom du gabarit vienne de la requête, ce que font `sylius/cms-plugin` et les routes `/_partial` de Sylius 1.x. Ni l'un ni l'autre ici : aucun rendu sur un nom de gabarit issu de la requête |
+
+Aucun n'était donc exploitable : le durcissement US-035 avait déjà fermé les routes visées. Les versions corrigées sont tout de même posées — la défense en profondeur ne doit pas reposer sur une seule liste blanche, et l'audit bloque la CI tant que le lock porte une version signalée.
+
+## PHP 8.5.13
+
+L'image de production tournait sur **PHP 8.5.12** ; la publication du 19 novembre (8.5.13) corrige 18 CVE. `PHP_IMAGE` passe au digest `sha256:e673b193…` du tag `1-php8.5-bookworm`, et `config.platform.php` suit.
+
+Ce qui concernait cette image :
+
+- **CVE-2026-129474** — usage après libération dans les traces des méthodes magiques, menant à l'exécution de code à distance. Propre à PHP 8.5, et rendue atteignable à distance par un changement introduit en **8.5.12**, c'est-à-dire exactement la version déployée. C'est le motif de cette mise à jour.
+- CVE-2026-129182 (trace de l'erreur fatale repeuplée après l'arrêt), CVE-2026-129496 (cache des fuseaux horaires, exécution de code à distance), CVE-2026-129501 (double libération à la sérialisation DOM — la démo sérialise du XML pour cXML et Factur-X), les trois CVE de session (126714, 115560, 129481) et les CVE URI / uriparser.
+
+Ce qui ne la concernait pas : les trois CVE PHP-FPM, dont le détournement de requête noté 9,2, et celle de PHP-CGI — FrankenPHP n'utilise ni l'un ni l'autre (ADR-0002) — ainsi que les deux CVE SOAP, `ext-soap` n'étant pas installée.
