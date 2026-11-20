@@ -17,6 +17,7 @@ final readonly class VersionsReport
         private \DateTimeImmutable $now = new \DateTimeImmutable(),
         private ?PluginRepositoriesSource $plugins = null,
         private string $owner = 'thibmonier',
+        private ?PhpUpgradeWatchSource $phpUpgrade = null,
     ) {
     }
 
@@ -36,6 +37,9 @@ final readonly class VersionsReport
         ];
         if (null !== $this->plugins) {
             $sections[] = (new PluginsWatchSection($this->owner))->render($this->plugins->statuses());
+        }
+        if (null !== $this->phpUpgrade) {
+            $sections[] = (new PhpUpgradeWatchSection())->render($this->phpUpgrade);
         }
 
         return implode("\n\n", $sections);

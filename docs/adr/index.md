@@ -16,6 +16,7 @@
 | [0013](0013-mode-worker-frankenphp.md) | Mode worker FrankenPHP : classique retenu, threads bornés | Accepté |
 | [0014](0014-symfony-8-et-fork-du-plugin-wishlist.md) | Symfony 8.1 et fork temporaire du plugin wishlist | Accepté |
 | [0015](0015-distributions-de-plugins.md) | Distributions de plugins : métapaquet puis recette Flex, deux packs | Accepté |
+| [0021](0021-montee-php-8-6-reportee.md) | Montée vers PHP 8.6 : reportée, veille automatisée | Accepté |
 | [0016](0016-facture-electronique-pa-pdp.md) | Facture électronique France : transmission vers une plateforme fictive | Accepté (stories A à C) |
 | [0017](0017-connecteur-erp-de-reference.md) | Connecteur ERP de référence : contrat neutre et ERP fictif | Accepté (story A) |
 | [0020](0020-passeport-numerique-produit-espr.md) | Passeport numérique de produit (DPP) : modèle de données préparatoire et formulation prudente | Proposé |
