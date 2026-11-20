@@ -46,7 +46,10 @@ export default defineRailway(() => {
       // Listen on the private network (IPv6 and IPv4).
       MP_SMTP_BIND_ADDR: "[::]:1025",
       MP_UI_BIND_ADDR: "[::]:8025",
-      MP_MAX_MESSAGES: "500",
+      // 50 et non 500 (mesure du 2026-11-20) : Mailpit tenait 0,22 Go de moyenne facturée,
+      // soit ~2,2 $/mois pour un attrape-mail, deuxième poste mémoire de la démo derrière le web.
+      // Une démo remise à zéro chaque nuit n'a pas besoin d'en conserver 500.
+      MP_MAX_MESSAGES: "50",
     },
   });
 
