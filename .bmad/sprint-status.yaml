@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 56
+current_sprint: 57
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -970,16 +970,60 @@ sprints:
       - {id: T-288-04, title: "Traductions FR/EN, capture de la page, CHANGELOG", type: DOC, hours: 1.5, status: done}  # health #2 puis #4, v0.1.0
     notes: "PLANIFIÉ le 2026-11-22 à la demande de Thibaut (nouveau plugin « santé de la plateforme », EPIC-20 à EPIC-23, 27 stories, 113 points). Socle seulement : aucune sonde réelle livrée, les sondes arrivent aux sprints 57+. Quatre arbitrages de Thibaut du 2026-11-22 consignés dans sprint-goal.md (périmètre complet, sondes de plugins par suggest, historique dès la v1, alertes courriel + webhook-outbox). PORTE : aucun dépôt créé avant que Thibaut ait lu la conclusion du spike US-286 ; si elle conclut « envelopper un bundle existant », US-287 et US-288 sont re-estimées et le sprint peut retomber à 3 points engagés. État vérifié le 2026-11-22 : #188 ouverte, #191 et #192 fusionnées, PR #31 du thème ouverte (dernier tag v0.3.1). Actions de Thibaut : fusion de la PR #31 du thème et tag v0.3.2 (débloque T-TECH-56-02), railway config apply de MP_MAX_MESSAGES, GO sur le nom du paquet. 2026-11-22 (auto-sprint) : GO de Thibaut sur le spike et le nom du paquet ; dépôt sylius-platform-health-plugin créé ; US-287 (health #1) et US-288 (health #2) en review, CI vertes ; T-TECH-56-02 (#200) et T-TECH-56-04 (thème #32) en review ; thème v0.3.2 tagué ; ADR-0021 rouverte, US-313 au backlog ; revue et rétro écrites (actions A-56-1 à 5). Fusions par Thibaut. Clôture 2026-11-22 : health #1, #2 et #4 fusionnées, v0.1.0 taguée et publiée sur Packagist ; thème #32 et démo #200 fusionnés ; décision A de Thibaut sur identifier() (constante littérale, attribut PHP possible plus tard en version mineure) ; railway config apply de MP_MAX_MESSAGES fait par Thibaut (relevé railway usage à J+2) ; T-TECH-56-05 : report plugin-supply-chain tout PASS (lock-review N/A). Sprint CLOS le 2026-11-22 : 13/13 points, toutes les tâches faites (T-TECH-56-03 annulée)."
 
+  sprint-57:
+    name: sprint-57-sondes-et-securite
+    status: planned
+    sprint_id: "sprint-57"
+    start_date: "2026-12-10"
+    end_date: "2026-12-24"
+    capacity_points: 15
+    goal: "La page de santé de la plateforme affiche ses premières vraies sondes, celles de l'environnement, derrière un rôle dédié, sans valeur sensible à l'écran et lisible sans la couleur, et le plugin entre dans la démo"
+    stories:
+      - {id: US-293, title: "Sondes d'environnement : versions PHP/Symfony/Sylius, fin de support, extensions, OPcache, APP_DEBUG", points: 5, status: ready-for-dev}  # T-293-01..04 ; plugin de santé ; 1re story, après T-TECH-57-02 et 57-03 ; table des fins de support figée dans le code
+      - {id: US-290, title: "Santé de la plateforme : rôle dédié ROLE_PLATFORM_HEALTH_VIEW, masquage des valeurs sensibles, aucune trace d'exécution à l'écran", points: 3, status: ready-for-dev}  # T-290-01..05 ; plugin de santé ; commande grant-role ; garde du Live Component hors préfixe /admin
+      - {id: US-291, title: "Santé de la plateforme : accessibilité AA, statut jamais porté par la seule couleur, mode sombre", points: 3, status: ready-for-dev}  # T-291-01..04 ; plugin de santé
+      - {id: US-289, title: "Santé de la plateforme : encart du tableau de bord admin, un feu par catégorie", points: 3, status: ready-for-dev}  # T-289-01..04 ; plugin de santé ; SACRIFIÉE EN PREMIER (point de contrôle 2026-12-16)
+      - {id: US-292, title: "Santé de la plateforme : traductions FR/EN, README, capture, CHANGELOG, intégration à la démo", points: 3, status: ready-for-dev}  # T-292-01..05 ; plugin puis démo ; la partie démo attend le tag v0.2.0 de Thibaut
+    sprint_tasks:
+      - {id: T-TECH-57-01, title: "current_sprint 57, sprint 57 planifié, fiches US-289 à US-293", type: OPS, hours: 0.5, status: done}
+      - {id: T-TECH-57-02, title: "A-56-4, démo : corriger les 4 tests instables (CheckDiskTest locale fixée, CleanTestCachesTest horloge injectée, WebhookDeliveryTest et RenderPageTest délais indépendants de la charge) avant US-293", type: TEST, hours: 4, status: todo}  # mesure : 5 exécutions consécutives de la suite non unitaire sans échec, dont une avec LC_ALL=fr_FR.UTF-8
+      - {id: T-TECH-57-03, title: "A-56-1, plugin de santé : le pas non unitaire de la CI s'exécute même si l'unitaire échoue (if: !cancelled()), idem gabarit de nouveau plugin ; PR fusionnée avant les branches de story", type: OPS, hours: 1.5, status: todo}
+      - {id: T-TECH-57-04, title: "A-56-1/2/3/5 : règles 26 à 29 dans project-management/templates/consigne-worker.md", type: DOC, hours: 0.5, status: done}  # écrites à la planification le 2026-11-22
+      - {id: T-TECH-57-05, title: "Dependabot : vérifier la PR des 2 paquets restants de #188 (fermée), sinon @dependabot recreate", type: OPS, hours: 0.25, status: todo}
+      - {id: T-293-01, title: "Tests rouges des six sondes d'environnement (horloge injectée)", type: TEST, hours: 3, status: todo}
+      - {id: T-293-02, title: "EndOfSupportTable versionnée, sondes PHP, Sylius et Symfony", type: BE, hours: 3.5, status: todo}
+      - {id: T-293-03, title: "Sondes extensions, OPcache, APP_DEBUG, seuils configurables, liens d'action", type: BE, hours: 3.5, status: todo}
+      - {id: T-293-04, title: "Traductions FR/EN des sondes, README, CHANGELOG", type: DOC, hours: 1.5, status: todo}
+      - {id: T-290-01, title: "Tests rouges : 403 page, composant et rafraîchissement hors rôle, masquage, commande idempotente", type: TEST, hours: 2.5, status: todo}
+      - {id: T-290-02, title: "Garde sur la route, IsGranted sur le composant, menu conditionnel", type: BE, hours: 2.5, status: todo}
+      - {id: T-290-03, title: "SensitiveValueMasker au rendu, détection de trace d'exécution, journalisation", type: BE, hours: 2, status: todo}
+      - {id: T-290-04, title: "Commande tmonier:platform-health:grant-role (--email, --all)", type: BE, hours: 1.5, status: todo}
+      - {id: T-290-05, title: "README EN/FR (rôle, commande, rupture depuis 0.1.0), CHANGELOG", type: DOC, hours: 1, status: todo}
+      - {id: T-291-01, title: "Tests rouges : statut écrit, icône distincte, tableau annoncé, région d'état, contraste calculé clair et sombre", type: TEST, hours: 2, status: todo}
+      - {id: T-291-02, title: "Gabarits accessibles : table légendée, details, jetons CSS data-bs-theme, role=status, mouvement réduit", type: FE-WEB, hours: 3.5, status: todo}
+      - {id: T-291-03, title: "Revue manuelle : clavier, lecteur d'écran, mode sombre, capture", type: REV, hours: 1.5, status: todo}
+      - {id: T-291-04, title: "CHANGELOG, section accessibilité du README", type: DOC, hours: 0.5, status: todo}
+      - {id: T-289-01, title: "Tests rouges : un feu par catégorie, tableau de bord sans attendre, cache partagé, 403, échec silencieux", type: TEST, hours: 2, status: todo}
+      - {id: T-289-02, title: "Hook du tableau de bord, Live Component différé, lecture du cache mutualisé", type: FE-WEB, hours: 3, status: todo}
+      - {id: T-289-03, title: "Visibilité par rôle, échec de l'encart journalisé sans effet", type: BE, hours: 1, status: todo}
+      - {id: T-289-04, title: "Traductions FR/EN, capture du tableau de bord, CHANGELOG", type: DOC, hours: 1, status: todo}
+      - {id: T-292-01, title: "Tests rouges : complétude des traductions FR/EN", type: TEST, hours: 1.5, status: todo}
+      - {id: T-292-02, title: "README EN/FR réécrits, captures réelles FR/EN clair/sombre, CHANGELOG 0.2.0", type: DOC, hours: 3, status: todo}
+      - {id: T-292-03, title: "Démo : installation de la v0.2.0, plugins.yaml, rôle accordé aux comptes d'administration publics, compat-refresh, proof-refresh", type: OPS, hours: 3.5, status: todo}  # attend le GO et le tag v0.2.0 de Thibaut
+      - {id: T-292-04, title: "Démo : page visible avec le rôle, 403 sans, rôle accordé au chargement des fixtures", type: TEST, hours: 2, status: todo}
+      - {id: T-292-05, title: "Captures de la démo relues à 1280 px", type: REV, hours: 0.5, status: todo}
+    notes: "PLANIFIÉ le 2026-11-22. Décisions de Thibaut du 2026-11-22 : (1) périmètre complet de 17 points, au-dessus de la capacité de 15 (113 %), ordre de sacrifice US-289 d'abord, point de contrôle le 2026-12-16 (US-293 et US-290 fusionnées, sinon US-289 retirée) ; (2) US-290 rôle dédié ROLE_PLATFORM_HEALTH_VIEW accordé par défaut au super-administrateur : Sylius 2 n'a pas de permissions fines ni de super-administrateur distinct, mécanisme = rôle Symfony + commande tmonier:platform-health:grant-role --all (rupture assumée depuis la v0.1.0, à confirmer par Thibaut) ; (3) US-293 dates de fin de support figées dans le code, version de table affichée, aucun appel réseau ; (4) le plugin entre dans la démo au sprint 57 par US-292, avec les vraies sondes d'US-293 (US-292 dépend d'US-293) ; (5) décision A : identifier() reste une constante littérale ; (6) décisions des epics maintenues (suggest, historique en base, alertes courriel et webhook-outbox). Tâches techniques issues de la rétro du sprint 56 : A-56-4 (T-TECH-57-02, avant US-293), A-56-1 (T-TECH-57-03), règles 26 à 29 (T-TECH-57-04, faites). Contrainte d'exécution : un seul dépôt pour les cinq stories, un worker à la fois, pas de PR empilée (règle 27), chaque story fusionnée avant la suivante. Actions de Thibaut : GO et tag v0.2.0 puis Packagist (débloque la partie démo d'US-292), railway usage 48 h après MP_MAX_MESSAGES, lecture d'US-290. US-313 (PHP 8.6) reste au backlog, hors sprint 57. Piège relevé : le Live Component est servi hors du préfixe /admin, donc hors de l'access_control de Sylius (garde ajouté par US-290)."
+
 backlog:
   # --- Nouveau plugin « santé de la plateforme » (demande de Thibaut du 2026-11-22) : EPIC-20 à EPIC-23, US-286 à US-312, 27 stories, 113 points, sprints 56 à 61 proposés. Arbitrages du 2026-11-22 : périmètre complet, sondes de plugins par suggest + vérification de classe, historique en base dès la v1, alertes courriel + webhook-outbox. Fiches rédigées pour le sprint 56 seulement (US-286 à US-288) ; les autres au cadrage de leur sprint.
   - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite
   - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite ; bloque toutes les sondes des EPIC-21 à 23
   - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite
-  - {id: US-289, title: "Santé de la plateforme : encart du tableau de bord admin, un feu par catégorie", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
-  - {id: US-290, title: "Santé de la plateforme : rôle dédié, masquage des valeurs sensibles, aucune trace d'exécution à l'écran", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57 ; question ouverte : ROLE_PLATFORM_HEALTH_VIEW ou ROLE_ADMINISTRATION_ACCESS
-  - {id: US-291, title: "Santé de la plateforme : accessibilité AA, statut jamais porté par la seule couleur, mode sombre", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
-  - {id: US-292, title: "Santé de la plateforme : traductions FR/EN, README, capture, CHANGELOG, intégration à la démo", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
-  - {id: US-293, title: "Sondes d'environnement : versions PHP/Symfony/Sylius, fin de support, extensions, OPcache, APP_DEBUG", points: 5, status: backlog}  # EPIC-21, Must ; sprint 57 ; question ouverte : dates de fin de support figées dans le code ou lues en ligne
+  - {id: US-289, title: "Santé de la plateforme : encart du tableau de bord admin, un feu par catégorie", points: 3, status: ready-for-dev}  # EPIC-20, Must ; sprint 57 ; fiche écrite ; sacrifiée en premier (point de contrôle 2026-12-16)
+  - {id: US-290, title: "Santé de la plateforme : rôle dédié, masquage des valeurs sensibles, aucune trace d'exécution à l'écran", points: 3, status: ready-for-dev}  # EPIC-20, Must ; sprint 57 ; fiche écrite ; question tranchée par Thibaut le 2026-11-22 : rôle dédié ROLE_PLATFORM_HEALTH_VIEW, accordé par commande (pas de super-administrateur distinct dans Sylius 2)
+  - {id: US-291, title: "Santé de la plateforme : accessibilité AA, statut jamais porté par la seule couleur, mode sombre", points: 3, status: ready-for-dev}  # EPIC-20, Must ; sprint 57 ; fiche écrite
+  - {id: US-292, title: "Santé de la plateforme : traductions FR/EN, README, capture, CHANGELOG, intégration à la démo", points: 3, status: ready-for-dev}  # EPIC-20, Must ; sprint 57 ; fiche écrite ; dépend d'US-290, US-291 et US-293 ; partie démo après le tag v0.2.0
+  - {id: US-293, title: "Sondes d'environnement : versions PHP/Symfony/Sylius, fin de support, extensions, OPcache, APP_DEBUG", points: 5, status: ready-for-dev}  # EPIC-21, Must ; sprint 57 ; fiche écrite ; question tranchée par Thibaut le 2026-11-22 : dates de fin de support figées dans le code
   - {id: US-294, title: "Sondes de données : connexion, migrations en attente, dérive du schéma, tables qui grossissent sans purge", points: 5, status: backlog}  # EPIC-21, Must ; sprint 58
   - {id: US-295, title: "Sondes de files et de cache : messages en attente, âge du plus ancien, transport d'échec, dossiers inscriptibles", points: 5, status: backlog}  # EPIC-21, Must ; sprint 58
   - {id: US-296, title: "Battement des tâches planifiées : rythme attendu déclaré, détection d'un cron qui ne réussit plus", points: 5, status: backlog}  # EPIC-21, Must ; sprint 58 ; rythme déclaré en configuration, pas par attribut (décision dérivée de la règle d'inversion d'US-303)

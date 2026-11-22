@@ -53,7 +53,7 @@ Voir [roadmap-innovation](roadmap-innovation.md) : 28 stories (US-210 à US-237)
 
 Demande de Thibaut du 2026-11-22. Paquet `tmonier/sylius-platform-health-plugin` : un écran d'administration qui
 répond « est-ce que ma plateforme va bien ? », chaque alerte portant le lien qui la corrige. 27 stories (US-286 à
-US-312), 113 points, sprints 56 à 61 proposés. Les fiches US restent à rédiger au cadrage.
+US-312), 113 points, sprints 56 à 61 proposés. Fiches écrites : US-286 à US-288 (sprint 56, livrées en v0.1.0) et US-289 à US-293 (sprint 57, 17 points sur 15 de capacité, `ready-for-dev`) ; les autres au cadrage de leur sprint.
 
 | Epic | Titre | Stories | Points |
 |---|---|---|---|
