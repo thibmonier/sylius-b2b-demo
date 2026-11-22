@@ -13,3 +13,4 @@
 | [US-005](../user-stories/US-005.md) | CI GitHub Actions et tests de fumée | Must | 3 | 1 |
 | [US-006](../user-stories/US-006.md) | Spike : mode worker FrankenPHP | Should | 2 | 6 |
 | [US-147](../user-stories/US-147.md) | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 | 18 |
+| [US-313](../user-stories/US-313.md) | Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14 | Should | 5 | à planifier (sprint 57+) |

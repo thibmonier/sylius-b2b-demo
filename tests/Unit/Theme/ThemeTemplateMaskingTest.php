@@ -20,8 +20,8 @@ final class ThemeTemplateMaskingTest extends TestCase
     /** Decided pairs: relative path => why the demo keeps its own version. */
     private const ACCEPTED = [
         'SyliusShopBundle/shared/layout/base.html.twig' => 'Demo layout (landmarks, skip link, measurement): used by every channel. It would be masked by the theme version on any channel that activates the theme.',
-        'SyliusShopBundle/shared/layout/base/footer/content.html.twig' => 'Demo footer, used by every channel; masked by the theme version once a channel activates the theme.',
-        'SyliusShopBundle/shared/flashes.html.twig' => 'Demo flash messages (live region), used by every channel; masked by the theme version once a channel activates the theme.',
+        'SyliusShopBundle/shared/layout/base/header/content/security/visitor/desktop/register.html.twig' => 'Demo "Register" link (US-162), used by every channel: hidden when the registration is closed. The theme version (0.3.2) asks RegistrationLinkPolicyInterface, aliased on the same rule (DemoRegistrationLinkPolicy); without this copy a channel without the theme would show a link to a 403.',
+        'SyliusShopBundle/shared/components/header/cart.html.twig' => 'Demo cart button (US-077 accessible name, US-192 amount only below xxl on the B2B channel), used by every channel; masked by the theme version (0.3.1) once a channel activates the theme.',
         'SyliusShopBundle/product/index/content/body/main/products.html.twig' => 'Demo product cards, used by every channel; masked by the theme version once a channel activates the theme.',
     ];
 

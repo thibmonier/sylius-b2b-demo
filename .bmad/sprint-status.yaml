@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 55
+current_sprint: 56
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -923,7 +923,7 @@ sprints:
 
   sprint-55:
     name: sprint-55-plugins-ecosysteme
-    status: in-progress
+    status: done  # clos le 2026-11-13 : trois PR fusionnées par Thibaut, releases publiées, revue et rétro écrites
     sprint_id: "sprint-55"
     start_date: "2026-11-12"
     end_date: "2026-11-26"
@@ -940,7 +940,66 @@ sprints:
       - {id: T-TECH-55-04, title: "plugin-repositories.json : deux nouveaux dépôts, plugin-supply-chain report", type: OPS, hours: 0.5, status: done}  # report 2026-11-13 : tout PASS sur les trois dépôts
     notes: "PLANIFIÉ et LANCÉ le 2026-11-12 par /workflow:auto-sprint 55 ; périmètre de l'analyse de l'écosystème (PR #186). Décisions de cadrage dans sprint-goal.md. Un worker par dépôt. Aucun tag ni fusion sans GO de Thibaut. 2026-11-12 : trois PR vertes (company-verification #1 495ec0d, einvoice-pennylane #1 15e2ff9, DPP #20 1d69eb0), stories en review ; revue et rétro écrites ; US-285 ajoutée au backlog. 2026-11-13 : PR fusionnées par Thibaut (be45df1, 62a430b, 4958a6a), CI de main verte, releases company-verification v0.1.0, einvoice-pennylane v0.1.0, passeport v0.4.0."
 
+  sprint-56:
+    name: sprint-56-sante-plateforme
+    status: done
+    sprint_id: "sprint-56"
+    start_date: "2026-11-26"
+    end_date: "2026-12-10"
+    capacity_points: 15
+    goal: "Un administrateur ouvre une page et voit, catégorie par catégorie, l'état de sa plateforme ; un intégrateur y ajoute sa propre sonde en quinze lignes, sans configuration et sans pouvoir casser l'administration"
+    stories:
+      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # T-286-01..02 ; note de cadrage ccb1d53 ; GO de Thibaut du 2026-11-22 sur la conclusion « écrire » et le nom du paquet ; timebox 7 h (+1 h question 6, confirmée par Thibaut le 2026-11-22)
+      - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: done}  # T-287-01..04 ; health #1 fusionnée (09a8e93) ; v0.1.0 taguée (0b525d3) et publiée sur Packagist par Thibaut le 2026-11-22 ; décision A de Thibaut : identifier() reste une constante littérale
+      - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: done}  # T-288-01..04 ; health #2 fusionnée dans la branche d'US-287 (3bfae1a) puis portée sur main par #4 (0b525d3) ; v0.1.0
+    sprint_tasks:
+      - {id: T-TECH-56-01, title: "current_sprint 56, sprint 56 planifié, US-286 à US-312 au backlog", type: OPS, hours: 0.5, status: done}
+      - {id: T-TECH-56-02, title: "Démo #188 : alias RegistrationLinkPolicyInterface, suppression du register.html.twig local, retrait des deux entrées périmées d'ACCEPTED", type: BE, hours: 2, status: done}  # démo #200 fusionnée par Thibaut (rebase, 29ee258..edcecdb) ; preuve publiée régénérée ; écart : register.html.twig local conservé ; rouge vu en local seulement (action A-56-1)
+      - {id: T-TECH-56-03, title: "Dependabot #191 et #192 : @dependabot rebase", type: OPS, hours: 0, status: cancelled}  # SANS OBJET : fusionnées par Thibaut le 2026-11-21 (3dd360f, 48b708b), vérifié le 2026-11-22
+      - {id: T-TECH-56-04, title: "Thème : HidePricesVoter compatible avec le 4e paramètre ?Vote de Symfony 8, en restant compatible 7.4", type: TEST, hours: 1, status: done}  # thème #32 fusionné par Thibaut le 2026-11-22
+      - {id: T-TECH-56-05, title: "plugin-repositories.json : dépôt du plugin de santé, plugin-supply-chain report", type: OPS, hours: 0.5, status: done}  # report du 2026-11-22 sur sylius-platform-health-plugin : pinned-actions, permissions, persist-credentials, pull-request-target, zizmor, composer-audit, policy, allow-plugins, dependabot PASS ; lock-review N/A (pas de composer.lock) ; ci success
+      - {id: T-286-01, title: "Spike : relevé des cinq questions, sources datées", type: DOC, hours: 3, status: done}
+      - {id: T-286-02, title: "Spike : note de cadrage, conclusion envelopper/écrire, nom du paquet et rendu différé tranchés", type: DOC, hours: 2, status: done}
+      - {id: T-287-01, title: "Dépôt du plugin de santé, squelette, PHPStan/ECS/Rector sur src et tests, supply-chain, CI verte à vide", type: OPS, hours: 2, status: done}  # health #1, v0.1.0
+      - {id: T-287-02, title: "Tests rouges du Runner : trois sondes, aucune, budget dépassé, exception, identifiant en double", type: TEST, hours: 2.5, status: done}  # health #1, v0.1.0
+      - {id: T-287-03, title: "Contrat de sonde et HealthCheckRunner à sécurité passive, passe de compilation d'unicité", type: BE, hours: 4, status: done}  # health #1, v0.1.0
+      - {id: T-287-04, title: "README EN/FR (contrat, sonde en 15 lignes, non-objectifs), CHANGELOG", type: DOC, hours: 1.5, status: done}  # health #1, v0.1.0
+      - {id: T-288-01, title: "Tests rouges de la page : synthèse et ordre, rendu sans sonde, cache, rafraîchissement, non mesurable", type: TEST, hours: 2.5, status: done}  # health #2 puis #4, v0.1.0
+      - {id: T-288-02, title: "Page sous Configuration, menu, rendu différé, synthèse par catégorie, détail, lien d'action", type: FE-WEB, hours: 4, status: done}  # health #2 puis #4, v0.1.0
+      - {id: T-288-03, title: "Cache court mutualisé, TTL configurable, rafraîchissement explicite", type: BE, hours: 2, status: done}  # health #2 puis #4, v0.1.0
+      - {id: T-288-04, title: "Traductions FR/EN, capture de la page, CHANGELOG", type: DOC, hours: 1.5, status: done}  # health #2 puis #4, v0.1.0
+    notes: "PLANIFIÉ le 2026-11-22 à la demande de Thibaut (nouveau plugin « santé de la plateforme », EPIC-20 à EPIC-23, 27 stories, 113 points). Socle seulement : aucune sonde réelle livrée, les sondes arrivent aux sprints 57+. Quatre arbitrages de Thibaut du 2026-11-22 consignés dans sprint-goal.md (périmètre complet, sondes de plugins par suggest, historique dès la v1, alertes courriel + webhook-outbox). PORTE : aucun dépôt créé avant que Thibaut ait lu la conclusion du spike US-286 ; si elle conclut « envelopper un bundle existant », US-287 et US-288 sont re-estimées et le sprint peut retomber à 3 points engagés. État vérifié le 2026-11-22 : #188 ouverte, #191 et #192 fusionnées, PR #31 du thème ouverte (dernier tag v0.3.1). Actions de Thibaut : fusion de la PR #31 du thème et tag v0.3.2 (débloque T-TECH-56-02), railway config apply de MP_MAX_MESSAGES, GO sur le nom du paquet. 2026-11-22 (auto-sprint) : GO de Thibaut sur le spike et le nom du paquet ; dépôt sylius-platform-health-plugin créé ; US-287 (health #1) et US-288 (health #2) en review, CI vertes ; T-TECH-56-02 (#200) et T-TECH-56-04 (thème #32) en review ; thème v0.3.2 tagué ; ADR-0021 rouverte, US-313 au backlog ; revue et rétro écrites (actions A-56-1 à 5). Fusions par Thibaut. Clôture 2026-11-22 : health #1, #2 et #4 fusionnées, v0.1.0 taguée et publiée sur Packagist ; thème #32 et démo #200 fusionnés ; décision A de Thibaut sur identifier() (constante littérale, attribut PHP possible plus tard en version mineure) ; railway config apply de MP_MAX_MESSAGES fait par Thibaut (relevé railway usage à J+2) ; T-TECH-56-05 : report plugin-supply-chain tout PASS (lock-review N/A). Sprint CLOS le 2026-11-22 : 13/13 points, toutes les tâches faites (T-TECH-56-03 annulée)."
+
 backlog:
+  # --- Nouveau plugin « santé de la plateforme » (demande de Thibaut du 2026-11-22) : EPIC-20 à EPIC-23, US-286 à US-312, 27 stories, 113 points, sprints 56 à 61 proposés. Arbitrages du 2026-11-22 : périmètre complet, sondes de plugins par suggest + vérification de classe, historique en base dès la v1, alertes courriel + webhook-outbox. Fiches rédigées pour le sprint 56 seulement (US-286 à US-288) ; les autres au cadrage de leur sprint.
+  - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite
+  - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite ; bloque toutes les sondes des EPIC-21 à 23
+  - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite
+  - {id: US-289, title: "Santé de la plateforme : encart du tableau de bord admin, un feu par catégorie", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
+  - {id: US-290, title: "Santé de la plateforme : rôle dédié, masquage des valeurs sensibles, aucune trace d'exécution à l'écran", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57 ; question ouverte : ROLE_PLATFORM_HEALTH_VIEW ou ROLE_ADMINISTRATION_ACCESS
+  - {id: US-291, title: "Santé de la plateforme : accessibilité AA, statut jamais porté par la seule couleur, mode sombre", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
+  - {id: US-292, title: "Santé de la plateforme : traductions FR/EN, README, capture, CHANGELOG, intégration à la démo", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
+  - {id: US-293, title: "Sondes d'environnement : versions PHP/Symfony/Sylius, fin de support, extensions, OPcache, APP_DEBUG", points: 5, status: backlog}  # EPIC-21, Must ; sprint 57 ; question ouverte : dates de fin de support figées dans le code ou lues en ligne
+  - {id: US-294, title: "Sondes de données : connexion, migrations en attente, dérive du schéma, tables qui grossissent sans purge", points: 5, status: backlog}  # EPIC-21, Must ; sprint 58
+  - {id: US-295, title: "Sondes de files et de cache : messages en attente, âge du plus ancien, transport d'échec, dossiers inscriptibles", points: 5, status: backlog}  # EPIC-21, Must ; sprint 58
+  - {id: US-296, title: "Battement des tâches planifiées : rythme attendu déclaré, détection d'un cron qui ne réussit plus", points: 5, status: backlog}  # EPIC-21, Must ; sprint 58 ; rythme déclaré en configuration, pas par attribut (décision dérivée de la règle d'inversion d'US-303)
+  - {id: US-297, title: "Sondes de courriel et d'adressage : mailer configuré, dernier envoi, canal sans URL, HTTPS et en-têtes", points: 3, status: backlog}  # EPIC-21, Should ; sprint 59
+  - {id: US-298, title: "Audit de dépendances : lecture d'un rapport composer audit produit ailleurs, unknown si absent ou périmé", points: 5, status: backlog}  # EPIC-21, Should ; sprint 59 ; aucun appel réseau depuis l'administration
+  - {id: US-299, title: "Sonde de dernière sauvegarde ou remise à zéro, par crochet facultatif de l'hébergeur", points: 3, status: backlog}  # EPIC-21, Could ; non planifiée (Railway n'expose pas la date sur le plan utilisé)
+  - {id: US-300, title: "Sondes de configuration de boutique : canal sans paiement, sans livraison, sans locale, zone ou taxe manquante", points: 5, status: backlog}  # EPIC-22, Must ; sprint 59
+  - {id: US-301, title: "Sondes de catalogue : produits activés sans prix, sans image, sans stock ni réassort, avec lien vers la grille filtrée", points: 5, status: backlog}  # EPIC-22, Must ; sprint 59
+  - {id: US-302, title: "Sondes de flux de commandes : commandes immobilisées, paiements en échec, impayés, taux de paniers abandonnés", points: 5, status: backlog}  # EPIC-22, Must ; sprint 60 ; taux (et non compte) puisque l'historique est retenu
+  - {id: US-303, title: "Mécanisme des sondes facultatives : un plugin fournit sa sonde sans dépendre du plugin de santé", points: 5, status: backlog}  # EPIC-22, Must ; sprint 58 ; suggest + vérification de classe (arbitrage de Thibaut du 2026-11-22) ; bloque US-304 à US-306
+  - {id: US-304, title: "Sondes des plugins B2B (lot 1) : webhook-outbox, purchase-approval, trade-credit", points: 5, status: backlog}  # EPIC-22, Must ; sprint 60 ; ouvre un tag mineur dans trois dépôts
+  - {id: US-305, title: "Sondes des plugins B2B (lot 2) : punchout-cxml, facturx/einvoice-transmission, company-verification, b2b-mcp", points: 5, status: backlog}  # EPIC-22, Should ; sprint 61
+  - {id: US-306, title: "Sondes des plugins de conformité : gpsr, digital-product-passport, withdrawal", points: 3, status: backlog}  # EPIC-22, Should ; sprint 61
+  - {id: US-307, title: "Commande tmonier:health:check : sortie texte ou JSON, code de sortie 0/1/2, filtres --category et --only", points: 3, status: backlog}  # EPIC-23, Must ; sprint 60
+  - {id: US-308, title: "Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit", points: 5, status: backlog}  # EPIC-23, Must ; sprint 60 ; généralise le /healthz manuel de la démo (US-049) ; touche .railway/railway.ts, à arbitrer
+  - {id: US-309, title: "Historique : instantané périodique, courbe par sonde sur 30 jours, purge configurable", points: 5, status: backlog}  # EPIC-23, Must (passée de Should à Must par l'arbitrage de Thibaut du 2026-11-22) ; sprint 61
+  - {id: US-310, title: "Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif", points: 5, status: backlog}  # EPIC-23, Should ; sprint 61 ; les deux canaux retenus (arbitrage du 2026-11-22) ; dépend d'US-309
+  - {id: US-311, title: "Export du rapport de santé : page imprimable et JSON daté pour une revue d'exploitation", points: 3, status: backlog}  # EPIC-23, Could ; non planifiée
+  - {id: US-312, title: "Santé de la plateforme : page Preuve technique, fixtures produisant une alerte volontaire, capture et post d'annonce", points: 3, status: backlog}  # EPIC-23, Should ; sprint 61 ; EPIC-13 pour le post
+  - {id: US-313, title: "Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14", points: 5, status: backlog}  # EPIC-01, Should ; hors sprint 56, à planifier sprint 57+ ; réouverture de l'ADR-0021 décidée par Thibaut le 2026-11-22 (spike US-286, question 6)
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: done}  # EPIC-16, Must ; sprint 37 ; décision de Thibaut du 2026-10-30

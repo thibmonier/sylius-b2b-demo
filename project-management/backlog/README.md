@@ -48,3 +48,24 @@ Voir [roadmap-innovation](roadmap-innovation.md) : 28 stories (US-210 à US-237)
 | [EPIC-18](epics/EPIC-18.md) | Thème « Industrie & Négoce » | 8 | 34 |
 | [EPIC-19](epics/EPIC-19.md) | Passeport numérique produit (DPP) | 7 | 23 |
 | Transverse | Posts et GIF par plugin (EPIC-13), parcours guidé copilote (EPIC-12) | 2 | 8 |
+
+## Nouveau plugin : santé de la plateforme (2026-11-22)
+
+Demande de Thibaut du 2026-11-22. Paquet `tmonier/sylius-platform-health-plugin` : un écran d'administration qui
+répond « est-ce que ma plateforme va bien ? », chaque alerte portant le lien qui la corrige. 27 stories (US-286 à
+US-312), 113 points, sprints 56 à 61 proposés. Les fiches US restent à rédiger au cadrage.
+
+| Epic | Titre | Stories | Points |
+|---|---|---|---|
+| [EPIC-20](epics/EPIC-20.md) | Socle, contrat de sonde et tableau de bord admin | 7 | 25 |
+| [EPIC-21](epics/EPIC-21.md) | Sondes d'environnement, de données et de tâches planifiées | 7 | 31 |
+| [EPIC-22](epics/EPIC-22.md) | Sondes métier et sondes des plugins de l'écosystème | 7 | 33 |
+| [EPIC-23](epics/EPIC-23.md) | Exposition, historique et alertes | 6 | 24 |
+
+**MoSCoW** : Must 19 stories (83 points), Should 6 stories (24 points), Could 2 stories (6 points).
+
+**Décisions de cadrage du 2026-11-22** : périmètre complet (technique, métier et sondes des plugins) ; sondes de plugins par `suggest` et vérification de classe, sans dépendance obligatoire ; historique en base dès la v1 ; alertes par courriel et par `webhook-outbox`, à la transition d'état seulement.
+
+## Socle de la démo : montée PHP 8.6 (2026-11-22)
+
+[US-313](user-stories/US-313.md) — Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14 · [EPIC-01](epics/EPIC-01.md) · Should · 5 points · à planifier (sprint 57+). Issue de la question 6 du spike US-286 ; réouverture de l'[ADR-0021](../../docs/adr/0021-montee-php-8-6-reportee.md) décidée par Thibaut le 2026-11-22.
