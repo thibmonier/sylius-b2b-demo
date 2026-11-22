@@ -1,6 +1,6 @@
-# Workflow claude-craft — démo B2B Sylius
+# Workflow bear-craft — démo B2B Sylius
 project: sylius-b2b-demo
-track: enterprise            # forcé (/workflow:init --enterprise), score de complexité 17/18
+track: enterprise            # forcé (/bear-workflow:init --enterprise), score de complexité 17/18
 initialized_at: 2026-10-15T00:00:00+02:00
 current_phase: implementation
 
@@ -64,8 +64,8 @@ phases:
       - "invoicing et refund exigent knp-snappy : wkhtmltox 0.12.6.1 (patched qt) dans l'image bookworm"
   implementation:
     status: in_progress
-    sprint_1: {status: in_progress, branch: feature/sprint-1-walking-skeleton, runner: /workflow:auto-sprint 001}
+    sprint_1: {status: in_progress, branch: feature/sprint-1-walking-skeleton, runner: /bear-workflow:auto-sprint 001}
 
 next_action: "Sprint 54 terminé (thème v0.3.1 publié) ; prochain sprint à cadrer avec Thibaut (backlog prêt quasi vide, US-128 après le bilan J+30 du 2026-11-18)"
 updated_at: 2026-11-12T00:00:00+01:00
-next_command: "/workflow:start 55"
+next_command: "/bear-workflow:start 55"
