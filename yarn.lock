@@ -923,7 +923,7 @@
     "@babel/preset-env" "^7.25.8"
     "@hotwired/stimulus" "^3.2.2"
     "@popperjs/core" "^2.11.8"
-    "@sylius/admin-bundle" "file:../usr/local/share/.cache/yarn/v6/npm-@sylius-ui-admin-2.0.0-616798a8-7494-4e4a-8207-75f3f97e0b14-1792078914316/node_modules/@sylius-ui/assets"
+    "@sylius/admin-bundle" "file:vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/assets"
     "@symfony/stimulus-bridge" "^3.2.0"
     "@symfony/webpack-encore" "^6.0.0"
     "@tabler/core" "~1.4.0"
@@ -947,7 +947,7 @@
     "@babel/preset-env" "^7.25.8"
     "@hotwired/stimulus" "^3.2.2"
     "@popperjs/core" "^2.11.8"
-    "@sylius/shop-bundle" "file:../usr/local/share/.cache/yarn/v6/npm-@sylius-ui-shop-2.0.0-335c02c3-bc01-4b94-aa65-ad25c026a467-1792078916998/node_modules/@sylius-ui/assets"
+    "@sylius/shop-bundle" "file:vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/assets"
     "@symfony/stimulus-bridge" "^3.2.0"
     "@symfony/webpack-encore" "^6.0.0"
     bootstrap "^5.3.8"
@@ -1000,6 +1000,27 @@
     terser-webpack-plugin "^5.3.0"
     tmp "^0.2.5"
     webpack-manifest-plugin "^5.0.1"
+    yargs-parser "^21.0.0"
+
+"@symfony/webpack-encore@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@symfony/webpack-encore/-/webpack-encore-7.2.1.tgz#fa5cb2dd2107d2c0c09d9020469d87da266109be"
+  integrity sha512-4DE/8ZkYIT5EkWTxl5ebsrzcdez+zPm9zcu/hjFtWvt7zuBFYguG5rSxO5McYmn9A6QTWIEqEzyFu9ClcpDEgg==
+  dependencies:
+    "@kocal/friendly-errors-webpack-plugin" "^3.0.0"
+    babel-loader "^10.0.0"
+    css-loader "^7.1.0"
+    fastest-levenshtein "^1.0.16"
+    mini-css-extract-plugin "^2.6.0"
+    minimizer-webpack-plugin "^5.6.1"
+    picocolors "^1.1.0"
+    pretty-error "^4.0.0"
+    resolve-url-loader "^5.0.0"
+    semver "^7.3.2"
+    style-loader "^4.0.0"
+    tapable "^2.2.1"
+    tmp "^0.2.7"
+    webpack-manifest-plugin "^6.0.1"
     yargs-parser "^21.0.0"
 
 "@tabler/core@~1.4.0":
@@ -2944,7 +2965,7 @@ terser@^5.31.1, terser@^5.51.0:
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
-tmp@^0.2.5:
+tmp@^0.2.5, tmp@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.7.tgz#26f4db11d1601ce8012dcb8a798ece1c06a99059"
   integrity sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==
@@ -3056,6 +3077,14 @@ webpack-manifest-plugin@^5.0.1:
     tapable "^2.0.0"
     webpack-sources "^2.2.0"
 
+webpack-manifest-plugin@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/webpack-manifest-plugin/-/webpack-manifest-plugin-6.0.1.tgz#8db0b6b75bd8635fcee657f025dff3bc9ba77fb4"
+  integrity sha512-R0p/8/IJVY5hIhQtkeWUQugalVpIwojc09eb14zGq+oiZOCmN5paAz2NBJfd+6v9eBbxAS3YMjc2ov8UMlCDLQ==
+  dependencies:
+    tapable "^2.0.0"
+    webpack-sources "^3.3.3"
+
 webpack-merge@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-6.0.1.tgz#50c776868e080574725abc5869bd6e4ef0a16c6a"
@@ -3072,6 +3101,11 @@ webpack-sources@^2.2.0:
   dependencies:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
+
+webpack-sources@^3.3.3:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.7.1.tgz#f8d91f5ae9f5d4940c67333283044a7d80100480"
+  integrity sha512-mcxs7A2LsEdwsNqQburqS4QHPR2Ca3NGplUakn6J5GPQvnVZ4oD4IM4FJcT3f8AVN2e2EsjuIVxKj4rorHvyuQ==
 
 webpack-sources@^3.5.0:
   version "3.6.0"
