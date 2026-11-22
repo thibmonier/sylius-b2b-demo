@@ -949,18 +949,18 @@ sprints:
     capacity_points: 15
     goal: "Un administrateur ouvre une page et voit, catégorie par catégorie, l'état de sa plateforme ; un intégrateur y ajoute sa propre sonde en quinze lignes, sans configuration et sans pouvoir casser l'administration"
     stories:
-      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: review}  # T-286-01..02 ; porte du sprint : peut reformuler US-287 en adaptateur
-      - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: ready-for-dev}  # T-287-01..04 ; nouveau dépôt sylius-platform-health-plugin
+      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # T-286-01..02 ; note de cadrage ccb1d53 ; GO de Thibaut du 2026-11-22 sur la conclusion « écrire » et le nom du paquet
+      - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: in-progress}  # T-287-01..04 ; dépôt thibmonier/sylius-platform-health-plugin créé le 2026-11-22 après GO de Thibaut ; worker w287
       - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: ready-for-dev}  # T-288-01..04
     sprint_tasks:
       - {id: T-TECH-56-01, title: "current_sprint 56, sprint 56 planifié, US-286 à US-312 au backlog", type: OPS, hours: 0.5, status: done}
       - {id: T-TECH-56-02, title: "Démo #188 : alias RegistrationLinkPolicyInterface, suppression du register.html.twig local, retrait des deux entrées périmées d'ACCEPTED", type: BE, hours: 2, status: blocked}  # attend le tag v0.3.2 du thème (PR #31 à fusionner par Thibaut)
       - {id: T-TECH-56-03, title: "Dependabot #191 et #192 : @dependabot rebase", type: OPS, hours: 0, status: cancelled}  # SANS OBJET : fusionnées par Thibaut le 2026-11-21 (3dd360f, 48b708b), vérifié le 2026-11-22
       - {id: T-TECH-56-04, title: "Thème : HidePricesVoter compatible avec le 4e paramètre ?Vote de Symfony 8, en restant compatible 7.4", type: TEST, hours: 1, status: review}  # thème PR #32 (brouillon, 794e429), CI verte ; fusion par Thibaut
-      - {id: T-TECH-56-05, title: "plugin-repositories.json : dépôt du plugin de santé, plugin-supply-chain report", type: OPS, hours: 0.5, status: blocked}  # attend la conclusion d'US-286 et le GO de Thibaut sur le nom du paquet
-      - {id: T-286-01, title: "Spike : relevé des cinq questions, sources datées", type: DOC, hours: 3, status: review}
-      - {id: T-286-02, title: "Spike : note de cadrage, conclusion envelopper/écrire, nom du paquet et rendu différé tranchés", type: DOC, hours: 2, status: review}
-      - {id: T-287-01, title: "Dépôt du plugin de santé, squelette, PHPStan/ECS/Rector sur src et tests, supply-chain, CI verte à vide", type: OPS, hours: 2, status: blocked}  # porte du spike : lecture de Thibaut + GO nom du paquet
+      - {id: T-TECH-56-05, title: "plugin-repositories.json : dépôt du plugin de santé, plugin-supply-chain report", type: OPS, hours: 0.5, status: in-progress}  # dépôt ajouté à plugin-repositories.json le 2026-11-22 ; report après le premier passage de supply-chain apply
+      - {id: T-286-01, title: "Spike : relevé des cinq questions, sources datées", type: DOC, hours: 3, status: done}
+      - {id: T-286-02, title: "Spike : note de cadrage, conclusion envelopper/écrire, nom du paquet et rendu différé tranchés", type: DOC, hours: 2, status: done}
+      - {id: T-287-01, title: "Dépôt du plugin de santé, squelette, PHPStan/ECS/Rector sur src et tests, supply-chain, CI verte à vide", type: OPS, hours: 2, status: in-progress}  # worker w287
       - {id: T-287-02, title: "Tests rouges du Runner : trois sondes, aucune, budget dépassé, exception, identifiant en double", type: TEST, hours: 2.5, status: blocked}  # suit T-287-01
       - {id: T-287-03, title: "Contrat de sonde et HealthCheckRunner à sécurité passive, passe de compilation d'unicité", type: BE, hours: 4, status: blocked}  # suit T-287-02
       - {id: T-287-04, title: "README EN/FR (contrat, sonde en 15 lignes, non-objectifs), CHANGELOG", type: DOC, hours: 1.5, status: blocked}  # suit T-287-03
@@ -972,8 +972,8 @@ sprints:
 
 backlog:
   # --- Nouveau plugin « santé de la plateforme » (demande de Thibaut du 2026-11-22) : EPIC-20 à EPIC-23, US-286 à US-312, 27 stories, 113 points, sprints 56 à 61 proposés. Arbitrages du 2026-11-22 : périmètre complet, sondes de plugins par suggest + vérification de classe, historique en base dès la v1, alertes courriel + webhook-outbox. Fiches rédigées pour le sprint 56 seulement (US-286 à US-288) ; les autres au cadrage de leur sprint.
-  - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: ready-for-dev}  # EPIC-20, Must ; sprint 56 ; fiche écrite
-  - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: ready-for-dev}  # EPIC-20, Must ; sprint 56 ; fiche écrite ; bloque toutes les sondes des EPIC-21 à 23
+  - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite
+  - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: in-progress}  # EPIC-20, Must ; sprint 56 ; fiche écrite ; bloque toutes les sondes des EPIC-21 à 23
   - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: ready-for-dev}  # EPIC-20, Must ; sprint 56 ; fiche écrite
   - {id: US-289, title: "Santé de la plateforme : encart du tableau de bord admin, un feu par catégorie", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57
   - {id: US-290, title: "Santé de la plateforme : rôle dédié, masquage des valeurs sensibles, aucune trace d'exécution à l'écran", points: 3, status: backlog}  # EPIC-20, Must ; sprint 57 ; question ouverte : ROLE_PLATFORM_HEALTH_VIEW ou ROLE_ADMINISTRATION_ACCESS

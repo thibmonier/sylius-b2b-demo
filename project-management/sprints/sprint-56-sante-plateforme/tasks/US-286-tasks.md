@@ -4,8 +4,8 @@
 
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
-| T-286-01 | [DOC] | Relevé des cinq questions : `liip/monitor`, Symfony, `sylius:install:check` et hooks du tableau de bord, Packagist, Sylius Plus — sources datées | 3 h | — | 🔄 En cours |
-| T-286-02 | [DOC] | Note de cadrage `project-management/analysis/2026-11-22-spike-sante-plateforme.md` : conclusion « envelopper / écrire » et son motif, nom du paquet et technique de rendu tranchés, estimation d'US-287 à US-292 confirmée ou révisée | 2 h | T-286-01 | 🔄 En cours |
+| T-286-01 | [DOC] | Relevé des cinq questions : `liip/monitor`, Symfony, `sylius:install:check` et hooks du tableau de bord, Packagist, Sylius Plus — sources datées | 3 h | — | ✅ Done |
+| T-286-02 | [DOC] | Note de cadrage `project-management/analysis/2026-11-22-spike-sante-plateforme.md` : conclusion « envelopper / écrire » et son motif, nom du paquet et technique de rendu tranchés, estimation d'US-287 à US-292 confirmée ou révisée | 2 h | T-286-01 | ✅ Done (GO de Thibaut, 2026-11-22) |
 
 ## Fin de tâche
 
