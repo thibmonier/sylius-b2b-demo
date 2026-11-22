@@ -207,7 +207,7 @@ final class WebhookDeliveryTest extends DemoAdminWebTestCase
         $this->setEnvironment(['PORT' => (string) $port]);
 
         $server = proc_open(
-            [\PHP_BINARY, '-d', 'memory_limit=-1', '-d', 'variables_order=EGPCS', '-S', '127.0.0.1:' . $port, '-t', \dirname($router), $router],
+            [\PHP_BINARY, '-d', 'memory_limit=-1', '-d', 'max_execution_time=0', '-d', 'variables_order=EGPCS', '-S', '127.0.0.1:' . $port, '-t', \dirname($router), $router],
             [0 => ['file', '/dev/null', 'r'], 1 => ['file', '/dev/null', 'w'], 2 => ['file', '/dev/null', 'w']],
             $pipes,
             \dirname($router),
@@ -215,6 +215,9 @@ final class WebhookDeliveryTest extends DemoAdminWebTestCase
         );
         self::assertIsResource($server);
         $this->server = $server;
+        // max_execution_time=0 above: the built-in server kills a request after 30 s, and the first request of the
+        // receiver boots a cold container, which takes longer than that on a loaded or slow machine (run 2 of the series
+        // answered 500, "Maximum execution time of 30 seconds exceeded").
         // A real `php -S` process: how long it takes to listen depends on the load of the machine. The bound only
         // catches a server that never starts, it is not an expectation on a duration.
         Await::listening('127.0.0.1', $port, 120);
