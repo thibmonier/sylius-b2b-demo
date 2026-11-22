@@ -949,7 +949,7 @@ sprints:
     capacity_points: 15
     goal: "Un administrateur ouvre une page et voit, catégorie par catégorie, l'état de sa plateforme ; un intégrateur y ajoute sa propre sonde en quinze lignes, sans configuration et sans pouvoir casser l'administration"
     stories:
-      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: in-progress}  # T-286-01..02 ; porte du sprint : peut reformuler US-287 en adaptateur
+      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: review}  # T-286-01..02 ; porte du sprint : peut reformuler US-287 en adaptateur
       - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: ready-for-dev}  # T-287-01..04 ; nouveau dépôt sylius-platform-health-plugin
       - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: ready-for-dev}  # T-288-01..04
     sprint_tasks:
@@ -958,8 +958,8 @@ sprints:
       - {id: T-TECH-56-03, title: "Dependabot #191 et #192 : @dependabot rebase", type: OPS, hours: 0, status: cancelled}  # SANS OBJET : fusionnées par Thibaut le 2026-11-21 (3dd360f, 48b708b), vérifié le 2026-11-22
       - {id: T-TECH-56-04, title: "Thème : HidePricesVoter compatible avec le 4e paramètre ?Vote de Symfony 8, en restant compatible 7.4", type: TEST, hours: 1, status: ready-for-dev}
       - {id: T-TECH-56-05, title: "plugin-repositories.json : dépôt du plugin de santé, plugin-supply-chain report", type: OPS, hours: 0.5, status: blocked}  # attend la conclusion d'US-286 et le GO de Thibaut sur le nom du paquet
-      - {id: T-286-01, title: "Spike : relevé des cinq questions, sources datées", type: DOC, hours: 3, status: in-progress}
-      - {id: T-286-02, title: "Spike : note de cadrage, conclusion envelopper/écrire, nom du paquet et rendu différé tranchés", type: DOC, hours: 2, status: in-progress}
+      - {id: T-286-01, title: "Spike : relevé des cinq questions, sources datées", type: DOC, hours: 3, status: review}
+      - {id: T-286-02, title: "Spike : note de cadrage, conclusion envelopper/écrire, nom du paquet et rendu différé tranchés", type: DOC, hours: 2, status: review}
       - {id: T-287-01, title: "Dépôt du plugin de santé, squelette, PHPStan/ECS/Rector sur src et tests, supply-chain, CI verte à vide", type: OPS, hours: 2, status: blocked}  # porte du spike : lecture de Thibaut + GO nom du paquet
       - {id: T-287-02, title: "Tests rouges du Runner : trois sondes, aucune, budget dépassé, exception, identifiant en double", type: TEST, hours: 2.5, status: blocked}  # suit T-287-01
       - {id: T-287-03, title: "Contrat de sonde et HealthCheckRunner à sécurité passive, passe de compilation d'unicité", type: BE, hours: 4, status: blocked}  # suit T-287-02
