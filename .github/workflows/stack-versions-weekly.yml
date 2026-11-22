@@ -65,15 +65,33 @@ jobs:
                   echo "issue_number=${ISSUE_NUMBER}" >> "$GITHUB_OUTPUT"
 
             - name: Create or update issue
+              id: publish
               env:
                   GH_TOKEN: ${{ github.token }}
                   ISSUE_TITLE: ${{ steps.report.outputs.issue_title }}
                   ISSUE_NUMBER: ${{ steps.find.outputs.issue_number }}
               run: |
                   if [ -z "${ISSUE_NUMBER}" ]; then
-                      gh issue create --title "${ISSUE_TITLE}" --body-file /tmp/report.md --label "dependencies"
-                      echo "Issue created"
+                      ISSUE_URL=$(gh issue create --title "${ISSUE_TITLE}" --body-file /tmp/report.md --label "dependencies")
+                      ISSUE_NUMBER="${ISSUE_URL##*/}"
+                      echo "Issue #${ISSUE_NUMBER} created"
                   else
                       gh issue edit "${ISSUE_NUMBER}" --body-file /tmp/report.md
                       echo "Issue #${ISSUE_NUMBER} updated"
                   fi
+                  echo "issue_number=${ISSUE_NUMBER}" >> "$GITHUB_OUTPUT"
+
+            # Only the latest weekly report stays open: the previous ones were piling up (#159, #178, #193).
+            - name: Close previous weekly issues
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  CURRENT_NUMBER: ${{ steps.publish.outputs.issue_number }}
+                  GH_REPO: ${{ github.repository }}
+              run: |
+                  gh issue list --state open --limit 100 --search 'in:title "Veille des versions — semaine "' --json number,title \
+                      --jq '.[] | select(.title | startswith("Veille des versions — semaine ")) | .number' |
+                  while read -r NUMBER; do
+                      [ "${NUMBER}" = "${CURRENT_NUMBER}" ] && continue
+                      gh issue close "${NUMBER}" --reason "not planned" --comment "Remplacée par #${CURRENT_NUMBER} : seule la veille de la semaine en cours reste ouverte."
+                      echo "Issue #${NUMBER} closed"
+                  done
