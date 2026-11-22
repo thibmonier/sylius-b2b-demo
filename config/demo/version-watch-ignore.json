@@ -1,0 +1,33 @@
+{
+    "_comment": "Exclusions volontaires de la veille hebdomadaire des versions (bin/stack-versions-report). Une entrée sans « until » est une décision définitive ; une entrée datée cesse de s'appliquer après son échéance, pour qu'aucun paquet ne sorte de la veille en silence et pour toujours. Chaque entrée cite la story qui porte la décision.",
+    "composer": [],
+    "npm": [
+        {
+            "package": "apexcharts",
+            "reason": "Licence non MIT depuis apexcharts 5 : la démo reste en 3.x",
+            "story": "US-276"
+        },
+        {
+            "package": "@symfony/stimulus-bridge",
+            "reason": "Attend la migration de Sylius : la démo suit la chaîne de build du cœur",
+            "story": "US-267",
+            "until": "2027-06-30"
+        },
+        {
+            "package": "@symfony/webpack-encore",
+            "reason": "Attend la migration de Sylius : la démo suit la chaîne de build du cœur",
+            "story": "US-267",
+            "until": "2027-06-30"
+        }
+    ],
+    "docker": [
+        {
+            "package": "Node 26",
+            "reason": "Non-LTS, attendue LTS en 2027-10"
+        },
+        {
+            "package": "MySQL 9",
+            "reason": "Contrainte FK cascades, voir .github/dependabot.yml"
+        }
+    ]
+}

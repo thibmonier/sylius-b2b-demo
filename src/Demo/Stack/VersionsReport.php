@@ -18,6 +18,7 @@ final readonly class VersionsReport
         private ?PluginRepositoriesSource $plugins = null,
         private string $owner = 'thibmonier',
         private ?PhpUpgradeWatchSource $phpUpgrade = null,
+        private IgnoredUpdates $ignored = new IgnoredUpdates(),
     ) {
     }
 
@@ -78,7 +79,7 @@ MARKDOWN;
             };
         }
 
-        return $this->renderDependencySection('Dépendances Composer', $patches, $minors, $majors);
+        return $this->renderDependencySection('Dépendances Composer', 'composer', $patches, $minors, $majors);
     }
 
     private function npmSection(): string
@@ -111,7 +112,7 @@ MARKDOWN;
             };
         }
 
-        return $this->renderDependencySection('Dépendances npm', $patches, $minors, $majors);
+        return $this->renderDependencySection('Dépendances npm', 'npm', $patches, $minors, $majors);
     }
 
     /**
@@ -119,11 +120,14 @@ MARKDOWN;
      * @param list<string> $minors
      * @param list<string> $majors
      */
-    private function renderDependencySection(string $title, array $patches, array $minors, array $majors): string
+    private function renderDependencySection(string $title, string $ecosystem, array $patches, array $minors, array $majors): string
     {
         $patchesText = [] === $patches ? "Aucune mise à jour corrective\n" : implode("\n", $patches) . "\n";
         $minorsText = [] === $minors ? "Aucune mise à jour mineure\n" : implode("\n", $minors) . "\n";
         $majorsText = [] === $majors ? "Aucune mise à jour majeure\n" : implode("\n", $majors) . "\n";
+
+        $ignored = $this->ignored->lines($ecosystem);
+        $ignoredText = [] === $ignored ? "Aucune exclusion\n" : implode("\n", $ignored) . "\n";
 
         return <<<MARKDOWN
 ## 📦 {$title}
@@ -134,6 +138,8 @@ MARKDOWN;
 {$minorsText}
 ### Mises à jour majeures (major)
 {$majorsText}
+### Mises à jour volontairement ignorées
+{$ignoredText}
 MARKDOWN;
     }
 

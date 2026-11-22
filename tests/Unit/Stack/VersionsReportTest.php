@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stack;
 
+use App\Demo\Stack\IgnoredUpdates;
 use App\Demo\Stack\PluginRepositoriesSource;
 use App\Demo\Stack\PluginRepositoryStatus;
 use App\Demo\Stack\VersionsReport;
@@ -354,6 +355,91 @@ final class VersionsReportTest extends TestCase
      *
      * @return string Section content
      */
+    public function testAnIgnoredComposerPackageIsNotListedAsAnUpdate(): void
+    {
+        $output = $this->reportWithIgnores()->generate();
+
+        self::assertStringNotContainsString(
+            '- [ ] vendor/major-update : 7.5.0 → 8.0.0',
+            $this->extractSection($output, 'Mises à jour majeures (major)'),
+            'Un paquet volontairement exclu ne doit plus apparaître dans les listes de mises à jour',
+        );
+    }
+
+    public function testAnIgnoredComposerPackageDoesNotGenerateAStoryDraft(): void
+    {
+        $output = $this->reportWithIgnores()->generate();
+
+        self::assertStringNotContainsString(
+            'Montée vendor/major-update',
+            $this->extractSection($output, '📝 Brouillons de stories pour montées majeures'),
+            'Un paquet exclu ne doit pas regénérer un brouillon de story chaque semaine',
+        );
+    }
+
+    public function testAnIgnoredPackageIsListedWithItsReasonInItsOwnSubsection(): void
+    {
+        $output = $this->reportWithIgnores()->generate();
+
+        $section = $this->extractSection($output, 'Mises à jour volontairement ignorées');
+
+        self::assertStringContainsString('vendor/major-update', $section);
+        self::assertStringContainsString('la démo reste en 7.x', $section);
+        self::assertStringContainsString('US-999', $section);
+    }
+
+    public function testAnIgnoredNpmPackageIsExcludedToo(): void
+    {
+        $output = $this->reportWithIgnores()->generate();
+
+        self::assertStringNotContainsString(
+            '- [ ] package-major : 5.0.0 → 6.0.0',
+            $this->extractSection($output, 'Mises à jour majeures (major)'),
+        );
+    }
+
+    public function testWithoutExclusionTheSubsectionSaysSo(): void
+    {
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson($composerJson, '{}', '[]');
+
+        $output = (new VersionsReport($source))->generate();
+
+        self::assertStringContainsString(
+            'Aucune exclusion',
+            $this->extractSection($output, 'Mises à jour volontairement ignorées'),
+        );
+    }
+
+    public function testTheDockerIgnoredListComesFromTheConfiguration(): void
+    {
+        $output = $this->reportWithIgnores()->generate();
+
+        $section = $this->extractSection($output, 'Images volontairement ignorées');
+
+        self::assertStringContainsString('Node 26', $section);
+        self::assertStringNotContainsString(
+            'MySQL 9',
+            $section,
+            'La liste des images ignorées doit venir du fichier de configuration, plus du code',
+        );
+    }
+
+    private function reportWithIgnores(): VersionsReport
+    {
+        $composerJson = (string) file_get_contents($this->fixturesDir() . '/composer-outdated-sample.json');
+        $npmJson = (string) file_get_contents($this->fixturesDir() . '/npm-outdated-sample.json');
+        $source = FakeOutdatedSource::fromJson($composerJson, $npmJson, '[]');
+
+        return new VersionsReport(
+            $source,
+            ignored: IgnoredUpdates::fromFile(
+                $this->fixturesDir() . '/version-watch-ignore-sample.json',
+                new \DateTimeImmutable('2026-11-22'),
+            ),
+        );
+    }
+
     private function extractSection(string $output, string $title): string
     {
         // Find the section and capture its level (## or ###)
