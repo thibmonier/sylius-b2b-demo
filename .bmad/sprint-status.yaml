@@ -949,7 +949,7 @@ sprints:
     capacity_points: 15
     goal: "Un administrateur ouvre une page et voit, catégorie par catégorie, l'état de sa plateforme ; un intégrateur y ajoute sa propre sonde en quinze lignes, sans configuration et sans pouvoir casser l'administration"
     stories:
-      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # T-286-01..02 ; note de cadrage ccb1d53 ; GO de Thibaut du 2026-11-22 sur la conclusion « écrire » et le nom du paquet
+      - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # T-286-01..02 ; note de cadrage ccb1d53 ; GO de Thibaut du 2026-11-22 sur la conclusion « écrire » et le nom du paquet ; timebox 7 h (+1 h question 6, confirmée par Thibaut le 2026-11-22)
       - {id: US-287, title: "Santé de la plateforme : squelette du plugin, contrat de sonde et exécution à sécurité passive", points: 5, status: in-progress}  # T-287-01..04 ; dépôt thibmonier/sylius-platform-health-plugin créé le 2026-11-22 après GO de Thibaut ; worker w287
       - {id: US-288, title: "Santé de la plateforme : page d'administration, synthèse par catégorie et rendu différé", points: 5, status: ready-for-dev}  # T-288-01..04
     sprint_tasks:
