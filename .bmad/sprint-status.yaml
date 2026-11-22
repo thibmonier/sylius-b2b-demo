@@ -999,6 +999,7 @@ backlog:
   - {id: US-310, title: "Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif", points: 5, status: backlog}  # EPIC-23, Should ; sprint 61 ; les deux canaux retenus (arbitrage du 2026-11-22) ; dépend d'US-309
   - {id: US-311, title: "Export du rapport de santé : page imprimable et JSON daté pour une revue d'exploitation", points: 3, status: backlog}  # EPIC-23, Could ; non planifiée
   - {id: US-312, title: "Santé de la plateforme : page Preuve technique, fixtures produisant une alerte volontaire, capture et post d'annonce", points: 3, status: backlog}  # EPIC-23, Should ; sprint 61 ; EPIC-13 pour le post
+  - {id: US-313, title: "Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14", points: 5, status: backlog}  # EPIC-01, Should ; hors sprint 56, à planifier sprint 57+ ; réouverture de l'ADR-0021 décidée par Thibaut le 2026-11-22 (spike US-286, question 6)
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
   - {id: US-211, title: "Copilote d'achat : squelette du plugin, widget du compte et adaptateur rejoué", points: 5, status: done}  # EPIC-16, Must ; sprint 37 ; décision de Thibaut du 2026-10-30
