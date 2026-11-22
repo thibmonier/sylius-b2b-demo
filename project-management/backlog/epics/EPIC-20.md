@@ -68,17 +68,17 @@ Réponses de Thibaut, le jour de la demande :
 
 ## Stories
 
-> Les fiches US seront rédigées au cadrage, après les réponses de Thibaut aux questions ouvertes (bas de page).
+> Fiches écrites : US-286 à US-288 (sprint 56, livrées, v0.1.0) et US-289 à US-292 (sprint 57, `ready-for-dev`). Sprint 57 : engagement de 17 points sur 15 de capacité, US-289 sacrifiée en premier.
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
-| US-286 | Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà | Must | 3 | 56 |
-| US-287 | Squelette du plugin, contrat `HealthCheckInterface`, registre à tag et exécution à sécurité passive | Must | 5 | 56 |
-| US-288 | Page admin « Santé de la plateforme » : synthèse par catégorie, détail par sonde, rendu différé | Must | 5 | 56 |
-| US-289 | Encart du tableau de bord admin : un feu par catégorie et le lien vers la page | Must | 3 | 57 |
-| US-290 | Rôle dédié, masquage des valeurs sensibles, aucune trace d'exécution à l'écran | Must | 3 | 57 |
-| US-291 | Accessibilité AA : statut jamais porté par la seule couleur, tableau annoncé au lecteur d'écran, mode sombre | Must | 3 | 57 |
-| US-292 | Traductions FR/EN, README FR+EN, capture, CHANGELOG, intégration à la démo | Must | 3 | 57 |
+| [US-286](../user-stories/US-286.md) | Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà | Must | 3 | 56 |
+| [US-287](../user-stories/US-287.md) | Squelette du plugin, contrat `HealthCheckInterface`, registre à tag et exécution à sécurité passive | Must | 5 | 56 |
+| [US-288](../user-stories/US-288.md) | Page admin « Santé de la plateforme » : synthèse par catégorie, détail par sonde, rendu différé | Must | 5 | 56 |
+| [US-289](../user-stories/US-289.md) | Encart du tableau de bord admin : un feu par catégorie et le lien vers la page | Must | 3 | 57 |
+| [US-290](../user-stories/US-290.md) | Rôle dédié, masquage des valeurs sensibles, aucune trace d'exécution à l'écran | Must | 3 | 57 |
+| [US-291](../user-stories/US-291.md) | Accessibilité AA : statut jamais porté par la seule couleur, tableau annoncé au lecteur d'écran, mode sombre | Must | 3 | 57 |
+| [US-292](../user-stories/US-292.md) | Traductions FR/EN, README FR+EN, capture, CHANGELOG, intégration à la démo | Must | 3 | 57 |
 
 ## Dépendances
 
@@ -97,6 +97,6 @@ graph LR
 
 ## Questions ouvertes (à trancher avec Thibaut)
 
-1. **Rôle d'accès** : nouveau `ROLE_PLATFORM_HEALTH_VIEW`, ou réservé à `ROLE_ADMINISTRATION_ACCESS` sans distinction ?
-2. **Nom du paquet** : `sylius-platform-health-plugin` ou plus court (`sylius-health-plugin`) ?
-3. **Live Component ou `fetch`** pour le rendu différé : le thème et la palette de commandes utilisent déjà des Live Components.
+1. ~~**Rôle d'accès** : nouveau `ROLE_PLATFORM_HEALTH_VIEW`, ou réservé à `ROLE_ADMINISTRATION_ACCESS` sans distinction ?~~ **Tranché le 2026-11-22 par Thibaut** : rôle dédié `ROLE_PLATFORM_HEALTH_VIEW`, **activable en configuration** (option B : par défaut `ROLE_ADMINISTRATION_ACCESS`, sans rupture depuis la v0.1.0 ; Sylius 2 n'a pas de permissions fines, le rôle s'accorde par `sylius:user:promote`) — US-290.
+2. ~~**Nom du paquet**~~ **Tranché au sprint 56** : `tmonier/sylius-platform-health-plugin`.
+3. ~~**Live Component ou `fetch`**~~ **Tranché au sprint 56** : Live Component.
