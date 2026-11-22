@@ -1,13 +1,25 @@
 # ADR-0021 — Montée vers PHP 8.6 : reportée, veille automatisée
 
-- **Statut** : Accepté (2026-11-20)
+- **Statut** : Accepté (2026-11-20), **rouverte le 2026-11-22** par Thibaut — sera remplacée par une nouvelle ADR à la livraison d'[US-313](../../project-management/backlog/user-stories/US-313.md)
 - **Contexte projet** : sylius-b2b-demo
 
 ## Contexte
 
 PHP 8.6.0 est sorti le 19 novembre 2026, le jour même de la publication de sécurité qui a fait passer la démo de 8.5.12 à 8.5.13 (CVE-2026-129474, exécution de code à distance propre à la branche 8.5). La question posée : peut-on monter en 8.6 **en conservant l'architecture actuelle** — FrankenPHP et supercronic dans un seul conteneur (ADR-0002), mode classique avec threads bornés (ADR-0013) — et sans casser la compatibilité des composants utilisés ?
 
-## Décision
+## Réouverture (2026-11-22)
+
+Thibaut signale la sortie de FrankenPHP 1.14 avec PHP 8.6 embarqué ; le spike [US-286](../../project-management/backlog/user-stories/US-286.md) (question 6, [note de cadrage](../../project-management/analysis/2026-11-22-spike-sante-plateforme.md#question-6--montée-frankenphp-114--php-86--réexamen-de-ladr-0021)) réexamine les conditions de réouverture. **Toutes sont remplies** :
+
+1. **Image** : `dunglas/frankenphp:1.14-php8.6-bookworm` publiée (FrankenPHP v1.14.0, PHP 8.6.0, 2026-11-21), épinglable par digest (`sha256:322b7844203295c673ad0bba09fdbf807a547eb8f93455d26ac5ade729c9c808`, vérifié le 2026-11-22).
+2. **ZTS** : l'image 8.6 embarque un PHP ZTS (mesuré) ; l'architecture des ADR-0002 et ADR-0013 est conservée.
+3. **Paquets** : `league/oauth2-server` 9.5.0 (2026-11-20) accepte `~8.6.0` (vérifié sur Packagist le 2026-11-22) ; c'était le seul paquet verrouillé qui excluait 8.6.
+
+Deux frictions de build, non bloquantes : `mbstring` n'est plus fourni par l'image (à ajouter) et `apcu` ne compile pas en 8.6 (non utilisée, à retirer).
+
+**Décision de Thibaut du 2026-11-22** : l'ADR est rouverte et la montée est inscrite au backlog ([US-313](../../project-management/backlog/user-stories/US-313.md), Should, 5 points, hors sprint 56). La démo **reste sur PHP 8.5** jusqu'à la livraison d'US-313, qui remplacera cette ADR par une nouvelle.
+
+## Décision (2026-11-20)
 
 **La démo reste sur PHP 8.5.** La montée est reportée, et la question n'est plus instruite à la main : elle est réévaluée chaque semaine par le rapport de veille (US-239).
 
