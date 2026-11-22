@@ -135,6 +135,19 @@ final class CheckDiskTest extends TestCase
         self::assertStringContainsString('Swap: 3783 MB used of 5120 MB', $output);
     }
 
+    /**
+     * T-TECH-57-02 (A-56-4): the figures do not depend on the locale of the caller. Under a locale with a decimal comma
+     * awk printed "2,0" and read "3782.69M" as 3782. Where the locale is not installed (most CI images) awk falls back
+     * to the C locale and the test passes without proving anything.
+     */
+    public function testTheFiguresDoNotDependOnTheLocaleOfTheCaller(): void
+    {
+        $output = $this->check(['STUB_FREE_KB' => (string) (40 * 1024 * 1024), 'LC_ALL' => 'fr_FR.UTF-8'])->getOutput();
+
+        self::assertStringContainsString('Memory: 2.0 GB free', $output);
+        self::assertStringContainsString('Swap: 3783 MB used of 5120 MB', $output);
+    }
+
     public function testAnUnreachableMysqlDoesNotBreakTheDiagnosis(): void
     {
         file_put_contents($this->root . '/stub/docker', "#!/bin/sh\nexit 1\n");
