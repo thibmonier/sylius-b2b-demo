@@ -1,0 +1,29 @@
+{
+    "composer": [
+        {
+            "package": "vendor/major-update",
+            "reason": "Décision définitive : la démo reste en 7.x",
+            "story": "US-999"
+        }
+    ],
+    "npm": [
+        {
+            "package": "package-major",
+            "reason": "Attend la migration de Sylius",
+            "story": "US-267",
+            "until": "2027-06-30"
+        },
+        {
+            "package": "package-expire",
+            "reason": "Exclusion arrivée à échéance",
+            "story": "US-998",
+            "until": "2026-01-31"
+        }
+    ],
+    "docker": [
+        {
+            "package": "Node 26",
+            "reason": "Non-LTS, attendue LTS en 2027-10"
+        }
+    ]
+}

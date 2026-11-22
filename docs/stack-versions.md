@@ -30,16 +30,16 @@ Pour chaque montée majeure, un brouillon de story est généré avec :
 
 Même structure que Composer, pour les dépendances JavaScript du projet.
 
+### Exclusions volontaires
+
+`config/demo/version-watch-ignore.json` liste, par écosystème (`composer`, `npm`, `docker`), les paquets laissés de côté sur décision : motif, story, et échéance facultative. Un paquet exclu n'est ni listé comme mise à jour ni source de brouillon de story ; il figure avec son motif dans la sous-section « Mises à jour volontairement ignorées ». Sans `until`, la décision est définitive ; avec `until`, l'exclusion cesse de s'appliquer le lendemain de la date et le paquet réapparaît dans la veille.
+
 ### 🐳 Images Docker
 
 Comparaison des images utilisées (Dockerfile, ci.yaml) avec les derniers tags disponibles :
 - **Images à jour** : rien à faire
 - **Images en retard** : mise à jour possible
-- **Images volontairement ignorées** : avec justification (voir `.github/dependabot.yml`)
-
-Exemples d'images ignorées :
-- Node 26 (non-LTS, attendue LTS en 2027-10)
-- MySQL 9 (contrainte FK cascades, erreur 6575 sur le reset de la démo)
+- **Images volontairement ignorées** : avec justification, lues dans `config/demo/version-watch-ignore.json` (voir aussi `.github/dependabot.yml`)
 
 ### 🔄 PR Dependabot ouvertes
 
