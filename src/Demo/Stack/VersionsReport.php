@@ -64,6 +64,9 @@ MARKDOWN;
         $majors = [];
 
         foreach ($outdated as $package) {
+            if ($this->ignored->ignores('composer', $package['name'])) {
+                continue;
+            }
             // Skip packages that are already up to date
             if ('up-to-date' === $package['latest-status'] || $package['version'] === $package['latest']) {
                 continue;
@@ -91,6 +94,9 @@ MARKDOWN;
         $majors = [];
 
         foreach ($outdated as $name => $info) {
+            if ($this->ignored->ignores('npm', $name)) {
+                continue;
+            }
             // npm reports no "current" for a package that is not installed (no node_modules): nothing to compare.
             if (!isset($info['current'])) {
                 continue;
@@ -149,10 +155,6 @@ MARKDOWN;
 
         $upToDate = [];
         $outdated = [];
-        $ignored = [
-            '- Node 26 (non-LTS, attendue LTS en 2027-10)',
-            '- MySQL 9 (contrainte FK cascades, voir .github/dependabot.yml)',
-        ];
 
         foreach ($images as $image) {
             if ($image['is_up_to_date']) {
@@ -164,7 +166,8 @@ MARKDOWN;
 
         $upToDateText = [] === $upToDate ? "Toutes les images sont à jour\n" : implode("\n", $upToDate) . "\n";
         $outdatedText = [] === $outdated ? "Aucune image en retard\n" : implode("\n", $outdated) . "\n";
-        $ignoredText = implode("\n", $ignored) . "\n";
+        $ignored = $this->ignored->lines('docker');
+        $ignoredText = [] === $ignored ? "Aucune exclusion\n" : implode("\n", $ignored) . "\n";
 
         return <<<MARKDOWN
 ## 🐳 Images Docker
@@ -204,6 +207,9 @@ MARKDOWN;
         $drafts = [];
 
         foreach ($outdated as $package) {
+            if ($this->ignored->ignores('composer', $package['name'])) {
+                continue;
+            }
             if ($package['version'] !== $package['latest'] && 'major' === SemverUpdate::type($package['version'], $package['latest'])) {
                 $draft = $this->generateStoryDraft($package);
                 $drafts[] = $draft;

@@ -14,6 +14,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Demo\Stack\DockerHubPhpUpgradeWatchSource;
 use App\Demo\Stack\GhPluginRepositoriesSource;
+use App\Demo\Stack\IgnoredUpdates;
 use App\Demo\Stack\ShellOutdatedSource;
 use App\Demo\Stack\VersionsReport;
 use Symfony\Component\HttpClient\HttpClient;
@@ -23,6 +24,8 @@ $repositories = json_decode((string) file_get_contents(dirname(__DIR__) . '/conf
 $plugins = new GhPluginRepositoriesSource($repositories['owner'], $repositories['repositories']);
 // ADR-0021: the PHP 8.6 gate is re-checked every week rather than re-investigated by hand.
 $phpUpgrade = new DockerHubPhpUpgradeWatchSource(HttpClient::create(), dirname(__DIR__) . '/composer.lock');
-$report = new VersionsReport(new ShellOutdatedSource(), plugins: $plugins, owner: $repositories['owner'], phpUpgrade: $phpUpgrade);
+// 2026-11-22: packages left out on purpose (Composer, npm, Docker) come from one file instead of coming back every week.
+$ignored = IgnoredUpdates::fromFile(dirname(__DIR__) . '/config/demo/version-watch-ignore.json', new DateTimeImmutable());
+$report = new VersionsReport(new ShellOutdatedSource(), plugins: $plugins, owner: $repositories['owner'], phpUpgrade: $phpUpgrade, ignored: $ignored);
 
 echo $report->generate();

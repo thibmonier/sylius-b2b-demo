@@ -28,9 +28,19 @@ final readonly class IgnoredUpdates
             throw new \RuntimeException(sprintf('Fichier d\'exclusions illisible : %s', $path));
         }
 
-        // Le filtrage est volontairement absent à ce commit : il arrive avec le correctif,
-        // après lecture du rouge en CI (règle de la maison : un rouge est un échec d'assertion).
-        return new self();
+        /** @var array<string, string|list<array{package: string, reason: string, story?: string, until?: string}>> $decoded */
+        $decoded = json_decode((string) file_get_contents($path), true, flags: \JSON_THROW_ON_ERROR);
+        // The `_comment` key explains the file to the humans who edit it: only the ecosystems (lists) matter.
+        $data = array_filter($decoded, is_array(...));
+
+        $today = $now->format('Y-m-d');
+        $entries = [];
+        foreach ($data as $ecosystem => $list) {
+            // Dates are ISO (Y-m-d): the comparison is lexical, and the review day itself still counts.
+            $entries[$ecosystem] = array_values(array_filter($list, static fn (array $entry): bool => !isset($entry['until']) || $entry['until'] >= $today));
+        }
+
+        return new self($entries);
     }
 
     public function ignores(string $ecosystem, string $package): bool
@@ -41,6 +51,10 @@ final readonly class IgnoredUpdates
     /** @return list<string> */
     public function lines(string $ecosystem): array
     {
-        return [];
+        return array_map(static function (array $entry): string {
+            $details = array_filter([$entry['story'] ?? null, isset($entry['until']) ? 'jusqu\'au ' . $entry['until'] : null]);
+
+            return sprintf('- %s : %s%s', $entry['package'], $entry['reason'], [] === $details ? '' : ' (' . implode(', ', $details) . ')');
+        }, $this->entries[$ecosystem] ?? []);
     }
 }
