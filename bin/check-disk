@@ -13,6 +13,7 @@
 set -eu
 # The figures below go through awk, whose printf and number parsing follow the locale: with a decimal comma
 # (LANG=fr_FR.UTF-8) it printed "2,0" and read "3782.69M" as 3782. Fixed to C whatever the caller exports.
+export LC_ALL=C
 cd "$(dirname "$0")/.."
 
 FULL=0
