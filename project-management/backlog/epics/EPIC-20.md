@@ -97,6 +97,6 @@ graph LR
 
 ## Questions ouvertes (à trancher avec Thibaut)
 
-1. ~~**Rôle d'accès** : nouveau `ROLE_PLATFORM_HEALTH_VIEW`, ou réservé à `ROLE_ADMINISTRATION_ACCESS` sans distinction ?~~ **Tranché le 2026-11-22 par Thibaut** : rôle dédié `ROLE_PLATFORM_HEALTH_VIEW`, accordé par défaut au super-administrateur (US-290 ; Sylius 2 n'a pas de permissions fines, le rôle est accordé par commande).
+1. ~~**Rôle d'accès** : nouveau `ROLE_PLATFORM_HEALTH_VIEW`, ou réservé à `ROLE_ADMINISTRATION_ACCESS` sans distinction ?~~ **Tranché le 2026-11-22 par Thibaut** : rôle dédié `ROLE_PLATFORM_HEALTH_VIEW`, **activable en configuration** (option B : par défaut `ROLE_ADMINISTRATION_ACCESS`, sans rupture depuis la v0.1.0 ; Sylius 2 n'a pas de permissions fines, le rôle s'accorde par `sylius:user:promote`) — US-290.
 2. ~~**Nom du paquet**~~ **Tranché au sprint 56** : `tmonier/sylius-platform-health-plugin`.
 3. ~~**Live Component ou `fetch`**~~ **Tranché au sprint 56** : Live Component.

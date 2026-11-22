@@ -25,7 +25,7 @@ Suite des EPIC-20 et EPIC-21 (US-286 à US-288 livrées au sprint 56, plugin en 
 Arbitrages de Thibaut, le 2026-11-22, à l'ouverture du sprint :
 
 1. **Périmètre : les 17 points**, au-dessus de la capacité de 15 (113 %). Thibaut le sait et le choisit. **Ordre de sacrifice : US-289 d'abord** si le sprint dérive (point de contrôle ci-dessous).
-2. **US-290 : rôle dédié `ROLE_PLATFORM_HEALTH_VIEW`**, accordé par défaut au super-administrateur. Relevé dans `vendor/sylius` : Sylius 2 n'a **aucun système de permissions fines** ni de super-administrateur distinct (un administrateur est un `AdminUser` dont `roles` est une liste de chaînes ; `--super-admin` ajoute seulement `ROLE_ADMINISTRATION_ACCESS` ; aucun `role_hierarchy`). Le mécanisme est donc un rôle Symfony ordinaire, vérifié par `isGranted()`, accordé par une commande du plugin (`tmonier:platform-health:grant-role --all`). Voir US-290.
+2. **US-290 : rôle dédié `ROLE_PLATFORM_HEALTH_VIEW`, activable en configuration (option B, choisie par Thibaut le 2026-11-22)**. Relevé dans `vendor/sylius` : Sylius 2 n'a **aucun système de permissions fines** ni de super-administrateur distinct (un administrateur est un `AdminUser` dont `roles` est une liste de chaînes ; `--super-admin` ajoute seulement `ROLE_ADMINISTRATION_ACCESS` ; aucun `role_hierarchy`). D'où : un attribut `PLATFORM_HEALTH_VIEW` tranché par un *voter*, et une option `access.role`, par défaut `ROLE_ADMINISTRATION_ACCESS` (comportement de la v0.1.0, aucune rupture) ; l'intégrateur la règle sur `ROLE_PLATFORM_HEALTH_VIEW` et accorde le rôle par `sylius:user:promote`. Pas de commande d'attribution propre au plugin. Option A (rôle exigé d'office et commande `grant-role`, rupture en 0.2.0) écartée.
 3. **US-293 : dates de fin de support figées dans le code**, table mise à jour à chaque version du plugin, aucun appel réseau depuis l'administration (règle d'EPIC-20) ; chaque sonde dit la version de table qu'elle utilise.
 4. **Le plugin entre dans la démo au sprint 57, par US-292, avec les vraies sondes d'US-293** : intégrer la v0.1.0 seule donnerait une page vide. US-292 dépend donc d'US-293.
 5. **Décision A du 2026-11-22** : `identifier()` reste une constante littérale (un attribut PHP pourra venir plus tard, en version mineure). Les six sondes d'US-293 s'y conforment.
@@ -39,7 +39,7 @@ Capacité réelle : 15 points ; engagement : 17. À la fin du 2026-12-16 : si **
 
 ### Points à soumettre à Thibaut dans la fiche
 
-- **Rupture assumée d'US-290** : après la v0.2.0, les administrateurs perdent l'accès à la page tant que la commande d'attribution n'a pas été lancée (la v0.1.0, publiée le 2026-11-22, n'a pas d'utilisateur connu). À confirmer en lisant US-290.
+- **Pas sécurisé par défaut (assumé, option B)** : sans réglage, tout administrateur voit la page, comme en v0.1.0. Le README recommande `ROLE_PLATFORM_HEALTH_VIEW` en production et la démo l'active (US-292).
 - **Point d'accès du Live Component** (vérifié dans Sylius 2 le 2026-11-22) : le tag `sylius.live_component.admin` sert le composant par la route `sylius_admin_live_component`, `/admin/{_locale}/_components/…`, donc sous le préfixe admin et couvert par `access_control` (`ROLE_ADMINISTRATION_ACCESS`) : v0.1.0 n'expose rien hors connexion. Cette règle n'exige pas le rôle dédié : US-290 pose donc le garde `ROLE_PLATFORM_HEALTH_VIEW` sur la classe du composant et sur la route de la page, et le prouve par un test sur le point d'accès `/admin/…/_components/…` (OWASP A01).
 
 ## Découpage
@@ -53,8 +53,8 @@ Capacité réelle : 15 points ; engagement : 17. À la fin du 2026-12-16 : si **
 | T-290-01 | US-290 | [TEST] | Tests rouges : 403 de la page, du point d'accès `/admin/…/_components/…` et du rafraîchissement hors rôle ; masquage (DSN, `password=`, clé, chemin, trace) ; commande idempotente | 2,5 h |
 | T-290-02 | US-290 | [BE] | Garde sur la route, `#[IsGranted]` sur le composant, entrée de menu conditionnelle | 2,5 h |
 | T-290-03 | US-290 | [BE] | `SensitiveValueMasker` appliqué au rendu, détection de trace d'exécution, journalisation de la sonde fautive | 2 h |
-| T-290-04 | US-290 | [BE] | Commande `tmonier:platform-health:grant-role` (`--email`, `--all`) | 1,5 h |
-| T-290-05 | US-290 | [DOC] | README EN/FR (rôle, commande, rupture depuis 0.1.0), CHANGELOG | 1 h |
+| T-290-04 | US-290 | [BE] | Attribut `PLATFORM_HEALTH_VIEW`, *voter* et option `access.role` (défaut `ROLE_ADMINISTRATION_ACCESS`, validation à la compilation) | 1,5 h |
+| T-290-05 | US-290 | [DOC] | README EN/FR (option, recommandation de production, `sylius:user:promote`), CHANGELOG | 1 h |
 | T-291-01 | US-291 | [TEST] | Tests rouges : statut écrit et icône distincte, tableau annoncé, région d'état, contraste calculé clair et sombre | 2 h |
 | T-291-02 | US-291 | [FE-WEB] | Gabarits : `<table>` légendée, `<details>`, jetons CSS suivant `data-bs-theme`, région `role="status"`, mouvement réduit | 3,5 h |
 | T-291-03 | US-291 | [REV] | Revue manuelle : clavier seul, lecteur d'écran, mode sombre, capture ; constat consigné | 1,5 h |
@@ -89,7 +89,7 @@ Elles reprennent les actions de la rétrospective du sprint 56 et soldent ses su
 
 - **GO et tag `v0.2.0`** du plugin de santé, puis mise à jour Packagist : sans eux, la partie démo d'US-292 (T-292-03 à T-292-05) ne peut pas démarrer. Aucun tag sans GO ; fusions par Thibaut.
 - **Railway** : `railway usage` par service, 48 h après le déploiement de `MP_MAX_MESSAGES: "50"`, pour vérifier la prédiction écrite sur le service `web` (moyenne 0,88 Go, 3-4 $/mois). Convention : jamais par Claude.
-- **Lecture d'US-290** : confirmer le mécanisme d'attribution du rôle (commande) et la rupture depuis la v0.1.0.
+- ~~**Lecture d'US-290**~~ : tranché le 2026-11-22, option B (rôle activable en configuration, sans rupture).
 - **Point de contrôle du 2026-12-16** : valider le retrait d'US-289 si l'engagement dérive.
 
 ## Contrainte d'exécution

@@ -7,8 +7,8 @@
 | T-290-01 | [TEST] | Tests rouges : 403 de la page, du point d'accès `/admin/…/_components/…` et du rafraîchissement hors rôle ; masquage (DSN, `password=`, clé longue, chemin absolu, trace) ; commande idempotente | 2,5 h | US-293 fusionnée | 🔲 À faire |
 | T-290-02 | [BE] | Garde sur la route de la page, `#[IsGranted]` sur le composant, entrée de menu conditionnelle | 2,5 h | T-290-01 | 🔲 À faire |
 | T-290-03 | [BE] | `SensitiveValueMasker` appliqué au rendu du résumé et du détail, détection de trace d'exécution, journalisation de la sonde fautive | 2 h | T-290-01 | 🔲 À faire |
-| T-290-04 | [BE] | Commande `tmonier:platform-health:grant-role` (`--email`, `--all`), idempotente | 1,5 h | T-290-01 | 🔲 À faire |
-| T-290-05 | [DOC] | README EN/FR (rôle, commande, rupture depuis 0.1.0), CHANGELOG (*Changed*) | 1 h | T-290-02, T-290-03, T-290-04 | 🔲 À faire |
+| T-290-04 | [BE] | Attribut `PLATFORM_HEALTH_VIEW`, *voter* et option `access.role` (défaut `ROLE_ADMINISTRATION_ACCESS`, valeur non `ROLE_…` refusée à la compilation) | 1,5 h | T-290-01 | 🔲 À faire |
+| T-290-05 | [DOC] | README EN/FR (option, recommandation de production, `sylius:user:promote`), CHANGELOG (*Added*) | 1 h | T-290-02, T-290-03, T-290-04 | 🔲 À faire |
 
 ## Fin de tâche
 

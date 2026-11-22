@@ -5,8 +5,8 @@
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
 | T-292-01 | [TEST] | Tests rouges : complétude des traductions FR/EN, aucune clé référencée absente (sondes d'US-293 comprises) | 1,5 h | US-293, US-290, US-291 fusionnées | 🔲 À faire |
-| T-292-02 | [DOC] | README EN/FR réécrits (sondes, rôle, commande, encart si livré, démo, profil de l'auteur), captures réelles FR/EN clair/sombre, CHANGELOG 0.2.0 | 3 h | T-292-01 | 🔲 À faire |
-| T-292-03 | [OPS] | Démo : `composer require tmonier/sylius-platform-health-plugin:^0.2`, bundle, routes, configuration, fiche `plugins.yaml`, rôle accordé aux comptes d'administration publics (`grant-role --all` au chargement des fixtures), `bin/compat-refresh`, `bin/proof-refresh` | 3,5 h | **GO et tag v0.2.0 de Thibaut**, Packagist | 🔲 À faire |
+| T-292-02 | [DOC] | README EN/FR réécrits (sondes, option et rôle, encart si livré, démo, profil de l'auteur), captures réelles FR/EN clair/sombre, CHANGELOG 0.2.0 | 3 h | T-292-01 | 🔲 À faire |
+| T-292-03 | [OPS] | Démo : `composer require tmonier/sylius-platform-health-plugin:^0.2`, bundle, routes, configuration, fiche `plugins.yaml`, `access.role: ROLE_PLATFORM_HEALTH_VIEW`, rôle accordé aux comptes d'administration publics par les fixtures, `bin/compat-refresh`, `bin/proof-refresh` | 3,5 h | **GO et tag v0.2.0 de Thibaut**, Packagist | 🔲 À faire |
 | T-292-04 | [TEST] | Démo : page visible avec le rôle, 403 sans, rôle toujours accordé au chargement des fixtures (rouge prouvé en CI) | 2 h | T-292-03 | 🔲 À faire |
 | T-292-05 | [REV] | Captures de la démo relues à 1280 px, constat sur les sondes réelles de l'image (aucune sonde truquée) | 0,5 h | T-292-03 | 🔲 À faire |
 
