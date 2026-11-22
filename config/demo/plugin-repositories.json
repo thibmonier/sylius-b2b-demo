@@ -36,7 +36,8 @@
         "sylius-digital-product-passport-plugin",
         "sylius-industry-trade-theme",
         "sylius-company-verification-plugin",
-        "sylius-einvoice-pennylane-plugin"
+        "sylius-einvoice-pennylane-plugin",
+        "sylius-platform-health-plugin"
     ],
     "pinnedActions": {
         "actions/checkout@v4": {

@@ -65,3 +65,7 @@ US-312), 113 points, sprints 56 à 61 proposés. Les fiches US restent à rédig
 **MoSCoW** : Must 19 stories (83 points), Should 6 stories (24 points), Could 2 stories (6 points).
 
 **Décisions de cadrage du 2026-11-22** : périmètre complet (technique, métier et sondes des plugins) ; sondes de plugins par `suggest` et vérification de classe, sans dépendance obligatoire ; historique en base dès la v1 ; alertes par courriel et par `webhook-outbox`, à la transition d'état seulement.
+
+## Socle de la démo : montée PHP 8.6 (2026-11-22)
+
+[US-313](user-stories/US-313.md) — Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14 · [EPIC-01](epics/EPIC-01.md) · Should · 5 points · à planifier (sprint 57+). Issue de la question 6 du spike US-286 ; réouverture de l'[ADR-0021](../../docs/adr/0021-montee-php-8-6-reportee.md) décidée par Thibaut le 2026-11-22.
