@@ -347,14 +347,6 @@ final class VersionsReportTest extends TestCase
         self::assertStringNotContainsString('## 🧩 Plugins', (new VersionsReport(new FakeOutdatedSource()))->generate());
     }
 
-    /**
-     * Extracts text between a section title and the next section.
-     *
-     * @param string $output Full report
-     * @param string $title  Section title (without ## or ###)
-     *
-     * @return string Section content
-     */
     public function testAnIgnoredComposerPackageIsNotListedAsAnUpdate(): void
     {
         $output = $this->reportWithIgnores()->generate();
@@ -440,6 +432,7 @@ final class VersionsReportTest extends TestCase
         );
     }
 
+    /** Extracts text between a section title and the next section. */
     private function extractSection(string $output, string $title): string
     {
         // Find the section and capture its level (## or ###)

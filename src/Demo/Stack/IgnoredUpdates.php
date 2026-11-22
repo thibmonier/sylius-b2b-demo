@@ -35,7 +35,7 @@ final readonly class IgnoredUpdates
 
     public function ignores(string $ecosystem, string $package): bool
     {
-        return false;
+        return array_any($this->entries[$ecosystem] ?? [], static fn (array $entry): bool => $entry['package'] === $package);
     }
 
     /** @return list<string> */
