@@ -109,6 +109,9 @@ final class RenderPageTest extends TestCase
     private function render(array $arguments, array $environment = []): Process
     {
         $process = new Process(['php', \dirname(__DIR__, 3) . '/bin/render-page', ...$arguments], null, $environment);
+        // A real PHP process boots the kernel (cold cache): its duration depends on the machine and its load. The
+        // 60 s default of Process made these tests fail under load; this bound only catches a hung process.
+        $process->setTimeout(600);
         $process->run();
 
         return $process;

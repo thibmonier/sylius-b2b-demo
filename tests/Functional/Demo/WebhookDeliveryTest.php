@@ -215,7 +215,9 @@ final class WebhookDeliveryTest extends DemoAdminWebTestCase
         );
         self::assertIsResource($server);
         $this->server = $server;
-        Await::listening('127.0.0.1', $port, 10);
+        // A real `php -S` process: how long it takes to listen depends on the load of the machine. The bound only
+        // catches a server that never starts, it is not an expectation on a duration.
+        Await::listening('127.0.0.1', $port, 120);
 
         return $port;
     }

@@ -1,0 +1,5 @@
+# T-TECH-57-02: the receiver of WebhookDeliveryTest is a `php -S` process that boots the kernel on its first request.
+# Under load that takes longer than the 15 s idle timeout of the plugin; the production values are unchanged.
+tmonier_sylius_webhook_outbox:
+    timeout: 120
+    max_duration: 180
