@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "937b5a3017516f9c42a9cf34ee20f8d5",
+    "content-hash": "90597c8a2ece6b551da5be715689ce7b",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18546,16 +18546,16 @@
         },
         {
             "name": "tmonier/sylius-industry-trade-theme",
-            "version": "v0.1.0",
+            "version": "v0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-industry-trade-theme.git",
-                "reference": "b0d794bae2f1b7cab20c3c2b70eb6fcaabf7dbc0"
+                "reference": "16fa660190956906e142b462fad68d851aaa3fbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-industry-trade-theme/zipball/b0d794bae2f1b7cab20c3c2b70eb6fcaabf7dbc0",
-                "reference": "b0d794bae2f1b7cab20c3c2b70eb6fcaabf7dbc0",
+                "url": "https://api.github.com/repos/thibmonier/sylius-industry-trade-theme/zipball/16fa660190956906e142b462fad68d851aaa3fbe",
+                "reference": "16fa660190956906e142b462fad68d851aaa3fbe",
                 "shasum": ""
             },
             "require": {
@@ -18621,10 +18621,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-industry-trade-theme/issues",
-                "source": "https://github.com/thibmonier/sylius-industry-trade-theme/tree/v0.1.0"
+                "source": "https://github.com/thibmonier/sylius-industry-trade-theme/tree/v0.3.2"
             },
-            "time": "2026-11-05T01:36:15+00:00",
-            "published-time": "2026-11-05T06:15:30+00:00"
+            "time": "2026-11-22T12:08:48+00:00",
+            "published-time": "2026-11-22T12:09:28+00:00"
         },
         {
             "name": "tmonier/sylius-order-hold-plugin",
