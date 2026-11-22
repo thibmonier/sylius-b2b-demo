@@ -4,10 +4,10 @@
 
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
-| T-287-01 | [OPS] | Dépôt créé (sujets, description), squelette d'un plugin récent, `phpstan.neon` / `ecs.php` / `rector.php` sur `src` **et** `tests`, `bin/plugin-supply-chain apply`, CI verte à vide | 2 h | T-286-02 + GO de Thibaut | 👀 Review (health #1) |
-| T-287-02 | [TEST] | Tests rouges : trois sondes exécutées, aucune sonde, budget dépassé, exception capturée, identifiant en double au `cache:warmup` | 2,5 h | T-287-01 | 👀 Review (health #1) |
-| T-287-03 | [BE] | `HealthCheckInterface`, `HealthStatus`, `HealthCategory`, `HealthResult`, `HealthCheckRunner` à sécurité passive, passe de compilation de l'unicité des identifiants | 4 h | T-287-02 | 👀 Review (health #1) |
-| T-287-04 | [DOC] | README EN/FR : contrat, sonde maison en 15 lignes, non-objectifs ; CHANGELOG | 1,5 h | T-287-03 | 👀 Review (health #1) |
+| T-287-01 | [OPS] | Dépôt créé (sujets, description), squelette d'un plugin récent, `phpstan.neon` / `ecs.php` / `rector.php` sur `src` **et** `tests`, `bin/plugin-supply-chain apply`, CI verte à vide | 2 h | T-286-02 + GO de Thibaut | ✅ Done (v0.1.0) |
+| T-287-02 | [TEST] | Tests rouges : trois sondes exécutées, aucune sonde, budget dépassé, exception capturée, identifiant en double au `cache:warmup` | 2,5 h | T-287-01 | ✅ Done (v0.1.0) |
+| T-287-03 | [BE] | `HealthCheckInterface`, `HealthStatus`, `HealthCategory`, `HealthResult`, `HealthCheckRunner` à sécurité passive, passe de compilation de l'unicité des identifiants | 4 h | T-287-02 | ✅ Done (v0.1.0) |
+| T-287-04 | [DOC] | README EN/FR : contrat, sonde maison en 15 lignes, non-objectifs ; CHANGELOG | 1,5 h | T-287-03 | ✅ Done (v0.1.0) |
 
 ## Fin de tâche
 

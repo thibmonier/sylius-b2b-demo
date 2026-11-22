@@ -6,9 +6,9 @@
 
 | US | Titre | Points | Tâches | Heures | Statut |
 |----|-------|--------|--------|--------|--------|
-| [US-286](./US-286-tasks.md) | Spike : ce que Symfony, Sylius et l'écosystème fournissent déjà | 3 | 2 | 5 h | 🔄 |
-| [US-287](./US-287-tasks.md) | Squelette du plugin, contrat de sonde et exécution à sécurité passive | 5 | 4 | 10 h | 🚫 porte du spike |
-| [US-288](./US-288-tasks.md) | Page d'administration, synthèse par catégorie et rendu différé | 5 | 4 | 10 h | 🚫 porte du spike |
+| [US-286](./US-286-tasks.md) | Spike : ce que Symfony, Sylius et l'écosystème fournissent déjà | 3 | 2 | 5 h | ✅ |
+| [US-287](./US-287-tasks.md) | Squelette du plugin, contrat de sonde et exécution à sécurité passive | 5 | 4 | 10 h | ✅ |
+| [US-288](./US-288-tasks.md) | Page d'administration, synthèse par catégorie et rendu différé | 5 | 4 | 10 h | ✅ |
 
 **Total stories** : 10 tâches, 25 h, 13 points. **Tâches techniques** : T-TECH-56-01 à 05, 4 h (voir [../sprint-goal.md](../sprint-goal.md#tâches-techniques)).
 
