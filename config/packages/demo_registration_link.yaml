@@ -1,0 +1,11 @@
+# T-TECH-56-02: the published theme (0.3.2) asks the application whether the "Register" link is visible. The demo answers
+# with its own rule (US-162), the one of the 403 on the registration routes. The theme package ships its own copy of this
+# wiring (config/packages/tmonier_sylius_industry_trade_theme.yaml) that the demo does not import: the global and the alias
+# are declared here.
+twig:
+    globals:
+        industry_theme_registration_link_policy: '@Tmonier\SyliusIndustryTradeTheme\Shop\RegistrationLinkPolicyInterface'
+
+services:
+    Tmonier\SyliusIndustryTradeTheme\Shop\RegistrationLinkPolicyInterface:
+        alias: App\Demo\Account\DemoRegistrationLinkPolicy

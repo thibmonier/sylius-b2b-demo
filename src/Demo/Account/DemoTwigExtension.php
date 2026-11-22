@@ -16,13 +16,12 @@ final class DemoTwigExtension extends AbstractExtension
         private readonly DemoAccountCatalog $catalog,
         #[Autowire(param: 'demo.mode')]
         private readonly bool $demoMode,
-        #[Autowire(param: 'demo.registration_open')]
-        private readonly bool $registrationOpen,
         #[Autowire(param: 'demo.mailpit_url')]
         private readonly string $mailpitUrl,
         #[Autowire(param: 'demo.mailpit_api_url')]
         private readonly string $mailpitApiUrl,
         private readonly NextResetProvider $nextReset,
+        private readonly DemoRegistrationLinkPolicy $registrationLink,
     ) {
     }
 
@@ -30,8 +29,7 @@ final class DemoTwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('demo_mode', fn (): bool => $this->demoMode),
-            // Same rule as RegistrationGateListener (US-040): the registration routes only answer 403 in a closed demo.
-            new TwigFunction('demo_registration_open', fn (): bool => !$this->demoMode || $this->registrationOpen),
+            new TwigFunction('demo_registration_open', $this->registrationLink->isVisible(...)),
             new TwigFunction('demo_mailpit_url', fn (): string => $this->mailpitUrl),
             new TwigFunction('demo_mails_enabled', fn (): bool => '' !== trim($this->mailpitApiUrl)),
             new TwigFunction('demo_next_reset', $this->nextReset->next(...)),
