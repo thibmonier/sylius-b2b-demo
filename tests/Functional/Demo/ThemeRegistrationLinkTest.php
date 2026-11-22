@@ -40,7 +40,9 @@ final class ThemeRegistrationLinkTest extends KernelTestCase
         $container = self::getContainer();
         $request = Request::create('/fr_FR/');
         $request->attributes->set('_locale', 'fr_FR');
-        $container->get(RequestStack::class)->push($request);
+        $requestStack = $container->get(RequestStack::class);
+        self::assertInstanceOf(RequestStack::class, $requestStack);
+        $requestStack->push($request);
 
         $source = file_get_contents(\dirname(__DIR__, 3) . '/' . self::THEME_TEMPLATE);
         self::assertIsString($source);
