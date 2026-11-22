@@ -66,6 +66,6 @@ phases:
     status: in_progress
     sprint_1: {status: in_progress, branch: feature/sprint-1-walking-skeleton, runner: /bear-workflow:auto-sprint 001}
 
-next_action: "Sprint 54 terminé (thème v0.3.1 publié) ; prochain sprint à cadrer avec Thibaut (backlog prêt quasi vide, US-128 après le bilan J+30 du 2026-11-18)"
-updated_at: 2026-11-12T00:00:00+01:00
-next_command: "/bear-workflow:start 55"
+next_action: "Sprint 56 planifié le 2026-11-22 (santé de la plateforme : US-286 spike, US-287 contrat de sonde, US-288 page admin ; 13 points). Porte : aucun dépôt créé avant que Thibaut ait lu la conclusion du spike US-286. Attend de Thibaut : fusion de la PR #31 du thème et tag v0.3.2 (débloque T-TECH-56-02 et la PR Dependabot #188), GO sur le nom du paquet tmonier/sylius-platform-health-plugin, railway config apply de MP_MAX_MESSAGES"
+updated_at: 2026-11-22T00:00:00+01:00
+next_command: "/bear-workflow:start 56"
