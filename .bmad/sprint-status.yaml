@@ -956,7 +956,7 @@ sprints:
       - {id: T-TECH-56-01, title: "current_sprint 56, sprint 56 planifié, US-286 à US-312 au backlog", type: OPS, hours: 0.5, status: done}
       - {id: T-TECH-56-02, title: "Démo #188 : alias RegistrationLinkPolicyInterface, suppression du register.html.twig local, retrait des deux entrées périmées d'ACCEPTED", type: BE, hours: 2, status: blocked}  # attend le tag v0.3.2 du thème (PR #31 à fusionner par Thibaut)
       - {id: T-TECH-56-03, title: "Dependabot #191 et #192 : @dependabot rebase", type: OPS, hours: 0, status: cancelled}  # SANS OBJET : fusionnées par Thibaut le 2026-11-21 (3dd360f, 48b708b), vérifié le 2026-11-22
-      - {id: T-TECH-56-04, title: "Thème : HidePricesVoter compatible avec le 4e paramètre ?Vote de Symfony 8, en restant compatible 7.4", type: TEST, hours: 1, status: ready-for-dev}
+      - {id: T-TECH-56-04, title: "Thème : HidePricesVoter compatible avec le 4e paramètre ?Vote de Symfony 8, en restant compatible 7.4", type: TEST, hours: 1, status: review}  # thème PR #32 (brouillon, 794e429), CI verte ; fusion par Thibaut
       - {id: T-TECH-56-05, title: "plugin-repositories.json : dépôt du plugin de santé, plugin-supply-chain report", type: OPS, hours: 0.5, status: blocked}  # attend la conclusion d'US-286 et le GO de Thibaut sur le nom du paquet
       - {id: T-286-01, title: "Spike : relevé des cinq questions, sources datées", type: DOC, hours: 3, status: review}
       - {id: T-286-02, title: "Spike : note de cadrage, conclusion envelopper/écrire, nom du paquet et rendu différé tranchés", type: DOC, hours: 2, status: review}
