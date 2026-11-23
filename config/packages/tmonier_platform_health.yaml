@@ -1,0 +1,7 @@
+# Platform health page (US-292): Configuration > Platform health in the admin panel, read-only.
+# The page is a map of the installation (versions, paths): the demo shows the good practice and sets the dedicated role
+# instead of the default ROLE_ADMINISTRATION_ACCESS. The public admin accounts receive it from the demo_admin_role fixture
+# (App\Demo\Admin\DemoAdminRole), at every load of the fixtures.
+tmonier_sylius_platform_health:
+    access:
+        role: ROLE_PLATFORM_HEALTH_VIEW

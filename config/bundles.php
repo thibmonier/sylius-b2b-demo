@@ -95,4 +95,5 @@ return [
     Tmonier\SyliusDigitalProductPassportPlugin\TmonierSyliusDigitalProductPassportPlugin::class => ['all' => true],
     Tmonier\SyliusB2bSalesCopilotPlugin\TmonierSyliusB2bSalesCopilotPlugin::class => ['all' => true],
     Tmonier\SyliusCompanyVerificationPlugin\TmonierSyliusCompanyVerificationPlugin::class => ['all' => true],
+    Tmonier\SyliusPlatformHealthPlugin\TmonierSyliusPlatformHealthPlugin::class => ['all' => true],
 ];
