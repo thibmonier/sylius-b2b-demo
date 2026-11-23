@@ -49,7 +49,7 @@ COPY . .
 RUN composer dump-autoload --classmap-authoritative --no-dev
 
 # Node LTS only: from Node 26 on, the slim image no longer ships yarn, hence the guard below.
-FROM node:24-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 AS assets
+FROM node:24-bookworm-slim@sha256:dc26ae92c9fb15cf6b1d63e20f0944b2efe0f115b20e00be48fb23fceb061c54 AS assets
 WORKDIR /app
 COPY --from=vendor /app/vendor vendor
 COPY package.json yarn.lock webpack.config.mjs .babelrc ./
