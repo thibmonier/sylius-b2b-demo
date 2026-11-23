@@ -87,11 +87,9 @@ final class CleanTestCachesTest extends TestCase
 
     public function testAStaleLockDoesNotBlockARealRun(): void
     {
-        $dead = new Process(['true']);
-        $dead->start();
-        $pid = $dead->getPid();
-        $dead->wait();
-        $this->lockWithPid((string) $pid);
+        // A process that has exited can see its PID reused by an unrelated one before the script looks: this PID
+        // is above the limit of the system (4194304 on Linux, 99999 on macOS), no process can ever hold it.
+        $this->lockWithPid('2147483646');
 
         self::assertSame(0, $this->clean(['--all'])->getExitCode());
         self::assertDirectoryDoesNotExist($this->root . '/var/cache-a');

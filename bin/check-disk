@@ -11,6 +11,9 @@
 # Exit codes: 0 enough room, 3 alert (below CHECK_DISK_WARN_GB), 1 frozen (below MIN_FREE_GB, or below FULL_SUITE_MIN_GB with --full).
 # On an alert, warn Thibaut at once, then diagnose before cleaning anything. See docs/tests-locaux.md.
 set -eu
+# The figures below go through awk, whose printf and number parsing follow the locale: with a decimal comma
+# (LANG=fr_FR.UTF-8) it printed "2,0" and read "3782.69M" as 3782. Fixed to C whatever the caller exports.
+export LC_ALL=C
 cd "$(dirname "$0")/.."
 
 FULL=0
