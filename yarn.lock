@@ -923,7 +923,7 @@
     "@babel/preset-env" "^7.25.8"
     "@hotwired/stimulus" "^3.2.2"
     "@popperjs/core" "^2.11.8"
-    "@sylius/admin-bundle" "file:../usr/local/share/.cache/yarn/v6/npm-@sylius-ui-admin-2.0.0-616798a8-7494-4e4a-8207-75f3f97e0b14-1792078914316/node_modules/@sylius-ui/assets"
+    "@sylius/admin-bundle" "file:vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/assets"
     "@symfony/stimulus-bridge" "^3.2.0"
     "@symfony/webpack-encore" "^6.0.0"
     "@tabler/core" "~1.4.0"
@@ -947,7 +947,7 @@
     "@babel/preset-env" "^7.25.8"
     "@hotwired/stimulus" "^3.2.2"
     "@popperjs/core" "^2.11.8"
-    "@sylius/shop-bundle" "file:../usr/local/share/.cache/yarn/v6/npm-@sylius-ui-shop-2.0.0-335c02c3-bc01-4b94-aa65-ad25c026a467-1792078916998/node_modules/@sylius-ui/assets"
+    "@sylius/shop-bundle" "file:vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/assets"
     "@symfony/stimulus-bridge" "^3.2.0"
     "@symfony/webpack-encore" "^6.0.0"
     bootstrap "^5.3.8"
@@ -2956,10 +2956,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-tom-select@^2.2.2, tom-select@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/tom-select/-/tom-select-2.6.2.tgz#07693442309eefa5b57c6beee6005195f3f956a4"
-  integrity sha512-eiXIkk82XzzUTOVQDFpy+ZGejuqdTvMukyUyeZBQaKnqW42UoTiTZnrod/eX0rkqJEc4rZY9DZ3zdjV07i29wQ==
+tom-select@^2.6.2, tom-select@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/tom-select/-/tom-select-2.7.0.tgz#87325ad8f308c1bdba3d1b8941171c3a485e4a94"
+  integrity sha512-i/iuTfrzYfGPAILfgPdU9/CCSm8XcnomjO2bHjAcFQPV7od0ghVngjaMfB5x5Agkrpe+49/tK6soegrwWyi6Lg==
   dependencies:
     "@orchidjs/sifter" "^1.1.0"
     "@orchidjs/unicode-variants" "^1.1.2"
