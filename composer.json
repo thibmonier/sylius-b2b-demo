@@ -72,7 +72,7 @@
     "require-dev": {
         "nyholm/psr7": "^1.8.2",
         "phpstan/extension-installer": "^1.4.3",
-        "phpstan/phpstan": "2.3.5",
+        "phpstan/phpstan": "2.3.6",
         "phpstan/phpstan-doctrine": "^2.1.0",
         "phpstan/phpstan-webmozart-assert": "^2.0",
         "phpunit/phpunit": "^13.4.5",
