@@ -90,12 +90,13 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
         self::assertGreaterThan(0, $page->filter('a[href$="' . self::URL . '"]')->count());
     }
 
-    public function testAnAdministratorWithoutTheRoleGets403OnThePageAndOnTheComponent(): void
+    public function testAnAdministratorWithoutTheRoleGets403OnThePageOnTheComponentAndOnTheRefresh(): void
     {
         $client = $this->sophieClient();
         $page = $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
-        $componentUrl = $this->componentUrl($page);
+        $rendered = $this->postToComponent($client, $page);
+        self::assertResponseIsSuccessful();
 
         $this->isolateSharedAccounts($client);
         $this->adminUser(self::SOPHIE)->removeRole(self::ROLE);
@@ -105,7 +106,10 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
         $client->request('GET', self::URL);
         self::assertResponseStatusCodeSame(403);
 
-        $client->request('GET', $componentUrl);
+        $this->postToComponent($client, $page);
+        self::assertResponseStatusCodeSame(403);
+
+        $this->postToComponent($client, $rendered, 'refresh');
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -114,53 +118,41 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
         $client = $this->sophieClient();
         $page = $client->request('GET', self::URL);
         self::assertResponseIsSuccessful();
-        $this->results($client, $page);
 
-        $client->request('POST', $this->refreshUrl($page), ['data' => $this->refreshPayload($page)], [], [
-            'HTTP_ACCEPT' => 'application/vnd.live-component+html',
-            'HTTP_X_CSRF_TOKEN' => $this->csrfToken($page),
-        ]);
+        // The deferred render and the refresh are POSTs under the administration prefix: the guard must let them through.
+        $rendered = $this->postToComponent($client, $page);
+        self::assertResponseIsSuccessful('The deferred render of the component must not be refused by the guard of the demo.');
 
+        $this->postToComponent($client, $rendered, 'refresh');
         self::assertResponseIsSuccessful('The refresh of the component is read-only: the guard of the demo must let it through.');
         self::assertStringContainsString('data-test-health-category="environment"', (string) $client->getResponse()->getContent());
     }
 
+    /**
+     * The deferred render and the actions of a live component are POSTs on its URL, as the browser sends them. The CSRF
+     * token of the actions is carried by the rendered component, not by its deferred placeholder.
+     */
+    private function postToComponent(KernelBrowser $client, Crawler $from, string $action = ''): Crawler
+    {
+        $root = $from->filter('[data-controller~="live"]');
+        self::assertGreaterThan(0, $root->count(), 'The page must carry the live component.');
+        $url = (string) strtok($this->attribute($root, 'data-live-url-value'), '?');
+        $props = json_decode($this->attribute($root, 'data-live-props-value'), true, 512, \JSON_THROW_ON_ERROR);
+
+        return $client->request('POST', '' === $action ? $url : $url . '/' . $action, [
+            'data' => json_encode(['props' => $props, 'updated' => [], 'args' => []], \JSON_THROW_ON_ERROR),
+        ], [], [
+            'HTTP_ACCEPT' => 'application/vnd.live-component+html',
+            'HTTP_X_CSRF_TOKEN' => $root->attr('data-live-csrf-value') ?? '',
+        ]);
+    }
+
     private function results(KernelBrowser $client, Crawler $page): Crawler
     {
-        $crawler = $client->request('GET', $this->componentUrl($page), [], [], ['HTTP_ACCEPT' => 'application/vnd.live-component+html']);
+        $crawler = $this->postToComponent($client, $page);
         self::assertResponseIsSuccessful();
 
         return $crawler;
-    }
-
-    private function componentUrl(Crawler $page): string
-    {
-        $root = $page->filter('[data-controller~="live"]');
-        self::assertGreaterThan(0, $root->count(), 'The page must carry the live component.');
-
-        return $this->liveUrl($root) . '?' . http_build_query(['props' => $this->attribute($root, 'data-live-props-value')]);
-    }
-
-    private function refreshUrl(Crawler $page): string
-    {
-        return $this->liveUrl($page->filter('[data-controller~="live"]')) . '/refresh';
-    }
-
-    private function refreshPayload(Crawler $page): string
-    {
-        $props = json_decode($this->attribute($page->filter('[data-controller~="live"]'), 'data-live-props-value'), true);
-
-        return json_encode(['props' => $props, 'updated' => [], 'args' => []], \JSON_THROW_ON_ERROR);
-    }
-
-    private function csrfToken(Crawler $page): string
-    {
-        return $this->attribute($page->filter('[data-controller~="live"]'), 'data-live-csrf-value');
-    }
-
-    private function liveUrl(Crawler $root): string
-    {
-        return strtok($this->attribute($root, 'data-live-url-value'), '?') ?: '';
     }
 
     private function attribute(Crawler $node, string $name): string
