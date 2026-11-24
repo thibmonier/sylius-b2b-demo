@@ -1,11 +1,11 @@
 {
-    "generated_at": "2026-11-13T21:11:06Z",
+    "generated_at": "2026-11-23T09:50:54Z",
     "demo": {
-        "sylius": "2.3.2",
+        "sylius": "2.3.3",
         "symfony": "8.1.11",
         "php": "^8.5",
         "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-        "checked_at": "2026-11-13"
+        "checked_at": "2026-11-23"
     },
     "plugins": {
         "sylius-admin-order-creation-plugin": {
@@ -851,6 +851,44 @@
                 "version": "v1.0.0",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
                 "checked_at": "2026-11-13"
+            }
+        },
+        "sylius-platform-health-plugin": {
+            "dependencies": {
+                "requires": [],
+                "suggests": [],
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/blob/main/composer.json",
+                "checked_at": "2026-11-23"
+            },
+            "ci": {
+                "php": [
+                    "8.2",
+                    "8.3",
+                    "8.4",
+                    "8.5"
+                ],
+                "sylius": [
+                    "2.2",
+                    "2.3"
+                ],
+                "symfony": [
+                    "6.4",
+                    "7.4",
+                    "8.0"
+                ],
+                "database": [
+                    "mariadb:11.4",
+                    "mysql:8.4",
+                    "postgres:17"
+                ],
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/blob/main/.github/workflows/build.yaml",
+                "checked_at": "2026-11-23"
+            },
+            "fingerprint": "ac192f2d01d973a21dfeb6bbd3653383c5310a7eab971e7c290497d8a1b8bade",
+            "demo": {
+                "version": "v0.2.0",
+                "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
+                "checked_at": "2026-11-23"
             }
         },
         "sylius-punchout-cxml-plugin": {

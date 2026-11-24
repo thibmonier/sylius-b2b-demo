@@ -765,6 +765,9 @@
     "tmonier/sylius-order-hold-plugin": {
         "version": "v1.0.0"
     },
+    "tmonier/sylius-platform-health-plugin": {
+        "version": "v0.2.0"
+    },
     "tmonier/sylius-punchout-cxml-plugin": {
         "version": "v1.1.0"
     },
