@@ -25,6 +25,17 @@ updates:
       groups:
           npm-minor-and-patch:
               update-types: [minor, patch]
+      # Same decisions as config/demo/version-watch-ignore.json (the weekly version watch).
+      ignore:
+          # Licence no longer MIT from apexcharts 5: the demo stays on 3.x (US-276).
+          - dependency-name: apexcharts
+            versions: [">=4"]
+          # The demo follows the build chain of Sylius core (@sylius-ui pins Encore 6, stimulus-bridge 3, Babel 7):
+          # majors wait for the Sylius migration (US-267, review by 2027-06-30). Minors and patches still come.
+          - dependency-name: "@symfony/webpack-encore"
+            update-types: ["version-update:semver-major"]
+          - dependency-name: "@symfony/stimulus-bridge"
+            update-types: ["version-update:semver-major"]
 
     - package-ecosystem: github-actions
       directory: /
