@@ -44,11 +44,12 @@ final class HttpPackagistApiTest extends TestCase
 
         $package = (new HttpPackagistApi($client))->package(self::NAME);
 
-        self::assertIsArray($package);
-        self::assertSame(['v0.3.0', 'v0.2.1', 'v0.1.0'], array_keys($package['versions']));
-        self::assertSame('^2.2.9 || ^2.3', $package['versions']['v0.2.1']['require']['sylius/sylius'], 'inherited from the version before');
-        self::assertArrayNotHasKey('suggest', $package['versions']['v0.2.1'], '"__unset" removes the key');
-        self::assertSame('^2.2', $package['versions']['v0.1.0']['require']['sylius/sylius']);
+        // v0.2.1 inherits the require of v0.3.0 and loses its suggest ("__unset"); v0.1.0 changes the require only
+        self::assertSame(['versions' => [
+            'v0.3.0' => ['version' => 'v0.3.0', 'require' => ['php' => '^8.2', 'sylius/sylius' => '^2.2.9 || ^2.3'], 'suggest' => ['foo/bar' => 'x']],
+            'v0.2.1' => ['version' => 'v0.2.1', 'require' => ['php' => '^8.2', 'sylius/sylius' => '^2.2.9 || ^2.3']],
+            'v0.1.0' => ['version' => 'v0.1.0', 'require' => ['php' => '^8.2', 'sylius/sylius' => '^2.2']],
+        ]], $package);
     }
 
     public function testAnUnknownPackageIsNull(): void
