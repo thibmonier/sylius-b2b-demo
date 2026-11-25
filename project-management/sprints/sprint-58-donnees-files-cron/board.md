@@ -4,12 +4,12 @@
 
 **Objectif** : la page de santé montre l'état des données, des files et des tâches planifiées : une migration oubliée, un transport d'échec qui se remplit ou un cron qui ne réussit plus se voient sans ouvrir un terminal.
 
-| 🔲 À faire (13) | 🔄 En cours (0) | 👀 Review (0) | ✅ Fait (2) |
+| 🔲 À faire (14) | 🔄 En cours (0) | 👀 Review (0) | ✅ Fait (2) |
 |-----------------|-----------------|---------------|-------------|
 | T-294-01 · T-294-02 · T-294-03 · T-294-04 | | | T-TECH-58-01 (planification) |
 | T-295-01 · T-295-02 · T-295-03 · T-295-04 | | | T-TECH-58-02 (règles 30 et 31) |
 | T-296-01 · T-296-02 · T-296-03 · T-296-04 | | | |
-| T-TECH-58-03 (release v0.4.0 et démo, dernière) | | | |
+| T-TECH-58-04 (CI allégée pour la documentation, démo, en parallèle) · T-TECH-58-03 (release v0.4.0 et démo, dernière) | | | |
 
 ## Par story
 
@@ -19,4 +19,4 @@
 | [US-295](tasks/US-295-tasks.md) | 5 | | Prête ; démarre après la fusion d'US-294 |
 | [US-296](tasks/US-296-tasks.md) | 5 | | Prête ; démarre après la fusion d'US-295 |
 
-Points engagés : 15/15 (100 %) · Tâches : 15 (12 de stories, 3 techniques) · Heures : 1,5 h/37,5 h · Sprint planifié le 2026-11-25
+Points engagés : 15/15 (100 %) · Tâches : 16 (12 de stories, 4 techniques) · Heures : 1,5 h/40,5 h · Sprint planifié le 2026-11-25

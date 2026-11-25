@@ -2,7 +2,7 @@
 
 **Durée** : 2026-12-24 → 2027-01-07 (créneau prévisionnel, comme les sprints 54 à 57 ; exécution réelle depuis le 2026-11-25)
 **Capacité** : 15 points + tâches techniques
-**Engagement** : **15 points (3 stories), soit 100 % de la capacité** + 3 tâches techniques (dont deux faites à la planification)
+**Engagement** : **15 points (3 stories), soit 100 % de la capacité** + 4 tâches techniques (dont deux faites à la planification)
 
 ## Sprint Goal
 
@@ -59,8 +59,9 @@ La démo n'a **aucun transport d'échec** Messenger (`config/packages/messenger.
 | T-TECH-58-01 | `current_sprint: 58`, sprint 58 planifié, fiches US-294 à US-296, EPIC-21 à jour | OPS | 1 h (faite) |
 | T-TECH-58-02 | **A-57-1 et A-57-2** : règles 30 et 31 dans `project-management/templates/consigne-worker.md` | DOC | 0,5 h (faite) |
 | T-TECH-58-03 | **Dernière tâche du sprint (A-57-1)** : CHANGELOG et release v0.4.0 du plugin sur GO de Thibaut ; démo en ^0.4 : migration, `failure_transport`, battements des 16 crons de `docker/crontab`, tables surveillées (journal d'audit, envois de webhooks, journal PunchOut), `compat-refresh` puis `proof-refresh` relu avant la PR (A-57-3) | OPS | 3,5 h |
+| T-TECH-58-04 | **CI de la démo allégée pour les PR de documentation** (demande de Thibaut du 2026-11-25) : un job `changes` classe les fichiers modifiés par un script testé (`bin/ci-changed-scope`) ; si la PR ne touche que `project-management/`, `docs/`, `.bmad/` ou des `*.md`, les jobs « Quality and smoke tests » (18 min), « Docker image », « Dependency audit » et « Image scan and SBOM » sont **sautés** (un job sauté compte comme réussi pour les vérifications exigées ; `paths-ignore` les laisserait en attente et bloquerait la fusion). zizmor tourne toujours ; `main` et `workflow_dispatch` gardent la CI complète ; tout fichier hors de cette liste, `.github/` compris, lance tout. Preuve : une PR de documentation avec les quatre jobs sautés et fusionnable, une PR de code avec tous les jobs | OPS | 3 h |
 
-**Total** : 5 h dont 1,5 h faite à la planification. Avec les stories : **37,5 h**.
+**Total** : 8 h dont 1,5 h faite à la planification. Avec les stories : **40,5 h**.
 
 ## Actions de Thibaut (hors capacité)
 
@@ -70,7 +71,7 @@ La démo n'a **aucun transport d'échec** Messenger (`config/packages/messenger.
 
 ## Contrainte d'exécution
 
-Les trois stories sont dans le **même dépôt** (le plugin de santé) : un seul worker à la fois, un seul worktree, **pas de PR empilée** (règle 27) ; chaque story est fusionnée avant que la suivante démarre. La release n'est posée qu'après la fusion des trois (règle 30). T-TECH-58-03 est dans la démo et démarre après le tag.
+Les trois stories sont dans le **même dépôt** (le plugin de santé) : un seul worker à la fois, un seul worktree, **pas de PR empilée** (règle 27) ; chaque story est fusionnée avant que la suivante démarre. La release n'est posée qu'après la fusion des trois (règle 30). T-TECH-58-03 est dans la démo et démarre après le tag. **T-TECH-58-04 est dans la démo et part tout de suite**, en parallèle d'US-294 (dépôts différents) : toutes les PR de documentation du sprint en profitent.
 
 ## Ordre d'exécution
 
