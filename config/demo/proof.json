@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-25T07:22:03Z",
+    "generated_at": "2026-11-25T11:41:24Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -927,7 +927,7 @@
         },
         "sylius-platform-health-plugin": {
             "version": {
-                "value": "v0.2.1",
+                "value": "v0.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
                 "checked_at": "2026-11-25"
             },
@@ -962,6 +962,7 @@
                 "checked_at": "2026-11-25"
             },
             "coverage": {
+                "stale": true,
                 "value": 97.65,
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/runs/139045809529",
                 "checked_at": "2026-11-25"
@@ -1391,7 +1392,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/45348744550",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/45581975145",
             "checked_at": "2026-11-25"
         },
         "phpstan": {
@@ -1420,11 +1421,12 @@
             "checked_at": "2026-11-25"
         },
         "tests": {
-            "value": 359,
+            "value": 360,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
             "checked_at": "2026-11-25"
         },
         "coverage": {
+            "stale": true,
             "value": 92.99,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/138295349322",
             "checked_at": "2026-11-25"
