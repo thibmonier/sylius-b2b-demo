@@ -1,0 +1,6 @@
+#!/bin/sh
+# T-TECH-58-04: classifies the files changed by a pull request, read on stdin (one path per line).
+# Stub of the red commit: always answers "code".
+set -eu
+cat >/dev/null
+echo code
