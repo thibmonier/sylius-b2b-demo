@@ -12,7 +12,7 @@ use Symfony\Component\Clock\MockClock;
 
 /**
  * US-111: the refresh collects only what a public source states (Packagist, the GitHub REST API), keeps the last
- * verified value (marked stale) when a source fails, and never invents a figure: no coverage is ever written.
+ * verified value (marked stale) when a source fails or a commit publishes no coverage, and never invents a figure.
  */
 final class ProofCollectorTest extends TestCase
 {
@@ -87,6 +87,58 @@ final class ProofCollectorTest extends TestCase
         $facts = $this->collector($sources)->plugin(self::SLUG)->facts;
 
         self::assertArrayNotHasKey('coverage', $facts);
+    }
+
+    /**
+     * A release commit that only changes the CHANGELOG runs no coverage job (the plugins' CI ignores *.md): the head of
+     * main has no coverage check. The last verified coverage stays, marked stale with its old date and source; it is not
+     * a failure of the source, so the refresh does not report one.
+     */
+    public function testWhenTheHeadCommitHasNoCoverageTheLastVerifiedOneIsKeptAndMarkedStale(): void
+    {
+        $previous = ['coverage' => ['value' => 97.65, 'source' => 'https://github.com/' . self::REPO . '/runs/139045809529', 'checked_at' => '2026-10-14']];
+
+        $collected = $this->collector($this->healthy())->plugin(self::SLUG, $previous);
+
+        self::assertSame([], $collected->failures);
+        self::assertSame(97.65, $collected->facts['coverage']['value']);
+        self::assertSame('https://github.com/' . self::REPO . '/runs/139045809529', $collected->facts['coverage']['source']);
+        self::assertSame('2026-10-14', $collected->facts['coverage']['checked_at'], 'the old date, not today');
+        self::assertTrue($collected->facts['coverage']['stale']);
+    }
+
+    public function testAFreshCoverageReplacesTheLastVerifiedOne(): void
+    {
+        $previous = ['coverage' => ['value' => 97.65, 'source' => 'https://github.com/' . self::REPO . '/runs/1', 'checked_at' => '2026-10-14', 'stale' => true]];
+        $sources = $this->healthy(checkRuns: ['check_runs' => [[
+            'name' => 'coverage',
+            'output' => ['summary' => 'COVERAGE_LINES: 87.20'],
+            'html_url' => 'https://github.com/' . self::REPO . '/runs/123',
+        ]]]);
+
+        $facts = $this->collector($sources)->plugin(self::SLUG, $previous)->facts;
+
+        self::assertSame(87.20, $facts['coverage']['value']);
+        self::assertSame('2026-10-21', $facts['coverage']['checked_at']);
+        self::assertArrayNotHasKey('stale', $facts['coverage']);
+    }
+
+    public function testWhenTheHeadCommitOfTheDemoHasNoCoverageTheLastVerifiedOneIsKeptAndMarkedStale(): void
+    {
+        $repository = 'thibmonier/sylius-b2b-demo';
+        $sources = new FakeSources([], [
+            'repos/' . $repository => ['default_branch' => 'main'],
+            'repos/' . $repository . '/contents/.github/workflows?ref=main' => [],
+            'repos/' . $repository . '/git/trees/main?recursive=1' => ['truncated' => false, 'tree' => [['path' => 'tests/Unit/ATest.php', 'type' => 'blob']]],
+        ]);
+        $previous = ['coverage' => ['value' => 92.99, 'source' => 'https://github.com/' . $repository . '/runs/138295349322', 'checked_at' => '2026-10-14']];
+
+        $collected = $this->collector($sources)->delivery($repository, $previous);
+
+        self::assertSame([], $collected->failures);
+        self::assertSame(92.99, $collected->facts['coverage']['value']);
+        self::assertSame('2026-10-14', $collected->facts['coverage']['checked_at']);
+        self::assertTrue($collected->facts['coverage']['stale']);
     }
 
     public function testAPluginUnknownToPackagistIsUnpublished(): void
