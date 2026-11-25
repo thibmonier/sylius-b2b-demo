@@ -66,6 +66,6 @@ phases:
     status: in_progress
     sprint_1: {status: in_progress, branch: feature/sprint-1-walking-skeleton, runner: /bear-workflow:auto-sprint 001}
 
-next_action: "Sprint 57 clos le 2026-11-25 (17/17 points, revue et rétro écrites, actions A-57-1 à A-57-4). Attend de Thibaut : fusion de la PR des documents du sprint 57, relevé Railway du 2026-12-01, choix du périmètre du sprint 58 (US-294, US-295, US-296, US-303 : 20 points pour 15)"
-updated_at: 2026-11-25T16:45:04+01:00
-next_command: "/bear-workflow:start 58"
+next_action: "Sprint 58 planifié le 2026-11-25 (EPIC-21 complet : US-294, US-295, US-296, 15 points ; US-303 au sprint 59). Attend de Thibaut : fusion de la PR de planification ; ensuite US-294 en premier, une story à la fois dans le plugin de santé, release v0.4.0 sur GO après les trois"
+updated_at: 2026-11-25T17:13:24+01:00
+next_command: "/bear-workflow:implement"
