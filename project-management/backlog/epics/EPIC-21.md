@@ -39,14 +39,14 @@ Le plugin **ne lance pas** `composer audit` depuis l'administration : ce serait 
 
 ## Stories
 
-> Fiche écrite : US-293 (sprint 57, `ready-for-dev`). Les autres fiches seront rédigées au cadrage de leur sprint.
+> Fiches écrites : US-293 (sprint 57, livrée) ; US-294, US-295 et US-296 (sprint 58, `ready-for-dev`, 2026-11-25). Les autres au cadrage de leur sprint.
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
 | [US-293](../user-stories/US-293.md) | Sondes d'environnement : versions PHP/Symfony/Sylius, fin de support, extensions, OPcache, `APP_DEBUG` | Must | 5 | 57 |
-| US-294 | Sondes de données : connexion, migrations en attente, dérive du schéma, tables qui grossissent sans purge | Must | 5 | 58 |
-| US-295 | Sondes de files et de cache : messages en attente et âge du plus ancien, transport d'échec, cache, dossiers inscriptibles | Must | 5 | 58 |
-| US-296 | Battement des tâches planifiées : déclaration du rythme attendu, détection d'un cron qui ne réussit plus | Must | 5 | 58 |
+| [US-294](../user-stories/US-294.md) | Sondes de données : connexion, migrations en attente, dérive du schéma, tables qui grossissent sans purge | Must | 5 | 58 |
+| [US-295](../user-stories/US-295.md) | Sondes de files et de cache : messages en attente et âge du plus ancien, transport d'échec, cache, dossiers inscriptibles | Must | 5 | 58 |
+| [US-296](../user-stories/US-296.md) | Battement des tâches planifiées : déclaration du rythme attendu, détection d'un cron qui ne réussit plus | Must | 5 | 58 |
 | US-297 | Sondes de courriel et d'adressage : mailer configuré et dernier envoi, canal sans URL, HTTPS et en-têtes | Should | 3 | 59 |
 | US-298 | Audit de dépendances : lecture d'un rapport `composer audit` produit ailleurs, `unknown` si absent ou périmé | Should | 5 | 59 |
 | US-299 | Sonde de dernière sauvegarde ou remise à zéro, par crochet facultatif de l'hébergeur | Could | 3 | non planifiée |
@@ -70,4 +70,4 @@ graph LR
 
 1. ~~**Dates de fin de support embarquées**~~ **Tranché le 2026-11-22 par Thibaut** : figées dans le code, table versionnée mise à jour à chaque version du plugin, aucun appel réseau ; chaque sonde dit la version de table utilisée (US-293).
 2. ~~**Battement** : YAML ou attribut PHP sur la commande ?~~ **Tranché le 2026-11-22 par la décision sur l'inversion de dépendance** : un attribut `#[Heartbeat]` obligerait le plugin surveillé à connaître le plugin de santé. Le rythme attendu est donc déclaré en configuration, dans l'application ou dans le plugin de santé, jamais sur la commande surveillée.
-3. **Seuils** : des valeurs par défaut opinionnées (ex. transport d'échec non vide = `warning`, plus de 100 = `critical`) ou tout configurable dès la première version ?
+3. ~~**Seuils**~~ **Tranché le 2026-11-25 par Thibaut, à la planification du sprint 58** : défauts opinionnés, configurables sonde par sonde (règle d'US-293). Question d'origine : des valeurs par défaut opinionnées (ex. transport d'échec non vide = `warning`, plus de 100 = `critical`) ou tout configurable dès la première version ?
