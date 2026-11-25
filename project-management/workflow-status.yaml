@@ -66,6 +66,6 @@ phases:
     status: in_progress
     sprint_1: {status: in_progress, branch: feature/sprint-1-walking-skeleton, runner: /bear-workflow:auto-sprint 001}
 
-next_action: "Sprint 57 en cours (11/17 points faits, 6 en review). Attend de Thibaut : fusion de health #14 (captures de l'encart, US-289) et de démo #221 (page relue à 1280 px, US-292), passe VoiceOver de la page et de l'encart ; ensuite US-289 et US-292 done, puis revue du sprint"
+next_action: "Sprint 57 : 17/17 points faits le 2026-11-25. Reste : passe VoiceOver de Thibaut (page et encart), puis revue et rétrospective du sprint"
 updated_at: 2026-11-25T16:26:12+01:00
 next_command: "/bear-workflow:review"
