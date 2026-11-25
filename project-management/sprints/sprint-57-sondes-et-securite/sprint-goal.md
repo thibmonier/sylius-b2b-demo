@@ -1,6 +1,6 @@
 # Sprint 57 — Sondes d'environnement et sécurité de l'écran de santé
 
-**Durée** : 2026-12-10 → 2026-12-24
+**Durée** : 2026-12-10 → 2026-12-24 (créneau prévisionnel ; exécution réelle depuis le 2026-11-22)
 **Capacité** : 15 points + tâches techniques
 **Engagement** : **17 points (5 stories), soit 113 % de la capacité** + 5 tâches techniques (dont une terminée à la planification)
 

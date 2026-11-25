@@ -972,9 +972,9 @@ sprints:
 
   sprint-57:
     name: sprint-57-sondes-et-securite
-    status: planned
+    status: in-progress  # démarré le 2026-11-22 (planification, T-TECH-57-01) ; US-293, US-290, US-291 done ; US-289 et US-292 en review (health #14, démo #221) ; statut corrigé le 2026-11-25 (GO de Thibaut)
     sprint_id: "sprint-57"
-    start_date: "2026-12-10"
+    start_date: "2026-12-10"  # créneau prévisionnel, comme les sprints 54 à 56 (exécution réelle depuis le 2026-11-22) ; point de contrôle du 2026-12-16 inchangé
     end_date: "2026-12-24"
     capacity_points: 15
     goal: "La page de santé de la plateforme affiche ses premières vraies sondes, celles de l'environnement, derrière un rôle dédié, sans valeur sensible à l'écran et lisible sans la couleur, et le plugin entre dans la démo"
