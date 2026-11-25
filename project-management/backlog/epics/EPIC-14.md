@@ -1,6 +1,6 @@
 # EPIC-14 — Feuille de route plugins B2B (preuve d'expertise)
 
-> Exigences : Audit fonctionnel §4.2 et §5 · 18 stories · 74 points (dont 5 reprises de stories existantes)
+> Exigences : Audit fonctionnel §4.2 et §5 · 20 stories · 80 points (dont 5 reprises de stories existantes)
 
 ## Description
 
@@ -33,5 +33,7 @@
 | [US-282](../user-stories/US-282.md) | Plugin company-verification : SIREN/SIRET et TVA vérifiés à l'inscription B2B (P11) | Should | 5 | 55 |
 | [US-283](../user-stories/US-283.md) | Plugin einvoice-pennylane : premier adaptateur réel de transmission (PA Pennylane) | Should | 5 | 55 |
 | [US-285](../user-stories/US-285.md) | Factur-X : le SIRET du siège de La Poste est accepté | Should | 1 | à planifier |
+| [US-316](../user-stories/US-316.md) | Spike Peppol : adaptateur de transmission vers le réseau Peppol | Should | 3 | à planifier |
+| [US-317](../user-stories/US-317.md) | Spike ERP, flux retour : statuts de commande, expéditions et suivi | Should | 3 | à planifier |
 
 **Notes** : P1 reprend US-056 à US-060 (sans duplication). P11 est repris par US-282 (analyse de l'écosystème du 2026-11-12). Les plugins P6, P9, P10, P12, P13 sont consignés dans la feuille de route, non planifiés.

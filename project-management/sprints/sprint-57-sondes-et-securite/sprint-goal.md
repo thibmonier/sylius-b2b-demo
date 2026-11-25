@@ -1,6 +1,6 @@
 # Sprint 57 — Sondes d'environnement et sécurité de l'écran de santé
 
-**Durée** : 2026-12-10 → 2026-12-24
+**Durée** : 2026-12-10 → 2026-12-24 (créneau prévisionnel ; exécution réelle depuis le 2026-11-22)
 **Capacité** : 15 points + tâches techniques
 **Engagement** : **17 points (5 stories), soit 113 % de la capacité** + 5 tâches techniques (dont une terminée à la planification)
 
@@ -89,6 +89,8 @@ Elles reprennent les actions de la rétrospective du sprint 56 et soldent ses su
 
 - **GO et tag `v0.2.0`** du plugin de santé, puis mise à jour Packagist : sans eux, la partie démo d'US-292 (T-292-03 à T-292-05) ne peut pas démarrer. Aucun tag sans GO ; fusions par Thibaut.
 - **Railway** : `railway usage` par service, 48 h après le déploiement de `MP_MAX_MESSAGES: "50"`, pour vérifier la prédiction écrite sur le service `web` (moyenne 0,88 Go, 3-4 $/mois). Convention : jamais par Claude.
+  - **Relevé de Thibaut du 2026-11-24** (période du 13 novembre au 13 décembre, 11,4 jours écoulés) : workspace 9,76 $ consommés, 19,28 $ estimés (2026-11-22 : 8,42 $ et 18,34 $, soit +0,67 $/jour) ; projet `sylius-b2b-demo` 5,55 $ : `web` 3,12 $ (mémoire 3,03 $), `mysql` 1,68 $, `mailpit` 0,75 $. Lecture : `web` ≈ 8,2 $/mois et 0,80 Go de moyenne (à 10 $/Go/mois), proche des 0,88 Go mesurés au 2026-11-20 ; la cible « 3-4 $/mois » n'est pas atteinte et ne concordait pas avec 0,88 Go (≈ 8,8 $/mois). `MP_MAX_MESSAGES` ne touche que `mailpit` : en retirant 9,4 jours à 0,22 Go, les ~2 jours suivants donnent ≈ 0,09 Go, estimation fragile (pas de relevé par service au 2026-11-22). Les autres projets du workspace pèsent 4,21 $ (≈ 11 $/mois au rythme actuel, contre ~2,5 $/mois estimés) : à auditer en premier (levier 3 de `docs/deploiement-railway.md`). Prochain relevé par service : 2026-12-01, pour mesurer `mailpit` sur une semaine entière.
+  - **Relevé de Thibaut du 2026-11-25 au matin** (environ 22 h après le précédent, heure exacte non relevée) : projet 5,92 $ (+0,37 $) : `web` 3,32 $ (+0,20 $), `mysql` 1,82 $ (+0,14 $), `mailpit` 0,78 $ (+0,036 $). Rapporté à 30 jours : `web` ≈ 6,5 $/mois (≈ 0,65 Go), `mysql` ≈ 4,6 $/mois, `mailpit` ≈ 1,2 $/mois (≈ 0,12 Go, contre 0,22 Go avant `MP_MAX_MESSAGES: "50"`, soit −45 % environ), projet ≈ 12 $/mois. Premier delta mesuré par service après le réglage : l'effet sur `mailpit` est visible ; une seule journée, à confirmer le 2026-12-01.
 - ~~**Lecture d'US-290**~~ : tranché le 2026-11-22, option B (rôle activable en configuration, sans rupture).
 - **Point de contrôle du 2026-12-16** : valider le retrait d'US-289 si l'engagement dérive.
 

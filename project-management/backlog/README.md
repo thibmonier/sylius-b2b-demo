@@ -69,3 +69,13 @@ US-312), 113 points, sprints 56 à 61 proposés. Fiches écrites : US-286 à US-
 ## Socle de la démo : montée PHP 8.6 (2026-11-22)
 
 [US-313](user-stories/US-313.md) — Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14 · [EPIC-01](epics/EPIC-01.md) · Should · 5 points · à planifier (sprint 57+). Issue de la question 6 du spike US-286 ; réouverture de l'[ADR-0021](../../docs/adr/0021-montee-php-8-6-reportee.md) décidée par Thibaut le 2026-11-22.
+
+[US-314](user-stories/US-314.md) — CI des plugins : la suite non unitaire s'exécute même si l'unitaire échoue · [EPIC-01](epics/EPIC-01.md) · Should · 2 points · à planifier. Suite d'A-56-1 : appliquée au plugin de santé par T-TECH-57-03, les 30 autres plugins restent à faire.
+
+[US-315](user-stories/US-315.md) — Plugins : traiter les PR Dependabot ouvertes (phpunit, GitHub Actions) · [EPIC-01](epics/EPIC-01.md) · Should · 3 points · à planifier. 8 PR dans 7 plugins au 2026-11-23 ; la démo passe par T-TECH-57-06.
+
+## Plugins complémentaires pour la communauté (2026-11-23)
+
+[US-316](user-stories/US-316.md) — Spike Peppol : adaptateur de transmission vers le réseau Peppol pour einvoice-transmission · [EPIC-14](epics/EPIC-14.md) · Should · 3 points · à planifier. Demande de Thibaut du 2026-11-23.
+
+[US-317](user-stories/US-317.md) — Spike ERP, flux retour : statuts de commande, expéditions et suivi importés depuis l'ERP · [EPIC-14](epics/EPIC-14.md) · Should · 3 points · à planifier. Demande de Thibaut du 2026-11-23 ; prolonge erp-flatfile v0.2.0 (prix et stock déjà importés).
