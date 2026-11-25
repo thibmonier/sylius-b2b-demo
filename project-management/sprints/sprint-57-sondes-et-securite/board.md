@@ -1,6 +1,6 @@
 # Tableau du sprint 57 — Sondes d'environnement et sécurité de l'écran de santé
 
-> Vue régénérée le 2026-11-25 depuis `.bmad/sprint-status.yaml` (`sprint-57`, statut `in-progress`). À régénérer par `/bear-workflow:status --board` ; ne pas éditer à la main.
+> Vue régénérée le 2026-11-25 depuis `.bmad/sprint-status.yaml` (`sprint-57`, statut `done`, clos le 2026-11-25). À régénérer par `/bear-workflow:status --board` ; ne pas éditer à la main.
 
 **Objectif** : la page de santé de la plateforme affiche ses premières vraies sondes, celles de l'environnement, derrière un rôle dédié, sans valeur sensible à l'écran et lisible sans la couleur, et le plugin entre dans la démo.
 
@@ -19,7 +19,7 @@
 |-------|-----|----|------|
 | [US-293](tasks/US-293-tasks.md) | 5 | health (sondes d'environnement) | ✅ Fait |
 | [US-290](tasks/US-290-tasks.md) | 3 | health (rôle dédié, masquage) | ✅ Fait |
-| [US-291](tasks/US-291-tasks.md) | 3 | health #8 | ✅ Fait ; passe VoiceOver de Thibaut à faire (arbre d'accessibilité contrôlé le 2026-11-25) |
+| [US-291](tasks/US-291-tasks.md) | 3 | health #8 | ✅ Fait ; VoiceOver validé par Thibaut le 2026-11-25 |
 | [US-289](tasks/US-289-tasks.md) | 3 | health #12, #13 (v0.3.0), #14 | ✅ Fait ; maintenue (point de contrôle du 2026-12-16 sans objet) |
 | [US-292](tasks/US-292-tasks.md) | 3 | health #10, démo #212, #216, #218, #221 | ✅ Fait |
 
