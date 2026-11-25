@@ -1,6 +1,28 @@
 #!/bin/sh
-# T-TECH-58-04: classifies the files changed by a pull request, read on stdin (one path per line).
-# Stub of the red commit: always answers "code".
+# T-TECH-58-04: classifies the files changed by a pull request, read on stdin (one path per line, blank lines ignored).
+# Prints "docs" when every path is a follow-up document (under project-management/, docs/ or .bmad/, or a *.md file),
+# so the CI skips its heavy jobs; prints "code" otherwise, and for an empty list: any doubt runs the whole CI.
+# No step of the CI reads the demo's own documents (the README tests work on temporary directories), hence the list.
+#
+#   git diff --name-only "$BASE...$HEAD" | bin/ci-changed-scope
 set -eu
-cat >/dev/null
-echo code
+
+seen=0
+while IFS= read -r path || [ -n "$path" ]; do
+    [ -z "$path" ] && continue
+    seen=1
+    case "$path" in
+        project-management/* | docs/* | .bmad/* | *.md) ;;
+        *)
+            echo code
+            exit 0
+            ;;
+    esac
+done
+
+if [ "$seen" -eq 0 ]; then
+    echo code
+    exit 0
+fi
+
+echo docs
