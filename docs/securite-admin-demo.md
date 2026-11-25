@@ -4,7 +4,7 @@ Le compte back-office `sophie@fournitures-pro.example` est public (identifiants 
 
 ## Fonctionnement
 
-- Tous les comptes back-office du catalogue `config/demo/accounts.yaml` (source unique) reçoivent `ROLE_DEMO_ADMIN` à chaque chargement des fixtures (fixture `demo_admin_role`, priorité -1, juste après `admin_user`). Aucune comparaison d'e-mail en dur.
+- Tous les comptes back-office du catalogue `config/demo/accounts.yaml` (source unique) reçoivent `ROLE_DEMO_ADMIN` et `ROLE_PLATFORM_HEALTH_VIEW` (page de santé de la plateforme, lecture seule, US-292) à chaque chargement des fixtures (fixture `demo_admin_role`, priorité -1, juste après `admin_user`). Aucune comparaison d'e-mail en dur.
 - Le garde écoute `kernel.request` juste après le pare-feu (priorité 7) : le contrôleur n'est jamais atteint pour une écriture refusée, qu'elle vienne d'un formulaire, d'un POST construit à la main avec un jeton CSRF valide, d'une surcharge `_method` / `X-HTTP-Method-Override` ou d'une action de masse. Une requête est une écriture dès que sa méthode HTTP réelle **ou** effective n'est pas GET/HEAD/OPTIONS (un POST déguisé en GET compte comme une écriture).
 - Décision par **liste blanche** de noms de route (`DemoAdminWritePolicy`) : toute écriture non classée, y compris une route ajoutée plus tard par un plugin, est **refusée par défaut**. Toute suppression (`DELETE`, y compris `bulk-delete`) est refusée.
 - Refus : message de démo FR/EN selon la locale de l'admin (domaine `demo_admin`). Formulaire posté depuis une page de l'admin : redirection vers cette page avec un flash d'erreur ; sinon (pas de Referer, autre hôte) page 403 explicite (`templates/admin/demo/forbidden.html.twig`) ; requête AJAX ou `Accept: application/json` : 403 JSON.

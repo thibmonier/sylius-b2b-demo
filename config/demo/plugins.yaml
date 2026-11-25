@@ -257,6 +257,17 @@ parameters:
               fr: "Passez une commande soumise à approbation : elle reste en attente, n'est pas annulée automatiquement et ne peut pas être payée."
               en: "Place an order that needs approval: it stays on hold, is not cancelled automatically and cannot be paid."
           advised_account: claire@acme.example
+        - slug: sylius-platform-health-plugin
+          name: 'Platform Health'
+          category: admin
+          description:
+              fr: "Santé de la plateforme dans l'administration Sylius 2 : un contrat de sonde que l'intégrateur implémente en quelques lignes, un exécuteur qu'une sonde défaillante ne peut jamais casser, et six sondes d'environnement (PHP, Symfony, Sylius, extensions, OPcache, debug) sans appel réseau. Page en lecture seule et encart du tableau de bord (un feu par catégorie), accès réservable au rôle ROLE_PLATFORM_HEALTH_VIEW."
+              en: 'Platform health in the Sylius 2 admin panel: a probe contract that integrators implement in a few lines, a runner that a faulty probe can never break, and six environment probes (PHP, Symfony, Sylius, extensions, OPcache, debug) with no network call. Read-only page and a dashboard panel (one light per category), access restrictable to the ROLE_PLATFORM_HEALTH_VIEW role.'
+          demo_route: null
+          scenario:
+              fr: "Connectez-vous à l'administration en tant que Sophie et ouvrez Configuration > Santé de la plateforme : la catégorie « Environnement » affiche les six sondes mesurées sur l'image de la démo, sans valeur truquée. Une sonde en avertissement n'est pas un défaut de la démo, c'est le constat réel de son environnement. Dépliez une sonde pour son détail et son lien d'aide, puis cliquez sur « Rafraîchir » : les mesures sont rejouées. La page est en lecture seule ; l'accès repose sur le rôle ROLE_PLATFORM_HEALTH_VIEW, accordé aux comptes publics de la démo."
+              en: "Sign in to the admin panel as Sophie and open Configuration > Platform health: the \"Environment\" category shows the six probes measured on the demo image, with no faked value. A probe in warning is not a defect of the demo, it is the real finding about its environment. Unfold a probe for its detail and its help link, then click \"Refresh\": the measures are run again. The page is read-only; access relies on the ROLE_PLATFORM_HEALTH_VIEW role, granted to the public demo accounts."
+          advised_account: sophie@fournitures-pro.example
         - slug: sylius-punchout-cxml-plugin
           name: 'PunchOut cXML'
           category: integration

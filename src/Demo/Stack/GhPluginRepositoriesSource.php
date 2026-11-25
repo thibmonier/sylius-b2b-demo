@@ -47,10 +47,19 @@ final readonly class GhPluginRepositoriesSource implements PluginRepositoriesSou
         return [] === $conclusions ? null : [] === array_intersect($conclusions, self::RED);
     }
 
-    /** Dependabot reports its own update jobs as check runs on the head of main: they say nothing about the CI. */
+    /**
+     * Dependabot reports its own update jobs as check runs on the head of main: they say nothing about the CI. GitHub
+     * files them under a dependabot app, or, for the "Dependabot" job of the Dependabot Updates workflow, under the
+     * github-actions app (seen on sylius-gpsr-plugin in week 48).
+     */
     private static function isCi(mixed $run): bool
     {
-        return !\is_array($run) || 'dependabot' !== (\is_array($run['app'] ?? null) ? ($run['app']['slug'] ?? null) : null);
+        if (!\is_array($run)) {
+            return true;
+        }
+        $app = \is_array($run['app'] ?? null) ? ($run['app']['slug'] ?? null) : null;
+
+        return 'dependabot' !== $app && !('github-actions' === $app && 'Dependabot' === ($run['name'] ?? null));
     }
 
     /** @return list<DependabotPullRequest> */

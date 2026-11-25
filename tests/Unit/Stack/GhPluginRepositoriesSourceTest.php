@@ -29,6 +29,19 @@ final class GhPluginRepositoriesSourceTest extends TestCase
         self::assertTrue($status->mainGreen);
     }
 
+    public function testAFailedDependabotUpdatesJobRunOnGitHubActionsKeepsTheDefaultBranchGreen(): void
+    {
+        // As GitHub really reports it (sylius-gpsr-plugin, week 48): the "Dependabot" job of the "Dependabot Updates"
+        // workflow belongs to the github-actions app, not to a dependabot app; its failure of 2026-11-07 stayed on the
+        // head of main and flagged a green branch as red.
+        $status = $this->source(checkRuns: ['check_runs' => [
+            ['name' => 'Build', 'app' => ['slug' => 'github-actions'], 'conclusion' => 'success'],
+            ['name' => 'Dependabot', 'app' => ['slug' => 'github-actions'], 'conclusion' => 'failure'],
+        ]])->statuses()[0];
+
+        self::assertTrue($status->mainGreen);
+    }
+
     public function testOnlyDependabotRunsLeaveTheDefaultBranchUnknown(): void
     {
         $status = $this->source(checkRuns: ['check_runs' => [['name' => 'Dependabot', 'app' => ['slug' => 'dependabot'], 'conclusion' => 'success']]])->statuses()[0];

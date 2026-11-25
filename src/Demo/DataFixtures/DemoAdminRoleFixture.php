@@ -14,8 +14,9 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Restricts the public back-office accounts (US-035): every admin user of the demo account catalogue
- * (config/demo/accounts.yaml, single source) receives ROLE_DEMO_ADMIN, which DemoAdminWriteGuard enforces.
- * No other back-office account is touched.
+ * (config/demo/accounts.yaml, single source) receives ROLE_DEMO_ADMIN, which DemoAdminWriteGuard enforces, and
+ * ROLE_PLATFORM_HEALTH_VIEW, the role of the read-only platform health page (US-292). Idempotent: a role already held is
+ * not added again. No other back-office account is touched.
  *
  * Depends on: admin_user (0)
  * Priority: -1
@@ -37,12 +38,21 @@ final class DemoAdminRoleFixture extends AbstractFixture
     {
         foreach ($this->catalog->adminUsers() as $account) {
             $user = $this->adminUserRepository->findOneBy(['emailCanonical' => mb_strtolower($account->email)]);
-            if ($user instanceof AdminUserInterface && !$user->hasRole(DemoAdminRole::NAME)) {
-                $user->addRole(DemoAdminRole::NAME);
+            if ($user instanceof AdminUserInterface) {
+                $this->grant($user);
             }
         }
 
         $this->entityManager->flush();
+    }
+
+    private function grant(AdminUserInterface $user): void
+    {
+        foreach (DemoAdminRole::grantedToPublicAccounts() as $role) {
+            if (!$user->hasRole($role)) {
+                $user->addRole($role);
+            }
+        }
     }
 
     public function getName(): string

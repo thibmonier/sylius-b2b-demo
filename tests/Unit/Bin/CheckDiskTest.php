@@ -135,6 +135,27 @@ final class CheckDiskTest extends TestCase
         self::assertStringContainsString('Swap: 3783 MB used of 5120 MB', $output);
     }
 
+    /**
+     * T-TECH-57-02 (A-56-4): the figures do not depend on the locale of the caller. Under a decimal-comma locale a
+     * gawk or BSD awk printed "2,0" and read "3782.69M" as 3782. The CI runner has no such locale (and its mawk ignores
+     * it), so the stub awk below behaves like a locale-aware one: it uses the decimal comma unless the script pinned
+     * LC_ALL=C. Run by hand with LC_ALL=fr_FR.UTF-8, the real awk of the developer machine fails the same way.
+     */
+    public function testTheFiguresDoNotDependOnTheLocaleOfTheCaller(): void
+    {
+        file_put_contents($this->root . '/stub/awk', <<<'SH'
+            #!/bin/sh
+            if [ "${LC_ALL:-}" = C ]; then exec /usr/bin/awk "$@"; fi
+            /usr/bin/awk "$@" | tr . ,
+            SH);
+        chmod($this->root . '/stub/awk', 0o755);
+
+        $output = $this->check(['STUB_FREE_KB' => (string) (40 * 1024 * 1024), 'LC_ALL' => 'fr_FR.UTF-8'])->getOutput();
+
+        self::assertStringContainsString('Memory: 2.0 GB free', $output);
+        self::assertStringContainsString('Swap: 3783 MB used of 5120 MB', $output);
+    }
+
     public function testAnUnreachableMysqlDoesNotBreakTheDiagnosis(): void
     {
         file_put_contents($this->root . '/stub/docker', "#!/bin/sh\nexit 1\n");

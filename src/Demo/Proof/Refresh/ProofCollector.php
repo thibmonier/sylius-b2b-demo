@@ -49,7 +49,7 @@ final readonly class ProofCollector
         }
 
         try {
-            $facts += $this->repositoryFacts($this->owner . '/' . $slug, false);
+            $facts += self::withKeptCoverage($this->repositoryFacts($this->owner . '/' . $slug, false), $previous);
         } catch (SourceUnavailable) {
             $failures[] = 'github';
             $facts += self::kept($previous, self::PLUGIN_REPOSITORY_KEYS);
@@ -66,7 +66,7 @@ final readonly class ProofCollector
     public function delivery(string $repository, array $previous = [], ?int $localTests = null): CollectedFacts
     {
         try {
-            $facts = $this->repositoryFacts($repository, true);
+            $facts = self::withKeptCoverage($this->repositoryFacts($repository, true), $previous);
             if (null !== $localTests && \is_array($facts['tests'] ?? null)) {
                 $facts['tests']['value'] = $localTests;
             }
@@ -93,6 +93,25 @@ final readonly class ProofCollector
         }
 
         return $kept;
+    }
+
+    /**
+     * A commit that runs no coverage job (a CHANGELOG-only release: the CI ignores *.md) leaves the head of the branch
+     * without a coverage check. That is not a failure of the source: the last verified coverage stays, marked stale with
+     * its own date and source, until a commit publishes a new one.
+     *
+     * @param array<string, array<string, mixed>> $facts
+     * @param array<string, mixed>                $previous
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private static function withKeptCoverage(array $facts, array $previous): array
+    {
+        if (isset($facts['coverage'])) {
+            return $facts;
+        }
+
+        return $facts + self::kept($previous, ['coverage']);
     }
 
     /** @return array<string, array<string, mixed>> */
