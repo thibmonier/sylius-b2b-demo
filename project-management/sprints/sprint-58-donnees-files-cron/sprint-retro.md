@@ -54,4 +54,4 @@ Format : ce qui a marché, ce qui a coûté, actions SMART (comme aux sprints 56
 
 ## ROTI
 
-Non mesuré : rétrospective rédigée par l'orchestrateur, sans tour de table. Le retour de Thibaut est à ajouter ici.
+**5/5** (Thibaut, 2026-11-26). Actions A-58-1 à A-58-5 approuvées le même jour ; elles sont planifiées au sprint 59 (T-TECH-59-02 à 04).

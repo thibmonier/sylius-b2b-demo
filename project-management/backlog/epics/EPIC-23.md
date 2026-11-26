@@ -42,7 +42,7 @@ L'adresse est publique par construction, donc :
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
-| US-307 | Commande `tmonier:health:check` : sortie texte ou JSON, code de sortie 0/1/2, filtres `--category` et `--only` | Must | 3 | 60 |
+| [US-307](../user-stories/US-307.md) | Commande `tmonier:health:check` : sortie texte ou JSON, code de sortie 0/1/2, filtres `--category` et `--only` | Must | 3 | 59 (avancée le 2026-11-26) |
 | US-308 | Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit — généralise le `/healthz` de la démo | Must | 5 | 60 |
 | US-309 | Historique : instantané périodique, courbe par sonde sur 30 jours, purge configurable | Must | 5 | 61 |
 | US-310 | Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif | Should | 5 | 61 |
