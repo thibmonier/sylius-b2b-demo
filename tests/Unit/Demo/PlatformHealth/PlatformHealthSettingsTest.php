@@ -50,7 +50,7 @@ final class PlatformHealthSettingsTest extends TestCase
     {
         $purger = Typed::find($this->yaml('config/packages/demo_fixtures.yaml'), 'sylius_fixtures', 'suites', 'demo', 'listeners', 'orm_purger');
 
-        self::assertSame([self::HEARTBEAT_TABLE], Typed::find($purger, 'exclude'));
+        self::assertSame([self::HEARTBEAT_TABLE], Typed::find($purger, 'options', 'exclude'));
     }
 
     public function testTheTablesKeptSmallByAPurgeAreWatched(): void
@@ -73,7 +73,9 @@ final class PlatformHealthSettingsTest extends TestCase
             if (str_starts_with($line, '#') || 1 === preg_match('#^[A-Z_]+=#', $line)) {
                 continue;
             }
-            self::assertSame(1, preg_match('#^(\S+ \S+ \S+ \S+ \S+) .*/app/bin/console (\S+)#', $line, $match), 'Unreadable cron line: ' . $line);
+            if (1 !== preg_match('#^(\S+ \S+ \S+ \S+ \S+) .*/app/bin/console (\S+)#', $line, $match)) {
+                self::fail('Unreadable cron line: ' . $line);
+            }
             $rhythm = $this->rhythm($match[1]);
             $command = $match[2];
             if (!isset($rhythms[$command]) || $this->seconds($rhythm) < $this->seconds($rhythms[$command])) {
