@@ -44,7 +44,7 @@ C'est exactement la leçon tirée du point d'extension du thème (PR #31 du 2026
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
-| US-303 | Mécanisme des sondes facultatives : un plugin fournit sa sonde sans dépendre du plugin de santé | Must | 5 | 58 |
+| [US-303](../user-stories/US-303.md) | Mécanisme des sondes facultatives : un plugin fournit sa sonde sans dépendre du plugin de santé | Must | 5 | 59 |
 | US-300 | Sondes de configuration de boutique : canal sans paiement, sans livraison, sans locale, sans devise, zone ou taxe manquante | Must | 5 | 59 |
 | US-301 | Sondes de catalogue : produits activés sans prix, sans image, sans stock ni réassort — avec lien vers la grille filtrée | Must | 5 | 59 |
 | US-302 | Sondes de flux de commandes : commandes immobilisées dans un état, paiements en échec, impayés, taux de paniers abandonnés | Must | 5 | 60 |

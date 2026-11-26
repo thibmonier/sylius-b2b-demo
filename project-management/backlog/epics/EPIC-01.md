@@ -14,5 +14,5 @@
 | [US-006](../user-stories/US-006.md) | Spike : mode worker FrankenPHP | Should | 2 | 6 |
 | [US-147](../user-stories/US-147.md) | Démo en PHP 8.5 (image, CI et plateforme Composer) | Must | 3 | 18 |
 | [US-313](../user-stories/US-313.md) | Montée de la démo vers PHP 8.6 sur FrankenPHP 1.14 | Should | 5 | à planifier (sprint 57+) |
-| [US-314](../user-stories/US-314.md) | CI des plugins : la suite non unitaire s'exécute même si l'unitaire échoue | Should | 2 | à planifier |
+| [US-314](../user-stories/US-314.md) | CI des plugins : la suite non unitaire s'exécute même si l'unitaire échoue | Should | 2 | 59 |
 | [US-315](../user-stories/US-315.md) | Plugins : traiter les PR Dependabot ouvertes (phpunit, GitHub Actions) | Should | 3 | à planifier |

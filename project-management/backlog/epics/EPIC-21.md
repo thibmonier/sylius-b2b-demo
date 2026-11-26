@@ -50,7 +50,7 @@ Le plugin **ne lance pas** `composer audit` depuis l'administration : ce serait 
 | US-297 | Sondes de courriel et d'adressage : mailer configuré et dernier envoi, canal sans URL, HTTPS et en-têtes | Should | 3 | 59 |
 | US-298 | Audit de dépendances : lecture d'un rapport `composer audit` produit ailleurs, `unknown` si absent ou périmé | Should | 5 | 59 |
 | US-299 | Sonde de dernière sauvegarde ou remise à zéro, par crochet facultatif de l'hébergeur | Could | 3 | non planifiée |
-| [US-318](../user-stories/US-318.md) | Dérive du schéma de la démo (constat de `data.schema_drift` après #228) : 16 instructions entre le mapping et la base | Must | 3 | 59, en tête |
+| [US-318](../user-stories/US-318.md) | Dérive du schéma de la démo (constat de `data.schema_drift` après #228) : 16 instructions entre le mapping et la base | Must | 3 | 59 (en tête) |
 
 ## Dépendances
 
