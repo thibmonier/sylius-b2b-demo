@@ -39,7 +39,7 @@ Le plugin **ne lance pas** `composer audit` depuis l'administration : ce serait 
 
 ## Stories
 
-> Fiches écrites : US-293 (sprint 57, livrée) ; US-294 et US-295 (sprint 58, livrées le 2026-11-26 : plugin #15 et #16), US-296 (sprint 58, en cours). Les autres au cadrage de leur sprint.
+> Fiches écrites : US-293 (sprint 57, livrée) ; US-294, US-295 et US-296 (sprint 58, livrées le 2026-11-26 : plugin #15, #16 et #17). Les autres au cadrage de leur sprint.
 
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
