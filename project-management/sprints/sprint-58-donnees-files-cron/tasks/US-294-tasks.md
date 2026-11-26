@@ -4,10 +4,10 @@
 
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
-| T-294-01 | [TEST] | Tests rouges : base saine, lente (seuil 500 ms), injoignable (DSN masqué), migrations en attente et exécutées inconnues, dérive du schéma, dérive trop longue (`unknown`), tables sous et au-delà du seuil, plateforme non gérée | 3 h | | 🔲 À faire |
-| T-294-02 | [BE] | `data.connection` et `data.pending_migrations` (`doctrine/migrations`), seuils configurables, liens de documentation | 3 h | T-294-01 | 🔲 À faire |
-| T-294-03 | [BE] | `data.schema_drift` (nombre d'instructions de `SchemaTool::getUpdateSchemaSql`, jamais le SQL, budget de temps) et `data.table_growth` (`information_schema.TABLES.TABLE_ROWS` ou `pg_class.reltuples`, tables déclarées) | 4 h | T-294-01 | 🔲 À faire |
-| T-294-04 | [DOC] | Traductions FR/EN, README EN + FR (quatre sondes, seuils, déclaration des tables), CHANGELOG `[Unreleased]` | 1,5 h | T-294-02, T-294-03 | 🔲 À faire |
+| T-294-01 | [TEST] | Tests rouges : base saine, lente (seuil 500 ms), injoignable (DSN masqué), migrations en attente et exécutées inconnues, dérive du schéma, dérive trop longue (`unknown`), tables sous et au-delà du seuil, plateforme non gérée | 3 h | | ✅ Done |
+| T-294-02 | [BE] | `data.connection` et `data.pending_migrations` (`doctrine/migrations`), seuils configurables, liens de documentation | 3 h | T-294-01 | ✅ Done |
+| T-294-03 | [BE] | `data.schema_drift` (nombre d'instructions de `SchemaTool::getUpdateSchemaSql`, jamais le SQL, budget de temps) et `data.table_growth` (`information_schema.TABLES.TABLE_ROWS` ou `pg_class.reltuples`, tables déclarées) | 4 h | T-294-01 | ✅ Done |
+| T-294-04 | [DOC] | Traductions FR/EN, README EN + FR (quatre sondes, seuils, déclaration des tables), CHANGELOG `[Unreleased]` | 1,5 h | T-294-02, T-294-03 | ✅ Done |
 
 ## Fin de tâche
 
