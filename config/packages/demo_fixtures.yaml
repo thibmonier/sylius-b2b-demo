@@ -4,7 +4,11 @@ sylius_fixtures:
     suites:
         demo:
             listeners:
-                orm_purger: ~
+                orm_purger:
+                    # T-TECH-58-03: the heartbeats of the scheduled tasks describe the installation, not the demo data;
+                    # purging them every night would show every daily command as "no heartbeat yet" until it runs.
+                    options:
+                        exclude: ['tmonier_platform_health_heartbeat']
                 logger: ~
                 # US-048: end-of-load marker, written after the last fixture (read by docker/entrypoint.sh).
                 demo_load_marker: ~
