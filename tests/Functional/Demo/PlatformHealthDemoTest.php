@@ -8,7 +8,9 @@ use App\Demo\Account\DemoAccountCatalog;
 use App\Demo\Admin\DemoAdminRole;
 use App\Demo\DataFixtures\DemoAdminRoleFixture;
 use App\Tests\Support\IsolatesSharedAccounts;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Sylius\Component\Core\Model\AdminUserInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -27,13 +29,28 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
 
     private const ROLE = 'ROLE_PLATFORM_HEALTH_VIEW';
 
+    /** The probes of the plugin (v0.4) by category, all measured on the demo, none of them written by the demo. */
     private const PROBES = [
-        'environment.php_version',
-        'environment.symfony_version',
-        'environment.sylius_version',
-        'environment.php_extensions',
-        'environment.opcache',
-        'environment.app_debug',
+        'environment' => [
+            'environment.php_version',
+            'environment.symfony_version',
+            'environment.sylius_version',
+            'environment.php_extensions',
+            'environment.opcache',
+            'environment.app_debug',
+            'environment.cache_pool',
+            'environment.writable_dirs',
+        ],
+        'data' => [
+            'data.connection',
+            'data.pending_migrations',
+            'data.schema_drift',
+            'data.table_growth',
+            'data.messenger_pending',
+            'data.messenger_oldest',
+            'data.messenger_failed',
+        ],
+        'scheduled_tasks' => ['scheduled_tasks.heartbeat'],
     ];
 
     public function testEveryPublicAdminAccountOfTheCatalogueCarriesTheRoleAfterTheFixturesLoad(): void
@@ -68,7 +85,7 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
         self::assertCount(\count(array_unique($roles)), $roles, 'The roles of the account must stay a set.');
     }
 
-    public function testSophieSeesThePageAndItsSixEnvironmentProbesOnTheRealImage(): void
+    public function testSophieSeesThePageAndItsSixteenProbesOnTheRealImage(): void
     {
         $client = $this->sophieClient();
         $page = $client->request('GET', self::URL);
@@ -78,9 +95,35 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
 
         $results = $this->results($client, $page);
 
-        self::assertCount(1, $results->filter('[data-test-health-category="environment"]'));
-        $identifiers = $results->filter('[data-test-health-check]')->each(static fn (Crawler $row): string => (string) $row->attr('data-test-health-check'));
-        self::assertEqualsCanonicalizing(self::PROBES, $identifiers);
+        foreach (self::PROBES as $category => $probes) {
+            $section = $results->filter('[data-test-health-category="' . $category . '"]');
+            self::assertCount(1, $section, $category);
+            $identifiers = $section->filter('[data-test-health-check]')->each(static fn (Crawler $row): string => (string) $row->attr('data-test-health-check'));
+            self::assertEqualsCanonicalizing($probes, $identifiers, $category);
+        }
+        self::assertCount(16, $results->filter('[data-test-health-check]'));
+    }
+
+    public function testThePluginMigrationCreatedTheHeartbeatTable(): void
+    {
+        self::bootKernel();
+        $connection = self::getContainer()->get('doctrine.dbal.default_connection');
+        self::assertInstanceOf(Connection::class, $connection);
+
+        self::assertTrue($connection->createSchemaManager()->tablesExist(['tmonier_platform_health_heartbeat']));
+    }
+
+    public function testEveryWatchedTableIsATableOfTheDemo(): void
+    {
+        self::bootKernel();
+        $tables = array_map(
+            static fn (ClassMetadata $metadata): string => $metadata->getTableName(),
+            $this->entityManager()->getMetadataFactory()->getAllMetadata(),
+        );
+
+        foreach (['tmonier_audit_log_entry', 'tmonier_webhook_delivery', 'tmonier_punchout_message_log'] as $watched) {
+            self::assertContains($watched, $tables);
+        }
     }
 
     public function testTheMenuEntryIsShownToAnAccountWithTheRole(): void

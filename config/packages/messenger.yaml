@@ -5,7 +5,12 @@ framework:
             # services (API Recherche d'entreprises, VIES; 7 to 8 seconds for VIES): never inside a web request or a fixture load.
             # The table is created by a migration (auto_setup=0: the web user never creates tables); it is consumed by the
             # crontab (docker/crontab), see ADR-0002.
-            async: 'doctrine://default?auto_setup=0'
+            async:
+                dsn: 'doctrine://default?auto_setup=0'
+                # T-TECH-58-03: a message that still fails after its retries is kept instead of lost. Same table as async
+                # (queue "failed"), read by the data.messenger_failed probe; replay with messenger:failed:retry.
+                failure_transport: failed
+            failed: 'doctrine://default?queue_name=failed&auto_setup=0'
             sync: 'sync://'
 
         routing:
@@ -18,5 +23,6 @@ when@test: &messenger_test
         messenger:
             transports:
                 async: 'in-memory://'
+                failed: 'in-memory://'
 
 when@test_cached: *messenger_test

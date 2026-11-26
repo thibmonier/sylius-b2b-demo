@@ -5,3 +5,32 @@
 tmonier_sylius_platform_health:
     access:
         role: ROLE_PLATFORM_HEALTH_VIEW
+    # T-TECH-58-03 (v0.4): the tables that a nightly purge keeps small (tmonier:audit-log:purge, tmonier:webhook:purge,
+    # tmonier:punchout:purge). When a purge stops, the estimate of its table grows past the threshold (critical beyond the
+    # double). Orders of magnitude for the demo, which is reloaded every night.
+    data:
+        table_growth:
+            tmonier_audit_log_entry: 100000
+            tmonier_webhook_delivery: 100000
+            tmonier_punchout_message_log: 100000
+    # One heartbeat per command of docker/crontab, at the rhythm of its fastest cron (tmonier:feeds:generate runs every
+    # 15 minutes with --stale and once a night in full). A command added to the crontab is added here: a unit test compares
+    # both (tests/Unit/Demo/PlatformHealth). The nightly reset keeps the table (demo_fixtures.yaml, orm_purger exclude).
+    scheduled_tasks:
+        heartbeats:
+            'tmonier:webhook:dispatch': '1m'
+            'messenger:consume': '5m'
+            'tmonier:feeds:generate': '15m'
+            'tmonier:approval:expire': '1d'
+            'tmonier:quote-request:expire': '1d'
+            'tmonier:trade-credit:send-reminders': '1d'
+            'tmonier:predictive:recalculate': '1d'
+            'tmonier:trade-credit:recalculate': '1d'
+            'tmonier:punchout:purge': '1d'
+            'tmonier:webhook:purge': '1d'
+            'tmonier:audit-log:purge': '1d'
+            'tmonier:b2b-mcp:purge': '1d'
+            'tmonier:admin-order:purge-drafts': '1d'
+            'app:demo:reset': '1d'
+            'sylius:remove-expired-carts': '1d'
+            'sylius:cancel-unpaid-orders': '1d'

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5a8e7091d751c4d393f76bf866126e8",
+    "content-hash": "3fcc9649dc08fc713570df7361c5e4f2",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18523,16 +18523,16 @@
         },
         {
             "name": "tmonier/sylius-platform-health-plugin",
-            "version": "v0.3.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-platform-health-plugin.git",
-                "reference": "86693a199a6df5b759d5db8a152e44dee9f90cd5"
+                "reference": "9db2d1ce841501a03e43f10e31226b86d89d69ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-platform-health-plugin/zipball/86693a199a6df5b759d5db8a152e44dee9f90cd5",
-                "reference": "86693a199a6df5b759d5db8a152e44dee9f90cd5",
+                "url": "https://api.github.com/repos/thibmonier/sylius-platform-health-plugin/zipball/9db2d1ce841501a03e43f10e31226b86d89d69ff",
+                "reference": "9db2d1ce841501a03e43f10e31226b86d89d69ff",
                 "shasum": ""
             },
             "require": {
@@ -18604,9 +18604,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-platform-health-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.3.0"
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.4.0"
             },
-            "time": "2026-11-25T07:24:03+00:00"
+            "time": "2026-11-26T10:26:32+00:00"
         },
         {
             "name": "tmonier/sylius-punchout-cxml-plugin",
