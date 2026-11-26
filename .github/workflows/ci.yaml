@@ -14,8 +14,41 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+    # T-TECH-58-04: a pull request that only changes follow-up documents (project-management/, docs/, .bmad/, *.md)
+    # skips the heavy jobs below. A skipped job counts as passed for the required checks, where paths-ignore would leave
+    # them pending and block the merge. Push to main and workflow_dispatch always run everything.
+    changes:
+        name: Changed files
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        timeout-minutes: 5
+        outputs:
+            scope: ${{ steps.scope.outputs.scope }}
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+                  # The merge commit and its first parent, the tip of the base branch: their diff is the pull request.
+                  fetch-depth: 2
+            - name: Classify the changed files
+              id: scope
+              env:
+                  EVENT_NAME: ${{ github.event_name }}
+              run: |
+                  if [ "$EVENT_NAME" != pull_request ]; then
+                      scope=code
+                  else
+                      # A failing diff gives an empty list, which the script classifies as code.
+                      scope=$(git diff --name-only HEAD^1 HEAD | bin/ci-changed-scope)
+                  fi
+                  echo "scope=$scope" >> "$GITHUB_OUTPUT"
+                  echo "Changed files: **$scope** (docs skips the tests, the image, the audit and the image scan)" >> "$GITHUB_STEP_SUMMARY"
+
     tests:
         name: Quality and smoke tests
+        needs: changes
+        if: needs.changes.outputs.scope == 'code'
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -152,6 +185,8 @@ jobs:
 
     image:
         name: Docker image
+        needs: changes
+        if: needs.changes.outputs.scope == 'code'
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -233,6 +268,8 @@ jobs:
     # here without blocking an unrelated merge. Exceptions are dated: security/audit-exceptions.json, .trivyignore.yaml.
     audit:
         name: Dependency audit
+        needs: changes
+        if: needs.changes.outputs.scope == 'code'
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -277,6 +314,8 @@ jobs:
 
     image-scan:
         name: Image scan and SBOM
+        needs: changes
+        if: needs.changes.outputs.scope == 'code'
         runs-on: ubuntu-latest
         permissions:
             contents: read
