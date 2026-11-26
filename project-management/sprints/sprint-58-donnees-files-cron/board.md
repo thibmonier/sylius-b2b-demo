@@ -4,14 +4,15 @@
 
 **Objectif** : la page de santé montre l'état des données, des files et des tâches planifiées : une migration oubliée, un transport d'échec qui se remplit ou un cron qui ne réussit plus se voient sans ouvrir un terminal.
 
-| 🔲 À faire (1) | 🔄 En cours (0) | 👀 Review (0) | ✅ Fait (15) |
+| 🔲 À faire (0) | 🔄 En cours (0) | 👀 Review (0) | ✅ Fait (16) |
 |-----------------|-----------------|---------------|-------------|
-| T-TECH-58-03 (release v0.4.0 et démo, dernière) | | | T-TECH-58-01 (planification) |
+| | | | T-TECH-58-01 (planification) |
 | | | | T-TECH-58-02 (règles 30 et 31) |
 | | | | T-TECH-58-04 (CI allégée, démo #224) |
 | | | | T-294-01 · T-294-02 · T-294-03 · T-294-04 (plugin #15) |
 | | | | T-295-01 · T-295-02 · T-295-03 · T-295-04 (plugin #16) |
 | | | | T-296-01 · T-296-02 · T-296-03 · T-296-04 (plugin #17) |
+| | | | T-TECH-58-03 (release v0.4.0, plugin #18 ; démo en ^0.4, #228) |
 
 ## Par story
 
@@ -21,4 +22,4 @@
 | [US-295](tasks/US-295-tasks.md) | 5 | plugin #16 | ✅ Fusionnée le 2026-11-26 |
 | [US-296](tasks/US-296-tasks.md) | 5 | plugin #17 | ✅ Fusionnée le 2026-11-26 |
 
-Points engagés : 15/15 (100 %), livrés : 15/15 · Tâches : 15/16 faites · Heures : 37 h/40,5 h · Sprint planifié le 2026-11-25
+Points engagés : 15/15 (100 %), livrés : 15/15 · Tâches : 16/16 faites · Heures : 40,5 h/40,5 h · Sprint planifié le 2026-11-25
