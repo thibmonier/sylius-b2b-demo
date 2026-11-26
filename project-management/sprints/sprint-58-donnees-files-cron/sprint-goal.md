@@ -31,7 +31,7 @@ Décisions antérieures maintenues : `identifier()` constante littérale (décis
 
 ### Constat à la planification
 
-La démo n'a **aucun transport d'échec** Messenger (`config/packages/messenger.yaml` : `async` Doctrine et `sync` seulement) : un message qui échoue après ses tentatives disparaît. La sonde `data.messenger_failed` le signalera ; T-TECH-58-03 ajoute un `failure_transport` à la démo.
+Le transport `async` de la démo (Doctrine, `config/packages/messenger.yaml`) n'a **pas de transport d'échec** : un message qui échoue après ses tentatives disparaît. Précision du 2026-11-26 : le transport d'échec se déclare par transport, et ceux de Sylius en ont déjà chacun un ; seul `async` en manque. La sonde `data.messenger_failed` le nommera ; T-TECH-58-03 lui ajoute un `failure_transport`.
 
 ## Découpage
 

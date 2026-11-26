@@ -1027,8 +1027,8 @@ sprints:
     goal: "La page de santé montre l'état des données, des files et des tâches planifiées : une migration oubliée, un transport d'échec qui se remplit ou un cron qui ne réussit plus se voient sans ouvrir un terminal."
     stories:
       - {id: US-294, title: "Sondes de données : connexion, migrations en attente, dérive du schéma, tables qui grossissent sans purge", points: 5, status: done}  # T-294-01..04 ; plugin de santé PR #15 fusionnée le 2026-11-26 (rouge 6a6a401 et vert c397b55 vus en CI sur les 10 combinaisons, PostgreSQL et MariaDB compris) ; écart signalé : data.schema_drift sans message « calcul interrompu » propre, le budget de l'exécuteur le couvre (821 ms à froid, 53 ms à chaud sur l'application de test) ; catégorie data
-      - {id: US-295, title: "Sondes de files et de cache : messages en attente, âge du plus ancien, transport d'échec, cache, dossiers inscriptibles", points: 5, status: ready-for-dev}  # T-295-01..04 ; plugin de santé ; après la fusion d'US-294 ; Messenger dans data, cache et dossiers dans environment (décision de Thibaut du 2026-11-25) ; constat : aucun failure_transport dans la démo
-      - {id: US-296, title: "Battement des tâches planifiées : rythme attendu déclaré, détection d'un cron qui ne réussit plus", points: 5, status: ready-for-dev}  # T-296-01..04 ; plugin de santé ; après la fusion d'US-295 ; stockage en base, table tmonier_platform_health_heartbeat, migration du plugin (décision de Thibaut du 2026-11-25)
+      - {id: US-295, title: "Sondes de files et de cache : messages en attente, âge du plus ancien, transport d'échec, cache, dossiers inscriptibles", points: 5, status: done}  # T-295-01..04 ; plugin PR #16, fusionnée le 2026-11-26 (e20ec44) (rouge 71bc8be vu en CI sur les 10 combinaisons : 25 échecs unitaires, 1 non unitaire ; vert 2e7d584 ; doc c43e97a) ; Messenger dans data, cache et dossiers dans environment ; précision : transport d'échec par transport, Sylius en a pour les siens, seul async de la démo n'en a pas (T-TECH-58-03)
+      - {id: US-296, title: "Battement des tâches planifiées : rythme attendu déclaré, détection d'un cron qui ne réussit plus", points: 5, status: in-progress}  # T-296-01..04 ; plugin de santé ; après la fusion d'US-295 ; stockage en base, table tmonier_platform_health_heartbeat, migration du plugin (décision de Thibaut du 2026-11-25)
     sprint_tasks:
       - {id: T-TECH-58-01, title: "current_sprint 58, sprint 58 planifié, fiches US-294 à US-296, EPIC-21 à jour", type: OPS, hours: 1, status: done}
       - {id: T-TECH-58-02, title: "A-57-1 et A-57-2 : règles 30 et 31 dans project-management/templates/consigne-worker.md", type: DOC, hours: 0.5, status: done}  # écrites à la planification le 2026-11-25
@@ -1038,10 +1038,10 @@ sprints:
       - {id: T-294-02, title: "data.connection et data.pending_migrations", type: BE, hours: 3, status: done}
       - {id: T-294-03, title: "data.schema_drift (nombre d'instructions, budget) et data.table_growth (estimation par le catalogue, tables déclarées)", type: BE, hours: 4, status: done}
       - {id: T-294-04, title: "Traductions FR/EN, README, CHANGELOG des sondes de données", type: DOC, hours: 1.5, status: done}
-      - {id: T-295-01, title: "Tests rouges des sondes Messenger, de cache et de dossiers", type: TEST, hours: 3, status: to-do}
-      - {id: T-295-02, title: "data.messenger_pending, data.messenger_oldest (Doctrine), data.messenger_failed", type: BE, hours: 4, status: to-do}
-      - {id: T-295-03, title: "environment.cache_pool et environment.writable_dirs", type: BE, hours: 2, status: to-do}
-      - {id: T-295-04, title: "Traductions FR/EN, README, CHANGELOG des sondes de files et de cache", type: DOC, hours: 1.5, status: to-do}
+      - {id: T-295-01, title: "Tests rouges des sondes Messenger, de cache et de dossiers", type: TEST, hours: 3, status: done}
+      - {id: T-295-02, title: "data.messenger_pending, data.messenger_oldest (Doctrine), data.messenger_failed", type: BE, hours: 4, status: done}
+      - {id: T-295-03, title: "environment.cache_pool et environment.writable_dirs", type: BE, hours: 2, status: done}
+      - {id: T-295-04, title: "Traductions FR/EN, README, CHANGELOG des sondes de files et de cache", type: DOC, hours: 1.5, status: done}
       - {id: T-296-01, title: "Tests rouges du battement (déclarées seules, retard, échec, jamais lancée, panne d'écriture, configuration invalide)", type: TEST, hours: 3, status: to-do}
       - {id: T-296-02, title: "Entité, mapping XML, dépôt et migration du battement", type: DB, hours: 2.5, status: to-do}
       - {id: T-296-03, title: "Abonné console, configuration heartbeats, sonde scheduled_tasks.heartbeat", type: BE, hours: 3.5, status: to-do}
@@ -1059,8 +1059,8 @@ backlog:
   - {id: US-292, title: "Santé de la plateforme : traductions FR/EN, README, capture, CHANGELOG, intégration à la démo", points: 3, status: done}  # EPIC-20, Must ; sprint 57 ; fiche écrite ; dépend d'US-290, US-291 et US-293 ; partie démo après le tag v0.2.0
   - {id: US-293, title: "Sondes d'environnement : versions PHP/Symfony/Sylius, fin de support, extensions, OPcache, APP_DEBUG", points: 5, status: done}  # EPIC-21, Must ; sprint 57 ; fiche écrite ; question tranchée par Thibaut le 2026-11-22 : dates de fin de support figées dans le code
   - {id: US-294, title: "Sondes de données : connexion, migrations en attente, dérive du schéma, tables qui grossissent sans purge", points: 5, status: done}  # EPIC-21, Must ; sprint 58 ; fiche écrite le 2026-11-25
-  - {id: US-295, title: "Sondes de files et de cache : messages en attente, âge du plus ancien, transport d'échec, dossiers inscriptibles", points: 5, status: ready-for-dev}  # EPIC-21, Must ; sprint 58 ; fiche écrite le 2026-11-25
-  - {id: US-296, title: "Battement des tâches planifiées : rythme attendu déclaré, détection d'un cron qui ne réussit plus", points: 5, status: ready-for-dev}  # EPIC-21, Must ; sprint 58 ; rythme déclaré en configuration, pas par attribut (décision dérivée de la règle d'inversion d'US-303)
+  - {id: US-295, title: "Sondes de files et de cache : messages en attente, âge du plus ancien, transport d'échec, dossiers inscriptibles", points: 5, status: done}  # EPIC-21, Must ; sprint 58 ; fiche écrite le 2026-11-25
+  - {id: US-296, title: "Battement des tâches planifiées : rythme attendu déclaré, détection d'un cron qui ne réussit plus", points: 5, status: in-progress}  # EPIC-21, Must ; sprint 58 ; rythme déclaré en configuration, pas par attribut (décision dérivée de la règle d'inversion d'US-303)
   - {id: US-297, title: "Sondes de courriel et d'adressage : mailer configuré, dernier envoi, canal sans URL, HTTPS et en-têtes", points: 3, status: backlog}  # EPIC-21, Should ; sprint 59
   - {id: US-298, title: "Audit de dépendances : lecture d'un rapport composer audit produit ailleurs, unknown si absent ou périmé", points: 5, status: backlog}  # EPIC-21, Should ; sprint 59 ; aucun appel réseau depuis l'administration
   - {id: US-299, title: "Sonde de dernière sauvegarde ou remise à zéro, par crochet facultatif de l'hébergeur", points: 3, status: backlog}  # EPIC-21, Could ; non planifiée (Railway n'expose pas la date sur le plan utilisé)
