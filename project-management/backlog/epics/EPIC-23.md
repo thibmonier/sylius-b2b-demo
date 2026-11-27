@@ -43,9 +43,10 @@ L'adresse est publique par construction, donc :
 | Story | Titre | MoSCoW | Points | Sprint cible |
 |---|---|---|---|---|
 | [US-307](../user-stories/US-307.md) | Commande `tmonier:health:check` : sortie texte ou JSON, code de sortie 0/1/2, filtres `--category` et `--only` | Must | 3 | 59 (avancée le 2026-11-26) |
-| US-308 | Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit — généralise le `/healthz` de la démo | Must | 5 | 60 |
+| [US-308](../user-stories/US-308.md) | Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit — généralise le `/healthz` de la démo | Must | 5 | 60 |
 | US-309 | Historique : instantané périodique, courbe par sonde sur 30 jours, purge configurable | Must | 5 | 61 |
 | US-310 | Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif | Should | 5 | 61 |
+| [US-321](../user-stories/US-321.md) | Démo : `/healthz` servi par le point d'entrée du plugin (découpée d'US-308 le 2026-11-27) | Must | 2 | 60 |
 | [US-320](../user-stories/US-320.md) | Commande : seuil d'échec `--fail-on=warning\|critical` (revue du sprint 59) | Could | 2 | non planifiée |
 | US-311 | Export du rapport : page imprimable et JSON daté, pour une revue d'exploitation mensuelle | Could | 3 | non planifiée |
 | US-312 | Démo : page « Preuve technique », fixtures produisant une alerte volontaire, capture et GIF, post d'annonce (EPIC-13) | Should | 3 | 61 |
@@ -69,4 +70,4 @@ graph LR
 1. ~~**Canal d'alerte par défaut**~~ **Tranché le 2026-11-22** : **les deux** — courriel par le mailer Symfony, et webhook sortant par `webhook-outbox` en dépendance facultative (même mécanisme d'inversion qu'[US-303](EPIC-22.md)). US-310 couvre les deux canaux et passe de ce fait à 5 points fermes.
 2. **Rythme de l'instantané** : toutes les 15 min comme les flux, ou une fois par heure ? Trente jours d'historique à 15 min pour 25 sondes font ~72 000 lignes — acceptable, mais à décider plutôt qu'à subir.
 3. **Destinataire des alertes** : une adresse configurée, ou tous les administrateurs Sylius portant le rôle d'[US-290](EPIC-20.md) ?
-4. **`/healthz` de la démo** : le remplacer vraiment (et donc toucher la configuration Railway, qui est votre domaine) ou garder les deux, le plugin n'exposant que son propre point d'entrée ?
+4. ~~**`/healthz` de la démo**~~ **Tranché le 2026-11-27** : remplacé, par [US-321](../user-stories/US-321.md) (sprint 60) ; niveau « vivant » sans jeton, désactivé par défaut, pour le contrôle de Railway. Question d'origine : le remplacer vraiment (et donc toucher la configuration Railway, qui est votre domaine) ou garder les deux, le plugin n'exposant que son propre point d'entrée ?
