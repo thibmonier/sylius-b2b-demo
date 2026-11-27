@@ -14,12 +14,16 @@ ARG WKHTMLTOX_SHA256_AMD64=98ba0d157b50d36f23bd0dedf4c0aa28c7b0c50fcdcdc54aa5b6b
 ARG WKHTMLTOX_SHA256_ARM64=b6606157b27c13e044d0abbe670301f88de4e1782afca4f9c06a5817f3e03a9c
 ARG SUPERCRONIC_SHA256_AMD64=a53ae236602c7338aba3fbaff40bda6300eae3b9fedb8261eb06cfe3724430c1
 ARG SUPERCRONIC_SHA256_ARM64=02aa0cb229ba09050cba6638059dadb9eedc2276632ea43d6a57a2f8c1629dd5
+# Date of the last Debian security fix taken: changing it rebuilds the apt layer below. Comments inside a RUN do not
+# count in the build cache key, so a new fix that only edits them keeps the cached layer with the old package.
+ARG APT_SECURITY_REFRESH=2026-11-27
 WORKDIR /app
 RUN install-php-extensions intl gd zip exif pdo_mysql opcache apcu bcmath \
  && apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl fontconfig libjpeg62-turbo libxrender1 libxext6 xfonts-75dpi xfonts-base \
- # The pinned base image ships linux-libc-dev 6.1.187 (CVE-2026-98621, CRITICAL, fixed in 6.1.190) and libbrotli1 1.0.9-2+b6
- # (CVE-2026-111497, CRITICAL, fixed in 1.0.9-2+deb12u1): upgraded on their own.
+ # The pinned base image ships linux-libc-dev 6.1.187 (CVE-2026-98621, CRITICAL, fixed in 6.1.190; CVE-2026-99362, CRITICAL,
+ # fixed in 6.1.192-3, 2026-11-27) and libbrotli1 1.0.9-2+b6 (CVE-2026-111497, CRITICAL, fixed in 1.0.9-2+deb12u1): upgraded
+ # on their own (bump APT_SECURITY_REFRESH above for a new fix).
  && apt-get install -y --no-install-recommends --only-upgrade linux-libc-dev libbrotli1 \
  && case "${TARGETARCH}" in \
       amd64) WKHTMLTOX_SHA256="${WKHTMLTOX_SHA256_AMD64}"; SUPERCRONIC_SHA256="${SUPERCRONIC_SHA256_AMD64}" ;; \
