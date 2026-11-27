@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c24bdbe26b829cf3516d92b2ff53d28",
+    "content-hash": "f39fbe351a3b07ae2cdbb35aa923866a",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17220,8 +17220,7 @@
                 "issues": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/issues",
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/v0.2.1"
             },
-            "time": "2026-11-27T06:42:37+00:00",
-            "published-time": "2026-11-27T06:51:48+00:00"
+            "time": "2026-11-27T06:42:37+00:00"
         },
         {
             "name": "tmonier/sylius-b2b-sales-copilot-plugin",
@@ -18607,8 +18606,7 @@
                 "issues": "https://github.com/thibmonier/sylius-platform-health-plugin/issues",
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.5.0"
             },
-            "time": "2026-11-27T06:38:47+00:00",
-            "published-time": "2026-11-27T06:39:10+00:00"
+            "time": "2026-11-27T06:38:47+00:00"
         },
         {
             "name": "tmonier/sylius-punchout-cxml-plugin",
@@ -22916,5 +22914,5 @@
     "platform-overrides": {
         "php": "8.5.13"
     },
-    "plugin-api-version": "2.11.0"
+    "plugin-api-version": "2.9.0"
 }
