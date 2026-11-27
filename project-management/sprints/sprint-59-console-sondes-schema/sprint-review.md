@@ -72,7 +72,7 @@ Progrès par rapport au sprint 58 : le rouge de la démo a cette fois été vu e
   - A. ne rien changer : une porte de CI filtre par catégorie (`--category=data`) ;
   - B. une option `--fail-on=warning|critical` ;
   - C. un code de sortie propre à `unknown`, déconseillé car il casse le contrat publié en v0.5.0.
-  Décision de Thibaut en attente.
+  **Décision de Thibaut : A**, et B inscrite au backlog ([US-320](../../backlog/user-stories/US-320.md)).
 
 ## Impact sur le backlog
 
@@ -80,6 +80,7 @@ Progrès par rapport au sprint 58 : le rouge de la démo a cette fois été vu e
 |--------|-------|-------------|
 | Ajout | [US-319](../../backlog/user-stories/US-319.md) | Dette : `AdminOrderBulkActionsTest` instable (2 points, Should) |
 | Avancée | US-307 | Avancée du sprint 60 au sprint 59, livrée |
+| Ajout | [US-320](../../backlog/user-stories/US-320.md) | Commande : seuil d'échec `--fail-on` (2 points, Could) |
 | Planifiée | US-304, US-308, US-319 | Sprint 60, choix de Thibaut du 2026-11-27 ; US-319 bornée à 4 h |
 
 ## Hors sprint

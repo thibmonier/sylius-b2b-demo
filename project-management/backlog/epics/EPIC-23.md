@@ -46,6 +46,7 @@ L'adresse est publique par construction, donc :
 | US-308 | Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit — généralise le `/healthz` de la démo | Must | 5 | 60 |
 | US-309 | Historique : instantané périodique, courbe par sonde sur 30 jours, purge configurable | Must | 5 | 61 |
 | US-310 | Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif | Should | 5 | 61 |
+| [US-320](../user-stories/US-320.md) | Commande : seuil d'échec `--fail-on=warning\|critical` (revue du sprint 59) | Could | 2 | non planifiée |
 | US-311 | Export du rapport : page imprimable et JSON daté, pour une revue d'exploitation mensuelle | Could | 3 | non planifiée |
 | US-312 | Démo : page « Preuve technique », fixtures produisant une alerte volontaire, capture et GIF, post d'annonce (EPIC-13) | Should | 3 | 61 |
 
