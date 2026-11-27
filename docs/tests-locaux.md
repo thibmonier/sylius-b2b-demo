@@ -7,6 +7,39 @@ Procédure du 2026-10-17. Une commande crée, migre et charge la base de test ; 
 - PHP 8.5 en local avec les extensions de l'image (dont `intl`), dépendances installées (`composer install`).
 - MySQL 8.4 de `compose.yaml`, port `127.0.0.1:3340` : `docker compose up -d --wait mysql` (ou `bin/prepare-test-db --start-mysql`).
 
+## Tout dans Docker, sans PHP ni Node sur le poste (A-58-3)
+
+Procédure rejouée le 2026-11-27 sur une copie de travail neuve. Seuls Docker et le MySQL de `compose.yaml` tournent sur l'hôte, et chaque commande se lance à la racine du dépôt.
+
+```bash
+docker compose up -d --wait mysql                 # MySQL 8.4 sur 127.0.0.1:3340
+
+# 1. Dépendances PHP, dans l'image de la CI
+docker run --rm -v "$PWD":/app -w /app ghcr.io/sylius/sylius-php:8.5-alpine \
+    composer install --no-interaction --no-progress
+
+# 2. Assets : les tests qui rendent une page lisent les manifestes de public/build/ (config/packages/assets.yaml)
+docker run --rm -v "$PWD":/app -w /app node:24 \
+    sh -c 'yarn install --frozen-lockfile && yarn build'
+
+# 3. Tests, contre la base de l'hôte (host.docker.internal), sortie dans un fichier
+docker run --rm -v "$PWD":/app -w /app \
+    -e TEST_DATABASE_URL='mysql://root@host.docker.internal:3340/b2b_moi?serverVersion=8.4&charset=utf8mb4' \
+    -e TEST_DB_NAME=b2b_moi -e TEST_CACHE_DIR=var/cache-moi -e WORKER_ID=moi \
+    ghcr.io/sylius/sylius-php:8.5-alpine \
+    sh -c 'apk add --no-cache icu-data-full >/dev/null && bin/run-tests tests/Functional/Demo/CartPageTest.php' \
+    > var/tests-moi.txt 2>&1; echo "exit $?"
+```
+
+- **La base** : depuis le conteneur, `127.0.0.1` désigne le conteneur lui-même. `TEST_DATABASE_URL` vise donc `host.docker.internal:3340`, et `TEST_DB_NAME` doit reprendre le même nom de base. `bin/prepare-test-db` crée la base, la migre et charge les fixtures, comme en local.
+- **`?serverVersion=8.4` obligatoire dans l'URL** : sans ce paramètre, DBAL se connecte à la base pour lire la version du serveur avant de la créer. Sur une base qui n'existe pas encore, on obtient alors « SQLSTATE[HY000] [1049] Unknown database » (constaté le 2026-11-27 sur une copie neuve). Le piège reste caché tant que la base existe déjà.
+- **`icu-data-full`** : l'image n'embarque que `icu-data-en`, soit 4 locales anglaises. Sans le paquet complet, `NumberFormatter('fr_FR')` écrit `€35.76` au lieu de `35,76 €`, et les tests qui lisent un prix en français échouent : 4 échecs sur 10 dans `CartPageTest` sur une copie neuve, 0 avec le paquet. La CI ne rencontre pas ce problème, car son PHP vient de `setup-php` sur Ubuntu. `apk add` demande le réseau.
+- **Lire un rouge** : la sortie va dans un fichier, et le code de sortie est celui de PHPUnit. On cherche ensuite `^[0-9]+\) ` et `Failed asserting` dans ce fichier. Ne jamais couper la sortie par `head` (voir « Pièges connus »).
+- **`pcntl` absent de l'image** : `ghcr.io/sylius/sylius-php:8.5-alpine` n'a pas cette extension, alors que la CI l'a. Sur cette image, ECS signale donc `tests/Unit/Bin/RunTestsLockTest.php` (constante `\SIGTERM`), et ce test des signaux n'y est pas représentatif. C'est la CI qui fait foi pour ces deux points.
+- **Modifier `composer.lock`** : l'image embarque Composer 2.11, la CI 2.10.3 (`tools: composer:2.10.3`), et les deux ne calculent pas le même `content-hash`. Un lock écrit en 2.11 fait avertir la CI (« The lock file is not up to date », constaté sur #234). Pour un `composer update` ou un `composer require`, passer d'abord le conteneur à la version de la CI : `sh -c 'composer self-update 2.10.3 && composer update …'`.
+- **Les plugins sur l'hôte** : `bin/compat-refresh`, `bin/proof-refresh` et `bin/proof-check` ont besoin de `gh` et tournent avec le PHP de l'hôte.
+- **Durées mesurées** sur une copie neuve, avec les images déjà téléchargées : `composer install` 5 min 45 s, `yarn install && yarn build` 1 min 40 s, `bin/run-tests` sur `CartPageTest` 4 min. Cette dernière durée comprend la création, les migrations et les fixtures de la base.
+
 ## Une commande
 
 ```bash
