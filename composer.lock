@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fcc9649dc08fc713570df7361c5e4f2",
+    "content-hash": "4c24bdbe26b829cf3516d92b2ff53d28",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -17144,16 +17144,16 @@
         },
         {
             "name": "tmonier/sylius-b2b-predictive-analytics-plugin",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin.git",
-                "reference": "7f2f779dd118772c1e166189d7e2fcdfa39b95de"
+                "reference": "4dc12901957d317b8d4bcf03d93fca83154777e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-predictive-analytics-plugin/zipball/7f2f779dd118772c1e166189d7e2fcdfa39b95de",
-                "reference": "7f2f779dd118772c1e166189d7e2fcdfa39b95de",
+                "url": "https://api.github.com/repos/thibmonier/sylius-b2b-predictive-analytics-plugin/zipball/4dc12901957d317b8d4bcf03d93fca83154777e5",
+                "reference": "4dc12901957d317b8d4bcf03d93fca83154777e5",
                 "shasum": ""
             },
             "require": {
@@ -17218,9 +17218,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/v0.2.0"
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/v0.2.1"
             },
-            "time": "2026-11-05T17:31:00+00:00"
+            "time": "2026-11-27T06:42:37+00:00",
+            "published-time": "2026-11-27T06:51:48+00:00"
         },
         {
             "name": "tmonier/sylius-b2b-sales-copilot-plugin",
@@ -18523,16 +18524,16 @@
         },
         {
             "name": "tmonier/sylius-platform-health-plugin",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-platform-health-plugin.git",
-                "reference": "9db2d1ce841501a03e43f10e31226b86d89d69ff"
+                "reference": "b8b72d1533e657aee9331da9bd1e86529fe14a46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-platform-health-plugin/zipball/9db2d1ce841501a03e43f10e31226b86d89d69ff",
-                "reference": "9db2d1ce841501a03e43f10e31226b86d89d69ff",
+                "url": "https://api.github.com/repos/thibmonier/sylius-platform-health-plugin/zipball/b8b72d1533e657aee9331da9bd1e86529fe14a46",
+                "reference": "b8b72d1533e657aee9331da9bd1e86529fe14a46",
                 "shasum": ""
             },
             "require": {
@@ -18604,9 +18605,10 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-platform-health-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.4.0"
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.5.0"
             },
-            "time": "2026-11-26T10:26:32+00:00"
+            "time": "2026-11-27T06:38:47+00:00",
+            "published-time": "2026-11-27T06:39:10+00:00"
         },
         {
             "name": "tmonier/sylius-punchout-cxml-plugin",
@@ -22914,5 +22916,5 @@
     "platform-overrides": {
         "php": "8.5.13"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
