@@ -30,6 +30,16 @@ Choix posés dans les fiches, à revoir si Thibaut le souhaite :
 - US-307 : une option invalide donne le code **3**, distinct de 2 ;
 - US-303 : la vérification d'existence est injectable dans le plugin de démonstration, pour tester l'absence de l'interface dans ce dépôt.
 
+## Décisions en cours de sprint
+
+| Date | Décision | Par |
+|------|----------|-----|
+| 2026-11-26 | US-318 : clés étrangères du prédictif en `ON DELETE CASCADE` | Thibaut |
+| 2026-11-26 | US-318 : commentaires DBAL 3 de Sylius corrigés par une migration de la démo, pas par un filtre de la sonde | Thibaut |
+| 2026-11-26 | US-307 : un `unknown` donne le code de sortie 1, comme un `warning` | Thibaut |
+| 2026-11-26 | US-307 : la règle de vocabulaire (« contrôle » / « check », jamais « sonde » / « probe ») vaut aussi pour la console ([health #21](https://github.com/thibmonier/sylius-platform-health-plugin/pull/21)) | Thibaut |
+| 2026-11-27 | T-TECH-59-02 : le job `proof` des PR de documentation est informatif, comme dans le job des tests (rendre bloquant : question ouverte dans #235) | orchestrateur |
+
 ## Découpage
 
 | Tâche | Story | Type | Contenu | Heures |

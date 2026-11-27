@@ -4,11 +4,11 @@
 
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
-| T-318-01 | [TEST] | Prédictif, tests rouges : schéma issu des migrations égal au mapping (`--dump-sql` vide) sur les 10 combinaisons ; supprimer une entreprise supprime ses prédictions stockées | 2 h | — | 🔲 À faire |
-| T-318-02 | [DB] | Prédictif : migration qui ajoute 5 clés étrangères et 5 index, renomme 1 index, supprime d'abord les lignes orphelines et en affiche le nombre (MySQL, MariaDB, PostgreSQL) | 2,5 h | T-318-01 | 🔲 À faire |
-| T-318-03 | [DB] | Démo : cause des 4 instructions de Sylius établie, en comparant avec l'application de test Sylius vierge ; puis migration de la démo, ou filtre documenté ; `messenger_messages` en test déclaré proprement | 3 h | — | 🔲 À faire |
-| T-318-04 | [TEST] | Démo : test « aucune dérive » (rouge poussé et vu en CI, A-58-5) ; il passe après T-318-03 et le passage au prédictif v0.2.1 | 1,5 h | T-318-03 | 🔲 À faire |
-| T-318-05 | [DOC] | CHANGELOG `[Unreleased]` du prédictif ; fiche mise à jour (cause des 4 instructions de Sylius, choix fait) | 0,5 h | T-318-02, T-318-03 | 🔲 À faire |
+| T-318-01 | [TEST] | Prédictif, tests rouges : schéma issu des migrations égal au mapping (`--dump-sql` vide) sur les 10 combinaisons ; supprimer une entreprise supprime ses prédictions stockées | 2 h | — | ✅ Fait |
+| T-318-02 | [DB] | Prédictif : migration qui ajoute 5 clés étrangères et 5 index, renomme 1 index, supprime d'abord les lignes orphelines et en affiche le nombre (MySQL, MariaDB, PostgreSQL) | 2,5 h | T-318-01 | ✅ Fait |
+| T-318-03 | [DB] | Démo : cause des 4 instructions de Sylius établie, en comparant avec l'application de test Sylius vierge ; puis migration de la démo, ou filtre documenté ; `messenger_messages` en test déclaré proprement | 3 h | — | ✅ Fait |
+| T-318-04 | [TEST] | Démo : test « aucune dérive » (rouge poussé et vu en CI, A-58-5) ; il passe après T-318-03 et le passage au prédictif v0.2.1 | 1,5 h | T-318-03 | ✅ Fait |
+| T-318-05 | [DOC] | CHANGELOG `[Unreleased]` du prédictif ; fiche mise à jour (cause des 4 instructions de Sylius, choix fait) | 0,5 h | T-318-02, T-318-03 | ✅ Fait (le prédictif n'a pas de CHANGELOG : note de montée dans les README EN/FR, notes de la release v0.2.1) |
 
 ## Fin de tâche
 
