@@ -39,6 +39,9 @@ Choix posés dans les fiches, à revoir si Thibaut le souhaite :
 | 2026-11-26 | US-307 : un `unknown` donne le code de sortie 1, comme un `warning` | Thibaut |
 | 2026-11-26 | US-307 : la règle de vocabulaire (« contrôle » / « check », jamais « sonde » / « probe ») vaut aussi pour la console ([health #21](https://github.com/thibmonier/sylius-platform-health-plugin/pull/21)) | Thibaut |
 | 2026-11-27 | T-TECH-59-02 : le job `proof` des PR de documentation est informatif, comme dans le job des tests (rendre bloquant : question ouverte dans #235) | orchestrateur |
+| 2026-11-27 | T-TECH-59-02 : le job `proof` reste non bloquant | Thibaut |
+| 2026-11-27 | Dette : `AdminOrderBulkActionsTest` instable inscrite au backlog ([US-319](../../backlog/user-stories/US-319.md)) | Thibaut |
+| 2026-11-27 | US-318 : `messenger_messages` de production alignée par une migration de la démo (option A, [#238](https://github.com/thibmonier/sylius-b2b-demo/pull/238)), pas exclue de la sonde | Thibaut |
 
 ## Découpage
 
