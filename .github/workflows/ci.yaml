@@ -43,7 +43,42 @@ jobs:
                       scope=$(git diff --name-only HEAD^1 HEAD | bin/ci-changed-scope)
                   fi
                   echo "scope=$scope" >> "$GITHUB_OUTPUT"
-                  echo "Changed files: **$scope** (docs skips the tests, the image, the audit and the image scan)" >> "$GITHUB_STEP_SUMMARY"
+                  echo "Changed files: **$scope** (docs skips the tests, the image, the audit and the image scan, and runs only the proof check)" >> "$GITHUB_STEP_SUMMARY"
+
+    # A-58-2 (T-TECH-59-02): a documentation pull request skips the tests job, so the proof check runs here, alone: no
+    # database, no Node, no network beyond the Composer cache. Same step and same rule as in the tests job.
+    proof:
+        name: Published proof (documentation)
+        needs: changes
+        if: needs.changes.outputs.scope == 'docs'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+              with:
+                  php-version: "8.5"
+                  extensions: intl, gd, zip, exif, pdo_mysql, bcmath
+                  tools: composer:2.10.3
+                  coverage: none
+
+            - name: Composer cache
+              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+              with:
+                  path: ~/.composer/cache
+                  key: composer-${{ hashFiles('composer.lock') }}
+
+            - run: composer install --no-interaction --no-progress --no-scripts
+
+            # Informative, as in the tests job on a pull request: the gap and the refresh command go to the job summary.
+            - name: Published proof is up to date
+              continue-on-error: true
+              run: php bin/proof-check --summary="$GITHUB_STEP_SUMMARY"
 
     tests:
         name: Quality and smoke tests
