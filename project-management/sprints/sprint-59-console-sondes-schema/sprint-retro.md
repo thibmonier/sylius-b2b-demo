@@ -62,4 +62,4 @@ Format : ce qui a marché, ce qui a coûté, actions SMART (comme aux sprints 56
 
 ## ROTI
 
-À recueillir auprès de Thibaut. Actions A-59-1 à A-59-3 soumises à son approbation.
+**5/5** (Thibaut, 2026-11-27). Actions A-59-1 à A-59-3 approuvées le même jour ; à planifier au sprint 60.
