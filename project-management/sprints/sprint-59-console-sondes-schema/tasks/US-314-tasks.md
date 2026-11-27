@@ -4,8 +4,8 @@
 
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
-| T-314-01 | [OPS] | Preuve sur un dépôt : commit rouge jetable qui fait échouer un test unitaire, pas non unitaire exécuté dans le même run, puis commit qui le retire | 1 h | — | 🔲 À faire |
-| T-314-02 | [OPS] | Les 29 autres dépôts : une PR `ci:` chacun (même ligne et même commentaire que health #5), zizmor sans nouveau constat, liste des PR et de leur état dans la fiche | 3 h | T-314-01 | 🔲 À faire |
+| T-314-01 | [OPS] | Preuve sur un dépôt : commit rouge jetable qui fait échouer un test unitaire, pas non unitaire exécuté dans le même run, puis commit qui le retire | 1 h | — | ✅ Fait |
+| T-314-02 | [OPS] | Les 29 autres dépôts : une PR `ci:` chacun (même ligne et même commentaire que health #5), zizmor sans nouveau constat, liste des PR et de leur état dans la fiche | 3 h | T-314-01 | ✅ Fait |
 
 ## Fin de tâche
 

@@ -5,9 +5,9 @@
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
 | T-307-00 | [DOC] | Fiche US-307 écrite à la planification, avec le tableau de cas aux bornes des codes de sortie (A-58-4) ; `unknown` donne 1 (décision de Thibaut du 2026-11-26) | 0,5 h | — | ✅ Fait |
-| T-307-01 | [TEST] | Tests rouges : une ligne de test par ligne du tableau de cas ; JSON valide ; filtres répétables ; aucune lecture du cache ; rien de masqué par la page n'apparaît | 2,5 h | US-303 fusionnée | 🔲 À faire |
-| T-307-02 | [BE] | Commande sur l'exécuteur, sorties texte et JSON, filtres, codes 0/1/2/3 | 2,5 h | T-307-01 | 🔲 À faire |
-| T-307-03 | [DOC] | Traductions FR/EN ; README EN + FR (CI après déploiement, cron, `railway ssh`) ; CHANGELOG `[Unreleased]` | 1 h | T-307-02 | 🔲 À faire |
+| T-307-01 | [TEST] | Tests rouges : une ligne de test par ligne du tableau de cas ; JSON valide ; filtres répétables ; aucune lecture du cache ; rien de masqué par la page n'apparaît | 2,5 h | US-303 fusionnée | ✅ Fait |
+| T-307-02 | [BE] | Commande sur l'exécuteur, sorties texte et JSON, filtres, codes 0/1/2/3 | 2,5 h | T-307-01 | ✅ Fait |
+| T-307-03 | [DOC] | Traductions FR/EN ; README EN + FR (CI après déploiement, cron, `railway ssh`) ; CHANGELOG `[Unreleased]` | 1 h | T-307-02 | ✅ Fait |
 
 ## Fin de tâche
 

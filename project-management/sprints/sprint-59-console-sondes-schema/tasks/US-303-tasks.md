@@ -5,9 +5,9 @@
 | ID | Type | Contenu | Heures | Dépend de | Statut |
 |----|------|---------|--------|-----------|--------|
 | T-303-00 | [DOC] | Fiche US-303 écrite à la planification (mécanisme : `suggest` et `require-dev`, fichier de services à part chargé si l'interface existe, catégorie vide masquée) | 1 h | — | ✅ Fait |
-| T-303-01 | [TEST] | Tests rouges : plugin de démonstration dans `tests/Fixture`, sonde taguée et affichée quand l'interface existe ; conteneur booté sans erreur et sans sonde quand la vérification dit qu'elle n'existe pas ; catégorie vide masquée sur la page et dans l'encart ; sonde fournie qui lève une exception, `unknown` ; composer.json du plugin de démonstration lu | 3 h | — | 🔲 À faire |
-| T-303-02 | [BE] | Extension du plugin de démonstration avec la vérification injectable ; masquage des catégories vides | 3 h | T-303-01 | 🔲 À faire |
-| T-303-03 | [DOC] | README EN + FR « Fournir une sonde depuis son plugin » (exemple complet à copier) ; CHANGELOG `[Unreleased]` | 1,5 h | T-303-02 | 🔲 À faire |
+| T-303-01 | [TEST] | Tests rouges : plugin de démonstration dans `tests/Fixture`, sonde taguée et affichée quand l'interface existe ; conteneur booté sans erreur et sans sonde quand la vérification dit qu'elle n'existe pas ; catégorie vide masquée sur la page et dans l'encart ; sonde fournie qui lève une exception, `unknown` ; composer.json du plugin de démonstration lu | 3 h | — | ✅ Fait |
+| T-303-02 | [BE] | Extension du plugin de démonstration avec la vérification injectable ; masquage des catégories vides | 3 h | T-303-01 | ✅ Fait |
+| T-303-03 | [DOC] | README EN + FR « Fournir une sonde depuis son plugin » (exemple complet à copier) ; CHANGELOG `[Unreleased]` | 1,5 h | T-303-02 | ✅ Fait |
 
 ## Fin de tâche
 
