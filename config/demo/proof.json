@@ -1,969 +1,970 @@
 {
-    "generated_at": "2026-11-26T13:20:13Z",
+    "generated_at": "2026-11-27T07:00:17Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
                 "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-admin-order-creation-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-admin-order-creation-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-admin-order-creation-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/actions/runs/44881833417",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/actions/runs/45954676500",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 23,
                 "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 84.52,
-                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/runs/136779123779",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-admin-order-creation-plugin/runs/140360045462",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-agentic-feeds-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-agentic-feeds-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-agentic-feeds-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-agentic-feeds-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/actions/runs/44882724294",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/actions/runs/45954664657",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 27,
                 "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 86.84,
-                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/runs/136781983152",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-agentic-feeds-plugin/runs/140359703226",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-ai-catalog-copilot-plugin": {
             "version": {
                 "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-ai-catalog-copilot-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-ai-catalog-copilot-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-ai-catalog-copilot-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/actions/runs/44882527673",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/actions/runs/45954651326",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 23,
                 "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 82.63,
-                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/runs/136781451543",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-ai-catalog-copilot-plugin/runs/140359595122",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-audit-log-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-audit-log-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-audit-log-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-audit-log-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/actions/runs/44883363706",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/actions/runs/45954637226",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-audit-log-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-audit-log-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 20,
                 "source": "https://github.com/thibmonier/sylius-audit-log-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 87.75,
-                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/runs/136783833029",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-audit-log-plugin/runs/140359669963",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-b2b-mcp-plugin": {
             "version": {
                 "value": "v1.2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-mcp-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-mcp-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-mcp-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/actions/runs/44881833831",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/actions/runs/45954623551",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 67,
                 "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 89.79,
-                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/runs/136779330616",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-b2b-mcp-plugin/runs/140359550971",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-b2b-predictive-analytics-plugin": {
             "version": {
-                "value": "v0.2.0",
+                "value": "v0.2.1",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-predictive-analytics-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-predictive-analytics-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-predictive-analytics-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/actions/runs/44882040357",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/actions/runs/45953599769",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
-                "value": 20,
+                "value": 21,
                 "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
-                "value": 93.44,
-                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/runs/136779766564",
-                "checked_at": "2026-11-22"
+                "value": 89.2,
+                "source": "https://github.com/thibmonier/sylius-b2b-predictive-analytics-plugin/runs/140356382701",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-b2b-sales-copilot-plugin": {
             "version": {
                 "value": "v1.3.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-sales-copilot-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-sales-copilot-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-b2b-sales-copilot-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/actions/runs/44882469796",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 23,
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 98.07,
                 "source": "https://github.com/thibmonier/sylius-b2b-sales-copilot-plugin/runs/136781080904",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-bulk-actions-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-bulk-actions-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-bulk-actions-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-bulk-actions-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
-                "value": "success",
-                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/actions/runs/44882408733",
-                "checked_at": "2026-11-22"
+                "value": "failure",
+                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/actions/runs/45953875859",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 18,
                 "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 93.84,
-                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/runs/136780916931",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-bulk-actions-plugin/runs/140356926775",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-channel-access-plugin": {
             "version": {
                 "value": "v0.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-channel-access-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-channel-access-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-channel-access-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/actions/runs/44882685619",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/actions/runs/45953861113",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-channel-access-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.3",
                 "source": "https://github.com/thibmonier/sylius-channel-access-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 16,
                 "source": "https://github.com/thibmonier/sylius-channel-access-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 88.59,
-                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/runs/136781784388",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-channel-access-plugin/runs/140357755051",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-command-palette-plugin": {
             "version": {
                 "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-command-palette-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-command-palette-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-command-palette-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/actions/runs/44881971242",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/actions/runs/45953849181",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-command-palette-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-command-palette-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 16,
                 "source": "https://github.com/thibmonier/sylius-command-palette-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 95.37,
-                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/runs/136779545630",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-command-palette-plugin/runs/140358336952",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-company-accounts-plugin": {
             "version": {
                 "value": "v1.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-accounts-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-accounts-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-company-accounts-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/actions/runs/44882380155",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/actions/runs/45953835658",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 23,
                 "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 88.37,
-                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/runs/136781299797",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-company-accounts-plugin/runs/140358691565",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-company-insights-plugin": {
             "version": {
                 "value": "v0.2.1",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-company-insights-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/actions/runs/44882944997",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/actions/runs/45953815180",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-company-insights-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-company-insights-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 32,
                 "source": "https://github.com/thibmonier/sylius-company-insights-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 96.89,
-                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/runs/136782745901",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-company-insights-plugin/runs/140358583110",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-company-verification-plugin": {
             "version": {
                 "value": "v0.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-verification-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-company-verification-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-company-verification-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-company-verification-plugin/actions/runs/44883293279",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-company-verification-plugin/actions/runs/45953795296",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-company-verification-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-company-verification-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 11,
                 "source": "https://github.com/thibmonier/sylius-company-verification-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 76.43,
-                "source": "https://github.com/thibmonier/sylius-company-verification-plugin/runs/136783617217",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-company-verification-plugin/runs/140357399340",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-container-fill-plugin": {
             "version": {
                 "value": "v1.1.1",
                 "source": "https://packagist.org/packages/tmonier/sylius-container-fill-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-container-fill-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-container-fill-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/actions/runs/44883123223",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/actions/runs/45953780331",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-container-fill-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-container-fill-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 21,
                 "source": "https://github.com/thibmonier/sylius-container-fill-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 82.44,
-                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/runs/136783118379",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-container-fill-plugin/runs/140357037044",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-customer-asset-management-plugin": {
             "version": {
                 "value": "v0.2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-customer-asset-management-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-customer-asset-management-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-customer-asset-management-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/44883432490",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/actions/runs/45953769184",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 24,
                 "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 94.62,
-                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/runs/136784237405",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-customer-asset-management-plugin/runs/140358988940",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-digital-product-passport-plugin": {
             "version": {
                 "value": "v0.4.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-digital-product-passport-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/actions/runs/44882487384",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 17,
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 61.79,
                 "source": "https://github.com/thibmonier/sylius-digital-product-passport-plugin/runs/136781210668",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-einvoice-pennylane-plugin": {
             "version": {
                 "value": "v0.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-einvoice-pennylane-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-einvoice-pennylane-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-einvoice-pennylane-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/actions/runs/44881895268",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/actions/runs/45953754798",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 4,
                 "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 70.15,
-                "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/runs/136779264875",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-einvoice-pennylane-plugin/runs/140356923614",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-einvoice-transmission-plugin": {
             "version": {
                 "value": "v0.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-einvoice-transmission-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-einvoice-transmission-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-einvoice-transmission-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/actions/runs/44881954601",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/actions/runs/45953740771",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 8,
                 "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 75.93,
-                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/runs/136779433090",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-einvoice-transmission-plugin/runs/140358395486",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-erp-flatfile-plugin": {
             "version": {
                 "value": "v0.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-erp-flatfile-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/44883178337",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/actions/runs/45953725296",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 9,
                 "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 81.59,
-                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/runs/136783273059",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-erp-flatfile-plugin/runs/140356484405",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-facturx-plugin": {
             "version": {
                 "value": "v1.2.1",
                 "source": "https://packagist.org/packages/tmonier/sylius-facturx-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-facturx-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-facturx-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/actions/runs/44882755274",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/actions/runs/45953698769",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-facturx-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-facturx-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 19,
                 "source": "https://github.com/thibmonier/sylius-facturx-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 82.66,
-                "source": "https://github.com/thibmonier/sylius-facturx-plugin/runs/136781939734",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-facturx-plugin/runs/140356327329",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-gpsr-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-gpsr-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-gpsr-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-gpsr-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/actions/runs/44882893915",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/actions/runs/45953953684",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-gpsr-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-gpsr-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 17,
                 "source": "https://github.com/thibmonier/sylius-gpsr-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 68.62,
-                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/runs/136782326159",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-gpsr-plugin/runs/140358341108",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-order-hold-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-order-hold-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-order-hold-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-order-hold-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/actions/runs/44882004575",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/actions/runs/45953683549",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-order-hold-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-order-hold-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 18,
                 "source": "https://github.com/thibmonier/sylius-order-hold-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 95.54,
-                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/runs/136779693254",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-order-hold-plugin/runs/140356558762",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-platform-health-plugin": {
             "version": {
-                "value": "v0.4.0",
+                "value": "v0.5.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
-                "checked_at": "2026-11-26"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
-                "checked_at": "2026-11-26"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
-                "checked_at": "2026-11-26"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/actions/runs/45801373325",
-                "checked_at": "2026-11-26"
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/actions/runs/45952717920",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-26"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-26"
+                "checked_at": "2026-11-27"
             },
             "tests": {
-                "value": 50,
+                "value": 59,
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/main/tests",
-                "checked_at": "2026-11-26"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
+                "stale": true,
                 "value": 94.87,
-                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/runs/139846809034",
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/runs/140063314170",
                 "checked_at": "2026-11-26"
             }
         },
@@ -971,463 +972,463 @@
             "version": {
                 "value": "v1.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-punchout-cxml-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-punchout-cxml-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-punchout-cxml-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/actions/runs/44882293500",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/actions/runs/45953667300",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 40,
                 "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 83.35,
-                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/runs/136781104058",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-punchout-cxml-plugin/runs/140358832736",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-purchase-approval-plugin": {
             "version": {
                 "value": "v1.4.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/44883118372",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/45953494409",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 27,
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 87.47,
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/runs/136783677759",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/runs/140356576753",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-quick-order-plugin": {
             "version": {
                 "value": "v1.3.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-quick-order-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-quick-order-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-quick-order-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/actions/runs/44883606830",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/actions/runs/45953467306",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-quick-order-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-quick-order-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 25,
                 "source": "https://github.com/thibmonier/sylius-quick-order-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 89.67,
-                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/runs/136784730066",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-quick-order-plugin/runs/140355849807",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-quote-request-plugin": {
             "version": {
                 "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-quote-request-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-quote-request-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-quote-request-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
-                "value": "failure",
-                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/actions/runs/44882351575",
-                "checked_at": "2026-11-22"
+                "value": "success",
+                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/actions/runs/45953442228",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-quote-request-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-quote-request-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 29,
                 "source": "https://github.com/thibmonier/sylius-quote-request-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 85.22,
-                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/runs/132373619959",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-quote-request-plugin/runs/140355304515",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-registration-approval-plugin": {
             "version": {
                 "value": "v0.1.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-registration-approval-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-registration-approval-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-registration-approval-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/actions/runs/44883264597",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/actions/runs/45953423118",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.3",
                 "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 18,
                 "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 88.19,
-                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/runs/136783632557",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-registration-approval-plugin/runs/140355409629",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-tier-pricing-plugin": {
             "version": {
                 "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-tier-pricing-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-tier-pricing-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-tier-pricing-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/actions/runs/44882894250",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/actions/runs/45953402691",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 21,
                 "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 80.86,
-                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/runs/136782496662",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-tier-pricing-plugin/runs/140355954104",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-timeline-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-timeline-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-timeline-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-timeline-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-timeline-plugin/actions/runs/44882466918",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-timeline-plugin/actions/runs/45953382031",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-timeline-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-timeline-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 16,
                 "source": "https://github.com/thibmonier/sylius-timeline-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 83.93,
-                "source": "https://github.com/thibmonier/sylius-timeline-plugin/runs/136781020161",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-timeline-plugin/runs/140354867048",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-trade-credit-plugin": {
             "version": {
                 "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-trade-credit-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-trade-credit-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-trade-credit-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/actions/runs/44883561239",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/actions/runs/45953345102",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 20,
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 78.34,
-                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/runs/136784661762",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/runs/140355020755",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-webhook-outbox-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-webhook-outbox-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-webhook-outbox-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-webhook-outbox-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/actions/runs/44882237542",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/actions/runs/45953322528",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 21,
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 85.88,
-                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/runs/136780370103",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/runs/140354729068",
+                "checked_at": "2026-11-27"
             }
         },
         "sylius-withdrawal-plugin": {
             "version": {
                 "value": "v1.0.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-withdrawal-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-withdrawal-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-withdrawal-plugin",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/actions/runs/44883274560",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/actions/runs/45953268785",
+                "checked_at": "2026-11-27"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "tests": {
                 "value": 10,
                 "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/tree/main/tests",
-                "checked_at": "2026-11-22"
+                "checked_at": "2026-11-27"
             },
             "coverage": {
                 "value": 65.73,
-                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/runs/136783637940",
-                "checked_at": "2026-11-22"
+                "source": "https://github.com/thibmonier/sylius-withdrawal-plugin/runs/140354728622",
+                "checked_at": "2026-11-27"
             }
         }
     },
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/45825935496",
-            "checked_at": "2026-11-26"
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/45839543649",
+            "checked_at": "2026-11-27"
         },
         "phpstan": {
             "value": "9",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/phpstan.dist.neon",
-            "checked_at": "2026-11-26"
+            "checked_at": "2026-11-27"
         },
         "ecs": {
             "value": "ECS",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-26"
+            "checked_at": "2026-11-27"
         },
         "composer_audit": {
             "value": "composer audit",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-26"
+            "checked_at": "2026-11-27"
         },
         "image_scan": {
             "value": "Trivy",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-26"
+            "checked_at": "2026-11-27"
         },
         "sbom": {
             "value": "CycloneDX",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-26"
+            "checked_at": "2026-11-27"
         },
         "tests": {
-            "value": 362,
+            "value": 363,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
-            "checked_at": "2026-11-26"
+            "checked_at": "2026-11-27"
         },
         "coverage": {
             "value": 93.2,
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/139937125203",
-            "checked_at": "2026-11-26"
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/139986724705",
+            "checked_at": "2026-11-27"
         }
     }
 }

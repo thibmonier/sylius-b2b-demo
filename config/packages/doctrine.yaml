@@ -40,3 +40,10 @@ when@prod: &doctrine_prod
                     adapter: cache.system
 
 when@test_cached: *doctrine_prod
+
+# US-318: the transports are in memory in test (messenger.yaml), so no Doctrine transport declares messenger_messages,
+# created by a migration, and the schema comparison would read it as a table to drop. Only this table is hidden.
+when@test:
+    doctrine:
+        dbal:
+            schema_filter: '~^(?!messenger_messages$)~'
