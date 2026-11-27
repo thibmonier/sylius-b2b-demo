@@ -48,7 +48,7 @@ C'est exactement la leçon tirée du point d'extension du thème (PR #31 du 2026
 | US-300 | Sondes de configuration de boutique : canal sans paiement, sans livraison, sans locale, sans devise, zone ou taxe manquante | Must | 5 | 59 |
 | US-301 | Sondes de catalogue : produits activés sans prix, sans image, sans stock ni réassort — avec lien vers la grille filtrée | Must | 5 | 59 |
 | US-302 | Sondes de flux de commandes : commandes immobilisées dans un état, paiements en échec, impayés, taux de paniers abandonnés | Must | 5 | 60 |
-| US-304 | Sondes des plugins B2B (lot 1) : `webhook-outbox`, `purchase-approval`, `trade-credit` | Must | 5 | 60 |
+| [US-304](../user-stories/US-304.md) | Sondes des plugins B2B (lot 1) : `webhook-outbox`, `purchase-approval`, `trade-credit` | Must | 5 | 60 |
 | US-305 | Sondes des plugins B2B (lot 2) : `punchout-cxml`, `facturx` / `einvoice-transmission`, `company-verification`, `b2b-mcp` | Should | 5 | 61 |
 | US-306 | Sondes des plugins de conformité : `gpsr`, `digital-product-passport`, `withdrawal` | Should | 3 | 61 |
 
@@ -71,5 +71,5 @@ graph LR
 
 1. ~~**Périmètre des sondes métier**~~ **Tranché le 2026-11-22** : les trois lots sont retenus (configuration, catalogue, flux de commandes), et le mécanisme de sondes facultatives aussi.
 2. ~~**Paniers abandonnés** : taux ou compte instantané ?~~ **Tranché le 2026-11-22** : l'historique étant retenu dans [EPIC-23](EPIC-23.md), la sonde rend un **taux** comparé à la fenêtre précédente, pas un compte brut.
-3. **Ordre des lots de plugins** : les trois plugins d'US-304 sont mon choix (les plus exposés à une panne silencieuse). Si un autre plugin vous a déjà coûté un incident, il passe devant.
+3. ~~**Ordre des lots de plugins**~~ **Tranché le 2026-11-27** : le trio d'US-304 est confirmé. Question d'origine : les trois plugins d'US-304 sont mon choix (les plus exposés à une panne silencieuse). Si un autre plugin vous a déjà coûté un incident, il passe devant.
 4. **Multi-canal** : les sondes métier rendent-elles un résultat par canal (plus juste, plus verbeux) ou un résultat agrégé avec le détail au survol ?

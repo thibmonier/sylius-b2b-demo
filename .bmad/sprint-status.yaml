@@ -1,6 +1,6 @@
 # Statut des sprints (BMAD v6), écrivain unique : l'orchestrateur
 project: sylius-b2b-demo
-current_sprint: 59
+current_sprint: 60
 sprints:
   sprint-1:
     name: sprint-1-walking-skeleton
@@ -1050,7 +1050,7 @@ sprints:
 
   sprint-59:
     name: sprint-59-console-sondes-schema
-    status: in-progress  # planifié le 2026-11-26 (périmètre choisi par Thibaut) ; démarré le 2026-11-26
+    status: done  # clos le 2026-11-27 : 13/13 points, 20/20 tâches, santé v0.5.0 et prédictif v0.2.1 publiés, data.schema_drift ok en production (#238) ; revue (#240) et rétro (#241) écrites, ROTI 5, A-59-1 à A-59-3 approuvées
     sprint_id: "sprint-59"
     start_date: "2027-01-07"  # créneau prévisionnel, comme les sprints 54 à 58 ; exécution réelle depuis le 2026-11-26
     end_date: "2027-01-21"
@@ -1083,6 +1083,35 @@ sprints:
       - {id: T-314-01, title: "Preuve sur un dépôt : commit rouge jetable, pas non unitaire exécuté", type: OPS, hours: 1, status: done}
       - {id: T-314-02, title: "Les 29 autres dépôts : une PR ci: chacun, liste dans la fiche", type: OPS, hours: 3, status: done}
     notes: "PLANIFIÉ le 2026-11-26. Décisions de Thibaut du 2026-11-26 : (1) US-318 en tête (ASAP) ; (2) périmètre US-318, US-303, US-307 et US-314, 13 points sur 15 (87 %), US-307 avancée du sprint 60 ; (3) US-307 : unknown donne le code de sortie 1 ; (4) actions A-58-1 à A-58-5 approuvées, ROTI du sprint 58 : 5. Choix des fiches : option invalide = code 3 (US-307), vérification d'existence injectable dans le plugin de démonstration (US-303). Contraintes : US-303 puis US-307 dans le plugin de santé (règle 27) ; prédictif en parallèle ; US-314 en parallèle ; releases en dernière tâche (règle 30). SUIVI du 2026-11-27 : US-303 (health #19), US-307 (#20, vocabulaire #21) et US-314 (30 PR, CI de main verte partout) faites ; US-318 en review, en attente de la sonde vue ok en production (prédictif #16, santé #22, démo #234) ; releases health v0.5.0 et prédictif v0.2.1 publiées sur GO ; T-TECH-59-02 (#235) et T-TECH-59-03 (#236) faites ; dette : AdminOrderBulkActionsTest instable (bulk-actions, 1 combinaison, PR #10 et main), inscrite au backlog (US-319) sur décision de Thibaut du 2026-11-27 ; job proof de #235 non bloquant (décision de Thibaut). US-318 : option A retenue le 2026-11-27 (migration de messenger_messages, créée en production avant Version20261113100000). CLÔTURE du 2026-11-27 : démo #238 (Version20261127090000, rouge run 45996438034, vert run 45998800343, CI de main verte run 46001713770), migrée en production à 13:49 ; data.schema_drift vu ok en production (7 sondes de données ok) ; US-318 et T-TECH-59-05 faites, sprint 59 : 13 points sur 13."
+  sprint-60:
+    name: sprint-60-sondes-plugins-http
+    status: in-progress  # planifié le 2026-11-27 (périmètre choisi par Thibaut) ; démarré le 2026-11-27
+    sprint_id: "sprint-60"
+    start_date: "2027-01-21"  # créneau prévisionnel, comme les sprints 54 à 59 ; exécution réelle depuis le 2026-11-27
+    end_date: "2027-02-04"
+    capacity_points: 15
+    goal: "Les trois plugins B2B les plus exposés remontent leur propre état sur la page de santé, et la démo est surveillée par le point d'entrée HTTP du plugin au lieu de son /healthz maison."
+    stories:
+      - {id: US-304, title: "Sondes des plugins B2B (lot 1) : webhook-outbox, purchase-approval, trade-credit", points: 5, status: ready-for-dev}  # T-304-01..03 ; trois dépôts en parallèle ; fiche écrite à la planification ; seuils validés par Thibaut le 2026-11-27
+      - {id: US-308, title: "Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit", points: 5, status: ready-for-dev}  # T-308-01..03 ; plugin de santé, release v0.6.0 ; niveau « vivant » sans jeton désactivé par défaut (Thibaut, 2026-11-27)
+      - {id: US-321, title: "Démo : /healthz servi par le point d'entrée du plugin de santé", points: 2, status: ready-for-dev}  # T-321-01..02 ; après santé v0.6.0 ; découpée d'US-308 le 2026-11-27 ; jetons Railway par Thibaut
+      - {id: US-319, title: "Dette : AdminOrderBulkActionsTest instable dans sylius-bulk-actions-plugin", points: 2, status: ready-for-dev}  # T-319-01..02 ; enquête bornée à 4 h (Thibaut, 2026-11-27)
+    sprint_tasks:
+      - {id: T-TECH-60-01, title: "Sprint 59 clos (ROTI 5, A-59 approuvées), current_sprint 60, sprint 60 planifié, fiches US-304, US-308 et US-321", type: OPS, hours: 1.5, status: done}
+      - {id: T-TECH-60-02, title: "A-59-1 à A-59-3 : règles 35, 36 et 37 de la consigne des workers", type: DOC, hours: 0.5, status: done}  # écrites à la planification le 2026-11-27
+      - {id: T-TECH-60-03, title: "Releases santé v0.6.0, webhook-outbox v1.1.0, purchase-approval v1.5.0, trade-credit v1.2.0 sur GO de Thibaut, après toute la documentation (règle 30)", type: OPS, hours: 2, status: to-do}
+      - {id: T-TECH-60-04, title: "Dernière tâche : démo à jour des trois plugins ; compat-refresh puis proof-refresh relus ; CI de main suivie ; relevé tmonier:health:check après déploiement (A-59-3)", type: OPS, hours: 1.5, status: to-do}
+      - {id: T-304-01, title: "webhook-outbox : suggest, tests rouges, sondes backlog et dead_deliveries, README, CHANGELOG", type: TEST, hours: 4, status: to-do}
+      - {id: T-304-02, title: "purchase-approval : suggest, tests rouges, sondes overdue et closed_orders, README, CHANGELOG", type: TEST, hours: 3, status: to-do}
+      - {id: T-304-03, title: "trade-credit : suggest, tests rouges, sonde stale_reservations, README, CHANGELOG", type: TEST, hours: 3, status: to-do}
+      - {id: T-308-01, title: "Documentation de Railway relue, configuration http, tests rouges du tableau de cas et test « aucune fuite »", type: TEST, hours: 2, status: to-do}
+      - {id: T-308-02, title: "Contrôleur : jetons en temps constant, 404, niveaux global et détail, niveau vivant, cache, limiteur", type: BE, hours: 4, status: to-do}
+      - {id: T-308-03, title: "README EN/FR « Exposer la santé en HTTP », CHANGELOG", type: DOC, hours: 1, status: to-do}
+      - {id: T-321-01, title: "Démo en santé ^0.6, sondes demo.configuration et demo.reset, tests rouges vus en CI", type: BE, hours: 2, status: to-do}
+      - {id: T-321-02, title: "/healthz du plugin, HealthController et limiteur demo_health retirés, tests remplacés, proof.json", type: OPS, hours: 3, status: to-do}
+      - {id: T-319-01, title: "Enquête bornée à 4 h : journal de l'échec, reproduction dans Docker, hypothèses de la fiche", type: TEST, hours: 4, status: to-do}
+      - {id: T-319-02, title: "Correctif sans retry, 20 exécutions vertes, CI de main verte", type: TEST, hours: 2, status: to-do}
+    notes: "PLANIFIÉ le 2026-11-27. Décisions de Thibaut du 2026-11-27 : (1) périmètre US-304, US-308, US-319 et US-321 (découpée d'US-308), 14 points sur 15 (93 %) ; (2) US-319 bornée à 4 h ; (3) /healthz de la démo remplacé (EPIC-23 Q4) ; (4) lot 1 d'US-304 confirmé (EPIC-22 Q3) ; (5) niveau « vivant » sans jeton, désactivé par défaut ; (6) seuils d'US-304 validés ; (7) A-59-1 à A-59-3 approuvées, ROTI du sprint 59 : 5 ; option A pour unknown, US-320 au backlog. Contraintes : trois dépôts d'US-304 en parallèle ; US-321 après santé v0.6.0 ; releases avant la dernière tâche (règle 30) ; A-59-1 sans objet (pas de schéma de la démo touché)."
 backlog:
   # --- Nouveau plugin « santé de la plateforme » (demande de Thibaut du 2026-11-22) : EPIC-20 à EPIC-23, US-286 à US-312, 27 stories, 113 points, sprints 56 à 61 proposés. Arbitrages du 2026-11-22 : périmètre complet, sondes de plugins par suggest + vérification de classe, historique en base dès la v1, alertes courriel + webhook-outbox. Fiches rédigées pour le sprint 56 seulement (US-286 à US-288) ; les autres au cadrage de leur sprint.
   - {id: US-286, title: "Spike santé de la plateforme : ce que Symfony, Sylius et l'écosystème fournissent déjà", points: 3, status: done}  # EPIC-20, Must ; sprint 56 ; fiche écrite
@@ -1103,11 +1132,11 @@ backlog:
   - {id: US-301, title: "Sondes de catalogue : produits activés sans prix, sans image, sans stock ni réassort, avec lien vers la grille filtrée", points: 5, status: backlog}  # EPIC-22, Must ; sprint 59
   - {id: US-302, title: "Sondes de flux de commandes : commandes immobilisées, paiements en échec, impayés, taux de paniers abandonnés", points: 5, status: backlog}  # EPIC-22, Must ; sprint 60 ; taux (et non compte) puisque l'historique est retenu
   - {id: US-303, title: "Mécanisme des sondes facultatives : un plugin fournit sa sonde sans dépendre du plugin de santé", points: 5, status: done}  # sprint 59 (planifié le 2026-11-26) ; EPIC-22, Must ; sprint 59 (reportée du 58 par Thibaut le 2026-11-25, EPIC-21 complet d'abord) ; suggest + vérification de classe (arbitrage de Thibaut du 2026-11-22) ; bloque US-304 à US-306
-  - {id: US-304, title: "Sondes des plugins B2B (lot 1) : webhook-outbox, purchase-approval, trade-credit", points: 5, status: backlog}  # EPIC-22, Must ; sprint 60 ; ouvre un tag mineur dans trois dépôts
+  - {id: US-304, title: "Sondes des plugins B2B (lot 1) : webhook-outbox, purchase-approval, trade-credit", points: 5, status: ready-for-dev}  # sprint 60 (planifié le 2026-11-27) ; fiche écrite ; EPIC-22, Must ; sprint 60 ; ouvre un tag mineur dans trois dépôts
   - {id: US-305, title: "Sondes des plugins B2B (lot 2) : punchout-cxml, facturx/einvoice-transmission, company-verification, b2b-mcp", points: 5, status: backlog}  # EPIC-22, Should ; sprint 61
   - {id: US-306, title: "Sondes des plugins de conformité : gpsr, digital-product-passport, withdrawal", points: 3, status: backlog}  # EPIC-22, Should ; sprint 61
   - {id: US-307, title: "Commande tmonier:health:check : sortie texte ou JSON, code de sortie 0/1/2, filtres --category et --only", points: 3, status: done}  # sprint 59 (planifié le 2026-11-26) ; EPIC-23, Must ; sprint 60
-  - {id: US-308, title: "Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit", points: 5, status: backlog}  # EPIC-23, Must ; sprint 60 ; généralise le /healthz manuel de la démo (US-049) ; touche .railway/railway.ts, à arbitrer
+  - {id: US-308, title: "Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit", points: 5, status: ready-for-dev}  # sprint 60 (planifié le 2026-11-27) ; fiche écrite ; EPIC-23, Must ; sprint 60 ; généralise le /healthz manuel de la démo (US-049) ; touche .railway/railway.ts, à arbitrer
   - {id: US-309, title: "Historique : instantané périodique, courbe par sonde sur 30 jours, purge configurable", points: 5, status: backlog}  # EPIC-23, Must (passée de Should à Must par l'arbitrage de Thibaut du 2026-11-22) ; sprint 61
   - {id: US-310, title: "Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif", points: 5, status: backlog}  # EPIC-23, Should ; sprint 61 ; les deux canaux retenus (arbitrage du 2026-11-22) ; dépend d'US-309
   - {id: US-311, title: "Export du rapport de santé : page imprimable et JSON daté pour une revue d'exploitation", points: 3, status: backlog}  # EPIC-23, Could ; non planifiée
@@ -1118,8 +1147,9 @@ backlog:
   - {id: US-316, title: "Spike Peppol : adaptateur de transmission vers le réseau Peppol pour einvoice-transmission", points: 3, status: backlog}  # EPIC-14, Should ; à planifier ; demande de Thibaut du 2026-11-23
   - {id: US-317, title: "Spike ERP, flux retour : statuts de commande, expéditions et suivi importés depuis l'ERP", points: 3, status: backlog}  # EPIC-14, Should ; à planifier ; demande de Thibaut du 2026-11-23 ; prolonge erp-flatfile v0.2.0
   - {id: US-318, title: "Dérive du schéma de la démo : 16 instructions entre le mapping Doctrine et la base", points: 3, status: done}  # sprint 59 (planifié le 2026-11-26) ; EPIC-21, Must ; sprint 59 en tête (« ASAP », Thibaut, 2026-11-26) ; constat de data.schema_drift après #228 ; 11 instructions du plugin prédictif (clés étrangères, index), 4 de Sylius, 1 messenger_messages en test
-  - {id: US-319, title: "Dette : AdminOrderBulkActionsTest instable dans sylius-bulk-actions-plugin", points: 2, status: backlog}  # dette technique, Should ; sprint 60 (choix de Thibaut du 2026-11-27, enquête bornée à 4 h) ; inscrite sur décision de Thibaut du 2026-11-27 (constat US-314 : Sylius ~2.3.0, PHP 8.4, Symfony ^8.0, mysql:8.4)
+  - {id: US-319, title: "Dette : AdminOrderBulkActionsTest instable dans sylius-bulk-actions-plugin", points: 2, status: ready-for-dev}  # dette technique, Should ; sprint 60 (choix de Thibaut du 2026-11-27, enquête bornée à 4 h) ; inscrite sur décision de Thibaut du 2026-11-27 (constat US-314 : Sylius ~2.3.0, PHP 8.4, Symfony ^8.0, mysql:8.4)
   - {id: US-320, title: "Commande tmonier:health:check : seuil d'échec --fail-on=warning|critical", points: 2, status: backlog}  # EPIC-23, Could ; à planifier ; revue du sprint 59 (2026-11-27) : option A gardée, option B inscrite par Thibaut
+  - {id: US-321, title: "Démo : /healthz servi par le point d'entrée du plugin de santé", points: 2, status: ready-for-dev}  # sprint 60 (planifié le 2026-11-27) ; EPIC-23, Must ; découpée d'US-308 ; EPIC-23 Q4 tranchée par Thibaut : remplacer
   - {id: US-275, title: "Serveur MCP de Sylius 0.3 : plugin b2b-mcp puis démo", points: 3, status: todo}  # EPIC-10, Should ; à planifier ; remise au backlog par Thibaut le 2026-11-23 : v0.3.1 exige symfony/mcp-bundle ^0.15, qui accepte mcp/sdk 0.9 (avis GHSA-f4rf-6ghj-mhr6 corrigé) ; ordre : plugin b2b-mcp (contrainte, API mcp/sdk 0.3 → 0.9, à mesurer d'abord, redécoupage si > 3 points), publication, puis démo
   # --- Feuille de route innovation (2026-10-28) : EPIC-16 à EPIC-19, US-210 à US-237 ; sprints proposés, aucune section de sprint créée
   - {id: US-210, title: "Spike copilote d'achat : format de rejeu, adaptateur LLM et recoupement Sylius Plus", points: 3, status: done}  # EPIC-16, Must ; sprint 34 (proposé) ; décision de Thibaut du 2026-10-28
