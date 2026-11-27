@@ -64,12 +64,23 @@
 
 Progrès par rapport au sprint 58 : le rouge de la démo a cette fois été vu en CI (#234 et #238, règle 26). La CI de `main` a été suivie après chaque fusion (règle 32), et le `main` de la démo n’a pas été rouge pendant le sprint (celui de bulk-actions l’a été une fois, voir le point 6).
 
+## Retours du Product Owner (Thibaut, 2026-11-27)
+
+- **Commande en console** : la sortie et les codes de sortie 0/1/2/3 conviennent à l'usage dans Railway ; pas besoin d'un autre filtre ni d'un autre format pour le moment.
+- **Page de santé** : « très bien » en l'état.
+- **`unknown` → code 1** : à l'usage, juste après un déploiement, les sondes des tâches planifiées sont `unknown` tant que leurs crons n'ont pas tourné. Options proposées :
+  - A. ne rien changer : une porte de CI filtre par catégorie (`--category=data`) ;
+  - B. une option `--fail-on=warning|critical` ;
+  - C. un code de sortie propre à `unknown`, déconseillé car il casse le contrat publié en v0.5.0.
+  Décision de Thibaut en attente.
+
 ## Impact sur le backlog
 
 | Action | Story | Description |
 |--------|-------|-------------|
 | Ajout | [US-319](../../backlog/user-stories/US-319.md) | Dette : `AdminOrderBulkActionsTest` instable (2 points, Should) |
 | Avancée | US-307 | Avancée du sprint 60 au sprint 59, livrée |
+| Planifiée | US-304, US-308, US-319 | Sprint 60, choix de Thibaut du 2026-11-27 ; US-319 bornée à 4 h |
 
 ## Hors sprint
 
@@ -78,4 +89,4 @@ Progrès par rapport au sprint 58 : le rouge de la démo a cette fois été vu e
 ## Reste à faire
 
 1. Rétrospective du sprint 59.
-2. Planifier le sprint 60 : US-304 (sondes des plugins B2B, lot 1) et US-308 (point d'entrée HTTP JSON) sont proposées ; US-319 est à placer.
+2. Planifier le sprint 60 avec US-304 (sondes des plugins B2B, lot 1, 5 points), US-308 (point d'entrée HTTP JSON, 5 points) et US-319 (test instable, 2 points, enquête bornée à 4 h) : 12 points sur 15, soit 80 %.
