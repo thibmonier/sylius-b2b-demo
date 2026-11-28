@@ -84,5 +84,4 @@ Progrès par rapport au sprint 59 :
 
 ## Reste à faire
 
-1. ROTI de Thibaut et approbation des actions A-60-1 à A-60-3 ([sprint-retro.md](./sprint-retro.md)).
-2. Planifier le sprint 61. Candidates : US-323 (CI, 3 points), US-322 (2 points), US-320 (`--fail-on`, 2 points), et la montée de version de Symfony avant la fin de support de 8.1 (2027-01-31).
+1. Planifier le sprint 61. Candidates : US-323 (CI, 3 points), US-322 (2 points), US-320 (`--fail-on`, 2 points), et la montée de version de Symfony avant la fin de support de 8.1 (2027-01-31).
