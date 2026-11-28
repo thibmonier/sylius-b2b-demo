@@ -34,7 +34,7 @@ final class TrustedProxiesTest extends WebTestCase
         $client->request('GET', '/fr_FR/', server: ['HTTP_HOST' => 'demo.example.test']);
         self::assertResponseIsSuccessful();
 
-        $client->request('GET', '/health', server: ['HTTP_HOST' => 'healthcheck.railway.app']);
+        $client->request('GET', '/healthz', server: ['HTTP_HOST' => 'healthcheck.railway.app']);
         self::assertResponseStatusCodeSame(200);
     }
 
@@ -49,7 +49,7 @@ final class TrustedProxiesTest extends WebTestCase
         $client->request('GET', '/fr_FR/', server: ['HTTP_HOST' => 'sylius-b2b.site.example']);
         self::assertResponseIsSuccessful();
 
-        $client->request('GET', '/health', server: ['HTTP_HOST' => 'healthcheck.railway.app']);
+        $client->request('GET', '/healthz', server: ['HTTP_HOST' => 'healthcheck.railway.app']);
         self::assertResponseStatusCodeSame(200);
     }
 
@@ -134,7 +134,7 @@ final class TrustedProxiesTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/health', server: ['HTTP_X_FORWARDED_FOR' => '198.51.100.9']);
+        $client->request('GET', '/healthz', server: ['HTTP_X_FORWARDED_FOR' => '198.51.100.9']);
 
         self::assertSame('198.51.100.9', $client->getRequest()->getClientIp());
     }

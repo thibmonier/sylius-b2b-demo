@@ -169,10 +169,10 @@ final class HardeningTest extends WebTestCase
         $this->setEnvironment([$name => $value]);
         $client = self::createClient();
 
-        $client->request('GET', '/health');
+        $client->request('GET', '/healthz');
 
         self::assertResponseStatusCodeSame(503);
-        self::assertSame('misconfigured', $client->getResponse()->getContent());
+        self::assertSame('', $client->getResponse()->getContent());
     }
 
     /** @return iterable<string, array{string, string}> */
@@ -193,9 +193,9 @@ final class HardeningTest extends WebTestCase
         $client->request('GET', '/fr_FR/');
         self::assertResponseStatusCodeSame(503);
 
-        $client->request('GET', '/health');
+        $client->request('GET', '/healthz');
         self::assertResponseStatusCodeSame(503);
-        self::assertSame('misconfigured', $client->getResponse()->getContent());
+        self::assertSame('', $client->getResponse()->getContent());
     }
 
     /** @return iterable<string, array{string}> */
@@ -494,7 +494,7 @@ final class HardeningTest extends WebTestCase
         yield 'demo page' => ['GET', '/demo/accounts', 200];
         yield 'redirect' => ['GET', '/demo/badges/off', 302];
         yield '404' => ['GET', '/fr_FR/no-such-page', 404];
-        yield '405' => ['POST', '/health', 405];
+        yield '405' => ['POST', '/healthz', 405];
         yield 'admin denied' => ['GET', '/admin/', 302];
     }
 
