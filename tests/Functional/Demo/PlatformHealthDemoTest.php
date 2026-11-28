@@ -29,7 +29,10 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
 
     private const ROLE = 'ROLE_PLATFORM_HEALTH_VIEW';
 
-    /** The probes of the plugin (v0.4) by category, all measured on the demo, and the two of the demo itself (US-321). */
+    /**
+     * The probes of the plugin (v0.4) by category, all measured on the demo, the two of the demo itself (US-321) and
+     * those the B2B plugins register when the health plugin is installed (US-304, T-TECH-60-04).
+     */
     private const PROBES = [
         'environment' => [
             'environment.php_version',
@@ -54,6 +57,13 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
             'data.messenger_failed',
         ],
         'scheduled_tasks' => ['scheduled_tasks.heartbeat'],
+        'plugins' => [
+            'webhook_outbox.backlog',
+            'webhook_outbox.dead_deliveries',
+            'purchase_approval.overdue',
+            'purchase_approval.closed_orders',
+            'trade_credit.stale_reservations',
+        ],
     ];
 
     public function testEveryPublicAdminAccountOfTheCatalogueCarriesTheRoleAfterTheFixturesLoad(): void
@@ -88,7 +98,7 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
         self::assertCount(\count(array_unique($roles)), $roles, 'The roles of the account must stay a set.');
     }
 
-    public function testSophieSeesThePageAndItsSixteenProbesOnTheRealImage(): void
+    public function testSophieSeesThePageAndEveryProbeOnTheRealImage(): void
     {
         $client = $this->sophieClient();
         $page = $client->request('GET', self::URL);
@@ -104,7 +114,7 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
             $identifiers = $section->filter('[data-test-health-check]')->each(static fn (Crawler $row): string => (string) $row->attr('data-test-health-check'));
             self::assertEqualsCanonicalizing($probes, $identifiers, $category);
         }
-        self::assertCount(18, $results->filter('[data-test-health-check]'));
+        self::assertCount(23, $results->filter('[data-test-health-check]'));
     }
 
     public function testThePluginMigrationCreatedTheHeartbeatTable(): void

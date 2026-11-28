@@ -60,14 +60,14 @@
         "tmonier/sylius-order-hold-plugin": "^1.0",
         "tmonier/sylius-platform-health-plugin": "^0.6",
         "tmonier/sylius-punchout-cxml-plugin": "^1.3.0",
-        "tmonier/sylius-purchase-approval-plugin": "^1.4",
+        "tmonier/sylius-purchase-approval-plugin": "^1.5",
         "tmonier/sylius-quick-order-plugin": "^1.3.0",
         "tmonier/sylius-quote-request-plugin": "^1.1.0",
         "tmonier/sylius-registration-approval-plugin": "^0.1.2",
         "tmonier/sylius-tier-pricing-plugin": "^1.1",
         "tmonier/sylius-timeline-plugin": "^1.0",
-        "tmonier/sylius-trade-credit-plugin": "^1.1",
-        "tmonier/sylius-webhook-outbox-plugin": "^1.0",
+        "tmonier/sylius-trade-credit-plugin": "^1.2",
+        "tmonier/sylius-webhook-outbox-plugin": "^1.1",
         "tmonier/sylius-withdrawal-plugin": "^1.0"
     },
     "require-dev": {

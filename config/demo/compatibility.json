@@ -1,11 +1,11 @@
 {
-    "generated_at": "2026-11-27T06:58:10Z",
+    "generated_at": "2026-11-28T11:08:41Z",
     "demo": {
         "sylius": "2.3.3",
         "symfony": "8.1.12",
         "php": "^8.5",
         "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-        "checked_at": "2026-11-27"
+        "checked_at": "2026-11-28"
     },
     "plugins": {
         "sylius-admin-order-creation-plugin": {
@@ -936,10 +936,11 @@
                     "sylius-order-hold-plugin"
                 ],
                 "suggests": [
+                    "sylius-platform-health-plugin",
                     "sylius-webhook-outbox-plugin"
                 ],
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/composer.json",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "php": [
@@ -963,13 +964,13 @@
                     "postgres:17"
                 ],
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
-            "fingerprint": "16bea247e5b2af868351a89ba3eeb43c23a574ffc41e6f5524c76044076bbb35",
+            "fingerprint": "6e18d0196a56fe6d4cf21de49c9d064db915299884f3eae8f7546de1897cef23",
             "demo": {
-                "version": "v1.4.0",
+                "version": "v1.5.0",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             }
         },
         "sylius-quick-order-plugin": {
@@ -1161,10 +1162,11 @@
                     "sylius-order-hold-plugin"
                 ],
                 "suggests": [
-                    "sylius-facturx-plugin"
+                    "sylius-facturx-plugin",
+                    "sylius-platform-health-plugin"
                 ],
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/composer.json",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "php": [
@@ -1187,21 +1189,23 @@
                     "postgres:17"
                 ],
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
-            "fingerprint": "41251f3271d2a484dad23db99dfac0f1c59de80aa536e86e664929c2a650179b",
+            "fingerprint": "2a241069f5abc2038b34c1f6aed5a1a511a109b9865feddc6d83d349c4234055",
             "demo": {
-                "version": "v1.1.0",
+                "version": "v1.2.0",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             }
         },
         "sylius-webhook-outbox-plugin": {
             "dependencies": {
                 "requires": [],
-                "suggests": [],
+                "suggests": [
+                    "sylius-platform-health-plugin"
+                ],
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/composer.json",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "php": [
@@ -1224,13 +1228,13 @@
                     "postgres:17"
                 ],
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
-            "fingerprint": "ecd93a7bbf2fbb7e2ab093da0d2bd4c93fc87ce7944dc8c31a790f1ee6325a0c",
+            "fingerprint": "0dd7163cfad72b89c9b79bade7817a6a8843243555ff2869f9345c0abdd35ed6",
             "demo": {
-                "version": "v1.0.0",
+                "version": "v1.1.0",
                 "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/composer.lock",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             }
         },
         "sylius-withdrawal-plugin": {
