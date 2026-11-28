@@ -66,12 +66,13 @@ final class CheckCoverageTest extends TestCase
         self::assertGreaterThanOrEqual(80, (int) ($matches[1] ?? 0));
     }
 
-    /** US-174: PHPUnit 13 colours the coverage text; the job summary greps its lines, so the colours must be off. */
-    public function testTheCoverageTextOfTheWorkflowIsNotColoured(): void
+    /** US-174: PHPUnit 13 colours its output; US-323: each shard writes its coverage in PHP format, merged by the `tests` job. */
+    public function testTheShardsOfTheWorkflowWriteTheirCoverageWithoutColours(): void
     {
         $workflow = (string) file_get_contents(\dirname(__DIR__, 3) . '/.github/workflows/ci.yaml');
 
-        self::assertMatchesRegularExpression('#vendor/bin/phpunit --colors=never --coverage-text #', $workflow);
+        self::assertMatchesRegularExpression('#vendor/bin/phpunit -c phpunit.shard.xml --colors=never --coverage-php #', $workflow);
+        self::assertStringContainsString('vendor/bin/phpcov merge --clover build/coverage.xml --text build/coverage.txt', $workflow);
     }
 
     private function check(string $clover, string $threshold): Process

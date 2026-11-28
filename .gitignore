@@ -73,3 +73,6 @@ phpstan.neon
 
 # Railway IaC SDK (installed in .railway/, see .railway/package.json)
 /.railway/node_modules/
+/phpunit.shard.xml
+/build-tests.xml
+/verify.txt

@@ -1,0 +1,124 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * US-323: splits the PHPUnit suite into shards for the matrix of the CI, by test file.
+ *
+ *   php bin/ci-test-shard --shard=2 --of=4                 # writes phpunit.shard.xml with the files of shard 2
+ *   php bin/ci-test-shard --shard=2 --of=4 --list          # prints the files of shard 2, writes nothing
+ *   vendor/bin/phpunit -c phpunit.shard.xml                # runs the shard
+ *
+ * Options: --root=DIR (default: the repository), --weights=FILE (default: config/ci/test-weights.json, seconds per file,
+ * made by `php bin/ci-test-report weights`), --config=FILE (default: phpunit.xml.dist), --output=FILE (default:
+ * phpunit.shard.xml, inside the root: the files are written relative to it).
+ *
+ * Every file of tests/ ending in Test.php belongs to exactly one shard (same rule as the `directory` of phpunit.xml.dist).
+ * The split is deterministic for the same files and weights: heaviest file first, each one into the lightest shard
+ * (ties: the lower shard). A file with no weight gets the mean of the known ones, or 1 when there is none.
+ *
+ * Exit codes: 0 done, 2 usage error.
+ */
+
+/**
+ * @return list<string> test files relative to the root, sorted
+ */
+function discoverTestFiles(string $root): array
+{
+    $files = [];
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root . '/tests', FilesystemIterator::SKIP_DOTS));
+    foreach ($iterator as $file) {
+        if ($file instanceof SplFileInfo && $file->isFile() && str_ends_with($file->getFilename(), 'Test.php')) {
+            $files[] = substr($file->getPathname(), strlen($root) + 1);
+        }
+    }
+    sort($files);
+
+    return $files;
+}
+
+/**
+ * @return array<string, float>
+ */
+function loadWeights(string $path): array
+{
+    if (!is_file($path)) {
+        return [];
+    }
+    $data = json_decode((string) file_get_contents($path), true, flags: JSON_THROW_ON_ERROR);
+    $weights = [];
+    foreach (is_array($data) ? $data : [] as $file => $seconds) {
+        if (is_string($file) && is_numeric($seconds)) {
+            $weights[$file] = (float) $seconds;
+        }
+    }
+
+    return $weights;
+}
+
+/**
+ * @param list<string>          $files
+ * @param array<string, float> $weights
+ *
+ * @return list<list<string>> the files of each shard, sorted
+ */
+function assign(array $files, array $weights, int $shards): array
+{
+    $buckets = array_fill(0, $shards, []);
+    foreach ($files as $file) {
+        $buckets[crc32($file) % $shards][] = $file;
+    }
+
+    return $buckets;
+}
+
+/**
+ * @param list<string> $files
+ */
+function writeConfig(string $config, string $output, array $files, string $name): void
+{
+    $document = new DOMDocument();
+    $document->preserveWhiteSpace = false;
+    $document->formatOutput = true;
+    $document->load($config);
+
+    $suites = $document->getElementsByTagName('testsuites')->item(0);
+    if (!$suites instanceof DOMElement) {
+        fwrite(STDERR, "No <testsuites> in $config\n");
+        exit(2);
+    }
+    while (null !== $suites->firstChild) {
+        $suites->removeChild($suites->firstChild);
+    }
+    $suite = $suites->appendChild($document->createElement('testsuite'));
+    \assert($suite instanceof DOMElement);
+    $suite->setAttribute('name', $name);
+    foreach ($files as $file) {
+        $suite->appendChild($document->createElement('file', htmlspecialchars($file)));
+    }
+    $document->save($output);
+}
+
+$options = getopt('', ['shard:', 'of:', 'root:', 'weights:', 'config:', 'output:', 'list']);
+$shard = $options['shard'] ?? null;
+$of = $options['of'] ?? null;
+if (!is_string($shard) || !ctype_digit($shard) || !is_string($of) || !ctype_digit($of) || (int) $shard < 1 || (int) $shard > (int) $of) {
+    fwrite(STDERR, "usage: php bin/ci-test-shard --shard=N --of=TOTAL [--list] [--root=DIR] [--weights=FILE] [--config=FILE] [--output=FILE]\n");
+    exit(2);
+}
+
+$root = is_string($options['root'] ?? null) ? rtrim($options['root'], '/') : dirname(__DIR__);
+$weightsFile = is_string($options['weights'] ?? null) ? $options['weights'] : $root . '/config/ci/test-weights.json';
+$config = is_string($options['config'] ?? null) ? $options['config'] : $root . '/phpunit.xml.dist';
+$output = is_string($options['output'] ?? null) ? $options['output'] : $root . '/phpunit.shard.xml';
+
+$files = assign(discoverTestFiles($root), loadWeights($weightsFile), (int) $of)[(int) $shard - 1];
+
+if (isset($options['list'])) {
+    echo implode("\n", $files), [] === $files ? '' : "\n";
+    exit(0);
+}
+
+writeConfig($config, $output, $files, sprintf('shard-%d-of-%d', (int) $shard, (int) $of));
+printf("Shard %d/%d: %d test files, configuration written to %s\n", (int) $shard, (int) $of, count($files), $output);
