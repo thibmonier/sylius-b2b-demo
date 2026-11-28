@@ -206,7 +206,10 @@ jobs:
                   php bin/console doctrine:database:create --if-not-exists
                   php bin/console doctrine:migrations:migrate --no-interaction
                   php bin/console doctrine:schema:validate --skip-sync
-                  php bin/console sylius:fixtures:load demo --no-interaction
+                  # The demo reset, not the bare fixtures: it also computes the predictive analytics, which the tests of the
+                  # account dashboard and of the fixtures read. Run as one process, an earlier test of the suite did the reset
+                  # for them; split in shards, each one has to start from the same state (US-323).
+                  DEMO_MODE=1 php bin/console app:demo:reset --no-media --no-cache --no-interaction
 
             # The files of the shard, split by weight (config/ci/test-weights.json): phpunit.shard.xml.
             # Each shard writes its coverage in PHP format (merged by the `tests` job) and a JUnit log (durations per file).
