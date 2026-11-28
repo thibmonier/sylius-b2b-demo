@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-28T09:32:51Z",
+    "generated_at": "2026-11-28T11:11:11Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -1012,41 +1012,42 @@
         },
         "sylius-purchase-approval-plugin": {
             "version": {
-                "value": "v1.4.0",
+                "value": "v1.5.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-purchase-approval-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/45953494409",
-                "checked_at": "2026-11-27"
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/actions/runs/46128196153",
+                "checked_at": "2026-11-28"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "tests": {
-                "value": 27,
+                "value": 32,
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/main/tests",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "coverage": {
+                "stale": true,
                 "value": 87.47,
                 "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/runs/140356576753",
                 "checked_at": "2026-11-27"
@@ -1264,41 +1265,42 @@
         },
         "sylius-trade-credit-plugin": {
             "version": {
-                "value": "v1.1.0",
+                "value": "v1.2.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-trade-credit-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-trade-credit-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-trade-credit-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/actions/runs/45953345102",
-                "checked_at": "2026-11-27"
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/actions/runs/46128185850",
+                "checked_at": "2026-11-28"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "tests": {
-                "value": 20,
+                "value": 24,
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/tree/main/tests",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "coverage": {
+                "stale": true,
                 "value": 78.34,
                 "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/runs/140355020755",
                 "checked_at": "2026-11-27"
@@ -1306,41 +1308,42 @@
         },
         "sylius-webhook-outbox-plugin": {
             "version": {
-                "value": "v1.0.0",
+                "value": "v1.1.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-webhook-outbox-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_declared": {
                 "value": "^2.2",
                 "source": "https://packagist.org/packages/tmonier/sylius-webhook-outbox-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-webhook-outbox-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/actions/runs/45953322528",
-                "checked_at": "2026-11-27"
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/actions/runs/46128175962",
+                "checked_at": "2026-11-28"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "tests": {
-                "value": 21,
+                "value": 26,
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/tree/main/tests",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "coverage": {
+                "stale": true,
                 "value": 85.88,
                 "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/runs/140354729068",
                 "checked_at": "2026-11-27"
@@ -1392,7 +1395,7 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/46128904318",
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/46136950984",
             "checked_at": "2026-11-28"
         },
         "phpstan": {
@@ -1426,8 +1429,8 @@
             "checked_at": "2026-11-28"
         },
         "coverage": {
-            "value": 93.2,
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/140933211200",
+            "value": 93.19,
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/140959197644",
             "checked_at": "2026-11-28"
         }
     }
