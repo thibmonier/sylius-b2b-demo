@@ -76,6 +76,7 @@
         "phpstan/phpstan": "2.3.7",
         "phpstan/phpstan-doctrine": "^2.1.0",
         "phpstan/phpstan-webmozart-assert": "^2.0",
+        "phpunit/phpcov": "^13.2.1",
         "phpunit/phpunit": "^13.4.8",
         "sylius-labs/coding-standard": "^4.5.1",
         "sylius/sylius-rector": "^3.9",
