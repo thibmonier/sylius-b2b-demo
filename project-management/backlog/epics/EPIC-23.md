@@ -44,7 +44,7 @@ L'adresse est publique par construction, donc :
 |---|---|---|---|---|
 | [US-307](../user-stories/US-307.md) | Commande `tmonier:health:check` : sortie texte ou JSON, code de sortie 0/1/2, filtres `--category` et `--only` | Must | 3 | 59 (avancée le 2026-11-26) |
 | [US-308](../user-stories/US-308.md) | Point d'entrée HTTP JSON protégé par jeton, deux niveaux de détail, limitation de débit — généralise le `/healthz` de la démo | Must | 5 | 60 |
-| US-309 | Historique : instantané périodique, courbe par sonde sur 30 jours, purge configurable | Must | 5 | 61 |
+| [US-309](../user-stories/US-309.md) | Historique : instantané périodique, frise par sonde sur 30 jours, purge configurable (décisions de Thibaut du 2026-11-28 : commande et cron, statut seul, frise par jour, 30 jours) | Must | 5 | 61 |
 | US-310 | Alertes à la transition d'état : message Messenger, courriel et webhook sortant, temporisation anti-faux-positif | Should | 5 | 61 |
 | [US-321](../user-stories/US-321.md) | Démo : `/healthz` servi par le point d'entrée du plugin (découpée d'US-308 le 2026-11-27) | Must | 2 | 60 |
 | [US-320](../user-stories/US-320.md) | Commande : seuil d'échec `--fail-on=warning\|critical` (revue du sprint 59) | Could | 2 | non planifiée |
