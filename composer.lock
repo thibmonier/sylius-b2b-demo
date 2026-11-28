@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d28460d4f263873f01d8c39e1d31bbd",
+    "content-hash": "16175e354cd3809dd9c9d08c768219a5",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18699,16 +18699,16 @@
         },
         {
             "name": "tmonier/sylius-purchase-approval-plugin",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-purchase-approval-plugin.git",
-                "reference": "fbe3ab5bb8f36d9b57c2f3dcd2ec6b5bd730c097"
+                "reference": "a83f9db3a590fefe86858944f5ab7cce4fe330ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-purchase-approval-plugin/zipball/fbe3ab5bb8f36d9b57c2f3dcd2ec6b5bd730c097",
-                "reference": "fbe3ab5bb8f36d9b57c2f3dcd2ec6b5bd730c097",
+                "url": "https://api.github.com/repos/thibmonier/sylius-purchase-approval-plugin/zipball/a83f9db3a590fefe86858944f5ab7cce4fe330ce",
+                "reference": "a83f9db3a590fefe86858944f5ab7cce4fe330ce",
                 "shasum": ""
             },
             "require": {
@@ -18737,10 +18737,12 @@
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2",
                 "tmonier/sylius-admin-order-creation-plugin": "^1.0",
+                "tmonier/sylius-platform-health-plugin": "^0.5",
                 "tmonier/sylius-webhook-outbox-plugin": "^1.0"
             },
             "suggest": {
                 "sylius/invoicing-plugin": "Invoices are generated when an order is approved, not when it is placed",
+                "tmonier/sylius-platform-health-plugin": "Shows the health probes of this plugin (overdue approvals, approvals of closed orders) on the administration page and dashboard",
                 "tmonier/sylius-webhook-outbox-plugin": "order.approved, order.approval_rejected and order.approval_expired webhooks"
             },
             "type": "sylius-plugin",
@@ -18780,9 +18782,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-purchase-approval-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/v1.4.0"
+                "source": "https://github.com/thibmonier/sylius-purchase-approval-plugin/tree/v1.5.0"
             },
-            "time": "2026-10-25T19:08:06+00:00"
+            "time": "2026-11-28T09:06:45+00:00"
         },
         {
             "name": "tmonier/sylius-quick-order-plugin",
@@ -19188,16 +19190,16 @@
         },
         {
             "name": "tmonier/sylius-trade-credit-plugin",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-trade-credit-plugin.git",
-                "reference": "8c00c031e1e3efb5dff36141366cedae1ef44cb3"
+                "reference": "5066c1341eab4024210e2a8cf46317f432c0b7af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-trade-credit-plugin/zipball/8c00c031e1e3efb5dff36141366cedae1ef44cb3",
-                "reference": "8c00c031e1e3efb5dff36141366cedae1ef44cb3",
+                "url": "https://api.github.com/repos/thibmonier/sylius-trade-credit-plugin/zipball/5066c1341eab4024210e2a8cf46317f432c0b7af",
+                "reference": "5066c1341eab4024210e2a8cf46317f432c0b7af",
                 "shasum": ""
             },
             "require": {
@@ -19211,6 +19213,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
@@ -19223,11 +19226,13 @@
                 "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
                 "symfony/webpack-encore-bundle": "^2.2",
-                "tmonier/sylius-facturx-plugin": "^1.1"
+                "tmonier/sylius-facturx-plugin": "^1.1",
+                "tmonier/sylius-platform-health-plugin": "^0.5"
             },
             "suggest": {
                 "sylius/invoicing-plugin": "Invoice PDF links on the trade credit statement",
-                "tmonier/sylius-facturx-plugin": "Per-order due date (BT-9) and payment terms (BT-20) in Factur-X invoices"
+                "tmonier/sylius-facturx-plugin": "Per-order due date (BT-9) and payment terms (BT-20) in Factur-X invoices",
+                "tmonier/sylius-platform-health-plugin": "Shows the health probe of this plugin (stale reservations) on the administration page and dashboard"
             },
             "type": "sylius-plugin",
             "extra": {
@@ -19266,22 +19271,22 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-trade-credit-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/tree/v1.1.0"
+                "source": "https://github.com/thibmonier/sylius-trade-credit-plugin/tree/v1.2.0"
             },
-            "time": "2026-10-12T16:56:04+00:00"
+            "time": "2026-11-28T09:06:49+00:00"
         },
         {
             "name": "tmonier/sylius-webhook-outbox-plugin",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-webhook-outbox-plugin.git",
-                "reference": "c426d3cf0c17a3747733731741a1f5cb8b5b18c4"
+                "reference": "a25505ebbea7f554d72af776f8bb1300a5c13949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-webhook-outbox-plugin/zipball/c426d3cf0c17a3747733731741a1f5cb8b5b18c4",
-                "reference": "c426d3cf0c17a3747733731741a1f5cb8b5b18c4",
+                "url": "https://api.github.com/repos/thibmonier/sylius-webhook-outbox-plugin/zipball/a25505ebbea7f554d72af776f8bb1300a5c13949",
+                "reference": "a25505ebbea7f554d72af776f8bb1300a5c13949",
                 "shasum": ""
             },
             "require": {
@@ -19298,6 +19303,7 @@
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-webmozart-assert": "^2.0",
                 "phpunit/phpunit": "^10.5",
+                "rector/rector": "^2.0",
                 "sylius-labs/coding-standard": "^4.4",
                 "sylius/test-application": "^2.0.0@alpha",
                 "symfony/browser-kit": "^6.4 || ^7.4 || ^8.0",
@@ -19308,7 +19314,11 @@
                 "symfony/intl": "^6.4 || ^7.4 || ^8.0",
                 "symfony/runtime": "^6.4 || ^7.4 || ^8.0",
                 "symfony/web-profiler-bundle": "^6.4 || ^7.4 || ^8.0",
-                "symfony/webpack-encore-bundle": "^2.2"
+                "symfony/webpack-encore-bundle": "^2.2",
+                "tmonier/sylius-platform-health-plugin": "^0.5"
+            },
+            "suggest": {
+                "tmonier/sylius-platform-health-plugin": "Shows the health probes of this plugin (webhook backlog, dead deliveries) on the administration page and dashboard"
             },
             "type": "sylius-plugin",
             "extra": {
@@ -19348,9 +19358,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/tree/v1.0.0"
+                "source": "https://github.com/thibmonier/sylius-webhook-outbox-plugin/tree/v1.1.0"
             },
-            "time": "2026-10-11T18:11:56+00:00"
+            "time": "2026-11-28T09:06:38+00:00"
         },
         {
             "name": "tmonier/sylius-withdrawal-plugin",
