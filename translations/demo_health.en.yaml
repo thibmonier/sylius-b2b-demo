@@ -1,0 +1,7 @@
+demo_health:
+    configuration:
+        ok: "The demo configuration is safe (private gate, internal mailer, secret, host whitelist)."
+        critical: "The demo configuration is unsafe: see the container logs or run app:demo:preflight."
+    reset:
+        ok: "The last nightly reset did not fail."
+        critical: "The last nightly reset failed: the demo still serves its previous data."

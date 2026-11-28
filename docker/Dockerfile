@@ -74,6 +74,7 @@ RUN DATABASE_URL="mysql://build:build@127.0.0.1:3306/build?serverVersion=8.4" ph
 COPY docker/Caddyfile /etc/frankenphp/Caddyfile
 # No USER: the entrypoint starts as root to fix the media volume owner, then drops to www-data (US-145).
 EXPOSE 8080
+# US-321: /healthz is the liveness of the platform health plugin; it answers 404 (unhealthy) until HEALTH_HTTP_TOKEN or HEALTH_HTTP_DETAIL_TOKEN is set.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s CMD curl -fsS "http://127.0.0.1:${PORT:-8080}/healthz" || exit 1
 ENTRYPOINT ["/app/docker/entrypoint.sh"]
 CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]

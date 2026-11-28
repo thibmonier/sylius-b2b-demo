@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Demo\PlatformHealth;
 
+use App\Demo\Http\DemoGateListener;
 use App\Tests\Support\Typed;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -63,6 +64,47 @@ final class PlatformHealthSettingsTest extends TestCase
             self::assertIsInt($threshold, $table);
             self::assertGreaterThan(0, $threshold, $table);
         }
+    }
+
+    public function testTheEntryPointReadsItsTokensFromTheEnvironmentAndAnswersTheLivenessOfTheHostChecks(): void
+    {
+        $http = Typed::map(Typed::find($this->settings(), 'http'), 'http');
+
+        self::assertSame('%env(default::HEALTH_HTTP_TOKEN)%', $http['token'] ?? null);
+        self::assertSame('%env(default::HEALTH_HTTP_DETAIL_TOKEN)%', $http['detail_token'] ?? null);
+        self::assertTrue($http['liveness'] ?? null, 'Railway and Docker send no header: only the liveness answers them.');
+    }
+
+    public function testNoTokenIsWrittenInTheRepository(): void
+    {
+        $file = $this->yaml('config/packages/tmonier_platform_health.yaml');
+
+        self::assertIsArray($file);
+        self::assertArrayNotHasKey('parameters', $file, 'No default value for a token: an absent or empty variable means "inactive".');
+    }
+
+    public function testTheRouteOfThePluginIsServedOnHealthzAndTheOldPathIsNotRouted(): void
+    {
+        $routes = Typed::map($this->yaml('config/routes/tmonier.yaml'), 'routes');
+        $http = Typed::map($routes['tmonier_platform_health_http'] ?? null, 'http route');
+
+        self::assertSame('@TmonierSyliusPlatformHealthPlugin/config/routes/http.yaml', $http['resource'] ?? null);
+        self::assertSame('/healthz', $http['prefix'] ?? null);
+        self::assertFalse($http['trailing_slash_on_root'] ?? null);
+        self::assertArrayNotHasKey('tmonier_platform_health', $routes, 'The whole routes.yaml of the plugin would serve /health.');
+    }
+
+    public function testOnlyHealthzStaysOutsideThePrivateGate(): void
+    {
+        self::assertSame(['/healthz'], DemoGateListener::OPEN_PATHS);
+    }
+
+    public function testTheDemoRateLimiterOfTheHealthchecksIsGone(): void
+    {
+        $limiters = Typed::map(Typed::at($this->yaml('config/packages/demo_hardening.yaml'), 'framework', 'rate_limiter'), 'limiters');
+
+        self::assertArrayNotHasKey('demo_health', $limiters, 'The plugin limits its own entry point (http.rate_limit).');
+        self::assertStringNotContainsString('DEMO_RATE_LIMIT_HEALTH', (string) file_get_contents($this->path('config/packages/demo_hardening.yaml')));
     }
 
     /** @return array<string, string> command => rhythm, in the order of the crontab */

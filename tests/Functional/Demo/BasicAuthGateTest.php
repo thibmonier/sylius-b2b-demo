@@ -73,23 +73,25 @@ final class BasicAuthGateTest extends WebTestCase
         }
     }
 
-    #[DataProvider('provideHealthPaths')]
-    public function testTheHealthcheckIsOutsideTheGate(string $path): void
+    public function testTheHealthcheckIsOutsideTheGate(): void
     {
         $this->privateDemo();
         $client = self::createClient();
 
-        $client->request('GET', $path);
+        $client->request('GET', '/healthz');
 
         self::assertResponseStatusCodeSame(200);
-        self::assertSame('ok', $client->getResponse()->getContent());
+        self::assertSame('', $client->getResponse()->getContent());
     }
 
-    /** @return iterable<string, array{string}> */
-    public static function provideHealthPaths(): iterable
+    public function testTheFormerHealthPathIsBehindTheGateAgain(): void
     {
-        yield '/health' => ['/health'];
-        yield '/healthz' => ['/healthz'];
+        $this->privateDemo();
+        $client = self::createClient();
+
+        $client->request('GET', '/health');
+
+        self::assertResponseStatusCodeSame(401);
     }
 
     public function testTheGateCanBeSwitchedOff(): void
@@ -125,9 +127,9 @@ final class BasicAuthGateTest extends WebTestCase
         $client->request('GET', '/fr_FR/', server: $this->credentials('', ''));
         self::assertResponseStatusCodeSame(503);
 
-        $client->request('GET', '/health');
+        $client->request('GET', '/healthz');
         self::assertResponseStatusCodeSame(503);
-        self::assertSame('misconfigured', $client->getResponse()->getContent());
+        self::assertSame('', $client->getResponse()->getContent());
     }
 
     public function testAClearPasswordInPlaceOfAHashIsRefusedAtStartup(): void

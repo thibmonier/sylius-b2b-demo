@@ -11,7 +11,7 @@ Politique : la démo est **publique** (aucune annonce sur les canaux Sylius) et 
 | `DEMO_BASIC_AUTH` | `1` | `0` |
 | `DEMO_REGISTRATION_OPEN` | `1` | `0` |
 | `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0` | `0` |
-| Visiteur anonyme | `401` (sauf `/health`, `/healthz`) | `200` |
+| Visiteur anonyme | `401` (sauf `/healthz`) | `200` |
 | Guide MCP `/{locale}/mcp` | avertissement « démo privée » | sans avertissement, un assistant hébergé peut se connecter |
 | Inscription (formulaire `/register`) | ouverte | `403` |
 | `POST /api/v2/shop/customers` | `404` (API désactivée en production) | `404` (idem, le `403` ne vaut que si l'API est activée) |
@@ -40,7 +40,7 @@ Les visiteurs sans compte peuvent donc toujours parcourir le catalogue, se conne
 
 - **Comptes clients de démo** (ceux de `/demo/accounts`, mot de passe public) : changement de mot de passe et d'e-mail refusés (flash « Compte de démo partagé »), `SharedDemoAccountGuardListener`. Adresses, membres et crédit restent modifiables, la remise à zéro de 03:00 les restaure.
 - **Défiguration par Sophie** : décision de l'utilisateur du 2026-10-17, Sophie garde ses droits d'écriture en mode public ; le risque de défiguration visible jusqu'au reset de 03:00 est **accepté** (démo non promue, données fictives). Détail : [securite-admin-demo.md](securite-admin-demo.md).
-- **Limiteur global** : `DEMO_RATE_LIMIT_SHOP` (300 requêtes PHP par minute et par IP, défaut) s'ajoute aux limiteurs par formulaire ; `/health`, `/healthz`, le récepteur de webhooks signés et le simulateur interne en sont exemptés.
+- **Limiteur global** : `DEMO_RATE_LIMIT_SHOP` (300 requêtes PHP par minute et par IP, défaut) s'ajoute aux limiteurs par formulaire ; `/healthz`, le récepteur de webhooks signés et le simulateur interne en sont exemptés.
 - **`DEMO_MODE` obligatoire sur Railway** : le preflight échoue si `RAILWAY_ENVIRONMENT` est défini et `DEMO_MODE` ne vaut pas `1` (sinon limiteurs, hôtes de confiance et garde sortant seraient désactivés sans bruit).
 - **Tous les limiteurs dépendent de `X-Real-IP`** posé par l'edge Railway (`RailwayClientIpListener`) : voir la vérification 11 ci-dessous.
 
@@ -51,7 +51,7 @@ Les visiteurs sans compte peuvent donc toujours parcourir le catalogue, se conne
 - [ ] Revue de sécurité de l'US-050 close, sans constat critique ou majeur ouvert.
 - [ ] La branche `main` contient le mode public (PR #21 mergée) et le service `web` l'a déployée (le service suit `main`, `.railway/railway.ts`).
 - [ ] Mode privé sain : `bin/verify-public-mode --private https://<domaine>` répond « All checks OK. » (401 pour un anonyme, `/healthz` en 200).
-- [ ] Reset nocturne vert : `/healthz` répond `ok` (pas `reset failed`), voir [remise-a-zero-demo.md](remise-a-zero-demo.md).
+- [ ] Reset nocturne vert : `/healthz` répond 200 (et non 503 : la sonde `demo.reset` n'est pas `critical`), voir [remise-a-zero-demo.md](remise-a-zero-demo.md).
 - [ ] Moniteur externe créé sur `/healthz` et actif (T-052-03).
 - [ ] `railway config plan` ne montre, pour `web`, que `DEMO_BASIC_AUTH` (1 vers 0) et `DEMO_REGISTRATION_OPEN` (1 vers 0) ; `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` reste `0`.
 - [ ] Les identifiants de la porte sont en place (`DEMO_BASIC_AUTH_USER`, `DEMO_BASIC_AUTH_PASSWORD_HASH`), pour le retour arrière.
@@ -92,7 +92,7 @@ Les vérifications 1 à 9 et 12 sont aussi dans un script en lecture seule (GET 
 
 ```bash
 bin/verify-public-mode "$URL" <slug-d-un-produit>     # mode public ; sans slug, la vérification 12 est ignorée
-bin/verify-public-mode --private "$URL"               # mode privé : 401 pour un anonyme, /healthz et /health en 200
+bin/verify-public-mode --private "$URL"               # mode privé : 401 pour un anonyme, /healthz en 200
 ```
 
 Les vérifications 10 et 11 restent manuelles (elles saturent un limiteur et exigent deux connexions). Le script ne remplace pas la liste « À la main » plus bas.
@@ -168,8 +168,8 @@ En urgence, sans passer par le dépôt : `railway variables --service web --set 
 - Service : UptimeRobot ou Better Stack, compte de l'utilisateur (T-050-09).
 - URL : `https://<domaine>/healthz`, méthode GET, attendu `200`, intervalle 1 à 5 minutes, alerte par e-mail vers l'utilisateur.
 - `/healthz` est exempté de la porte en mode privé : le moniteur peut être créé **avant** la bascule et ne change pas avec elle.
-- Le limiteur `DEMO_RATE_LIMIT_HEALTH` (30 appels par minute et par IP) est très au-dessus d'un moniteur à 1 appel par minute.
-- `503` sur `/healthz` : base indisponible, migration en attente, configuration dangereuse ou dernière remise à zéro en échec (corps `reset failed`, voir [remise-a-zero-demo.md](remise-a-zero-demo.md)).
+- Le limiteur du plugin de santé (`http.rate_limit`, 30 appels par minute et par IP) est très au-dessus d'un moniteur à 1 appel par minute.
+- `503` sur `/healthz` (corps vide) : une sonde est `critical` (base indisponible, migration en attente, configuration dangereuse `demo.configuration` ou dernière remise à zéro en échec `demo.reset` ; le détail se lit avec `HEALTH_HTTP_DETAIL_TOKEN` ou sur la page de santé, voir [remise-a-zero-demo.md](remise-a-zero-demo.md)).
 
 ## robots.txt et noindex
 

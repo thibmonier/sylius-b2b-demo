@@ -5,7 +5,7 @@ Application des US-032 (porte privée) et US-036 (durcissement). Le code est dan
 ## Porte privée (authentification HTTP basique)
 
 - Active quand `DEMO_MODE=1`, sauf `DEMO_BASIC_AUTH=0`. Toute requête sans identifiants valides reçoit `401` avec `WWW-Authenticate`.
-- Exemptés : `/health` et `/healthz`. Les fichiers statiques servis directement par Caddy (`/build`, `/bundles`, `/media`) ne passent pas par PHP et restent accessibles.
+- Exempté : `/healthz` (point d'entrée du plugin de santé, US-321 ; l'ancien `/health` de la démo n'existe plus et répond 404, ou 401 derrière la porte). Les fichiers statiques servis directement par Caddy (`/build`, `/bundles`, `/media`) ne passent pas par PHP et restent accessibles.
 - Les échecs de mot de passe sont comptés par IP visiteur : au-delà de `DEMO_RATE_LIMIT_GATE` échecs par 10 minutes, `429`.
 - Le simulateur PunchOut appelle la boutique en boucle locale : il prouve son origine avec l'en-tête `X-Demo-Internal` (HMAC de `APP_SECRET`), accepté par la porte et par les entrées PunchOut (`POST /punchout/cxml` et, depuis US-053, `POST /punchout/oci/<code>`).
 - Fail-closed : porte active sans `DEMO_BASIC_AUTH_USER` / `DEMO_BASIC_AUTH_PASSWORD_HASH` valides (le hash est celui de `password_hash`, jamais un mot de passe en clair) : toutes les pages répondent `503` et `/health` aussi. `php bin/console app:demo:preflight` fait la même vérification pour l'entrypoint du conteneur, et, porte ouverte, refuse aussi des inscriptions ouvertes ou un endpoint PunchOut public (US-050).
@@ -27,11 +27,11 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | `DEMO_RATE_LIMIT_LOGIN` | `30` (par 15 min) | `30` |
 | `DEMO_RATE_LIMIT_PUBLIC` | `120` (par minute) | `120` |
 | `DEMO_RATE_LIMIT_FORMS` | `10` (par heure) | `10` (inclut l'avis produit invité) |
-| `DEMO_RATE_LIMIT_SHOP` | `300` (par minute) | `300` : toutes les requêtes PHP par IP visiteur, hors `/health`, `/healthz`, webhooks signés, simulateur interne |
+| `DEMO_RATE_LIMIT_SHOP` | `300` (par minute) | `300` : toutes les requêtes PHP par IP visiteur, hors `/healthz`, webhooks signés, simulateur interne |
 | `DEMO_RATE_LIMIT_PUNCHOUT_START` | `10` (par 10 min) | `10` : démarrage cXML et entrée OCI ; le retour OCI a le même plafond dans son propre seau (US-053) |
 | `DEMO_RATE_LIMIT_PUNCHOUT_ORDER` | `10` (par heure) | `10` |
 | `DEMO_RATE_LIMIT_GATE` | `20` (échecs par 10 min) | `20` |
-| `DEMO_RATE_LIMIT_HEALTH` | `30` (par minute) | `30` : `/health` et `/healthz`, par IP visiteur ; un moniteur toutes les 10 s fait 6 appels |
+| `HEALTH_HTTP_TOKEN`, `HEALTH_HTTP_DETAIL_TOKEN` | vides (point d'entrée inactif, `/healthz` répond 404) | jetons de `/healthz` (US-321), posés par Thibaut dans Railway **avant le déploiement** ; `DEMO_RATE_LIMIT_HEALTH` et son limiteur ont disparu, le plugin limite lui-même à 30 requêtes par minute et par IP (`http.rate_limit`) |
 | `DEMO_RATE_LIMIT_EXPORT`, `DEMO_RATE_LIMIT_JOURNEY`, `DEMO_RATE_LIMIT_FLEET` | voir `config/packages/demo_hardening.yaml` | seaux dédiés, par IP visiteur, pour l'export CSV, les actions des visites guidées et les écritures du parc d'équipements |
 | `DEMO_REGISTRATION_OPEN` | `1` | `1` tant que la démo est privée (inscriptions validées par Sophie), **`0` avant l'ouverture publique** ; ferme aussi la commande invité (étape adresse) et le devis invité (`allow_guests`). Le preflight refuse de démarrer porte ouverte avec `1` |
 | `DEMO_PUNCHOUT_DAILY_ORDERS` | `50` | `50` |
@@ -56,7 +56,7 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 | M2 clients saisis par les visiteurs (US-040) | Corrigé (interrupteur) | `DEMO_REGISTRATION_OPEN=0` : le formulaire d'inscription et `POST /api/v2/shop/customers` répondent 403 (`RegistrationGateListener`) et les liens « Créer un compte » (en-tête, connexion, mot de passe oublié, fin de commande) ne sont plus affichés (`demo_registration_open()`, US-162). Ouvert par défaut tant que la démo est privée. |
 | M4 images orphelines (US-040) | Corrigé | Étape 4 du reset (`OrphanImagePurger`) : tout fichier de `public/media/image` sans ligne d'image est supprimé ; un échec est journalisé et fait échouer le reset (`/healthz` 503 `reset failed`). |
 | M5 clients HTTP du serveur MCP (US-040) | Corrigé | Le garde sortant décore aussi `http_client.transport` ; les redirections ne sont plus suivies. |
-| M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et verdict base + migrations gardé 5 s (aucune requête SQL par appel dans la fenêtre). |
+| M6 `/healthz` (US-040) | Corrigé | Limiteur par IP visiteur et instantané des sondes gardé 5 s (`cache_ttl`, aucune sonde par appel dans la fenêtre). Depuis l'US-321, c'est le plugin de santé qui sert `/healthz` et limite ses requêtes. |
 | US-164 durcissement des routes récentes | Corrigé | Routes récentes rattachées à des seaux de limitation dédiés ; parc d'équipements en lecture seule pour les comptes de démo partagés (la visite guidée n'écrit pas dans le parc). |
 | US-053 simulateur OCI | Corrigé | Entrée OCI relayée par le serveur (mot de passe jamais dans une page ni une URL), `HOOK_URL` limitée aux domaines de retour de l'acheteur et vérifiée avant tout appel, `POST /punchout/oci/<code>` réservé au simulateur (`PunchOutEndpointGuard`), limiteurs par IP, retour à usage unique (`OciReturnGate`). Pas de plafond quotidien : un retour OCI ne crée pas de commande (décision du Tech Lead, 2026-10-17). |
 | M8 retour du simulateur PunchOut (US-040) | Corrigé | Le panier n'est cru que s'il est, octet pour octet, un `PunchOutOrderMessage` du journal du plugin ; usage unique, dans l'heure (`ReturnAuthenticator`). |
@@ -87,5 +87,5 @@ Générer le hash : `php -r 'echo password_hash("<mot de passe>", PASSWORD_ARGON
 - **Inscriptions ouvertes tant que la démo est privée** : leurs données sont lisibles par tout porteur du mot de passe de la porte (liste des clients de Sophie) ; l'encart « aucune donnée réelle » et la purge nocturne limitent l'exposition. `DEMO_REGISTRATION_OPEN=0` est à positionner avant l'ouverture publique.
 - **Retour OCI du simulateur (US-053)** : l'état signé (HMAC, une heure) n'est lié ni à la session ni à l'acheteur, et le marqueur « déjà reçu » vit dans `cache.app` : un vidage du cache (reset nocturne) rouvre un rejeu dans l'heure. Impact quasi nul : aucune commande n'est créée, le panier n'est affiché qu'à celui qui poste, et le limiteur `punchout_oci_return` borne les essais (revue du sprint 12).
 - **Retour du simulateur rejoué après actualisation** : un retour de panier ne sert qu'une fois ; actualiser la page de retour affiche « déjà reçu », sans commande (relancer une session).
-- **`/health` rouge pendant la remise à zéro** (base recréée, migrations en cours) : la sonde Railway ne s'exécute qu'au déploiement, le `HEALTHCHECK` Docker n'est qu'informatif.
+- **`/healthz` rouge pendant la remise à zéro** (base recréée, migrations en cours) : la sonde Railway ne s'exécute qu'au déploiement, le `HEALTHCHECK` Docker n'est qu'informatif.
 - **Prix de groupe appliqués aux requêtes de boutique sans session** (`group_prices_for_guests`) : accepté parce que les comptes de démo et leurs adresses sont publics et que la démo ne porte aucune donnée réelle. Correctif à prévoir dans le plugin de prix par paliers : authentifier la session PunchOut plutôt que d'ouvrir ce réglage.

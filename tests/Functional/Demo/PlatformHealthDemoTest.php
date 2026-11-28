@@ -29,7 +29,7 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
 
     private const ROLE = 'ROLE_PLATFORM_HEALTH_VIEW';
 
-    /** The probes of the plugin (v0.4) by category, all measured on the demo, none of them written by the demo. */
+    /** The probes of the plugin (v0.4) by category, all measured on the demo, and the two of the demo itself (US-321). */
     private const PROBES = [
         'environment' => [
             'environment.php_version',
@@ -40,6 +40,9 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
             'environment.app_debug',
             'environment.cache_pool',
             'environment.writable_dirs',
+            // US-321: the two checks of the demo that /healthz used to run itself.
+            'demo.configuration',
+            'demo.reset',
         ],
         'data' => [
             'data.connection',
@@ -101,7 +104,7 @@ final class PlatformHealthDemoTest extends DemoAdminWebTestCase
             $identifiers = $section->filter('[data-test-health-check]')->each(static fn (Crawler $row): string => (string) $row->attr('data-test-health-check'));
             self::assertEqualsCanonicalizing($probes, $identifiers, $category);
         }
-        self::assertCount(16, $results->filter('[data-test-health-check]'));
+        self::assertCount(18, $results->filter('[data-test-health-check]'));
     }
 
     public function testThePluginMigrationCreatedTheHeartbeatTable(): void

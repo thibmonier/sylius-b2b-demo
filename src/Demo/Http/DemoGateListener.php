@@ -21,7 +21,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 #[AsEventListener(event: KernelEvents::REQUEST, priority: 512)]
 final readonly class DemoGateListener
 {
-    public const OPEN_PATHS = ['/health', '/healthz'];
+    public const OPEN_PATHS = ['/healthz'];
 
     /** Exact paths that skip the basic auth because the request proves itself otherwise (US-029: Standard Webhooks signature). */
     public const SIGNED_PATHS = [DemoWebhookTarget::PATH];

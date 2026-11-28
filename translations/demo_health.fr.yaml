@@ -1,0 +1,7 @@
+demo_health:
+    configuration:
+        ok: "La configuration de la démo est sûre (porte privée, messagerie interne, secret, hôtes autorisés)."
+        critical: "La configuration de la démo n'est pas sûre : voir les journaux du conteneur ou lancer app:demo:preflight."
+    reset:
+        ok: "La dernière remise à zéro nocturne n'a pas échoué."
+        critical: "La dernière remise à zéro nocturne a échoué : la démo sert encore ses données précédentes."

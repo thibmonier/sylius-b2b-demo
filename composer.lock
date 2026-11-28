@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f39fbe351a3b07ae2cdbb35aa923866a",
+    "content-hash": "1d28460d4f263873f01d8c39e1d31bbd",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -18523,16 +18523,16 @@
         },
         {
             "name": "tmonier/sylius-platform-health-plugin",
-            "version": "v0.5.0",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thibmonier/sylius-platform-health-plugin.git",
-                "reference": "b8b72d1533e657aee9331da9bd1e86529fe14a46"
+                "reference": "4a4c9e3a347c85a8a731466b2520921353336798"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thibmonier/sylius-platform-health-plugin/zipball/b8b72d1533e657aee9331da9bd1e86529fe14a46",
-                "reference": "b8b72d1533e657aee9331da9bd1e86529fe14a46",
+                "url": "https://api.github.com/repos/thibmonier/sylius-platform-health-plugin/zipball/4a4c9e3a347c85a8a731466b2520921353336798",
+                "reference": "4a4c9e3a347c85a8a731466b2520921353336798",
                 "shasum": ""
             },
             "require": {
@@ -18544,6 +18544,7 @@
                 "symfony/config": "^6.4 || ^7.4 || ^8.0",
                 "symfony/dependency-injection": "^6.4 || ^7.4 || ^8.0",
                 "symfony/http-kernel": "^6.4 || ^7.4 || ^8.0",
+                "symfony/rate-limiter": "^6.4 || ^7.4 || ^8.0",
                 "symfony/routing": "^6.4 || ^7.4 || ^8.0",
                 "symfony/security-core": "^6.4 || ^7.4 || ^8.0",
                 "symfony/security-http": "^6.4 || ^7.4 || ^8.0",
@@ -18604,9 +18605,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thibmonier/sylius-platform-health-plugin/issues",
-                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.5.0"
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/v0.6.0"
             },
-            "time": "2026-11-27T06:38:47+00:00"
+            "time": "2026-11-28T08:56:54+00:00"
         },
         {
             "name": "tmonier/sylius-punchout-cxml-plugin",

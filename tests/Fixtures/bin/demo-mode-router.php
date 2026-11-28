@@ -22,8 +22,9 @@ $respond = static function (int $code, string $body = '', array $headers = []): 
     echo $body;
 };
 
-if (in_array($path, ['/health', '/healthz'], true)) {
-    $respond(200, 'ok');
+if ('/healthz' === $path) {
+    // Liveness of the platform health plugin (US-321): 200 with an empty body.
+    $respond(200);
 
     return;
 }

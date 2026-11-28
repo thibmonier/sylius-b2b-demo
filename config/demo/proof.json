@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-11-27T12:09:56Z",
+    "generated_at": "2026-11-28T09:32:51Z",
     "plugins": {
         "sylius-admin-order-creation-plugin": {
             "version": {
@@ -927,39 +927,39 @@
         },
         "sylius-platform-health-plugin": {
             "version": {
-                "value": "v0.5.0",
+                "value": "v0.6.0",
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_declared": {
                 "value": "^2.2.9 || ^2.3",
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_23": {
                 "value": true,
                 "source": "https://packagist.org/packages/tmonier/sylius-platform-health-plugin",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "ci": {
                 "value": "success",
-                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/actions/runs/45952717920",
-                "checked_at": "2026-11-27"
+                "source": "https://github.com/thibmonier/sylius-platform-health-plugin/actions/runs/46127472753",
+                "checked_at": "2026-11-28"
             },
             "phpstan": {
                 "value": "max",
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/blob/main/phpstan.neon",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "sylius_tested": {
                 "value": "2.2, 2.3",
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/blob/main/.github/workflows/build.yaml",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "tests": {
-                "value": 59,
+                "value": 62,
                 "source": "https://github.com/thibmonier/sylius-platform-health-plugin/tree/main/tests",
-                "checked_at": "2026-11-27"
+                "checked_at": "2026-11-28"
             },
             "coverage": {
                 "stale": true,
@@ -1392,43 +1392,43 @@
     "delivery": {
         "ci": {
             "value": "success",
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/45960421187",
-            "checked_at": "2026-11-27"
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/actions/runs/46128904318",
+            "checked_at": "2026-11-28"
         },
         "phpstan": {
             "value": "9",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/phpstan.dist.neon",
-            "checked_at": "2026-11-27"
+            "checked_at": "2026-11-28"
         },
         "ecs": {
             "value": "ECS",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-27"
+            "checked_at": "2026-11-28"
         },
         "composer_audit": {
             "value": "composer audit",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-27"
+            "checked_at": "2026-11-28"
         },
         "image_scan": {
             "value": "Trivy",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-27"
+            "checked_at": "2026-11-28"
         },
         "sbom": {
             "value": "CycloneDX",
             "source": "https://github.com/thibmonier/sylius-b2b-demo/blob/main/.github/workflows/ci.yaml",
-            "checked_at": "2026-11-27"
+            "checked_at": "2026-11-28"
         },
         "tests": {
-            "value": 364,
+            "value": 365,
             "source": "https://github.com/thibmonier/sylius-b2b-demo/tree/main/tests",
-            "checked_at": "2026-11-27"
+            "checked_at": "2026-11-28"
         },
         "coverage": {
             "value": 93.2,
-            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/140381322817",
-            "checked_at": "2026-11-27"
+            "source": "https://github.com/thibmonier/sylius-b2b-demo/runs/140933211200",
+            "checked_at": "2026-11-28"
         }
     }
 }

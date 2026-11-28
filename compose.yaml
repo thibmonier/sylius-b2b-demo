@@ -18,6 +18,9 @@ services:
             # Only the local host name (the preflight refuses the open default "^.*$").
             TRUSTED_HOSTS: "^localhost$"
             DEMO_MAILPIT_URL: "http://localhost:8025"
+            # US-321: without a token /healthz answers 404 and the container is reported unhealthy; local values, never real ones.
+            HEALTH_HTTP_TOKEN: "${HEALTH_HTTP_TOKEN:-local-healthz-global}"
+            HEALTH_HTTP_DETAIL_TOKEN: "${HEALTH_HTTP_DETAIL_TOKEN:-local-healthz-detail}"
             DEMO_MAILPIT_API_URL: "http://mailpit:8025"
             # FrankenPHP (ADR-0013): bounded threads; worker mode is opt-in (FRANKENPHP_WORKER_MODE=1), off by default.
             FRANKENPHP_NUM_THREADS: ${FRANKENPHP_NUM_THREADS:-8}

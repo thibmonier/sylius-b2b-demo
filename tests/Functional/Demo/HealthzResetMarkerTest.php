@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * US-049: /healthz follows the marker of the nightly reset, including the one a fatal error leaves behind. A reset that
+ * US-049, US-321: /healthz (platform health plugin, liveness) follows the marker of the nightly reset, including the one a fatal error leaves behind. A reset that
  * is running (marker "running", younger than the grace delay) is not an alert; one that ended badly or died is.
  */
 final class HealthzResetMarkerTest extends WebTestCase
@@ -47,14 +47,14 @@ final class HealthzResetMarkerTest extends WebTestCase
         $status->markStarted();
         $status->markSucceeded();
 
-        $this->assertHealth(200, 'ok');
+        $this->assertHealth(200);
     }
 
     public function testAResetInProgressDoesNotRaiseTheAlert(): void
     {
         $this->status->markStarted();
 
-        $this->assertHealth(200, 'ok');
+        $this->assertHealth(200);
     }
 
     public function testAResetThatDiedWithoutAWordMakesHealthz503AfterTheGraceDelay(): void
@@ -62,7 +62,7 @@ final class HealthzResetMarkerTest extends WebTestCase
         $this->status->markStarted();
         touch($this->marker, time() - ResetStatus::MAX_RUN_SECONDS - 60);
 
-        $this->assertHealth(503, 'reset failed');
+        $this->assertHealth(503);
     }
 
     public function testAFailedResetMakesHealthz503ThenTheNextSuccessClearsIt(): void
@@ -70,20 +70,20 @@ final class HealthzResetMarkerTest extends WebTestCase
         $status = $this->status;
         $status->markStarted();
         $status->markFailed();
-        $this->assertHealth(503, 'reset failed');
+        $this->assertHealth(503);
 
         $status->markStarted();
-        $this->assertHealth(503, 'reset failed');
+        $this->assertHealth(503);
         $status->markSucceeded();
-        $this->assertHealth(200, 'ok');
+        $this->assertHealth(200);
     }
 
-    private function assertHealth(int $status, string $body): void
+    private function assertHealth(int $status): void
     {
         \assert(null !== $this->client);
         $this->client->request('GET', '/healthz', server: ['HTTP_X_FORWARDED_FOR' => self::visitorIp()]);
 
         self::assertResponseStatusCodeSame($status);
-        self::assertSame($body, $this->client->getResponse()->getContent());
+        self::assertSame('', $this->client->getResponse()->getContent(), 'The liveness answer has an empty body.');
     }
 }

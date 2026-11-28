@@ -21,7 +21,7 @@ final class PagesTest extends WebTestCase
         $client->request('GET', '/healthz');
 
         self::assertResponseIsSuccessful();
-        self::assertSame('ok', $client->getResponse()->getContent());
+        self::assertSame('', $client->getResponse()->getContent(), 'The liveness of the platform health plugin has an empty body.');
     }
 
     public function testTheB2bChannelIsServedByDefault(): void
