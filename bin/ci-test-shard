@@ -10,7 +10,7 @@ declare(strict_types=1);
  *   php bin/ci-test-shard --shard=2 --of=4 --list          # prints the files of shard 2, writes nothing
  *   vendor/bin/phpunit -c phpunit.shard.xml                # runs the shard
  *
- * Options: --root=DIR (default: the repository), --weights=FILE (default: config/ci/test-weights.json, seconds per file,
+ * Options: --root=DIR (default: the repository), --weights=FILE (default: tests/ci-test-weights.json, seconds per file,
  * made by `php bin/ci-test-report weights`), --config=FILE (default: phpunit.xml.dist), --output=FILE (default:
  * phpunit.shard.xml, inside the root: the files are written relative to it).
  *
@@ -119,7 +119,7 @@ if (!is_string($shard) || !ctype_digit($shard) || !is_string($of) || !ctype_digi
 }
 
 $root = is_string($options['root'] ?? null) ? rtrim($options['root'], '/') : dirname(__DIR__);
-$weightsFile = is_string($options['weights'] ?? null) ? $options['weights'] : $root . '/config/ci/test-weights.json';
+$weightsFile = is_string($options['weights'] ?? null) ? $options['weights'] : $root . '/tests/ci-test-weights.json';
 $config = is_string($options['config'] ?? null) ? $options['config'] : $root . '/phpunit.xml.dist';
 $output = is_string($options['output'] ?? null) ? $options['output'] : $root . '/phpunit.shard.xml';
 

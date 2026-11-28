@@ -7,7 +7,7 @@ declare(strict_types=1);
  * US-323: reads the JUnit logs of the PHPUnit shards of the CI (--log-junit), one file per shard.
  *
  *   php bin/ci-test-report slowest [--top=20] JUNIT...          # Markdown table of the slowest test files
- *   php bin/ci-test-report weights JUNIT...                     # JSON {file: seconds}, for config/ci/test-weights.json
+ *   php bin/ci-test-report weights JUNIT...                     # JSON {file: seconds}, for tests/ci-test-weights.json
  *   php bin/ci-test-report verify --expected=LIST.xml JUNIT...  # no test lost between the shards and the full suite
  *
  * LIST.xml comes from `vendor/bin/phpunit --list-tests-xml LIST.xml` run on the full suite. `verify` compares, file by

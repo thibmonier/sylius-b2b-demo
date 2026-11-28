@@ -145,7 +145,7 @@ final class CiTestShardTest extends TestCase
     /** @param array<string, float> $weights */
     private function weigh(array $weights): void
     {
-        new Filesystem()->dumpFile($this->root . '/config/ci/test-weights.json', json_encode($weights, \JSON_THROW_ON_ERROR));
+        new Filesystem()->dumpFile($this->root . '/tests/ci-test-weights.json', json_encode($weights, \JSON_THROW_ON_ERROR));
     }
 
     /** @return list<string> */

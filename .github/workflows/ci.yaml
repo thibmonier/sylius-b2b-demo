@@ -211,7 +211,7 @@ jobs:
                   # for them; split in shards, each one has to start from the same state (US-323).
                   DEMO_MODE=1 php bin/console app:demo:reset --no-media --no-cache --no-interaction
 
-            # The files of the shard, split by weight (config/ci/test-weights.json): phpunit.shard.xml.
+            # The files of the shard, split by weight (tests/ci-test-weights.json): phpunit.shard.xml.
             # Each shard writes its coverage in PHP format (merged by the `tests` job) and a JUnit log (durations per file).
             # --colors=never: the summaries below read the output as text
             - name: PHPUnit with coverage (shard ${{ matrix.shard }}/4)
