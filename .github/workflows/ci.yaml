@@ -262,6 +262,7 @@ jobs:
                     sleep 3
                   done
                   [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" = healthy ] || { docker logs mysql | tail -30; exit 1; }
+                  # US-321: /healthz answers 404 until a token exists (the plugin of health), so the image gets throwaway ones.
                   # Private gate on, as on Railway (US-032): throwaway CI credentials, hash made by the image's PHP.
                   GATE_HASH="$(docker run --rm --entrypoint php sylius-b2b-demo:ci -r 'echo password_hash("ci-gate-password", PASSWORD_ARGON2ID);')"
                   docker run -d --name web --network demo -p 8080:8080 \
@@ -270,6 +271,7 @@ jobs:
                     -e DEMO_MODE=1 -e DEMO_BASIC_AUTH=1 -e DEMO_BASIC_AUTH_USER=ci \
                     -e TRUSTED_HOSTS='^localhost$' \
                     -e DEMO_BASIC_AUTH_PASSWORD_HASH="$GATE_HASH" \
+                    -e HEALTH_HTTP_TOKEN="ci-$(openssl rand -hex 8)" -e HEALTH_HTTP_DETAIL_TOKEN="ci-$(openssl rand -hex 8)" \
                     sylius-b2b-demo:ci
                   for i in $(seq 1 100); do
                     curl -fsS http://localhost:8080/healthz >/dev/null 2>&1 && break

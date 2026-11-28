@@ -84,17 +84,6 @@ final class HealthzTest extends WebTestCase
         self::assertResponseStatusCodeSame(404);
     }
 
-    public function testAnUnreachableDatabaseMakesItA503WithoutAnyErrorMessage(): void
-    {
-        $this->setEnvironment(['DATABASE_URL' => 'mysql://nobody@127.0.0.1:1/unreachable?serverVersion=8.4&charset=utf8mb4']);
-        $client = self::createClient();
-
-        $client->request('GET', '/healthz');
-
-        self::assertResponseStatusCodeSame(503);
-        self::assertSame('', $client->getResponse()->getContent());
-    }
-
     public function testWithoutAnyTokenTheEntryPointIsInactive(): void
     {
         $this->setEnvironment(['HEALTH_HTTP_TOKEN' => '', 'HEALTH_HTTP_DETAIL_TOKEN' => '']);

@@ -70,16 +70,17 @@ final class PlatformHealthSettingsTest extends TestCase
     {
         $http = Typed::map(Typed::find($this->settings(), 'http'), 'http');
 
-        self::assertSame('%env(HEALTH_HTTP_TOKEN)%', $http['token'] ?? null);
-        self::assertSame('%env(HEALTH_HTTP_DETAIL_TOKEN)%', $http['detail_token'] ?? null);
+        self::assertSame('%env(default::HEALTH_HTTP_TOKEN)%', $http['token'] ?? null);
+        self::assertSame('%env(default::HEALTH_HTTP_DETAIL_TOKEN)%', $http['detail_token'] ?? null);
         self::assertTrue($http['liveness'] ?? null, 'Railway and Docker send no header: only the liveness answers them.');
     }
 
     public function testNoTokenIsWrittenInTheRepository(): void
     {
-        $parameters = Typed::map(Typed::at($this->yaml('config/packages/tmonier_platform_health.yaml'), 'parameters'), 'parameters');
+        $file = $this->yaml('config/packages/tmonier_platform_health.yaml');
 
-        self::assertSame(['env(HEALTH_HTTP_TOKEN)' => '', 'env(HEALTH_HTTP_DETAIL_TOKEN)' => ''], $parameters, 'The default is empty: without the variable the entry point is inactive.');
+        self::assertIsArray($file);
+        self::assertArrayNotHasKey('parameters', $file, 'No default value for a token: an absent or empty variable means "inactive".');
     }
 
     public function testTheRouteOfThePluginIsServedOnHealthzAndTheOldPathIsNotRouted(): void

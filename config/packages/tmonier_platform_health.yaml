@@ -5,6 +5,16 @@
 tmonier_sylius_platform_health:
     access:
         role: ROLE_PLATFORM_HEALTH_VIEW
+    # US-321: /healthz is the health check of Railway and of the image (it sends no header): liveness answers it with 200 or
+    # 503 and an empty body. The two tokens open the global and the detail levels to a monitor. The plugin limits its own
+    # requests (http.rate_limit, 30 per minute and per IP, the default). The snapshot is kept 5 seconds, as the former verdict was.
+    # default:: turns an absent or empty variable into null: without token the entry point is inactive (404) instead of
+    # answering the liveness with an empty token. Railway holds the values (railway.ts: preserve()).
+    http:
+        token: '%env(default::HEALTH_HTTP_TOKEN)%'
+        detail_token: '%env(default::HEALTH_HTTP_DETAIL_TOKEN)%'
+        liveness: true
+    cache_ttl: 5
     # T-TECH-58-03 (v0.4): the tables that a nightly purge keeps small (tmonier:audit-log:purge, tmonier:webhook:purge,
     # tmonier:punchout:purge). When a purge stops, the estimate of its table grows past the threshold (critical beyond the
     # double). Orders of magnitude for the demo, which is reloaded every night.
@@ -34,3 +44,8 @@ tmonier_sylius_platform_health:
             'app:demo:reset': '1d'
             'sylius:remove-expired-carts': '1d'
             'sylius:cancel-unpaid-orders': '1d'
+
+# The tests read the state of the marker and of the configuration at every request.
+when@test:
+    tmonier_sylius_platform_health:
+        cache_ttl: 0

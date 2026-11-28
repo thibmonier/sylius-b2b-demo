@@ -33,7 +33,10 @@ final readonly class DemoConfigurationCheck implements HealthCheckInterface
 
     public function run(): HealthResult
     {
-        $this->guard->violations();
+        // The violations name settings, never a value: the summary only says that the configuration is unsafe.
+        if ([] !== $this->guard->violations()) {
+            return HealthResult::critical(new TranslatableMessage('demo_health.configuration.critical', [], 'demo_health'));
+        }
 
         return HealthResult::ok(new TranslatableMessage('demo_health.configuration.ok', [], 'demo_health'));
     }

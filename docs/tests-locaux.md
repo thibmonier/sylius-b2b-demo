@@ -217,7 +217,7 @@ Requêtes SQL et durée de chaque fixture, sur 3 passes ; résultats et objectif
 |----------|---------------|----------|
 | `APP_ENV`, `APP_DEBUG` | `prod`, `0` | le rendu de la production (`test` ajoute les attributs `data-test-*`) |
 | `APP_SECRET` | 32 caractères au moins (`openssl rand -hex 24`) | garde de la démo |
-| `DATABASE_URL` | une base du MySQL local qui contient les données de démonstration et les migrations à jour | sinon `/healthz` répond 503 « migrations pending » (`bin/console doctrine:migrations:migrate`) |
+| `DATABASE_URL` | une base du MySQL local qui contient les données de démonstration et les migrations à jour | sinon `/healthz` répond 503 (sonde `data.pending_migrations` `critical` ; `bin/console doctrine:migrations:migrate`) |
 | `APP_CACHE_DIR` | ne pas la définir pour `bin/render-page` : le cache de rendu est `var/cache-<worker>-render`, un seul par `WORKER_ID` | réutilisé d'un rendu à l'autre (70 Mo par environnement) ; une autre valeur est refusée |
 | `DEMO_MODE`, `DEMO_BASIC_AUTH` | `1`, `0` | démo ouverte, sans mot de passe |
 | `DEMO_REGISTRATION_OPEN`, `DEMO_PUNCHOUT_PUBLIC_ENDPOINT` | `0`, `0` | exigé par `app:demo:preflight` quand la barrière est ouverte |

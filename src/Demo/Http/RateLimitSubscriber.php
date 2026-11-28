@@ -13,7 +13,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 /**
  * Per-visitor rate limits of the public demo (US-036): login, demo pages, registration and public forms,
- * PunchOut simulator, exports, guided tours, equipment fleet, API token and sign-up endpoints, MCP, health probes. The key is the visitor IP resolved through the trusted proxies, never the proxy.
+ * PunchOut simulator, exports, guided tours, equipment fleet, API token and sign-up endpoints, MCP. The key is the visitor IP resolved through the trusted proxies, never the proxy.
  * A refused request answers 429 with Retry-After. Runs after the router (route name known) and before
  * the firewall (a login flood never reaches the authenticators).
  */
@@ -25,8 +25,6 @@ final readonly class RateLimitSubscriber
         'sylius_shop_login_check' => ['POST', 'login'],
         'sylius_shop_json_login_check' => ['POST', 'login'],
         'sylius_admin_login_check' => ['POST', 'login'],
-        'app_demo_health' => ['GET', 'health'],
-        'app_demo_healthz' => ['GET', 'health'],
         'app_demo_accounts' => [null, 'public'],
         'app_demo_mails' => [null, 'public'],
         'app_demo_mail' => [null, 'public'],
@@ -67,7 +65,6 @@ final readonly class RateLimitSubscriber
         private RateLimiterFactoryInterface $demoApiAuthLimiter,
         private RateLimiterFactoryInterface $demoApiWriteLimiter,
         private RateLimiterFactoryInterface $demoMcpLimiter,
-        private RateLimiterFactoryInterface $demoHealthLimiter,
         private RateLimiterFactoryInterface $demoExportLimiter,
         private RateLimiterFactoryInterface $demoJourneyLimiter,
         private RateLimiterFactoryInterface $demoFleetLimiter,
@@ -108,7 +105,6 @@ final readonly class RateLimitSubscriber
             'api_auth' => $this->demoApiAuthLimiter,
             'api_write' => $this->demoApiWriteLimiter,
             'mcp' => $this->demoMcpLimiter,
-            'health' => $this->demoHealthLimiter,
             'export' => $this->demoExportLimiter,
             'journey' => $this->demoJourneyLimiter,
             'fleet' => $this->demoFleetLimiter,

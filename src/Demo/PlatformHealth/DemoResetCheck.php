@@ -33,7 +33,10 @@ final readonly class DemoResetCheck implements HealthCheckInterface
 
     public function run(): HealthResult
     {
-        $this->resetStatus->hasFailed();
+        // The demo still serves its previous data, but the alert must reach the uptime monitor (US-033).
+        if ($this->resetStatus->hasFailed()) {
+            return HealthResult::critical(new TranslatableMessage('demo_health.reset.critical', [], 'demo_health'));
+        }
 
         return HealthResult::ok(new TranslatableMessage('demo_health.reset.ok', [], 'demo_health'));
     }

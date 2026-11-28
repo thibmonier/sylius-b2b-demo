@@ -50,5 +50,11 @@ tmonier_customer_asset_management:
     resource: "@TmonierSyliusCustomerAssetManagementPlugin/config/routes.yaml"
 tmonier_company_verification:
     resource: "@TmonierSyliusCompanyVerificationPlugin/config/routes.yaml"
-tmonier_platform_health:
-    resource: "@TmonierSyliusPlatformHealthPlugin/config/routes.yaml"
+# US-321: the administration page keeps its prefix, the public entry point is served on /healthz (not on /health).
+tmonier_platform_health_admin:
+    resource: "@TmonierSyliusPlatformHealthPlugin/config/routes/admin.yaml"
+    prefix: '/%sylius_admin.path_name%'
+tmonier_platform_health_http:
+    resource: "@TmonierSyliusPlatformHealthPlugin/config/routes/http.yaml"
+    prefix: '/healthz'
+    trailing_slash_on_root: false

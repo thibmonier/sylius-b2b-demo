@@ -93,6 +93,10 @@ export default defineRailway(() => {
       // US-207: indexation of the showcase pages (1 = on, absent or 0 = the whole site stays out of the index). Set by the
       // owner in Railway once the pages are approved, so it must stay listed here.
       DEMO_INDEXING: preserve(),
+      // US-321: the tokens of /healthz (platform health plugin), created by the owner in Railway BEFORE the deployment: without
+      // them /healthz answers 404 and the healthcheck below fails. An undeclared variable is deleted by `railway config apply`.
+      HEALTH_HTTP_TOKEN: preserve(),
+      HEALTH_HTTP_DETAIL_TOKEN: preserve(),
       MAILER_DSN: "smtp://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:1025",
       DEMO_MAILPIT_API_URL: "http://${{mailpit.RAILWAY_PRIVATE_DOMAIN}}:8025",
       DEMO_MAILPIT_URL: "",
