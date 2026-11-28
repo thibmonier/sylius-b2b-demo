@@ -1,0 +1,159 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * US-323: reads the JUnit logs of the PHPUnit shards of the CI (--log-junit), one file per shard.
+ *
+ *   php bin/ci-test-report slowest [--top=20] JUNIT...          # Markdown table of the slowest test files
+ *   php bin/ci-test-report weights JUNIT...                     # JSON {file: seconds}, for tests/ci-test-weights.json
+ *   php bin/ci-test-report verify --expected=LIST.xml JUNIT...  # no test lost between the shards and the full suite
+ *
+ * LIST.xml comes from `vendor/bin/phpunit --list-tests-xml LIST.xml` run on the full suite. `verify` compares, file by
+ * file, the number of tests the shards ran with the number of tests the full suite declares; any difference (a file no
+ * shard ran, a test dropped, a test run twice) prints the files concerned and exits 1.
+ *
+ * Option --root=DIR (default: the repository) turns the absolute paths of the reports into paths relative to it.
+ * Exit codes: 0 done, 1 tests lost, 2 usage error or unreadable report.
+ */
+
+const USAGE = "usage: php bin/ci-test-report slowest [--top=N] JUNIT... | weights JUNIT... | verify --expected=LIST.xml JUNIT...\n";
+
+function fail(string $message, int $code = 2): never
+{
+    fwrite(STDERR, $message . "\n");
+    exit($code);
+}
+
+function relative(string $path, string $root): string
+{
+    if (str_starts_with($path, $root . '/')) {
+        return substr($path, strlen($root) + 1);
+    }
+    $position = strpos($path, '/tests/');
+
+    return false === $position ? $path : substr($path, $position + 1);
+}
+
+/**
+ * @param list<string> $reports
+ *
+ * @return array<string, array{tests: int, time: float}> per test file
+ */
+function readJunit(array $reports, string $root): array
+{
+    $files = [];
+    foreach ($reports as $report) {
+        $previous = libxml_use_internal_errors(true);
+        $xml = is_file($report) ? simplexml_load_file($report) : false;
+        libxml_use_internal_errors($previous);
+        if (false === $xml) {
+            fail("Unreadable JUnit report: $report");
+        }
+        foreach ($xml->xpath('//testcase') ?: [] as $case) {
+            $file = relative((string) $case['file'], $root);
+            $files[$file] ??= ['tests' => 0, 'time' => 0.0];
+            ++$files[$file]['tests'];
+            $files[$file]['time'] += (float) $case['time'];
+        }
+    }
+
+    return $files;
+}
+
+/**
+ * @return array<string, int> tests declared per test file
+ */
+function readList(string $list, string $root): array
+{
+    $document = new DOMDocument();
+    $previous = libxml_use_internal_errors(true);
+    $loaded = is_file($list) && $document->load($list);
+    libxml_use_internal_errors($previous);
+    if (!$loaded) {
+        fail("Unreadable test list: $list");
+    }
+    $declared = [];
+    foreach ($document->getElementsByTagNameNS('*', 'testClass') as $class) {
+        $declared[relative($class->getAttribute('file'), $root)] = $class->getElementsByTagNameNS('*', 'testMethod')->length;
+    }
+
+    return $declared;
+}
+
+/**
+ * @param array<string, array{tests: int, time: float}> $files
+ */
+function slowest(array $files, int $top): void
+{
+    uasort($files, static fn (array $a, array $b): int => $b['time'] <=> $a['time']);
+    echo "| # | Test file | Tests | Seconds |\n|---|---|---|---|\n";
+    $rank = 0;
+    foreach (array_slice($files, 0, $top, true) as $file => $figures) {
+        printf("| %d | `%s` | %d | %.2f |\n", ++$rank, $file, $figures['tests'], $figures['time']);
+    }
+    printf("\n%d test files, %d tests, %.1f s of tests in total.\n", count($files), array_sum(array_column($files, 'tests')), array_sum(array_column($files, 'time')));
+}
+
+/**
+ * @param array<string, array{tests: int, time: float}> $files
+ */
+function weights(array $files): void
+{
+    ksort($files);
+    echo json_encode(array_map(static fn (array $figures): float => round(max($figures['time'], 0.01), 2), $files), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR), "\n";
+}
+
+/**
+ * @param array<string, array{tests: int, time: float}> $ran
+ * @param array<string, int>                            $declared
+ */
+function verify(array $ran, array $declared): never
+{
+    $ranCount = array_sum(array_column($ran, 'tests'));
+    $declaredCount = array_sum($declared);
+    $problems = [];
+    foreach ($declared as $file => $count) {
+        $got = $ran[$file]['tests'] ?? 0;
+        if ($got !== $count) {
+            $problems[] = sprintf('- `%s`: %d tests declared, %d run', $file, $count, $got);
+        }
+    }
+    foreach (array_diff_key($ran, $declared) as $file => $figures) {
+        $problems[] = sprintf('- `%s`: %d tests run, not in the full suite', $file, $figures['tests']);
+    }
+
+    printf("Tests run by the shards: %d, tests of the full suite: %d (%d files / %d files)\n", $ranCount, $declaredCount, count($ran), count($declared));
+    if ([] === $problems) {
+        echo "No test lost.\n";
+        exit(0);
+    }
+    fwrite(STDERR, "Tests lost or duplicated:\n" . implode("\n", $problems) . "\n");
+    exit(1);
+}
+
+$arguments = array_slice($_SERVER['argv'] ?? [], 1);
+$mode = null;
+$reports = [];
+$settings = ['top' => '20', 'expected' => '', 'root' => dirname(__DIR__)];
+foreach ($arguments as $argument) {
+    if (1 === preg_match('/^--(top|expected|root)=(.*)$/', (string) $argument, $match)) {
+        $settings[$match[1]] = $match[2];
+    } elseif (!str_starts_with((string) $argument, '--')) {
+        null === $mode ? $mode = (string) $argument : $reports[] = (string) $argument;
+    } else {
+        fail(USAGE);
+    }
+}
+if ([] === $reports || !in_array($mode, ['slowest', 'weights', 'verify'], true) || !ctype_digit($settings['top']) || ('verify' === $mode && '' === $settings['expected'])) {
+    fail(USAGE);
+}
+
+$root = rtrim($settings['root'], '/');
+$files = readJunit($reports, $root);
+match ($mode) {
+    'slowest' => slowest($files, (int) $settings['top']),
+    'weights' => weights($files),
+    default => verify($files, readList($settings['expected'], $root)),
+};

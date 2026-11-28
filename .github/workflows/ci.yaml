@@ -80,19 +80,69 @@ jobs:
               continue-on-error: true
               run: php bin/proof-check --summary="$GITHUB_STEP_SUMMARY"
 
-    tests:
-        name: Quality and smoke tests
+    # US-323: the checks of the code and the tests run side by side. `quality` is the coding standard and static analysis;
+    # `phpunit` runs the suite in 4 shards (a matrix, each with its own database); `tests` ("Quality and smoke tests", the
+    # required check of main) waits for them all, merges the coverage and applies the threshold.
+    quality:
+        name: Coding standard and static analysis
         needs: changes
         if: needs.changes.outputs.scope == 'code'
         runs-on: ubuntu-latest
         permissions:
             contents: read
-            checks: write
-        # A hung test fails the job instead of holding the runner for hours (a deferred trap did it on 2026-10-21).
-        timeout-minutes: 30
+        timeout-minutes: 15
         env:
             APP_ENV: test
-            COVERAGE_MIN_LINES: "90"
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+              with:
+                  php-version: "8.5"
+                  extensions: intl, gd, zip, exif, pdo_mysql, bcmath
+                  tools: composer:2.10.3
+                  coverage: none
+
+            - name: Composer cache
+              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+              with:
+                  path: ~/.composer/cache
+                  key: composer-${{ hashFiles('composer.lock') }}
+
+            # --no-scripts: the test cache warmup of debug-less test kernels trips on the Doctrine metadata warmer
+            - run: composer install --no-interaction --no-progress --no-scripts
+
+            - name: Coding standard and static analysis
+              run: |
+                  vendor/bin/ecs check src tests
+                  vendor/bin/phpstan analyse -c phpstan.dist.neon --no-progress --memory-limit=1G
+                  vendor/bin/rector process --dry-run --no-progress-bar
+
+            # US-168: proof.json must not be behind the repository (test files, plugins). Informative on a pull request
+            # (gap and refresh command in the job summary), blocking on main. No network, never writes the proof.
+            - name: Published proof is up to date
+              continue-on-error: ${{ github.event_name == 'pull_request' }}
+              run: php bin/proof-check --summary="$GITHUB_STEP_SUMMARY"
+
+    phpunit:
+        name: PHPUnit (shard ${{ matrix.shard }}/4)
+        needs: changes
+        if: needs.changes.outputs.scope == 'code'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        # A hung test fails the job instead of holding the runner for hours (a deferred trap did it on 2026-10-21).
+        timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                shard: [1, 2, 3, 4]
+        env:
+            APP_ENV: test
+            # Number of shards the files are split into: the length of the matrix above (bin/ci-test-report verify fails otherwise).
+            SHARDS: "4"
             DATABASE_URL: mysql://root@127.0.0.1:3306/sylius_b2b_demo?serverVersion=8.4&charset=utf8mb4
             # Invoice PDFs (invoicing-plugin via KnpSnappy) need wkhtmltopdf; same binary as the image.
             WKHTMLTOPDF_BINARY: /usr/local/bin/wkhtmltopdf
@@ -131,18 +181,6 @@ jobs:
 
             - run: yarn install --frozen-lockfile && yarn build
 
-            - name: Coding standard and static analysis
-              run: |
-                  vendor/bin/ecs check src tests
-                  vendor/bin/phpstan analyse -c phpstan.dist.neon --no-progress --memory-limit=1G
-                  vendor/bin/rector process --dry-run --no-progress-bar
-
-            # US-168: proof.json must not be behind the repository (test files, plugins). Informative on a pull request
-            # (gap and refresh command in the job summary), blocking on main. No network, never writes the proof.
-            - name: Published proof is up to date
-              continue-on-error: ${{ github.event_name == 'pull_request' }}
-              run: php bin/proof-check --summary="$GITHUB_STEP_SUMMARY"
-
             # wkhtmltox publishes no checksum (recorded at first download); jammy build, no noble build.
             - name: Install wkhtmltopdf (invoice PDFs)
               env:
@@ -168,18 +206,120 @@ jobs:
                   php bin/console doctrine:database:create --if-not-exists
                   php bin/console doctrine:migrations:migrate --no-interaction
                   php bin/console doctrine:schema:validate --skip-sync
-                  php bin/console sylius:fixtures:load demo --no-interaction
+                  # The demo reset, not the bare fixtures: it also computes the predictive analytics, which the tests of the
+                  # account dashboard and of the fixtures read. Run as one process, an earlier test of the suite did the reset
+                  # for them; split in shards, each one has to start from the same state (US-323).
+                  DEMO_MODE=1 php bin/console app:demo:reset --no-media --no-cache --no-interaction
+
+            # The files of the shard, split by weight (tests/ci-test-weights.json): phpunit.shard.xml.
+            # Each shard writes its coverage in PHP format (merged by the `tests` job) and a JUnit log (durations per file).
+            # --colors=never: the summaries below read the output as text
+            - name: PHPUnit with coverage (shard ${{ matrix.shard }}/4)
+              env:
+                  SHARD: ${{ matrix.shard }}
+              run: |
+                  mkdir -p build/cov build/junit
+                  php bin/ci-test-shard --shard="$SHARD" --of="$SHARDS"
+                  vendor/bin/phpunit -c phpunit.shard.xml --colors=never --coverage-php "build/cov/shard-${SHARD}.cov" --log-junit "build/junit/shard-${SHARD}.xml"
+
+            # Durations of the slowest test files of the shard, even when a test failed (T-323-01).
+            - name: Slowest test files of the shard
+              if: ${{ !cancelled() && hashFiles('build/junit/*.xml') != '' }}
+              env:
+                  SHARD: ${{ matrix.shard }}
+              run: |
+                  {
+                    echo "### Slowest test files, shard ${SHARD}/${SHARDS}"
+                    php bin/ci-test-report slowest --top=20 build/junit/*.xml
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              if: ${{ !cancelled() }}
+              with:
+                  name: phpunit-shard-${{ matrix.shard }}
+                  path: build/
+                  retention-days: 7
+                  if-no-files-found: ignore
+
+    # The required check of main. It runs even when a job before it failed (a skipped job would count as passed): the first
+    # step then fails it. Coverage is merged, and the threshold applied, only when every shard passed.
+    tests:
+        name: Quality and smoke tests
+        needs: [changes, quality, phpunit]
+        if: ${{ !cancelled() && needs.changes.outputs.scope == 'code' }}
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            checks: write
+        timeout-minutes: 15
+        env:
+            APP_ENV: test
+            COVERAGE_MIN_LINES: "90"
+            QUALITY_RESULT: ${{ needs.quality.result }}
+            PHPUNIT_RESULT: ${{ needs.phpunit.result }}
+        steps:
+            - name: Quality and the four PHPUnit shards passed
+              run: |
+                  echo "quality: ${QUALITY_RESULT}, phpunit: ${PHPUNIT_RESULT}"
+                  [ "$QUALITY_RESULT" = success ] && [ "$PHPUNIT_RESULT" = success ] \
+                    || { echo "::error::A job before this one did not pass: the coverage threshold is not applied to an incomplete coverage."; exit 1; }
+
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+              with:
+                  php-version: "8.5"
+                  extensions: intl, gd, zip, exif, pdo_mysql, bcmath
+                  tools: composer:2.10.3
+                  coverage: none
+
+            - name: Composer cache
+              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+              with:
+                  path: ~/.composer/cache
+                  key: composer-${{ hashFiles('composer.lock') }}
+
+            - run: composer install --no-interaction --no-progress --no-scripts
+
+            - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+              with:
+                  pattern: phpunit-shard-*
+                  path: shards
+                  merge-multiple: true
+
+            - name: Slowest test files
+              run: |
+                  {
+                    echo "### Slowest test files (20)"
+                    php bin/ci-test-report slowest --top=20 shards/junit/*.xml
+                  } >> "$GITHUB_STEP_SUMMARY"
+
+            # No test lost (US-323): the shards ran exactly the tests of the full suite, file by file. A test file that no
+            # shard ran (matrix shorter than the split, file added to none) fails here.
+            - name: No test lost between the shards and the full suite
+              run: |
+                  vendor/bin/phpunit --list-tests-xml build-tests.xml > /dev/null
+                  status=0
+                  php bin/ci-test-report verify --expected=build-tests.xml shards/junit/*.xml > verify.txt 2>&1 || status=$?
+                  {
+                    echo "### Tests of the shards against the full suite"
+                    echo '```'
+                    cat verify.txt
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+                  cat verify.txt
+                  exit "$status"
 
             # Line coverage gate: COVERAGE_MIN_LINES sits below the rate of main (92.73 % on 2026-10-23) to absorb noise;
             # raise it with the rate, never lower it to make a build pass.
-            # bash -eo pipefail: without it, `phpunit | tee` exits with tee's status and hides failures
-            # --colors=never: PHPUnit 13 colours the coverage text, and the summary below greps its rows
-            - name: PHPUnit with coverage
+            - name: Coverage of the shards, merged
               id: coverage
               shell: bash
               run: |
                   mkdir -p build
-                  vendor/bin/phpunit --colors=never --coverage-text --coverage-clover build/coverage.xml | tee build/coverage.txt
+                  vendor/bin/phpcov merge --clover build/coverage.xml --text build/coverage.txt shards/cov
                   {
                     echo "### Code coverage (blocking below ${COVERAGE_MIN_LINES} % of lines)"
                     echo '```'
