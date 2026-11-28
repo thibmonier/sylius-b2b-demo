@@ -199,7 +199,16 @@ Requêtes SQL et durée de chaque fixture, sur 3 passes ; résultats et objectif
 ## Rector et seuil de couverture dans la CI (US-084)
 
 - **Rector** : `composer rector-dry-run` doit afficher 0 fichier modifiable (la CI l'exécute après ECS et PHPStan et échoue sinon) ; `composer rector-apply` applique. `rector.php` garde les classes globales en nom pleinement qualifié (`\DateTimeImmutable`), comme l'impose ECS, et exclut `ParamAndEnvAttributeRector` pour deux `#[Autowire('/%sylius_admin.path_name%')]` dont le préfixe `/` serait perdu.
-- **Couverture** : pcov n'existe qu'en CI. `bin/check-coverage build/coverage.xml 90` lit le Clover et échoue sous le seuil (`COVERAGE_MIN_LINES` dans `.github/workflows/ci.yaml`, 90 % de lignes pour 92,73 % mesurés sur `main` le 2026-10-23). Le taux et le seuil sont dans le résumé du job. Remonter le seuil avec le taux, ne jamais l'abaisser pour faire passer un build.
+- **Couverture** : pcov n'existe qu'en CI. Chaque morceau de PHPUnit (voir plus bas) écrit sa couverture en `--coverage-php` ; le job « Quality and smoke tests » les fusionne avec `vendor/bin/phpcov merge --clover build/coverage.xml shards/cov`, puis `bin/check-coverage build/coverage.xml 90` lit le Clover et échoue sous le seuil (`COVERAGE_MIN_LINES` dans `.github/workflows/ci.yaml`, 90 % de lignes pour 92,73 % mesurés sur `main` le 2026-10-23). Le taux et le seuil sont dans le résumé du job. Remonter le seuil avec le taux, ne jamais l'abaisser pour faire passer un build.
+
+## PHPUnit en 4 morceaux dans la CI (US-323)
+
+La CI lance la suite en 4 jobs parallèles (« PHPUnit (shard N/4) »), chacun avec sa base MySQL et ses fixtures ; ECS, PHPStan et Rector tournent dans un job à part (« Coding standard and static analysis »). La commande locale ne change pas : `bin/run-tests` lance toute la suite en un processus.
+
+- **Découpage** : `php bin/ci-test-shard --shard=N --of=4` écrit `phpunit.shard.xml` (ignoré par git) avec les fichiers du morceau N, puis `vendor/bin/phpunit -c phpunit.shard.xml`. Chaque fichier `*Test.php` de `tests/` appartient à un seul morceau ; le découpage est le même à chaque exécution et équilibré d'après `config/ci/test-weights.json` (secondes par fichier). Un fichier sans poids reçoit le poids moyen. Pour refaire les poids : télécharger les artefacts `phpunit-shard-*` d'un run vert, puis `php bin/ci-test-report weights shard-*/junit/*.xml > config/ci/test-weights.json`.
+- **Aucun test perdu** : le job « Quality and smoke tests » compare, fichier par fichier, les tests des 4 JUnit avec `phpunit --list-tests-xml` de la suite complète (`bin/ci-test-report verify`). Un fichier qu'aucun morceau n'a lancé, ou lancé deux fois, fait échouer la CI.
+- **Base de départ** : chaque morceau part de la base après `app:demo:reset --no-media --no-cache`, pas du seul `sylius:fixtures:load demo` : `PredictiveRhythmsFixtureTest` et `ReorderBlockStylingTest` lisent les prédictions que seul le reset calcule. Pour rejouer un morceau en local, préparer la base de la même façon (`bin/prepare-test-db`, puis `DEMO_MODE=1 php bin/console app:demo:reset --no-media --no-cache` avec la même `DATABASE_URL`).
+- **Durées** : le résumé de chaque job liste les 20 fichiers de tests les plus lents (`bin/ci-test-report slowest`).
 
 ## Preuve publiée à jour : `bin/proof-check` (US-168)
 
