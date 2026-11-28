@@ -65,9 +65,19 @@ function loadWeights(string $path): array
  */
 function assign(array $files, array $weights, int $shards): array
 {
+    $default = [] === $weights ? 1.0 : array_sum($weights) / count($weights);
+    $weightOf = static fn (string $file): float => $weights[$file] ?? $default;
+    usort($files, static fn (string $a, string $b): int => [$weightOf($b), $a] <=> [$weightOf($a), $b]);
+
     $buckets = array_fill(0, $shards, []);
+    $loads = array_fill(0, $shards, 0.0);
     foreach ($files as $file) {
-        $buckets[crc32($file) % $shards][] = $file;
+        $lightest = array_search(min($loads), $loads, true);
+        $buckets[$lightest][] = $file;
+        $loads[$lightest] += $weightOf($file);
+    }
+    foreach ($buckets as &$bucket) {
+        sort($bucket);
     }
 
     return $buckets;
