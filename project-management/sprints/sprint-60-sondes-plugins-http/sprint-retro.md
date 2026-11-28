@@ -46,7 +46,7 @@ Format : ce qui a marché, ce qui a coûté, actions SMART (comme aux sprints 56
 - **Une erreur de manipulation du suivi** : la guillemet fermante des notes du sprint a été supprimée dans `sprint-status.yaml`. `bin/check-sprint-status` l'a attrapée avant le commit.
 - **Frictions d'outillage, comme au sprint 59** : `set --` sous zsh, `sleep` en chaîne bloqué, un verrou git passager. Aucune n'a eu d'effet, mais chacune a coûté un aller-retour.
 
-## Actions (SMART), proposées à Thibaut
+## Actions (SMART)
 
 | ID | Action | Responsable | Échéance | Mesure |
 |----|--------|-------------|----------|--------|
@@ -56,4 +56,4 @@ Format : ce qui a marché, ce qui a coûté, actions SMART (comme aux sprints 56
 
 ## ROTI
 
-À recueillir auprès de Thibaut, avec l'approbation des actions A-60-1 à A-60-3.
+**5/5** (Thibaut, 2026-11-28). Actions A-60-1 à A-60-3 approuvées le même jour ; à planifier au sprint 61.
